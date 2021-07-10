@@ -1,25 +1,19 @@
-import { AppProps } from 'next/app';
-import Head from 'next/head';
-import { ReactComponent as NxLogo } from '../public/nx-logo-white.svg';
-import './styles.css';
+import type {
+  ExternalProvider,
+  JsonRpcFetchFunc,
+} from '@ethersproject/providers';
+import { Web3Provider } from '@ethersproject/providers';
+import { Web3ReactProvider } from '@web3-react/core';
+import type { AppProps } from 'next/app';
 
-function CustomApp({ Component, pageProps }: AppProps) {
-  return (
-    <>
-      <Head>
-        <title>Welcome to ursa!</title>
-      </Head>
-      <div className="app">
-        <header className="flex">
-          <NxLogo width="75" height="50" />
-          <h1>Welcome to ursa!</h1>
-        </header>
-        <main>
-          <Component {...pageProps} />
-        </main>
-      </div>
-    </>
-  );
+function getLibrary(provider: ExternalProvider | JsonRpcFetchFunc) {
+  return new Web3Provider(provider);
 }
 
-export default CustomApp;
+export default function NextWeb3App({ Component, pageProps }: AppProps) {
+  return (
+    <Web3ReactProvider getLibrary={getLibrary}>
+      <Component {...pageProps} />
+    </Web3ReactProvider>
+  );
+}

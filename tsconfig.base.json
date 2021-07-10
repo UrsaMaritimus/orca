@@ -13,8 +13,16 @@
     "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@ursa/components/account": ["libs/components/account/src/index.ts"],
+      "@ursa/components/balance": ["libs/components/balance/src/index.ts"],
+      "@ursa/hooks": ["libs/hooks/src/index.ts"],
+      "@ursa/shared/contracts": ["libs/shared/contracts/src/index.ts"],
+      "@ursa/util": ["libs/util/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

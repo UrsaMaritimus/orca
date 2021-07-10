@@ -27,12 +27,33 @@
     ]
   },
   "projects": {
+    "avai": {
+      "tags": []
+    },
+    "components-account": {
+      "tags": []
+    },
+    "components-balance": {
+      "tags": []
+    },
+    "hooks": {
+      "tags": []
+    },
+    "shared-contracts": {
+      "tags": []
+    },
+    "test-contract": {
+      "tags": []
+    },
     "ursa": {
       "tags": []
     },
     "ursa-e2e": {
       "tags": [],
       "implicitDependencies": ["ursa"]
+    },
+    "util": {
+      "tags": []
     }
   }
 }
