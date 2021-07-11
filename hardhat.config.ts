@@ -25,6 +25,7 @@ const forkingData = FORK_FUJI
     }
   : undefined;
 
+const contract_dir = process.env.CONTRACT_DIR;
 task(
   'accounts',
   'Prints the list of accounts',
@@ -51,7 +52,19 @@ task(
 );
 
 export default {
-  solidity: '0.8.4',
+  solidity: {
+    compilers: [
+      {
+        version: '0.8.4',
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 1000,
+          },
+        },
+      },
+    ],
+  },
   networks: {
     hardhat: {
       gasPrice: 225000000000,
@@ -89,8 +102,8 @@ export default {
     },
   },
   paths: {
-    sources: './apps/test-contract/src/contracts',
-    tests: './apps/test-contract/src/test',
+    sources: `./apps/${contract_dir}/src/contracts`,
+    tests: `./apps/${contract_dir}/src/test`,
     cache: './libs/shared/contracts/src/cache',
     artifacts: './libs/shared/contracts/src/artifacts',
   },
