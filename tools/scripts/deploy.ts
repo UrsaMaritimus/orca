@@ -8,16 +8,14 @@ import { ethers } from 'hardhat';
 
 async function main() {
   const qiStablecoinFactory: ContractFactory = await ethers.getContractFactory(
-    'UrsaStablecoin'
+    'AVAI'
   );
 
-  const vault: ContractFactory = await ethers.getContractFactory('VaultNFT');
+  const vault: ContractFactory = await ethers.getContractFactory('AVAIVault');
 
   let vaultContract = await vault.deploy();
-
+  //0x5498BB86BC934c8D34FDA08E81D444153d0D06aD for AVAX/USD
   let UrsaStablecoin: Contract = await qiStablecoinFactory.deploy(
-    '0x5498BB86BC934c8D34FDA08E81D444153d0D06aD', // testnet is 0x5498BB86BC934c8D34FDA08E81D444153d0D06aD for AVAX/USD
-    150, // Minimum collteral percentage
     'AVAI',
     'AVAI',
     vaultContract.address

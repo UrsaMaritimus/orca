@@ -65,6 +65,22 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IStakingRewards__factory>;
     getContractFactory(
+      name: "IUrsaVault",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IUrsaVault__factory>;
+    getContractFactory(
+      name: "IVault",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IVault__factory>;
+    getContractFactory(
+      name: "IVaultType",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IVaultType__factory>;
+    getContractFactory(
+      name: "AVAIVault",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AVAIVault__factory>;
+    getContractFactory(
       name: "VaultNFT",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.VaultNFT__factory>;
@@ -73,9 +89,25 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Stablecoin__factory>;
     getContractFactory(
+      name: "AVAI",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AVAI__factory>;
+    getContractFactory(
       name: "UrsaStablecoin",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.UrsaStablecoin__factory>;
+    getContractFactory(
+      name: "AVAIVault",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AVAIVault__factory>;
+    getContractFactory(
+      name: "Vault",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Vault__factory>;
+    getContractFactory(
+      name: "UrsaVaultType",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.UrsaVaultType__factory>;
 
     // default types
     getContractFactory(

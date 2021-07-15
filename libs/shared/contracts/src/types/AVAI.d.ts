@@ -20,12 +20,13 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
-interface StablecoinInterface extends ethers.utils.Interface {
+interface AVAIInterface extends ethers.utils.Interface {
   functions: {
     "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "borrowToken(uint256,uint256)": FunctionFragment;
+    "burn(address,uint256)": FunctionFragment;
     "buyRiskyVault(uint256)": FunctionFragment;
     "createVault(uint256)": FunctionFragment;
     "decimals()": FunctionFragment;
@@ -33,13 +34,19 @@ interface StablecoinInterface extends ethers.utils.Interface {
     "depositCollateral(uint256)": FunctionFragment;
     "destroyVault(uint256)": FunctionFragment;
     "increaseAllowance(address,uint256)": FunctionFragment;
+    "mint(address,uint256)": FunctionFragment;
     "name()": FunctionFragment;
+    "owner()": FunctionFragment;
     "payBackToken(uint256,uint256)": FunctionFragment;
+    "renounceOwnership()": FunctionFragment;
+    "setStabilityPool(address)": FunctionFragment;
+    "setTreasury(uint256)": FunctionFragment;
     "stabilityPool()": FunctionFragment;
     "symbol()": FunctionFragment;
     "totalSupply()": FunctionFragment;
     "transfer(address,uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
+    "transferOwnership(address)": FunctionFragment;
     "transferVault(uint256,address)": FunctionFragment;
     "treasury()": FunctionFragment;
     "vaults()": FunctionFragment;
@@ -58,6 +65,10 @@ interface StablecoinInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "borrowToken",
     values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "burn",
+    values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "buyRiskyVault",
@@ -84,10 +95,27 @@ interface StablecoinInterface extends ethers.utils.Interface {
     functionFragment: "increaseAllowance",
     values: [string, BigNumberish]
   ): string;
+  encodeFunctionData(
+    functionFragment: "mint",
+    values: [string, BigNumberish]
+  ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "payBackToken",
     values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "renounceOwnership",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setStabilityPool",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setTreasury",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "stabilityPool",
@@ -107,6 +135,10 @@ interface StablecoinInterface extends ethers.utils.Interface {
     values: [string, string, BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "transferOwnership",
+    values: [string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "transferVault",
     values: [BigNumberish, string]
   ): string;
@@ -124,6 +156,7 @@ interface StablecoinInterface extends ethers.utils.Interface {
     functionFragment: "borrowToken",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "buyRiskyVault",
     data: BytesLike
@@ -149,9 +182,23 @@ interface StablecoinInterface extends ethers.utils.Interface {
     functionFragment: "increaseAllowance",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "payBackToken",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "renounceOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setStabilityPool",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setTreasury",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -166,6 +213,10 @@ interface StablecoinInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "transferFrom",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -184,6 +235,7 @@ interface StablecoinInterface extends ethers.utils.Interface {
     "BorrowToken(uint256,uint256)": EventFragment;
     "BuyRiskyVault(uint256,address,address,uint256)": EventFragment;
     "DepositCollateral(uint256,uint256)": EventFragment;
+    "OwnershipTransferred(address,address)": EventFragment;
     "PayBackToken(uint256,uint256,uint256)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
     "WithdrawCollateral(uint256,uint256)": EventFragment;
@@ -193,12 +245,13 @@ interface StablecoinInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "BorrowToken"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "BuyRiskyVault"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "DepositCollateral"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "PayBackToken"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "WithdrawCollateral"): EventFragment;
 }
 
-export class Stablecoin extends BaseContract {
+export class AVAI extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -239,7 +292,7 @@ export class Stablecoin extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: StablecoinInterface;
+  interface: AVAIInterface;
 
   functions: {
     allowance(
@@ -258,6 +311,12 @@ export class Stablecoin extends BaseContract {
 
     borrowToken(
       vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    burn(
+      account: string,
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -296,11 +355,33 @@ export class Stablecoin extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    mint(
+      account: string,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     name(overrides?: CallOverrides): Promise<[string]>;
+
+    owner(overrides?: CallOverrides): Promise<[string]>;
 
     payBackToken(
       vaultID: BigNumberish,
       amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    renounceOwnership(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setStabilityPool(
+      _pool: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setTreasury(
+      _treasury: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -320,6 +401,11 @@ export class Stablecoin extends BaseContract {
       sender: string,
       recipient: string,
       amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    transferOwnership(
+      newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -360,6 +446,12 @@ export class Stablecoin extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  burn(
+    account: string,
+    amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   buyRiskyVault(
     vaultID: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -394,11 +486,33 @@ export class Stablecoin extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  mint(
+    account: string,
+    amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   name(overrides?: CallOverrides): Promise<string>;
+
+  owner(overrides?: CallOverrides): Promise<string>;
 
   payBackToken(
     vaultID: BigNumberish,
     amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  renounceOwnership(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setStabilityPool(
+    _pool: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setTreasury(
+    _treasury: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -418,6 +532,11 @@ export class Stablecoin extends BaseContract {
     sender: string,
     recipient: string,
     amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  transferOwnership(
+    newOwner: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -458,6 +577,12 @@ export class Stablecoin extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    burn(
+      account: string,
+      amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     buyRiskyVault(
       vaultID: BigNumberish,
       overrides?: CallOverrides
@@ -492,11 +617,28 @@ export class Stablecoin extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    mint(
+      account: string,
+      amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     name(overrides?: CallOverrides): Promise<string>;
+
+    owner(overrides?: CallOverrides): Promise<string>;
 
     payBackToken(
       vaultID: BigNumberish,
       amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    renounceOwnership(overrides?: CallOverrides): Promise<void>;
+
+    setStabilityPool(_pool: string, overrides?: CallOverrides): Promise<void>;
+
+    setTreasury(
+      _treasury: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -518,6 +660,11 @@ export class Stablecoin extends BaseContract {
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    transferOwnership(
+      newOwner: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     transferVault(
       vaultID: BigNumberish,
@@ -577,6 +724,14 @@ export class Stablecoin extends BaseContract {
       { vaultID: BigNumber; amount: BigNumber }
     >;
 
+    OwnershipTransferred(
+      previousOwner?: string | null,
+      newOwner?: string | null
+    ): TypedEventFilter<
+      [string, string],
+      { previousOwner: string; newOwner: string }
+    >;
+
     PayBackToken(
       vaultID?: null,
       amount?: null,
@@ -625,6 +780,12 @@ export class Stablecoin extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    burn(
+      account: string,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     buyRiskyVault(
       vaultID: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -659,11 +820,33 @@ export class Stablecoin extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    mint(
+      account: string,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     name(overrides?: CallOverrides): Promise<BigNumber>;
+
+    owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     payBackToken(
       vaultID: BigNumberish,
       amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    renounceOwnership(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setStabilityPool(
+      _pool: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setTreasury(
+      _treasury: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -683,6 +866,11 @@ export class Stablecoin extends BaseContract {
       sender: string,
       recipient: string,
       amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    transferOwnership(
+      newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -727,6 +915,12 @@ export class Stablecoin extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    burn(
+      account: string,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     buyRiskyVault(
       vaultID: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -761,11 +955,33 @@ export class Stablecoin extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    mint(
+      account: string,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     payBackToken(
       vaultID: BigNumberish,
       amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    renounceOwnership(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setStabilityPool(
+      _pool: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setTreasury(
+      _treasury: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -785,6 +1001,11 @@ export class Stablecoin extends BaseContract {
       sender: string,
       recipient: string,
       amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    transferOwnership(
+      newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
