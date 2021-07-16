@@ -19,41 +19,57 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
-interface OwnableInterface extends ethers.utils.Interface {
+interface IBaseVaultInterface extends ethers.utils.Interface {
   functions: {
-    "owner()": FunctionFragment;
-    "renounceOwnership()": FunctionFragment;
-    "transferOwnership(address)": FunctionFragment;
+    "createVault()": FunctionFragment;
+    "destroyVault(uint256)": FunctionFragment;
+    "transferVault(uint256,address)": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "renounceOwnership",
+    functionFragment: "createVault",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "transferOwnership",
-    values: [string]
+    functionFragment: "destroyVault",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "transferVault",
+    values: [BigNumberish, string]
   ): string;
 
-  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "renounceOwnership",
+    functionFragment: "createVault",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "transferOwnership",
+    functionFragment: "destroyVault",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "transferVault",
     data: BytesLike
   ): Result;
 
   events: {
-    "OwnershipTransferred(address,address)": EventFragment;
+    "CreateVault(uint256,address)": EventFragment;
+    "DepositCollateral(uint256,uint256)": EventFragment;
+    "DestroyVault(uint256)": EventFragment;
+    "LiquidateVault(uint256,address,address,uint256)": EventFragment;
+    "TransferVault(uint256,address,address)": EventFragment;
+    "WithdrawCollateral(uint256,uint256)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "CreateVault"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "DepositCollateral"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "DestroyVault"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "LiquidateVault"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "TransferVault"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "WithdrawCollateral"): EventFragment;
 }
 
-export class Ownable extends BaseContract {
+export class IBaseVault extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -94,75 +110,139 @@ export class Ownable extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: OwnableInterface;
+  interface: IBaseVaultInterface;
 
   functions: {
-    owner(overrides?: CallOverrides): Promise<[string]>;
-
-    renounceOwnership(
+    createVault(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    transferOwnership(
-      newOwner: string,
+    destroyVault(
+      vaultID: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    transferVault(
+      vaultID: BigNumberish,
+      to: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
 
-  owner(overrides?: CallOverrides): Promise<string>;
-
-  renounceOwnership(
+  createVault(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  transferOwnership(
-    newOwner: string,
+  destroyVault(
+    vaultID: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  transferVault(
+    vaultID: BigNumberish,
+    to: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    owner(overrides?: CallOverrides): Promise<string>;
+    createVault(overrides?: CallOverrides): Promise<BigNumber>;
 
-    renounceOwnership(overrides?: CallOverrides): Promise<void>;
+    destroyVault(
+      vaultID: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
-    transferOwnership(
-      newOwner: string,
+    transferVault(
+      vaultID: BigNumberish,
+      to: string,
       overrides?: CallOverrides
     ): Promise<void>;
   };
 
   filters: {
-    OwnershipTransferred(
-      previousOwner?: string | null,
-      newOwner?: string | null
+    CreateVault(
+      vaultID?: null,
+      creator?: null
     ): TypedEventFilter<
-      [string, string],
-      { previousOwner: string; newOwner: string }
+      [BigNumber, string],
+      { vaultID: BigNumber; creator: string }
+    >;
+
+    DepositCollateral(
+      vaultID?: null,
+      amount?: null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber],
+      { vaultID: BigNumber; amount: BigNumber }
+    >;
+
+    DestroyVault(
+      vaultID?: null
+    ): TypedEventFilter<[BigNumber], { vaultID: BigNumber }>;
+
+    LiquidateVault(
+      vaultID?: null,
+      owner?: null,
+      buyer?: null,
+      amountPaid?: null
+    ): TypedEventFilter<
+      [BigNumber, string, string, BigNumber],
+      {
+        vaultID: BigNumber;
+        owner: string;
+        buyer: string;
+        amountPaid: BigNumber;
+      }
+    >;
+
+    TransferVault(
+      vaultID?: null,
+      from?: null,
+      to?: null
+    ): TypedEventFilter<
+      [BigNumber, string, string],
+      { vaultID: BigNumber; from: string; to: string }
+    >;
+
+    WithdrawCollateral(
+      vaultID?: null,
+      amount?: null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber],
+      { vaultID: BigNumber; amount: BigNumber }
     >;
   };
 
   estimateGas: {
-    owner(overrides?: CallOverrides): Promise<BigNumber>;
-
-    renounceOwnership(
+    createVault(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    transferOwnership(
-      newOwner: string,
+    destroyVault(
+      vaultID: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    transferVault(
+      vaultID: BigNumberish,
+      to: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    renounceOwnership(
+    createVault(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    transferOwnership(
-      newOwner: string,
+    destroyVault(
+      vaultID: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    transferVault(
+      vaultID: BigNumberish,
+      to: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

@@ -8,13 +8,26 @@ import '../interfaces/IWAVAX.sol';
 contract ERC20Vault is BaseVault {
   address admin;
 
-  // Lets construct this beast
-  constructor(address token) BaseVault('AVAX AVAI Vault', 'avAVAX', token) {
-    admin = msg.sender;
-  }
-
-  function depositAVAXCollateral(uint256 vaultID) public payable {
-    depositCollateral(vaultID, msg.value);
+  constructor(
+    uint256 minimumCollateralPercentage,
+    address priceSource_,
+    string memory name_,
+    string memory symbol_,
+    address token,
+    address stablecoin
+  )
+    BaseVault(
+      minimumCollateralPercentage,
+      priceSource_,
+      name_,
+      symbol_,
+      token,
+      stablecoin
+    )
+  {
+    // Initially set up role as admin and treasury
+    _setupRole(DEFAULT_ADMIN_ROLE, stablecoin);
+    _setupRole(TREASURY_ROLE, msg.sender);
   }
 
   /**
@@ -36,13 +49,5 @@ contract ERC20Vault is BaseVault {
     _token.transferFrom(msg.sender, address(this), amount);
 
     emit DepositCollateral(vaultID, amount);
-  }
-
-  /**
-   * @dev Transfer the admin to the stablecoin contract after initialization
-   */
-  function setAdmin(address _admin) public {
-    require(admin == msg.sender);
-    admin = _admin;
   }
 }

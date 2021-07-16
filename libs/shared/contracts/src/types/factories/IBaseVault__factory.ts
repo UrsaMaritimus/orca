@@ -4,7 +4,7 @@
 
 import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
-import type { IVault, IVaultInterface } from "../IVault";
+import type { IBaseVault, IBaseVaultInterface } from "../IBaseVault";
 
 const _abi = [
   {
@@ -134,19 +134,6 @@ const _abi = [
     type: "event",
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "burn",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     inputs: [],
     name: "createVault",
     outputs: [
@@ -175,24 +162,6 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "mint",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "uint256",
         name: "vaultID",
         type: "uint256",
@@ -210,12 +179,15 @@ const _abi = [
   },
 ];
 
-export class IVault__factory {
+export class IBaseVault__factory {
   static readonly abi = _abi;
-  static createInterface(): IVaultInterface {
-    return new utils.Interface(_abi) as IVaultInterface;
+  static createInterface(): IBaseVaultInterface {
+    return new utils.Interface(_abi) as IBaseVaultInterface;
   }
-  static connect(address: string, signerOrProvider: Signer | Provider): IVault {
-    return new Contract(address, _abi, signerOrProvider) as IVault;
+  static connect(
+    address: string,
+    signerOrProvider: Signer | Provider
+  ): IBaseVault {
+    return new Contract(address, _abi, signerOrProvider) as IBaseVault;
   }
 }

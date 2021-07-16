@@ -1,8 +1,10 @@
 require('dotenv').config();
 
-import { task } from 'hardhat/config';
+import { task, HardhatUserConfig } from 'hardhat/config';
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
+
 import { BigNumber } from 'ethers';
+
 import '@typechain/hardhat';
 import '@nomiclabs/hardhat-ethers';
 import '@nomiclabs/hardhat-waffle';
@@ -103,11 +105,11 @@ export default {
   },
   paths: {
     sources: `./apps/${contract_dir}/src/contracts`,
-    tests: `./apps/${contract_dir}/src/test`,
+    tests: `./test`,
     cache: './libs/shared/contracts/src/cache',
     artifacts: './libs/shared/contracts/src/artifacts',
   },
   typechain: {
     outDir: './libs/shared/contracts/src/types',
   },
-};
+} as HardhatUserConfig;

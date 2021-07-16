@@ -12,7 +12,6 @@ import {
   BaseContract,
   ContractTransaction,
   Overrides,
-  PayableOverrides,
   CallOverrides,
 } from "ethers";
 import { BytesLike } from "@ethersproject/bytes";
@@ -20,52 +19,54 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
-interface UrsaStablecoinInterface extends ethers.utils.Interface {
+interface BaseVaultInterface extends ethers.utils.Interface {
   functions: {
-    "allowance(address,address)": FunctionFragment;
+    "DEFAULT_ADMIN_ROLE()": FunctionFragment;
+    "TREASURY_ROLE()": FunctionFragment;
+    "addVaultCollateral(uint256,uint256)": FunctionFragment;
+    "addVaultCollateralTreasury(uint256)": FunctionFragment;
+    "addVaultDebt(uint256,uint256)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "borrowToken(uint256,uint256)": FunctionFragment;
-    "burn(address,uint256)": FunctionFragment;
     "buyRiskyVault(uint256)": FunctionFragment;
-    "changeAvaxPriceSource(address)": FunctionFragment;
     "closingFee()": FunctionFragment;
     "createVault()": FunctionFragment;
     "debtCeiling()": FunctionFragment;
-    "decimals()": FunctionFragment;
-    "decreaseAllowance(address,uint256)": FunctionFragment;
-    "depositCollateral(uint256)": FunctionFragment;
     "destroyVault(uint256)": FunctionFragment;
-    "erc721()": FunctionFragment;
-    "getAvaxPriceSource()": FunctionFragment;
-    "getClosingFee()": FunctionFragment;
-    "getDebtCeiling()": FunctionFragment;
-    "getOpeningFee()": FunctionFragment;
-    "getTokenPriceSource()": FunctionFragment;
-    "increaseAllowance(address,uint256)": FunctionFragment;
-    "mint(address,uint256)": FunctionFragment;
+    "getApproved(uint256)": FunctionFragment;
+    "getPricePeg()": FunctionFragment;
+    "getPriceSource()": FunctionFragment;
+    "getRoleAdmin(bytes32)": FunctionFragment;
+    "grantRole(bytes32,address)": FunctionFragment;
+    "hasRole(bytes32,address)": FunctionFragment;
+    "isApprovedForAll(address,address)": FunctionFragment;
+    "isValidCollateral(uint256,uint256)": FunctionFragment;
     "name()": FunctionFragment;
     "openingFee()": FunctionFragment;
-    "owner()": FunctionFragment;
-    "payBackToken(uint256,uint256)": FunctionFragment;
-    "renounceOwnership()": FunctionFragment;
+    "ownerOf(uint256)": FunctionFragment;
+    "priceSource()": FunctionFragment;
+    "renounceRole(bytes32,address)": FunctionFragment;
+    "revokeRole(bytes32,address)": FunctionFragment;
+    "safeTransferFrom(address,address,uint256)": FunctionFragment;
+    "setApprovalForAll(address,bool)": FunctionFragment;
     "setClosingFee(uint256)": FunctionFragment;
     "setDebtCeiling(uint256)": FunctionFragment;
     "setOpeningFee(uint256)": FunctionFragment;
-    "setStabilityPool(address)": FunctionFragment;
+    "setPriceSource(address)": FunctionFragment;
+    "setStabiltyPool(address)": FunctionFragment;
     "setTokenPeg(uint256)": FunctionFragment;
     "setTreasury(uint256)": FunctionFragment;
     "stabilityPool()": FunctionFragment;
+    "subVaultCollateral(uint256,uint256)": FunctionFragment;
+    "subVaultDebt(uint256,uint256)": FunctionFragment;
+    "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
     "tokenPeg()": FunctionFragment;
-    "totalSupply()": FunctionFragment;
-    "transfer(address,uint256)": FunctionFragment;
+    "tokenURI(uint256)": FunctionFragment;
+    "totalDebt()": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
-    "transferOwnership(address)": FunctionFragment;
     "transferVault(uint256,address)": FunctionFragment;
-    "treasury()": FunctionFragment;
     "vaultCollateral(uint256)": FunctionFragment;
-    "vaultCount()": FunctionFragment;
     "vaultDebt(uint256)": FunctionFragment;
     "vaultExistence(uint256)": FunctionFragment;
     "vaultOwner(uint256)": FunctionFragment;
@@ -73,8 +74,24 @@ interface UrsaStablecoinInterface extends ethers.utils.Interface {
   };
 
   encodeFunctionData(
-    functionFragment: "allowance",
-    values: [string, string]
+    functionFragment: "DEFAULT_ADMIN_ROLE",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "TREASURY_ROLE",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "addVaultCollateral",
+    values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "addVaultCollateralTreasury",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "addVaultDebt",
+    values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "approve",
@@ -82,20 +99,8 @@ interface UrsaStablecoinInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
   encodeFunctionData(
-    functionFragment: "borrowToken",
-    values: [BigNumberish, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "burn",
-    values: [string, BigNumberish]
-  ): string;
-  encodeFunctionData(
     functionFragment: "buyRiskyVault",
     values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "changeAvaxPriceSource",
-    values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "closingFee",
@@ -109,61 +114,70 @@ interface UrsaStablecoinInterface extends ethers.utils.Interface {
     functionFragment: "debtCeiling",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "decreaseAllowance",
-    values: [string, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "depositCollateral",
-    values: [BigNumberish]
-  ): string;
   encodeFunctionData(
     functionFragment: "destroyVault",
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "erc721", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "getAvaxPriceSource",
+    functionFragment: "getApproved",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getPricePeg",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "getClosingFee",
+    functionFragment: "getPriceSource",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "getDebtCeiling",
-    values?: undefined
+    functionFragment: "getRoleAdmin",
+    values: [BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "getOpeningFee",
-    values?: undefined
+    functionFragment: "grantRole",
+    values: [BytesLike, string]
   ): string;
   encodeFunctionData(
-    functionFragment: "getTokenPriceSource",
-    values?: undefined
+    functionFragment: "hasRole",
+    values: [BytesLike, string]
   ): string;
   encodeFunctionData(
-    functionFragment: "increaseAllowance",
-    values: [string, BigNumberish]
+    functionFragment: "isApprovedForAll",
+    values: [string, string]
   ): string;
   encodeFunctionData(
-    functionFragment: "mint",
-    values: [string, BigNumberish]
+    functionFragment: "isValidCollateral",
+    values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "openingFee",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "payBackToken",
-    values: [BigNumberish, BigNumberish]
+    functionFragment: "ownerOf",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "renounceOwnership",
+    functionFragment: "priceSource",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "renounceRole",
+    values: [BytesLike, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "revokeRole",
+    values: [BytesLike, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "safeTransferFrom",
+    values: [string, string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setApprovalForAll",
+    values: [string, boolean]
   ): string;
   encodeFunctionData(
     functionFragment: "setClosingFee",
@@ -178,7 +192,11 @@ interface UrsaStablecoinInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "setStabilityPool",
+    functionFragment: "setPriceSource",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setStabiltyPool",
     values: [string]
   ): string;
   encodeFunctionData(
@@ -193,36 +211,36 @@ interface UrsaStablecoinInterface extends ethers.utils.Interface {
     functionFragment: "stabilityPool",
     values?: undefined
   ): string;
+  encodeFunctionData(
+    functionFragment: "subVaultCollateral",
+    values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "subVaultDebt",
+    values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "supportsInterface",
+    values: [BytesLike]
+  ): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
   encodeFunctionData(functionFragment: "tokenPeg", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "totalSupply",
-    values?: undefined
+    functionFragment: "tokenURI",
+    values: [BigNumberish]
   ): string;
-  encodeFunctionData(
-    functionFragment: "transfer",
-    values: [string, BigNumberish]
-  ): string;
+  encodeFunctionData(functionFragment: "totalDebt", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "transferFrom",
     values: [string, string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "transferOwnership",
-    values: [string]
-  ): string;
-  encodeFunctionData(
     functionFragment: "transferVault",
     values: [BigNumberish, string]
   ): string;
-  encodeFunctionData(functionFragment: "treasury", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "vaultCollateral",
     values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "vaultCount",
-    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "vaultDebt",
@@ -241,20 +259,30 @@ interface UrsaStablecoinInterface extends ethers.utils.Interface {
     values: [BigNumberish, BigNumberish]
   ): string;
 
-  decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "DEFAULT_ADMIN_ROLE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "TREASURY_ROLE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "addVaultCollateral",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "addVaultCollateralTreasury",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "addVaultDebt",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "borrowToken",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
-  decodeFunctionResult(
     functionFragment: "buyRiskyVault",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "changeAvaxPriceSource",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "closingFee", data: BytesLike): Result;
@@ -266,54 +294,54 @@ interface UrsaStablecoinInterface extends ethers.utils.Interface {
     functionFragment: "debtCeiling",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "decreaseAllowance",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "depositCollateral",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(
     functionFragment: "destroyVault",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "erc721", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "getAvaxPriceSource",
+    functionFragment: "getApproved",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getClosingFee",
+    functionFragment: "getPricePeg",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getDebtCeiling",
+    functionFragment: "getPriceSource",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getOpeningFee",
+    functionFragment: "getRoleAdmin",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getTokenPriceSource",
+    functionFragment: "isValidCollateral",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "increaseAllowance",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "openingFee", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "payBackToken",
+    functionFragment: "priceSource",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "renounceOwnership",
+    functionFragment: "renounceRole",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "safeTransferFrom",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setApprovalForAll",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -329,7 +357,11 @@ interface UrsaStablecoinInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setStabilityPool",
+    functionFragment: "setPriceSource",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setStabiltyPool",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -344,31 +376,34 @@ interface UrsaStablecoinInterface extends ethers.utils.Interface {
     functionFragment: "stabilityPool",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "subVaultCollateral",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "subVaultDebt",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "supportsInterface",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "tokenPeg", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "totalSupply",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "tokenURI", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "totalDebt", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "transferFrom",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "transferVault",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "treasury", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "vaultCollateral",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "vaultCount", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "vaultDebt", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "vaultExistence",
@@ -382,32 +417,34 @@ interface UrsaStablecoinInterface extends ethers.utils.Interface {
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
-    "BorrowToken(uint256,uint256)": EventFragment;
-    "BuyRiskyVault(uint256,address,address,uint256)": EventFragment;
+    "ApprovalForAll(address,address,bool)": EventFragment;
     "CreateVault(uint256,address)": EventFragment;
     "DepositCollateral(uint256,uint256)": EventFragment;
     "DestroyVault(uint256)": EventFragment;
-    "OwnershipTransferred(address,address)": EventFragment;
-    "PayBackToken(uint256,uint256,uint256)": EventFragment;
+    "LiquidateVault(uint256,address,address,uint256)": EventFragment;
+    "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
+    "RoleGranted(bytes32,address,address)": EventFragment;
+    "RoleRevoked(bytes32,address,address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
     "TransferVault(uint256,address,address)": EventFragment;
     "WithdrawCollateral(uint256,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "BorrowToken"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "BuyRiskyVault"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "CreateVault"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "DepositCollateral"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "DestroyVault"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "PayBackToken"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "LiquidateVault"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "TransferVault"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "WithdrawCollateral"): EventFragment;
 }
 
-export class UrsaStablecoin extends BaseContract {
+export class BaseVault extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -448,42 +485,40 @@ export class UrsaStablecoin extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: UrsaStablecoinInterface;
+  interface: BaseVaultInterface;
 
   functions: {
-    allowance(
-      owner: string,
-      spender: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
+    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
-    approve(
-      spender: string,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
+    TREASURY_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
-    balanceOf(account: string, overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    borrowToken(
+    addVaultCollateral(
       vaultID: BigNumberish,
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    burn(
-      account: string,
+    addVaultCollateralTreasury(
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    addVaultDebt(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    approve(
+      to: string,
+      tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    balanceOf(owner: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
     buyRiskyVault(
       vaultID: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    changeAvaxPriceSource(
-      avaxPriceSourceAddress: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -495,61 +530,87 @@ export class UrsaStablecoin extends BaseContract {
 
     debtCeiling(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    decimals(overrides?: CallOverrides): Promise<[number]>;
-
-    decreaseAllowance(
-      spender: string,
-      subtractedValue: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    depositCollateral(
-      vaultID: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     destroyVault(
       vaultID: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    erc721(overrides?: CallOverrides): Promise<[string]>;
+    getApproved(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
 
-    getAvaxPriceSource(overrides?: CallOverrides): Promise<[BigNumber]>;
+    getPricePeg(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    getClosingFee(overrides?: CallOverrides): Promise<[BigNumber]>;
+    getPriceSource(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    getDebtCeiling(overrides?: CallOverrides): Promise<[BigNumber]>;
+    getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<[string]>;
 
-    getOpeningFee(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    getTokenPriceSource(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    increaseAllowance(
-      spender: string,
-      addedValue: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    mint(
+    grantRole(
+      role: BytesLike,
       account: string,
-      amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    hasRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    isApprovedForAll(
+      owner: string,
+      operator: string,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    isValidCollateral(
+      collateral: BigNumberish,
+      debt: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
 
     name(overrides?: CallOverrides): Promise<[string]>;
 
     openingFee(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    owner(overrides?: CallOverrides): Promise<[string]>;
+    ownerOf(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
 
-    payBackToken(
-      vaultID: BigNumberish,
-      amount: BigNumberish,
+    priceSource(overrides?: CallOverrides): Promise<[string]>;
+
+    renounceRole(
+      role: BytesLike,
+      account: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    renounceOwnership(
+    revokeRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "safeTransferFrom(address,address,uint256)"(
+      from: string,
+      to: string,
+      tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "safeTransferFrom(address,address,uint256,bytes)"(
+      from: string,
+      to: string,
+      tokenId: BigNumberish,
+      _data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setApprovalForAll(
+      operator: string,
+      approved: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -559,7 +620,7 @@ export class UrsaStablecoin extends BaseContract {
     ): Promise<ContractTransaction>;
 
     setDebtCeiling(
-      amount: BigNumberish,
+      _debtCeiling: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -568,13 +629,18 @@ export class UrsaStablecoin extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setStabilityPool(
-      _pool: string,
+    setPriceSource(
+      priceSource_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setStabiltyPool(
+      stabilityPool_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     setTokenPeg(
-      _tokenPeg: BigNumberish,
+      tokenPeg_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -585,27 +651,38 @@ export class UrsaStablecoin extends BaseContract {
 
     stabilityPool(overrides?: CallOverrides): Promise<[string]>;
 
+    subVaultCollateral(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    subVaultDebt(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    supportsInterface(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
     symbol(overrides?: CallOverrides): Promise<[string]>;
 
     tokenPeg(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    totalSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
+    tokenURI(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
 
-    transfer(
-      recipient: string,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
+    totalDebt(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     transferFrom(
-      sender: string,
-      recipient: string,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    transferOwnership(
-      newOwner: string,
+      from: string,
+      to: string,
+      tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -615,14 +692,10 @@ export class UrsaStablecoin extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    treasury(overrides?: CallOverrides): Promise<[BigNumber]>;
-
     vaultCollateral(
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
-
-    vaultCount(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     vaultDebt(
       arg0: BigNumberish,
@@ -646,39 +719,37 @@ export class UrsaStablecoin extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
-  allowance(
-    owner: string,
-    spender: string,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
+  DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
-  approve(
-    spender: string,
-    amount: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
+  TREASURY_ROLE(overrides?: CallOverrides): Promise<string>;
 
-  balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-  borrowToken(
+  addVaultCollateral(
     vaultID: BigNumberish,
     amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  burn(
-    account: string,
+  addVaultCollateralTreasury(
     amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  addVaultDebt(
+    vaultID: BigNumberish,
+    amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  approve(
+    to: string,
+    tokenId: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
   buyRiskyVault(
     vaultID: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  changeAvaxPriceSource(
-    avaxPriceSourceAddress: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -690,61 +761,84 @@ export class UrsaStablecoin extends BaseContract {
 
   debtCeiling(overrides?: CallOverrides): Promise<BigNumber>;
 
-  decimals(overrides?: CallOverrides): Promise<number>;
-
-  decreaseAllowance(
-    spender: string,
-    subtractedValue: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  depositCollateral(
-    vaultID: BigNumberish,
-    overrides?: PayableOverrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   destroyVault(
     vaultID: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  erc721(overrides?: CallOverrides): Promise<string>;
+  getApproved(
+    tokenId: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<string>;
 
-  getAvaxPriceSource(overrides?: CallOverrides): Promise<BigNumber>;
+  getPricePeg(overrides?: CallOverrides): Promise<BigNumber>;
 
-  getClosingFee(overrides?: CallOverrides): Promise<BigNumber>;
+  getPriceSource(overrides?: CallOverrides): Promise<BigNumber>;
 
-  getDebtCeiling(overrides?: CallOverrides): Promise<BigNumber>;
+  getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>;
 
-  getOpeningFee(overrides?: CallOverrides): Promise<BigNumber>;
-
-  getTokenPriceSource(overrides?: CallOverrides): Promise<BigNumber>;
-
-  increaseAllowance(
-    spender: string,
-    addedValue: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  mint(
+  grantRole(
+    role: BytesLike,
     account: string,
-    amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  hasRole(
+    role: BytesLike,
+    account: string,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  isApprovedForAll(
+    owner: string,
+    operator: string,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  isValidCollateral(
+    collateral: BigNumberish,
+    debt: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   name(overrides?: CallOverrides): Promise<string>;
 
   openingFee(overrides?: CallOverrides): Promise<BigNumber>;
 
-  owner(overrides?: CallOverrides): Promise<string>;
+  ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
-  payBackToken(
-    vaultID: BigNumberish,
-    amount: BigNumberish,
+  priceSource(overrides?: CallOverrides): Promise<string>;
+
+  renounceRole(
+    role: BytesLike,
+    account: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  renounceOwnership(
+  revokeRole(
+    role: BytesLike,
+    account: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "safeTransferFrom(address,address,uint256)"(
+    from: string,
+    to: string,
+    tokenId: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "safeTransferFrom(address,address,uint256,bytes)"(
+    from: string,
+    to: string,
+    tokenId: BigNumberish,
+    _data: BytesLike,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setApprovalForAll(
+    operator: string,
+    approved: boolean,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -754,7 +848,7 @@ export class UrsaStablecoin extends BaseContract {
   ): Promise<ContractTransaction>;
 
   setDebtCeiling(
-    amount: BigNumberish,
+    _debtCeiling: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -763,13 +857,18 @@ export class UrsaStablecoin extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setStabilityPool(
-    _pool: string,
+  setPriceSource(
+    priceSource_: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setStabiltyPool(
+    stabilityPool_: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   setTokenPeg(
-    _tokenPeg: BigNumberish,
+    tokenPeg_: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -780,27 +879,35 @@ export class UrsaStablecoin extends BaseContract {
 
   stabilityPool(overrides?: CallOverrides): Promise<string>;
 
+  subVaultCollateral(
+    vaultID: BigNumberish,
+    amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  subVaultDebt(
+    vaultID: BigNumberish,
+    amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  supportsInterface(
+    interfaceId: BytesLike,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
   symbol(overrides?: CallOverrides): Promise<string>;
 
   tokenPeg(overrides?: CallOverrides): Promise<BigNumber>;
 
-  totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
+  tokenURI(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
-  transfer(
-    recipient: string,
-    amount: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
+  totalDebt(overrides?: CallOverrides): Promise<BigNumber>;
 
   transferFrom(
-    sender: string,
-    recipient: string,
-    amount: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  transferOwnership(
-    newOwner: string,
+    from: string,
+    to: string,
+    tokenId: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -810,14 +917,10 @@ export class UrsaStablecoin extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  treasury(overrides?: CallOverrides): Promise<BigNumber>;
-
   vaultCollateral(
     arg0: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
-
-  vaultCount(overrides?: CallOverrides): Promise<BigNumber>;
 
   vaultDebt(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -835,39 +938,37 @@ export class UrsaStablecoin extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    allowance(
-      owner: string,
-      spender: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
-    approve(
-      spender: string,
-      amount: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
+    TREASURY_ROLE(overrides?: CallOverrides): Promise<string>;
 
-    balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    borrowToken(
+    addVaultCollateral(
       vaultID: BigNumberish,
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    burn(
-      account: string,
+    addVaultCollateralTreasury(
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    addVaultDebt(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    approve(
+      to: string,
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     buyRiskyVault(
       vaultID: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    changeAvaxPriceSource(
-      avaxPriceSourceAddress: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -877,61 +978,86 @@ export class UrsaStablecoin extends BaseContract {
 
     debtCeiling(overrides?: CallOverrides): Promise<BigNumber>;
 
-    decimals(overrides?: CallOverrides): Promise<number>;
-
-    decreaseAllowance(
-      spender: string,
-      subtractedValue: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    depositCollateral(
-      vaultID: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     destroyVault(
       vaultID: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    erc721(overrides?: CallOverrides): Promise<string>;
+    getApproved(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
-    getAvaxPriceSource(overrides?: CallOverrides): Promise<BigNumber>;
+    getPricePeg(overrides?: CallOverrides): Promise<BigNumber>;
 
-    getClosingFee(overrides?: CallOverrides): Promise<BigNumber>;
+    getPriceSource(overrides?: CallOverrides): Promise<BigNumber>;
 
-    getDebtCeiling(overrides?: CallOverrides): Promise<BigNumber>;
+    getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>;
 
-    getOpeningFee(overrides?: CallOverrides): Promise<BigNumber>;
+    grantRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
-    getTokenPriceSource(overrides?: CallOverrides): Promise<BigNumber>;
-
-    increaseAllowance(
-      spender: string,
-      addedValue: BigNumberish,
+    hasRole(
+      role: BytesLike,
+      account: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    mint(
-      account: string,
-      amount: BigNumberish,
+    isApprovedForAll(
+      owner: string,
+      operator: string,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<boolean>;
+
+    isValidCollateral(
+      collateral: BigNumberish,
+      debt: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     name(overrides?: CallOverrides): Promise<string>;
 
     openingFee(overrides?: CallOverrides): Promise<BigNumber>;
 
-    owner(overrides?: CallOverrides): Promise<string>;
+    ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
-    payBackToken(
-      vaultID: BigNumberish,
-      amount: BigNumberish,
+    priceSource(overrides?: CallOverrides): Promise<string>;
+
+    renounceRole(
+      role: BytesLike,
+      account: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    renounceOwnership(overrides?: CallOverrides): Promise<void>;
+    revokeRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "safeTransferFrom(address,address,uint256)"(
+      from: string,
+      to: string,
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "safeTransferFrom(address,address,uint256,bytes)"(
+      from: string,
+      to: string,
+      tokenId: BigNumberish,
+      _data: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setApprovalForAll(
+      operator: string,
+      approved: boolean,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     setClosingFee(
       amount: BigNumberish,
@@ -939,7 +1065,7 @@ export class UrsaStablecoin extends BaseContract {
     ): Promise<void>;
 
     setDebtCeiling(
-      amount: BigNumberish,
+      _debtCeiling: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -948,10 +1074,18 @@ export class UrsaStablecoin extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setStabilityPool(_pool: string, overrides?: CallOverrides): Promise<void>;
+    setPriceSource(
+      priceSource_: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setStabiltyPool(
+      stabilityPool_: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     setTokenPeg(
-      _tokenPeg: BigNumberish,
+      tokenPeg_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -962,27 +1096,35 @@ export class UrsaStablecoin extends BaseContract {
 
     stabilityPool(overrides?: CallOverrides): Promise<string>;
 
+    subVaultCollateral(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    subVaultDebt(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    supportsInterface(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
     symbol(overrides?: CallOverrides): Promise<string>;
 
     tokenPeg(overrides?: CallOverrides): Promise<BigNumber>;
 
-    totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
+    tokenURI(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
-    transfer(
-      recipient: string,
-      amount: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
+    totalDebt(overrides?: CallOverrides): Promise<BigNumber>;
 
     transferFrom(
-      sender: string,
-      recipient: string,
-      amount: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    transferOwnership(
-      newOwner: string,
+      from: string,
+      to: string,
+      tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -992,14 +1134,10 @@ export class UrsaStablecoin extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    treasury(overrides?: CallOverrides): Promise<BigNumber>;
-
     vaultCollateral(
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    vaultCount(overrides?: CallOverrides): Promise<BigNumber>;
 
     vaultDebt(
       arg0: BigNumberish,
@@ -1023,34 +1161,20 @@ export class UrsaStablecoin extends BaseContract {
   filters: {
     Approval(
       owner?: string | null,
-      spender?: string | null,
-      value?: null
+      approved?: string | null,
+      tokenId?: BigNumberish | null
     ): TypedEventFilter<
       [string, string, BigNumber],
-      { owner: string; spender: string; value: BigNumber }
+      { owner: string; approved: string; tokenId: BigNumber }
     >;
 
-    BorrowToken(
-      vaultID?: null,
-      amount?: null
+    ApprovalForAll(
+      owner?: string | null,
+      operator?: string | null,
+      approved?: null
     ): TypedEventFilter<
-      [BigNumber, BigNumber],
-      { vaultID: BigNumber; amount: BigNumber }
-    >;
-
-    BuyRiskyVault(
-      vaultID?: null,
-      owner?: null,
-      buyer?: null,
-      amountPaid?: null
-    ): TypedEventFilter<
-      [BigNumber, string, string, BigNumber],
-      {
-        vaultID: BigNumber;
-        owner: string;
-        buyer: string;
-        amountPaid: BigNumber;
-      }
+      [string, string, boolean],
+      { owner: string; operator: string; approved: boolean }
     >;
 
     CreateVault(
@@ -1073,30 +1197,55 @@ export class UrsaStablecoin extends BaseContract {
       vaultID?: null
     ): TypedEventFilter<[BigNumber], { vaultID: BigNumber }>;
 
-    OwnershipTransferred(
-      previousOwner?: string | null,
-      newOwner?: string | null
+    LiquidateVault(
+      vaultID?: null,
+      owner?: null,
+      buyer?: null,
+      amountPaid?: null
     ): TypedEventFilter<
-      [string, string],
-      { previousOwner: string; newOwner: string }
+      [BigNumber, string, string, BigNumber],
+      {
+        vaultID: BigNumber;
+        owner: string;
+        buyer: string;
+        amountPaid: BigNumber;
+      }
     >;
 
-    PayBackToken(
-      vaultID?: null,
-      amount?: null,
-      closingFee?: null
+    RoleAdminChanged(
+      role?: BytesLike | null,
+      previousAdminRole?: BytesLike | null,
+      newAdminRole?: BytesLike | null
     ): TypedEventFilter<
-      [BigNumber, BigNumber, BigNumber],
-      { vaultID: BigNumber; amount: BigNumber; closingFee: BigNumber }
+      [string, string, string],
+      { role: string; previousAdminRole: string; newAdminRole: string }
+    >;
+
+    RoleGranted(
+      role?: BytesLike | null,
+      account?: string | null,
+      sender?: string | null
+    ): TypedEventFilter<
+      [string, string, string],
+      { role: string; account: string; sender: string }
+    >;
+
+    RoleRevoked(
+      role?: BytesLike | null,
+      account?: string | null,
+      sender?: string | null
+    ): TypedEventFilter<
+      [string, string, string],
+      { role: string; account: string; sender: string }
     >;
 
     Transfer(
       from?: string | null,
       to?: string | null,
-      value?: null
+      tokenId?: BigNumberish | null
     ): TypedEventFilter<
       [string, string, BigNumber],
-      { from: string; to: string; value: BigNumber }
+      { from: string; to: string; tokenId: BigNumber }
     >;
 
     TransferVault(
@@ -1118,39 +1267,37 @@ export class UrsaStablecoin extends BaseContract {
   };
 
   estimateGas: {
-    allowance(
-      owner: string,
-      spender: string,
-      overrides?: CallOverrides
+    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
+
+    TREASURY_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
+
+    addVaultCollateral(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    addVaultCollateralTreasury(
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    addVaultDebt(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     approve(
-      spender: string,
-      amount: BigNumberish,
+      to: string,
+      tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    borrowToken(
-      vaultID: BigNumberish,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    burn(
-      account: string,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
+    balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     buyRiskyVault(
       vaultID: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    changeAvaxPriceSource(
-      avaxPriceSourceAddress: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1162,61 +1309,90 @@ export class UrsaStablecoin extends BaseContract {
 
     debtCeiling(overrides?: CallOverrides): Promise<BigNumber>;
 
-    decimals(overrides?: CallOverrides): Promise<BigNumber>;
-
-    decreaseAllowance(
-      spender: string,
-      subtractedValue: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    depositCollateral(
-      vaultID: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     destroyVault(
       vaultID: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    erc721(overrides?: CallOverrides): Promise<BigNumber>;
+    getApproved(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
-    getAvaxPriceSource(overrides?: CallOverrides): Promise<BigNumber>;
+    getPricePeg(overrides?: CallOverrides): Promise<BigNumber>;
 
-    getClosingFee(overrides?: CallOverrides): Promise<BigNumber>;
+    getPriceSource(overrides?: CallOverrides): Promise<BigNumber>;
 
-    getDebtCeiling(overrides?: CallOverrides): Promise<BigNumber>;
+    getRoleAdmin(
+      role: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
-    getOpeningFee(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getTokenPriceSource(overrides?: CallOverrides): Promise<BigNumber>;
-
-    increaseAllowance(
-      spender: string,
-      addedValue: BigNumberish,
+    grantRole(
+      role: BytesLike,
+      account: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    mint(
+    hasRole(
+      role: BytesLike,
       account: string,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    isApprovedForAll(
+      owner: string,
+      operator: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    isValidCollateral(
+      collateral: BigNumberish,
+      debt: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
     openingFee(overrides?: CallOverrides): Promise<BigNumber>;
 
-    owner(overrides?: CallOverrides): Promise<BigNumber>;
+    ownerOf(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
-    payBackToken(
-      vaultID: BigNumberish,
-      amount: BigNumberish,
+    priceSource(overrides?: CallOverrides): Promise<BigNumber>;
+
+    renounceRole(
+      role: BytesLike,
+      account: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    renounceOwnership(
+    revokeRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "safeTransferFrom(address,address,uint256)"(
+      from: string,
+      to: string,
+      tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "safeTransferFrom(address,address,uint256,bytes)"(
+      from: string,
+      to: string,
+      tokenId: BigNumberish,
+      _data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setApprovalForAll(
+      operator: string,
+      approved: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1226,7 +1402,7 @@ export class UrsaStablecoin extends BaseContract {
     ): Promise<BigNumber>;
 
     setDebtCeiling(
-      amount: BigNumberish,
+      _debtCeiling: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1235,13 +1411,18 @@ export class UrsaStablecoin extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setStabilityPool(
-      _pool: string,
+    setPriceSource(
+      priceSource_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setStabiltyPool(
+      stabilityPool_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     setTokenPeg(
-      _tokenPeg: BigNumberish,
+      tokenPeg_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1252,27 +1433,38 @@ export class UrsaStablecoin extends BaseContract {
 
     stabilityPool(overrides?: CallOverrides): Promise<BigNumber>;
 
+    subVaultCollateral(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    subVaultDebt(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    supportsInterface(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     symbol(overrides?: CallOverrides): Promise<BigNumber>;
 
     tokenPeg(overrides?: CallOverrides): Promise<BigNumber>;
 
-    totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
-
-    transfer(
-      recipient: string,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+    tokenURI(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    totalDebt(overrides?: CallOverrides): Promise<BigNumber>;
 
     transferFrom(
-      sender: string,
-      recipient: string,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    transferOwnership(
-      newOwner: string,
+      from: string,
+      to: string,
+      tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1282,14 +1474,10 @@ export class UrsaStablecoin extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    treasury(overrides?: CallOverrides): Promise<BigNumber>;
-
     vaultCollateral(
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    vaultCount(overrides?: CallOverrides): Promise<BigNumber>;
 
     vaultDebt(
       arg0: BigNumberish,
@@ -1314,42 +1502,42 @@ export class UrsaStablecoin extends BaseContract {
   };
 
   populateTransaction: {
-    allowance(
-      owner: string,
-      spender: string,
+    DEFAULT_ADMIN_ROLE(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    approve(
-      spender: string,
+    TREASURY_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    addVaultCollateral(
+      vaultID: BigNumberish,
       amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    addVaultCollateralTreasury(
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    addVaultDebt(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    approve(
+      to: string,
+      tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     balanceOf(
-      account: string,
+      owner: string,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    borrowToken(
-      vaultID: BigNumberish,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    burn(
-      account: string,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     buyRiskyVault(
       vaultID: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    changeAvaxPriceSource(
-      avaxPriceSourceAddress: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1361,65 +1549,90 @@ export class UrsaStablecoin extends BaseContract {
 
     debtCeiling(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    decimals(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    decreaseAllowance(
-      spender: string,
-      subtractedValue: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    depositCollateral(
-      vaultID: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     destroyVault(
       vaultID: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    erc721(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    getAvaxPriceSource(
+    getApproved(
+      tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getClosingFee(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    getPricePeg(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    getDebtCeiling(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    getPriceSource(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    getOpeningFee(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    getTokenPriceSource(
+    getRoleAdmin(
+      role: BytesLike,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    increaseAllowance(
-      spender: string,
-      addedValue: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    mint(
+    grantRole(
+      role: BytesLike,
       account: string,
-      amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    hasRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    isApprovedForAll(
+      owner: string,
+      operator: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    isValidCollateral(
+      collateral: BigNumberish,
+      debt: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     openingFee(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    ownerOf(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
-    payBackToken(
-      vaultID: BigNumberish,
-      amount: BigNumberish,
+    priceSource(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    renounceRole(
+      role: BytesLike,
+      account: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    renounceOwnership(
+    revokeRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "safeTransferFrom(address,address,uint256)"(
+      from: string,
+      to: string,
+      tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "safeTransferFrom(address,address,uint256,bytes)"(
+      from: string,
+      to: string,
+      tokenId: BigNumberish,
+      _data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setApprovalForAll(
+      operator: string,
+      approved: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1429,7 +1642,7 @@ export class UrsaStablecoin extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     setDebtCeiling(
-      amount: BigNumberish,
+      _debtCeiling: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1438,13 +1651,18 @@ export class UrsaStablecoin extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setStabilityPool(
-      _pool: string,
+    setPriceSource(
+      priceSource_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setStabiltyPool(
+      stabilityPool_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     setTokenPeg(
-      _tokenPeg: BigNumberish,
+      tokenPeg_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1455,27 +1673,38 @@ export class UrsaStablecoin extends BaseContract {
 
     stabilityPool(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    subVaultCollateral(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    subVaultDebt(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    supportsInterface(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     tokenPeg(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    totalSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    transfer(
-      recipient: string,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+    tokenURI(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    totalDebt(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     transferFrom(
-      sender: string,
-      recipient: string,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    transferOwnership(
-      newOwner: string,
+      from: string,
+      to: string,
+      tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1485,14 +1714,10 @@ export class UrsaStablecoin extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    treasury(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     vaultCollateral(
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
-
-    vaultCount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     vaultDebt(
       arg0: BigNumberish,

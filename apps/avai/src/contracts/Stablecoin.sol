@@ -33,9 +33,10 @@ contract Stablecoin is ERC20, ERC20Permit, AccessControl, ReentrancyGuard {
   }
 
   /**
- Only vault owner can do anything with this modifier */
+   * Only vault owner can do anything with this modifier
+   */
   modifier onlyVaultOwner(uint256 vaultType, uint256 vaultID) {
-    require(vaults[vaultType].isKnownVault(vaultID), 'Vault does not exist');
+    require(vaults[vaultType].vaultExistence(vaultID), 'Vault does not exist');
     require(
       vaults[vaultType].vaultOwner(vaultID) == msg.sender,
       'Vault is not owned by you'
@@ -44,6 +45,9 @@ contract Stablecoin is ERC20, ERC20Permit, AccessControl, ReentrancyGuard {
     _;
   }
 
+  /**
+   * @dev give a burner role so that vaults can burn the token upon liquidation.
+   */
   function burn(address from, uint256 amount) public onlyRole(BURNER_ROLE) {
     _burn(from, amount);
   }
@@ -69,6 +73,8 @@ contract Stablecoin is ERC20, ERC20Permit, AccessControl, ReentrancyGuard {
    * @dev Lets a vault owner borrow stablecoin against collateral
    *
    * Requirements:
+   * - Vault type must exist
+   * - Vault must exist
    * - Must borrow greater than 0 stablecoin
    * - Must be below the debt ceiling when borrowing
    * - Must maintain minimum collateral percentage
@@ -81,10 +87,11 @@ contract Stablecoin is ERC20, ERC20Permit, AccessControl, ReentrancyGuard {
     uint256 amount
   ) external onlyVaultOwner(vaultType, vaultID) nonReentrant {
     require(vaultExists[vaultType], 'Vault type does not exist');
+    require(vaults[vaultType].vaultExistence(vaultID), 'Vault does not exist');
     require(amount > 0, 'Must borrow non-zero amount');
     require(
-      totalSupply() + amount <= vaults[vaultType].debtCeiling(),
-      'borrowToken: Cannot mint over totalSupply.'
+      vaults[vaultType].totalDebt() + amount <= vaults[vaultType].debtCeiling(),
+      'borrowToken: Cannot mint over debt ceiling.'
     );
 
     uint256 newDebt = vaults[vaultType].vaultDebt(vaultID) + amount;
@@ -132,6 +139,7 @@ contract Stablecoin is ERC20, ERC20Permit, AccessControl, ReentrancyGuard {
     vaults[vaultType].subVaultCollateral(vaultID, _closingFee);
     vaults[vaultType].addVaultCollateralTreasury(_closingFee);
 
+    vaults[vaultType].subVaultDebt(vaultID, amount);
     // Burns the stablecoin
     _burn(msg.sender, amount);
 

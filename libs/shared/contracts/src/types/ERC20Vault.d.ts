@@ -19,56 +19,76 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
-interface VaultInterface extends ethers.utils.Interface {
+interface ERC20VaultInterface extends ethers.utils.Interface {
   functions: {
+    "DEFAULT_ADMIN_ROLE()": FunctionFragment;
+    "TREASURY_ROLE()": FunctionFragment;
     "addVaultCollateral(uint256,uint256)": FunctionFragment;
+    "addVaultCollateralTreasury(uint256)": FunctionFragment;
     "addVaultDebt(uint256,uint256)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "createVaultType(address,uint256,uint256,uint256,uint256,address,uint256)": FunctionFragment;
+    "buyRiskyVault(uint256)": FunctionFragment;
+    "closingFee()": FunctionFragment;
+    "createVault()": FunctionFragment;
+    "debtCeiling()": FunctionFragment;
+    "depositCollateral(uint256,uint256)": FunctionFragment;
+    "destroyVault(uint256)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
-    "getBase(uint256)": FunctionFragment;
-    "getClosingFee(uint256)": FunctionFragment;
-    "getDebtCeiling(uint256)": FunctionFragment;
-    "getMinimumCollateralPercentage(uint256)": FunctionFragment;
-    "getOpeningFee(uint256)": FunctionFragment;
-    "getPriceSource(uint256)": FunctionFragment;
-    "getTokenPriceSource(uint256)": FunctionFragment;
-    "getTotalDebt(uint256)": FunctionFragment;
-    "getVaultCollateral(uint256)": FunctionFragment;
-    "getVaultDebt(uint256)": FunctionFragment;
-    "getVaultOwner(uint256)": FunctionFragment;
-    "getVaultVaultType(uint256)": FunctionFragment;
+    "getPricePeg()": FunctionFragment;
+    "getPriceSource()": FunctionFragment;
+    "getRoleAdmin(bytes32)": FunctionFragment;
+    "grantRole(bytes32,address)": FunctionFragment;
+    "hasRole(bytes32,address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
-    "isKnownVault(uint256)": FunctionFragment;
-    "knownVault(uint256)": FunctionFragment;
+    "isValidCollateral(uint256,uint256)": FunctionFragment;
     "name()": FunctionFragment;
-    "owner()": FunctionFragment;
+    "openingFee()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
-    "renounceOwnership()": FunctionFragment;
+    "priceSource()": FunctionFragment;
+    "renounceRole(bytes32,address)": FunctionFragment;
+    "revokeRole(bytes32,address)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
-    "setBase(uint256,address)": FunctionFragment;
-    "setClosingFee(uint256,uint256)": FunctionFragment;
-    "setDebtCeiling(uint256,uint256)": FunctionFragment;
-    "setMinimumCollateralPercentage(uint256,uint256)": FunctionFragment;
-    "setOpeningFee(uint256,uint256)": FunctionFragment;
-    "setPriceSource(uint256,address)": FunctionFragment;
-    "setTokenPricePeg(uint256,uint256)": FunctionFragment;
+    "setClosingFee(uint256)": FunctionFragment;
+    "setDebtCeiling(uint256)": FunctionFragment;
+    "setOpeningFee(uint256)": FunctionFragment;
+    "setPriceSource(address)": FunctionFragment;
+    "setStabiltyPool(address)": FunctionFragment;
+    "setTokenPeg(uint256)": FunctionFragment;
+    "setTreasury(uint256)": FunctionFragment;
+    "stabilityPool()": FunctionFragment;
     "subVaultCollateral(uint256,uint256)": FunctionFragment;
     "subVaultDebt(uint256,uint256)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
+    "tokenPeg()": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
+    "totalDebt()": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
-    "transferOwnership(address)": FunctionFragment;
-    "vaultTypes(uint256)": FunctionFragment;
-    "vaults(uint256)": FunctionFragment;
+    "transferVault(uint256,address)": FunctionFragment;
+    "vaultCollateral(uint256)": FunctionFragment;
+    "vaultDebt(uint256)": FunctionFragment;
+    "vaultExistence(uint256)": FunctionFragment;
+    "vaultOwner(uint256)": FunctionFragment;
+    "withdrawCollateral(uint256,uint256)": FunctionFragment;
   };
 
   encodeFunctionData(
+    functionFragment: "DEFAULT_ADMIN_ROLE",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "TREASURY_ROLE",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "addVaultCollateral",
     values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "addVaultCollateralTreasury",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "addVaultDebt",
@@ -80,90 +100,81 @@ interface VaultInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
   encodeFunctionData(
-    functionFragment: "createVaultType",
-    values: [
-      string,
-      BigNumberish,
-      BigNumberish,
-      BigNumberish,
-      BigNumberish,
-      string,
-      BigNumberish
-    ]
+    functionFragment: "buyRiskyVault",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "closingFee",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "createVault",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "debtCeiling",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "depositCollateral",
+    values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "destroyVault",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "getApproved",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "getBase",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getClosingFee",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getDebtCeiling",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getMinimumCollateralPercentage",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getOpeningFee",
-    values: [BigNumberish]
+    functionFragment: "getPricePeg",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "getPriceSource",
-    values: [BigNumberish]
+    values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "getTokenPriceSource",
-    values: [BigNumberish]
+    functionFragment: "getRoleAdmin",
+    values: [BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "getTotalDebt",
-    values: [BigNumberish]
+    functionFragment: "grantRole",
+    values: [BytesLike, string]
   ): string;
   encodeFunctionData(
-    functionFragment: "getVaultCollateral",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getVaultDebt",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getVaultOwner",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getVaultVaultType",
-    values: [BigNumberish]
+    functionFragment: "hasRole",
+    values: [BytesLike, string]
   ): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [string, string]
   ): string;
   encodeFunctionData(
-    functionFragment: "isKnownVault",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "knownVault",
-    values: [BigNumberish]
+    functionFragment: "isValidCollateral",
+    values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
-  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "openingFee",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "ownerOf",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "renounceOwnership",
+    functionFragment: "priceSource",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "renounceRole",
+    values: [BytesLike, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "revokeRole",
+    values: [BytesLike, string]
   ): string;
   encodeFunctionData(
     functionFragment: "safeTransferFrom",
@@ -174,32 +185,36 @@ interface VaultInterface extends ethers.utils.Interface {
     values: [string, boolean]
   ): string;
   encodeFunctionData(
-    functionFragment: "setBase",
-    values: [BigNumberish, string]
-  ): string;
-  encodeFunctionData(
     functionFragment: "setClosingFee",
-    values: [BigNumberish, BigNumberish]
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "setDebtCeiling",
-    values: [BigNumberish, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setMinimumCollateralPercentage",
-    values: [BigNumberish, BigNumberish]
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "setOpeningFee",
-    values: [BigNumberish, BigNumberish]
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "setPriceSource",
-    values: [BigNumberish, string]
+    values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "setTokenPricePeg",
-    values: [BigNumberish, BigNumberish]
+    functionFragment: "setStabiltyPool",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setTokenPeg",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setTreasury",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "stabilityPool",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "subVaultCollateral",
@@ -214,29 +229,55 @@ interface VaultInterface extends ethers.utils.Interface {
     values: [BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
+  encodeFunctionData(functionFragment: "tokenPeg", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "tokenURI",
     values: [BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "totalDebt", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "transferFrom",
     values: [string, string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "transferOwnership",
-    values: [string]
+    functionFragment: "transferVault",
+    values: [BigNumberish, string]
   ): string;
   encodeFunctionData(
-    functionFragment: "vaultTypes",
+    functionFragment: "vaultCollateral",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "vaults",
+    functionFragment: "vaultDebt",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "vaultExistence",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "vaultOwner",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "withdrawCollateral",
+    values: [BigNumberish, BigNumberish]
   ): string;
 
   decodeFunctionResult(
+    functionFragment: "DEFAULT_ADMIN_ROLE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "TREASURY_ROLE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "addVaultCollateral",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "addVaultCollateralTreasury",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -246,28 +287,32 @@ interface VaultInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "createVaultType",
+    functionFragment: "buyRiskyVault",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "closingFee", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "createVault",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "debtCeiling",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "depositCollateral",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "destroyVault",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "getBase", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "getClosingFee",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getDebtCeiling",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getMinimumCollateralPercentage",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getOpeningFee",
+    functionFragment: "getPricePeg",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -275,45 +320,31 @@ interface VaultInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getTokenPriceSource",
+    functionFragment: "getRoleAdmin",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "getTotalDebt",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getVaultCollateral",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getVaultDebt",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getVaultOwner",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getVaultVaultType",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "isKnownVault",
+    functionFragment: "isValidCollateral",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "knownVault", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "openingFee", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "renounceOwnership",
+    functionFragment: "priceSource",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "renounceRole",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "safeTransferFrom",
     data: BytesLike
@@ -322,17 +353,12 @@ interface VaultInterface extends ethers.utils.Interface {
     functionFragment: "setApprovalForAll",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "setBase", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setClosingFee",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "setDebtCeiling",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setMinimumCollateralPercentage",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -344,7 +370,19 @@ interface VaultInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setTokenPricePeg",
+    functionFragment: "setStabiltyPool",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setTokenPeg",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setTreasury",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "stabilityPool",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -360,40 +398,62 @@ interface VaultInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "tokenPeg", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "tokenURI", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "totalDebt", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "transferFrom",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "transferOwnership",
+    functionFragment: "transferVault",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "vaultTypes", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "vaults", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "vaultCollateral",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "vaultDebt", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "vaultExistence",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "vaultOwner", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "withdrawCollateral",
+    data: BytesLike
+  ): Result;
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
     "CreateVault(uint256,address)": EventFragment;
-    "CreateVaultType(uint256,string)": EventFragment;
+    "DepositCollateral(uint256,uint256)": EventFragment;
     "DestroyVault(uint256)": EventFragment;
-    "OwnershipTransferred(address,address)": EventFragment;
+    "LiquidateVault(uint256,address,address,uint256)": EventFragment;
+    "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
+    "RoleGranted(bytes32,address,address)": EventFragment;
+    "RoleRevoked(bytes32,address,address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
     "TransferVault(uint256,address,address)": EventFragment;
+    "WithdrawCollateral(uint256,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "CreateVault"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "CreateVaultType"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "DepositCollateral"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "DestroyVault"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "LiquidateVault"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "TransferVault"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "WithdrawCollateral"): EventFragment;
 }
 
-export class Vault extends BaseContract {
+export class ERC20Vault extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -434,11 +494,20 @@ export class Vault extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: VaultInterface;
+  interface: ERC20VaultInterface;
 
   functions: {
+    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
+
+    TREASURY_ROLE(overrides?: CallOverrides): Promise<[string]>;
+
     addVaultCollateral(
       vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    addVaultCollateralTreasury(
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -457,14 +526,27 @@ export class Vault extends BaseContract {
 
     balanceOf(owner: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    createVaultType(
-      base: string,
-      debtCeiling: BigNumberish,
-      closingFee: BigNumberish,
-      openingFee: BigNumberish,
-      tokenPeg: BigNumberish,
-      avaxPriceSourceAddress: string,
-      minimumCollateralPercentage: BigNumberish,
+    buyRiskyVault(
+      vaultID: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    closingFee(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    createVault(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    debtCeiling(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    depositCollateral(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    destroyVault(
+      vaultID: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -473,65 +555,23 @@ export class Vault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
-    getBase(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
+    getPricePeg(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    getClosingFee(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
+    getPriceSource(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    getDebtCeiling(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
+    getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<[string]>;
 
-    getMinimumCollateralPercentage(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
+    grantRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
-    getOpeningFee(
-      vaultType: BigNumberish,
+    hasRole(
+      role: BytesLike,
+      account: string,
       overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    getPriceSource(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    getTokenPriceSource(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    getTotalDebt(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    getVaultCollateral(
-      vaultID: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    getVaultDebt(
-      vaultID: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    getVaultOwner(
-      vaultID: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    getVaultVaultType(
-      vaultID: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
+    ): Promise<[boolean]>;
 
     isApprovedForAll(
       owner: string,
@@ -539,26 +579,32 @@ export class Vault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    isKnownVault(
-      vaultID: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
-    knownVault(
-      arg0: BigNumberish,
+    isValidCollateral(
+      collateral: BigNumberish,
+      debt: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
     name(overrides?: CallOverrides): Promise<[string]>;
 
-    owner(overrides?: CallOverrides): Promise<[string]>;
+    openingFee(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     ownerOf(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
 
-    renounceOwnership(
+    priceSource(overrides?: CallOverrides): Promise<[string]>;
+
+    renounceRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    revokeRole(
+      role: BytesLike,
+      account: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -583,47 +629,42 @@ export class Vault extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setBase(
-      vaultType: BigNumberish,
-      _base: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     setClosingFee(
-      vaultType: BigNumberish,
-      _closingFee: BigNumberish,
+      amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     setDebtCeiling(
-      vaultType: BigNumberish,
       _debtCeiling: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setMinimumCollateralPercentage(
-      vaultType: BigNumberish,
-      _percentage: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     setOpeningFee(
-      vaultType: BigNumberish,
-      _openingFee: BigNumberish,
+      amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     setPriceSource(
-      vaultType: BigNumberish,
-      _avaxPriceSourceAddress: string,
+      priceSource_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setTokenPricePeg(
-      vaultType: BigNumberish,
-      _tokenPeg: BigNumberish,
+    setStabiltyPool(
+      stabilityPool_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    setTokenPeg(
+      tokenPeg_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setTreasury(
+      _treasury: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    stabilityPool(overrides?: CallOverrides): Promise<[string]>;
 
     subVaultCollateral(
       vaultID: BigNumberish,
@@ -644,10 +685,14 @@ export class Vault extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<[string]>;
 
+    tokenPeg(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     tokenURI(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
+
+    totalDebt(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     transferFrom(
       from: string,
@@ -656,51 +701,50 @@ export class Vault extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    transferOwnership(
-      newOwner: string,
+    transferVault(
+      vaultID: BigNumberish,
+      to: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    vaultTypes(
+    vaultCollateral(
       arg0: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<
-      [
-        string,
-        BigNumber,
-        BigNumber,
-        BigNumber,
-        BigNumber,
-        BigNumber,
-        string,
-        BigNumber
-      ] & {
-        base: string;
-        debtCeiling: BigNumber;
-        totalDebt: BigNumber;
-        closingFee: BigNumber;
-        openingFee: BigNumber;
-        tokenPeg: BigNumber;
-        avaxPriceSourceAddress: string;
-        minimumCollateralPercentage: BigNumber;
-      }
-    >;
+    ): Promise<[BigNumber]>;
 
-    vaults(
+    vaultDebt(
       arg0: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<
-      [string, BigNumber, BigNumber, BigNumber] & {
-        owner: string;
-        collateral: BigNumber;
-        debt: BigNumber;
-        vaultType: BigNumber;
-      }
-    >;
+    ): Promise<[BigNumber]>;
+
+    vaultExistence(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    vaultOwner(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    withdrawCollateral(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
   };
+
+  DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
+
+  TREASURY_ROLE(overrides?: CallOverrides): Promise<string>;
 
   addVaultCollateral(
     vaultID: BigNumberish,
+    amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  addVaultCollateralTreasury(
     amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -719,14 +763,27 @@ export class Vault extends BaseContract {
 
   balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-  createVaultType(
-    base: string,
-    debtCeiling: BigNumberish,
-    closingFee: BigNumberish,
-    openingFee: BigNumberish,
-    tokenPeg: BigNumberish,
-    avaxPriceSourceAddress: string,
-    minimumCollateralPercentage: BigNumberish,
+  buyRiskyVault(
+    vaultID: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  closingFee(overrides?: CallOverrides): Promise<BigNumber>;
+
+  createVault(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  debtCeiling(overrides?: CallOverrides): Promise<BigNumber>;
+
+  depositCollateral(
+    vaultID: BigNumberish,
+    amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  destroyVault(
+    vaultID: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -735,62 +792,23 @@ export class Vault extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
-  getBase(vaultType: BigNumberish, overrides?: CallOverrides): Promise<string>;
+  getPricePeg(overrides?: CallOverrides): Promise<BigNumber>;
 
-  getClosingFee(
-    vaultType: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
+  getPriceSource(overrides?: CallOverrides): Promise<BigNumber>;
 
-  getDebtCeiling(
-    vaultType: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
+  getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>;
 
-  getMinimumCollateralPercentage(
-    vaultType: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
+  grantRole(
+    role: BytesLike,
+    account: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
-  getOpeningFee(
-    vaultType: BigNumberish,
+  hasRole(
+    role: BytesLike,
+    account: string,
     overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  getPriceSource(
-    vaultType: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  getTokenPriceSource(
-    vaultType: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  getTotalDebt(
-    vaultType: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  getVaultCollateral(
-    vaultID: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  getVaultDebt(
-    vaultID: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  getVaultOwner(
-    vaultID: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  getVaultVaultType(
-    vaultID: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
+  ): Promise<boolean>;
 
   isApprovedForAll(
     owner: string,
@@ -798,20 +816,29 @@ export class Vault extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  isKnownVault(
-    vaultID: BigNumberish,
+  isValidCollateral(
+    collateral: BigNumberish,
+    debt: BigNumberish,
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  knownVault(arg0: BigNumberish, overrides?: CallOverrides): Promise<boolean>;
-
   name(overrides?: CallOverrides): Promise<string>;
 
-  owner(overrides?: CallOverrides): Promise<string>;
+  openingFee(overrides?: CallOverrides): Promise<BigNumber>;
 
   ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
-  renounceOwnership(
+  priceSource(overrides?: CallOverrides): Promise<string>;
+
+  renounceRole(
+    role: BytesLike,
+    account: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  revokeRole(
+    role: BytesLike,
+    account: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -836,47 +863,42 @@ export class Vault extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setBase(
-    vaultType: BigNumberish,
-    _base: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   setClosingFee(
-    vaultType: BigNumberish,
-    _closingFee: BigNumberish,
+    amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   setDebtCeiling(
-    vaultType: BigNumberish,
     _debtCeiling: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setMinimumCollateralPercentage(
-    vaultType: BigNumberish,
-    _percentage: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   setOpeningFee(
-    vaultType: BigNumberish,
-    _openingFee: BigNumberish,
+    amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   setPriceSource(
-    vaultType: BigNumberish,
-    _avaxPriceSourceAddress: string,
+    priceSource_: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setTokenPricePeg(
-    vaultType: BigNumberish,
-    _tokenPeg: BigNumberish,
+  setStabiltyPool(
+    stabilityPool_: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  setTokenPeg(
+    tokenPeg_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setTreasury(
+    _treasury: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  stabilityPool(overrides?: CallOverrides): Promise<string>;
 
   subVaultCollateral(
     vaultID: BigNumberish,
@@ -897,7 +919,11 @@ export class Vault extends BaseContract {
 
   symbol(overrides?: CallOverrides): Promise<string>;
 
+  tokenPeg(overrides?: CallOverrides): Promise<BigNumber>;
+
   tokenURI(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+  totalDebt(overrides?: CallOverrides): Promise<BigNumber>;
 
   transferFrom(
     from: string,
@@ -906,51 +932,44 @@ export class Vault extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  transferOwnership(
-    newOwner: string,
+  transferVault(
+    vaultID: BigNumberish,
+    to: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  vaultTypes(
+  vaultCollateral(
     arg0: BigNumberish,
     overrides?: CallOverrides
-  ): Promise<
-    [
-      string,
-      BigNumber,
-      BigNumber,
-      BigNumber,
-      BigNumber,
-      BigNumber,
-      string,
-      BigNumber
-    ] & {
-      base: string;
-      debtCeiling: BigNumber;
-      totalDebt: BigNumber;
-      closingFee: BigNumber;
-      openingFee: BigNumber;
-      tokenPeg: BigNumber;
-      avaxPriceSourceAddress: string;
-      minimumCollateralPercentage: BigNumber;
-    }
-  >;
+  ): Promise<BigNumber>;
 
-  vaults(
+  vaultDebt(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+  vaultExistence(
     arg0: BigNumberish,
     overrides?: CallOverrides
-  ): Promise<
-    [string, BigNumber, BigNumber, BigNumber] & {
-      owner: string;
-      collateral: BigNumber;
-      debt: BigNumber;
-      vaultType: BigNumber;
-    }
-  >;
+  ): Promise<boolean>;
+
+  vaultOwner(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+  withdrawCollateral(
+    vaultID: BigNumberish,
+    amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   callStatic: {
+    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
+
+    TREASURY_ROLE(overrides?: CallOverrides): Promise<string>;
+
     addVaultCollateral(
       vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    addVaultCollateralTreasury(
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -969,14 +988,25 @@ export class Vault extends BaseContract {
 
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    createVaultType(
-      base: string,
-      debtCeiling: BigNumberish,
-      closingFee: BigNumberish,
-      openingFee: BigNumberish,
-      tokenPeg: BigNumberish,
-      avaxPriceSourceAddress: string,
-      minimumCollateralPercentage: BigNumberish,
+    buyRiskyVault(
+      vaultID: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    closingFee(overrides?: CallOverrides): Promise<BigNumber>;
+
+    createVault(overrides?: CallOverrides): Promise<BigNumber>;
+
+    debtCeiling(overrides?: CallOverrides): Promise<BigNumber>;
+
+    depositCollateral(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    destroyVault(
+      vaultID: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -985,65 +1015,23 @@ export class Vault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string>;
 
-    getBase(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
+    getPricePeg(overrides?: CallOverrides): Promise<BigNumber>;
 
-    getClosingFee(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    getPriceSource(overrides?: CallOverrides): Promise<BigNumber>;
 
-    getDebtCeiling(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>;
 
-    getMinimumCollateralPercentage(
-      vaultType: BigNumberish,
+    grantRole(
+      role: BytesLike,
+      account: string,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ): Promise<void>;
 
-    getOpeningFee(
-      vaultType: BigNumberish,
+    hasRole(
+      role: BytesLike,
+      account: string,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getPriceSource(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getTokenPriceSource(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getTotalDebt(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getVaultCollateral(
-      vaultID: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getVaultDebt(
-      vaultID: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getVaultOwner(
-      vaultID: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    getVaultVaultType(
-      vaultID: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ): Promise<boolean>;
 
     isApprovedForAll(
       owner: string,
@@ -1051,20 +1039,31 @@ export class Vault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    isKnownVault(
-      vaultID: BigNumberish,
+    isValidCollateral(
+      collateral: BigNumberish,
+      debt: BigNumberish,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    knownVault(arg0: BigNumberish, overrides?: CallOverrides): Promise<boolean>;
-
     name(overrides?: CallOverrides): Promise<string>;
 
-    owner(overrides?: CallOverrides): Promise<string>;
+    openingFee(overrides?: CallOverrides): Promise<BigNumber>;
 
     ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
-    renounceOwnership(overrides?: CallOverrides): Promise<void>;
+    priceSource(overrides?: CallOverrides): Promise<string>;
+
+    renounceRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    revokeRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -1087,47 +1086,42 @@ export class Vault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setBase(
-      vaultType: BigNumberish,
-      _base: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     setClosingFee(
-      vaultType: BigNumberish,
-      _closingFee: BigNumberish,
+      amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
     setDebtCeiling(
-      vaultType: BigNumberish,
       _debtCeiling: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setMinimumCollateralPercentage(
-      vaultType: BigNumberish,
-      _percentage: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     setOpeningFee(
-      vaultType: BigNumberish,
-      _openingFee: BigNumberish,
+      amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
     setPriceSource(
-      vaultType: BigNumberish,
-      _avaxPriceSourceAddress: string,
+      priceSource_: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setTokenPricePeg(
-      vaultType: BigNumberish,
-      _tokenPeg: BigNumberish,
+    setStabiltyPool(
+      stabilityPool_: string,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    setTokenPeg(
+      tokenPeg_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setTreasury(
+      _treasury: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    stabilityPool(overrides?: CallOverrides): Promise<string>;
 
     subVaultCollateral(
       vaultID: BigNumberish,
@@ -1148,7 +1142,11 @@ export class Vault extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<string>;
 
+    tokenPeg(overrides?: CallOverrides): Promise<BigNumber>;
+
     tokenURI(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+    totalDebt(overrides?: CallOverrides): Promise<BigNumber>;
 
     transferFrom(
       from: string,
@@ -1157,47 +1155,34 @@ export class Vault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    transferOwnership(
-      newOwner: string,
+    transferVault(
+      vaultID: BigNumberish,
+      to: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    vaultTypes(
+    vaultCollateral(
       arg0: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<
-      [
-        string,
-        BigNumber,
-        BigNumber,
-        BigNumber,
-        BigNumber,
-        BigNumber,
-        string,
-        BigNumber
-      ] & {
-        base: string;
-        debtCeiling: BigNumber;
-        totalDebt: BigNumber;
-        closingFee: BigNumber;
-        openingFee: BigNumber;
-        tokenPeg: BigNumber;
-        avaxPriceSourceAddress: string;
-        minimumCollateralPercentage: BigNumber;
-      }
-    >;
+    ): Promise<BigNumber>;
 
-    vaults(
+    vaultDebt(
       arg0: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<
-      [string, BigNumber, BigNumber, BigNumber] & {
-        owner: string;
-        collateral: BigNumber;
-        debt: BigNumber;
-        vaultType: BigNumber;
-      }
-    >;
+    ): Promise<BigNumber>;
+
+    vaultExistence(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    vaultOwner(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+    withdrawCollateral(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
   };
 
   filters: {
@@ -1227,24 +1212,58 @@ export class Vault extends BaseContract {
       { vaultID: BigNumber; creator: string }
     >;
 
-    CreateVaultType(
+    DepositCollateral(
       vaultID?: null,
-      name?: null
+      amount?: null
     ): TypedEventFilter<
-      [BigNumber, string],
-      { vaultID: BigNumber; name: string }
+      [BigNumber, BigNumber],
+      { vaultID: BigNumber; amount: BigNumber }
     >;
 
     DestroyVault(
       vaultID?: null
     ): TypedEventFilter<[BigNumber], { vaultID: BigNumber }>;
 
-    OwnershipTransferred(
-      previousOwner?: string | null,
-      newOwner?: string | null
+    LiquidateVault(
+      vaultID?: null,
+      owner?: null,
+      buyer?: null,
+      amountPaid?: null
     ): TypedEventFilter<
-      [string, string],
-      { previousOwner: string; newOwner: string }
+      [BigNumber, string, string, BigNumber],
+      {
+        vaultID: BigNumber;
+        owner: string;
+        buyer: string;
+        amountPaid: BigNumber;
+      }
+    >;
+
+    RoleAdminChanged(
+      role?: BytesLike | null,
+      previousAdminRole?: BytesLike | null,
+      newAdminRole?: BytesLike | null
+    ): TypedEventFilter<
+      [string, string, string],
+      { role: string; previousAdminRole: string; newAdminRole: string }
+    >;
+
+    RoleGranted(
+      role?: BytesLike | null,
+      account?: string | null,
+      sender?: string | null
+    ): TypedEventFilter<
+      [string, string, string],
+      { role: string; account: string; sender: string }
+    >;
+
+    RoleRevoked(
+      role?: BytesLike | null,
+      account?: string | null,
+      sender?: string | null
+    ): TypedEventFilter<
+      [string, string, string],
+      { role: string; account: string; sender: string }
     >;
 
     Transfer(
@@ -1264,11 +1283,28 @@ export class Vault extends BaseContract {
       [BigNumber, string, string],
       { vaultID: BigNumber; from: string; to: string }
     >;
+
+    WithdrawCollateral(
+      vaultID?: null,
+      amount?: null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber],
+      { vaultID: BigNumber; amount: BigNumber }
+    >;
   };
 
   estimateGas: {
+    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
+
+    TREASURY_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
+
     addVaultCollateral(
       vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    addVaultCollateralTreasury(
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -1287,14 +1323,27 @@ export class Vault extends BaseContract {
 
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    createVaultType(
-      base: string,
-      debtCeiling: BigNumberish,
-      closingFee: BigNumberish,
-      openingFee: BigNumberish,
-      tokenPeg: BigNumberish,
-      avaxPriceSourceAddress: string,
-      minimumCollateralPercentage: BigNumberish,
+    buyRiskyVault(
+      vaultID: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    closingFee(overrides?: CallOverrides): Promise<BigNumber>;
+
+    createVault(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    debtCeiling(overrides?: CallOverrides): Promise<BigNumber>;
+
+    depositCollateral(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    destroyVault(
+      vaultID: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1303,63 +1352,24 @@ export class Vault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getBase(
-      vaultType: BigNumberish,
+    getPricePeg(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getPriceSource(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getRoleAdmin(
+      role: BytesLike,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getClosingFee(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
+    grantRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    getDebtCeiling(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getMinimumCollateralPercentage(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getOpeningFee(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getPriceSource(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getTokenPriceSource(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getTotalDebt(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getVaultCollateral(
-      vaultID: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getVaultDebt(
-      vaultID: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getVaultOwner(
-      vaultID: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getVaultVaultType(
-      vaultID: BigNumberish,
+    hasRole(
+      role: BytesLike,
+      account: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1369,26 +1379,32 @@ export class Vault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    isKnownVault(
-      vaultID: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    knownVault(
-      arg0: BigNumberish,
+    isValidCollateral(
+      collateral: BigNumberish,
+      debt: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
-    owner(overrides?: CallOverrides): Promise<BigNumber>;
+    openingFee(overrides?: CallOverrides): Promise<BigNumber>;
 
     ownerOf(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    renounceOwnership(
+    priceSource(overrides?: CallOverrides): Promise<BigNumber>;
+
+    renounceRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    revokeRole(
+      role: BytesLike,
+      account: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1413,47 +1429,42 @@ export class Vault extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setBase(
-      vaultType: BigNumberish,
-      _base: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     setClosingFee(
-      vaultType: BigNumberish,
-      _closingFee: BigNumberish,
+      amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     setDebtCeiling(
-      vaultType: BigNumberish,
       _debtCeiling: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setMinimumCollateralPercentage(
-      vaultType: BigNumberish,
-      _percentage: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     setOpeningFee(
-      vaultType: BigNumberish,
-      _openingFee: BigNumberish,
+      amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     setPriceSource(
-      vaultType: BigNumberish,
-      _avaxPriceSourceAddress: string,
+      priceSource_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setTokenPricePeg(
-      vaultType: BigNumberish,
-      _tokenPeg: BigNumberish,
+    setStabiltyPool(
+      stabilityPool_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    setTokenPeg(
+      tokenPeg_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setTreasury(
+      _treasury: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    stabilityPool(overrides?: CallOverrides): Promise<BigNumber>;
 
     subVaultCollateral(
       vaultID: BigNumberish,
@@ -1474,10 +1485,14 @@ export class Vault extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<BigNumber>;
 
+    tokenPeg(overrides?: CallOverrides): Promise<BigNumber>;
+
     tokenURI(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    totalDebt(overrides?: CallOverrides): Promise<BigNumber>;
 
     transferFrom(
       from: string,
@@ -1486,22 +1501,53 @@ export class Vault extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    transferOwnership(
-      newOwner: string,
+    transferVault(
+      vaultID: BigNumberish,
+      to: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    vaultTypes(
+    vaultCollateral(
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    vaults(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+    vaultDebt(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    vaultExistence(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    vaultOwner(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    withdrawCollateral(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
+    DEFAULT_ADMIN_ROLE(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    TREASURY_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     addVaultCollateral(
       vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    addVaultCollateralTreasury(
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
@@ -1523,14 +1569,27 @@ export class Vault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    createVaultType(
-      base: string,
-      debtCeiling: BigNumberish,
-      closingFee: BigNumberish,
-      openingFee: BigNumberish,
-      tokenPeg: BigNumberish,
-      avaxPriceSourceAddress: string,
-      minimumCollateralPercentage: BigNumberish,
+    buyRiskyVault(
+      vaultID: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    closingFee(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    createVault(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    debtCeiling(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    depositCollateral(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    destroyVault(
+      vaultID: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1539,63 +1598,24 @@ export class Vault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getBase(
-      vaultType: BigNumberish,
+    getPricePeg(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getPriceSource(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getRoleAdmin(
+      role: BytesLike,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getClosingFee(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
+    grantRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    getDebtCeiling(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getMinimumCollateralPercentage(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getOpeningFee(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getPriceSource(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getTokenPriceSource(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getTotalDebt(
-      vaultType: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getVaultCollateral(
-      vaultID: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getVaultDebt(
-      vaultID: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getVaultOwner(
-      vaultID: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getVaultVaultType(
-      vaultID: BigNumberish,
+    hasRole(
+      role: BytesLike,
+      account: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1605,26 +1625,32 @@ export class Vault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    isKnownVault(
-      vaultID: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    knownVault(
-      arg0: BigNumberish,
+    isValidCollateral(
+      collateral: BigNumberish,
+      debt: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    openingFee(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     ownerOf(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    renounceOwnership(
+    priceSource(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    renounceRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    revokeRole(
+      role: BytesLike,
+      account: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1649,47 +1675,42 @@ export class Vault extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setBase(
-      vaultType: BigNumberish,
-      _base: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     setClosingFee(
-      vaultType: BigNumberish,
-      _closingFee: BigNumberish,
+      amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     setDebtCeiling(
-      vaultType: BigNumberish,
       _debtCeiling: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setMinimumCollateralPercentage(
-      vaultType: BigNumberish,
-      _percentage: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     setOpeningFee(
-      vaultType: BigNumberish,
-      _openingFee: BigNumberish,
+      amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     setPriceSource(
-      vaultType: BigNumberish,
-      _avaxPriceSourceAddress: string,
+      priceSource_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setTokenPricePeg(
-      vaultType: BigNumberish,
-      _tokenPeg: BigNumberish,
+    setStabiltyPool(
+      stabilityPool_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    setTokenPeg(
+      tokenPeg_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setTreasury(
+      _treasury: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    stabilityPool(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     subVaultCollateral(
       vaultID: BigNumberish,
@@ -1710,10 +1731,14 @@ export class Vault extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    tokenPeg(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     tokenURI(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    totalDebt(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     transferFrom(
       from: string,
@@ -1722,19 +1747,36 @@ export class Vault extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    transferOwnership(
-      newOwner: string,
+    transferVault(
+      vaultID: BigNumberish,
+      to: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    vaultTypes(
+    vaultCollateral(
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    vaults(
+    vaultDebt(
       arg0: BigNumberish,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    vaultExistence(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    vaultOwner(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    withdrawCollateral(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };
 }

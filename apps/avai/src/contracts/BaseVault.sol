@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: agpl-3.0
 pragma solidity ^0.8.0;
 
-import '@openzeppelin/contracts/access/Ownable.sol';
+import '@openzeppelin/contracts/access/AccessControl.sol';
 
 import '@openzeppelin/contracts/token/ERC721/ERC721.sol';
 import '@openzeppelin/contracts/utils/Counters.sol';
@@ -13,7 +13,9 @@ import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 import './interfaces/IStablecoin.sol';
 import './interfaces/IBaseVault.sol';
 
-contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, Ownable {
+contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, AccessControl {
+  bytes32 public constant TREASURY_ROLE = keccak256('TREASURY_ROLE');
+
   using Counters for Counters.Counter;
   Counters.Counter private _userVaultIds;
   /**
@@ -26,8 +28,13 @@ contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, Ownable {
   uint256 public openingFee;
   uint256 public tokenPeg;
   uint256 public totalDebt;
+
+  // Chainlink price source
   AggregatorV3Interface public priceSource;
+
+  // Token used as collateral
   IERC20 internal immutable _token;
+  // Token used as debt
   IStablecoin internal immutable _stablecoin;
 
   // Address that corresponds to liquidater
@@ -43,11 +50,15 @@ contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, Ownable {
 
   // Lets begin!
   constructor(
+    uint256 minimumCollateralPercentage,
+    address priceSource_,
     string memory name_,
     string memory symbol_,
     address token,
     address stablecoin
   ) ERC721(name_, symbol_) {
+    assert(priceSource_ != address(0));
+    assert(minimumCollateralPercentage != 0);
     //Initial settings!
     debtCeiling = 10000000000000000000; // 10 dollas
     closingFee = 50; // 0.5%
@@ -56,15 +67,20 @@ contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, Ownable {
     // Initially, will deploy later
     stabilityPool = address(0);
 
+    priceSource = AggregatorV3Interface(priceSource_);
+
     _token = IERC20(token);
     _stablecoin = IStablecoin(stablecoin);
+
+    _minimumCollateralPercentage = minimumCollateralPercentage;
   }
 
   /**
    * @dev Only vault owner can do anything with this modifier
    */
   modifier onlyVaultOwner(uint256 vaultID) {
-    require(!vaultExistence[vaultID], 'Vault does not exist');
+    require(vaultExistence[vaultID], 'Vault does not exist');
+    require(ownerOf(vaultID) == msg.sender, 'Vault is not owned by you');
     require(vaultOwner[vaultID] == msg.sender, 'Vault is not owned by you');
     _;
   }
@@ -82,7 +98,10 @@ contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, Ownable {
   /**
    * @dev Set the debt ceiling for this vault
    */
-  function setDebtCeiling(uint256 _debtCeiling) external override onlyOwner() {
+  function setDebtCeiling(uint256 _debtCeiling)
+    external
+    onlyRole(TREASURY_ROLE)
+  {
     require(
       debtCeiling <= _debtCeiling,
       'setCeiling: Must be over the amount of current debt ceiling.'
@@ -91,9 +110,64 @@ contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, Ownable {
   }
 
   /**
+   * @dev Set the price source for this vault
+   */
+  function setPriceSource(address priceSource_)
+    external
+    onlyRole(TREASURY_ROLE)
+  {
+    require(priceSource_ != address(0), 'Price source cannot be zero address');
+    priceSource = AggregatorV3Interface(priceSource_);
+  }
+
+  /**
+   * @dev Set the price source for this vault
+   */
+  function setTokenPeg(uint256 tokenPeg_) external onlyRole(TREASURY_ROLE) {
+    require(tokenPeg_ > 0, 'Peg cannot be zero');
+    tokenPeg = tokenPeg_;
+  }
+
+  /**
+   * @dev Set the stability pool (liquidator) for this vault
+   */
+  function setStabiltyPool(address stabilityPool_)
+    external
+    onlyRole(TREASURY_ROLE)
+  {
+    require(
+      stabilityPool != address(0),
+      'Stability pool cannot be zero address'
+    );
+    stabilityPool = stabilityPool_;
+  }
+
+  /**
+   * @dev Set the closing fee for this vault
+   */
+  function setClosingFee(uint256 amount) external onlyRole(TREASURY_ROLE) {
+    closingFee = amount;
+  }
+
+  /**
+   * @dev Set the opening fee for this vault
+   */
+  function setOpeningFee(uint256 amount) external onlyRole(TREASURY_ROLE) {
+    openingFee = amount;
+  }
+
+  /**
+   * @dev Set the treasury vault for this vault
+   */
+  function setTreasury(uint256 _treasury) external onlyRole(TREASURY_ROLE) {
+    require(vaultExistence[_treasury], 'Vault does not exist');
+    treasury = _treasury;
+  }
+
+  /**
     @dev returns the base token's address
   */
-  function getPriceSource() public view override returns (uint256) {
+  function getPriceSource() public view returns (uint256) {
     // And get the latest round data
     (, int256 price, , , ) = priceSource.latestRoundData();
     return uint256(price);
@@ -102,15 +176,8 @@ contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, Ownable {
   /**
     @dev returns the base token's address
   */
-  function getPricePeg() public view override returns (uint256) {
+  function getPricePeg() public view returns (uint256) {
     return tokenPeg;
-  }
-
-  /**
-   * @dev Checks if vault exists
-   */
-  function isKnownVault(uint256 vaultID) external view override returns (bool) {
-    return vaultExistence[vaultID];
   }
 
   /**
@@ -134,7 +201,7 @@ contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, Ownable {
     assert(collateralValue >= collateral);
 
     // Get the current debt in our token (i.e. usdc)
-    uint256 debtValue = debt * getPriceSource();
+    uint256 debtValue = debt * getPricePeg();
     assert(debtValue >= debt);
 
     // Multiple collateral by 100
@@ -196,6 +263,7 @@ contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, Ownable {
    */
   function destroyVault(uint256 vaultID)
     external
+    virtual
     override
     onlyVaultOwner(vaultID)
     nonReentrant
@@ -203,7 +271,7 @@ contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, Ownable {
     require(vaultDebt[vaultID] == 0, 'Vault as outstanding debt');
 
     if (vaultCollateral[vaultID] != 0) {
-      payable(msg.sender).transfer(vaultCollateral[vaultID]);
+      _token.transferFrom(address(this), msg.sender, vaultCollateral[vaultID]);
     }
 
     _burn(vaultID);
@@ -272,7 +340,7 @@ contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, Ownable {
   }
 
   /**
-   * @dev allows any user to buy out a risky vault
+   * @dev allows liquidator to buy out a risky vault
    *
    * Requirements:
    * - Vault id must exist
@@ -311,6 +379,7 @@ contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, Ownable {
     );
 
     address previousOwner = vaultOwner[vaultID];
+
     vaultOwner[vaultID] = msg.sender;
     vaultDebt[vaultID] = maximumDebt;
 
@@ -321,6 +390,7 @@ contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, Ownable {
     vaultCollateral[treasury] += _closingFee;
 
     _stablecoin.burn(msg.sender, debtDifference);
+
     _subFromTotalDebt(debtDifference);
     // burn erc721 (vaultId)
     _burn(vaultID);
@@ -336,7 +406,7 @@ contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, Ownable {
    */
   function addVaultCollateral(uint256 vaultID, uint256 amount)
     external
-    onlyOwner()
+    onlyRole(DEFAULT_ADMIN_ROLE)
   {
     uint256 newCollateral = vaultCollateral[vaultID] + amount;
     assert(newCollateral >= vaultCollateral[vaultID]);
@@ -349,7 +419,10 @@ contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, Ownable {
    * @dev Adds to the vault collateral
    *
    */
-  function addVaultCollateralTreasury(uint256 amount) external onlyOwner() {
+  function addVaultCollateralTreasury(uint256 amount)
+    external
+    onlyRole(DEFAULT_ADMIN_ROLE)
+  {
     uint256 newCollateral = vaultCollateral[treasury] + amount;
     assert(newCollateral >= vaultCollateral[treasury]);
 
@@ -366,7 +439,7 @@ contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, Ownable {
 
   function subVaultCollateral(uint256 vaultID, uint256 amount)
     external
-    onlyOwner()
+    onlyRole(DEFAULT_ADMIN_ROLE)
   {
     require(
       amount <= vaultCollateral[vaultID],
@@ -386,7 +459,10 @@ contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, Ownable {
    * Requirements:
    * - new user debt cannot be above debt ceiling
    */
-  function addVaultDebt(uint256 vaultID, uint256 amount) external onlyOwner() {
+  function addVaultDebt(uint256 vaultID, uint256 amount)
+    external
+    onlyRole(DEFAULT_ADMIN_ROLE)
+  {
     uint256 newTotalDebt = amount + totalDebt;
 
     assert(newTotalDebt >= totalDebt);
@@ -410,7 +486,10 @@ contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, Ownable {
    * - user cannot remove more than total debt
    * - user cannot remove more than their total debt
    */
-  function subVaultDebt(uint256 vaultID, uint256 amount) external onlyOwner() {
+  function subVaultDebt(uint256 vaultID, uint256 amount)
+    external
+    onlyRole(DEFAULT_ADMIN_ROLE)
+  {
     require(totalDebt >= amount, 'Cannot get rid of more debt than exists.');
 
     require(
@@ -457,5 +536,15 @@ contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, Ownable {
     uint256 tokenId // solhint-disable-line
   ) internal pure {
     revert('transfer: disabled');
+  }
+
+  function supportsInterface(bytes4 interfaceId)
+    public
+    view
+    virtual
+    override(ERC721, AccessControl)
+    returns (bool)
+  {
+    return super.supportsInterface(interfaceId);
   }
 }
