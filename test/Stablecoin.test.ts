@@ -1,9 +1,14 @@
-import { ethers } from 'hardhat';
-
 import { expect } from 'chai';
 
+import { ethers, waffle } from 'hardhat';
+
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
-import { AVAI__factory, AVAI } from '../libs/shared/contracts/src';
+import {
+  AVAI__factory,
+  AVAI,
+  AVAXVault,
+  AVAXVault__factory,
+} from '../libs/shared/contracts/src';
 
 describe('Stablecoin', function () {
   let accounts: SignerWithAddress[];
@@ -29,8 +34,176 @@ describe('Stablecoin', function () {
     expect(
       await avai.hasRole(DEFAULT_ADMIN_ROLE, accounts[0].address)
     ).to.equal(true);
+  });
 
+  it("Doesn't assign role to other uses", async () => {
+    const DEFAULT_ADMIN_ROLE = await avai.DEFAULT_ADMIN_ROLE();
+    const MINTER_ROLE = await avai.MINTER_ROLE();
+    const BURNER_ROLE = await avai.BURNER_ROLE();
     // Check rest of accounts
-    acccounts.forE;
+    accounts.slice(1).forEach(async (account) => {
+      expect(await avai.hasRole(DEFAULT_ADMIN_ROLE, account.address)).to.equal(
+        false
+      );
+    });
+
+    accounts.forEach(async (account) => {
+      expect(await avai.hasRole(MINTER_ROLE, account.address)).to.equal(false);
+      expect(await avai.hasRole(BURNER_ROLE, account.address)).to.equal(false);
+    });
+  });
+
+  it('DEFAULT_ADMIN_ROLE can create MINTER_ROLE', async () => {
+    // Should be false initially
+    expect(
+      await avai.hasRole(await avai.MINTER_ROLE(), accounts[2].address)
+    ).to.equal(false);
+    // Grant the role
+    await avai
+      .connect(accounts[0])
+      .grantRole(await avai.MINTER_ROLE(), accounts[2].address);
+    // Should now be true!
+    expect(
+      await avai.hasRole(await avai.MINTER_ROLE(), accounts[2].address)
+    ).to.equal(true);
+  });
+
+  it('No one else can create MINTER_ROLE', async () => {
+    expect(
+      await avai.hasRole(await avai.MINTER_ROLE(), accounts[2].address)
+    ).to.equal(false);
+    // Try and grant the role
+    await expect(
+      avai
+        .connect(accounts[1])
+        .grantRole(await avai.MINTER_ROLE(), accounts[2].address)
+    ).to.be.reverted;
+
+    // Grant role to an account, and then try and grant role
+    await avai
+      .connect(accounts[0])
+      .grantRole(await avai.MINTER_ROLE(), accounts[2].address);
+
+    // Make sure has role
+    expect(
+      await avai.hasRole(await avai.MINTER_ROLE(), accounts[2].address)
+    ).to.equal(true);
+
+    // Try and grant the role
+    await expect(
+      avai
+        .connect(accounts[2])
+        .grantRole(await avai.MINTER_ROLE(), accounts[3].address)
+    ).to.be.reverted;
+  });
+
+  it('allows MINTER_ROLE to mint', async () => {
+    // set third account as MINTER_ROLE
+    await avai
+      .connect(accounts[0])
+      .grantRole(await avai.MINTER_ROLE(), accounts[2].address);
+
+    // Mint
+    await expect(() =>
+      avai.connect(accounts[2]).mint(accounts[0].address, 110000)
+    ).to.changeTokenBalance(avai, accounts[0], 110000);
+  });
+
+  it("Doesn't allow minting from accounts that are not MINTER_ROLE", async () => {
+    // Even default admin shouldn't be allowed to mint
+    await expect(avai.connect(accounts[0]).mint(accounts[1].address, 1)).to.be
+      .reverted;
+
+    // Check account with no role
+    await expect(avai.connect(accounts[1]).mint(accounts[1].address, 1)).to.be
+      .reverted;
+  });
+
+  it('Allows burning of tokens only to BURNER_ROLE', async () => {
+    await avai
+      .connect(accounts[0])
+      .grantRole(await avai.MINTER_ROLE(), accounts[0].address);
+    // Does this with account[0] though
+    await avai.mint(accounts[1].address, 110000);
+    // Should revert, doesn't have burn allowance
+    await expect(avai.burn(accounts[1].address, 50000)).to.be.reverted;
+
+    // Should allow burning now.
+    await avai.grantRole(await avai.BURNER_ROLE(), accounts[0].address);
+
+    // Try it!
+    await expect(() =>
+      avai.burn(accounts[1].address, 50000)
+    ).to.changeTokenBalance(avai, accounts[1], -50000);
+  });
+
+  it('Adds a vault type', async () => {
+    const Vault = (await ethers.getContractFactory(
+      'AVAXVault'
+    )) as AVAXVault__factory;
+    const minimumCollateralPercentage = 150;
+    const priceSource_ = '0x5498BB86BC934c8D34FDA08E81D444153d0D06aD';
+    const symbol = 'avAVAX';
+    const name = 'avAVAX';
+    const token = '0xd00ae08403B9bbb9124bB305C09058E32C39A48c';
+
+    const vault = await Vault.deploy(
+      minimumCollateralPercentage,
+      priceSource_,
+      symbol,
+      name,
+      token,
+      avai.address
+    );
+    await vault.deployed();
+    expect(vault.address).to.be.properAddress;
+
+    const initVaultCount = await avai.vaultCount();
+    // Initially
+    expect(await avai.vaultExists(1)).to.equal(false);
+    expect(
+      await avai.hasRole(await avai.BURNER_ROLE(), vault.address)
+    ).to.equal(false);
+
+    // Add vault to stablecoin
+    await expect(avai.addVault(vault.address))
+      .to.emit(avai, 'CreateVaultType')
+      .withArgs(1, vault.address);
+
+    // Make sure vault count goes up
+    expect(await avai.vaultCount()).to.equal(initVaultCount.add(1));
+    // Make sure vaults is updated
+    expect(await avai.vaults(1)).to.equal(vault.address);
+    expect(await avai.vaultExists(1)).to.equal(true);
+
+    // Check if role has updated!
+    expect(
+      await avai.hasRole(await avai.BURNER_ROLE(), vault.address)
+    ).to.equal(true);
+  });
+
+  it('only allows DEFAULT_ADMIN_ROLE to add a vault', async () => {
+    const Vault = (await ethers.getContractFactory(
+      'AVAXVault'
+    )) as AVAXVault__factory;
+    const minimumCollateralPercentage = 150;
+    const priceSource_ = '0x5498BB86BC934c8D34FDA08E81D444153d0D06aD';
+    const symbol = 'avAVAX';
+    const name = 'avAVAX';
+    const token = '0xd00ae08403B9bbb9124bB305C09058E32C39A48c';
+
+    const vault = await Vault.deploy(
+      minimumCollateralPercentage,
+      priceSource_,
+      symbol,
+      name,
+      token,
+      avai.address
+    );
+    await vault.deployed();
+    expect(vault.address).to.be.properAddress;
+
+    await expect(avai.connect(accounts[1]).addVault(vault.address)).to.be
+      .reverted;
   });
 });

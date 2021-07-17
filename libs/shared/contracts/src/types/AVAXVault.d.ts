@@ -24,12 +24,14 @@ interface AVAXVaultInterface extends ethers.utils.Interface {
   functions: {
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "TREASURY_ROLE()": FunctionFragment;
+    "_token()": FunctionFragment;
     "addVaultCollateral(uint256,uint256)": FunctionFragment;
     "addVaultCollateralTreasury(uint256)": FunctionFragment;
     "addVaultDebt(uint256,uint256)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "buyRiskyVault(uint256)": FunctionFragment;
+    "changeTreasury(address)": FunctionFragment;
     "closingFee()": FunctionFragment;
     "createVault()": FunctionFragment;
     "debtCeiling()": FunctionFragment;
@@ -63,15 +65,18 @@ interface AVAXVaultInterface extends ethers.utils.Interface {
     "subVaultDebt(uint256,uint256)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
+    "tokenByIndex(uint256)": FunctionFragment;
+    "tokenOfOwnerByIndex(address,uint256)": FunctionFragment;
     "tokenPeg()": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
     "totalDebt()": FunctionFragment;
+    "totalSupply()": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "transferVault(uint256,address)": FunctionFragment;
+    "treasury()": FunctionFragment;
     "vaultCollateral(uint256)": FunctionFragment;
     "vaultDebt(uint256)": FunctionFragment;
     "vaultExistence(uint256)": FunctionFragment;
-    "vaultOwner(uint256)": FunctionFragment;
     "withdrawCollateral(uint256,uint256)": FunctionFragment;
   };
 
@@ -83,6 +88,7 @@ interface AVAXVaultInterface extends ethers.utils.Interface {
     functionFragment: "TREASURY_ROLE",
     values?: undefined
   ): string;
+  encodeFunctionData(functionFragment: "_token", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "addVaultCollateral",
     values: [BigNumberish, BigNumberish]
@@ -103,6 +109,10 @@ interface AVAXVaultInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "buyRiskyVault",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "changeTreasury",
+    values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "closingFee",
@@ -230,12 +240,24 @@ interface AVAXVaultInterface extends ethers.utils.Interface {
     values: [BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "tokenByIndex",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "tokenOfOwnerByIndex",
+    values: [string, BigNumberish]
+  ): string;
   encodeFunctionData(functionFragment: "tokenPeg", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "tokenURI",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "totalDebt", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "totalSupply",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "transferFrom",
     values: [string, string, BigNumberish]
@@ -244,6 +266,7 @@ interface AVAXVaultInterface extends ethers.utils.Interface {
     functionFragment: "transferVault",
     values: [BigNumberish, string]
   ): string;
+  encodeFunctionData(functionFragment: "treasury", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "vaultCollateral",
     values: [BigNumberish]
@@ -254,10 +277,6 @@ interface AVAXVaultInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "vaultExistence",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "vaultOwner",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -273,6 +292,7 @@ interface AVAXVaultInterface extends ethers.utils.Interface {
     functionFragment: "TREASURY_ROLE",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "_token", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "addVaultCollateral",
     data: BytesLike
@@ -289,6 +309,10 @@ interface AVAXVaultInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "buyRiskyVault",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "changeTreasury",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "closingFee", data: BytesLike): Result;
@@ -399,9 +423,21 @@ interface AVAXVaultInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "tokenByIndex",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "tokenOfOwnerByIndex",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "tokenPeg", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "tokenURI", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "totalDebt", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "totalSupply",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "transferFrom",
     data: BytesLike
@@ -410,6 +446,7 @@ interface AVAXVaultInterface extends ethers.utils.Interface {
     functionFragment: "transferVault",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "treasury", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "vaultCollateral",
     data: BytesLike
@@ -419,7 +456,6 @@ interface AVAXVaultInterface extends ethers.utils.Interface {
     functionFragment: "vaultExistence",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "vaultOwner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "withdrawCollateral",
     data: BytesLike
@@ -502,6 +538,8 @@ export class AVAXVault extends BaseContract {
 
     TREASURY_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
+    _token(overrides?: CallOverrides): Promise<[string]>;
+
     addVaultCollateral(
       vaultID: BigNumberish,
       amount: BigNumberish,
@@ -529,6 +567,11 @@ export class AVAXVault extends BaseContract {
 
     buyRiskyVault(
       vaultID: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    changeTreasury(
+      to: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -685,6 +728,17 @@ export class AVAXVault extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<[string]>;
 
+    tokenByIndex(
+      index: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    tokenOfOwnerByIndex(
+      owner: string,
+      index: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     tokenPeg(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     tokenURI(
@@ -693,6 +747,8 @@ export class AVAXVault extends BaseContract {
     ): Promise<[string]>;
 
     totalDebt(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    totalSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     transferFrom(
       from: string,
@@ -706,6 +762,8 @@ export class AVAXVault extends BaseContract {
       to: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    treasury(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     vaultCollateral(
       arg0: BigNumberish,
@@ -722,11 +780,6 @@ export class AVAXVault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    vaultOwner(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
     withdrawCollateral(
       vaultID: BigNumberish,
       amount: BigNumberish,
@@ -737,6 +790,8 @@ export class AVAXVault extends BaseContract {
   DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
   TREASURY_ROLE(overrides?: CallOverrides): Promise<string>;
+
+  _token(overrides?: CallOverrides): Promise<string>;
 
   addVaultCollateral(
     vaultID: BigNumberish,
@@ -765,6 +820,11 @@ export class AVAXVault extends BaseContract {
 
   buyRiskyVault(
     vaultID: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  changeTreasury(
+    to: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -918,11 +978,24 @@ export class AVAXVault extends BaseContract {
 
   symbol(overrides?: CallOverrides): Promise<string>;
 
+  tokenByIndex(
+    index: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  tokenOfOwnerByIndex(
+    owner: string,
+    index: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   tokenPeg(overrides?: CallOverrides): Promise<BigNumber>;
 
   tokenURI(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   totalDebt(overrides?: CallOverrides): Promise<BigNumber>;
+
+  totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
   transferFrom(
     from: string,
@@ -937,6 +1010,8 @@ export class AVAXVault extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  treasury(overrides?: CallOverrides): Promise<BigNumber>;
+
   vaultCollateral(
     arg0: BigNumberish,
     overrides?: CallOverrides
@@ -949,8 +1024,6 @@ export class AVAXVault extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  vaultOwner(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
   withdrawCollateral(
     vaultID: BigNumberish,
     amount: BigNumberish,
@@ -961,6 +1034,8 @@ export class AVAXVault extends BaseContract {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
     TREASURY_ROLE(overrides?: CallOverrides): Promise<string>;
+
+    _token(overrides?: CallOverrides): Promise<string>;
 
     addVaultCollateral(
       vaultID: BigNumberish,
@@ -992,9 +1067,11 @@ export class AVAXVault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    changeTreasury(to: string, overrides?: CallOverrides): Promise<void>;
+
     closingFee(overrides?: CallOverrides): Promise<BigNumber>;
 
-    createVault(overrides?: CallOverrides): Promise<BigNumber>;
+    createVault(overrides?: CallOverrides): Promise<void>;
 
     debtCeiling(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1140,11 +1217,24 @@ export class AVAXVault extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<string>;
 
+    tokenByIndex(
+      index: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    tokenOfOwnerByIndex(
+      owner: string,
+      index: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     tokenPeg(overrides?: CallOverrides): Promise<BigNumber>;
 
     tokenURI(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
     totalDebt(overrides?: CallOverrides): Promise<BigNumber>;
+
+    totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
     transferFrom(
       from: string,
@@ -1158,6 +1248,8 @@ export class AVAXVault extends BaseContract {
       to: string,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    treasury(overrides?: CallOverrides): Promise<BigNumber>;
 
     vaultCollateral(
       arg0: BigNumberish,
@@ -1173,8 +1265,6 @@ export class AVAXVault extends BaseContract {
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<boolean>;
-
-    vaultOwner(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
     withdrawCollateral(
       vaultID: BigNumberish,
@@ -1296,6 +1386,8 @@ export class AVAXVault extends BaseContract {
 
     TREASURY_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
+    _token(overrides?: CallOverrides): Promise<BigNumber>;
+
     addVaultCollateral(
       vaultID: BigNumberish,
       amount: BigNumberish,
@@ -1323,6 +1415,11 @@ export class AVAXVault extends BaseContract {
 
     buyRiskyVault(
       vaultID: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    changeTreasury(
+      to: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1482,6 +1579,17 @@ export class AVAXVault extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<BigNumber>;
 
+    tokenByIndex(
+      index: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    tokenOfOwnerByIndex(
+      owner: string,
+      index: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     tokenPeg(overrides?: CallOverrides): Promise<BigNumber>;
 
     tokenURI(
@@ -1490,6 +1598,8 @@ export class AVAXVault extends BaseContract {
     ): Promise<BigNumber>;
 
     totalDebt(overrides?: CallOverrides): Promise<BigNumber>;
+
+    totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
     transferFrom(
       from: string,
@@ -1504,6 +1614,8 @@ export class AVAXVault extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    treasury(overrides?: CallOverrides): Promise<BigNumber>;
+
     vaultCollateral(
       arg0: BigNumberish,
       overrides?: CallOverrides
@@ -1515,11 +1627,6 @@ export class AVAXVault extends BaseContract {
     ): Promise<BigNumber>;
 
     vaultExistence(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    vaultOwner(
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -1537,6 +1644,8 @@ export class AVAXVault extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     TREASURY_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    _token(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     addVaultCollateral(
       vaultID: BigNumberish,
@@ -1568,6 +1677,11 @@ export class AVAXVault extends BaseContract {
 
     buyRiskyVault(
       vaultID: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    changeTreasury(
+      to: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1727,6 +1841,17 @@ export class AVAXVault extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    tokenByIndex(
+      index: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    tokenOfOwnerByIndex(
+      owner: string,
+      index: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     tokenPeg(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     tokenURI(
@@ -1735,6 +1860,8 @@ export class AVAXVault extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     totalDebt(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    totalSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     transferFrom(
       from: string,
@@ -1749,6 +1876,8 @@ export class AVAXVault extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    treasury(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     vaultCollateral(
       arg0: BigNumberish,
       overrides?: CallOverrides
@@ -1760,11 +1889,6 @@ export class AVAXVault extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     vaultExistence(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    vaultOwner(
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;

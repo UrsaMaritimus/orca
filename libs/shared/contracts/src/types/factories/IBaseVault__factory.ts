@@ -136,13 +136,7 @@ const _abi = [
   {
     inputs: [],
     name: "createVault",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
+    outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },

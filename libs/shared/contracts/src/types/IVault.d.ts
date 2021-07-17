@@ -178,7 +178,7 @@ export class IVault extends BaseContract {
   callStatic: {
     burn(tokenId: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
-    createVault(overrides?: CallOverrides): Promise<BigNumber>;
+    createVault(overrides?: CallOverrides): Promise<void>;
 
     destroyVault(
       vaultID: BigNumberish,

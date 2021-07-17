@@ -47,6 +47,9 @@ interface StablecoinInterface extends ethers.utils.Interface {
     "totalSupply()": FunctionFragment;
     "transfer(address,uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
+    "vaultCount()": FunctionFragment;
+    "vaultExists(uint256)": FunctionFragment;
+    "vaults(uint256)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -143,6 +146,18 @@ interface StablecoinInterface extends ethers.utils.Interface {
     functionFragment: "transferFrom",
     values: [string, string, BigNumberish]
   ): string;
+  encodeFunctionData(
+    functionFragment: "vaultCount",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "vaultExists",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "vaults",
+    values: [BigNumberish]
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "BURNER_ROLE",
@@ -206,6 +221,12 @@ interface StablecoinInterface extends ethers.utils.Interface {
     functionFragment: "transferFrom",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "vaultCount", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "vaultExists",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "vaults", data: BytesLike): Result;
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
@@ -393,6 +414,15 @@ export class Stablecoin extends BaseContract {
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    vaultCount(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    vaultExists(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    vaults(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
   };
 
   BURNER_ROLE(overrides?: CallOverrides): Promise<string>;
@@ -517,6 +547,12 @@ export class Stablecoin extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  vaultCount(overrides?: CallOverrides): Promise<BigNumber>;
+
+  vaultExists(arg0: BigNumberish, overrides?: CallOverrides): Promise<boolean>;
+
+  vaults(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
   callStatic: {
     BURNER_ROLE(overrides?: CallOverrides): Promise<string>;
 
@@ -636,6 +672,15 @@ export class Stablecoin extends BaseContract {
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    vaultCount(overrides?: CallOverrides): Promise<BigNumber>;
+
+    vaultExists(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    vaults(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
   };
 
   filters: {
@@ -835,6 +880,15 @@ export class Stablecoin extends BaseContract {
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    vaultCount(overrides?: CallOverrides): Promise<BigNumber>;
+
+    vaultExists(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    vaults(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -969,6 +1023,18 @@ export class Stablecoin extends BaseContract {
       recipient: string,
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    vaultCount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    vaultExists(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    vaults(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };
 }

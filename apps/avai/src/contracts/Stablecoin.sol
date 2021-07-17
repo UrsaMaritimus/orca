@@ -19,8 +19,8 @@ contract Stablecoin is ERC20, ERC20Permit, AccessControl, ReentrancyGuard {
   // using SafeMath for uint256;
 
   // The vaults that users can use
-  mapping(uint256 => BaseVault) vaults;
-  mapping(uint256 => bool) vaultExists;
+  mapping(uint256 => BaseVault) public vaults;
+  mapping(uint256 => bool) public vaultExists;
 
   // Events for token operations
   event BorrowToken(uint256 vaultID, uint256 amount);
@@ -29,6 +29,7 @@ contract Stablecoin is ERC20, ERC20Permit, AccessControl, ReentrancyGuard {
   event CreateVaultType(uint256 vaultID, address vault);
 
   constructor(string memory name) ERC20(name, name) ERC20Permit(name) {
+    // Treasury
     _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
   }
 
@@ -36,13 +37,22 @@ contract Stablecoin is ERC20, ERC20Permit, AccessControl, ReentrancyGuard {
    * Only vault owner can do anything with this modifier
    */
   modifier onlyVaultOwner(uint256 vaultType, uint256 vaultID) {
+    require(vaultExists[vaultType], 'Vault type does not exist');
     require(vaults[vaultType].vaultExistence(vaultID), 'Vault does not exist');
+
     require(
-      vaults[vaultType].vaultOwner(vaultID) == msg.sender,
+      vaults[vaultType].ownerOf(vaultID) == msg.sender,
       'Vault is not owned by you'
     );
 
     _;
+  }
+
+  /**
+   * @dev check on the current number of vault types deployed
+   */
+  function vaultCount() public view returns (uint256) {
+    return _vaultIds.current();
   }
 
   /**
@@ -86,12 +96,10 @@ contract Stablecoin is ERC20, ERC20Permit, AccessControl, ReentrancyGuard {
     uint256 vaultID,
     uint256 amount
   ) external onlyVaultOwner(vaultType, vaultID) nonReentrant {
-    require(vaultExists[vaultType], 'Vault type does not exist');
-    require(vaults[vaultType].vaultExistence(vaultID), 'Vault does not exist');
     require(amount > 0, 'Must borrow non-zero amount');
     require(
       vaults[vaultType].totalDebt() + amount <= vaults[vaultType].debtCeiling(),
-      'borrowToken: Cannot mint over debt ceiling.'
+      'Cannot mint over debt ceiling.'
     );
 
     uint256 newDebt = vaults[vaultType].vaultDebt(vaultID) + amount;
@@ -112,7 +120,7 @@ contract Stablecoin is ERC20, ERC20Permit, AccessControl, ReentrancyGuard {
   }
 
   /**
-   * Pay back the stablecoin to reduce debt
+   * @dev Pay back the stablecoin to reduce debt
    *
    * Requirements:
    * - User must have enough balance to repay `amount`
@@ -123,7 +131,6 @@ contract Stablecoin is ERC20, ERC20Permit, AccessControl, ReentrancyGuard {
     uint256 vaultID,
     uint256 amount
   ) external onlyVaultOwner(vaultType, vaultID) nonReentrant {
-    require(vaultExists[vaultType], 'Vault type does not exist');
     require(balanceOf(msg.sender) >= amount, 'Token balance too low');
     require(
       vaults[vaultType].vaultDebt(vaultID) >= amount,
@@ -132,14 +139,13 @@ contract Stablecoin is ERC20, ERC20Permit, AccessControl, ReentrancyGuard {
 
     // Closing fee calculation
     uint256 _closingFee = ((amount * vaults[vaultType].closingFee()) *
-      vaults[vaultType].tokenPeg()) /
+      vaults[vaultType].getPricePeg()) /
       (vaults[vaultType].getPriceSource() * 10000);
 
     vaults[vaultType].subVaultDebt(vaultID, amount);
     vaults[vaultType].subVaultCollateral(vaultID, _closingFee);
     vaults[vaultType].addVaultCollateralTreasury(_closingFee);
 
-    vaults[vaultType].subVaultDebt(vaultID, amount);
     // Burns the stablecoin
     _burn(msg.sender, amount);
 

@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 import '@openzeppelin/contracts/access/AccessControl.sol';
 
 import '@openzeppelin/contracts/token/ERC721/ERC721.sol';
+import '@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol';
 import '@openzeppelin/contracts/utils/Counters.sol';
 import '@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol';
 import '@openzeppelin/contracts/security/ReentrancyGuard.sol';
@@ -13,7 +14,13 @@ import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 import './interfaces/IStablecoin.sol';
 import './interfaces/IBaseVault.sol';
 
-contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, AccessControl {
+contract BaseVault is
+  ERC721,
+  ERC721Enumerable,
+  ReentrancyGuard,
+  IBaseVault,
+  AccessControl
+{
   bytes32 public constant TREASURY_ROLE = keccak256('TREASURY_ROLE');
 
   using Counters for Counters.Counter;
@@ -33,18 +40,17 @@ contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, AccessControl {
   AggregatorV3Interface public priceSource;
 
   // Token used as collateral
-  IERC20 internal immutable _token;
+  IERC20 public immutable _token;
   // Token used as debt
   IStablecoin internal immutable _stablecoin;
 
   // Address that corresponds to liquidater
   address public stabilityPool;
   // Vault that corresponds to the treasury
-  uint256 treasury;
+  uint256 public treasury;
 
   // Vault information
   mapping(uint256 => bool) public vaultExistence;
-  mapping(uint256 => address) public vaultOwner;
   mapping(uint256 => uint256) public vaultCollateral;
   mapping(uint256 => uint256) public vaultDebt;
 
@@ -81,7 +87,6 @@ contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, AccessControl {
   modifier onlyVaultOwner(uint256 vaultID) {
     require(vaultExistence[vaultID], 'Vault does not exist');
     require(ownerOf(vaultID) == msg.sender, 'Vault is not owned by you');
-    require(vaultOwner[vaultID] == msg.sender, 'Vault is not owned by you');
     _;
   }
   /**
@@ -136,7 +141,7 @@ contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, AccessControl {
     onlyRole(TREASURY_ROLE)
   {
     require(
-      stabilityPool != address(0),
+      stabilityPool_ != address(0),
       'Stability pool cannot be zero address'
     );
     stabilityPool = stabilityPool_;
@@ -236,20 +241,17 @@ contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, AccessControl {
    *
    * Emits a CreateVault event
    */
-  function createVault() external override returns (uint256) {
+  function createVault() external override {
     // Increment ID
     _userVaultIds.increment();
     // Assign ID to vault
     uint256 newVaultId = _userVaultIds.current();
 
     vaultExistence[newVaultId] = true;
-    vaultOwner[newVaultId] = msg.sender;
 
     emit CreateVault(newVaultId, msg.sender);
     // mint erc721 vault (vaultId)
     _mint(msg.sender, newVaultId);
-    // Return vault id
-    return newVaultId;
   }
 
   /**
@@ -277,7 +279,6 @@ contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, AccessControl {
     _burn(vaultID);
 
     delete vaultExistence[vaultID];
-    delete vaultOwner[vaultID];
     delete vaultCollateral[vaultID];
     delete vaultDebt[vaultID];
 
@@ -294,8 +295,6 @@ contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, AccessControl {
     override
     onlyVaultOwner(vaultID)
   {
-    vaultOwner[vaultID] = to;
-
     // burn erc721 (vaultId)
     _burn(vaultID);
     // mint erc721 (vaultId)
@@ -378,9 +377,8 @@ contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, AccessControl {
       'Token balance too low to pay off outstanding debt'
     );
 
-    address previousOwner = vaultOwner[vaultID];
+    address previousOwner = ownerOf(vaultID);
 
-    vaultOwner[vaultID] = msg.sender;
     vaultDebt[vaultID] = maximumDebt;
 
     uint256 _closingFee = (debtDifference * closingFee * getPricePeg()) /
@@ -542,9 +540,17 @@ contract BaseVault is ERC721, ReentrancyGuard, IBaseVault, AccessControl {
     public
     view
     virtual
-    override(ERC721, AccessControl)
+    override(ERC721, ERC721Enumerable, AccessControl)
     returns (bool)
   {
     return super.supportsInterface(interfaceId);
+  }
+
+  function _beforeTokenTransfer(
+    address from,
+    address to,
+    uint256 tokenId
+  ) internal override(ERC721, ERC721Enumerable) {
+    super._beforeTokenTransfer(from, to, tokenId);
   }
 }

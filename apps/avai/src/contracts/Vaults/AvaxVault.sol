@@ -26,6 +26,15 @@ contract AVAXVault is BaseVault {
     // Treasury can change attributes but contract owned by stablecoin
     _setupRole(DEFAULT_ADMIN_ROLE, stablecoin);
     _setupRole(TREASURY_ROLE, msg.sender);
+    _setRoleAdmin(TREASURY_ROLE, TREASURY_ROLE);
+  }
+
+  /**
+   * @dev changes the Treasury. Can only every be one treasury!
+   */
+  function changeTreasury(address to) public onlyRole(TREASURY_ROLE) {
+    _setupRole(TREASURY_ROLE, to);
+    revokeRole(TREASURY_ROLE, msg.sender);
   }
 
   /**
@@ -107,7 +116,6 @@ contract AVAXVault is BaseVault {
     _burn(vaultID);
 
     delete vaultExistence[vaultID];
-    delete vaultOwner[vaultID];
     delete vaultCollateral[vaultID];
     delete vaultDebt[vaultID];
 

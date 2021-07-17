@@ -145,7 +145,7 @@ export class IBaseVault extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    createVault(overrides?: CallOverrides): Promise<BigNumber>;
+    createVault(overrides?: CallOverrides): Promise<void>;
 
     destroyVault(
       vaultID: BigNumberish,
