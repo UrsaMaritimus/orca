@@ -24,11 +24,11 @@ interface StablecoinInterface extends ethers.utils.Interface {
     "BURNER_ROLE()": FunctionFragment;
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "DOMAIN_SEPARATOR()": FunctionFragment;
+    "MINTER_ROLE()": FunctionFragment;
     "addVault(address)": FunctionFragment;
     "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "borrowToken(uint256,uint256,uint256)": FunctionFragment;
     "burn(address,uint256)": FunctionFragment;
     "decimals()": FunctionFragment;
     "decreaseAllowance(address,uint256)": FunctionFragment;
@@ -36,9 +36,9 @@ interface StablecoinInterface extends ethers.utils.Interface {
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
     "increaseAllowance(address,uint256)": FunctionFragment;
+    "mint(address,uint256)": FunctionFragment;
     "name()": FunctionFragment;
     "nonces(address)": FunctionFragment;
-    "payBackToken(uint256,uint256,uint256)": FunctionFragment;
     "permit(address,address,uint256,uint256,uint8,bytes32,bytes32)": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
@@ -64,6 +64,10 @@ interface StablecoinInterface extends ethers.utils.Interface {
     functionFragment: "DOMAIN_SEPARATOR",
     values?: undefined
   ): string;
+  encodeFunctionData(
+    functionFragment: "MINTER_ROLE",
+    values?: undefined
+  ): string;
   encodeFunctionData(functionFragment: "addVault", values: [string]): string;
   encodeFunctionData(
     functionFragment: "allowance",
@@ -74,10 +78,6 @@ interface StablecoinInterface extends ethers.utils.Interface {
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
-  encodeFunctionData(
-    functionFragment: "borrowToken",
-    values: [BigNumberish, BigNumberish, BigNumberish]
-  ): string;
   encodeFunctionData(
     functionFragment: "burn",
     values: [string, BigNumberish]
@@ -103,12 +103,12 @@ interface StablecoinInterface extends ethers.utils.Interface {
     functionFragment: "increaseAllowance",
     values: [string, BigNumberish]
   ): string;
+  encodeFunctionData(
+    functionFragment: "mint",
+    values: [string, BigNumberish]
+  ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "nonces", values: [string]): string;
-  encodeFunctionData(
-    functionFragment: "payBackToken",
-    values: [BigNumberish, BigNumberish, BigNumberish]
-  ): string;
   encodeFunctionData(
     functionFragment: "permit",
     values: [
@@ -171,14 +171,14 @@ interface StablecoinInterface extends ethers.utils.Interface {
     functionFragment: "DOMAIN_SEPARATOR",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "MINTER_ROLE",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "addVault", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "borrowToken",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
@@ -195,12 +195,9 @@ interface StablecoinInterface extends ethers.utils.Interface {
     functionFragment: "increaseAllowance",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "nonces", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "payBackToken",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "permit", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceRole",
@@ -230,9 +227,7 @@ interface StablecoinInterface extends ethers.utils.Interface {
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
-    "BorrowToken(uint256,uint256)": EventFragment;
     "CreateVaultType(uint256,address)": EventFragment;
-    "PayBackToken(uint256,uint256,uint256)": EventFragment;
     "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
     "RoleGranted(bytes32,address,address)": EventFragment;
     "RoleRevoked(bytes32,address,address)": EventFragment;
@@ -240,9 +235,7 @@ interface StablecoinInterface extends ethers.utils.Interface {
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "BorrowToken"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "CreateVaultType"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "PayBackToken"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
@@ -299,6 +292,8 @@ export class Stablecoin extends BaseContract {
 
     DOMAIN_SEPARATOR(overrides?: CallOverrides): Promise<[string]>;
 
+    MINTER_ROLE(overrides?: CallOverrides): Promise<[string]>;
+
     addVault(
       vaultAddress: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -317,13 +312,6 @@ export class Stablecoin extends BaseContract {
     ): Promise<ContractTransaction>;
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    borrowToken(
-      vaultType: BigNumberish,
-      vaultID: BigNumberish,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
 
     burn(
       from: string,
@@ -359,16 +347,15 @@ export class Stablecoin extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    name(overrides?: CallOverrides): Promise<[string]>;
-
-    nonces(owner: string, overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    payBackToken(
-      vaultType: BigNumberish,
-      vaultID: BigNumberish,
+    mint(
+      account: string,
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    name(overrides?: CallOverrides): Promise<[string]>;
+
+    nonces(owner: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
     permit(
       owner: string,
@@ -431,6 +418,8 @@ export class Stablecoin extends BaseContract {
 
   DOMAIN_SEPARATOR(overrides?: CallOverrides): Promise<string>;
 
+  MINTER_ROLE(overrides?: CallOverrides): Promise<string>;
+
   addVault(
     vaultAddress: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -449,13 +438,6 @@ export class Stablecoin extends BaseContract {
   ): Promise<ContractTransaction>;
 
   balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-  borrowToken(
-    vaultType: BigNumberish,
-    vaultID: BigNumberish,
-    amount: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
 
   burn(
     from: string,
@@ -491,16 +473,15 @@ export class Stablecoin extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  name(overrides?: CallOverrides): Promise<string>;
-
-  nonces(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-  payBackToken(
-    vaultType: BigNumberish,
-    vaultID: BigNumberish,
+  mint(
+    account: string,
     amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  name(overrides?: CallOverrides): Promise<string>;
+
+  nonces(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
   permit(
     owner: string,
@@ -560,6 +541,8 @@ export class Stablecoin extends BaseContract {
 
     DOMAIN_SEPARATOR(overrides?: CallOverrides): Promise<string>;
 
+    MINTER_ROLE(overrides?: CallOverrides): Promise<string>;
+
     addVault(vaultAddress: string, overrides?: CallOverrides): Promise<void>;
 
     allowance(
@@ -575,13 +558,6 @@ export class Stablecoin extends BaseContract {
     ): Promise<boolean>;
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    borrowToken(
-      vaultType: BigNumberish,
-      vaultID: BigNumberish,
-      amount: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     burn(
       from: string,
@@ -617,16 +593,15 @@ export class Stablecoin extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    name(overrides?: CallOverrides): Promise<string>;
-
-    nonces(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    payBackToken(
-      vaultType: BigNumberish,
-      vaultID: BigNumberish,
+    mint(
+      account: string,
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    name(overrides?: CallOverrides): Promise<string>;
+
+    nonces(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     permit(
       owner: string,
@@ -693,29 +668,12 @@ export class Stablecoin extends BaseContract {
       { owner: string; spender: string; value: BigNumber }
     >;
 
-    BorrowToken(
-      vaultID?: null,
-      amount?: null
-    ): TypedEventFilter<
-      [BigNumber, BigNumber],
-      { vaultID: BigNumber; amount: BigNumber }
-    >;
-
     CreateVaultType(
       vaultID?: null,
       vault?: null
     ): TypedEventFilter<
       [BigNumber, string],
       { vaultID: BigNumber; vault: string }
-    >;
-
-    PayBackToken(
-      vaultID?: null,
-      amount?: null,
-      closingFee?: null
-    ): TypedEventFilter<
-      [BigNumber, BigNumber, BigNumber],
-      { vaultID: BigNumber; amount: BigNumber; closingFee: BigNumber }
     >;
 
     RoleAdminChanged(
@@ -762,6 +720,8 @@ export class Stablecoin extends BaseContract {
 
     DOMAIN_SEPARATOR(overrides?: CallOverrides): Promise<BigNumber>;
 
+    MINTER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
+
     addVault(
       vaultAddress: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -780,13 +740,6 @@ export class Stablecoin extends BaseContract {
     ): Promise<BigNumber>;
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    borrowToken(
-      vaultType: BigNumberish,
-      vaultID: BigNumberish,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
 
     burn(
       from: string,
@@ -825,16 +778,15 @@ export class Stablecoin extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    name(overrides?: CallOverrides): Promise<BigNumber>;
-
-    nonces(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    payBackToken(
-      vaultType: BigNumberish,
-      vaultID: BigNumberish,
+    mint(
+      account: string,
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    name(overrides?: CallOverrides): Promise<BigNumber>;
+
+    nonces(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     permit(
       owner: string,
@@ -900,6 +852,8 @@ export class Stablecoin extends BaseContract {
 
     DOMAIN_SEPARATOR(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    MINTER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     addVault(
       vaultAddress: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -920,13 +874,6 @@ export class Stablecoin extends BaseContract {
     balanceOf(
       account: string,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    borrowToken(
-      vaultType: BigNumberish,
-      vaultID: BigNumberish,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     burn(
@@ -966,18 +913,17 @@ export class Stablecoin extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    mint(
+      account: string,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     nonces(
       owner: string,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    payBackToken(
-      vaultType: BigNumberish,
-      vaultID: BigNumberish,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     permit(

@@ -164,6 +164,9 @@ describe('Stablecoin', function () {
     expect(
       await avai.hasRole(await avai.BURNER_ROLE(), vault.address)
     ).to.equal(false);
+    expect(
+      await avai.hasRole(await avai.MINTER_ROLE(), vault.address)
+    ).to.equal(false);
 
     // Add vault to stablecoin
     await expect(avai.addVault(vault.address))
@@ -179,6 +182,9 @@ describe('Stablecoin', function () {
     // Check if role has updated!
     expect(
       await avai.hasRole(await avai.BURNER_ROLE(), vault.address)
+    ).to.equal(true);
+    expect(
+      await avai.hasRole(await avai.MINTER_ROLE(), vault.address)
     ).to.equal(true);
   });
 

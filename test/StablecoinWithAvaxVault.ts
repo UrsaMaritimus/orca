@@ -219,38 +219,32 @@ describe('Avax Vault Interactions', function () {
     await vault.createVault();
     await vault.depositCollateral(2, overrides);
 
-    // Should revert if vault type doesn't exist
+    // Should revert if vault doesn't exist
     await expect(
-      avai.borrowToken(2, 2, ethers.utils.parseEther('5.0'))
-    ).to.be.revertedWith('Vault type does not exist');
-
-    // Should revert if borrowing zero
-    await expect(
-      avai.borrowToken(1, 3, ethers.utils.parseEther('5.0'))
+      vault.borrowToken(3, ethers.utils.parseEther('5.0'))
     ).to.be.revertedWith('Vault does not exist');
 
     // Should revert if borrowing zero
     await expect(
-      avai.borrowToken(1, 2, ethers.utils.parseEther('0.0'))
+      vault.borrowToken(2, ethers.utils.parseEther('0.0'))
     ).to.be.revertedWith('Must borrow non-zero amount');
 
     // Should revert if minting more than debt ceiling
     await expect(
-      avai.borrowToken(1, 2, ethers.utils.parseEther('15.0'))
+      vault.borrowToken(2, ethers.utils.parseEther('15.0'))
     ).to.be.revertedWith('Cannot mint over debt ceiling.');
 
     // Should revert if not owner
     await expect(
-      avai
-        .connect(accounts[1])
-        .borrowToken(1, 2, ethers.utils.parseEther('5.0'))
+      vault.connect(accounts[1]).borrowToken(2, ethers.utils.parseEther('5.0'))
     ).to.be.revertedWith('Vault is not owned by you');
 
     // Initial debt
     const initDebt = await vault.vaultDebt(2);
+    const initTotalDebt = await vault.totalDebt();
     // Should borrow and emit BorrowToken!
-    await expect(avai.borrowToken(1, 2, ethers.utils.parseEther('5.0')))
-      .to.emit(avai, 'BorrowToken')
+    await expect(vault.borrowToken(2, ethers.utils.parseEther('5.0')))
+      .to.emit(vault, 'BorrowToken')
       .withArgs(2, ethers.utils.parseEther('5.0'));
 
     // New debt should change
@@ -258,12 +252,17 @@ describe('Avax Vault Interactions', function () {
       initDebt.add(ethers.utils.parseEther('5.0'))
     );
 
+    // New total debt should change
+    expect(await vault.totalDebt()).to.equal(
+      initTotalDebt.add(ethers.utils.parseEther('5.0'))
+    );
+
     // Should change balance of avai
     expect(await avai.totalSupply()).to.equal(ethers.utils.parseEther('5.0'));
 
     // Should change balance of user
     await expect(() =>
-      avai.borrowToken(1, 2, ethers.utils.parseEther('1.0'))
+      vault.borrowToken(2, ethers.utils.parseEther('1.0'))
     ).to.changeTokenBalance(avai, accounts[0], ethers.utils.parseEther('1.0'));
   });
 
@@ -278,7 +277,7 @@ describe('Avax Vault Interactions', function () {
     // For test
     await vault.setDebtCeiling(ethers.utils.parseEther('1000000.0'));
 
-    // Calculate valid collateral
+    // Calculate invalid collateral
     const collat = await vault.vaultCollateral(2);
     const price = await vault.getPriceSource();
     const collateralAsDebt = collat
@@ -288,13 +287,13 @@ describe('Avax Vault Interactions', function () {
       .div('100000000')
       .add(1);
 
-    await expect(avai.borrowToken(1, 2, collateralAsDebt)).to.be.revertedWith(
+    await expect(vault.borrowToken(2, collateralAsDebt)).to.be.revertedWith(
       'Borrow would put vault below minimum collateral percentage'
     );
 
     // sub 1, should work
     await expect(() =>
-      avai.borrowToken(1, 2, collateralAsDebt.sub(1))
+      vault.borrowToken(2, collateralAsDebt.sub(1))
     ).to.changeTokenBalance(avai, accounts[0], collateralAsDebt.sub(1));
   });
 
@@ -308,29 +307,23 @@ describe('Avax Vault Interactions', function () {
     await vault.createVault();
     await vault.depositCollateral(2, overrides);
     // Borrow 10 AVAI
-    await avai.borrowToken(1, 2, ethers.utils.parseEther('10.0'));
+    await vault.borrowToken(2, ethers.utils.parseEther('10.0'));
 
     // Try out some tests
-    // Should revert if vault type doesn't exist
-    await expect(
-      avai.payBackToken(2, 2, ethers.utils.parseEther('5.0'))
-    ).to.be.revertedWith('Vault type does not exist');
 
     // Should revert if vault doesn't exist
     await expect(
-      avai.payBackToken(1, 3, ethers.utils.parseEther('5.0'))
+      vault.payBackToken(3, ethers.utils.parseEther('5.0'))
     ).to.be.revertedWith('Vault does not exist');
 
     // Should revert if not vault owner
     await expect(
-      avai
-        .connect(accounts[1])
-        .payBackToken(1, 2, ethers.utils.parseEther('5.0'))
+      vault.connect(accounts[1]).payBackToken(2, ethers.utils.parseEther('5.0'))
     ).to.be.revertedWith('Vault is not owned by you');
 
     // Should revert if balance is too low
     await expect(
-      avai.payBackToken(1, 2, ethers.utils.parseEther('15.0'))
+      vault.payBackToken(2, ethers.utils.parseEther('15.0'))
     ).to.be.revertedWith('Token balance too low');
 
     // Calc closing fee
@@ -345,12 +338,13 @@ describe('Avax Vault Interactions', function () {
       .div(priceSource.mul(10000));
 
     const initDebt = await vault.vaultDebt(2);
+    const initTotalDebt = await vault.totalDebt();
     const initTreasuryCollat = await vault.vaultCollateral(1);
     const initCollat = await vault.vaultCollateral(2);
     const initAvai = await avai.totalSupply();
 
-    await expect(avai.payBackToken(1, 2, initAmount))
-      .to.emit(avai, 'PayBackToken')
+    await expect(vault.payBackToken(2, initAmount))
+      .to.emit(vault, 'PayBackToken')
       .withArgs(2, initAmount, _closingFee);
 
     // check vaults after
@@ -362,13 +356,18 @@ describe('Avax Vault Interactions', function () {
       initCollat.sub(_closingFee)
     );
 
+    // and debt
+    expect(await vault.totalDebt()).to.equal(initTotalDebt.sub(initAmount));
+
     // Check total supply
     expect(await avai.totalSupply()).to.equal(initAvai.sub(initAmount));
 
     // Check balances of user, should change
-    await expect(() =>
-      avai.payBackToken(1, 2, initAmount)
-    ).to.changeTokenBalance(avai, accounts[0], ethers.utils.parseEther('-5.0'));
+    await expect(() => vault.payBackToken(2, initAmount)).to.changeTokenBalance(
+      avai,
+      accounts[0],
+      ethers.utils.parseEther('-5.0')
+    );
   });
 
   it('vault debt less than amount to pay back revert', async () => {
@@ -380,7 +379,7 @@ describe('Avax Vault Interactions', function () {
     await vault.createVault();
     await vault.depositCollateral(2, overrides);
     // Borrow 10 AVAI
-    await avai.borrowToken(1, 2, ethers.utils.parseEther('10.0'));
+    await vault.borrowToken(2, ethers.utils.parseEther('10.0'));
 
     // Make some AVAI to pay back
     await avai.grantRole(await avai.MINTER_ROLE(), accounts[0].address);
@@ -394,7 +393,50 @@ describe('Avax Vault Interactions', function () {
 
     // Should revert!
     await expect(
-      avai.payBackToken(1, 2, ethers.utils.parseEther('15.0'))
+      vault.payBackToken(2, ethers.utils.parseEther('15.0'))
     ).to.be.revertedWith('Vault debt less than amount to pay back');
+  });
+
+  it('should allow withdrawal of collateral while having debt', async () => {
+    // Set up
+    const overrides = {
+      value: ethers.utils.parseEther('10.0'),
+    };
+
+    await vault.createVault();
+    await vault.depositCollateral(2, overrides);
+    await vault.setDebtCeiling(ethers.utils.parseEther('1000000.0'));
+
+    const collat = await vault.vaultCollateral(2);
+    const price = await vault.getPriceSource();
+    const collateralAsDebt = collat
+      .mul(price)
+      .mul(100)
+      .div(150)
+      .div('100000000');
+
+    // Borrow max AVAI
+    await vault.borrowToken(2, collateralAsDebt);
+
+    // Should revert
+    await expect(vault.withdrawCollateral(2, 1)).to.be.revertedWith(
+      'Withdrawal would put vault below minimum collateral percentage'
+    );
+
+    // Return some debt, pays 0.5% of returned collateral
+    await expect(() =>
+      vault.payBackToken(2, collateralAsDebt.div(2))
+    ).to.changeTokenBalance(avai, accounts[0], collateralAsDebt.div(2).mul(-1));
+
+    expect(await vault.vaultDebt(2)).to.equal(collateralAsDebt.div(2));
+
+    const withdrawAmount = ethers.utils.parseEther('5.0').mul(9950).div(10000);
+    // Lets withdraw max collateral now
+    await expect(() =>
+      vault.withdrawCollateral(2, withdrawAmount)
+    ).to.changeEtherBalances(
+      [accounts[0], vault],
+      [withdrawAmount, withdrawAmount.mul(-1)]
+    );
   });
 });

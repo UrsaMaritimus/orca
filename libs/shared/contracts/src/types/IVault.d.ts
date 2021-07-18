@@ -62,18 +62,22 @@ interface IVaultInterface extends ethers.utils.Interface {
   ): Result;
 
   events: {
+    "BorrowToken(uint256,uint256)": EventFragment;
     "CreateVault(uint256,address)": EventFragment;
     "DepositCollateral(uint256,uint256)": EventFragment;
     "DestroyVault(uint256)": EventFragment;
     "LiquidateVault(uint256,address,address,uint256)": EventFragment;
+    "PayBackToken(uint256,uint256,uint256)": EventFragment;
     "TransferVault(uint256,address,address)": EventFragment;
     "WithdrawCollateral(uint256,uint256)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "BorrowToken"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "CreateVault"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "DepositCollateral"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "DestroyVault"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "LiquidateVault"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "PayBackToken"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "TransferVault"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "WithdrawCollateral"): EventFragment;
 }
@@ -199,6 +203,14 @@ export class IVault extends BaseContract {
   };
 
   filters: {
+    BorrowToken(
+      vaultID?: null,
+      amount?: null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber],
+      { vaultID: BigNumber; amount: BigNumber }
+    >;
+
     CreateVault(
       vaultID?: null,
       creator?: null
@@ -232,6 +244,15 @@ export class IVault extends BaseContract {
         buyer: string;
         amountPaid: BigNumber;
       }
+    >;
+
+    PayBackToken(
+      vaultID?: null,
+      amount?: null,
+      closingFee?: null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber, BigNumber],
+      { vaultID: BigNumber; amount: BigNumber; closingFee: BigNumber }
     >;
 
     TransferVault(

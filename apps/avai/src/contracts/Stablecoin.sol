@@ -11,6 +11,7 @@ import './BaseVault.sol';
 
 contract Stablecoin is ERC20, ERC20Permit, AccessControl, ReentrancyGuard {
   bytes32 public constant BURNER_ROLE = keccak256('BURNER_ROLE');
+  bytes32 public constant MINTER_ROLE = keccak256('MINTER_ROLE');
 
   using Counters for Counters.Counter;
   Counters.Counter private _vaultIds;
@@ -21,10 +22,6 @@ contract Stablecoin is ERC20, ERC20Permit, AccessControl, ReentrancyGuard {
   // The vaults that users can use
   mapping(uint256 => BaseVault) public vaults;
   mapping(uint256 => bool) public vaultExists;
-
-  // Events for token operations
-  event BorrowToken(uint256 vaultID, uint256 amount);
-  event PayBackToken(uint256 vaultID, uint256 amount, uint256 closingFee);
 
   event CreateVaultType(uint256 vaultID, address vault);
 
@@ -56,10 +53,20 @@ contract Stablecoin is ERC20, ERC20Permit, AccessControl, ReentrancyGuard {
   }
 
   /**
-   * @dev give a burner role so that vaults can burn the token upon liquidation.
+   * @dev give a burner role so that vaults can burn the token upon liquidation and paying back.
    */
   function burn(address from, uint256 amount) public onlyRole(BURNER_ROLE) {
     _burn(from, amount);
+  }
+
+  /**
+   * @dev give a minter role so that vaults can mint upon borrowing.
+   */
+  function mint(address account, uint256 amount)
+    external
+    onlyRole(MINTER_ROLE)
+  {
+    _mint(account, amount);
   }
 
   /**
@@ -75,80 +82,8 @@ contract Stablecoin is ERC20, ERC20Permit, AccessControl, ReentrancyGuard {
     vaultExists[newVaultId] = true;
     // Allow the vault to burn stablecoin
     _setupRole(BURNER_ROLE, vaultAddress);
+    _setupRole(MINTER_ROLE, vaultAddress);
 
     emit CreateVaultType(newVaultId, vaultAddress);
-  }
-
-  /**
-   * @dev Lets a vault owner borrow stablecoin against collateral
-   *
-   * Requirements:
-   * - Vault type must exist
-   * - Vault must exist
-   * - Must borrow greater than 0 stablecoin
-   * - Must be below the debt ceiling when borrowing
-   * - Must maintain minimum collateral percentage
-   *
-   * Emits BorrowToken event
-   */
-  function borrowToken(
-    uint256 vaultType,
-    uint256 vaultID,
-    uint256 amount
-  ) external onlyVaultOwner(vaultType, vaultID) nonReentrant {
-    require(amount > 0, 'Must borrow non-zero amount');
-    require(
-      vaults[vaultType].totalDebt() + amount <= vaults[vaultType].debtCeiling(),
-      'Cannot mint over debt ceiling.'
-    );
-
-    uint256 newDebt = vaults[vaultType].vaultDebt(vaultID) + amount;
-    assert(newDebt > vaults[vaultType].vaultDebt(vaultID));
-
-    require(
-      vaults[vaultType].isValidCollateral(
-        vaults[vaultType].vaultCollateral(vaultID),
-        newDebt
-      ),
-      'Borrow would put vault below minimum collateral percentage'
-    );
-
-    // Mint stable coin for the user
-    vaults[vaultType].addVaultDebt(vaultID, amount);
-    _mint(msg.sender, amount);
-    emit BorrowToken(vaultID, amount);
-  }
-
-  /**
-   * @dev Pay back the stablecoin to reduce debt
-   *
-   * Requirements:
-   * - User must have enough balance to repay `amount`
-   * - Cannot pay back more than the required debt. `amount` must be less than debt.
-   */
-  function payBackToken(
-    uint256 vaultType,
-    uint256 vaultID,
-    uint256 amount
-  ) external onlyVaultOwner(vaultType, vaultID) nonReentrant {
-    require(balanceOf(msg.sender) >= amount, 'Token balance too low');
-    require(
-      vaults[vaultType].vaultDebt(vaultID) >= amount,
-      'Vault debt less than amount to pay back'
-    );
-
-    // Closing fee calculation
-    uint256 _closingFee = ((amount * vaults[vaultType].closingFee()) *
-      vaults[vaultType].getPricePeg()) /
-      (vaults[vaultType].getPriceSource() * 10000);
-
-    vaults[vaultType].subVaultDebt(vaultID, amount);
-    vaults[vaultType].subVaultCollateral(vaultID, _closingFee);
-    vaults[vaultType].addVaultCollateralTreasury(_closingFee);
-
-    // Burns the stablecoin
-    _burn(msg.sender, amount);
-
-    emit PayBackToken(vaultID, amount, _closingFee);
   }
 }

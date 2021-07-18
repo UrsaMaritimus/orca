@@ -24,11 +24,9 @@ interface ERC20VaultInterface extends ethers.utils.Interface {
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "TREASURY_ROLE()": FunctionFragment;
     "_token()": FunctionFragment;
-    "addVaultCollateral(uint256,uint256)": FunctionFragment;
-    "addVaultCollateralTreasury(uint256)": FunctionFragment;
-    "addVaultDebt(uint256,uint256)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
+    "borrowToken(uint256,uint256)": FunctionFragment;
     "buyRiskyVault(uint256)": FunctionFragment;
     "closingFee()": FunctionFragment;
     "createVault()": FunctionFragment;
@@ -42,10 +40,10 @@ interface ERC20VaultInterface extends ethers.utils.Interface {
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
-    "isValidCollateral(uint256,uint256)": FunctionFragment;
     "name()": FunctionFragment;
     "openingFee()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
+    "payBackToken(uint256,uint256)": FunctionFragment;
     "priceSource()": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
@@ -59,8 +57,6 @@ interface ERC20VaultInterface extends ethers.utils.Interface {
     "setTokenPeg(uint256)": FunctionFragment;
     "setTreasury(uint256)": FunctionFragment;
     "stabilityPool()": FunctionFragment;
-    "subVaultCollateral(uint256,uint256)": FunctionFragment;
-    "subVaultDebt(uint256,uint256)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
     "tokenByIndex(uint256)": FunctionFragment;
@@ -88,22 +84,14 @@ interface ERC20VaultInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "_token", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "addVaultCollateral",
-    values: [BigNumberish, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "addVaultCollateralTreasury",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "addVaultDebt",
-    values: [BigNumberish, BigNumberish]
-  ): string;
-  encodeFunctionData(
     functionFragment: "approve",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "borrowToken",
+    values: [BigNumberish, BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "buyRiskyVault",
     values: [BigNumberish]
@@ -156,10 +144,6 @@ interface ERC20VaultInterface extends ethers.utils.Interface {
     functionFragment: "isApprovedForAll",
     values: [string, string]
   ): string;
-  encodeFunctionData(
-    functionFragment: "isValidCollateral",
-    values: [BigNumberish, BigNumberish]
-  ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "openingFee",
@@ -168,6 +152,10 @@ interface ERC20VaultInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "ownerOf",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "payBackToken",
+    values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "priceSource",
@@ -220,14 +208,6 @@ interface ERC20VaultInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "stabilityPool",
     values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "subVaultCollateral",
-    values: [BigNumberish, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "subVaultDebt",
-    values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "supportsInterface",
@@ -287,20 +267,12 @@ interface ERC20VaultInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "_token", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "addVaultCollateral",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "addVaultCollateralTreasury",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "addVaultDebt",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "borrowToken",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "buyRiskyVault",
     data: BytesLike
@@ -344,13 +316,13 @@ interface ERC20VaultInterface extends ethers.utils.Interface {
     functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "isValidCollateral",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "openingFee", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "payBackToken",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "priceSource",
     data: BytesLike
@@ -401,14 +373,6 @@ interface ERC20VaultInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "subVaultCollateral",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "subVaultDebt",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "supportsInterface",
     data: BytesLike
   ): Result;
@@ -454,10 +418,12 @@ interface ERC20VaultInterface extends ethers.utils.Interface {
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
+    "BorrowToken(uint256,uint256)": EventFragment;
     "CreateVault(uint256,address)": EventFragment;
     "DepositCollateral(uint256,uint256)": EventFragment;
     "DestroyVault(uint256)": EventFragment;
     "LiquidateVault(uint256,address,address,uint256)": EventFragment;
+    "PayBackToken(uint256,uint256,uint256)": EventFragment;
     "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
     "RoleGranted(bytes32,address,address)": EventFragment;
     "RoleRevoked(bytes32,address,address)": EventFragment;
@@ -468,10 +434,12 @@ interface ERC20VaultInterface extends ethers.utils.Interface {
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "BorrowToken"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "CreateVault"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "DepositCollateral"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "DestroyVault"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "LiquidateVault"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "PayBackToken"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
@@ -530,23 +498,6 @@ export class ERC20Vault extends BaseContract {
 
     _token(overrides?: CallOverrides): Promise<[string]>;
 
-    addVaultCollateral(
-      vaultID: BigNumberish,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    addVaultCollateralTreasury(
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    addVaultDebt(
-      vaultID: BigNumberish,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -554,6 +505,12 @@ export class ERC20Vault extends BaseContract {
     ): Promise<ContractTransaction>;
 
     balanceOf(owner: string, overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    borrowToken(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     buyRiskyVault(
       vaultID: BigNumberish,
@@ -608,12 +565,6 @@ export class ERC20Vault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    isValidCollateral(
-      collateral: BigNumberish,
-      debt: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
     name(overrides?: CallOverrides): Promise<[string]>;
 
     openingFee(overrides?: CallOverrides): Promise<[BigNumber]>;
@@ -622,6 +573,12 @@ export class ERC20Vault extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
+
+    payBackToken(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     priceSource(overrides?: CallOverrides): Promise<[string]>;
 
@@ -695,18 +652,6 @@ export class ERC20Vault extends BaseContract {
 
     stabilityPool(overrides?: CallOverrides): Promise<[string]>;
 
-    subVaultCollateral(
-      vaultID: BigNumberish,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    subVaultDebt(
-      vaultID: BigNumberish,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -779,23 +724,6 @@ export class ERC20Vault extends BaseContract {
 
   _token(overrides?: CallOverrides): Promise<string>;
 
-  addVaultCollateral(
-    vaultID: BigNumberish,
-    amount: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  addVaultCollateralTreasury(
-    amount: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  addVaultDebt(
-    vaultID: BigNumberish,
-    amount: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   approve(
     to: string,
     tokenId: BigNumberish,
@@ -803,6 +731,12 @@ export class ERC20Vault extends BaseContract {
   ): Promise<ContractTransaction>;
 
   balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+  borrowToken(
+    vaultID: BigNumberish,
+    amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   buyRiskyVault(
     vaultID: BigNumberish,
@@ -857,17 +791,17 @@ export class ERC20Vault extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  isValidCollateral(
-    collateral: BigNumberish,
-    debt: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
   name(overrides?: CallOverrides): Promise<string>;
 
   openingFee(overrides?: CallOverrides): Promise<BigNumber>;
 
   ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+  payBackToken(
+    vaultID: BigNumberish,
+    amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   priceSource(overrides?: CallOverrides): Promise<string>;
 
@@ -941,18 +875,6 @@ export class ERC20Vault extends BaseContract {
 
   stabilityPool(overrides?: CallOverrides): Promise<string>;
 
-  subVaultCollateral(
-    vaultID: BigNumberish,
-    amount: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  subVaultDebt(
-    vaultID: BigNumberish,
-    amount: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   supportsInterface(
     interfaceId: BytesLike,
     overrides?: CallOverrides
@@ -1019,23 +941,6 @@ export class ERC20Vault extends BaseContract {
 
     _token(overrides?: CallOverrides): Promise<string>;
 
-    addVaultCollateral(
-      vaultID: BigNumberish,
-      amount: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    addVaultCollateralTreasury(
-      amount: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    addVaultDebt(
-      vaultID: BigNumberish,
-      amount: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -1043,6 +948,12 @@ export class ERC20Vault extends BaseContract {
     ): Promise<void>;
 
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    borrowToken(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     buyRiskyVault(
       vaultID: BigNumberish,
@@ -1095,17 +1006,17 @@ export class ERC20Vault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    isValidCollateral(
-      collateral: BigNumberish,
-      debt: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
     name(overrides?: CallOverrides): Promise<string>;
 
     openingFee(overrides?: CallOverrides): Promise<BigNumber>;
 
     ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+    payBackToken(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     priceSource(overrides?: CallOverrides): Promise<string>;
 
@@ -1178,18 +1089,6 @@ export class ERC20Vault extends BaseContract {
     ): Promise<void>;
 
     stabilityPool(overrides?: CallOverrides): Promise<string>;
-
-    subVaultCollateral(
-      vaultID: BigNumberish,
-      amount: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    subVaultDebt(
-      vaultID: BigNumberish,
-      amount: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     supportsInterface(
       interfaceId: BytesLike,
@@ -1273,6 +1172,14 @@ export class ERC20Vault extends BaseContract {
       { owner: string; operator: string; approved: boolean }
     >;
 
+    BorrowToken(
+      vaultID?: null,
+      amount?: null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber],
+      { vaultID: BigNumber; amount: BigNumber }
+    >;
+
     CreateVault(
       vaultID?: null,
       creator?: null
@@ -1306,6 +1213,15 @@ export class ERC20Vault extends BaseContract {
         buyer: string;
         amountPaid: BigNumber;
       }
+    >;
+
+    PayBackToken(
+      vaultID?: null,
+      amount?: null,
+      closingFee?: null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber, BigNumber],
+      { vaultID: BigNumber; amount: BigNumber; closingFee: BigNumber }
     >;
 
     RoleAdminChanged(
@@ -1369,23 +1285,6 @@ export class ERC20Vault extends BaseContract {
 
     _token(overrides?: CallOverrides): Promise<BigNumber>;
 
-    addVaultCollateral(
-      vaultID: BigNumberish,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    addVaultCollateralTreasury(
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    addVaultDebt(
-      vaultID: BigNumberish,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -1393,6 +1292,12 @@ export class ERC20Vault extends BaseContract {
     ): Promise<BigNumber>;
 
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    borrowToken(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
 
     buyRiskyVault(
       vaultID: BigNumberish,
@@ -1450,12 +1355,6 @@ export class ERC20Vault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    isValidCollateral(
-      collateral: BigNumberish,
-      debt: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
     openingFee(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1463,6 +1362,12 @@ export class ERC20Vault extends BaseContract {
     ownerOf(
       tokenId: BigNumberish,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    payBackToken(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     priceSource(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1536,18 +1441,6 @@ export class ERC20Vault extends BaseContract {
     ): Promise<BigNumber>;
 
     stabilityPool(overrides?: CallOverrides): Promise<BigNumber>;
-
-    subVaultCollateral(
-      vaultID: BigNumberish,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    subVaultDebt(
-      vaultID: BigNumberish,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
 
     supportsInterface(
       interfaceId: BytesLike,
@@ -1624,23 +1517,6 @@ export class ERC20Vault extends BaseContract {
 
     _token(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    addVaultCollateral(
-      vaultID: BigNumberish,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    addVaultCollateralTreasury(
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    addVaultDebt(
-      vaultID: BigNumberish,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -1650,6 +1526,12 @@ export class ERC20Vault extends BaseContract {
     balanceOf(
       owner: string,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    borrowToken(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     buyRiskyVault(
@@ -1708,12 +1590,6 @@ export class ERC20Vault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    isValidCollateral(
-      collateral: BigNumberish,
-      debt: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     openingFee(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -1721,6 +1597,12 @@ export class ERC20Vault extends BaseContract {
     ownerOf(
       tokenId: BigNumberish,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    payBackToken(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     priceSource(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -1794,18 +1676,6 @@ export class ERC20Vault extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     stabilityPool(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    subVaultCollateral(
-      vaultID: BigNumberish,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    subVaultDebt(
-      vaultID: BigNumberish,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
 
     supportsInterface(
       interfaceId: BytesLike,

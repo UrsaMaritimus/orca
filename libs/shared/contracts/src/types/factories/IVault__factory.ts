@@ -18,6 +18,25 @@ const _abi = [
       },
       {
         indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "BorrowToken",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "vaultID",
+        type: "uint256",
+      },
+      {
+        indexed: false,
         internalType: "address",
         name: "creator",
         type: "address",
@@ -87,6 +106,31 @@ const _abi = [
       },
     ],
     name: "LiquidateVault",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "vaultID",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "closingFee",
+        type: "uint256",
+      },
+    ],
+    name: "PayBackToken",
     type: "event",
   },
   {

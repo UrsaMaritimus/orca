@@ -190,8 +190,8 @@ contract BaseVault is
    *
    * Requirements:
    *
-   * - Avax price cannot be zero
-   * - Token (i.e. usdc) price cannot be zero
+   * - Token price cannot be zero
+   * - PEG (i.e. usdc) price cannot be zero
    */
   function calculateCollateralProperties(uint256 collateral, uint256 debt)
     internal
@@ -220,7 +220,7 @@ contract BaseVault is
    * @dev Checks if the current collateral is valid
    */
   function isValidCollateral(uint256 collateral, uint256 debt)
-    public
+    internal
     view
     returns (bool)
   {
@@ -301,6 +301,81 @@ contract BaseVault is
     _mint(to, vaultID);
 
     emit TransferVault(vaultID, msg.sender, to);
+  }
+
+  // Each vault must write it's own deposit collateral!
+
+  /**
+   * @dev Lets a vault owner borrow stablecoin against collateral
+   *
+   * Requirements:
+   * - Vault type must exist
+   * - Vault must exist
+   * - Must borrow greater than 0 stablecoin
+   * - Must be below the debt ceiling when borrowing
+   * - Must maintain minimum collateral percentage
+   *
+   * Emits BorrowToken event
+   */
+  function borrowToken(uint256 vaultID, uint256 amount)
+    external
+    onlyVaultOwner(vaultID)
+    nonReentrant
+  {
+    require(amount > 0, 'Must borrow non-zero amount');
+    require(
+      totalDebt + amount <= debtCeiling,
+      'Cannot mint over debt ceiling.'
+    );
+
+    uint256 newDebt = vaultDebt[vaultID] + amount;
+    assert(newDebt > vaultDebt[vaultID]);
+
+    require(
+      isValidCollateral(vaultCollateral[vaultID], newDebt),
+      'Borrow would put vault below minimum collateral percentage'
+    );
+
+    // Mint stable coin for the user
+    _addVaultDebt(vaultID, amount);
+    // Should have minter role
+    _stablecoin.mint(msg.sender, amount);
+    emit BorrowToken(vaultID, amount);
+  }
+
+  /**
+   * @dev Pay back the stablecoin to reduce debt
+   *
+   * Requirements:
+   * - User must have enough balance to repay `amount`
+   * - Cannot pay back more than the required debt. `amount` must be less than debt.
+   */
+  function payBackToken(uint256 vaultID, uint256 amount)
+    external
+    onlyVaultOwner(vaultID)
+    nonReentrant
+  {
+    require(
+      _stablecoin.balanceOf(msg.sender) >= amount,
+      'Token balance too low'
+    );
+    require(
+      vaultDebt[vaultID] >= amount,
+      'Vault debt less than amount to pay back'
+    );
+
+    // Closing fee calculation
+    uint256 _closingFee = ((amount * closingFee) * getPricePeg()) /
+      (getPriceSource() * 10000);
+
+    _subVaultDebt(vaultID, amount);
+    _subVaultCollateral(vaultID, _closingFee);
+    _addVaultCollateralTreasury(_closingFee);
+
+    // Burns the stablecoin
+    _stablecoin.burn(msg.sender, amount);
+
+    emit PayBackToken(vaultID, amount, _closingFee);
   }
 
   /**
@@ -402,10 +477,7 @@ contract BaseVault is
    * @dev Adds to the vault collateral
    *
    */
-  function addVaultCollateral(uint256 vaultID, uint256 amount)
-    external
-    onlyRole(DEFAULT_ADMIN_ROLE)
-  {
+  function _addVaultCollateral(uint256 vaultID, uint256 amount) internal {
     uint256 newCollateral = vaultCollateral[vaultID] + amount;
     assert(newCollateral >= vaultCollateral[vaultID]);
 
@@ -417,10 +489,7 @@ contract BaseVault is
    * @dev Adds to the vault collateral
    *
    */
-  function addVaultCollateralTreasury(uint256 amount)
-    external
-    onlyRole(DEFAULT_ADMIN_ROLE)
-  {
+  function _addVaultCollateralTreasury(uint256 amount) internal {
     uint256 newCollateral = vaultCollateral[treasury] + amount;
     assert(newCollateral >= vaultCollateral[treasury]);
 
@@ -435,10 +504,7 @@ contract BaseVault is
    * - Must be less than or equal to current collateral
    */
 
-  function subVaultCollateral(uint256 vaultID, uint256 amount)
-    external
-    onlyRole(DEFAULT_ADMIN_ROLE)
-  {
+  function _subVaultCollateral(uint256 vaultID, uint256 amount) internal {
     require(
       amount <= vaultCollateral[vaultID],
       'Cannot remove more than the deposited collateral'
@@ -457,10 +523,7 @@ contract BaseVault is
    * Requirements:
    * - new user debt cannot be above debt ceiling
    */
-  function addVaultDebt(uint256 vaultID, uint256 amount)
-    external
-    onlyRole(DEFAULT_ADMIN_ROLE)
-  {
+  function _addVaultDebt(uint256 vaultID, uint256 amount) internal {
     uint256 newTotalDebt = amount + totalDebt;
 
     assert(newTotalDebt >= totalDebt);
@@ -484,10 +547,7 @@ contract BaseVault is
    * - user cannot remove more than total debt
    * - user cannot remove more than their total debt
    */
-  function subVaultDebt(uint256 vaultID, uint256 amount)
-    external
-    onlyRole(DEFAULT_ADMIN_ROLE)
-  {
+  function _subVaultDebt(uint256 vaultID, uint256 amount) internal {
     require(totalDebt >= amount, 'Cannot get rid of more debt than exists.');
 
     require(

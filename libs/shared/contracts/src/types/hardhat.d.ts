@@ -25,6 +25,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IAccessControl__factory>;
     getContractFactory(
+      name: "Ownable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Ownable__factory>;
+    getContractFactory(
       name: "ERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC20__factory>;
@@ -85,6 +89,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IBaseVault__factory>;
     getContractFactory(
+      name: "ILiquidator",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ILiquidator__factory>;
+    getContractFactory(
       name: "IStablecoin",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IStablecoin__factory>;
@@ -101,9 +109,21 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IWAVAX__factory>;
     getContractFactory(
+      name: "Liquidator",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Liquidator__factory>;
+    getContractFactory(
+      name: "AVAXLiquidator",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AVAXLiquidator__factory>;
+    getContractFactory(
       name: "Stablecoin",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Stablecoin__factory>;
+    getContractFactory(
+      name: "PriceSource",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.PriceSource__factory>;
     getContractFactory(
       name: "AVAI",
       signerOrOptions?: ethers.Signer | FactoryOptions

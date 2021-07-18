@@ -19,6 +19,10 @@ interface IBaseVault {
   event DepositCollateral(uint256 vaultID, uint256 amount);
   event WithdrawCollateral(uint256 vaultID, uint256 amount);
 
+  // Events for token operations
+  event BorrowToken(uint256 vaultID, uint256 amount);
+  event PayBackToken(uint256 vaultID, uint256 amount, uint256 closingFee);
+
   function createVault() external;
 
   function destroyVault(uint256 vaultID) external;
