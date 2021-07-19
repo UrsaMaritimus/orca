@@ -220,7 +220,7 @@ describe('Base Vault', function () {
 
   it('Should set correct token as collateral', async () => {
     const tokenAddress = ERC20__factory.connect(
-      await vault._token(),
+      await vault.token(),
       accounts[0]
     );
 

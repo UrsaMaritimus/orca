@@ -20,14 +20,23 @@ import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface PriceSourceInterface extends ethers.utils.Interface {
   functions: {
+    "c_0x69ba8652(bytes32)": FunctionFragment;
     "latestRoundData()": FunctionFragment;
   };
 
+  encodeFunctionData(
+    functionFragment: "c_0x69ba8652",
+    values: [BytesLike]
+  ): string;
   encodeFunctionData(
     functionFragment: "latestRoundData",
     values?: undefined
   ): string;
 
+  decodeFunctionResult(
+    functionFragment: "c_0x69ba8652",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "latestRoundData",
     data: BytesLike
@@ -80,6 +89,11 @@ export class PriceSource extends BaseContract {
   interface: PriceSourceInterface;
 
   functions: {
+    c_0x69ba8652(
+      c__0x69ba8652: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<[void]>;
+
     latestRoundData(
       overrides?: CallOverrides
     ): Promise<
@@ -92,6 +106,11 @@ export class PriceSource extends BaseContract {
       }
     >;
   };
+
+  c_0x69ba8652(
+    c__0x69ba8652: BytesLike,
+    overrides?: CallOverrides
+  ): Promise<void>;
 
   latestRoundData(
     overrides?: CallOverrides
@@ -106,6 +125,11 @@ export class PriceSource extends BaseContract {
   >;
 
   callStatic: {
+    c_0x69ba8652(
+      c__0x69ba8652: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     latestRoundData(
       overrides?: CallOverrides
     ): Promise<
@@ -122,10 +146,20 @@ export class PriceSource extends BaseContract {
   filters: {};
 
   estimateGas: {
+    c_0x69ba8652(
+      c__0x69ba8652: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     latestRoundData(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
+    c_0x69ba8652(
+      c__0x69ba8652: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     latestRoundData(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

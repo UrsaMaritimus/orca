@@ -23,7 +23,6 @@ interface ERC20VaultInterface extends ethers.utils.Interface {
   functions: {
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "TREASURY_ROLE()": FunctionFragment;
-    "_token()": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "borrowToken(uint256,uint256)": FunctionFragment;
@@ -59,6 +58,7 @@ interface ERC20VaultInterface extends ethers.utils.Interface {
     "stabilityPool()": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
+    "token()": FunctionFragment;
     "tokenByIndex(uint256)": FunctionFragment;
     "tokenOfOwnerByIndex(address,uint256)": FunctionFragment;
     "tokenPeg()": FunctionFragment;
@@ -82,7 +82,6 @@ interface ERC20VaultInterface extends ethers.utils.Interface {
     functionFragment: "TREASURY_ROLE",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "_token", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "approve",
     values: [string, BigNumberish]
@@ -214,6 +213,7 @@ interface ERC20VaultInterface extends ethers.utils.Interface {
     values: [BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
+  encodeFunctionData(functionFragment: "token", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "tokenByIndex",
     values: [BigNumberish]
@@ -266,7 +266,6 @@ interface ERC20VaultInterface extends ethers.utils.Interface {
     functionFragment: "TREASURY_ROLE",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "_token", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(
@@ -377,6 +376,7 @@ interface ERC20VaultInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "token", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "tokenByIndex",
     data: BytesLike
@@ -495,8 +495,6 @@ export class ERC20Vault extends BaseContract {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
     TREASURY_ROLE(overrides?: CallOverrides): Promise<[string]>;
-
-    _token(overrides?: CallOverrides): Promise<[string]>;
 
     approve(
       to: string,
@@ -621,7 +619,7 @@ export class ERC20Vault extends BaseContract {
     ): Promise<ContractTransaction>;
 
     setDebtCeiling(
-      _debtCeiling: BigNumberish,
+      debtCeiling_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -646,7 +644,7 @@ export class ERC20Vault extends BaseContract {
     ): Promise<ContractTransaction>;
 
     setTreasury(
-      _treasury: BigNumberish,
+      treasury_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -658,6 +656,8 @@ export class ERC20Vault extends BaseContract {
     ): Promise<[boolean]>;
 
     symbol(overrides?: CallOverrides): Promise<[string]>;
+
+    token(overrides?: CallOverrides): Promise<[string]>;
 
     tokenByIndex(
       index: BigNumberish,
@@ -721,8 +721,6 @@ export class ERC20Vault extends BaseContract {
   DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
   TREASURY_ROLE(overrides?: CallOverrides): Promise<string>;
-
-  _token(overrides?: CallOverrides): Promise<string>;
 
   approve(
     to: string,
@@ -844,7 +842,7 @@ export class ERC20Vault extends BaseContract {
   ): Promise<ContractTransaction>;
 
   setDebtCeiling(
-    _debtCeiling: BigNumberish,
+    debtCeiling_: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -869,7 +867,7 @@ export class ERC20Vault extends BaseContract {
   ): Promise<ContractTransaction>;
 
   setTreasury(
-    _treasury: BigNumberish,
+    treasury_: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -881,6 +879,8 @@ export class ERC20Vault extends BaseContract {
   ): Promise<boolean>;
 
   symbol(overrides?: CallOverrides): Promise<string>;
+
+  token(overrides?: CallOverrides): Promise<string>;
 
   tokenByIndex(
     index: BigNumberish,
@@ -938,8 +938,6 @@ export class ERC20Vault extends BaseContract {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
     TREASURY_ROLE(overrides?: CallOverrides): Promise<string>;
-
-    _token(overrides?: CallOverrides): Promise<string>;
 
     approve(
       to: string,
@@ -1059,7 +1057,7 @@ export class ERC20Vault extends BaseContract {
     ): Promise<void>;
 
     setDebtCeiling(
-      _debtCeiling: BigNumberish,
+      debtCeiling_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1084,7 +1082,7 @@ export class ERC20Vault extends BaseContract {
     ): Promise<void>;
 
     setTreasury(
-      _treasury: BigNumberish,
+      treasury_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1096,6 +1094,8 @@ export class ERC20Vault extends BaseContract {
     ): Promise<boolean>;
 
     symbol(overrides?: CallOverrides): Promise<string>;
+
+    token(overrides?: CallOverrides): Promise<string>;
 
     tokenByIndex(
       index: BigNumberish,
@@ -1283,8 +1283,6 @@ export class ERC20Vault extends BaseContract {
 
     TREASURY_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
-    _token(overrides?: CallOverrides): Promise<BigNumber>;
-
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -1411,7 +1409,7 @@ export class ERC20Vault extends BaseContract {
     ): Promise<BigNumber>;
 
     setDebtCeiling(
-      _debtCeiling: BigNumberish,
+      debtCeiling_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1436,7 +1434,7 @@ export class ERC20Vault extends BaseContract {
     ): Promise<BigNumber>;
 
     setTreasury(
-      _treasury: BigNumberish,
+      treasury_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1448,6 +1446,8 @@ export class ERC20Vault extends BaseContract {
     ): Promise<BigNumber>;
 
     symbol(overrides?: CallOverrides): Promise<BigNumber>;
+
+    token(overrides?: CallOverrides): Promise<BigNumber>;
 
     tokenByIndex(
       index: BigNumberish,
@@ -1514,8 +1514,6 @@ export class ERC20Vault extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     TREASURY_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    _token(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     approve(
       to: string,
@@ -1646,7 +1644,7 @@ export class ERC20Vault extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     setDebtCeiling(
-      _debtCeiling: BigNumberish,
+      debtCeiling_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1671,7 +1669,7 @@ export class ERC20Vault extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     setTreasury(
-      _treasury: BigNumberish,
+      treasury_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1683,6 +1681,8 @@ export class ERC20Vault extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    token(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     tokenByIndex(
       index: BigNumberish,

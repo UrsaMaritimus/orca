@@ -135,6 +135,27 @@
         }
       }
     },
+    "shared-styles": {
+      "root": "libs/shared/styles",
+      "sourceRoot": "libs/shared/styles/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/shared/styles/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/styles"],
+          "options": {
+            "jestConfig": "libs/shared/styles/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "test-contract": {
       "root": "apps/test-contract",
       "sourceRoot": "apps/test-contract/src",

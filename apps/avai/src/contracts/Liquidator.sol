@@ -12,8 +12,8 @@ import './interfaces/ILiquidator.sol';
 contract Liquidator is ILiquidator, ReentrancyGuard, Ownable {
   address public treasury;
 
-  Stablecoin public _stablecoin;
-  BaseVault public _vault;
+  Stablecoin public stablecoin;
+  BaseVault public vault;
 
   uint256 public debtRatio;
   uint256 public gainRatio;
@@ -22,15 +22,15 @@ contract Liquidator is ILiquidator, ReentrancyGuard, Ownable {
 
   mapping(address => uint256) public tokenDebt;
 
-  constructor(address stablecoin, address vault) {
+  constructor(address stablecoin_, address vault_) {
     require(
-      stablecoin != address(0),
+      stablecoin_ != address(0),
       'Cannot set stablecoin to the zero address'
     );
-    require(vault != address(0), 'Cannot set vault to the zero address');
+    require(vault_ != address(0), 'Cannot set vault to the zero address');
 
-    _stablecoin = Stablecoin(stablecoin);
-    _vault = BaseVault(vault);
+    stablecoin = Stablecoin(stablecoin_);
+    vault = BaseVault(vault_);
 
     debtRatio = 2; // 50%
     gainRatio = 11; // /10 so 1.1, or 10%
@@ -44,24 +44,27 @@ contract Liquidator is ILiquidator, ReentrancyGuard, Ownable {
   /**
    * @dev careful. This transfers treasury AND ownership to the new treasury.
    */
-  function setTreasury(address _newTreasury) public onlyOwner() {
-    require(treasury != address(0), 'Cannot set treasury to the zero address');
-    treasury = _newTreasury;
-    transferOwnership(_newTreasury);
+  function setTreasury(address newTreasury_) external onlyOwner() {
+    require(
+      newTreasury_ != address(0),
+      'Cannot set treasury to the zero address'
+    );
+    treasury = newTreasury_;
+    transferOwnership(newTreasury_);
   }
 
   /**
    * @dev sets the gain ratio
    */
-  function setGainRatio(uint256 _gainRatio) public onlyOwner() {
-    gainRatio = _gainRatio;
+  function setGainRatio(uint256 gainRatio_) external onlyOwner() {
+    gainRatio = gainRatio_;
   }
 
   /**
    * @dev sets the debt ratio
    */
-  function setDebtRatio(uint256 _debtRatio) public onlyOwner() {
-    debtRatio = _debtRatio;
+  function setDebtRatio(uint256 debtRatio_) external onlyOwner() {
+    debtRatio = debtRatio_;
   }
 
   /**
@@ -77,14 +80,14 @@ contract Liquidator is ILiquidator, ReentrancyGuard, Ownable {
     view
     returns (uint256, uint256)
   {
-    assert(_vault.getPriceSource() != 0);
-    assert(_vault.getPricePeg() != 0);
+    assert(vault.getPriceSource() != 0);
+    assert(vault.getPricePeg() != 0);
 
-    uint256 collateralValue = collateral * _vault.getPriceSource();
+    uint256 collateralValue = collateral * vault.getPriceSource();
 
     assert(collateralValue >= collateral);
 
-    uint256 debtValue = debt * _vault.getPricePeg();
+    uint256 debtValue = debt * vault.getPricePeg();
 
     assert(debtValue >= debt);
 
@@ -117,7 +120,7 @@ contract Liquidator is ILiquidator, ReentrancyGuard, Ownable {
    * @dev pays the user
    * Override this in other liquidators if you wish you pay not in AVAX but in a ERC20
    */
-  function getPaid() public virtual nonReentrant {
+  function getPaid() external virtual nonReentrant {
     require(tokenDebt[msg.sender] != 0, "Don't have anything for you.");
     uint256 amount = tokenDebt[msg.sender];
     // Set first in case nonReentrant fails somehow
@@ -128,14 +131,14 @@ contract Liquidator is ILiquidator, ReentrancyGuard, Ownable {
   /**
    * @dev checks if the vault can be liquidated
    */
-  function checkLiquidation(uint256 _vaultId) public view {
-    require(_vault.vaultExistence(_vaultId), 'Vault must exist');
+  function checkLiquidation(uint256 vaultId_) public view {
+    require(vault.vaultExistence(vaultId_), 'Vault must exist');
     (
       uint256 collateralValueTimes100,
       uint256 debtValue
     ) = calculateCollateralProperties(
-      _vault.vaultCollateral(_vaultId),
-      _vault.vaultDebt(_vaultId)
+      vault.vaultCollateral(vaultId_),
+      vault.vaultDebt(vaultId_)
     );
 
     uint256 collateralPercentage = collateralValueTimes100 / debtValue;
@@ -149,14 +152,14 @@ contract Liquidator is ILiquidator, ReentrancyGuard, Ownable {
   /**
    * @dev checks cost of liquidating
    */
-  function checkCost(uint256 _vaultId) public view returns (uint256) {
-    require(_vault.vaultExistence(_vaultId), 'Vault must exist');
+  function checkCost(uint256 vaultId_) public view returns (uint256) {
+    require(vault.vaultExistence(vaultId_), 'Vault must exist');
     (, uint256 debtValue) = calculateCollateralProperties(
-      _vault.vaultCollateral(_vaultId),
-      _vault.vaultDebt(_vaultId)
+      vault.vaultCollateral(vaultId_),
+      vault.vaultDebt(vaultId_)
     );
 
-    debtValue = debtValue / 100000000;
+    debtValue = debtValue / 1e8;
 
     return debtValue / debtRatio;
   }
@@ -164,17 +167,15 @@ contract Liquidator is ILiquidator, ReentrancyGuard, Ownable {
   /**
    * @dev checks how much token gets extract
    */
-  function checkExtract(uint256 _vaultId) public view returns (uint256) {
-    require(_vault.vaultExistence(_vaultId), 'Vault must exist');
+  function checkExtract(uint256 vaultId_) public view returns (uint256) {
+    require(vault.vaultExistence(vaultId_), 'Vault must exist');
     (, uint256 debtValue) = calculateCollateralProperties(
-      _vault.vaultCollateral(_vaultId),
-      _vault.vaultDebt(_vaultId)
+      vault.vaultCollateral(vaultId_),
+      vault.vaultDebt(vaultId_)
     );
 
-    uint256 halfDebt = debtValue / debtRatio;
-
-    uint256 tokenExtract = (halfDebt * gainRatio) /
-      (10 * _vault.getPriceSource());
+    uint256 tokenExtract = (debtValue * gainRatio) /
+      (10 * vault.getPriceSource() * debtRatio);
 
     return tokenExtract;
   }
@@ -182,8 +183,8 @@ contract Liquidator is ILiquidator, ReentrancyGuard, Ownable {
   /**
    * @dev Gives all the variables
    */
-  function checkValid(uint256 _vaultId)
-    public
+  function checkValid(uint256 vaultId_)
+    external
     view
     returns (
       bool,
@@ -192,12 +193,12 @@ contract Liquidator is ILiquidator, ReentrancyGuard, Ownable {
       uint256
     )
   {
-    require(_vault.vaultExistence(_vaultId), 'Vault must exist');
-    uint256 halfDebt = checkCost(_vaultId);
-    uint256 tokenExtract = checkExtract(_vaultId);
+    require(vault.vaultExistence(vaultId_), 'Vault must exist');
+    uint256 halfDebt = checkCost(vaultId_);
+    uint256 tokenExtract = checkExtract(vaultId_);
 
-    uint256 newCollateral = _vault.vaultCollateral(_vaultId) - tokenExtract;
-    assert(newCollateral <= _vault.vaultCollateral(_vaultId));
+    uint256 newCollateral = vault.vaultCollateral(vaultId_) - tokenExtract;
+    assert(newCollateral <= vault.vaultCollateral(vaultId_));
 
     return (
       isValidCollateral(newCollateral, halfDebt),
@@ -208,50 +209,56 @@ contract Liquidator is ILiquidator, ReentrancyGuard, Ownable {
   }
 
   // Gives collateral
-  function checkCollat(uint256 _vaultId)
-    public
+  function checkCollat(uint256 vaultId_)
+    external
     view
     returns (uint256, uint256)
   {
-    require(_vault.vaultExistence(_vaultId), 'Vault must exist');
+    require(vault.vaultExistence(vaultId_), 'Vault must exist');
     return
       calculateCollateralProperties(
-        _vault.vaultCollateral(_vaultId),
-        _vault.vaultDebt(_vaultId)
+        vault.vaultCollateral(vaultId_),
+        vault.vaultDebt(vaultId_)
       );
   }
 
   /**
    * @dev Liquidate the vault using this function
    */
-  function liquidateVault(uint256 _vaultId) public nonReentrant {
-    require(_vault.vaultExistence(_vaultId), 'Vault must exist');
+  function liquidateVault(uint256 vaultId_) external nonReentrant {
+    require(vault.vaultExistence(vaultId_), 'Vault must exist');
     // Transfer any remaining stablecoin to treasury
-    uint256 ogBalance = _stablecoin.balanceOf(address(this));
-    _stablecoin.transfer(treasury, ogBalance);
-    address ogOwner = _vault.ownerOf(_vaultId);
+    uint256 ogBalance = stablecoin.balanceOf(address(this));
+    require(
+      stablecoin.transfer(treasury, ogBalance),
+      'Dust failed to send to treasury'
+    );
+    address ogOwner = vault.ownerOf(vaultId_);
     // check liquidation ratio.
     // require its under 150;
-    checkLiquidation(_vaultId);
+    checkLiquidation(vaultId_);
 
-    uint256 tokenExtract = checkExtract(_vaultId);
-    uint256 halfDebt = checkCost(_vaultId);
+    uint256 tokenExtract = checkExtract(vaultId_);
+    uint256 halfDebt = checkCost(vaultId_);
 
-    _stablecoin.transferFrom(msg.sender, address(this), halfDebt);
+    require(
+      stablecoin.transferFrom(msg.sender, address(this), halfDebt),
+      'Unable to send stablecoin to liquidator'
+    );
 
     // if we successfully transfer user's funds we can now buy risky vault.
-    _vault.buyRiskyVault(_vaultId);
+    vault.buyRiskyVault(vaultId_);
 
-    uint256 newBalance = _stablecoin.balanceOf(address(this));
+    uint256 newBalance = stablecoin.balanceOf(address(this));
 
     // Pay back whatever wasn't needed to pay
-    _vault.payBackToken(_vaultId, newBalance);
+    vault.payBackToken(vaultId_, newBalance);
 
     // Withdraw the fee
-    _vault.withdrawCollateral(_vaultId, tokenExtract);
+    vault.withdrawCollateral(vaultId_, tokenExtract);
 
     // Trasnfer back to original owner
-    _vault.transferVault(_vaultId, ogOwner);
+    vault.transferVault(vaultId_, ogOwner);
 
     // and let the liquidator have their fee!
     tokenDebt[msg.sender] = tokenDebt[msg.sender] + tokenExtract;

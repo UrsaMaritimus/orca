@@ -32,7 +32,7 @@ contract AVAXVault is BaseVault {
   /**
    * @dev changes the Treasury. Can only every be one treasury!
    */
-  function changeTreasury(address to) public onlyRole(TREASURY_ROLE) {
+  function changeTreasury(address to) external onlyRole(TREASURY_ROLE) {
     _setupRole(TREASURY_ROLE, to);
     revokeRole(TREASURY_ROLE, msg.sender);
   }
@@ -44,7 +44,7 @@ contract AVAXVault is BaseVault {
    *
    */
   function depositCollateral(uint256 vaultID)
-    public
+    external
     payable
     onlyVaultOwner(vaultID)
   {
@@ -67,7 +67,7 @@ contract AVAXVault is BaseVault {
    * Emits WithdrawCollateral event
    */
   function withdrawCollateral(uint256 vaultID, uint256 amount)
-    public
+    external
     override
     onlyVaultOwner(vaultID)
     nonReentrant

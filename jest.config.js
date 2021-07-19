@@ -8,5 +8,6 @@ module.exports = {
     '<rootDir>/libs/components/account',
     '<rootDir>/libs/components/balance',
     '<rootDir>/apps/avai',
+    '<rootDir>/libs/shared/styles',
   ],
 };

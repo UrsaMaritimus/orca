@@ -31,31 +31,16 @@ contract Stablecoin is ERC20, ERC20Permit, AccessControl, ReentrancyGuard {
   }
 
   /**
-   * Only vault owner can do anything with this modifier
-   */
-  modifier onlyVaultOwner(uint256 vaultType, uint256 vaultID) {
-    require(vaultExists[vaultType], 'Vault type does not exist');
-    require(vaults[vaultType].vaultExistence(vaultID), 'Vault does not exist');
-
-    require(
-      vaults[vaultType].ownerOf(vaultID) == msg.sender,
-      'Vault is not owned by you'
-    );
-
-    _;
-  }
-
-  /**
    * @dev check on the current number of vault types deployed
    */
-  function vaultCount() public view returns (uint256) {
+  function vaultCount() external view returns (uint256) {
     return _vaultIds.current();
   }
 
   /**
    * @dev give a burner role so that vaults can burn the token upon liquidation and paying back.
    */
-  function burn(address from, uint256 amount) public onlyRole(BURNER_ROLE) {
+  function burn(address from, uint256 amount) external onlyRole(BURNER_ROLE) {
     _burn(from, amount);
   }
 
@@ -72,7 +57,10 @@ contract Stablecoin is ERC20, ERC20Permit, AccessControl, ReentrancyGuard {
   /**
    * @dev Adds a vault after creation for book keeping on the stablecoin
    */
-  function addVault(address vaultAddress) public onlyRole(DEFAULT_ADMIN_ROLE) {
+  function addVault(address vaultAddress)
+    external
+    onlyRole(DEFAULT_ADMIN_ROLE)
+  {
     // Increment ID
     _vaultIds.increment();
     // Assign ID to vault

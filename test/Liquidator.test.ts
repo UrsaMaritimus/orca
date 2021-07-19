@@ -90,8 +90,8 @@ describe('Liquidator interactions', function () {
   });
 
   it('should set correct variables and allow changes to gain/debt ratio', async () => {
-    expect(await liq._stablecoin()).to.equal(avai.address);
-    expect(await liq._vault()).to.equal(vault.address);
+    expect(await liq.stablecoin()).to.equal(avai.address);
+    expect(await liq.vault()).to.equal(vault.address);
     expect(await liq.debtRatio()).to.equal(2);
     expect(await liq.gainRatio()).to.equal(11);
     expect(await liq.treasury()).to.equal(accounts[0].address);
@@ -124,7 +124,7 @@ describe('Liquidator interactions', function () {
     expect(await liq.owner()).to.equal(accounts[1].address);
 
     // Accounts[0] should now not be able to
-    await expect(liq.connect(accounts[1]).setTreasury(accounts[1].address)).to
+    await expect(liq.connect(accounts[0]).setTreasury(accounts[0].address)).to
       .be.reverted;
   });
 

@@ -423,12 +423,15 @@ describe('Avax Vault Interactions', function () {
       'Withdrawal would put vault below minimum collateral percentage'
     );
 
+    const initDebt = await vault.vaultDebt(2);
     // Return some debt, pays 0.5% of returned collateral
     await expect(() =>
       vault.payBackToken(2, collateralAsDebt.div(2))
     ).to.changeTokenBalance(avai, accounts[0], collateralAsDebt.div(2).mul(-1));
 
-    expect(await vault.vaultDebt(2)).to.equal(collateralAsDebt.div(2));
+    expect(await vault.vaultDebt(2)).to.equal(
+      initDebt.sub(collateralAsDebt.div(2))
+    );
 
     const withdrawAmount = ethers.utils.parseEther('5.0').mul(9950).div(10000);
     // Lets withdraw max collateral now
@@ -437,6 +440,87 @@ describe('Avax Vault Interactions', function () {
     ).to.changeEtherBalances(
       [accounts[0], vault],
       [withdrawAmount, withdrawAmount.mul(-1)]
+    );
+  });
+
+  it('should allow destroying of vault', async () => {
+    // Set up
+    const overrides = {
+      value: ethers.utils.parseEther('10.0'),
+    };
+
+    await vault.createVault();
+    await vault.depositCollateral(2, overrides);
+    await vault.setDebtCeiling(ethers.utils.parseEther('1000000.0'));
+
+    const collat = await vault.vaultCollateral(2);
+    const price = await vault.getPriceSource();
+    const collateralAsDebt = collat
+      .mul(price)
+      .mul(100)
+      .div(150)
+      .div('100000000');
+
+    // Borrow max AVAI
+    await vault.borrowToken(2, collateralAsDebt);
+
+    //Try destroying vault, should revert
+    await expect(vault.destroyVault(2)).to.be.revertedWith(
+      'Vault as outstanding debt'
+    );
+
+    // Pay back tokens
+    await vault.payBackToken(2, collateralAsDebt);
+    expect(await vault.vaultDebt(2)).to.equal(0);
+
+    // Try destroying again
+    // Try with different user
+    await expect(vault.connect(accounts[1]).destroyVault(2)).to.be.revertedWith(
+      'Vault is not owned by you'
+    );
+    expect(await vault.balanceOf(accounts[0].address)).to.equal(2);
+    // Should work
+    await expect(vault.destroyVault(2))
+      .to.emit(vault, 'DestroyVault')
+      .withArgs(2);
+
+    // Because it is the treasury as well, should be one instead of two
+    expect(await vault.balanceOf(accounts[0].address)).to.equal(1);
+
+    expect(await vault.vaultExistence(2)).to.equal(false);
+    expect(await vault.vaultCollateral(2)).to.equal(0);
+    expect(await vault.vaultDebt(2)).to.equal(0);
+  });
+
+  it('should pay back all collateral in vault', async () => {
+    // Set up
+    const overrides = {
+      value: ethers.utils.parseEther('10.0'),
+    };
+
+    await vault.createVault();
+    await vault.depositCollateral(2, overrides);
+    await vault.setDebtCeiling(ethers.utils.parseEther('1000000.0'));
+
+    const collat = await vault.vaultCollateral(2);
+    const price = await vault.getPriceSource();
+    const collateralAsDebt = collat
+      .mul(price)
+      .mul(100)
+      .div(150)
+      .div('100000000');
+
+    // Borrow max AVAI
+    await vault.borrowToken(2, collateralAsDebt);
+
+    // Pay back tokens
+    await vault.payBackToken(2, collateralAsDebt);
+    expect(await vault.vaultDebt(2)).to.equal(0);
+
+    const currentCollat = await vault.vaultCollateral(2);
+    await expect(() => vault.destroyVault(2)).to.changeEtherBalances(
+      [accounts[0], vault],
+      [currentCollat, currentCollat.mul(-1)]
     );
   });
 });

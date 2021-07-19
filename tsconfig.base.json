@@ -21,6 +21,7 @@
       "@ursa/components/balance": ["libs/components/balance/src/index.ts"],
       "@ursa/hooks": ["libs/hooks/src/index.ts"],
       "@ursa/shared/contracts": ["libs/shared/contracts/src/index.ts"],
+      "@ursa/shared/styles": ["libs/shared/styles/src/index.ts"],
       "@ursa/util": ["libs/util/src/index.ts"]
     }
   },

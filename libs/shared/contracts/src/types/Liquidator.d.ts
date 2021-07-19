@@ -21,8 +21,6 @@ import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface LiquidatorInterface extends ethers.utils.Interface {
   functions: {
-    "_stablecoin()": FunctionFragment;
-    "_vault()": FunctionFragment;
     "checkCollat(uint256)": FunctionFragment;
     "checkCost(uint256)": FunctionFragment;
     "checkExtract(uint256)": FunctionFragment;
@@ -37,16 +35,13 @@ interface LiquidatorInterface extends ethers.utils.Interface {
     "setDebtRatio(uint256)": FunctionFragment;
     "setGainRatio(uint256)": FunctionFragment;
     "setTreasury(address)": FunctionFragment;
+    "stablecoin()": FunctionFragment;
     "tokenDebt(address)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "treasury()": FunctionFragment;
+    "vault()": FunctionFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: "_stablecoin",
-    values?: undefined
-  ): string;
-  encodeFunctionData(functionFragment: "_vault", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "checkCollat",
     values: [BigNumberish]
@@ -88,18 +83,18 @@ interface LiquidatorInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "setTreasury", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "stablecoin",
+    values?: undefined
+  ): string;
   encodeFunctionData(functionFragment: "tokenDebt", values: [string]): string;
   encodeFunctionData(
     functionFragment: "transferOwnership",
     values: [string]
   ): string;
   encodeFunctionData(functionFragment: "treasury", values?: undefined): string;
+  encodeFunctionData(functionFragment: "vault", values?: undefined): string;
 
-  decodeFunctionResult(
-    functionFragment: "_stablecoin",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "_vault", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "checkCollat",
     data: BytesLike
@@ -138,12 +133,14 @@ interface LiquidatorInterface extends ethers.utils.Interface {
     functionFragment: "setTreasury",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "stablecoin", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "tokenDebt", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "treasury", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "vault", data: BytesLike): Result;
 
   events: {
     "CreateVaultType(uint256,address)": EventFragment;
@@ -198,32 +195,28 @@ export class Liquidator extends BaseContract {
   interface: LiquidatorInterface;
 
   functions: {
-    _stablecoin(overrides?: CallOverrides): Promise<[string]>;
-
-    _vault(overrides?: CallOverrides): Promise<[string]>;
-
     checkCollat(
-      _vaultId: BigNumberish,
+      vaultId_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber, BigNumber]>;
 
     checkCost(
-      _vaultId: BigNumberish,
+      vaultId_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
     checkExtract(
-      _vaultId: BigNumberish,
+      vaultId_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
     checkLiquidation(
-      _vaultId: BigNumberish,
+      vaultId_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[void]>;
 
     checkValid(
-      _vaultId: BigNumberish,
+      vaultId_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[boolean, BigNumber, BigNumber, BigNumber]>;
 
@@ -236,7 +229,7 @@ export class Liquidator extends BaseContract {
     ): Promise<ContractTransaction>;
 
     liquidateVault(
-      _vaultId: BigNumberish,
+      vaultId_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -247,19 +240,21 @@ export class Liquidator extends BaseContract {
     ): Promise<ContractTransaction>;
 
     setDebtRatio(
-      _debtRatio: BigNumberish,
+      debtRatio_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     setGainRatio(
-      _gainRatio: BigNumberish,
+      gainRatio_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     setTreasury(
-      _newTreasury: string,
+      newTreasury_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    stablecoin(overrides?: CallOverrides): Promise<[string]>;
 
     tokenDebt(arg0: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -269,34 +264,32 @@ export class Liquidator extends BaseContract {
     ): Promise<ContractTransaction>;
 
     treasury(overrides?: CallOverrides): Promise<[string]>;
+
+    vault(overrides?: CallOverrides): Promise<[string]>;
   };
 
-  _stablecoin(overrides?: CallOverrides): Promise<string>;
-
-  _vault(overrides?: CallOverrides): Promise<string>;
-
   checkCollat(
-    _vaultId: BigNumberish,
+    vaultId_: BigNumberish,
     overrides?: CallOverrides
   ): Promise<[BigNumber, BigNumber]>;
 
   checkCost(
-    _vaultId: BigNumberish,
+    vaultId_: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
   checkExtract(
-    _vaultId: BigNumberish,
+    vaultId_: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
   checkLiquidation(
-    _vaultId: BigNumberish,
+    vaultId_: BigNumberish,
     overrides?: CallOverrides
   ): Promise<void>;
 
   checkValid(
-    _vaultId: BigNumberish,
+    vaultId_: BigNumberish,
     overrides?: CallOverrides
   ): Promise<[boolean, BigNumber, BigNumber, BigNumber]>;
 
@@ -309,7 +302,7 @@ export class Liquidator extends BaseContract {
   ): Promise<ContractTransaction>;
 
   liquidateVault(
-    _vaultId: BigNumberish,
+    vaultId_: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -320,19 +313,21 @@ export class Liquidator extends BaseContract {
   ): Promise<ContractTransaction>;
 
   setDebtRatio(
-    _debtRatio: BigNumberish,
+    debtRatio_: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   setGainRatio(
-    _gainRatio: BigNumberish,
+    gainRatio_: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   setTreasury(
-    _newTreasury: string,
+    newTreasury_: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  stablecoin(overrides?: CallOverrides): Promise<string>;
 
   tokenDebt(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -343,33 +338,31 @@ export class Liquidator extends BaseContract {
 
   treasury(overrides?: CallOverrides): Promise<string>;
 
+  vault(overrides?: CallOverrides): Promise<string>;
+
   callStatic: {
-    _stablecoin(overrides?: CallOverrides): Promise<string>;
-
-    _vault(overrides?: CallOverrides): Promise<string>;
-
     checkCollat(
-      _vaultId: BigNumberish,
+      vaultId_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber, BigNumber]>;
 
     checkCost(
-      _vaultId: BigNumberish,
+      vaultId_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     checkExtract(
-      _vaultId: BigNumberish,
+      vaultId_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     checkLiquidation(
-      _vaultId: BigNumberish,
+      vaultId_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
     checkValid(
-      _vaultId: BigNumberish,
+      vaultId_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[boolean, BigNumber, BigNumber, BigNumber]>;
 
@@ -380,7 +373,7 @@ export class Liquidator extends BaseContract {
     getPaid(overrides?: CallOverrides): Promise<void>;
 
     liquidateVault(
-      _vaultId: BigNumberish,
+      vaultId_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -389,16 +382,18 @@ export class Liquidator extends BaseContract {
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
     setDebtRatio(
-      _debtRatio: BigNumberish,
+      debtRatio_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
     setGainRatio(
-      _gainRatio: BigNumberish,
+      gainRatio_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setTreasury(_newTreasury: string, overrides?: CallOverrides): Promise<void>;
+    setTreasury(newTreasury_: string, overrides?: CallOverrides): Promise<void>;
+
+    stablecoin(overrides?: CallOverrides): Promise<string>;
 
     tokenDebt(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -408,6 +403,8 @@ export class Liquidator extends BaseContract {
     ): Promise<void>;
 
     treasury(overrides?: CallOverrides): Promise<string>;
+
+    vault(overrides?: CallOverrides): Promise<string>;
   };
 
   filters: {
@@ -429,32 +426,28 @@ export class Liquidator extends BaseContract {
   };
 
   estimateGas: {
-    _stablecoin(overrides?: CallOverrides): Promise<BigNumber>;
-
-    _vault(overrides?: CallOverrides): Promise<BigNumber>;
-
     checkCollat(
-      _vaultId: BigNumberish,
+      vaultId_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     checkCost(
-      _vaultId: BigNumberish,
+      vaultId_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     checkExtract(
-      _vaultId: BigNumberish,
+      vaultId_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     checkLiquidation(
-      _vaultId: BigNumberish,
+      vaultId_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     checkValid(
-      _vaultId: BigNumberish,
+      vaultId_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -467,7 +460,7 @@ export class Liquidator extends BaseContract {
     ): Promise<BigNumber>;
 
     liquidateVault(
-      _vaultId: BigNumberish,
+      vaultId_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -478,19 +471,21 @@ export class Liquidator extends BaseContract {
     ): Promise<BigNumber>;
 
     setDebtRatio(
-      _debtRatio: BigNumberish,
+      debtRatio_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     setGainRatio(
-      _gainRatio: BigNumberish,
+      gainRatio_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     setTreasury(
-      _newTreasury: string,
+      newTreasury_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    stablecoin(overrides?: CallOverrides): Promise<BigNumber>;
 
     tokenDebt(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -500,35 +495,33 @@ export class Liquidator extends BaseContract {
     ): Promise<BigNumber>;
 
     treasury(overrides?: CallOverrides): Promise<BigNumber>;
+
+    vault(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    _stablecoin(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    _vault(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     checkCollat(
-      _vaultId: BigNumberish,
+      vaultId_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     checkCost(
-      _vaultId: BigNumberish,
+      vaultId_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     checkExtract(
-      _vaultId: BigNumberish,
+      vaultId_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     checkLiquidation(
-      _vaultId: BigNumberish,
+      vaultId_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     checkValid(
-      _vaultId: BigNumberish,
+      vaultId_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -541,7 +534,7 @@ export class Liquidator extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     liquidateVault(
-      _vaultId: BigNumberish,
+      vaultId_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -552,19 +545,21 @@ export class Liquidator extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     setDebtRatio(
-      _debtRatio: BigNumberish,
+      debtRatio_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     setGainRatio(
-      _gainRatio: BigNumberish,
+      gainRatio_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     setTreasury(
-      _newTreasury: string,
+      newTreasury_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    stablecoin(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     tokenDebt(
       arg0: string,
@@ -577,5 +572,7 @@ export class Liquidator extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     treasury(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    vault(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

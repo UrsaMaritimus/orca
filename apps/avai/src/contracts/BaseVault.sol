@@ -40,9 +40,9 @@ contract BaseVault is
   AggregatorV3Interface public priceSource;
 
   // Token used as collateral
-  IERC20 public immutable _token;
+  IERC20 public immutable token;
   // Token used as debt
-  IStablecoin internal immutable _stablecoin;
+  IStablecoin internal immutable stablecoin;
 
   // Address that corresponds to liquidater
   address public stabilityPool;
@@ -60,23 +60,23 @@ contract BaseVault is
     address priceSource_,
     string memory name_,
     string memory symbol_,
-    address token,
-    address stablecoin
+    address token_,
+    address stablecoin_
   ) ERC721(name_, symbol_) {
     assert(priceSource_ != address(0));
     assert(minimumCollateralPercentage != 0);
     //Initial settings!
-    debtCeiling = 10000000000000000000; // 10 dollas
+    debtCeiling = 10e18; // 10 dollas
     closingFee = 50; // 0.5%
     openingFee = 0; // 0.0%
-    tokenPeg = 100000000; // $1
+    tokenPeg = 1e8; // $1
     // Initially, will deploy later
     stabilityPool = address(0);
 
     priceSource = AggregatorV3Interface(priceSource_);
 
-    _token = IERC20(token);
-    _stablecoin = IStablecoin(stablecoin);
+    token = IERC20(token_);
+    stablecoin = IStablecoin(stablecoin_);
 
     _minimumCollateralPercentage = minimumCollateralPercentage;
   }
@@ -103,15 +103,15 @@ contract BaseVault is
   /**
    * @dev Set the debt ceiling for this vault
    */
-  function setDebtCeiling(uint256 _debtCeiling)
+  function setDebtCeiling(uint256 debtCeiling_)
     external
     onlyRole(TREASURY_ROLE)
   {
     require(
-      debtCeiling <= _debtCeiling,
+      debtCeiling <= debtCeiling_,
       'setCeiling: Must be over the amount of current debt ceiling.'
     );
-    debtCeiling = _debtCeiling;
+    debtCeiling = debtCeiling_;
   }
 
   /**
@@ -164,9 +164,9 @@ contract BaseVault is
   /**
    * @dev Set the treasury vault for this vault
    */
-  function setTreasury(uint256 _treasury) external onlyRole(TREASURY_ROLE) {
-    require(vaultExistence[_treasury], 'Vault does not exist');
-    treasury = _treasury;
+  function setTreasury(uint256 treasury_) external onlyRole(TREASURY_ROLE) {
+    require(vaultExistence[treasury_], 'Vault does not exist');
+    treasury = treasury_;
   }
 
   /**
@@ -273,7 +273,10 @@ contract BaseVault is
     require(vaultDebt[vaultID] == 0, 'Vault as outstanding debt');
 
     if (vaultCollateral[vaultID] != 0) {
-      _token.transferFrom(address(this), msg.sender, vaultCollateral[vaultID]);
+      require(
+        token.transferFrom(address(this), msg.sender, vaultCollateral[vaultID]),
+        'Unable to return collateral'
+      );
     }
 
     _burn(vaultID);
@@ -339,7 +342,7 @@ contract BaseVault is
     // Mint stable coin for the user
     _addVaultDebt(vaultID, amount);
     // Should have minter role
-    _stablecoin.mint(msg.sender, amount);
+    stablecoin.mint(msg.sender, amount);
     emit BorrowToken(vaultID, amount);
   }
 
@@ -356,7 +359,7 @@ contract BaseVault is
     nonReentrant
   {
     require(
-      _stablecoin.balanceOf(msg.sender) >= amount,
+      stablecoin.balanceOf(msg.sender) >= amount,
       'Token balance too low'
     );
     require(
@@ -373,7 +376,7 @@ contract BaseVault is
     _addVaultCollateralTreasury(_closingFee);
 
     // Burns the stablecoin
-    _stablecoin.burn(msg.sender, amount);
+    stablecoin.burn(msg.sender, amount);
 
     emit PayBackToken(vaultID, amount, _closingFee);
   }
@@ -388,7 +391,7 @@ contract BaseVault is
    * Emits WithdrawCollateral event
    */
   function withdrawCollateral(uint256 vaultID, uint256 amount)
-    public
+    external
     virtual
     onlyVaultOwner(vaultID)
     nonReentrant
@@ -408,7 +411,10 @@ contract BaseVault is
     }
 
     vaultCollateral[vaultID] = newCollateral;
-    _token.transferFrom(address(this), msg.sender, amount);
+    require(
+      token.transferFrom(address(this), msg.sender, amount),
+      'Unable to return collateral'
+    );
 
     emit WithdrawCollateral(vaultID, amount);
   }
@@ -423,7 +429,11 @@ contract BaseVault is
    *
    * Emits BuyRiskyVault event
    */
-  function buyRiskyVault(uint256 vaultID) public onlyLiquidater() {
+  function buyRiskyVault(uint256 vaultID)
+    external
+    onlyLiquidater()
+    nonReentrant
+  {
     require(vaultExistence[vaultID], 'Vault does not exist');
     (
       uint256 collateralValueTimes100,
@@ -448,7 +458,7 @@ contract BaseVault is
     uint256 debtDifference = vaultDebt[vaultID] - maximumDebt;
 
     require(
-      _stablecoin.balanceOf(msg.sender) >= debtDifference,
+      stablecoin.balanceOf(msg.sender) >= debtDifference,
       'Token balance too low to pay off outstanding debt'
     );
 
@@ -462,7 +472,7 @@ contract BaseVault is
     vaultCollateral[vaultID] -= _closingFee;
     vaultCollateral[treasury] += _closingFee;
 
-    _stablecoin.burn(msg.sender, debtDifference);
+    stablecoin.burn(msg.sender, debtDifference);
 
     _subFromTotalDebt(debtDifference);
     // burn erc721 (vaultId)
@@ -471,18 +481,6 @@ contract BaseVault is
     _mint(msg.sender, vaultID);
 
     emit LiquidateVault(vaultID, previousOwner, msg.sender, debtDifference);
-  }
-
-  /**
-   * @dev Adds to the vault collateral
-   *
-   */
-  function _addVaultCollateral(uint256 vaultID, uint256 amount) internal {
-    uint256 newCollateral = vaultCollateral[vaultID] + amount;
-    assert(newCollateral >= vaultCollateral[vaultID]);
-
-    // Adjust and save it
-    vaultCollateral[vaultID] = newCollateral;
   }
 
   /**
@@ -588,11 +586,11 @@ contract BaseVault is
     totalDebt = newDebt;
   }
 
-  function _transferFrom(
-    address from, // solhint-disable-line
-    address to, // solhint-disable-line
-    uint256 tokenId // solhint-disable-line
-  ) internal pure {
+  function _transfer(
+    address from,
+    address to,
+    uint256 tokenId
+  ) internal pure override {
     revert('transfer: disabled');
   }
 
