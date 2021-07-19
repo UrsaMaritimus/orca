@@ -1,7 +1,8 @@
-import { alpha, Theme } from '@material-ui/core/styles'
+import { alpha, Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 const Backdrop = (theme: Theme) => {
-  const varLow = alpha(theme.palette.grey[900], 0.48)
-  const varHigh = alpha(theme.palette.grey[900], 1)
+  const varLow = alpha(theme.palette.grey[900], 0.48);
+  const varHigh = alpha(theme.palette.grey[900], 1);
 
   return {
     MuiBackdrop: {
@@ -19,7 +20,7 @@ const Backdrop = (theme: Theme) => {
         },
       },
     },
-  }
-}
+  };
+};
 
-export default Backdrop
+export default Backdrop;

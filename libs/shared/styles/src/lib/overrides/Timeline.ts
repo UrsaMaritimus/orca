@@ -1,4 +1,5 @@
-import { Theme } from '@material-ui/core/styles'
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 
 const Timeline = (theme: Theme) => {
   return {
@@ -17,7 +18,7 @@ const Timeline = (theme: Theme) => {
         },
       },
     },
-  }
-}
+  };
+};
 
-export default Timeline
+export default Timeline;

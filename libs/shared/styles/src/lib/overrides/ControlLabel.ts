@@ -1,5 +1,5 @@
-import { Theme } from '@material-ui/core/styles'
-
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 const ControlLabel = (theme: Theme) => {
   return {
     MuiFormControlLabel: {
@@ -23,7 +23,7 @@ const ControlLabel = (theme: Theme) => {
         },
       },
     },
-  }
-}
+  };
+};
 
-export default ControlLabel
+export default ControlLabel;

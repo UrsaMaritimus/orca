@@ -1,5 +1,5 @@
-import { Theme } from '@material-ui/core/styles'
-
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 const IconButton = (theme: Theme) => {
   return {
     MuiIconButton: {
@@ -22,7 +22,7 @@ const IconButton = (theme: Theme) => {
         root: {},
       },
     },
-  }
-}
+  };
+};
 
-export default IconButton
+export default IconButton;

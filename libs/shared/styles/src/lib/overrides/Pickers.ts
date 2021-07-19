@@ -1,4 +1,5 @@
-import { Theme, alpha } from '@material-ui/core/styles'
+import { Theme, alpha } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 
 const Pickers = (theme: Theme) => {
   return {
@@ -90,9 +91,10 @@ const Pickers = (theme: Theme) => {
         root: {
           boxShadow: theme.shadowExtension.z24,
           borderRadius: theme.shape.borderRadiusMd,
-          '& .MuiDateRangePickerViewDesktop-rangeCalendarContainer:not(:last-child)': {
-            borderRightWidth: 1,
-          },
+          '& .MuiDateRangePickerViewDesktop-rangeCalendarContainer:not(:last-child)':
+            {
+              borderRightWidth: 1,
+            },
         },
       },
     },
@@ -126,7 +128,7 @@ const Pickers = (theme: Theme) => {
         },
       },
     },
-  }
-}
+  };
+};
 
-export default Pickers
+export default Pickers;

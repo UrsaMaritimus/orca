@@ -1,27 +1,28 @@
-import { Icon } from '@iconify/react'
-import infoFill from '@iconify/icons-eva/info-fill'
-import alertCircleFill from '@iconify/icons-eva/alert-circle-fill'
-import alertTriangleFill from '@iconify/icons-eva/alert-triangle-fill'
-import checkmarkCircle2Fill from '@iconify/icons-eva/checkmark-circle-2-fill'
-import { Theme } from '@material-ui/core/styles'
+import { Icon } from '@iconify/react';
+import infoFill from '@iconify/icons-eva/info-fill';
+import alertCircleFill from '@iconify/icons-eva/alert-circle-fill';
+import alertTriangleFill from '@iconify/icons-eva/alert-triangle-fill';
+import checkmarkCircle2Fill from '@iconify/icons-eva/checkmark-circle-2-fill';
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 
 const Alert = (theme: Theme) => {
-  const isLight = theme.palette.mode === 'light'
+  const isLight = theme.palette.mode === 'light';
 
   const standardStyle = (color: string) => ({
     color: theme.palette[color][isLight ? 'darker' : 'lighter'],
     backgroundColor: theme.palette[color][isLight ? 'lighter' : 'darker'],
-  })
+  });
 
   const filledStyle = (color: string) => ({
     color: theme.palette[color].contrastText,
-  })
+  });
 
   const outlinedStyle = (color: string) => ({
     color: theme.palette[color][isLight ? 'darker' : 'lighter'],
     border: `solid 1px ${theme.palette[color][isLight ? 'light' : 'dark']}`,
     backgroundColor: theme.palette[color][isLight ? 'lighter' : 'darker'],
-  })
+  });
 
   return {
     MuiAlert: {
@@ -62,7 +63,7 @@ const Alert = (theme: Theme) => {
         outlinedError: outlinedStyle('error'),
       },
     },
-  }
-}
+  };
+};
 
-export default Alert
+export default Alert;

@@ -1,5 +1,5 @@
-import { Theme } from '@material-ui/core/styles'
-
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 const Button = (theme: Theme) => {
   return {
     MuiButton: {
@@ -35,7 +35,7 @@ const Button = (theme: Theme) => {
         },
       },
     },
-  }
-}
+  };
+};
 
-export default Button
+export default Button;

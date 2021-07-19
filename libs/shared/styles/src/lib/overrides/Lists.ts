@@ -1,5 +1,5 @@
-import { Theme } from '@material-ui/core/styles'
-
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 const Lists = (theme: Theme) => {
   return {
     MuiListItemIcon: {
@@ -31,7 +31,7 @@ const Lists = (theme: Theme) => {
         },
       },
     },
-  }
-}
+  };
+};
 
-export default Lists
+export default Lists;

@@ -1,8 +1,8 @@
-import { alpha, PaletteOptions } from '@material-ui/core/styles'
+import { alpha, PaletteOptions } from '@material-ui/core/styles';
 
 const createGradient = (color1: string, color2: string) => {
-  return `linear-gradient(to bottom, ${color1}, ${color2})`
-}
+  return `linear-gradient(to bottom, ${color1}, ${color2})`;
+};
 
 // Setup Colors
 const PRIMARY = {
@@ -11,42 +11,42 @@ const PRIMARY = {
   main: '#3EB5FF',
   dark: '#1F6AB7',
   darker: '#0B357A',
-}
+};
 const SECONDARY = {
   lighter: '#E7E0FF',
   light: '#B6A4FF',
   main: '#8168FF',
   dark: '#4534B7',
   darker: '#1D137A',
-}
+};
 const INFO = {
   lighter: '#E7F0FF',
   light: '#B8CEFF',
   main: '#89A8FF',
   dark: '#455CB7',
   darker: '#1A297A',
-}
+};
 const SUCCESS = {
   lighter: '#F0FBCE',
   light: '#C0E86B',
   main: '#73B512',
   dark: '#478209',
   darker: '#275603',
-}
+};
 const WARNING = {
   lighter: '#FFF9CC',
   light: '#FFE867',
   main: '#FFD002',
   dark: '#B78E01',
   darker: '#7A5A00',
-}
+};
 const ERROR = {
   lighter: '#FFEBD6',
   light: '#FFB185',
   main: '#FF6135',
   dark: '#B7251A',
   darker: '#7A0A12',
-}
+};
 
 const GREY = {
   0: '#FFFFFF',
@@ -67,7 +67,7 @@ const GREY = {
   500_48: alpha('#919EAB', 0.48),
   500_56: alpha('#919EAB', 0.56),
   500_80: alpha('#919EAB', 0.8),
-}
+};
 
 const GRADIENTS = {
   primary: createGradient(PRIMARY.light, PRIMARY.main),
@@ -75,7 +75,7 @@ const GRADIENTS = {
   success: createGradient(SUCCESS.light, SUCCESS.main),
   warning: createGradient(WARNING.light, WARNING.main),
   error: createGradient(ERROR.light, ERROR.main),
-}
+};
 
 const COMMON = {
   common: { black: '#000', white: '#fff' },
@@ -105,11 +105,11 @@ const COMMON = {
     hoverOpacity: 0.08,
     disabledOpacity: 0.48,
   },
-}
+};
 
 export interface Palettes {
-  light: PaletteOptions
-  dark: PaletteOptions
+  light: PaletteOptions;
+  dark: PaletteOptions;
 }
 
 export const Palette: Palettes = {
@@ -152,4 +152,4 @@ export const Palette: Palettes = {
       ...COMMON.action,
     },
   },
-}
+};

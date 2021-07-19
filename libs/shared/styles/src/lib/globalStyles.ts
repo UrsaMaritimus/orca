@@ -1,4 +1,4 @@
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/styles';
 
 export const GlobalStyles = withStyles((theme) => ({
   '@global': {
@@ -58,4 +58,4 @@ export const GlobalStyles = withStyles((theme) => ({
       filter: 'blur(0)',
     },
   },
-}))(() => null)
+}))(() => null);

@@ -1,4 +1,5 @@
-import { Theme } from '@material-ui/core/styles'
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 
 const Card = (theme: Theme) => {
   return {
@@ -30,7 +31,7 @@ const Card = (theme: Theme) => {
         },
       },
     },
-  }
-}
+  };
+};
 
-export default Card
+export default Card;

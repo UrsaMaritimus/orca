@@ -1,5 +1,5 @@
-import { Theme } from '@material-ui/core/styles'
-
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 const Input = (theme: Theme) => {
   return {
     MuiInputBase: {
@@ -56,7 +56,7 @@ const Input = (theme: Theme) => {
         },
       },
     },
-  }
-}
+  };
+};
 
-export default Input
+export default Input;

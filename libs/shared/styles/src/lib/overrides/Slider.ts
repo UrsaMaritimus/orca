@@ -1,4 +1,5 @@
-import { Theme } from '@material-ui/core/styles'
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 
 const Slider = (theme: Theme) => {
   return {
@@ -15,7 +16,7 @@ const Slider = (theme: Theme) => {
         },
       },
     },
-  }
-}
+  };
+};
 
-export default Slider
+export default Slider;

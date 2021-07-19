@@ -1,4 +1,5 @@
-import { Theme } from '@material-ui/core/styles'
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 
 const Radio = (theme: Theme) => {
   return {
@@ -13,7 +14,7 @@ const Radio = (theme: Theme) => {
         },
       },
     },
-  }
-}
+  };
+};
 
-export default Radio
+export default Radio;

@@ -1,7 +1,8 @@
-import { Theme } from '@material-ui/core/styles'
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 
 const Progress = (theme: Theme) => {
-  const isLight = theme.palette.mode === 'light'
+  const isLight = theme.palette.mode === 'light';
 
   return {
     MuiLinearProgress: {
@@ -14,14 +15,15 @@ const Progress = (theme: Theme) => {
           borderRadius: 4,
         },
         colorPrimary: {
-          backgroundColor: theme.palette.primary[isLight ? 'lighter' : 'darker'],
+          backgroundColor:
+            theme.palette.primary[isLight ? 'lighter' : 'darker'],
         },
         buffer: {
           backgroundColor: 'transparent',
         },
       },
     },
-  }
-}
+  };
+};
 
-export default Progress
+export default Progress;

@@ -1,4 +1,5 @@
-import { Theme } from '@material-ui/core/styles'
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 
 const Skeleton = (theme: Theme) => {
   return {
@@ -13,7 +14,7 @@ const Skeleton = (theme: Theme) => {
         },
       },
     },
-  }
-}
+  };
+};
 
-export default Skeleton
+export default Skeleton;

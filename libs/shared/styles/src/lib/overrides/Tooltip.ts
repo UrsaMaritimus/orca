@@ -1,7 +1,8 @@
-import { Theme } from '@material-ui/core/styles'
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 
 const Tooltip = (theme: Theme) => {
-  const isLight = theme.palette.mode === 'light'
+  const isLight = theme.palette.mode === 'light';
   return {
     MuiTooltip: {
       styleOverrides: {
@@ -13,7 +14,7 @@ const Tooltip = (theme: Theme) => {
         },
       },
     },
-  }
-}
+  };
+};
 
-export default Tooltip
+export default Tooltip;

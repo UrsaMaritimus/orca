@@ -1,4 +1,5 @@
-import { Theme } from '@material-ui/core/styles'
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 
 const Accordion = (theme: Theme) => {
   return {
@@ -33,7 +34,7 @@ const Accordion = (theme: Theme) => {
         },
       },
     },
-  }
-}
+  };
+};
 
-export default Accordion
+export default Accordion;

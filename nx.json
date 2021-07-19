@@ -33,7 +33,58 @@
     "components-account": {
       "tags": []
     },
+    "components-animate": {
+      "tags": []
+    },
     "components-balance": {
+      "tags": []
+    },
+    "components-links": {
+      "tags": []
+    },
+    "components-loader": {
+      "tags": []
+    },
+    "components-logo": {
+      "tags": []
+    },
+    "components-material-extend-avatar": {
+      "tags": []
+    },
+    "components-material-extend-badge": {
+      "tags": []
+    },
+    "components-material-extend-breadcrumbs": {
+      "tags": []
+    },
+    "components-material-extend-buttons": {
+      "tags": []
+    },
+    "components-material-extend-chip": {
+      "tags": []
+    },
+    "components-material-extend-progress": {
+      "tags": []
+    },
+    "components-material-extend-selection-controls": {
+      "tags": []
+    },
+    "components-material-extend-timeline": {
+      "tags": []
+    },
+    "components-notistack": {
+      "tags": []
+    },
+    "components-popover-menu": {
+      "tags": []
+    },
+    "components-scroll-bar": {
+      "tags": []
+    },
+    "components-svg-icon-style": {
+      "tags": []
+    },
+    "components-theme": {
       "tags": []
     },
     "hooks": {

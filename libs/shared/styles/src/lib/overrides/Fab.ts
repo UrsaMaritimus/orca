@@ -1,5 +1,5 @@
-import { Theme } from '@material-ui/core/styles'
-
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 const Fab = (theme: Theme) => {
   return {
     MuiFab: {
@@ -35,7 +35,7 @@ const Fab = (theme: Theme) => {
         },
       },
     },
-  }
-}
+  };
+};
 
-export default Fab
+export default Fab;

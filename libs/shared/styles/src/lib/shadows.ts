@@ -1,27 +1,27 @@
-import { Palette } from './palette'
-import { alpha } from '@material-ui/core/styles'
-import { Shadows as MuiShadows } from '@material-ui/core/styles/shadows'
+import { Palette } from './palette';
+import { alpha } from '@material-ui/core/styles';
+import { Shadows as MuiShadows } from '@material-ui/core/styles/shadows';
 
-const BASE_LIGHT = Palette.light.grey[500]
-const BASE_DARK = '#000000'
+const BASE_LIGHT = Palette.light.grey[500];
+const BASE_DARK = '#000000';
 
-const PRIMARY = `0 8px 16px 0 ${alpha(Palette.light.color.primary.main, 0.24)}`
-const INFO = `0 8px 16px 0 ${alpha(Palette.light.color.info.main, 0.24)}`
-const SUCCESS = `0 8px 16px 0 ${alpha(Palette.light.color.success.main, 0.24)}`
-const WARNING = `0 8px 16px 0 ${alpha(Palette.light.color.warning.main, 0.24)}`
-const ERROR = `0 8px 16px 0 ${alpha(Palette.light.color.error.main, 0.24)}`
+const PRIMARY = `0 8px 16px 0 ${alpha(Palette.light.color.primary.main, 0.24)}`;
+const INFO = `0 8px 16px 0 ${alpha(Palette.light.color.info.main, 0.24)}`;
+const SUCCESS = `0 8px 16px 0 ${alpha(Palette.light.color.success.main, 0.24)}`;
+const WARNING = `0 8px 16px 0 ${alpha(Palette.light.color.warning.main, 0.24)}`;
+const ERROR = `0 8px 16px 0 ${alpha(Palette.light.color.error.main, 0.24)}`;
 
-const onLight1 = alpha(BASE_LIGHT, 0.2)
-const onLight2 = alpha(BASE_LIGHT, 0.14)
-const onLight3 = alpha(BASE_LIGHT, 0.12)
+const onLight1 = alpha(BASE_LIGHT, 0.2);
+const onLight2 = alpha(BASE_LIGHT, 0.14);
+const onLight3 = alpha(BASE_LIGHT, 0.12);
 
-const onDark1 = alpha(BASE_DARK, 0.2)
-const onDark2 = alpha(BASE_DARK, 0.14)
-const onDark3 = alpha(BASE_DARK, 0.12)
+const onDark1 = alpha(BASE_DARK, 0.2);
+const onDark2 = alpha(BASE_DARK, 0.14);
+const onDark3 = alpha(BASE_DARK, 0.12);
 
 export interface IShadows {
-  light: MuiShadows
-  dark: MuiShadows
+  light: MuiShadows;
+  dark: MuiShadows;
 }
 
 export const Shadows: IShadows = {
@@ -79,16 +79,28 @@ export const Shadows: IShadows = {
     `0px 11px 14px -7px ${onDark1},0px 23px 36px 3px ${onDark2},0px 9px 44px 8px ${onDark3}`,
     `0px 11px 15px -7px ${onDark1},0px 24px 38px 3px ${onDark2},0px 9px 46px 8px ${onDark3}`,
   ],
-}
+};
 
 export const ShadowExtension = {
   light: {
     z1: `0 1px 2px 0 ${alpha(BASE_LIGHT, 0.24)}`,
     z8: `0 8px 16px 0 ${alpha(BASE_LIGHT, 0.24)}`,
-    z12: `0 0 2px 0 ${alpha(BASE_LIGHT, 0.24)}, 0 12px 24px 0 ${alpha(BASE_LIGHT, 0.24)}`,
-    z16: `0 0 2px 0 ${alpha(BASE_LIGHT, 0.24)}, 0 16px 32px -4px ${alpha(BASE_LIGHT, 0.24)}`,
-    z20: `0 0 2px 0 ${alpha(BASE_LIGHT, 0.24)}, 0 20px 40px -4px ${alpha(BASE_LIGHT, 0.24)}`,
-    z24: `0 0 4px 0 ${alpha(BASE_LIGHT, 0.24)}, 0 24px 48px 0 ${alpha(BASE_LIGHT, 0.24)}`,
+    z12: `0 0 2px 0 ${alpha(BASE_LIGHT, 0.24)}, 0 12px 24px 0 ${alpha(
+      BASE_LIGHT,
+      0.24
+    )}`,
+    z16: `0 0 2px 0 ${alpha(BASE_LIGHT, 0.24)}, 0 16px 32px -4px ${alpha(
+      BASE_LIGHT,
+      0.24
+    )}`,
+    z20: `0 0 2px 0 ${alpha(BASE_LIGHT, 0.24)}, 0 20px 40px -4px ${alpha(
+      BASE_LIGHT,
+      0.24
+    )}`,
+    z24: `0 0 4px 0 ${alpha(BASE_LIGHT, 0.24)}, 0 24px 48px 0 ${alpha(
+      BASE_LIGHT,
+      0.24
+    )}`,
     primary: PRIMARY,
     info: INFO,
     success: SUCCESS,
@@ -98,14 +110,26 @@ export const ShadowExtension = {
   dark: {
     z1: `0 1px 2px 0 ${alpha(BASE_DARK, 0.24)}`,
     z8: `0 8px 16px 0 ${alpha(BASE_DARK, 0.24)}`,
-    z12: `0 0 2px 0 ${alpha(BASE_DARK, 0.24)}, 0 12px 24px 0 ${alpha(BASE_DARK, 0.24)}`,
-    z16: `0 0 2px 0 ${alpha(BASE_DARK, 0.24)}, 0 16px 32px -4px ${alpha(BASE_DARK, 0.24)}`,
-    z20: `0 0 2px 0 ${alpha(BASE_DARK, 0.24)}, 0 20px 40px -4px ${alpha(BASE_DARK, 0.24)}`,
-    z24: `0 0 4px 0 ${alpha(BASE_DARK, 0.24)}, 0 24px 48px 0 ${alpha(BASE_DARK, 0.24)}`,
+    z12: `0 0 2px 0 ${alpha(BASE_DARK, 0.24)}, 0 12px 24px 0 ${alpha(
+      BASE_DARK,
+      0.24
+    )}`,
+    z16: `0 0 2px 0 ${alpha(BASE_DARK, 0.24)}, 0 16px 32px -4px ${alpha(
+      BASE_DARK,
+      0.24
+    )}`,
+    z20: `0 0 2px 0 ${alpha(BASE_DARK, 0.24)}, 0 20px 40px -4px ${alpha(
+      BASE_DARK,
+      0.24
+    )}`,
+    z24: `0 0 4px 0 ${alpha(BASE_DARK, 0.24)}, 0 24px 48px 0 ${alpha(
+      BASE_DARK,
+      0.24
+    )}`,
     primary: PRIMARY,
     info: INFO,
     success: SUCCESS,
     warning: WARNING,
     error: ERROR,
   },
-}
+};

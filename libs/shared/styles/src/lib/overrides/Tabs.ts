@@ -1,4 +1,5 @@
-import { Theme } from '@material-ui/core/styles'
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 
 const Tabs = (theme: Theme) => {
   return {
@@ -52,7 +53,7 @@ const Tabs = (theme: Theme) => {
         },
       },
     },
-  }
-}
+  };
+};
 
-export default Tabs
+export default Tabs;

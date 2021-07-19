@@ -1,4 +1,5 @@
-import { alpha, Theme } from '@material-ui/core/styles'
+import { alpha, Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 
 const ButtonGroup = (theme: Theme) => {
   return {
@@ -51,7 +52,7 @@ const ButtonGroup = (theme: Theme) => {
         },
       },
     },
-  }
-}
+  };
+};
 
-export default ButtonGroup
+export default ButtonGroup;

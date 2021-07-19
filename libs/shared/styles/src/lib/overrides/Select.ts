@@ -1,5 +1,6 @@
-import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded'
-import { Theme } from '@material-ui/core/styles'
+import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded';
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 
 const Select = (theme: Theme) => {
   return {
@@ -12,7 +13,7 @@ const Select = (theme: Theme) => {
         root: {},
       },
     },
-  }
-}
+  };
+};
 
-export default Select
+export default Select;

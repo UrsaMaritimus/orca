@@ -1,7 +1,7 @@
-import { Theme } from '@material-ui/core/styles'
-
-import { Icon } from '@iconify/react'
-import closeCircleFill from '@iconify/icons-eva/close-circle-fill'
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
+import { Icon } from '@iconify/react';
+import closeCircleFill from '@iconify/icons-eva/close-circle-fill';
 
 const Chip = (theme: Theme) => {
   return {
@@ -27,7 +27,7 @@ const Chip = (theme: Theme) => {
         },
       },
     },
-  }
-}
+  };
+};
 
-export default Chip
+export default Chip;

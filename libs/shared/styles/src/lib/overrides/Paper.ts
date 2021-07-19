@@ -1,4 +1,5 @@
-import { Theme } from '@material-ui/core/styles'
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 
 const Paper = (theme: Theme) => {
   return {
@@ -13,7 +14,7 @@ const Paper = (theme: Theme) => {
         },
       },
     },
-  }
-}
+  };
+};
 
-export default Paper
+export default Paper;

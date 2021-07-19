@@ -1,5 +1,5 @@
-import { Theme } from '@material-ui/core/styles'
-
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 const Container = (theme: Theme) => {
   return {
     MuiContainer: {
@@ -7,7 +7,7 @@ const Container = (theme: Theme) => {
         root: {},
       },
     },
-  }
-}
+  };
+};
 
-export default Container
+export default Container;

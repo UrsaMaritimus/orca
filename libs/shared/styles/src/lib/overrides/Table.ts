@@ -1,4 +1,5 @@
-import { Theme } from '@material-ui/core/styles'
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 
 const Table = (theme: Theme) => {
   return {
@@ -69,7 +70,7 @@ const Table = (theme: Theme) => {
         },
       },
     },
-  }
-}
+  };
+};
 
-export default Table
+export default Table;

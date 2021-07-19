@@ -1,7 +1,8 @@
-import { Theme } from '@material-ui/core/styles'
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 
 const ToggleButton = (theme: Theme) => {
-  const isLight = theme.palette.mode === 'light'
+  const isLight = theme.palette.mode === 'light';
 
   return {
     MuiToggleButton: {
@@ -19,7 +20,7 @@ const ToggleButton = (theme: Theme) => {
         },
       },
     },
-  }
-}
+  };
+};
 
-export default ToggleButton
+export default ToggleButton;

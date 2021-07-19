@@ -1,7 +1,7 @@
-import { pxToRem, responsiveFontSizes } from '@mate/shared/utils'
-import { TypographyOptions } from '@material-ui/core/styles/createTypography'
+import { pxToRem, responsiveFontSizes } from '@ursa/util';
+import { TypographyOptions } from '@material-ui/core/styles/createTypography';
 
-const FONT_PRIMARY = 'Be Vietnam, sans-serif' // Google Font
+const FONT_PRIMARY = 'Be Vietnam, sans-serif'; // Google Font
 // const FONT_SECONDARY = 'CircularStd, sans-serif'; // Local Font
 
 export const Typography: TypographyOptions = {
@@ -82,4 +82,4 @@ export const Typography: TypographyOptions = {
     fontSize: pxToRem(14),
     textTransform: 'capitalize',
   },
-}
+};

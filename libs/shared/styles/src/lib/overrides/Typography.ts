@@ -1,4 +1,5 @@
-import { Theme } from '@material-ui/core/styles'
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 
 const Typography = (theme: Theme) => {
   return {
@@ -12,7 +13,7 @@ const Typography = (theme: Theme) => {
         },
       },
     },
-  }
-}
+  };
+};
 
-export default Typography
+export default Typography;

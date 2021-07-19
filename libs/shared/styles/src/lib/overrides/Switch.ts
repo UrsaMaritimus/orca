@@ -1,7 +1,8 @@
-import { Theme } from '@material-ui/core/styles'
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 
 const Switch = (theme: Theme) => {
-  const isLight = theme.palette.mode === 'light'
+  const isLight = theme.palette.mode === 'light';
   return {
     MuiSwitch: {
       defaultProps: {
@@ -32,7 +33,7 @@ const Switch = (theme: Theme) => {
         },
       },
     },
-  }
-}
+  };
+};
 
-export default Switch
+export default Switch;

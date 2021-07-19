@@ -1,5 +1,5 @@
-import { Theme } from '@material-ui/core/styles'
-
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 const Dialog = (theme: Theme) => {
   return {
     MuiDialog: {
@@ -54,7 +54,7 @@ const Dialog = (theme: Theme) => {
         },
       },
     },
-  }
-}
+  };
+};
 
-export default Dialog
+export default Dialog;

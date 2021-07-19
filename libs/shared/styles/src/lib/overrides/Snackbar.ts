@@ -1,4 +1,5 @@
-import { Theme } from '@material-ui/core/styles'
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 
 const Snackbar = (theme: Theme) => {
   return {
@@ -7,6 +8,6 @@ const Snackbar = (theme: Theme) => {
         root: {},
       },
     },
-  }
-}
-export default Snackbar
+  };
+};
+export default Snackbar;

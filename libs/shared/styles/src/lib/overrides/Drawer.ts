@@ -1,9 +1,9 @@
-import { alpha, Theme } from '@material-ui/core'
-
+import { alpha, Theme } from '@material-ui/core';
+import '@material-ui/lab/themeAugmentation';
 // ----------------------------------------------------------------------
 
 export default function Drawer(theme: Theme) {
-  const isLight = theme.palette.mode === 'light'
+  const isLight = theme.palette.mode === 'light';
 
   return {
     MuiDrawer: {
@@ -11,14 +11,20 @@ export default function Drawer(theme: Theme) {
         modal: {
           '&[role="presentation"]': {
             '& .MuiDrawer-paperAnchorLeft': {
-              boxShadow: `8px 24px 24px 12px ${alpha(theme.palette.grey[900], isLight ? 0.16 : 0.48)}`,
+              boxShadow: `8px 24px 24px 12px ${alpha(
+                theme.palette.grey[900],
+                isLight ? 0.16 : 0.48
+              )}`,
             },
             '& .MuiDrawer-paperAnchorRight': {
-              boxShadow: `-8px 24px 24px 12px ${alpha(theme.palette.grey[900], isLight ? 0.16 : 0.48)}`,
+              boxShadow: `-8px 24px 24px 12px ${alpha(
+                theme.palette.grey[900],
+                isLight ? 0.16 : 0.48
+              )}`,
             },
           },
         },
       },
     },
-  }
+  };
 }

@@ -1,4 +1,5 @@
-import { Theme } from '@material-ui/core/styles'
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 
 const SvgIcon = (theme: Theme) => {
   return {
@@ -16,7 +17,7 @@ const SvgIcon = (theme: Theme) => {
         },
       },
     },
-  }
-}
+  };
+};
 
-export default SvgIcon
+export default SvgIcon;

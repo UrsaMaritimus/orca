@@ -7,18 +7,56 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "esModuleInterop": true,
     "importHelpers": true,
-    "target": "es2015",
+    "target": "es2019",
     "module": "esnext",
-    "lib": ["es2017", "dom"],
+    "lib": ["es6", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
       "@ursa/components/account": ["libs/components/account/src/index.ts"],
+      "@ursa/components/animate": ["libs/components/animate/src/index.ts"],
       "@ursa/components/balance": ["libs/components/balance/src/index.ts"],
+      "@ursa/components/links": ["libs/components/links/src/index.ts"],
+      "@ursa/components/loader": ["libs/components/loader/src/index.ts"],
+      "@ursa/components/logo": ["libs/components/logo/src/index.ts"],
+      "@ursa/components/material-extend/avatar": [
+        "libs/components/material-extend/avatar/src/index.ts"
+      ],
+      "@ursa/components/material-extend/badge": [
+        "libs/components/material-extend/badge/src/index.ts"
+      ],
+      "@ursa/components/material-extend/breadcrumbs": [
+        "libs/components/material-extend/breadcrumbs/src/index.ts"
+      ],
+      "@ursa/components/material-extend/buttons": [
+        "libs/components/material-extend/buttons/src/index.ts"
+      ],
+      "@ursa/components/material-extend/chip": [
+        "libs/components/material-extend/chip/src/index.ts"
+      ],
+      "@ursa/components/material-extend/progress": [
+        "libs/components/material-extend/progress/src/index.ts"
+      ],
+      "@ursa/components/material-extend/selection-controls": [
+        "libs/components/material-extend/selection-controls/src/index.ts"
+      ],
+      "@ursa/components/material-extend/timeline": [
+        "libs/components/material-extend/timeline/src/index.ts"
+      ],
+      "@ursa/components/notistack": ["libs/components/notistack/src/index.ts"],
+      "@ursa/components/popover-menu": [
+        "libs/components/popover-menu/src/index.ts"
+      ],
+      "@ursa/components/scroll-bar": [
+        "libs/components/scroll-bar/src/index.ts"
+      ],
+      "@ursa/components/svg-icon-style": [
+        "libs/components/svg-icon-style/src/index.ts"
+      ],
+      "@ursa/components/theme": ["libs/components/theme/src/index.ts"],
       "@ursa/hooks": ["libs/hooks/src/index.ts"],
       "@ursa/shared/contracts": ["libs/shared/contracts/src/index.ts"],
       "@ursa/shared/styles": ["libs/shared/styles/src/index.ts"],

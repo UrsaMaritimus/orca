@@ -1,4 +1,5 @@
-import { Theme } from '@material-ui/core/styles'
+import { Theme } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 // ----------------------------------------------------------------------
 
 export default function Stepper(theme: Theme) {
@@ -17,5 +18,5 @@ export default function Stepper(theme: Theme) {
         },
       },
     },
-  }
+  };
 }

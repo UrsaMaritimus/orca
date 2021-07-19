@@ -1,4 +1,5 @@
-import { Theme, alpha } from '@material-ui/core/styles'
+import { Theme, alpha } from '@material-ui/core/styles';
+import '@material-ui/lab/themeAugmentation';
 
 const Pagination = (theme: Theme) => {
   return {
@@ -14,7 +15,10 @@ const Pagination = (theme: Theme) => {
             color: theme.palette.primary.main,
             backgroundColor: alpha(theme.palette.primary.main, 0.08),
             '&:hover, &.Mui-focusVisible': {
-              backgroundColor: `${alpha(theme.palette.primary.main, 0.24)} !important`,
+              backgroundColor: `${alpha(
+                theme.palette.primary.main,
+                0.24
+              )} !important`,
             },
           },
         },
@@ -29,7 +33,7 @@ const Pagination = (theme: Theme) => {
         },
       },
     },
-  }
-}
+  };
+};
 
-export default Pagination
+export default Pagination;
