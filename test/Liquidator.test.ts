@@ -85,7 +85,7 @@ describe('Liquidator interactions', function () {
     expect(liq.address).to.be.properAddress;
 
     // Set base vault to liquidator
-    await vault.setStabiltyPool(liq.address);
+    await vault.setStabilityPool(liq.address);
     expect(await vault.stabilityPool()).to.equal(liq.address);
   });
 

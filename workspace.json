@@ -386,6 +386,27 @@
         }
       }
     },
+    "components-page": {
+      "root": "libs/components/page",
+      "sourceRoot": "libs/components/page/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/components/page/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/components/page"],
+          "options": {
+            "jestConfig": "libs/components/page/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "components-popover-menu": {
       "root": "libs/components/popover-menu",
       "sourceRoot": "libs/components/popover-menu/src",
@@ -427,6 +448,29 @@
           "outputs": ["coverage/libs/components/scroll-bar"],
           "options": {
             "jestConfig": "libs/components/scroll-bar/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "components-settings": {
+      "root": "libs/components/settings",
+      "sourceRoot": "libs/components/settings/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/components/settings/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/components/settings"],
+          "options": {
+            "jestConfig": "libs/components/settings/jest.config.js",
             "passWithNoTests": true
           }
         }
@@ -476,6 +520,27 @@
         }
       }
     },
+    "components-toast": {
+      "root": "libs/components/toast",
+      "sourceRoot": "libs/components/toast/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/components/toast/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/components/toast"],
+          "options": {
+            "jestConfig": "libs/components/toast/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "hooks": {
       "root": "libs/hooks",
       "sourceRoot": "libs/hooks/src",
@@ -492,6 +557,69 @@
           "outputs": ["coverage/libs/hooks"],
           "options": {
             "jestConfig": "libs/hooks/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "layout-app": {
+      "root": "libs/layout/app",
+      "sourceRoot": "libs/layout/app/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/layout/app/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/layout/app"],
+          "options": {
+            "jestConfig": "libs/layout/app/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "pages-app": {
+      "root": "libs/pages/app",
+      "sourceRoot": "libs/pages/app/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/pages/app/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/pages/app"],
+          "options": {
+            "jestConfig": "libs/pages/app/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "shared-base": {
+      "root": "libs/shared/base",
+      "sourceRoot": "libs/shared/base/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/shared/base/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/base"],
+          "options": {
+            "jestConfig": "libs/shared/base/jest.config.js",
             "passWithNoTests": true
           }
         }

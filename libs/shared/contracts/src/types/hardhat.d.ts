@@ -97,10 +97,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IStablecoin__factory>;
     getContractFactory(
-      name: "IStakingRewards",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IStakingRewards__factory>;
-    getContractFactory(
       name: "IVault",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IVault__factory>;
@@ -132,10 +128,6 @@ declare module "hardhat/types/runtime" {
       name: "AVAXVault",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.AVAXVault__factory>;
-    getContractFactory(
-      name: "ERC20Vault",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ERC20Vault__factory>;
 
     // default types
     getContractFactory(

@@ -26,5 +26,11 @@ module.exports = {
     '<rootDir>/libs/components/material-extend/progress',
     '<rootDir>/libs/components/material-extend/selection-controls',
     '<rootDir>/libs/components/material-extend/timeline',
+    '<rootDir>/libs/components/page',
+    '<rootDir>/libs/components/settings',
+    '<rootDir>/libs/layout/app',
+    '<rootDir>/libs/shared/base',
+    '<rootDir>/libs/pages/app',
+    '<rootDir>/libs/components/toast',
   ],
 };

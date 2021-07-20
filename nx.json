@@ -75,10 +75,16 @@
     "components-notistack": {
       "tags": []
     },
+    "components-page": {
+      "tags": []
+    },
     "components-popover-menu": {
       "tags": []
     },
     "components-scroll-bar": {
+      "tags": []
+    },
+    "components-settings": {
       "tags": []
     },
     "components-svg-icon-style": {
@@ -87,7 +93,19 @@
     "components-theme": {
       "tags": []
     },
+    "components-toast": {
+      "tags": []
+    },
     "hooks": {
+      "tags": []
+    },
+    "layout-app": {
+      "tags": []
+    },
+    "pages-app": {
+      "tags": []
+    },
+    "shared-base": {
       "tags": []
     },
     "shared-contracts": {

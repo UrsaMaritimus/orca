@@ -1,0 +1,59 @@
+import { routes } from '@ursa/shared/base';
+import { SvgIconStyle } from '@ursa/components/svg-icon-style';
+// ----------------------------------------------------------------------
+
+const getIcon = (name: string) => (
+  <SvgIconStyle
+    src={`/static/icons/navbar/${name}.svg`}
+    sx={{ width: 22, height: 22 }}
+  />
+);
+
+const ICONS = {
+  map: getIcon('ic_map'),
+  blog: getIcon('ic_blog'),
+  cart: getIcon('ic_cart'),
+  chat: getIcon('ic_chat'),
+  mail: getIcon('ic_mail'),
+  page: getIcon('ic_page'),
+  user: getIcon('ic_user'),
+  copy: getIcon('ic_copy'),
+  error: getIcon('ic_error'),
+  charts: getIcon('ic_charts'),
+  editor: getIcon('ic_editor'),
+  upload: getIcon('ic_upload'),
+  animate: getIcon('ic_animate'),
+  calendar: getIcon('ic_calendar'),
+  elements: getIcon('ic_elements'),
+  carousel: getIcon('ic_carousel'),
+  language: getIcon('ic_language'),
+  ecommerce: getIcon('ic_ecommerce'),
+  analytics: getIcon('ic_analytics'),
+  dashboard: getIcon('ic_dashboard'),
+  components: getIcon('ic_components'),
+  authenticator: getIcon('ic_authenticator'),
+};
+
+const navConfig = [
+  // GENERAL
+  // ----------------------------------------------------------------------
+  {
+    subheader: 'General',
+    items: [
+      {
+        title: 'Dashboard',
+        icon: ICONS.dashboard,
+        href: routes.APP.ROOT,
+      },
+    ],
+  },
+  {
+    subheader: 'Trading',
+    items: [
+      { title: 'Charts', icon: ICONS.charts, href: routes.APP.TRADING.CHARTS },
+      { title: 'Trading Bot', icon: ICONS.error, href: routes.APP.TRADING.BOT },
+    ],
+  },
+];
+
+export default navConfig;

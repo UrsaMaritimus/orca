@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28" height="20" viewBox="0 0 28 20">
+  <defs>
+    <rect id="ic_flag_de-a" width="28" height="20" x="0" y="0" rx="3"/>
+    <rect id="ic_flag_de-d" width="28" height="6.667" x="0" y="6.667"/>
+    <filter id="ic_flag_de-c" width="110.7%" height="145%" x="-5.4%" y="-22.5%" filterUnits="objectBoundingBox">
+      <feMorphology in="SourceAlpha" operator="dilate" radius=".5" result="shadowSpreadOuter1"/>
+      <feOffset in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.06 0"/>
+    </filter>
+    <rect id="ic_flag_de-f" width="28" height="6.667" x="0" y="13.333"/>
+    <filter id="ic_flag_de-e" width="110.7%" height="145%" x="-5.4%" y="-22.5%" filterUnits="objectBoundingBox">
+      <feMorphology in="SourceAlpha" operator="dilate" radius=".5" result="shadowSpreadOuter1"/>
+      <feOffset in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.06 0"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <mask id="ic_flag_de-b" fill="#fff">
+      <use xlink:href="#ic_flag_de-a"/>
+    </mask>
+    <rect width="28" height="6.667" fill="#262626" mask="url(#ic_flag_de-b)"/>
+    <g mask="url(#ic_flag_de-b)">
+      <use fill="#000" filter="url(#ic_flag_de-c)" xlink:href="#ic_flag_de-d"/>
+      <use fill="#F01515" xlink:href="#ic_flag_de-d"/>
+    </g>
+    <g mask="url(#ic_flag_de-b)">
+      <use fill="#000" filter="url(#ic_flag_de-e)" xlink:href="#ic_flag_de-f"/>
+      <use fill="#FFD521" xlink:href="#ic_flag_de-f"/>
+    </g>
+  </g>
+</svg>

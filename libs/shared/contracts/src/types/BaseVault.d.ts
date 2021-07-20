@@ -51,7 +51,7 @@ interface BaseVaultInterface extends ethers.utils.Interface {
     "setDebtCeiling(uint256)": FunctionFragment;
     "setOpeningFee(uint256)": FunctionFragment;
     "setPriceSource(address)": FunctionFragment;
-    "setStabiltyPool(address)": FunctionFragment;
+    "setStabilityPool(address)": FunctionFragment;
     "setTokenPeg(uint256)": FunctionFragment;
     "setTreasury(uint256)": FunctionFragment;
     "stabilityPool()": FunctionFragment;
@@ -188,7 +188,7 @@ interface BaseVaultInterface extends ethers.utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "setStabiltyPool",
+    functionFragment: "setStabilityPool",
     values: [string]
   ): string;
   encodeFunctionData(
@@ -347,7 +347,7 @@ interface BaseVaultInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setStabiltyPool",
+    functionFragment: "setStabilityPool",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -618,7 +618,7 @@ export class BaseVault extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setStabiltyPool(
+    setStabilityPool(
       stabilityPool_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -835,7 +835,7 @@ export class BaseVault extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setStabiltyPool(
+  setStabilityPool(
     stabilityPool_: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -1044,7 +1044,7 @@ export class BaseVault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setStabiltyPool(
+    setStabilityPool(
       stabilityPool_: string,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -1390,7 +1390,7 @@ export class BaseVault extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setStabiltyPool(
+    setStabilityPool(
       stabilityPool_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -1619,7 +1619,7 @@ export class BaseVault extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setStabiltyPool(
+    setStabilityPool(
       stabilityPool_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;

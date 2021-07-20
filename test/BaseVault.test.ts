@@ -159,18 +159,18 @@ describe('Base Vault', function () {
   });
 
   it('correctly changes stability pool', async () => {
-    await vault.setStabiltyPool(accounts[1].address);
+    await vault.setStabilityPool(accounts[1].address);
     expect(await vault.stabilityPool()).to.equal(accounts[1].address);
   });
 
   it("doesn't allow stability pool to be zero address", async () => {
-    await expect(vault.setStabiltyPool(ethers.constants.AddressZero)).to.be
+    await expect(vault.setStabilityPool(ethers.constants.AddressZero)).to.be
       .reverted;
   });
 
   it('only allowed treasury to change', async () => {
     await expect(
-      vault.connect(accounts[1]).setStabiltyPool(accounts[1].address)
+      vault.connect(accounts[1]).setStabilityPool(accounts[1].address)
     ).to.be.reverted;
   });
 

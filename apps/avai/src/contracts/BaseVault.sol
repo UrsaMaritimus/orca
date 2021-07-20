@@ -136,7 +136,7 @@ contract BaseVault is
   /**
    * @dev Set the stability pool (liquidator) for this vault
    */
-  function setStabiltyPool(address stabilityPool_)
+  function setStabilityPool(address stabilityPool_)
     external
     onlyRole(TREASURY_ROLE)
   {
