@@ -32,5 +32,6 @@ module.exports = {
     '<rootDir>/libs/shared/base',
     '<rootDir>/libs/pages/app',
     '<rootDir>/libs/components/toast',
+    '<rootDir>/libs/pages/error',
   ],
 };

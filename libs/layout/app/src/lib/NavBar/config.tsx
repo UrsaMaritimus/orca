@@ -1,5 +1,7 @@
 import { routes } from '@ursa/shared/base';
 import { SvgIconStyle } from '@ursa/components/svg-icon-style';
+
+import AccountBalanceOutlinedIcon from '@material-ui/icons/AccountBalanceOutlined';
 // ----------------------------------------------------------------------
 
 const getIcon = (name: string) => (
@@ -32,26 +34,32 @@ const ICONS = {
   dashboard: getIcon('ic_dashboard'),
   components: getIcon('ic_components'),
   authenticator: getIcon('ic_authenticator'),
+  farm: getIcon('ic_farm'),
+  monitor: getIcon('ic_monitor'),
 };
 
 const navConfig = [
   // GENERAL
   // ----------------------------------------------------------------------
   {
-    subheader: 'General',
+    subheader: 'Vaults',
     items: [
       {
-        title: 'Dashboard',
-        icon: ICONS.dashboard,
-        href: routes.APP.ROOT,
+        title: 'Your Vaults',
+        icon: ICONS.user,
+        href: routes.APP.VAULTS.USER,
+      },
+      {
+        title: 'Monitor Vaults',
+        icon: ICONS.monitor,
+        href: routes.APP.VAULTS.MONITOR,
       },
     ],
   },
   {
-    subheader: 'Trading',
+    subheader: 'Yield',
     items: [
-      { title: 'Charts', icon: ICONS.charts, href: routes.APP.TRADING.CHARTS },
-      { title: 'Trading Bot', icon: ICONS.error, href: routes.APP.TRADING.BOT },
+      { title: 'Farming', icon: ICONS.farm, href: routes.APP.YIELD.FARM },
     ],
   },
 ];

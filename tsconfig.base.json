@@ -63,6 +63,7 @@
       "@ursa/hooks": ["libs/hooks/src/index.ts"],
       "@ursa/layout/app": ["libs/layout/app/src/index.ts"],
       "@ursa/pages/app": ["libs/pages/app/src/index.ts"],
+      "@ursa/pages/error": ["libs/pages/error/src/index.ts"],
       "@ursa/shared/base": ["libs/shared/base/src/index.ts"],
       "@ursa/shared/contracts": ["libs/shared/contracts/src/index.ts"],
       "@ursa/shared/styles": ["libs/shared/styles/src/index.ts"],

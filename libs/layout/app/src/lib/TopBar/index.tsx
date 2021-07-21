@@ -89,7 +89,6 @@ const TopBar: FC<Props> = ({ onOpenNav }) => {
           ></Stack>
           {isConnected && <Balance />}
           <Account />
-          <Button></Button>
         </Box>
       </ToolbarStyle>
     </RootStyle>

@@ -604,6 +604,27 @@
         }
       }
     },
+    "pages-error": {
+      "root": "libs/pages/error",
+      "sourceRoot": "libs/pages/error/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/pages/error/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/pages/error"],
+          "options": {
+            "jestConfig": "libs/pages/error/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "shared-base": {
       "root": "libs/shared/base",
       "sourceRoot": "libs/shared/base/src",

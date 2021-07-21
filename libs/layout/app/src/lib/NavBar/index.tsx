@@ -153,7 +153,7 @@ const NavBar: FC<Props> = ({ isOpenNav, onCloseNav }) => {
   const renderContent = (
     <ScrollBar>
       <Box sx={{ px: 2.5, py: 3 }}>
-        <NextLink href={routes.HOME.ROOT}>
+        <NextLink href={routes.APP.ROOT}>
           <Logo />
         </NextLink>
       </Box>

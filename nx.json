@@ -105,6 +105,9 @@
     "pages-app": {
       "tags": []
     },
+    "pages-error": {
+      "tags": []
+    },
     "shared-base": {
       "tags": []
     },
