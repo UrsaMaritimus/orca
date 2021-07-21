@@ -1,14 +1,12 @@
-require('dotenv').config();
+import 'dotenv/config';
 
-import { task, HardhatUserConfig } from 'hardhat/config';
-import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
-
-import { BigNumber } from 'ethers';
-
+import { HardhatUserConfig } from 'hardhat/types';
+import 'hardhat-deploy';
 import '@typechain/hardhat';
 import '@nomiclabs/hardhat-ethers';
 import '@nomiclabs/hardhat-waffle';
 import 'solidity-coverage';
+
 // When using the hardhat network, you may choose to fork Fuji or Avalanche Mainnet
 // This will allow you to debug contracts using the hardhat network while keeping the current network state
 // To enable forking, turn one of these booleans on, and then run your tasks/scripts using ``--network hardhat``
@@ -28,30 +26,6 @@ const forkingData = FORK_FUJI
   : undefined;
 
 const contract_dir = process.env.CONTRACT_DIR;
-task(
-  'accounts',
-  'Prints the list of accounts',
-  async (args, hre): Promise<void> => {
-    const accounts: SignerWithAddress[] = await hre.ethers.getSigners();
-    accounts.forEach((account: SignerWithAddress): void => {
-      console.log(account.address);
-    });
-  }
-);
-
-task(
-  'balances',
-  'Prints the list of AVAX account balances',
-  async (args, hre): Promise<void> => {
-    const accounts: SignerWithAddress[] = await hre.ethers.getSigners();
-    accounts.forEach(async (account: SignerWithAddress): Promise<void> => {
-      const balance: BigNumber = await hre.ethers.provider.getBalance(
-        account.address
-      );
-      console.log(`${account.address} has balance ${balance.toString()}`);
-    });
-  }
-);
 
 export default {
   solidity: {
@@ -66,6 +40,10 @@ export default {
         },
       },
     ],
+  },
+  namedAccounts: {
+    deployer: 0,
+    user: 1,
   },
   networks: {
     hardhat: {
@@ -111,5 +89,6 @@ export default {
   },
   typechain: {
     outDir: './libs/shared/contracts/src/types',
+    target: 'ethers-v5',
   },
 } as HardhatUserConfig;

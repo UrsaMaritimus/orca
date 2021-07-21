@@ -13,7 +13,7 @@ import {
 } from '../libs/shared/contracts/src';
 
 describe('Base Vault', function () {
-  let accounts: SignerWithAddress[];
+  let accounts;
   let Vault: AVAXVault__factory;
   let Stablecoin: AVAI__factory;
   let vault: AVAXVault;
@@ -41,14 +41,7 @@ describe('Base Vault', function () {
 
     expect(avai.address).to.be.properAddress;
 
-    vault = await Vault.deploy(
-      minimumCollateralPercentage,
-      priceSource_,
-      symbol,
-      name,
-      token,
-      avai.address
-    );
+    vault = await Vault.deploy(priceSource_, symbol, name, token, avai.address);
     await vault.deployed();
 
     expect(vault.address).to.be.properAddress;

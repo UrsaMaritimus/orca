@@ -28,8 +28,7 @@
     "compile": "npx hardhat compile",
     "console": "npx hardhat console",
     "pretest": "yarn compile",
-    "test-contracts": "npx hardhat test",
-    "deploy": "npx hardhat run scripts/deploy.ts"
+    "test-contracts": "npx hardhat test"
   },
   "private": true,
   "dependencies": {
@@ -83,7 +82,7 @@
     "@iconify/icons-eva": "^1.1.0",
     "@iconify/icons-ic": "^1.1.7",
     "@iconify/react": "^1.1.4",
-    "@nomiclabs/hardhat-ethers": "^2.0.2",
+    "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
     "@nrwl/cli": "12.5.6",
     "@nrwl/cypress": "12.5.6",
@@ -125,6 +124,7 @@
     "eslint-plugin-react-hooks": "4.2.0",
     "ethereum-waffle": "^3.4.0",
     "hardhat": "^2.4.1",
+    "hardhat-deploy": "^0.8.11",
     "jest": "27.0.3",
     "prettier": "^2.3.1",
     "prettier-plugin-solidity": "^1.0.0-beta.13",

@@ -2,7 +2,6 @@ import { expect } from 'chai';
 
 import { ethers, waffle } from 'hardhat';
 
-import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 import {
   AVAI__factory,
   AVAI,
@@ -15,7 +14,7 @@ import {
 } from '../libs/shared/contracts/src';
 
 describe('Liquidator interactions', function () {
-  let accounts: SignerWithAddress[];
+  let accounts;
   let Vault: AVAXVault__factory;
   let Stablecoin: AVAI__factory;
   let vault: AVAXVault;
@@ -59,14 +58,7 @@ describe('Liquidator interactions', function () {
 
     expect(avai.address).to.be.properAddress;
 
-    vault = await Vault.deploy(
-      minimumCollateralPercentage,
-      priceSource_,
-      symbol,
-      name,
-      token,
-      avai.address
-    );
+    vault = await Vault.deploy(priceSource_, symbol, name, token, avai.address);
     await vault.deployed();
 
     expect(vault.address).to.be.properAddress;

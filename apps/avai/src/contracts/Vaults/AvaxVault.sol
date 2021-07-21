@@ -6,22 +6,12 @@ import '../BaseVault.sol';
 contract AVAXVault is BaseVault {
   // Lets construct this beast
   constructor(
-    uint256 minimumCollateralPercentage,
     address priceSource_,
     string memory name_,
     string memory symbol_,
     address token,
     address stablecoin
-  )
-    BaseVault(
-      minimumCollateralPercentage,
-      priceSource_,
-      name_,
-      symbol_,
-      token,
-      stablecoin
-    )
-  {
+  ) BaseVault(150, priceSource_, name_, symbol_, token, stablecoin) {
     // Initially set up admin as stablecoin and sender as the treasury
     // Treasury can change attributes but contract owned by stablecoin
     _setupRole(DEFAULT_ADMIN_ROLE, stablecoin);

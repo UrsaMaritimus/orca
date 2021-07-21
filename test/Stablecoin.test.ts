@@ -11,7 +11,7 @@ import {
 } from '../libs/shared/contracts/src';
 
 describe('Stablecoin', function () {
-  let accounts: SignerWithAddress[];
+  let accounts;
   let Stablecoin: AVAI__factory;
   let avai: AVAI;
 
@@ -148,7 +148,6 @@ describe('Stablecoin', function () {
     const token = '0xd00ae08403B9bbb9124bB305C09058E32C39A48c';
 
     const vault = await Vault.deploy(
-      minimumCollateralPercentage,
       priceSource_,
       symbol,
       name,
@@ -199,7 +198,6 @@ describe('Stablecoin', function () {
     const token = '0xd00ae08403B9bbb9124bB305C09058E32C39A48c';
 
     const vault = await Vault.deploy(
-      minimumCollateralPercentage,
       priceSource_,
       symbol,
       name,
