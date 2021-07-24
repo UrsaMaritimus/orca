@@ -90,13 +90,26 @@
     "hooks": {
       "tags": []
     },
+    "landing": {
+      "tags": []
+    },
+    "landing-e2e": {
+      "tags": [],
+      "implicitDependencies": ["landing"]
+    },
     "layout-app": {
+      "tags": []
+    },
+    "layout-landing": {
       "tags": []
     },
     "pages-app": {
       "tags": []
     },
     "pages-error": {
+      "tags": []
+    },
+    "pages-landing": {
       "tags": []
     },
     "pages-vaults": {

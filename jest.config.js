@@ -31,5 +31,8 @@ module.exports = {
     '<rootDir>/libs/components/table',
     '<rootDir>/libs/pages/vaults',
     '<rootDir>/libs/components/material-extend/hidden',
+    '<rootDir>/libs/layout/landing',
+    '<rootDir>/apps/landing',
+    '<rootDir>/libs/pages/landing',
   ],
 };

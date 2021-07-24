@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1440px" height="1024px" viewBox="0 0 1440 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>overlay</title>
+    <defs>
+        <radialGradient cx="14.340549%" cy="-11.4868909%" fx="14.340549%" fy="-11.4868909%" r="109.474303%" gradientTransform="translate(0.143405,-0.114869),scale(0.711111,1.000000),rotate(65.987454),translate(-0.143405,0.114869)" id="radialGradient-1">
+            <stop stop-color="#161C24" stop-opacity="0.48" offset="0%"></stop>
+            <stop stop-color="#161C24" stop-opacity="0.8" offset="49.8646968%"></stop>
+            <stop stop-color="#161C24" offset="100%"></stop>
+            <stop stop-color="#161C24" offset="100%"></stop>
+            <stop stop-color="#161C24" offset="100%"></stop>
+        </radialGradient>
+    </defs>
+    <g id="🍊---Images" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="__🍊Images/-hero" fill="url(#radialGradient-1)">
+            <rect id="overlay" transform="translate(720.000000, 512.000000) scale(-1, 1) translate(-720.000000, -512.000000) " x="0" y="0" width="1440" height="1024"></rect>
+        </g>
+    </g>
+</svg>

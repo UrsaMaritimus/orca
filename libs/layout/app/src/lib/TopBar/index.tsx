@@ -15,7 +15,7 @@ import Stack from '@material-ui/core/Stack';
 
 import { useWeb3React } from '@web3-react/core';
 
-import { useEagerConnect, useCollapseDrawer } from '@ursa/hooks';
+import { useCollapseDrawer } from '@ursa/hooks';
 
 import { MHidden } from '@ursa/components/material-extend/hidden';
 import { Account } from '@ursa/components/account';

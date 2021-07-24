@@ -489,6 +489,83 @@
         }
       }
     },
+    "landing": {
+      "root": "apps/landing",
+      "sourceRoot": "apps/landing",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/next:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "root": "apps/landing",
+            "outputPath": "dist/apps/landing"
+          },
+          "configurations": {
+            "production": {}
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/next:server",
+          "options": {
+            "buildTarget": "landing:build",
+            "dev": true
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "landing:build:production",
+              "dev": false
+            }
+          }
+        },
+        "export": {
+          "executor": "@nrwl/next:export",
+          "options": {
+            "buildTarget": "landing:build:production"
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/landing"],
+          "options": {
+            "jestConfig": "apps/landing/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/landing/**/*.{ts,tsx,js,jsx}"]
+          }
+        }
+      }
+    },
+    "landing-e2e": {
+      "root": "apps/landing-e2e",
+      "sourceRoot": "apps/landing-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/landing-e2e/cypress.json",
+            "tsConfig": "apps/landing-e2e/tsconfig.e2e.json",
+            "devServerTarget": "landing:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "landing:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/landing-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
     "layout-app": {
       "root": "libs/layout/app",
       "sourceRoot": "libs/layout/app/src",
@@ -505,6 +582,27 @@
           "outputs": ["coverage/libs/layout/app"],
           "options": {
             "jestConfig": "libs/layout/app/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "layout-landing": {
+      "root": "libs/layout/landing",
+      "sourceRoot": "libs/layout/landing/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/layout/landing/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/layout/landing"],
+          "options": {
+            "jestConfig": "libs/layout/landing/jest.config.js",
             "passWithNoTests": true
           }
         }
@@ -547,6 +645,27 @@
           "outputs": ["coverage/libs/pages/error"],
           "options": {
             "jestConfig": "libs/pages/error/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "pages-landing": {
+      "root": "libs/pages/landing",
+      "sourceRoot": "libs/pages/landing/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/pages/landing/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/pages/landing"],
+          "options": {
+            "jestConfig": "libs/pages/landing/jest.config.js",
             "passWithNoTests": true
           }
         }

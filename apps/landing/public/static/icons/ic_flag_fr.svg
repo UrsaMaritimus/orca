@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28" height="20" viewBox="0 0 28 20">
+  <defs>
+    <rect id="ic_flag_fr-a" width="28" height="20" x="0" y="0" rx="3"/>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <mask id="ic_flag_fr-b" fill="#fff">
+      <use xlink:href="#ic_flag_fr-a"/>
+    </mask>
+    <use fill="#FFF" xlink:href="#ic_flag_fr-a"/>
+    <rect width="9" height="20" x="19" fill="#F44653" mask="url(#ic_flag_fr-b)"/>
+    <rect width="9" height="20" fill="#1035BB" mask="url(#ic_flag_fr-b)"/>
+  </g>
+</svg>

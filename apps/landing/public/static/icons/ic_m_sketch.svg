@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>__🥬Icons/ color/ ic_m_sketch</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" stop-opacity="0.5" offset="0%"></stop>
+            <stop stop-color="#000000" stop-opacity="0.5" offset="100%"></stop>
+        </linearGradient>
+        <rect id="path-2" x="0" y="0" width="40" height="40" rx="12"></rect>
+        <filter x="-32.5%" y="-34.2%" width="165.0%" height="168.4%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.48 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="__🥬Icons/-color/-ic_m_sketch" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <mask id="mask-3" fill="white">
+            <use xlink:href="#path-2"></use>
+        </mask>
+        <g id="background">
+            <use fill-opacity="0.2" fill="#FFAE00" xlink:href="#path-2"></use>
+            <use fill-opacity="0.16" fill="url(#linearGradient-1)" xlink:href="#path-2"></use>
+        </g>
+        <g id="Group" filter="url(#filter-4)" mask="url(#mask-3)">
+            <g transform="translate(10.000000, 11.000000)">
+                <g id="Base">
+                    <polygon id="Polygon" fill="#FFAE00" transform="translate(9.917355, 9.090909) rotate(-180.000000) translate(-9.917355, -9.090909) " points="9.91735537 2.31211791e-15 19.8347107 11.6737848 15.5385285 17.5716901 9.91735537 18.1818182 4.29618229 17.5716901 -1.14116677e-14 11.6737848"></polygon>
+                </g>
+                <g id="Bottom-Back" transform="translate(0.000000, 6.508033)">
+                    <polygon id="Polygon" fill="#EC6C00" transform="translate(9.917355, 5.836892) rotate(-180.000000) translate(-9.917355, -5.836892) " points="9.91735537 4.62423582e-15 19.8347107 11.6737848 -2.28233354e-15 11.6737848"></polygon>
+                </g>
+                <g id="Bottom-Mid" transform="translate(4.015124, 6.508033)">
+                    <polygon id="Polygon" fill="#FFAE00" transform="translate(5.902232, 5.836892) rotate(-180.000000) translate(-5.902232, -5.836892) " points="5.90223174 0 11.8044635 11.6737848 1.14116677e-14 11.6737848"></polygon>
+                </g>
+                <g id="Top-Mid" transform="translate(4.015124, 0.000000)">
+                    <polygon id="Polygon" fill="#FFEFB4" transform="translate(5.902232, 3.254017) rotate(-180.000000) translate(-5.902232, -3.254017) " points="5.90223174 6.50803335 11.8044635 1.10222996e-13 2.28233354e-15 -2.31211791e-15"></polygon>
+                </g>
+                <g id="Top-Side-Left" transform="translate(0.000000, 0.610128)">
+                    <polygon id="Polygon" fill="#FFAE00" transform="translate(2.148091, 2.948953) rotate(-180.000000) translate(-2.148091, -2.948953) " points="-9.12933418e-15 5.89790523 2.208318 2.92861501 4.29618229 1.1098166e-13 0.240907418 2.31211791e-15"></polygon>
+                </g>
+                <g id="Top-Side-Right" transform="translate(17.334711, 3.610128) scale(-1, 1) translate(-17.334711, -3.610128) translate(14.834711, 0.610128)">
+                    <polygon id="Polygon" fill="#FFAE00" transform="translate(2.148091, 2.948953) rotate(-180.000000) translate(-2.148091, -2.948953) " points="-9.12933418e-15 5.89790523 2.208318 2.92861501 4.29618229 1.1098166e-13 0.240907418 2.31211791e-15"></polygon>
+                </g>
+                <g id="Top-Left" transform="translate(4.015124, 0.000000)">
+                    <polygon id="Polygon" fill="#FED305" transform="translate(2.951116, 3.254017) rotate(-180.000000) translate(-2.951116, -3.254017) " points="5.62117309 5.89790523 5.90223174 1.20230131e-13 9.12933418e-15 6.50803335"></polygon>
+                </g>
+                <g id="Top-Right" transform="translate(9.917355, 0.000000)">
+                    <polygon id="Polygon" fill="#FED305" transform="translate(2.951116, 3.254017) scale(-1, 1) rotate(-180.000000) translate(-2.951116, -3.254017) " points="5.62117309 5.89790523 5.90223174 0 -5.70583386e-16 6.50803335"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

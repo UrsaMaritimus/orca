@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, FC } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 import { utils } from 'ethers';
@@ -12,6 +12,7 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 import { MainTable } from '@ursa/components/table';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@ursa/hooks';
@@ -23,12 +24,18 @@ import { AVAXVault__factory, contractAddresses } from '@ursa/shared/contracts';
 export interface PagesVaultsProps {}
 const isDev = process.env.NODE_ENV === 'development';
 
-const getAVAXVaults = (library: Web3Provider, address: string) => {
-  const avaxVault = AVAXVault__factory.connect(
-    isDev ? contractAddresses.fuji.AVAXVault : '',
-    library
-  );
-  return async () => {
+/**
+ *
+ * @param library Provider for web3
+ * @param address Address of user
+ * @returns An array of {vaultID, collateral, debt, ratio} for each vault
+ */
+const getAVAXVaults = () => {
+  return async (library: Web3Provider, address: string) => {
+    const avaxVault = AVAXVault__factory.connect(
+      isDev ? contractAddresses.fuji.AVAXVault : '',
+      library
+    );
     const balance = Number(
       utils.formatUnits(await avaxVault.balanceOf(address), 0)
     );
@@ -64,14 +71,15 @@ const getAVAXVaults = (library: Web3Provider, address: string) => {
   };
 };
 
-export function AvaxVaults(props: PagesVaultsProps) {
+export const AvaxVaults: FC<PagesVaultsProps> = () => {
   const { account, library } = useWeb3React<Web3Provider>();
 
   const shouldFetch = !!library;
+
   // Grab user's vaults
   const { data: vaults, mutate: avaxVaultMutate } = useSwr(
-    shouldFetch ? ['BalanceOf'] : null,
-    getAVAXVaults(library, account)
+    shouldFetch ? [library, account] : null,
+    getAVAXVaults()
   );
   useKeepSWRDataLiveAsBlocksArrive(avaxVaultMutate);
 
@@ -94,7 +102,7 @@ export function AvaxVaults(props: PagesVaultsProps) {
         avaxVault.removeAllListeners(newVault);
       };
     }
-  }, [library]);
+  }, [library, account, avaxVaultMutate]);
 
   // For creating a vault
   const createVault = async () => {
@@ -128,7 +136,7 @@ export function AvaxVaults(props: PagesVaultsProps) {
     }
   };
 
-  if (vaults) {
+  if (typeof account === 'string' && vaults) {
     return (
       <Card>
         <CardHeader
@@ -152,9 +160,20 @@ export function AvaxVaults(props: PagesVaultsProps) {
             </Button>
           }
         />
-        <MainTable rows={vaults} collateralType={'AVAX'} debtType={'AVAI'} />
+        {vaults.length > 0 ? (
+          <MainTable rows={vaults} collateralType={'AVAX'} debtType={'AVAI'} />
+        ) : (
+          <Typography
+            variant="h4"
+            color="inherit"
+            sx={{ mt: 2, mb: 2, textAlign: 'center' }}
+          >
+            Create a vault to start!
+          </Typography>
+        )}
       </Card>
     );
   }
+
   return <> </>;
-}
+};
