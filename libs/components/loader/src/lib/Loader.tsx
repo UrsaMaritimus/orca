@@ -16,14 +16,12 @@ const TRANSITION = {
 };
 
 const RootStyle = styled('div')(({ theme }) => ({
-  minWidth: '100%',
-  minHeight: '100vh',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   flexDirection: 'column',
   padding: theme.spacing(3, 2),
-  backgroundColor: theme.palette.background.default,
+  margin: theme.spacing(10, 10),
 }));
 
 const Loader: FC<Props> = ({ ...other }) => {

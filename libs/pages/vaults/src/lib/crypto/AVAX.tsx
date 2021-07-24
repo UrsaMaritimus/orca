@@ -1,4 +1,6 @@
 import { useEffect, FC } from 'react';
+import useSwr from 'swr';
+
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 import { utils } from 'ethers';
@@ -12,13 +14,11 @@ import { Card, CardHeader, Box, Button, Typography } from '@material-ui/core';
 
 import { MainTable } from '@ursa/components/table';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@ursa/hooks';
-
-import useSwr from 'swr';
 import { AVAXVault__factory, contractAddresses } from '@ursa/shared/contracts';
+import { Loader } from '@ursa/components/loader';
 
 /* eslint-disable-next-line */
 export interface PagesVaultsProps {}
-const isDev = process.env.NODE_ENV === 'development';
 
 /**
  *
@@ -27,9 +27,14 @@ const isDev = process.env.NODE_ENV === 'development';
  * @returns An array of {vaultID, collateral, debt, ratio} for each vault
  */
 const getAVAXVaults = () => {
-  return async (library: Web3Provider, address: string) => {
+  return async (library: Web3Provider, address: string, chainId: number) => {
     const avaxVault = AVAXVault__factory.connect(
-      isDev ? contractAddresses.fuji.AVAXVault : '',
+      chainId === 43113
+        ? contractAddresses.fuji.AVAXVault
+        : chainId === 43114
+        ? // TODO: Update
+          contractAddresses.fuji.AVAXVault
+        : null,
       library
     );
     const balance = Number(
@@ -68,13 +73,13 @@ const getAVAXVaults = () => {
 };
 
 export const AvaxVaults: FC<PagesVaultsProps> = () => {
-  const { account, library } = useWeb3React<Web3Provider>();
+  const { account, library, chainId } = useWeb3React<Web3Provider>();
 
   const shouldFetch = !!library;
 
   // Grab user's vaults
   const { data: vaults, mutate: avaxVaultMutate } = useSwr(
-    shouldFetch ? [library, account] : null,
+    shouldFetch ? [library, account, chainId] : null,
     getAVAXVaults()
   );
   useKeepSWRDataLiveAsBlocksArrive(avaxVaultMutate);
@@ -83,7 +88,12 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
   useEffect(() => {
     if (library) {
       const avaxVault = AVAXVault__factory.connect(
-        isDev ? contractAddresses.fuji.AVAXVault : '',
+        chainId === 43113
+          ? contractAddresses.fuji.AVAXVault
+          : chainId === 43114
+          ? // TODO: Update
+            contractAddresses.fuji.AVAXVault
+          : null,
         library
       );
       // Set events up for updating
@@ -104,8 +114,13 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
   const createVault = async () => {
     try {
       const avaxVault = AVAXVault__factory.connect(
-        isDev ? contractAddresses.fuji.AVAXVault : '',
-        library.getSigner()
+        chainId === 43113
+          ? contractAddresses.fuji.AVAXVault
+          : chainId === 43114
+          ? // TODO: Update
+            contractAddresses.fuji.AVAXVault
+          : null,
+        library
       );
       const result = await avaxVault.createVault();
       toast.promise(
@@ -131,6 +146,17 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
       toast.error(err.message);
     }
   };
+
+  if (chainId === 43114) {
+    return (
+      <Card>
+        <Typography variant="h1" sx={{ textAlign: 'center', mt: 2, mb: 2 }}>
+          {' '}
+          Main Net not deployed yet. Please switch to Fuji.
+        </Typography>
+      </Card>
+    );
+  }
 
   if (typeof account === 'string' && vaults) {
     return (
@@ -171,5 +197,9 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
     );
   }
 
-  return <> </>;
+  return (
+    <Card>
+      <Loader />
+    </Card>
+  );
 };
