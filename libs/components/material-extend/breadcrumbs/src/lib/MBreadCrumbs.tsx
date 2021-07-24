@@ -1,9 +1,12 @@
 import last from 'lodash/last';
 import React, { FC } from 'react';
 
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
-import Breadcrumbs, { BreadcrumbsProps } from '@material-ui/core/Breadcrumbs';
+import {
+  Breadcrumbs,
+  BreadcrumbsProps,
+  Typography,
+  Box,
+} from '@material-ui/core';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 
 import { NextLink } from '@ursa/components/links';

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import Popover, { PopoverProps } from '@material-ui/core/Popover';
+import { Popover, PopoverProps } from '@material-ui/core';
 
 import { experimentalStyled as styled, alpha } from '@material-ui/core/styles';
 

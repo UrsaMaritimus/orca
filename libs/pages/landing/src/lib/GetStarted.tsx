@@ -2,11 +2,7 @@ import { FC } from 'react';
 
 import { experimentalStyled as styled } from '@material-ui/core/styles';
 
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
-import Link from '@material-ui/core/Link';
+import { Box, Typography, Container, Button, Link } from '@material-ui/core';
 
 import {
   varFadeInDown,

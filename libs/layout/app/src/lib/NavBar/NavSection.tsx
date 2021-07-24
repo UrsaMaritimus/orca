@@ -7,17 +7,17 @@ import arrowIosDownwardFill from '@iconify/icons-eva/arrow-ios-downward-fill';
 // material
 import { alpha, useTheme, styled } from '@material-ui/core/styles';
 
-import ListItemButton, {
+import {
+  ListItemButton,
+  ListSubheader,
   ListItemButtonProps,
-} from '@material-ui/core/ListItemButton';
-import ListSubheader, {
   ListSubheaderProps,
-} from '@material-ui/core/ListSubheader';
-import Box from '@material-ui/core/Box';
-import List from '@material-ui/core/List';
-import Collapse from '@material-ui/core/Collapse';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+  Box,
+  List,
+  Collapse,
+  ListItemText,
+  ListItemIcon,
+} from '@material-ui/core';
 
 import { NextLink } from '@ursa/components/links';
 

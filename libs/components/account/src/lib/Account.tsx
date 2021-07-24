@@ -5,7 +5,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { toast } from 'react-hot-toast';
 
-import Button from '@material-ui/core/Button';
+import { Button } from '@material-ui/core';
 
 import { useEagerConnect } from '@ursa/hooks';
 import {

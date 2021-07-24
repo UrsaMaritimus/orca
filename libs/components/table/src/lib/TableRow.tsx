@@ -5,9 +5,8 @@ import { NextLink } from '@ursa/components/links';
 import { Icon } from '@iconify/react';
 import editOutline from '@iconify/icons-eva/edit-outline';
 // material
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import Button from '@material-ui/core/Button';
+
+import { TableRow, TableCell, Button } from '@material-ui/core';
 
 import { routes } from '@ursa/shared/base';
 

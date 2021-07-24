@@ -1,13 +1,14 @@
 import { FC, useState } from 'react';
 
-// material
-import Table from '@material-ui/core/Table';
-import TableRow from '@material-ui/core/TableRow';
-import TableHead from '@material-ui/core/TableHead';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TablePagination from '@material-ui/core/TablePagination';
+import {
+  Table,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TablePagination,
+} from '@material-ui/core';
 
 // components
 import { ScrollBar } from '@ursa/components/scroll-bar';

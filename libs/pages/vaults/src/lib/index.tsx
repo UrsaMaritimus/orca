@@ -4,18 +4,17 @@ import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 
 import { experimentalStyled as styled } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import Box from '@material-ui/core/Box';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Stack from '@material-ui/core/Stack';
-import TabContext from '@material-ui/lab/TabContext';
-import TabList from '@material-ui/lab/TabList';
-import TabPanel from '@material-ui/lab/TabPanel';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
+
+import {
+  Card,
+  CardHeader,
+  Box,
+  Typography,
+  Stack,
+  Tab,
+  Container,
+} from '@material-ui/core';
+import { TabList, TabPanel, TabContext } from '@material-ui/lab';
 
 import { Page } from '@ursa/components/page';
 

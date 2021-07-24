@@ -8,11 +8,7 @@ import plusFill from '@iconify/icons-eva/plus-fill';
 
 import { toast } from 'react-hot-toast';
 
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import { Card, CardHeader, Box, Button, Typography } from '@material-ui/core';
 
 import { MainTable } from '@ursa/components/table';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@ursa/hooks';

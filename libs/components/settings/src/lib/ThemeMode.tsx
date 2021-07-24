@@ -4,13 +4,15 @@ import { Icon } from '@iconify/react';
 import moonFill from '@iconify/icons-eva/moon-fill';
 import sunFill from '@iconify/icons-eva/sun-fill';
 
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
-import Radio from '@material-ui/core/Radio';
-import Paper from '@material-ui/core/Paper';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import {
+  Box,
+  Grid,
+  Radio,
+  Paper,
+  RadioGroup,
+  CardActionArea,
+  FormControlLabel,
+} from '@material-ui/core';
 
 import { useTheme } from 'next-themes';
 

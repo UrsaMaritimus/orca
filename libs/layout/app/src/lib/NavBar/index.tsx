@@ -3,14 +3,16 @@ import { useRouter } from 'next/router';
 
 import { alpha, experimentalStyled as styled } from '@material-ui/core/styles';
 
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Drawer from '@material-ui/core/Drawer';
-import Link from '@material-ui/core/Link';
-import Tooltip from '@material-ui/core/Tooltip';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import { Stack } from '@material-ui/core';
+import {
+  Stack,
+  CardActionArea,
+  Tooltip,
+  Link,
+  Drawer,
+  Typography,
+  Button,
+  Box,
+} from '@material-ui/core';
 
 import { useWeb3React } from '@web3-react/core';
 

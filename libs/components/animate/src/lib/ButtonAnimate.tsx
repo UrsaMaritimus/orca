@@ -1,18 +1,23 @@
-import { FC } from 'react'
+import { FC } from 'react';
 
-import { motion } from 'framer-motion'
+import { motion } from 'framer-motion';
 
-import Box, { BoxProps } from '@material-ui/core/Box'
+import { Box, BoxProps } from '@material-ui/core';
 
-import { varSmallClick, varMediumClick } from './variants'
+import { varSmallClick, varMediumClick } from './variants';
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  mediumClick?: boolean
-} & BoxProps
+  mediumClick?: boolean;
+} & BoxProps;
 
-const ButtonAnimate: FC<Props> = ({ children, sx, mediumClick = false, ...other }) => {
+const ButtonAnimate: FC<Props> = ({
+  children,
+  sx,
+  mediumClick = false,
+  ...other
+}) => {
   return (
     <Box
       component={motion.div}
@@ -24,7 +29,7 @@ const ButtonAnimate: FC<Props> = ({ children, sx, mediumClick = false, ...other 
     >
       {children}
     </Box>
-  )
-}
+  );
+};
 
-export default ButtonAnimate
+export default ButtonAnimate;

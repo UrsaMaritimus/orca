@@ -7,11 +7,9 @@ import alertCircleFill from '@iconify/icons-eva/alert-circle-fill';
 import alertTriangleFill from '@iconify/icons-eva/alert-triangle-fill';
 import checkmarkCircle2Fill from '@iconify/icons-eva/checkmark-circle-2-fill';
 
-import Typography from '@material-ui/core/Typography';
 import { alpha } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/styles';
-import Box from '@material-ui/core/Box';
-import { useTheme } from 'next-themes';
+import { Box } from '@material-ui/core';
 
 export enum NOTIFICATIONS_TYPES {
   SUCCESS = 'success',

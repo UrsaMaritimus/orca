@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { motion } from 'framer-motion';
-import Box from '@material-ui/core/Box';
+import { Box } from '@material-ui/core';
 import { experimentalStyled as styled, alpha } from '@material-ui/core/styles';
 
 import { Logo } from '@ursa/components/logo';

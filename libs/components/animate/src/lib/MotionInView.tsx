@@ -1,32 +1,38 @@
-import { FC, useEffect } from 'react'
-import { motion, useAnimation } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
-import Box, { BoxProps } from '@material-ui/core/Box'
+import { FC, useEffect } from 'react';
+import { motion, useAnimation } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import { Box, BoxProps } from '@material-ui/core';
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  variants: Record<string, unknown>
-  transition?: Record<string, unknown>
-  triggerOnce?: boolean
-  threshold?: number | number[]
-} & BoxProps
+  variants: Record<string, unknown>;
+  transition?: Record<string, unknown>;
+  triggerOnce?: boolean;
+  threshold?: number | number[];
+} & BoxProps;
 
 // Component to check if something is in view
-const MotionInView: FC<Props> = ({ children, variants, transition, threshold, ...other }) => {
-  const controls = useAnimation()
+const MotionInView: FC<Props> = ({
+  children,
+  variants,
+  transition,
+  threshold,
+  ...other
+}) => {
+  const controls = useAnimation();
   const [ref, inView] = useInView({
     threshold: threshold || 0,
     triggerOnce: true,
-  })
+  });
 
   useEffect(() => {
     if (inView) {
-      controls.start(Object.keys(variants)[1])
+      controls.start(Object.keys(variants)[1]);
     } else {
-      controls.start(Object.keys(variants)[0])
+      controls.start(Object.keys(variants)[0]);
     }
-  }, [controls, inView, variants])
+  }, [controls, inView, variants]);
 
   return (
     <Box
@@ -40,7 +46,7 @@ const MotionInView: FC<Props> = ({ children, variants, transition, threshold, ..
     >
       {children}
     </Box>
-  )
-}
+  );
+};
 
-export default MotionInView
+export default MotionInView;

@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import Fab, { FabProps } from '@material-ui/core/Fab';
+import { Fab, FabProps } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 
 import { ButtonAnimate } from '@ursa/components/animate';

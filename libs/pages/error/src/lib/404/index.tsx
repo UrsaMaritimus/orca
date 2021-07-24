@@ -2,10 +2,7 @@ import { FC } from 'react';
 import { motion } from 'framer-motion';
 import { experimentalStyled as styled } from '@material-ui/core/styles';
 
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
+import { Box, Button, Typography, Container } from '@material-ui/core';
 
 import { Page } from '@ursa/components/page';
 import { varBounceIn, MotionContainer } from '@ursa/components/animate';

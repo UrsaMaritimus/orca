@@ -1,11 +1,11 @@
-import Box, { BoxProps } from '@material-ui/core/Box'
-import { FC } from 'react'
+import { Box, BoxProps } from '@material-ui/core';
+import { FC } from 'react';
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  src: string
-} & BoxProps
+  src: string;
+} & BoxProps;
 
 const SvgIconStyle: FC<Props> = ({ src, color = 'inherit', sx }) => {
   return (
@@ -24,7 +24,7 @@ const SvgIconStyle: FC<Props> = ({ src, color = 'inherit', sx }) => {
         ...sx,
       }}
     />
-  )
-}
+  );
+};
 
-export default SvgIconStyle
+export default SvgIconStyle;

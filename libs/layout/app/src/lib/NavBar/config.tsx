@@ -1,7 +1,6 @@
 import { routes } from '@ursa/shared/base';
 import { SvgIconStyle } from '@ursa/components/svg-icon-style';
 
-import AccountBalanceOutlinedIcon from '@material-ui/icons/AccountBalanceOutlined';
 // ----------------------------------------------------------------------
 
 const getIcon = (name: string) => (

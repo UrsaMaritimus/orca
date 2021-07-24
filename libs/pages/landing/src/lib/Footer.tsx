@@ -2,9 +2,7 @@ import { FC } from 'react';
 
 import { Link as ScrollLink } from 'react-scroll';
 
-import Link from '@material-ui/core/Link';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
+import { Link, Typography, Container } from '@material-ui/core';
 
 import { Logo } from '@ursa/components/logo';
 

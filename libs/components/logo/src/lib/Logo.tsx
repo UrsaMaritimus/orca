@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import Box from '@material-ui/core/Box';
+import { Box } from '@material-ui/core';
 import Image from 'next/image';
 
 type Props = {

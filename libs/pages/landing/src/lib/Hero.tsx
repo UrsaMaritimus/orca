@@ -7,11 +7,8 @@ import flashFill from '@iconify/icons-eva/flash-fill';
 import { motion } from 'framer-motion';
 import { experimentalStyled as styled } from '@material-ui/core/styles';
 
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
+import { Box, Typography, Container, Button, Link } from '@material-ui/core';
+
 import {
   varFadeIn,
   varWrapEnter,

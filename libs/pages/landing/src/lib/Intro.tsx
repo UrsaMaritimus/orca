@@ -6,12 +6,14 @@ import {
   experimentalStyled as styled,
 } from '@material-ui/core/styles';
 
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import {
+  Box,
+  Grid,
+  Card,
+  Typography,
+  Container,
+  useMediaQuery,
+} from '@material-ui/core';
 
 import {
   varFadeInDown,

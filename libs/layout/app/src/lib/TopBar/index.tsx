@@ -6,12 +6,7 @@ import menu2Fill from '@iconify/icons-eva/menu-2-fill';
 
 import { alpha, experimentalStyled as styled } from '@material-ui/core/styles';
 
-import Box from '@material-ui/core/Box';
-import AppBar from '@material-ui/core/AppBar';
-
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Stack from '@material-ui/core/Stack';
+import { Box, AppBar, Toolbar, IconButton, Stack } from '@material-ui/core';
 
 import { useWeb3React } from '@web3-react/core';
 

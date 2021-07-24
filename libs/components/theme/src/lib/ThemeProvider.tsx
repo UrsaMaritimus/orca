@@ -4,10 +4,10 @@ import {
   ThemeProvider as MuiThemeProvider,
   createTheme,
 } from '@material-ui/core/styles';
-import StyledEngineProvider from '@material-ui/core/StyledEngineProvider';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
+
+import { StyledEngineProvider, CssBaseline } from '@material-ui/core';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
+import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
 
 import { useTheme } from 'next-themes';
 

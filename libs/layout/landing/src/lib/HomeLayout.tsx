@@ -1,6 +1,6 @@
-import { FC } from 'react'
-import TopBar from './TopBar'
-import Box from '@material-ui/core/Box'
+import { FC } from 'react';
+import TopBar from './TopBar';
+import { Box } from '@material-ui/core';
 // ----------------------------------------------------------------------
 
 const HomeLayout: FC = ({ children }) => {
@@ -9,7 +9,7 @@ const HomeLayout: FC = ({ children }) => {
       <TopBar />
       <Box sx={{ height: '100%' }}>{children}</Box>
     </Box>
-  )
-}
+  );
+};
 
-export default HomeLayout
+export default HomeLayout;

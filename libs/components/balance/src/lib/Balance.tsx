@@ -1,7 +1,7 @@
 import type { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
 import { useAVAXBalance } from '@ursa/hooks';
-import Typography from '@material-ui/core/Typography';
+import { Typography } from '@material-ui/core';
 
 import { experimentalStyled as styled } from '@material-ui/core/styles';
 

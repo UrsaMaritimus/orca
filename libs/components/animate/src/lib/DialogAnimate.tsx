@@ -1,17 +1,24 @@
-import React, { FC } from 'react'
+import React, { FC } from 'react';
 
-import { motion, AnimatePresence } from 'framer-motion'
-import Dialog, { DialogProps } from '@material-ui/core/Dialog'
+import { motion, AnimatePresence } from 'framer-motion';
+import { Dialog, DialogProps } from '@material-ui/core';
 
-import { varFadeInUp } from './variants'
+import { varFadeInUp } from './variants';
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  animate?: { [key: string]: any }
-} & DialogProps
+  animate?: { [key: string]: any };
+} & DialogProps;
 
-const DialogAnimate: FC<Props> = ({ open = false, animate, onClose, children, className, ...other }) => {
+const DialogAnimate: FC<Props> = ({
+  open = false,
+  animate,
+  onClose,
+  children,
+  className,
+  ...other
+}) => {
   return (
     <AnimatePresence>
       {open && (
@@ -35,7 +42,7 @@ const DialogAnimate: FC<Props> = ({ open = false, animate, onClose, children, cl
         </Dialog>
       )}
     </AnimatePresence>
-  )
-}
+  );
+};
 
-export default DialogAnimate
+export default DialogAnimate;
