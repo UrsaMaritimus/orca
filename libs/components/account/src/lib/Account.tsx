@@ -1,14 +1,8 @@
 import MetaMaskOnboarding from '@metamask/onboarding';
 import { useWeb3React, UnsupportedChainIdError } from '@web3-react/core';
 import { UserRejectedRequestError } from '@web3-react/injected-connector';
-import {
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-  useCallback,
-} from 'react';
-import { ToastView } from '@ursa/components/toast';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+
 import { toast } from 'react-hot-toast';
 import { MButton } from '@ursa/components/material-extend/buttons';
 
@@ -34,7 +28,6 @@ const Account = () => {
 
   // manage connecting state for injected connector
   const [connecting, setConnecting] = useState(false);
-  const [text, setText] = useState('Connect to MetaMask');
 
   const onClick = () => {
     setConnecting(true);
@@ -65,6 +58,7 @@ const Account = () => {
               );
             })
             .catch((error: any) => {
+              toast.error(error.message);
               setError(error);
             });
         });

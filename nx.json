@@ -90,6 +90,9 @@
     "components-svg-icon-style": {
       "tags": []
     },
+    "components-table": {
+      "tags": []
+    },
     "components-theme": {
       "tags": []
     },
@@ -106,6 +109,9 @@
       "tags": []
     },
     "pages-error": {
+      "tags": []
+    },
+    "pages-vaults": {
       "tags": []
     },
     "shared-base": {

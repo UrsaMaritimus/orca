@@ -8213,6 +8213,11 @@ ethashjs@~0.0.7:
     ethereumjs-util "^7.0.2"
     miller-rabin "^4.0.0"
 
+ether-swr@^0.6.4:
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/ether-swr/-/ether-swr-0.6.4.tgz#22b1d802addbfc707ca6f6eb2a3b1fd088437481"
+  integrity sha512-hWYhEGh4psz/KoYO6Exx/gmpm+3m7NeRL7DBw/KpGl68yUB6r8f2acpsVO+Fi58MuU7hTemLjiNuoskwffEHQA==
+
 ethereum-bloom-filters@^1.0.6:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/ethereum-bloom-filters/-/ethereum-bloom-filters-1.0.10.tgz#3ca07f4aed698e75bd134584850260246a5fed8a"

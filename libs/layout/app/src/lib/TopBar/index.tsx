@@ -85,10 +85,12 @@ const TopBar: FC<Props> = ({ onOpenNav }) => {
           <Stack
             direction="row"
             justifyContent="flex-end"
+            alignItems="center"
             sx={{ mt: 3 }}
-          ></Stack>
-          {isConnected && <Balance />}
-          <Account />
+          >
+            {isConnected && <Balance />}
+            <Account />
+          </Stack>
         </Box>
       </ToolbarStyle>
     </RootStyle>

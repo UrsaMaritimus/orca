@@ -33,5 +33,7 @@ module.exports = {
     '<rootDir>/libs/pages/app',
     '<rootDir>/libs/components/toast',
     '<rootDir>/libs/pages/error',
+    '<rootDir>/libs/components/table',
+    '<rootDir>/libs/pages/vaults',
   ],
 };

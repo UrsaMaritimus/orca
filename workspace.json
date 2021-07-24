@@ -499,6 +499,27 @@
         }
       }
     },
+    "components-table": {
+      "root": "libs/components/table",
+      "sourceRoot": "libs/components/table/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/components/table/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/components/table"],
+          "options": {
+            "jestConfig": "libs/components/table/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "components-theme": {
       "root": "libs/components/theme",
       "sourceRoot": "libs/components/theme/src",
@@ -620,6 +641,27 @@
           "outputs": ["coverage/libs/pages/error"],
           "options": {
             "jestConfig": "libs/pages/error/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "pages-vaults": {
+      "root": "libs/pages/vaults",
+      "sourceRoot": "libs/pages/vaults/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/pages/vaults/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/pages/vaults"],
+          "options": {
+            "jestConfig": "libs/pages/vaults/jest.config.js",
             "passWithNoTests": true
           }
         }

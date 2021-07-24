@@ -58,12 +58,14 @@
       "@ursa/components/svg-icon-style": [
         "libs/components/svg-icon-style/src/index.ts"
       ],
+      "@ursa/components/table": ["libs/components/table/src/index.ts"],
       "@ursa/components/theme": ["libs/components/theme/src/index.ts"],
       "@ursa/components/toast": ["libs/components/toast/src/index.ts"],
       "@ursa/hooks": ["libs/hooks/src/index.ts"],
       "@ursa/layout/app": ["libs/layout/app/src/index.ts"],
       "@ursa/pages/app": ["libs/pages/app/src/index.ts"],
       "@ursa/pages/error": ["libs/pages/error/src/index.ts"],
+      "@ursa/pages/vaults": ["libs/pages/vaults/src/index.ts"],
       "@ursa/shared/base": ["libs/shared/base/src/index.ts"],
       "@ursa/shared/contracts": ["libs/shared/contracts/src/index.ts"],
       "@ursa/shared/styles": ["libs/shared/styles/src/index.ts"],

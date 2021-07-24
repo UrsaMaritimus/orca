@@ -21,9 +21,6 @@ const AvaxBalance = () => {
   const { data } = useAVAXBalance(account as string);
 
   const { theme, systemTheme } = useTheme();
-  const themeMode = ((theme === 'system' ? systemTheme : theme) ?? 'dark') as
-    | 'light'
-    | 'dark';
 
   return (
     <BalanceStyle>

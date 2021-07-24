@@ -10,4 +10,9 @@ export const routes = {
     },
   },
   DOCS: 'https://docs.avai.finance/',
+  API: {
+    VAULT: {
+      CREATE: '/api/createVault',
+    },
+  },
 };

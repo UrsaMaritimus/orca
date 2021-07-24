@@ -55,6 +55,7 @@
     "core-js": "^3.6.5",
     "date-fns": "^2.22.1",
     "document-register-element": "1.13.1",
+    "ether-swr": "^0.6.4",
     "ethers": "^5.4.1",
     "framer-motion": "^4.1.17",
     "lodash": "^4.17.21",
