@@ -120,9 +120,11 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
           ? // TODO: Update
             contractAddresses.fuji.AVAXVault
           : null,
-        library
+        library.getSigner()
       );
+
       const result = await avaxVault.createVault();
+
       toast.promise(
         result.wait(1),
         {

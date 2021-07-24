@@ -24,6 +24,12 @@ const App: FC = () => {
   );
 };
 
+/**
+ * Remove this after main page is created
+ *
+ * @param context
+ * @returns
+ */
 export const getServerSideProps: GetServerSideProps = async (context) => {
   if (context.res) {
     context.res.writeHead(302, { Location: routes.APP.VAULTS.USER });

@@ -102,6 +102,7 @@ const TopBar: FC = () => {
           key={link.title}
           underline="none"
           variant="subtitle2"
+          target="_blank"
           activeClassName="isDesktopActive"
           sx={{
             mr: 5,
