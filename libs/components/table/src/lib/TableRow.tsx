@@ -7,9 +7,10 @@ import editOutline from '@iconify/icons-eva/edit-outline';
 // material
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
+import Button from '@material-ui/core/Button';
 
 import { routes } from '@ursa/shared/base';
-import { MButton } from '@ursa/components/material-extend/buttons';
+
 // ----------------------------------------------------------------------
 
 export type Row = {
@@ -35,7 +36,7 @@ const RowTable: FC<TableProps> = ({ row }) => {
       <TableCell align="right">{row.debt}</TableCell>
       <TableCell align="right">{row.ratio}</TableCell>
       <TableCell align="right">
-        <MButton
+        <Button
           variant="contained"
           size="medium"
           color="secondary"
@@ -44,7 +45,7 @@ const RowTable: FC<TableProps> = ({ row }) => {
           startIcon={<Icon icon={editOutline} />}
         >
           Manage
-        </MButton>
+        </Button>
       </TableCell>
     </TableRow>
   );

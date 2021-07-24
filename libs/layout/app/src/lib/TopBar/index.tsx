@@ -8,14 +8,14 @@ import { alpha, experimentalStyled as styled } from '@material-ui/core/styles';
 
 import Box from '@material-ui/core/Box';
 import AppBar from '@material-ui/core/AppBar';
-import Hidden from '@material-ui/core/Hidden';
+
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Stack from '@material-ui/core/Stack';
 
 import { useWeb3React } from '@web3-react/core';
 
-import { useEagerConnect } from '@ursa/hooks';
+import { useEagerConnect, useCollapseDrawer } from '@ursa/hooks';
 
 import { MHidden } from '@ursa/components/material-extend/hidden';
 import { Account } from '@ursa/components/account';
@@ -23,6 +23,8 @@ import { Balance } from '@ursa/components/balance';
 // ----------------------------------------------------------------------
 
 const DRAWER_WIDTH = 280;
+const COLLAPSE_WIDTH = 102;
+
 const APPBAR_MOBILE = 64;
 const APPBAR_DESKTOP = 92;
 
@@ -51,13 +53,19 @@ type Props = {
 };
 
 const TopBar: FC<Props> = ({ onOpenNav }) => {
-  const triedToEagerConnect = useEagerConnect();
-
   const { account, library } = useWeb3React();
   const isConnected = typeof account === 'string' && !!library;
 
+  const { isCollapse } = useCollapseDrawer();
+
   return (
-    <RootStyle>
+    <RootStyle
+      sx={{
+        ...(isCollapse && {
+          width: { lg: `calc(100% - ${COLLAPSE_WIDTH}px)` },
+        }),
+      }}
+    >
       <ToolbarStyle>
         <MHidden width="lgUp">
           <IconButton
@@ -73,25 +81,16 @@ const TopBar: FC<Props> = ({ onOpenNav }) => {
 
         <Box sx={{ flexGrow: 1 }} />
 
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            '& > *:not(:first-of-type)': {
-              ml: { xs: 1.5, sm: 2, lg: 3 },
-            },
-          }}
+        <Stack
+          direction="row"
+          justifyContent="flex-end"
+          alignItems="center"
+          sx={{ mt: 3 }}
+          spacing={{ xs: 0.5, sm: 1.5 }}
         >
-          <Stack
-            direction="row"
-            justifyContent="flex-end"
-            alignItems="center"
-            sx={{ mt: 3 }}
-          >
-            {isConnected && <Balance />}
-            <Account />
-          </Stack>
-        </Box>
+          {isConnected && <Balance />}
+          <Account />
+        </Stack>
       </ToolbarStyle>
     </RootStyle>
   );

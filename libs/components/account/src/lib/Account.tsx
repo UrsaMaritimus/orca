@@ -4,7 +4,8 @@ import { UserRejectedRequestError } from '@web3-react/injected-connector';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { toast } from 'react-hot-toast';
-import { MButton } from '@ursa/components/material-extend/buttons';
+
+import Button from '@material-ui/core/Button';
 
 import { useEagerConnect } from '@ursa/hooks';
 import {
@@ -79,27 +80,27 @@ const Account = () => {
 
   if (error) {
     return (
-      <MButton
+      <Button
         variant="contained"
         size="large"
         sx={{ mr: 1.5 }}
         onClick={onClick}
       >
         Failed to connect
-      </MButton>
+      </Button>
     );
   }
 
   if (!triedToEagerConnect) {
     return (
-      <MButton
+      <Button
         variant="contained"
         size="large"
         sx={{ mr: 1.5 }}
         onClick={onClick}
       >
         Attempting Connection
-      </MButton>
+      </Button>
     );
   }
 
@@ -111,37 +112,36 @@ const Account = () => {
     return (
       <div>
         {hasMetaMaskOrWeb3Available ? (
-          <MButton variant="contained" size="large" onClick={onClick}>
+          <Button variant="contained" size="large" onClick={onClick}>
             {MetaMaskOnboarding.isMetaMaskInstalled()
               ? 'Connect to MetaMask'
               : 'Connect to Wallet'}
-          </MButton>
+          </Button>
         ) : (
-          <MButton
+          <Button
             variant="contained"
             size="large"
             sx={{ mr: 1.5 }}
             onClick={() => onboarding.current?.startOnboarding()}
           >
             Install Metamask
-          </MButton>
+          </Button>
         )}
       </div>
     );
   }
 
   return (
-    <MButton
+    <Button
       variant="contained"
       size="large"
       href={formatEtherscanLink('Account', [chainId as number, account])}
-      // @ts-expect-error doesn't have target or rel on it
       target="_blank"
       rel="noopener noreferrer"
       sx={{ mr: 1.5 }}
     >
       {`${shortenHex(account, 4)}`}
-    </MButton>
+    </Button>
   );
 };
 

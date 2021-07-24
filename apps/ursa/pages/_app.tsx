@@ -21,12 +21,9 @@ import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 
 import { ThemeProvider as CustomThemeProvider } from '@ursa/components/theme';
-import { NotistackProvider } from '@ursa/components/notistack';
-import { Toaster } from 'react-hot-toast';
 import { CustomToaster } from '@ursa/components/toast';
-
 import { Settings } from '@ursa/components/settings';
-import { duration } from '@material-ui/core';
+import { CollapseDrawerProvider } from '@ursa/hooks';
 
 //Binding events for nprogress
 Router.events.on('routeChangeStart', () => NProgress.start());
@@ -50,16 +47,18 @@ export default function NextWeb3App({ Component, pageProps }: AppProps) {
     <Web3ReactProvider getLibrary={getLibrary}>
       <NextThemeProvider defaultTheme="system" enableSystem>
         <CustomThemeProvider>
-          <Head>
-            <meta
-              name="viewport"
-              content="minimum-scale=1, initial-scale=1, width=device-width"
-            />
-          </Head>
-          <Settings />
+          <CollapseDrawerProvider>
+            <Head>
+              <meta
+                name="viewport"
+                content="minimum-scale=1, initial-scale=1, width=device-width"
+              />
+            </Head>
+            <Settings />
 
-          <Component {...pageProps} />
-          <CustomToaster />
+            <Component {...pageProps} />
+            <CustomToaster />
+          </CollapseDrawerProvider>
         </CustomThemeProvider>
       </NextThemeProvider>
     </Web3ReactProvider>
