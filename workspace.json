@@ -200,29 +200,6 @@
         }
       }
     },
-    "components-material-extend-badge": {
-      "root": "libs/components/material-extend/badge",
-      "sourceRoot": "libs/components/material-extend/badge/src",
-      "projectType": "library",
-      "targets": {
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/components/material-extend/badge/**/*.{ts,tsx,js,jsx}"
-            ]
-          }
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/components/material-extend/badge"],
-          "options": {
-            "jestConfig": "libs/components/material-extend/badge/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
     "components-material-extend-breadcrumbs": {
       "root": "libs/components/material-extend/breadcrumbs",
       "sourceRoot": "libs/components/material-extend/breadcrumbs/src",
@@ -269,95 +246,24 @@
         }
       }
     },
-    "components-material-extend-chip": {
-      "root": "libs/components/material-extend/chip",
-      "sourceRoot": "libs/components/material-extend/chip/src",
+    "components-material-extend-hidden": {
+      "root": "libs/components/material-extend/hidden",
+      "sourceRoot": "libs/components/material-extend/hidden/src",
       "projectType": "library",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
-              "libs/components/material-extend/chip/**/*.{ts,tsx,js,jsx}"
+              "libs/components/material-extend/hidden/**/*.{ts,tsx,js,jsx}"
             ]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/components/material-extend/chip"],
+          "outputs": ["coverage/libs/components/material-extend/hidden"],
           "options": {
-            "jestConfig": "libs/components/material-extend/chip/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "components-material-extend-progress": {
-      "root": "libs/components/material-extend/progress",
-      "sourceRoot": "libs/components/material-extend/progress/src",
-      "projectType": "library",
-      "targets": {
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/components/material-extend/progress/**/*.{ts,tsx,js,jsx}"
-            ]
-          }
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/components/material-extend/progress"],
-          "options": {
-            "jestConfig": "libs/components/material-extend/progress/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "components-material-extend-selection-controls": {
-      "root": "libs/components/material-extend/selection-controls",
-      "sourceRoot": "libs/components/material-extend/selection-controls/src",
-      "projectType": "library",
-      "targets": {
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/components/material-extend/selection-controls/**/*.{ts,tsx,js,jsx}"
-            ]
-          }
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/components/material-extend/selection-controls"
-          ],
-          "options": {
-            "jestConfig": "libs/components/material-extend/selection-controls/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "components-material-extend-timeline": {
-      "root": "libs/components/material-extend/timeline",
-      "sourceRoot": "libs/components/material-extend/timeline/src",
-      "projectType": "library",
-      "targets": {
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/components/material-extend/timeline/**/*.{ts,tsx,js,jsx}"
-            ]
-          }
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/components/material-extend/timeline"],
-          "options": {
-            "jestConfig": "libs/components/material-extend/timeline/jest.config.js",
+            "jestConfig": "libs/components/material-extend/hidden/jest.config.js",
             "passWithNoTests": true
           }
         }

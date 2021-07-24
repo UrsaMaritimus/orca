@@ -7,7 +7,6 @@ import menu2Fill from '@iconify/icons-eva/menu-2-fill';
 import { alpha, experimentalStyled as styled } from '@material-ui/core/styles';
 
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
 import Hidden from '@material-ui/core/Hidden';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -18,6 +17,7 @@ import { useWeb3React } from '@web3-react/core';
 
 import { useEagerConnect } from '@ursa/hooks';
 
+import { MHidden } from '@ursa/components/material-extend/hidden';
 import { Account } from '@ursa/components/account';
 import { Balance } from '@ursa/components/balance';
 // ----------------------------------------------------------------------
@@ -59,7 +59,7 @@ const TopBar: FC<Props> = ({ onOpenNav }) => {
   return (
     <RootStyle>
       <ToolbarStyle>
-        <Hidden lgUp>
+        <MHidden width="lgUp">
           <IconButton
             onClick={onOpenNav}
             sx={{
@@ -69,7 +69,7 @@ const TopBar: FC<Props> = ({ onOpenNav }) => {
           >
             <Icon icon={menu2Fill} />
           </IconButton>
-        </Hidden>
+        </MHidden>
 
         <Box sx={{ flexGrow: 1 }} />
 

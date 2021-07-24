@@ -17,8 +17,7 @@ import { ScrollBar } from '@ursa/components/scroll-bar';
 import { NextLink } from '@ursa/components/links';
 import { useWeb3React } from '@web3-react/core';
 
-import { Balance } from '@ursa/components/balance';
-import { formatEtherscanLink, shortenHex, injected } from '@ursa/util';
+import { MHidden } from '@ursa/components/material-extend/hidden';
 
 import NavItem from './NavItem';
 import MenuLinks from './config';
@@ -215,7 +214,7 @@ const NavBar: FC<Props> = ({ isOpenNav, onCloseNav }) => {
 
   return (
     <RootStyle>
-      <Hidden lgUp>
+      <MHidden width="lgUp">
         <Drawer
           open={isOpenNav}
           onClose={onCloseNav}
@@ -225,8 +224,8 @@ const NavBar: FC<Props> = ({ isOpenNav, onCloseNav }) => {
         >
           {renderContent}
         </Drawer>
-      </Hidden>
-      <Hidden lgDown>
+      </MHidden>
+      <MHidden width="lgDown">
         <Drawer
           open
           variant="persistent"
@@ -236,7 +235,7 @@ const NavBar: FC<Props> = ({ isOpenNav, onCloseNav }) => {
         >
           {renderContent}
         </Drawer>
-      </Hidden>
+      </MHidden>
     </RootStyle>
   );
 };

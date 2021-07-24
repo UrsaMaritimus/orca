@@ -51,25 +51,13 @@
     "components-material-extend-avatar": {
       "tags": []
     },
-    "components-material-extend-badge": {
-      "tags": []
-    },
     "components-material-extend-breadcrumbs": {
       "tags": []
     },
     "components-material-extend-buttons": {
       "tags": []
     },
-    "components-material-extend-chip": {
-      "tags": []
-    },
-    "components-material-extend-progress": {
-      "tags": []
-    },
-    "components-material-extend-selection-controls": {
-      "tags": []
-    },
-    "components-material-extend-timeline": {
+    "components-material-extend-hidden": {
       "tags": []
     },
     "components-notistack": {

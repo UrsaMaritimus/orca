@@ -25,26 +25,14 @@
       "@ursa/components/material-extend/avatar": [
         "libs/components/material-extend/avatar/src/index.ts"
       ],
-      "@ursa/components/material-extend/badge": [
-        "libs/components/material-extend/badge/src/index.ts"
-      ],
       "@ursa/components/material-extend/breadcrumbs": [
         "libs/components/material-extend/breadcrumbs/src/index.ts"
       ],
       "@ursa/components/material-extend/buttons": [
         "libs/components/material-extend/buttons/src/index.ts"
       ],
-      "@ursa/components/material-extend/chip": [
-        "libs/components/material-extend/chip/src/index.ts"
-      ],
-      "@ursa/components/material-extend/progress": [
-        "libs/components/material-extend/progress/src/index.ts"
-      ],
-      "@ursa/components/material-extend/selection-controls": [
-        "libs/components/material-extend/selection-controls/src/index.ts"
-      ],
-      "@ursa/components/material-extend/timeline": [
-        "libs/components/material-extend/timeline/src/index.ts"
+      "@ursa/components/material-extend/hidden": [
+        "libs/components/material-extend/hidden/src/index.ts"
       ],
       "@ursa/components/notistack": ["libs/components/notistack/src/index.ts"],
       "@ursa/components/page": ["libs/components/page/src/index.ts"],
