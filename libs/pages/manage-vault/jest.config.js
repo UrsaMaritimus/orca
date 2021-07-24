@@ -1,9 +1,9 @@
 module.exports = {
-  displayName: 'components-notistack',
+  displayName: 'pages-manage-vault',
   preset: '../../../jest.preset.js',
   transform: {
     '^.+\\.[tj]sx?$': 'babel-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../../coverage/libs/components/notistack',
+  coverageDirectory: '../../../coverage/libs/pages/manage-vault',
 };

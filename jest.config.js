@@ -13,7 +13,6 @@ module.exports = {
     '<rootDir>/libs/components/links',
     '<rootDir>/libs/components/loader',
     '<rootDir>/libs/components/logo',
-    '<rootDir>/libs/components/notistack',
     '<rootDir>/libs/components/popover-menu',
     '<rootDir>/libs/components/scroll-bar',
     '<rootDir>/libs/components/svg-icon-style',
@@ -34,5 +33,6 @@ module.exports = {
     '<rootDir>/libs/layout/landing',
     '<rootDir>/apps/landing',
     '<rootDir>/libs/pages/landing',
+    '<rootDir>/libs/pages/manage-vault',
   ],
 };

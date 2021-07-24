@@ -60,9 +60,6 @@
     "components-material-extend-hidden": {
       "tags": []
     },
-    "components-notistack": {
-      "tags": []
-    },
     "components-page": {
       "tags": []
     },
@@ -110,6 +107,9 @@
       "tags": []
     },
     "pages-landing": {
+      "tags": []
+    },
+    "pages-manage-vault": {
       "tags": []
     },
     "pages-vaults": {
