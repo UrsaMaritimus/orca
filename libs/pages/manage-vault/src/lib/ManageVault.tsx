@@ -37,9 +37,9 @@ export function ManageVault(props: ManageVaultsProps) {
     );
   // Default return
   return (
-    <RootStyle
-      title={`Manage Vault | ${process.env.NEXT_PUBLIC_TITLE}`}
-    ></RootStyle>
+    <RootStyle title={`Manage Vault | ${process.env.NEXT_PUBLIC_TITLE}`}>
+      {vaultID}
+    </RootStyle>
   );
 }
 

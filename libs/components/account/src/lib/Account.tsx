@@ -83,6 +83,7 @@ const Account = () => {
       <Button
         variant="contained"
         size="large"
+        color="secondary"
         sx={{ mr: 1.5 }}
         onClick={onClick}
       >
@@ -94,6 +95,7 @@ const Account = () => {
   if (!triedToEagerConnect) {
     return (
       <Button
+        color="secondary"
         variant="contained"
         size="large"
         sx={{ mr: 1.5 }}
@@ -112,7 +114,12 @@ const Account = () => {
     return (
       <div>
         {hasMetaMaskOrWeb3Available ? (
-          <Button variant="contained" size="large" onClick={onClick}>
+          <Button
+            variant="contained"
+            color="secondary"
+            size="large"
+            onClick={onClick}
+          >
             {MetaMaskOnboarding.isMetaMaskInstalled()
               ? 'Connect to MetaMask'
               : 'Connect to Wallet'}
@@ -121,6 +128,7 @@ const Account = () => {
           <Button
             variant="contained"
             size="large"
+            color="secondary"
             sx={{ mr: 1.5 }}
             onClick={() => onboarding.current?.startOnboarding()}
           >
@@ -135,6 +143,7 @@ const Account = () => {
     <Button
       variant="contained"
       size="large"
+      color="secondary"
       href={formatEtherscanLink('Account', [chainId as number, account])}
       target="_blank"
       rel="noopener noreferrer"

@@ -6,46 +6,47 @@ const createGradient = (color1: string, color2: string) => {
 
 // Setup Colors
 const PRIMARY = {
-  lighter: '#D8F9FF',
-  light: '#8BE0FF',
-  main: '#3EB5FF',
-  dark: '#1F6AB7',
-  darker: '#0B357A',
+  lighter: '#D2FBFA',
+  light: '#76DEEA',
+  main: '#2196BC',
+  dark: '#105987',
+  darker: '#062D5A',
 };
 const SECONDARY = {
-  lighter: '#E7E0FF',
-  light: '#B6A4FF',
-  main: '#8168FF',
-  dark: '#4534B7',
-  darker: '#1D137A',
+  lighter: '#D4FBD9',
+  light: '#7EE9A0',
+  main: '#2BB673',
+  dark: '#158364',
+  darker: '#085750',
 };
 const INFO = {
-  lighter: '#E7F0FF',
-  light: '#B8CEFF',
-  main: '#89A8FF',
-  dark: '#455CB7',
-  darker: '#1A297A',
+  lighter: '#CCF0FD',
+  light: '#68C0F6',
+  main: '#0979E2',
+  dark: '#0445A2',
+  darker: '#01226C',
 };
 const SUCCESS = {
-  lighter: '#F0FBCE',
-  light: '#C0E86B',
-  main: '#73B512',
-  dark: '#478209',
-  darker: '#275603',
+  lighter: '#E5FAD5',
+  light: '#9AE17E',
+  main: '#389E2A',
+
+  dark: '#157118',
+  darker: '##084B15',
 };
 const WARNING = {
-  lighter: '#FFF9CC',
-  light: '#FFE867',
-  main: '#FFD002',
-  dark: '#B78E01',
-  darker: '#7A5A00',
+  lighter: '#FFF3CC',
+  light: '#FFD067',
+  main: '#FF9E02',
+  dark: '#B76301',
+  darker: '#7A3800',
 };
 const ERROR = {
-  lighter: '#FFEBD6',
-  light: '#FFB185',
-  main: '#FF6135',
-  dark: '#B7251A',
-  darker: '#7A0A12',
+  lighter: '#FCE3D3',
+  light: '#F2967C',
+  main: '#D63128',
+  dark: '#9A1423',
+  darker: '#660722',
 };
 
 const GREY = {

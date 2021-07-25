@@ -60,7 +60,7 @@ const ListItemStyle = styled((props: ListItemStyleProps) => (
     position: 'absolute',
     borderTopLeftRadius: 4,
     borderBottomLeftRadius: 4,
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.secondary.main,
   },
 }));
 
@@ -100,17 +100,17 @@ const NavItem: FC<NavItemProps> = ({ item, active, isShow }) => {
   };
 
   const activeRootStyle = {
-    color: 'primary.main',
+    color: 'secondary.main',
     fontWeight: 'fontWeightMedium',
     bgcolor: alpha(
-      theme.palette.primary.main,
+      theme.palette.secondary.main,
       theme.palette.action.selectedOpacity
     ),
     '&:before': { display: 'block' },
   };
 
   const activeSubStyle = {
-    color: 'text.primary',
+    color: 'text.secondary',
     fontWeight: 'fontWeightMedium',
   };
 
@@ -169,7 +169,7 @@ const NavItem: FC<NavItemProps> = ({ item, active, isShow }) => {
                             theme.transitions.create('transform'),
                           ...(isActiveSub && {
                             transform: 'scale(2)',
-                            bgcolor: 'primary.main',
+                            bgcolor: 'secondary.main',
                           }),
                         }}
                       />

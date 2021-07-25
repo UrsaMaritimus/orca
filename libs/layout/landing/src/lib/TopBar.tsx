@@ -158,7 +158,7 @@ const TopBar: FC = () => {
   );
 
   return (
-    <RootStyle color="transparent">
+    <RootStyle sx={{ boxShadow: 0, bgcolor: 'transparent' }}>
       <ToolbarStyle
         disableGutters
         sx={{
