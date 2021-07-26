@@ -41,6 +41,7 @@ interface AVAXVaultInterface extends ethers.utils.Interface {
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
+    "minimumCollateralPercentage()": FunctionFragment;
     "name()": FunctionFragment;
     "openingFee()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
@@ -148,6 +149,10 @@ interface AVAXVaultInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [string, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "minimumCollateralPercentage",
+    values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
@@ -323,6 +328,10 @@ interface AVAXVaultInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "minimumCollateralPercentage",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
@@ -577,6 +586,10 @@ export class AVAXVault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    minimumCollateralPercentage(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     name(overrides?: CallOverrides): Promise<[string]>;
 
     openingFee(overrides?: CallOverrides): Promise<[BigNumber]>;
@@ -807,6 +820,8 @@ export class AVAXVault extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  minimumCollateralPercentage(overrides?: CallOverrides): Promise<BigNumber>;
+
   name(overrides?: CallOverrides): Promise<string>;
 
   openingFee(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1022,6 +1037,8 @@ export class AVAXVault extends BaseContract {
       operator: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    minimumCollateralPercentage(overrides?: CallOverrides): Promise<BigNumber>;
 
     name(overrides?: CallOverrides): Promise<string>;
 
@@ -1376,6 +1393,8 @@ export class AVAXVault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    minimumCollateralPercentage(overrides?: CallOverrides): Promise<BigNumber>;
+
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
     openingFee(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1612,6 +1631,10 @@ export class AVAXVault extends BaseContract {
     isApprovedForAll(
       owner: string,
       operator: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    minimumCollateralPercentage(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

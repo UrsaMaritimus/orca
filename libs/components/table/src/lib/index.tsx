@@ -57,7 +57,11 @@ const MainTable: FC<MainTableProps> = ({ rows, collateralType, debtType }) => {
               {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => (
-                  <RowTable key={row.vaultID} row={row} />
+                  <RowTable
+                    key={row.vaultID}
+                    row={row}
+                    collateralType={collateralType}
+                  />
                 ))}
             </TableBody>
           </Table>

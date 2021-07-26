@@ -21,9 +21,10 @@ export type Row = {
 
 type TableProps = {
   row: Row;
+  collateralType: string;
 };
 
-const RowTable: FC<TableProps> = ({ row }) => {
+const RowTable: FC<TableProps> = ({ row, collateralType }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -40,7 +41,7 @@ const RowTable: FC<TableProps> = ({ row }) => {
           size="medium"
           color="secondary"
           LinkComponent={NextLink}
-          href={`${routes.APP.VAULTS.USER}/${row.vaultID}`}
+          href={`${routes.APP.VAULTS.USER}/${collateralType}/${row.vaultID}`}
           startIcon={<Icon icon={editOutline} />}
         >
           Manage

@@ -14,7 +14,8 @@ import { MainTable } from '@ursa/components/table';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@ursa/hooks';
 
 import useSwr from 'swr';
-import { AVAXVault__factory, contractAddresses } from '@ursa/shared/contracts';
+import { AVAXVault__factory } from '@ursa/shared/contracts';
+import { contractAddresses } from '@ursa/shared/deployments';
 
 /* eslint-disable-next-line */
 export interface PagesVaultsProps {}

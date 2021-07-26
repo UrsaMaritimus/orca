@@ -14,7 +14,8 @@ import { Card, CardHeader, Box, Button, Typography } from '@material-ui/core';
 
 import { MainTable } from '@ursa/components/table';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@ursa/hooks';
-import { AVAXVault__factory, contractAddresses } from '@ursa/shared/contracts';
+import { AVAXVault__factory } from '@ursa/shared/contracts';
+import { contractAddresses } from '@ursa/shared/deployments';
 import { Loader } from '@ursa/components/loader';
 
 /* eslint-disable-next-line */
@@ -60,8 +61,8 @@ const getAVAXVaults = () => {
 
           return {
             vaultID: vault.toString(),
-            collateral: collateral.toString(),
-            debt: debt.toString(),
+            collateral: utils.formatEther(collateral),
+            debt: utils.formatUnits(debt, 8),
             ratio: ratio.toString(),
           };
         } catch (err) {
@@ -108,7 +109,7 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
         avaxVault.removeAllListeners(newVault);
       };
     }
-  }, [library, account, avaxVaultMutate]);
+  }, [library, account, avaxVaultMutate, chainId]);
 
   // For creating a vault
   const createVault = async () => {

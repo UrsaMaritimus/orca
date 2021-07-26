@@ -20,7 +20,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   const stablecoin = await deployments.get('AVAI');
 
-  await deploy('AVAXVault', {
+  const vault = await deploy('AVAXVault', {
     from: deployer,
     log: true,
     args: [priceSource_, name, symbol, token, stablecoin.address],

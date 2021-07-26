@@ -732,6 +732,27 @@
         }
       }
     },
+    "shared-deployments": {
+      "root": "libs/shared/deployments",
+      "sourceRoot": "libs/shared/deployments/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/shared/deployments/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/deployments"],
+          "options": {
+            "jestConfig": "libs/shared/deployments/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "shared-styles": {
       "root": "libs/shared/styles",
       "sourceRoot": "libs/shared/styles/src",

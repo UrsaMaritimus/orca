@@ -219,4 +219,8 @@ describe('Base Vault', function () {
 
     expect(await tokenAddress.name()).to.equal('Wrapped AVAX');
   });
+
+  it('Should set min collateral percentage correctly', async () => {
+    expect(await vault.minimumCollateralPercentage()).to.equal(150);
+  });
 });

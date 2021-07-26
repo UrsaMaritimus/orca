@@ -28,8 +28,7 @@ contract BaseVault is
   /**
    * Set all of these upon initalization
    */
-  uint256 private _minimumCollateralPercentage;
-
+  uint256 public minimumCollateralPercentage;
   uint256 public debtCeiling;
   uint256 public closingFee;
   uint256 public openingFee;
@@ -56,7 +55,7 @@ contract BaseVault is
 
   // Lets begin!
   constructor(
-    uint256 minimumCollateralPercentage,
+    uint256 minimumCollateralPercentage_,
     address priceSource_,
     string memory name_,
     string memory symbol_,
@@ -64,7 +63,7 @@ contract BaseVault is
     address stablecoin_
   ) ERC721(name_, symbol_) {
     assert(priceSource_ != address(0));
-    assert(minimumCollateralPercentage != 0);
+    assert(minimumCollateralPercentage_ != 0);
     //Initial settings!
     debtCeiling = 10e18; // 10 dollas
     closingFee = 50; // 0.5%
@@ -78,7 +77,7 @@ contract BaseVault is
     token = IERC20(token_);
     stablecoin = IStablecoin(stablecoin_);
 
-    _minimumCollateralPercentage = minimumCollateralPercentage;
+    minimumCollateralPercentage = minimumCollateralPercentage_;
   }
 
   /**
@@ -233,7 +232,7 @@ contract BaseVault is
     uint256 collateralPercentage = collateralValueTimes100 / debtValue;
 
     // and check if it's above 150%
-    return collateralPercentage >= _minimumCollateralPercentage;
+    return collateralPercentage >= minimumCollateralPercentage;
   }
 
   /**
@@ -429,29 +428,25 @@ contract BaseVault is
    *
    * Emits BuyRiskyVault event
    */
-  function buyRiskyVault(uint256 vaultID)
-    external
-    onlyLiquidater()
-    nonReentrant
-  {
+  function buyRiskyVault(uint256 vaultID) external onlyLiquidater nonReentrant {
     require(vaultExistence[vaultID], 'Vault does not exist');
     (
       uint256 collateralValueTimes100,
       uint256 debtValue
     ) = calculateCollateralProperties(
-      vaultCollateral[vaultID],
-      vaultDebt[vaultID]
-    );
+        vaultCollateral[vaultID],
+        vaultDebt[vaultID]
+      );
 
     uint256 collateralPercentage = collateralValueTimes100 / debtValue;
 
     require(
-      collateralPercentage < _minimumCollateralPercentage,
+      collateralPercentage < minimumCollateralPercentage,
       'Vault is not below minimum collateral percentage'
     );
 
     uint256 maximumDebtValue = collateralValueTimes100 /
-      _minimumCollateralPercentage;
+      minimumCollateralPercentage;
 
     uint256 maximumDebt = maximumDebtValue / getPricePeg();
 

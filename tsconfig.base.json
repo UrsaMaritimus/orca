@@ -8,6 +8,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "importHelpers": true,
     "target": "es2019",
     "module": "esnext",
@@ -58,10 +59,11 @@
       "@ursa/pages/vaults": ["libs/pages/vaults/src/index.ts"],
       "@ursa/shared/base": ["libs/shared/base/src/index.ts"],
       "@ursa/shared/contracts": ["libs/shared/contracts/src/index.ts"],
+      "@ursa/shared/deployments": ["libs/shared/deployments/src/index.ts"],
       "@ursa/shared/styles": ["libs/shared/styles/src/index.ts"],
       "@ursa/util": ["libs/util/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"],
-  "include": ["./hardhat.config.ts", "./scripts", "./deploy", "./test"]
+  "include": ["./scripts", "./deploy", "./test"]
 }

@@ -86,7 +86,7 @@ export default {
     tests: `./test`,
     cache: './libs/shared/contracts/src/cache',
     artifacts: './libs/shared/contracts/src/artifacts',
-    deployments: './libs/shared/contracts/src/deployments',
+    deployments: './libs/shared/deployments/src/deployments',
   },
   typechain: {
     outDir: './libs/shared/contracts/src/types',

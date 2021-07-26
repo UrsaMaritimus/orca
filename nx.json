@@ -121,6 +121,9 @@
     "shared-contracts": {
       "tags": []
     },
+    "shared-deployments": {
+      "tags": []
+    },
     "shared-styles": {
       "tags": []
     },
