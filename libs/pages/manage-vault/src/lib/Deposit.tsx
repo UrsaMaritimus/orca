@@ -76,7 +76,7 @@ export const Deposit: FC<DepositProps> = ({
       >
         <Container maxWidth="lg">
           <Box sx={{ flexGrow: 1 }}>
-            <Stack alignItems="center" direction="row" spacing={2}>
+            <Stack alignItems="center" direction="row" spacing={1}>
               <Typography variant="h4">Deposits in</Typography>
               <Stack alignItems="center" direction="row" spacing={1}>
                 <Box

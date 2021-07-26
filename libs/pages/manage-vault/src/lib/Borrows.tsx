@@ -22,10 +22,19 @@ import { tokenInfo } from './constants';
 //-----------------------------------------
 
 type BorrowsProps = {
-  token: string;
+  isOwner: boolean;
+  vaultID: number;
+  vaultInfo: {
+    collateral: number;
+    debt: number;
+    LTV: number;
+    maxLTV: number;
+    borrowingPower: number;
+    tokenPrice: number;
+  };
 };
 
-export const Borrows: FC<BorrowsProps> = ({ token }) => {
+export const Borrows: FC<BorrowsProps> = ({ vaultInfo, isOwner, vaultID }) => {
   return (
     <Card
       sx={{
@@ -41,12 +50,12 @@ export const Borrows: FC<BorrowsProps> = ({ token }) => {
     >
       <Container maxWidth="lg">
         <Box sx={{ flexGrow: 1 }}>
-          <Stack alignItems="center" direction="row" spacing={2}>
-            <Typography variant="h4">Deposits in</Typography>
+          <Stack alignItems="center" direction="row" spacing={1}>
+            <Typography variant="h4">Borrows in</Typography>
             <Stack alignItems="center" direction="row" spacing={1}>
               <Box
                 component="img"
-                src={tokenInfo[token as string].icon}
+                src={tokenInfo['AVAI'].icon}
                 sx={{
                   width: 30,
 
@@ -55,7 +64,7 @@ export const Borrows: FC<BorrowsProps> = ({ token }) => {
                 color="inherit"
               />
               <Typography variant="h6" sx={{ color: 'grey.500' }}>
-                {token}
+                AVAI
               </Typography>
             </Stack>
           </Stack>
