@@ -25,7 +25,7 @@ import {
 
 import { routes, useOffSetTop } from '@ursa/shared/base';
 import { MIconButton } from '@ursa/components/material-extend/buttons';
-import { Logo } from '@ursa/components/logo';
+import { LargeLogo } from '@ursa/components/logo';
 import { PopoverMenu } from '@ursa/components/popover-menu';
 import { NextLink } from '@ursa/components/links';
 
@@ -177,7 +177,7 @@ const TopBar: FC = () => {
           }}
         >
           <NextLink href="/">
-            <Logo />
+            <LargeLogo />
           </NextLink>
           <Box sx={{ flexGrow: 1 }} />
 

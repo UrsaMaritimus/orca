@@ -16,6 +16,7 @@ const Page = forwardRef<HTMLDivElement, Props>(
     return (
       <div ref={ref} {...other}>
         <Head>
+          <link rel="shortcut icon" href="/favicon/favicon.ico" />
           <link
             rel="icon"
             type="image/png"

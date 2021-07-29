@@ -79,6 +79,10 @@ const Hero: FC = () => {
                 crypto assets <br /> with
                 <Typography component="span" variant="h1" color="primary">
                   &nbsp;AVAI Finance
+                </Typography>{' '}
+                and the{' '}
+                <Typography component="span" variant="h1" color="secondary">
+                  Orca DAO
                 </Typography>
               </Box>
             </motion.div>
@@ -86,7 +90,7 @@ const Hero: FC = () => {
             <motion.div variants={varFadeInRight}>
               <Box component="p" sx={{ color: 'common.white', py: 5 }}>
                 Collateral-backed stablecoin that lets you take 0% interest
-                loans, all controlled by you!
+                loans, all controlled by the avalanche community!
               </Box>
             </motion.div>
 

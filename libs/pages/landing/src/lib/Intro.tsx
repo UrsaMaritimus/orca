@@ -31,8 +31,8 @@ const CARDS = [
   },
   {
     icon: '/static/icons/ic_code.svg',
-    title: 'Ursa DAO',
-    description: 'Community controlled through the governing token URSA',
+    title: 'Orca DAO',
+    description: 'Community controlled through the governing token POD',
   },
   {
     icon: '/static/icons/accounting.svg',
