@@ -1,5 +1,5 @@
 import { Web3Provider } from '@ethersproject/providers';
-import { AVAXVault__factory } from '@ursa/shared/contracts';
+import { AVAXVault__factory, AVAI__factory } from '@ursa/shared/contracts';
 import { contractAddresses } from '@ursa/shared/deployments';
 import { utils } from 'ethers';
 
@@ -155,4 +155,30 @@ export const borrowToken = (
 ) => {
   const vault = getVault(vaultType, library, chainId, true);
   return vault.borrowToken(vaultID, utils.parseEther(amount.toString()));
+};
+
+export const payBackToken = (
+  library: Web3Provider,
+  vaultID: number,
+  amount: number,
+  vaultType: string,
+  chainId: number
+) => {
+  const vault = getVault(vaultType, library, chainId, true);
+  return vault.payBackToken(vaultID, utils.parseEther(amount.toString()));
+};
+
+export const getAVAIBalance = () => {
+  return async (library: Web3Provider, chainId: number, address: string) => {
+    const avai = AVAI__factory.connect(
+      chainId === 43113
+        ? contractAddresses.fuji.AVAI
+        : chainId === 43114
+        ? // TODO: Update
+          contractAddresses.fuji.AVAI
+        : null,
+      library
+    );
+    return avai.balanceOf(address);
+  };
 };

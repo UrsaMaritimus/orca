@@ -199,7 +199,11 @@ export const BorrowStepper: FC<BorrowStepperProps> = ({
                     Available to borrow:
                   </Typography>
                   <Typography variant="h6" textAlign="center">
-                    {utils.formatEther(vaultInfo.borrowingPowerAvailableUSD)}{' '}
+                    {fShortenNumber(
+                      Number(
+                        utils.formatEther(vaultInfo.borrowingPowerAvailableUSD)
+                      )
+                    )}{' '}
                     AVAI
                   </Typography>
                 </Stack>
@@ -215,7 +219,7 @@ export const BorrowStepper: FC<BorrowStepperProps> = ({
                         <InputAdornment position="start">
                           <Box
                             component="img"
-                            src={tokenInfo[token as string].icon}
+                            src={tokenInfo['AVAI'].icon}
                             sx={{
                               width: 25,
 

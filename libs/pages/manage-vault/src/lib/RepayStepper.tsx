@@ -1,10 +1,9 @@
-import { useState, FC } from 'react';
+import { useState, FC, useEffect } from 'react';
 import * as Yup from 'yup';
 // material
 import {
   Box,
   Step,
-  Paper,
   Button,
   Stepper,
   StepLabel,
@@ -16,6 +15,9 @@ import {
 } from '@material-ui/core';
 
 import toast from 'react-hot-toast';
+import useSWR from 'swr';
+import { AVAXVault__factory, AVAI__factory } from '@ursa/shared/contracts';
+import { contractAddresses } from '@ursa/shared/deployments';
 
 // Ethers and web3 stuff
 import { useWeb3React } from '@web3-react/core';
@@ -23,16 +25,15 @@ import { Web3Provider } from '@ethersproject/providers';
 
 import { useFormik, Form, FormikProvider } from 'formik';
 
+import { fPercent, fShortenNumber } from '@ursa/util';
 import { BigNumber, utils } from 'ethers';
-import { fCurrency, fPercent, fShortenNumber } from '@ursa/util';
-
 import { tokenInfo } from './constants';
 
-import { withdrawCollateral } from './manageVaultFunctions';
+import { payBackToken, getAVAIBalance } from './manageVaultFunctions';
 
 // ----------------------------------------------------------------------
 
-type WithdrawStepperProps = {
+type RepayStepperProps = {
   token: string;
   vaultID: number;
   vaultInfo: {
@@ -52,41 +53,68 @@ type WithdrawStepperProps = {
   };
 };
 
-export const WithdrawStepper: FC<WithdrawStepperProps> = ({
+export const RepayStepper: FC<RepayStepperProps> = ({
   token,
   vaultInfo,
   vaultID,
 }) => {
   // Set steps
-  const steps = ['How much to withdraw', 'Withdraw'];
+  const steps = ['How much to pay back', 'Repay'];
 
   // web3 init info
-  const { library, chainId } = useWeb3React<Web3Provider>();
+  const { account, library, chainId } = useWeb3React<Web3Provider>();
+  // Get AVAI balances
+  const shouldFetch = typeof account === 'string' && !!library;
+  const { data: balance, mutate: avaiMutate } = useSWR(
+    shouldFetch ? [library, chainId, account] : null,
+    getAVAIBalance()
+  );
+  useEffect(() => {
+    const avai = AVAI__factory.connect(
+      chainId === 43113
+        ? contractAddresses.fuji.AVAI
+        : chainId === 43114
+        ? // TODO: Update
+          contractAddresses.fuji.AVAI
+        : null,
+      library
+    );
 
+    const balanceChange = avai.filters.Transfer();
+    avai.on(balanceChange, (from, to, balance) => {
+      if (from === account || to === account) {
+        avaiMutate(undefined, true);
+      }
+    });
+
+    return () => {
+      avai.removeAllListeners(balanceChange);
+    };
+  }, [library, account, avaiMutate, chainId]);
+
+  // For form
   const [activeStep, setActiveStep] = useState(0);
-
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
-
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-
   const handleReset = () => {
     setActiveStep(0);
   };
+
   // Form
   const ValueSchema = Yup.object().shape({
-    withdrawAmount: Yup.number()
-      .required('Withdraw amount required')
+    repayAmount: Yup.number()
+      .required('Deposit amount required')
       .moreThan(0, 'Must be larger than zero.')
       .positive('Must be positive')
-      .max(Number(utils.formatEther(vaultInfo.availableWithdraw))),
+      .max(Number(utils.formatEther(balance))),
   });
   const formik = useFormik({
     initialValues: {
-      withdrawAmount: undefined,
+      repayAmount: undefined,
     },
     validationSchema: ValueSchema,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
@@ -105,18 +133,18 @@ export const WithdrawStepper: FC<WithdrawStepperProps> = ({
     errors,
     touched,
     values,
+    setFieldValue,
     handleSubmit,
     getFieldProps,
     resetForm,
-    setFieldValue,
   } = formik;
 
-  const handleWithdraw = async () => {
+  const handleRepay = async () => {
     try {
-      const result = await withdrawCollateral(
+      const result = await payBackToken(
         library,
         vaultID,
-        values.withdrawAmount,
+        values.repayAmount,
         token,
         chainId
       );
@@ -125,9 +153,9 @@ export const WithdrawStepper: FC<WithdrawStepperProps> = ({
       await toast.promise(
         result.wait(1),
         {
-          loading: 'Withdrawing collateral...',
-          success: <b>Collateral withdrawn!</b>,
-          error: <b>Failed to withdraw collateral.</b>,
+          loading: 'Paying back AVAI...',
+          success: <b>Succesfully repayed!</b>,
+          error: <b>Failed to pay back AVAI.</b>,
         },
         {
           style: {
@@ -190,30 +218,28 @@ export const WithdrawStepper: FC<WithdrawStepperProps> = ({
         {activeStep === 0 && (
           <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-              <Box sx={{ m: 'auto', width: '60%' }}>
+              <Box sx={{ m: 2 }}>
                 <Stack direction="row" justifyContent="space-evenly">
                   <Typography variant="h6" textAlign="center">
-                    Available to withdraw:
+                    Available to repay:
                   </Typography>
                   <Typography variant="h6" textAlign="center">
-                    {`${fShortenNumber(
-                      Number(utils.formatEther(vaultInfo.availableWithdraw))
-                    )} ${token}`}
+                    {fShortenNumber(Number(utils.formatEther(balance)))} AVAI
                   </Typography>
                 </Stack>
-                <Box sx={{ m: 2 }}>
+                <Box sx={{ m: 'auto', width: '60%' }}>
                   <TextField
                     fullWidth
                     type="number"
-                    label="Withdraw Amount"
+                    label="Repay Amount"
                     variant="filled"
-                    {...getFieldProps('withdrawAmount')}
+                    {...getFieldProps('repayAmount')}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
                           <Box
                             component="img"
-                            src={tokenInfo[token as string].icon}
+                            src={tokenInfo['AVAI'].icon}
                             sx={{
                               width: 25,
 
@@ -228,8 +254,8 @@ export const WithdrawStepper: FC<WithdrawStepperProps> = ({
                           <Button
                             onClick={() =>
                               setFieldValue(
-                                'withdrawAmount',
-                                utils.formatEther(vaultInfo.availableWithdraw)
+                                'repayAmount',
+                                Number(utils.formatEther(balance))
                               )
                             }
                             variant="text"
@@ -239,10 +265,8 @@ export const WithdrawStepper: FC<WithdrawStepperProps> = ({
                         </InputAdornment>
                       ),
                     }}
-                    error={Boolean(
-                      touched.withdrawAmount && errors.withdrawAmount
-                    )}
-                    helperText={touched.withdrawAmount && errors.withdrawAmount}
+                    error={Boolean(touched.repayAmount && errors.repayAmount)}
+                    helperText={touched.repayAmount && errors.repayAmount}
                   />
                 </Box>
               </Box>
@@ -271,8 +295,8 @@ export const WithdrawStepper: FC<WithdrawStepperProps> = ({
             <Box
               p={2}
               borderRadius={1}
-              width="50%"
               mx="auto"
+              width="50%"
               mt={2}
               mb={2}
               sx={{
@@ -281,9 +305,9 @@ export const WithdrawStepper: FC<WithdrawStepperProps> = ({
               }}
             >
               <Grid container sx={{ mt: 1, mb: 1 }}>
-                <Grid item sm={8}>
-                  <Typography variant="h5" textAlign="end">
-                    Removed Collateral:
+                <Grid item sm={6}>
+                  <Typography variant="subtitle1" textAlign="center">
+                    Removed Debt:
                   </Typography>
                 </Grid>
                 <Grid item sm>
@@ -291,7 +315,7 @@ export const WithdrawStepper: FC<WithdrawStepperProps> = ({
                     <Stack direction="row" spacing={1} alignItems={'center'}>
                       <Box
                         component="img"
-                        src={tokenInfo[token as string].icon}
+                        src={tokenInfo['AVAI'].icon}
                         sx={{
                           width: 15,
 
@@ -300,78 +324,59 @@ export const WithdrawStepper: FC<WithdrawStepperProps> = ({
                         color="inherit"
                       />
                       <Typography variant="subtitle1">
-                        {values.withdrawAmount} {token}
+                        {values.repayAmount} AVAI
                       </Typography>
                     </Stack>
                     <Typography variant="caption">
-                      {fCurrency(
-                        values.withdrawAmount *
+                      {fShortenNumber(
+                        values.repayAmount /
                           Number(utils.formatUnits(vaultInfo.tokenPrice, 8))
                       )}{' '}
-                      USD
+                      {token}
                     </Typography>
                   </Stack>
                 </Grid>
-                <Grid item sm={8} mt={2}>
-                  <Typography variant="h5" textAlign="end">
-                    New Borrowing Power:{' '}
+                <Grid item sm={6} mt={2}>
+                  <Typography variant="subtitle1" textAlign="center">
+                    New LTV:
                   </Typography>
                 </Grid>
                 <Grid item sm mt={2}>
                   <Stack alignItems={'flex-end'}>
                     <Typography variant="h6">
-                      {
-                        // Recacalculate what their new borrowing power will be
-                        fPercent(
+                      {fPercent(
+                        (100 *
+                          (Number(utils.formatEther(vaultInfo.debt)) -
+                            values.repayAmount)) /
                           Number(
-                            utils.formatUnits(
-                              utils.parseUnits('100', 6).sub(
-                                vaultInfo.debt
-                                  .mul(1e8)
-                                  .mul(vaultInfo.peg)
-                                  .div(
-                                    vaultInfo.collateral
-                                      .mul(vaultInfo.tokenPrice)
-                                      .sub(
-                                        utils
-                                          .parseEther(
-                                            values.withdrawAmount.toString()
-                                          )
-                                          .mul(vaultInfo.tokenPrice)
-                                      )
-                                  )
-                                  .mul(vaultInfo.mcp)
-                                  .div(100)
-                              ),
-                              6
+                            utils.formatEther(
+                              vaultInfo.collateral
+                                .mul(vaultInfo.tokenPrice)
+                                .div(vaultInfo.peg)
                             )
                           )
-                        )
-                      }
+                      )}
                     </Typography>
                     <Typography variant="caption">
-                      {fCurrency(
-                        (Number(utils.formatEther(vaultInfo.collateral)) -
-                          values.withdrawAmount) *
-                          Number(utils.formatUnits(vaultInfo.tokenPrice, 8)) *
-                          (vaultInfo.maxLTV / 100) -
-                          Number(utils.formatEther(vaultInfo.debt))
+                      {fShortenNumber(
+                        Number(utils.formatEther(vaultInfo.debt)) -
+                          values.repayAmount
                       )}{' '}
-                      USD
+                      AVAI Borrowed
                     </Typography>
                   </Stack>
                 </Grid>
               </Grid>
             </Box>
             <Box
-              sx={{ display: 'flex', pl: 2, pr: 2, width: '60%', m: 'auto' }}
+              sx={{ display: 'flex', pl: 2, pr: 2, mx: 'auto', width: '60%' }}
             >
               <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
                 Back
               </Button>
               <Box sx={{ flexGrow: 1 }} />
 
-              <Button variant="contained" onClick={handleWithdraw}>
+              <Button variant="contained" onClick={handleRepay}>
                 Submit
               </Button>
             </Box>
@@ -382,4 +387,4 @@ export const WithdrawStepper: FC<WithdrawStepperProps> = ({
   );
 };
 
-export default WithdrawStepper;
+export default RepayStepper;

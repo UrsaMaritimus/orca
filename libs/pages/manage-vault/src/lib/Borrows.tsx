@@ -22,7 +22,7 @@ import { fCurrency, fPercent, fShortenNumber } from '@ursa/util';
 
 import { tokenInfo } from './constants';
 import BorrowStepper from './BorrowStepper';
-
+import RepayStepper from './RepayStepper';
 //-----------------------------------------
 
 type BorrowsProps = {
@@ -241,7 +241,18 @@ export const Borrows: FC<BorrowsProps> = ({
                 </Box>
               </TabPanel>
               <TabPanel key="Withdraw" value={String(2)}>
-                Withdraw
+                <Box
+                  sx={{
+                    p: 3,
+                    minHeight: 180,
+                  }}
+                >
+                  <RepayStepper
+                    token={token}
+                    vaultInfo={vaultInfo}
+                    vaultID={vaultID}
+                  />
+                </Box>
               </TabPanel>
             </Box>
           </TabContext>
