@@ -18,7 +18,7 @@ const Footer: FC = () => {
       <Typography variant="caption">
         © All rights reserved
         <br /> Made by &nbsp;
-        <Link href="https://avai.finance/">Ursa DAO</Link>
+        <Link href="https://avai.finance/">Orca DAO</Link>
       </Typography>
     </Container>
   );
