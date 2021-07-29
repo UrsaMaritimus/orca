@@ -43,6 +43,7 @@ type BorrowsProps = {
     availableWithdraw: BigNumber;
     peg: BigNumber;
     mcp: BigNumber;
+    closingFee: BigNumber;
   };
 };
 
@@ -217,6 +218,28 @@ export const Borrows: FC<BorrowsProps> = ({
                 </TabList>
               </Container>
             </Box>
+            {!vaultInfo.closingFee.isZero() && (
+              <Box
+                sx={{
+                  pt: 2,
+                  pb: 2,
+                  mr: 1,
+                  ml: 1,
+                  mt: 3,
+                  mb: 3,
+                  borderRadius: 1,
+                  bgcolor: (theme) =>
+                    theme.palette.mode === 'light'
+                      ? 'grey.400'
+                      : 'warning.light',
+                }}
+              >
+                <Typography variant="h4" textAlign="center" color="grey.600">
+                  Note: There is a closing fee when using this vault type of{' '}
+                  {fPercent(vaultInfo.closingFee.toNumber() / 100)}
+                </Typography>
+              </Box>
+            )}
             <Box
               sx={{
                 p: 2,

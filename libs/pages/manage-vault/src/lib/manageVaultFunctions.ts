@@ -52,6 +52,8 @@ export const getVaultInfo = () => {
         const mcp = await vault.minimumCollateralPercentage();
         const price = await vault.getPriceSource();
         const peg = await vault.getPricePeg();
+        const closingFee = await vault.closingFee();
+        const openingFee = await vault.openingFee();
         // Get max LTV in % and USD
         const maxLTV = 10000 / mcp.toNumber(); // 66.666%
         const maxLTVUSD = collateral.mul(price).mul(100).div(peg).div(mcp);
@@ -87,6 +89,8 @@ export const getVaultInfo = () => {
           tokenPrice: price,
           peg,
           mcp,
+          closingFee,
+          openingFee,
         };
       } catch (err) {
         console.log(err.message);

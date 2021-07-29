@@ -49,6 +49,7 @@ import {
 import { Deposit } from './Deposit';
 import { Borrows } from './Borrows';
 import toast from 'react-hot-toast';
+import { AVALANCHE_TESTNET_PARAMS } from '@ursa/util';
 
 const RootStyle = styled(Page)(({ theme }) => ({
   paddingTop: theme.spacing(3),
@@ -169,10 +170,47 @@ export function ManageVault() {
     }
   }, [library, account, vaultInfoMutate, chainId, token, vaultID]);
 
+  if (chainId === 43114) {
+    return (
+      <Container maxWidth="md">
+        <Box>
+          <Stack>
+            <Typography variant="h1" sx={{ textAlign: 'center', mt: 2, mb: 2 }}>
+              {' '}
+              Main Net not deployed yet. Please switch to Fuji.
+            </Typography>
+
+            {library && (
+              <Button
+                sx={{ m: 'auto' }}
+                size="large"
+                variant="contained"
+                onClick={() => {
+                  library.provider.request({
+                    method: 'wallet_addEthereumChain',
+                    params: [AVALANCHE_TESTNET_PARAMS],
+                  });
+                }}
+              >
+                Add FUJI Network
+              </Button>
+            )}
+          </Stack>
+        </Box>
+      </Container>
+    );
+  }
+
   if (typeof account !== 'string')
     return (
       <RootStyle title={`Vaults | ${process.env.NEXT_PUBLIC_TITLE}`}>
-        <Container maxWidth="lg">Not connected.</Container>
+        <Container maxWidth="md">
+          <Box>
+            <Typography textAlign="center" variant="h2">
+              Not connected to Avalanche Network. Please connect.
+            </Typography>
+          </Box>
+        </Container>
       </RootStyle>
     );
   // Default return

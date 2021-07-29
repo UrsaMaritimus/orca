@@ -13,6 +13,7 @@ import {
   Stack,
   Tab,
   Container,
+  Button,
 } from '@material-ui/core';
 import { TabList, TabPanel, TabContext } from '@material-ui/lab';
 
@@ -21,6 +22,8 @@ import { Page } from '@ursa/components/page';
 import { AvaxVaults } from './crypto/AVAX';
 import { JoeVaults } from './crypto/JOE';
 import { PngVaults } from './crypto/PNG';
+
+import { AVALANCHE_TESTNET_PARAMS } from '@ursa/util';
 
 export interface PagesVaultsProps {}
 
@@ -66,7 +69,38 @@ export function Vaults(props: PagesVaultsProps) {
     setValue(newValue);
   };
 
-  const { account, library } = useWeb3React<Web3Provider>();
+  const { account, library, chainId } = useWeb3React<Web3Provider>();
+
+  if (chainId === 43114) {
+    return (
+      <Container maxWidth="md">
+        <Box>
+          <Stack>
+            <Typography variant="h1" sx={{ textAlign: 'center', mt: 2, mb: 2 }}>
+              {' '}
+              Main Net not deployed yet. Please switch to Fuji.
+            </Typography>
+
+            {library && (
+              <Button
+                sx={{ m: 'auto' }}
+                size="large"
+                variant="contained"
+                onClick={() => {
+                  library.provider.request({
+                    method: 'wallet_addEthereumChain',
+                    params: [AVALANCHE_TESTNET_PARAMS],
+                  });
+                }}
+              >
+                Add FUJI Network
+              </Button>
+            )}
+          </Stack>
+        </Box>
+      </Container>
+    );
+  }
 
   if (typeof account !== 'string')
     return (
