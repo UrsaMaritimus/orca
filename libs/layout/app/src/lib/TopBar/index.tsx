@@ -14,7 +14,7 @@ import { useCollapseDrawer } from '@ursa/hooks';
 
 import { MHidden } from '@ursa/components/material-extend/hidden';
 import { Account } from '@ursa/components/account';
-import { Balance } from '@ursa/components/balance';
+import { Balance, AvaiBalance } from '@ursa/components/balance';
 // ----------------------------------------------------------------------
 
 const DRAWER_WIDTH = 280;
@@ -83,6 +83,7 @@ const TopBar: FC<Props> = ({ onOpenNav }) => {
           sx={{ mt: 3 }}
           spacing={{ xs: 0.5, sm: 1.5 }}
         >
+          {isConnected && <AvaiBalance />}
           {isConnected && <Balance />}
           <Account />
         </Stack>

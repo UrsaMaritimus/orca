@@ -23,18 +23,17 @@ import { Web3Provider } from '@ethersproject/providers';
 
 import { useFormik, Form, FormikProvider } from 'formik';
 
-import { useAVAXBalance } from '@ursa/hooks';
-import { fCurrency, fPercent } from '@ursa/util';
 import { BigNumber, utils } from 'ethers';
+import { fCurrency, fPercent } from '@ursa/util';
+
 import { tokenInfo } from './constants';
 
-import { depositCollateral } from './manageVaultFunctions';
+import { withdrawCollateral } from './manageVaultFunctions';
 
 // ----------------------------------------------------------------------
 
-type DepositStepperProps = {
+type WithdrawStepperProps = {
   token: string;
-  approved: boolean;
   vaultID: number;
   vaultInfo: {
     collateral: BigNumber;
@@ -53,21 +52,16 @@ type DepositStepperProps = {
   };
 };
 
-export const DepositStepper: FC<DepositStepperProps> = ({
+export const WithdrawStepper: FC<WithdrawStepperProps> = ({
   token,
-  approved,
   vaultInfo,
   vaultID,
 }) => {
   // Set steps
-  let steps: string[];
-  approved
-    ? (steps = ['How much to deposit', 'Deposit'])
-    : (steps = ['How much to deposit', 'Approve Token', 'Deposit']);
+  const steps = ['How much to withdraw', 'Withdraw'];
 
   // web3 init info
-  const { account, library, chainId } = useWeb3React<Web3Provider>();
-  const { data: AVAXBalance } = useAVAXBalance(account as string);
+  const { library, chainId } = useWeb3React<Web3Provider>();
 
   const [activeStep, setActiveStep] = useState(0);
 
@@ -82,18 +76,17 @@ export const DepositStepper: FC<DepositStepperProps> = ({
   const handleReset = () => {
     setActiveStep(0);
   };
-
   // Form
   const ValueSchema = Yup.object().shape({
-    depositAmount: Yup.number()
-      .required('Deposit amount required')
+    withdrawAmount: Yup.number()
+      .required('Withdraw amount required')
       .moreThan(0, 'Must be larger than zero.')
       .positive('Must be positive')
-      .max(Number(AVAXBalance)),
+      .max(Number(utils.formatEther(vaultInfo.availableWithdraw))),
   });
   const formik = useFormik({
     initialValues: {
-      depositAmount: undefined,
+      withdrawAmount: undefined,
     },
     validationSchema: ValueSchema,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
@@ -112,43 +105,47 @@ export const DepositStepper: FC<DepositStepperProps> = ({
     errors,
     touched,
     values,
-    setFieldValue,
     handleSubmit,
     getFieldProps,
     resetForm,
+    setFieldValue,
   } = formik;
 
-  const handleDeposit = async () => {
-    const result = await depositCollateral(
-      library,
-      vaultID,
-      values.depositAmount,
-      token,
-      chainId
-    );
-    handleNext();
-    // Make a promise for destroying vault
-    await toast.promise(
-      result.wait(1),
-      {
-        loading: 'Depositing collateral...',
-        success: <b>Collateral deposited!</b>,
-        error: <b>Failed to deposit collateral.</b>,
-      },
-      {
-        style: {
-          minWidth: '100px',
+  const handleWithdraw = async () => {
+    try {
+      const result = await withdrawCollateral(
+        library,
+        vaultID,
+        values.withdrawAmount,
+        token,
+        chainId
+      );
+      handleNext();
+      // Make a promise for destroying vault
+      await toast.promise(
+        result.wait(1),
+        {
+          loading: 'Withdrawing collateral...',
+          success: <b>Collateral withdrawn!</b>,
+          error: <b>Failed to withdraw collateral.</b>,
         },
-        loading: {
-          duration: Infinity,
-        },
-        success: {
-          duration: 5000,
-        },
-      }
-    );
-    resetForm();
-    handleReset();
+        {
+          style: {
+            minWidth: '100px',
+          },
+          loading: {
+            duration: Infinity,
+          },
+          success: {
+            duration: 5000,
+          },
+        }
+      );
+      resetForm();
+      handleReset();
+    } catch (err) {
+      toast.error(err.message);
+    }
   };
   return (
     <>
@@ -193,22 +190,24 @@ export const DepositStepper: FC<DepositStepperProps> = ({
         {activeStep === 0 && (
           <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-              <Box sx={{ m: 2 }}>
+              <Box sx={{ m: 'auto', width: '60%' }}>
                 <Stack direction="row" justifyContent="space-evenly">
                   <Typography variant="h6" textAlign="center">
-                    Available to deposit:
+                    Available to withdraw:
                   </Typography>
                   <Typography variant="h6" textAlign="center">
-                    {token === 'AVAX' && <>{`${AVAXBalance} AVAX`}</>}
+                    {`${utils.formatEther(
+                      vaultInfo.availableWithdraw
+                    )} ${token}`}
                   </Typography>
                 </Stack>
-                <Box sx={{ m: 'auto', width: '60%' }}>
+                <Box sx={{ m: 2 }}>
                   <TextField
                     fullWidth
                     type="number"
-                    label="Deposit Amount"
+                    label="Withdraw Amount"
                     variant="filled"
-                    {...getFieldProps('depositAmount')}
+                    {...getFieldProps('withdrawAmount')}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -224,11 +223,26 @@ export const DepositStepper: FC<DepositStepperProps> = ({
                           />
                         </InputAdornment>
                       ),
+                      endAdornment: (
+                        <InputAdornment position="start">
+                          <Button
+                            onClick={() =>
+                              setFieldValue(
+                                'withdrawAmount',
+                                utils.formatEther(vaultInfo.availableWithdraw)
+                              )
+                            }
+                            variant="text"
+                          >
+                            MAX
+                          </Button>
+                        </InputAdornment>
+                      ),
                     }}
                     error={Boolean(
-                      touched.depositAmount && errors.depositAmount
+                      touched.withdrawAmount && errors.withdrawAmount
                     )}
-                    helperText={touched.depositAmount && errors.depositAmount}
+                    helperText={touched.withdrawAmount && errors.withdrawAmount}
                   />
                 </Box>
               </Box>
@@ -252,14 +266,13 @@ export const DepositStepper: FC<DepositStepperProps> = ({
             </Form>
           </FormikProvider>
         )}
-        {activeStep === 1 && !approved && <div>To be implemented</div>}
-        {activeStep === 1 && approved && (
+        {activeStep === 1 && (
           <>
             <Box
               p={2}
               borderRadius={1}
-              mx="auto"
               width="50%"
+              mx="auto"
               mt={2}
               mb={2}
               sx={{
@@ -269,8 +282,8 @@ export const DepositStepper: FC<DepositStepperProps> = ({
             >
               <Grid container sx={{ mt: 1, mb: 1 }}>
                 <Grid item sm={8}>
-                  <Typography variant="subtitle1" textAlign="center">
-                    Added Collateral:
+                  <Typography variant="h5" textAlign="end">
+                    Removed Collateral:
                   </Typography>
                 </Grid>
                 <Grid item sm>
@@ -287,12 +300,12 @@ export const DepositStepper: FC<DepositStepperProps> = ({
                         color="inherit"
                       />
                       <Typography variant="subtitle1">
-                        {values.depositAmount} {token}
+                        {values.withdrawAmount} {token}
                       </Typography>
                     </Stack>
                     <Typography variant="caption">
                       {fCurrency(
-                        values.depositAmount *
+                        values.withdrawAmount *
                           Number(utils.formatUnits(vaultInfo.tokenPrice, 8))
                       )}{' '}
                       USD
@@ -300,7 +313,7 @@ export const DepositStepper: FC<DepositStepperProps> = ({
                   </Stack>
                 </Grid>
                 <Grid item sm={8} mt={2}>
-                  <Typography variant="subtitle1" textAlign="center">
+                  <Typography variant="h5" textAlign="end">
                     New Borrowing Power:{' '}
                   </Typography>
                 </Grid>
@@ -319,10 +332,10 @@ export const DepositStepper: FC<DepositStepperProps> = ({
                                   .div(
                                     vaultInfo.collateral
                                       .mul(vaultInfo.tokenPrice)
-                                      .add(
+                                      .sub(
                                         utils
                                           .parseEther(
-                                            values.depositAmount.toString()
+                                            values.withdrawAmount.toString()
                                           )
                                           .mul(vaultInfo.tokenPrice)
                                       )
@@ -338,8 +351,8 @@ export const DepositStepper: FC<DepositStepperProps> = ({
                     </Typography>
                     <Typography variant="caption">
                       {fCurrency(
-                        (Number(utils.formatEther(vaultInfo.collateral)) +
-                          values.depositAmount) *
+                        (Number(utils.formatEther(vaultInfo.collateral)) -
+                          values.withdrawAmount) *
                           Number(utils.formatUnits(vaultInfo.tokenPrice, 8)) *
                           (vaultInfo.maxLTV / 100) -
                           Number(utils.formatEther(vaultInfo.debt))
@@ -351,14 +364,14 @@ export const DepositStepper: FC<DepositStepperProps> = ({
               </Grid>
             </Box>
             <Box
-              sx={{ display: 'flex', pl: 2, pr: 2, mx: 'auto', width: '60%' }}
+              sx={{ display: 'flex', pl: 2, pr: 2, width: '60%', m: 'auto' }}
             >
               <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
                 Back
               </Button>
               <Box sx={{ flexGrow: 1 }} />
 
-              <Button variant="contained" onClick={handleDeposit}>
+              <Button variant="contained" onClick={handleWithdraw}>
                 Submit
               </Button>
             </Box>
@@ -369,4 +382,4 @@ export const DepositStepper: FC<DepositStepperProps> = ({
   );
 };
 
-export default DepositStepper;
+export default WithdrawStepper;

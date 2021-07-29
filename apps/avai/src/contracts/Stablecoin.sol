@@ -3,13 +3,12 @@ pragma solidity ^0.8.0;
 
 import '@openzeppelin/contracts/token/ERC20/ERC20.sol';
 import '@openzeppelin/contracts/token/ERC20/extensions/draft-ERC20Permit.sol';
-import '@openzeppelin/contracts/security/ReentrancyGuard.sol';
 import '@openzeppelin/contracts/utils/Counters.sol';
 import '@openzeppelin/contracts/access/AccessControl.sol';
 
 import './BaseVault.sol';
 
-contract Stablecoin is ERC20, ERC20Permit, AccessControl, ReentrancyGuard {
+contract Stablecoin is ERC20, ERC20Permit, AccessControl {
   bytes32 public constant BURNER_ROLE = keccak256('BURNER_ROLE');
   bytes32 public constant MINTER_ROLE = keccak256('MINTER_ROLE');
 

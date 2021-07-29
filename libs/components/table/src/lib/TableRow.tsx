@@ -9,6 +9,7 @@ import editOutline from '@iconify/icons-eva/edit-outline';
 import { TableRow, TableCell, Button } from '@material-ui/core';
 
 import { routes } from '@ursa/shared/base';
+import { fPercent, fShortenNumber } from '@ursa/util';
 
 // ----------------------------------------------------------------------
 
@@ -32,14 +33,16 @@ const RowTable: FC<TableProps> = ({ row, collateralType }) => {
       <TableCell component="th" scope="row">
         {row.vaultID}
       </TableCell>
-      <TableCell align="right">{row.collateral}</TableCell>
-      <TableCell align="right">{row.debt}</TableCell>
-      <TableCell align="right">{row.ratio}</TableCell>
+      <TableCell align="center">
+        {fShortenNumber(Number(row.collateral))}
+      </TableCell>
+      <TableCell align="center">{fShortenNumber(Number(row.debt))}</TableCell>
+      <TableCell align="center">{fPercent(Number(row.ratio))}</TableCell>
       <TableCell align="right">
         <Button
           variant="contained"
           size="medium"
-          color="secondary"
+          color="primary"
           LinkComponent={NextLink}
           href={`${routes.APP.VAULTS.USER}/${collateralType}/${row.vaultID}`}
           startIcon={<Icon icon={editOutline} />}

@@ -24,7 +24,10 @@ import {
   Popover,
   Box,
   Typography,
+  Tab,
+  Stack,
 } from '@material-ui/core';
+import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 
 // Ethers and web3 stuff
 import { useWeb3React } from '@web3-react/core';
@@ -36,8 +39,6 @@ import { Page } from '@ursa/components/page';
 import { routes } from '@ursa/shared/base';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@ursa/hooks';
 import { Loader } from '@ursa/components/loader';
-import { AVAXVault__factory } from '@ursa/shared/contracts';
-import { contractAddresses } from '@ursa/shared/deployments';
 
 import {
   getVaultInfo,
@@ -64,6 +65,12 @@ export function ManageVault() {
   // Get the url unfo
   const router = useRouter();
   const { vaultID, token } = router.query;
+
+  // Handles which tab
+  const [value, setValue] = useState('1');
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   // Handles destroying vault
   const [openDestroy, setOpenDestroy] = useState(false);
@@ -144,8 +151,20 @@ export function ManageVault() {
           vaultInfoMutate(undefined, true);
         }
       });
+
+      const withdrawCollateral = vault.filters.WithdrawCollateral();
+      vault.on(withdrawCollateral, (vaultId, amount) => {
+        if (vaultID === vaultId.toString()) {
+          console.log(
+            `EMIT: ${vaultId} withdrew collateral of amount ${amount}`
+          );
+          vaultInfoMutate(undefined, true);
+        }
+      });
+
       return () => {
         vault.removeAllListeners(depositedCollateral);
+        vault.removeAllListeners(withdrawCollateral);
       };
     }
   }, [library, account, vaultInfoMutate, chainId, token, vaultID]);
@@ -160,57 +179,87 @@ export function ManageVault() {
   if (typeof account === 'string' && vaultInfo)
     return (
       <RootStyle title={`Manage Vault | ${process.env.NEXT_PUBLIC_TITLE}`}>
-        <Container maxWidth="md">
-          <Card>
-            <CardHeader
-              title={`${token} Vault #${vaultID}`}
-              subheader={'Vault information '}
-              avatar={
-                <IconButton
-                  color="secondary"
-                  LinkComponent={NextLink}
-                  href={routes.APP.VAULTS.USER}
+        <TabContext value={value}>
+          <Container maxWidth="md">
+            <Card>
+              <CardHeader
+                title={`${token} Vault #${vaultID}`}
+                subheader={'Vault information '}
+                avatar={
+                  <IconButton
+                    color="secondary"
+                    LinkComponent={NextLink}
+                    href={routes.APP.VAULTS.USER}
+                  >
+                    <Icon icon={backArrowIos} width={30} height={30} />
+                  </IconButton>
+                }
+                sx={{ mb: 3 }}
+                action={
+                  isOwner ? (
+                    vaultInfo && vaultInfo.debt.isZero() ? (
+                      <IconButton color="secondary" onClick={handleClickOpen}>
+                        <Icon icon={trash2Outline} width={30} height={30} />
+                      </IconButton>
+                    ) : (
+                      <IconButton
+                        onMouseEnter={handleHoverOpen}
+                        onMouseLeave={handleHoverClose}
+                        color="info"
+                        onClick={handleClickOpen}
+                      >
+                        <Icon icon={trash2Outline} width={30} height={30} />
+                      </IconButton>
+                    )
+                  ) : undefined
+                }
+              />
+              <Box sx={{ p: 2, mt: 2, width: '100%', borderRadius: 1 }}>
+                <TabList
+                  onChange={handleChange}
+                  variant="fullWidth"
+                  indicatorColor="primary"
                 >
-                  <Icon icon={backArrowIos} width={30} height={30} />
-                </IconButton>
-              }
-              sx={{ mb: 3 }}
-              action={
-                isOwner ? (
-                  vaultInfo && vaultInfo.debt === 0 ? (
-                    <IconButton color="secondary" onClick={handleClickOpen}>
-                      <Icon icon={trash2Outline} width={30} height={30} />
-                    </IconButton>
-                  ) : (
-                    <IconButton
-                      onMouseEnter={handleHoverOpen}
-                      onMouseLeave={handleHoverClose}
-                      color="info"
-                      onClick={handleClickOpen}
-                    >
-                      <Icon icon={trash2Outline} width={30} height={30} />
-                    </IconButton>
-                  )
-                ) : undefined
-              }
-            />
-          </Card>
-          <Grid container>
-            <Grid item sm={vaultInfo.collateral === 0 ? 12 : 6}>
+                  <Tab
+                    key="Collateral"
+                    label={
+                      <Stack direction="row" alignItems="center" spacing={1}>
+                        <Typography variant="h4">Collateral</Typography>
+                      </Stack>
+                    }
+                    value={String(1)}
+                  />
+                  <Tab
+                    key="Loans"
+                    label={
+                      <Stack direction="row" alignItems="center" spacing={1}>
+                        <Typography variant="h4">Loans</Typography>
+                      </Stack>
+                    }
+                    value={String(2)}
+                    sx={{ fontSize: 'x-large' }}
+                  />
+                </TabList>
+              </Box>{' '}
+            </Card>
+            <TabPanel key="Deposit" value={String(1)}>
               <Deposit
                 token={token as string}
                 vaultInfo={vaultInfo}
                 isOwner={isOwner}
                 vaultID={Number(vaultID)}
               />
-            </Grid>
-            {vaultInfo.collateral !== 0 && (
-              <Grid item sm={6}>
-                <Borrows token={token as string} />
-              </Grid>
-            )}
-          </Grid>
-        </Container>
+            </TabPanel>
+            <TabPanel key="Withdraw" value={String(2)}>
+              <Borrows
+                vaultInfo={vaultInfo}
+                vaultID={Number(vaultID)}
+                isOwner={isOwner}
+                token={token as string}
+              />
+            </TabPanel>
+          </Container>
+        </TabContext>
         {
           // Dialogs an popovers for use in the page
         }

@@ -1,40 +1,72 @@
 /* eslint-disable-next-line */
-import { useState, FC } from 'react';
-import useSwr from 'swr';
-
-import { useRouter } from 'next/router';
-import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { FC, useState } from 'react';
+import { Icon } from '@iconify/react';
+import infoOutline from '@iconify/icons-eva/info-outline';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import MoneyOffIcon from '@material-ui/icons/MoneyOff';
 
 import {
   Card,
-  CardHeader,
   Box,
   Typography,
   Stack,
-  Tab,
-  Button,
+  Grid,
   Container,
+  Popover,
+  IconButton,
+  Tab,
 } from '@material-ui/core';
-import { TabList, TabPanel, TabContext } from '@material-ui/lab';
+import { TabContext, TabList, TabPanel } from '@material-ui/lab';
+import { BigNumber, utils } from 'ethers';
+import { fCurrency, fPercent, fShortenNumber } from '@ursa/util';
 
 import { tokenInfo } from './constants';
+import BorrowStepper from './BorrowStepper';
 
 //-----------------------------------------
 
 type BorrowsProps = {
+  token: string;
   isOwner: boolean;
   vaultID: number;
   vaultInfo: {
-    collateral: number;
-    debt: number;
-    LTV: number;
+    collateral: BigNumber;
+    debt: BigNumber;
+    LTV: BigNumber;
     maxLTV: number;
-    borrowingPower: number;
-    tokenPrice: number;
+    maxLTVUSD: BigNumber;
+    borrowingPowerAvailable: BigNumber;
+    borrowingPowerAvailableUSD: BigNumber;
+    borrowingPowerUsed: BigNumber;
+    borrowingPowerUsedUSD: BigNumber;
+    tokenPrice: BigNumber;
+    availableWithdraw: BigNumber;
+    peg: BigNumber;
+    mcp: BigNumber;
   };
 };
 
-export const Borrows: FC<BorrowsProps> = ({ vaultInfo, isOwner, vaultID }) => {
+export const Borrows: FC<BorrowsProps> = ({
+  token,
+  vaultInfo,
+  isOwner,
+  vaultID,
+}) => {
+  const [hover, setHover] = useState(null);
+  const [value, setValue] = useState('1');
+
+  const handleHoverOpen = (event) => {
+    setHover(event.currentTarget);
+  };
+
+  const handleHoverClose = () => {
+    setHover(null);
+  };
+
+  // For tabs
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
   return (
     <Card
       sx={{
@@ -69,7 +101,182 @@ export const Borrows: FC<BorrowsProps> = ({ vaultInfo, isOwner, vaultID }) => {
             </Stack>
           </Stack>
         </Box>
+        <Grid container sx={{ mt: 2 }}>
+          <Grid item sm={6}>
+            <Stack alignItems="center" sx={{ mt: 0.75 }}>
+              <Typography variant="h6">Debt</Typography>
+              <Typography variant="inherit">
+                {utils.formatEther(vaultInfo.debt)} AVAI
+              </Typography>
+              <Typography variant="caption" sx={{ color: 'grey.500' }}>
+                {fShortenNumber(
+                  Number(
+                    utils.formatEther(
+                      vaultInfo.debt
+                        .mul(vaultInfo.peg)
+                        .div(vaultInfo.tokenPrice)
+                    )
+                  )
+                )}{' '}
+                {token}
+              </Typography>
+            </Stack>
+          </Grid>
+          <Grid item sm={6}>
+            <Stack alignItems="center">
+              <Stack direction="row" alignItems="center">
+                <Typography variant="h6" textAlign="center">
+                  Current LTV
+                </Typography>
+                <IconButton
+                  onMouseEnter={handleHoverOpen}
+                  onMouseLeave={handleHoverClose}
+                  color="secondary"
+                >
+                  <Icon icon={infoOutline} width={25} height={25} />
+                </IconButton>
+              </Stack>
+              <Typography variant="inherit">
+                {fPercent(Number(utils.formatUnits(vaultInfo.LTV, 6)))}{' '}
+              </Typography>
+              <Typography variant="caption" sx={{ color: 'grey.500' }}>
+                Max LTV: {fPercent(vaultInfo.maxLTV)}
+              </Typography>
+            </Stack>
+          </Grid>
+          <Grid item sm={12} sx={{ mt: 2 }}>
+            <Stack alignItems="center">
+              <Typography variant="h6" textAlign="center">
+                Available to Borrow
+              </Typography>
+              <Typography variant="inherit">
+                {fShortenNumber(
+                  Number(
+                    utils.formatEther(vaultInfo.borrowingPowerAvailableUSD)
+                  )
+                )}{' '}
+                AVAI
+              </Typography>
+              <Typography variant="caption" sx={{ color: 'grey.500' }}>
+                {fShortenNumber(
+                  Number(
+                    utils.formatEther(
+                      vaultInfo.borrowingPowerAvailableUSD
+                        .mul(vaultInfo.peg)
+                        .div(vaultInfo.tokenPrice)
+                    )
+                  )
+                )}{' '}
+                {token}
+              </Typography>
+            </Stack>
+          </Grid>
+        </Grid>
+        {isOwner && (
+          <TabContext value={value}>
+            <Box
+              sx={{
+                pt: 2,
+                pb: 2,
+                mr: 1,
+                ml: 1,
+                mt: 3,
+                mb: 3,
+                borderRadius: 1,
+                bgcolor: (theme) =>
+                  theme.palette.mode === 'light' ? 'grey.400' : 'grey.600',
+              }}
+            >
+              <Container maxWidth="lg">
+                <TabList
+                  onChange={handleChange}
+                  variant="fullWidth"
+                  indicatorColor="primary"
+                >
+                  <Tab
+                    key="Borrow"
+                    label={
+                      <Stack direction="row" alignItems="center" spacing={1}>
+                        <AttachMoneyIcon />{' '}
+                        <Typography variant="h4">Borrow</Typography>
+                      </Stack>
+                    }
+                    value={String(1)}
+                  />
+                  <Tab
+                    key="Pay back"
+                    label={
+                      <Stack direction="row" alignItems="center" spacing={1}>
+                        <MoneyOffIcon />
+                        <Typography variant="h4">Repay</Typography>
+                      </Stack>
+                    }
+                    value={String(2)}
+                    sx={{ fontSize: 'x-large' }}
+                  />
+                </TabList>
+              </Container>
+            </Box>
+            <Box
+              sx={{
+                p: 2,
+                mt: 2,
+                width: '100%',
+                borderRadius: 1,
+                bgcolor: 'grey.50012',
+              }}
+            >
+              <TabPanel key="Deposit" value={String(1)}>
+                <Box
+                  sx={{
+                    p: 3,
+                    minHeight: 180,
+                  }}
+                >
+                  <BorrowStepper
+                    token={token}
+                    vaultInfo={vaultInfo}
+                    vaultID={vaultID}
+                  />
+                </Box>
+              </TabPanel>
+              <TabPanel key="Withdraw" value={String(2)}>
+                Withdraw
+              </TabPanel>
+            </Box>
+          </TabContext>
+        )}
       </Container>
+      <Popover
+        id="mouse-over-popover"
+        open={Boolean(hover)}
+        anchorEl={hover}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        onClose={handleHoverClose}
+        disableRestoreFocus
+        sx={{
+          pointerEvents: 'none',
+        }}
+      >
+        <Box sx={{ p: 2, maxWidth: 280 }}>
+          <Typography variant="subtitle1" gutterBottom>
+            Loan to Value Ratio
+          </Typography>
+          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            The loan to value ratio signifies how much of your {token}{' '}
+            collateral can be used to borrow against. For example, given $100
+            USD worth of {token}, you can borrow {fCurrency(vaultInfo.maxLTV)}{' '}
+            USD worth.
+          </Typography>
+        </Box>
+      </Popover>
     </Card>
   );
 };

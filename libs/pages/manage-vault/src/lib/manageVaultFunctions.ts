@@ -45,32 +45,52 @@ export const getVaultInfo = () => {
     const exists = await vault.vaultExistence(vaultID);
 
     if (exists) {
-      const collateral = await vault.vaultCollateral(vaultID);
-      const debt = await vault.vaultDebt(vaultID);
+      try {
+        // Get basics
+        const collateral = await vault.vaultCollateral(vaultID);
+        const debt = await vault.vaultDebt(vaultID);
+        const mcp = await vault.minimumCollateralPercentage();
+        const price = await vault.getPriceSource();
+        const peg = await vault.getPricePeg();
+        // Get max LTV in % and USD
+        const maxLTV = 10000 / mcp.toNumber(); // 66.666%
+        const maxLTVUSD = collateral.mul(price).mul(100).div(peg).div(mcp);
+        // Current LTV in the vault
+        const LTV = collateral.isZero()
+          ? utils.parseUnits('0', 0)
+          : debt.mul(1e8).mul(peg).div(collateral.mul(price)); // Loan to value ratio
 
-      const LTV = collateral.isZero()
-        ? utils.parseUnits('0', 0).toNumber()
-        : debt.div(collateral).mul(100).toNumber(); // Loan to value ratio
+        // Borrow power
+        const borrowingPowerUsed = LTV.mul(mcp).div(100);
+        const borrowingPowerUsedUSD = debt;
+        const borrowingPowerAvailable = utils
+          .parseUnits('100', 6)
+          .sub(borrowingPowerUsed);
 
-      const maxLTV =
-        utils
-          .parseUnits('10000000000', 0)
-          .div(await vault.minimumCollateralPercentage())
-          .toNumber() / 1000000;
+        const borrowingPowerAvailableUSD = maxLTVUSD.sub(debt);
 
-      const price =
-        (await vault.getPriceSource()).toNumber() /
-        (await vault.getPricePeg()).toNumber();
+        const availableWithdraw = collateral.sub(
+          debt.mul(peg).div(price).mul(mcp).div(100)
+        );
 
-      const borrowingPower = LTV / maxLTV;
-      return {
-        collateral: Number(utils.formatEther(collateral)),
-        debt: Number(utils.formatUnits(debt, 8)),
-        LTV,
-        maxLTV,
-        borrowingPower,
-        tokenPrice: price,
-      };
+        return {
+          collateral: collateral,
+          debt: debt,
+          LTV,
+          maxLTV,
+          maxLTVUSD,
+          borrowingPowerAvailable,
+          borrowingPowerAvailableUSD,
+          borrowingPowerUsed,
+          borrowingPowerUsedUSD,
+          availableWithdraw,
+          tokenPrice: price,
+          peg,
+          mcp,
+        };
+      } catch (err) {
+        console.log(err.message);
+      }
     } else {
       return undefined;
     }
@@ -113,4 +133,26 @@ export const depositCollateral = (
     value: utils.parseEther(amount.toString()),
   };
   return vault.depositCollateral(vaultID, overrides);
+};
+
+export const withdrawCollateral = (
+  library: Web3Provider,
+  vaultID: number,
+  amount: number,
+  vaultType: string,
+  chainId: number
+) => {
+  const vault = getVault(vaultType, library, chainId, true);
+  return vault.withdrawCollateral(vaultID, utils.parseEther(amount.toString()));
+};
+
+export const borrowToken = (
+  library: Web3Provider,
+  vaultID: number,
+  amount: number,
+  vaultType: string,
+  chainId: number
+) => {
+  const vault = getVault(vaultType, library, chainId, true);
+  return vault.borrowToken(vaultID, utils.parseEther(amount.toString()));
 };

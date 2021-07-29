@@ -1,7 +1,7 @@
 import type { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
 import { useAVAXBalance } from '@ursa/hooks';
-import { Typography } from '@material-ui/core';
+import { Typography, Stack, Box } from '@material-ui/core';
 
 import { experimentalStyled as styled } from '@material-ui/core/styles';
 
@@ -24,12 +24,24 @@ const AvaxBalance = () => {
 
   return (
     <BalanceStyle>
-      <Typography
-        variant="h6"
-        sx={{ color: theme === 'light' ? 'grey.600' : 'grey.200' }}
-      >
-        {data} AVAX
-      </Typography>
+      <Stack direction="row" spacing={1} alignItems="center">
+        <Box
+          component="img"
+          src={'/static/cryptos/ic_avax.svg'}
+          sx={{
+            width: 30,
+
+            height: 30,
+          }}
+          color="inherit"
+        />
+        <Typography
+          variant="h6"
+          sx={{ color: theme === 'light' ? 'grey.600' : 'grey.200' }}
+        >
+          {data} AVAX
+        </Typography>
+      </Stack>
     </BalanceStyle>
   );
 };

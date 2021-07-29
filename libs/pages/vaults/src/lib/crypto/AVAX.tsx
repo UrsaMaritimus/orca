@@ -54,15 +54,17 @@ const getAVAXVaults = () => {
         try {
           const collateral = await avaxVault.vaultCollateral(vault);
           const debt = await avaxVault.vaultDebt(vault);
+          const price = await avaxVault.getPriceSource();
+          const peg = await avaxVault.getPricePeg();
 
           const ratio = debt.isZero()
             ? utils.formatUnits(0, 0)
-            : collateral.mul(100).div(debt);
+            : debt.mul(peg).mul(100).div(collateral.mul(price));
 
           return {
             vaultID: vault.toString(),
             collateral: utils.formatEther(collateral),
-            debt: utils.formatUnits(debt, 8),
+            debt: utils.formatEther(debt),
             ratio: ratio.toString(),
           };
         } catch (err) {
@@ -177,7 +179,7 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
           action={
             <Button
               variant="contained"
-              color="secondary"
+              color="primary"
               startIcon={<Icon icon={plusFill} />}
               onClick={createVault}
             >

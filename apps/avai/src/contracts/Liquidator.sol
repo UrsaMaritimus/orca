@@ -44,7 +44,7 @@ contract Liquidator is ILiquidator, ReentrancyGuard, Ownable {
   /**
    * @dev careful. This transfers treasury AND ownership to the new treasury.
    */
-  function setTreasury(address newTreasury_) external onlyOwner() {
+  function setTreasury(address newTreasury_) external onlyOwner {
     require(
       newTreasury_ != address(0),
       'Cannot set treasury to the zero address'
@@ -56,14 +56,14 @@ contract Liquidator is ILiquidator, ReentrancyGuard, Ownable {
   /**
    * @dev sets the gain ratio
    */
-  function setGainRatio(uint256 gainRatio_) external onlyOwner() {
+  function setGainRatio(uint256 gainRatio_) external onlyOwner {
     gainRatio = gainRatio_;
   }
 
   /**
    * @dev sets the debt ratio
    */
-  function setDebtRatio(uint256 debtRatio_) external onlyOwner() {
+  function setDebtRatio(uint256 debtRatio_) external onlyOwner {
     debtRatio = debtRatio_;
   }
 
@@ -137,9 +137,9 @@ contract Liquidator is ILiquidator, ReentrancyGuard, Ownable {
       uint256 collateralValueTimes100,
       uint256 debtValue
     ) = calculateCollateralProperties(
-      vault.vaultCollateral(vaultId_),
-      vault.vaultDebt(vaultId_)
-    );
+        vault.vaultCollateral(vaultId_),
+        vault.vaultDebt(vaultId_)
+      );
 
     uint256 collateralPercentage = collateralValueTimes100 / debtValue;
 

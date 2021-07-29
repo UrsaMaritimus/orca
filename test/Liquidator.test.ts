@@ -222,6 +222,16 @@ describe('Liquidator interactions', function () {
 
     // Calculate what new vault collateral should be
     const tokenExtract = await liq.checkExtract(2);
+    const newPrice = await vault.getPriceSource();
+    const debtValue = (await vault.vaultDebt(2)).mul(await vault.getPricePeg());
+    const gainRatio = await liq.gainRatio();
+    const debtRatio = await liq.debtRatio();
+
+    const extractCalc = debtValue
+      .mul(gainRatio)
+      .div(newPrice.mul(10).mul(debtRatio));
+
+    expect(tokenExtract).to.equal(extractCalc);
     const newVaultCollateral = (await vault.vaultCollateral(2))
       .sub(closingFeeOne)
       .sub(closingFeeTwo)

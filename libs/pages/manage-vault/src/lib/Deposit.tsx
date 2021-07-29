@@ -17,10 +17,12 @@ import {
 } from '@material-ui/core';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 
+import { BigNumber, utils } from 'ethers';
 import { fCurrency, fPercent } from '@ursa/util';
 
 import { tokenInfo } from './constants';
 import { DepositStepper } from './DepositStepper';
+import { WithdrawStepper } from './WithdrawStepper';
 
 //-----------------------------------------
 
@@ -29,12 +31,19 @@ type DepositProps = {
   isOwner: boolean;
   vaultID: number;
   vaultInfo: {
-    collateral: number;
-    debt: number;
-    LTV: number;
+    collateral: BigNumber;
+    debt: BigNumber;
+    LTV: BigNumber;
     maxLTV: number;
-    borrowingPower: number;
-    tokenPrice: number;
+    maxLTVUSD: BigNumber;
+    borrowingPowerAvailable: BigNumber;
+    borrowingPowerAvailableUSD: BigNumber;
+    borrowingPowerUsed: BigNumber;
+    borrowingPowerUsedUSD: BigNumber;
+    tokenPrice: BigNumber;
+    availableWithdraw: BigNumber;
+    peg: BigNumber;
+    mcp: BigNumber;
   };
 };
 
@@ -100,10 +109,19 @@ export const Deposit: FC<DepositProps> = ({
               <Stack alignItems="center" sx={{ mt: 0.75 }}>
                 <Typography variant="h6">Collateral</Typography>
                 <Typography variant="inherit">
-                  {vaultInfo.collateral} {token}
+                  {utils.formatEther(vaultInfo.collateral)} {token}
                 </Typography>
                 <Typography variant="caption" sx={{ color: 'grey.500' }}>
-                  {fCurrency(vaultInfo.collateral * vaultInfo.tokenPrice)} USD
+                  {fCurrency(
+                    Number(
+                      utils.formatEther(
+                        vaultInfo.collateral
+                          .mul(vaultInfo.tokenPrice)
+                          .div(vaultInfo.peg)
+                      )
+                    )
+                  )}{' '}
+                  USD
                 </Typography>
               </Stack>
             </Grid>
@@ -125,11 +143,7 @@ export const Deposit: FC<DepositProps> = ({
                   {fPercent(vaultInfo.maxLTV)}{' '}
                 </Typography>
                 <Typography variant="caption" sx={{ color: 'grey.500' }}>
-                  {fCurrency(
-                    (vaultInfo.maxLTV / 100) *
-                      vaultInfo.collateral *
-                      vaultInfo.tokenPrice
-                  )}{' '}
+                  {fCurrency(Number(utils.formatEther(vaultInfo.maxLTVUSD)))}{' '}
                   USD
                 </Typography>
               </Stack>
@@ -139,13 +153,15 @@ export const Deposit: FC<DepositProps> = ({
                 <Typography variant="h6" textAlign="center">
                   Borrowing Power Used
                 </Typography>
-                <Typography variant="inherit">{vaultInfo.LTV} %</Typography>
+                <Typography variant="inherit">
+                  {fPercent(
+                    Number(utils.formatUnits(vaultInfo.borrowingPowerUsed, 6))
+                  )}
+                </Typography>
                 <Typography variant="caption" sx={{ color: 'grey.500' }}>
-                  $
-                  {vaultInfo.LTV *
-                    vaultInfo.maxLTV *
-                    vaultInfo.collateral *
-                    vaultInfo.tokenPrice}{' '}
+                  {fCurrency(
+                    Number(utils.formatEther(vaultInfo.borrowingPowerUsedUSD))
+                  )}{' '}
                   USD
                 </Typography>
               </Stack>
@@ -156,14 +172,17 @@ export const Deposit: FC<DepositProps> = ({
                   Borrowing Power Available
                 </Typography>
                 <Typography variant="inherit">
-                  {100 - vaultInfo.LTV / vaultInfo.maxLTV} %
+                  {fPercent(
+                    Number(
+                      utils.formatUnits(vaultInfo.borrowingPowerAvailable, 6)
+                    )
+                  )}
                 </Typography>
                 <Typography variant="caption" sx={{ color: 'grey.500' }}>
                   {fCurrency(
-                    (vaultInfo.maxLTV / 100) *
-                      vaultInfo.tokenPrice *
-                      vaultInfo.collateral -
-                      vaultInfo.debt
+                    Number(
+                      utils.formatEther(vaultInfo.borrowingPowerAvailableUSD)
+                    )
                   )}{' '}
                   USD
                 </Typography>
@@ -248,7 +267,11 @@ export const Deposit: FC<DepositProps> = ({
                   </Box>
                 </TabPanel>
                 <TabPanel key="Withdraw" value={String(2)}>
-                  Withdraw
+                  <WithdrawStepper
+                    token={token}
+                    vaultInfo={vaultInfo}
+                    vaultID={vaultID}
+                  />
                 </TabPanel>
               </Box>
             </TabContext>
@@ -280,7 +303,8 @@ export const Deposit: FC<DepositProps> = ({
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
             The loan to value ratio signifies how much of your {token}{' '}
             collateral can be used to borrow against. For example, given $100
-            USD worth of {token}, you can borrow ${vaultInfo.maxLTV} USD worth.
+            USD worth of {token}, you can borrow {fCurrency(vaultInfo.maxLTV)}{' '}
+            USD worth.
           </Typography>
         </Box>
       </Popover>
