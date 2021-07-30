@@ -112,6 +112,9 @@
     "pages-manage-vault": {
       "tags": []
     },
+    "pages-monitor": {
+      "tags": []
+    },
     "pages-vaults": {
       "tags": []
     },

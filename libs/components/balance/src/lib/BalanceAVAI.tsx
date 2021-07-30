@@ -71,7 +71,6 @@ const AvaiBalance = () => {
     };
   }, [library, account, avaiMutate, chainId]);
 
-  console.log(balance);
   return (
     <BalanceStyle>
       <Stack direction="row" spacing={1} alignItems="center">

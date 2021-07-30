@@ -56,6 +56,7 @@
       "@ursa/pages/error": ["libs/pages/error/src/index.ts"],
       "@ursa/pages/landing": ["libs/pages/landing/src/index.ts"],
       "@ursa/pages/manage-vault": ["libs/pages/manage-vault/src/index.ts"],
+      "@ursa/pages/monitor": ["libs/pages/monitor/src/index.ts"],
       "@ursa/pages/vaults": ["libs/pages/vaults/src/index.ts"],
       "@ursa/shared/base": ["libs/shared/base/src/index.ts"],
       "@ursa/shared/contracts": ["libs/shared/contracts/src/index.ts"],

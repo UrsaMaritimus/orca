@@ -669,6 +669,27 @@
         }
       }
     },
+    "pages-monitor": {
+      "root": "libs/pages/monitor",
+      "sourceRoot": "libs/pages/monitor/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/pages/monitor/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/pages/monitor"],
+          "options": {
+            "jestConfig": "libs/pages/monitor/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "pages-vaults": {
       "root": "libs/pages/vaults",
       "sourceRoot": "libs/pages/vaults/src",
