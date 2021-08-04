@@ -4,5 +4,5 @@ pragma solidity ^0.8.0;
 import './Stablecoin.sol';
 
 contract AVAI is Stablecoin {
-  constructor(string memory name) Stablecoin(name) {}
+  constructor(string memory name, address vault) Stablecoin(name, vault) {}
 }

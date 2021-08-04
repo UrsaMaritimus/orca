@@ -12,7 +12,8 @@ interface IBaseVault {
     uint256 vaultID,
     address owner,
     address buyer,
-    uint256 amountPaid
+    uint256 amountPaid,
+    uint256 tokenExtract
   );
 
   // Events for collateral operations

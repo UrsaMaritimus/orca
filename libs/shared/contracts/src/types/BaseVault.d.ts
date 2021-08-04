@@ -26,18 +26,26 @@ interface BaseVaultInterface extends ethers.utils.Interface {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "borrowToken(uint256,uint256)": FunctionFragment;
-    "buyRiskyVault(uint256)": FunctionFragment;
+    "checkCost(uint256)": FunctionFragment;
+    "checkExtract(uint256)": FunctionFragment;
+    "checkLiquidation(uint256)": FunctionFragment;
     "closingFee()": FunctionFragment;
     "createVault()": FunctionFragment;
     "debtCeiling()": FunctionFragment;
+    "debtRatio()": FunctionFragment;
+    "depositCollateral(uint256,uint256)": FunctionFragment;
     "destroyVault(uint256)": FunctionFragment;
+    "gainRatio()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
+    "getPaid()": FunctionFragment;
     "getPricePeg()": FunctionFragment;
     "getPriceSource()": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
+    "initialize(uint256,address,string,string,address,address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
+    "liquidateVault(uint256)": FunctionFragment;
     "minimumCollateralPercentage()": FunctionFragment;
     "name()": FunctionFragment;
     "openingFee()": FunctionFragment;
@@ -50,6 +58,8 @@ interface BaseVaultInterface extends ethers.utils.Interface {
     "setApprovalForAll(address,bool)": FunctionFragment;
     "setClosingFee(uint256)": FunctionFragment;
     "setDebtCeiling(uint256)": FunctionFragment;
+    "setDebtRatio(uint256)": FunctionFragment;
+    "setGainRatio(uint256)": FunctionFragment;
     "setOpeningFee(uint256)": FunctionFragment;
     "setPriceSource(address)": FunctionFragment;
     "setStabilityPool(address)": FunctionFragment;
@@ -60,6 +70,7 @@ interface BaseVaultInterface extends ethers.utils.Interface {
     "symbol()": FunctionFragment;
     "token()": FunctionFragment;
     "tokenByIndex(uint256)": FunctionFragment;
+    "tokenDebt(address)": FunctionFragment;
     "tokenOfOwnerByIndex(address,uint256)": FunctionFragment;
     "tokenPeg()": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
@@ -92,7 +103,15 @@ interface BaseVaultInterface extends ethers.utils.Interface {
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "buyRiskyVault",
+    functionFragment: "checkCost",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "checkExtract",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "checkLiquidation",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -107,14 +126,21 @@ interface BaseVaultInterface extends ethers.utils.Interface {
     functionFragment: "debtCeiling",
     values?: undefined
   ): string;
+  encodeFunctionData(functionFragment: "debtRatio", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "depositCollateral",
+    values: [BigNumberish, BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "destroyVault",
     values: [BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "gainRatio", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getApproved",
     values: [BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "getPaid", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getPricePeg",
     values?: undefined
@@ -136,8 +162,16 @@ interface BaseVaultInterface extends ethers.utils.Interface {
     values: [BytesLike, string]
   ): string;
   encodeFunctionData(
+    functionFragment: "initialize",
+    values: [BigNumberish, string, string, string, string, string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [string, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "liquidateVault",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "minimumCollateralPercentage",
@@ -185,6 +219,14 @@ interface BaseVaultInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "setDebtRatio",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setGainRatio",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setOpeningFee",
     values: [BigNumberish]
   ): string;
@@ -218,6 +260,7 @@ interface BaseVaultInterface extends ethers.utils.Interface {
     functionFragment: "tokenByIndex",
     values: [BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "tokenDebt", values: [string]): string;
   encodeFunctionData(
     functionFragment: "tokenOfOwnerByIndex",
     values: [string, BigNumberish]
@@ -272,8 +315,13 @@ interface BaseVaultInterface extends ethers.utils.Interface {
     functionFragment: "borrowToken",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "checkCost", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "buyRiskyVault",
+    functionFragment: "checkExtract",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "checkLiquidation",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "closingFee", data: BytesLike): Result;
@@ -285,14 +333,21 @@ interface BaseVaultInterface extends ethers.utils.Interface {
     functionFragment: "debtCeiling",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "debtRatio", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "depositCollateral",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "destroyVault",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "gainRatio", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getPaid", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getPricePeg",
     data: BytesLike
@@ -307,8 +362,13 @@ interface BaseVaultInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "liquidateVault",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -348,6 +408,14 @@ interface BaseVaultInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "setDebtRatio",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setGainRatio",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "setOpeningFee",
     data: BytesLike
   ): Result;
@@ -381,6 +449,7 @@ interface BaseVaultInterface extends ethers.utils.Interface {
     functionFragment: "tokenByIndex",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "tokenDebt", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "tokenOfOwnerByIndex",
     data: BytesLike
@@ -422,7 +491,7 @@ interface BaseVaultInterface extends ethers.utils.Interface {
     "CreateVault(uint256,address)": EventFragment;
     "DepositCollateral(uint256,uint256)": EventFragment;
     "DestroyVault(uint256)": EventFragment;
-    "LiquidateVault(uint256,address,address,uint256)": EventFragment;
+    "LiquidateVault(uint256,address,address,uint256,uint256)": EventFragment;
     "PayBackToken(uint256,uint256,uint256)": EventFragment;
     "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
     "RoleGranted(bytes32,address,address)": EventFragment;
@@ -510,10 +579,20 @@ export class BaseVault extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    buyRiskyVault(
-      vaultID: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
+    checkCost(
+      vaultId_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    checkExtract(
+      vaultId_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    checkLiquidation(
+      vaultId_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[void]>;
 
     closingFee(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -523,15 +602,29 @@ export class BaseVault extends BaseContract {
 
     debtCeiling(overrides?: CallOverrides): Promise<[BigNumber]>;
 
+    debtRatio(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    depositCollateral(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     destroyVault(
       vaultID: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    gainRatio(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
+
+    getPaid(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     getPricePeg(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -551,11 +644,26 @@ export class BaseVault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    initialize(
+      minimumCollateralPercentage_: BigNumberish,
+      priceSource_: string,
+      name_: string,
+      symbol_: string,
+      token_: string,
+      stablecoin_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     isApprovedForAll(
       owner: string,
       operator: string,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
+
+    liquidateVault(
+      vaultID_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     minimumCollateralPercentage(
       overrides?: CallOverrides
@@ -621,6 +729,16 @@ export class BaseVault extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setDebtRatio(
+      debtRatio_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setGainRatio(
+      gainRatio_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     setOpeningFee(
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -661,6 +779,8 @@ export class BaseVault extends BaseContract {
       index: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
+
+    tokenDebt(arg0: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
     tokenOfOwnerByIndex(
       owner: string,
@@ -734,10 +854,20 @@ export class BaseVault extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  buyRiskyVault(
-    vaultID: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
+  checkCost(
+    vaultId_: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  checkExtract(
+    vaultId_: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  checkLiquidation(
+    vaultId_: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<void>;
 
   closingFee(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -747,15 +877,29 @@ export class BaseVault extends BaseContract {
 
   debtCeiling(overrides?: CallOverrides): Promise<BigNumber>;
 
+  debtRatio(overrides?: CallOverrides): Promise<BigNumber>;
+
+  depositCollateral(
+    vaultID: BigNumberish,
+    amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   destroyVault(
     vaultID: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  gainRatio(overrides?: CallOverrides): Promise<BigNumber>;
+
   getApproved(
     tokenId: BigNumberish,
     overrides?: CallOverrides
   ): Promise<string>;
+
+  getPaid(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   getPricePeg(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -775,11 +919,26 @@ export class BaseVault extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  initialize(
+    minimumCollateralPercentage_: BigNumberish,
+    priceSource_: string,
+    name_: string,
+    symbol_: string,
+    token_: string,
+    stablecoin_: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   isApprovedForAll(
     owner: string,
     operator: string,
     overrides?: CallOverrides
   ): Promise<boolean>;
+
+  liquidateVault(
+    vaultID_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   minimumCollateralPercentage(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -840,6 +999,16 @@ export class BaseVault extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setDebtRatio(
+    debtRatio_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setGainRatio(
+    gainRatio_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   setOpeningFee(
     amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -880,6 +1049,8 @@ export class BaseVault extends BaseContract {
     index: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
+
+  tokenDebt(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
   tokenOfOwnerByIndex(
     owner: string,
@@ -947,8 +1118,18 @@ export class BaseVault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    buyRiskyVault(
-      vaultID: BigNumberish,
+    checkCost(
+      vaultId_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    checkExtract(
+      vaultId_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    checkLiquidation(
+      vaultId_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -958,15 +1139,27 @@ export class BaseVault extends BaseContract {
 
     debtCeiling(overrides?: CallOverrides): Promise<BigNumber>;
 
+    debtRatio(overrides?: CallOverrides): Promise<BigNumber>;
+
+    depositCollateral(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     destroyVault(
       vaultID: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
+    gainRatio(overrides?: CallOverrides): Promise<BigNumber>;
+
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    getPaid(overrides?: CallOverrides): Promise<void>;
 
     getPricePeg(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -986,11 +1179,26 @@ export class BaseVault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    initialize(
+      minimumCollateralPercentage_: BigNumberish,
+      priceSource_: string,
+      name_: string,
+      symbol_: string,
+      token_: string,
+      stablecoin_: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     isApprovedForAll(
       owner: string,
       operator: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    liquidateVault(
+      vaultID_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     minimumCollateralPercentage(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1051,6 +1259,16 @@ export class BaseVault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setDebtRatio(
+      debtRatio_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setGainRatio(
+      gainRatio_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setOpeningFee(
       amount: BigNumberish,
       overrides?: CallOverrides
@@ -1091,6 +1309,8 @@ export class BaseVault extends BaseContract {
       index: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    tokenDebt(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     tokenOfOwnerByIndex(
       owner: string,
@@ -1194,14 +1414,16 @@ export class BaseVault extends BaseContract {
       vaultID?: null,
       owner?: null,
       buyer?: null,
-      amountPaid?: null
+      amountPaid?: null,
+      tokenExtract?: null
     ): TypedEventFilter<
-      [BigNumber, string, string, BigNumber],
+      [BigNumber, string, string, BigNumber, BigNumber],
       {
         vaultID: BigNumber;
         owner: string;
         buyer: string;
         amountPaid: BigNumber;
+        tokenExtract: BigNumber;
       }
     >;
 
@@ -1287,9 +1509,19 @@ export class BaseVault extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    buyRiskyVault(
-      vaultID: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+    checkCost(
+      vaultId_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    checkExtract(
+      vaultId_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    checkLiquidation(
+      vaultId_: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     closingFee(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1300,14 +1532,28 @@ export class BaseVault extends BaseContract {
 
     debtCeiling(overrides?: CallOverrides): Promise<BigNumber>;
 
+    debtRatio(overrides?: CallOverrides): Promise<BigNumber>;
+
+    depositCollateral(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     destroyVault(
       vaultID: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    gainRatio(overrides?: CallOverrides): Promise<BigNumber>;
+
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getPaid(
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     getPricePeg(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1331,10 +1577,25 @@ export class BaseVault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    initialize(
+      minimumCollateralPercentage_: BigNumberish,
+      priceSource_: string,
+      name_: string,
+      symbol_: string,
+      token_: string,
+      stablecoin_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     isApprovedForAll(
       owner: string,
       operator: string,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    liquidateVault(
+      vaultID_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     minimumCollateralPercentage(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1399,6 +1660,16 @@ export class BaseVault extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setDebtRatio(
+      debtRatio_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setGainRatio(
+      gainRatio_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     setOpeningFee(
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1439,6 +1710,8 @@ export class BaseVault extends BaseContract {
       index: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    tokenDebt(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     tokenOfOwnerByIndex(
       owner: string,
@@ -1518,9 +1791,19 @@ export class BaseVault extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    buyRiskyVault(
-      vaultID: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+    checkCost(
+      vaultId_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    checkExtract(
+      vaultId_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    checkLiquidation(
+      vaultId_: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     closingFee(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -1531,14 +1814,28 @@ export class BaseVault extends BaseContract {
 
     debtCeiling(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    debtRatio(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    depositCollateral(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     destroyVault(
       vaultID: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    gainRatio(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getPaid(
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     getPricePeg(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -1562,10 +1859,25 @@ export class BaseVault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    initialize(
+      minimumCollateralPercentage_: BigNumberish,
+      priceSource_: string,
+      name_: string,
+      symbol_: string,
+      token_: string,
+      stablecoin_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     isApprovedForAll(
       owner: string,
       operator: string,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    liquidateVault(
+      vaultID_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     minimumCollateralPercentage(
@@ -1632,6 +1944,16 @@ export class BaseVault extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    setDebtRatio(
+      debtRatio_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setGainRatio(
+      gainRatio_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     setOpeningFee(
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1670,6 +1992,11 @@ export class BaseVault extends BaseContract {
 
     tokenByIndex(
       index: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    tokenDebt(
+      arg0: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

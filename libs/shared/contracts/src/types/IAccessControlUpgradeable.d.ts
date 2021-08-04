@@ -19,61 +19,52 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
-interface IBaseVaultInterface extends ethers.utils.Interface {
+interface IAccessControlUpgradeableInterface extends ethers.utils.Interface {
   functions: {
-    "createVault()": FunctionFragment;
-    "destroyVault(uint256)": FunctionFragment;
-    "transferVault(uint256,address)": FunctionFragment;
+    "getRoleAdmin(bytes32)": FunctionFragment;
+    "grantRole(bytes32,address)": FunctionFragment;
+    "hasRole(bytes32,address)": FunctionFragment;
+    "renounceRole(bytes32,address)": FunctionFragment;
+    "revokeRole(bytes32,address)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "createVault",
-    values?: undefined
+    functionFragment: "getRoleAdmin",
+    values: [BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "destroyVault",
-    values: [BigNumberish]
+    functionFragment: "grantRole",
+    values: [BytesLike, string]
   ): string;
   encodeFunctionData(
-    functionFragment: "transferVault",
-    values: [BigNumberish, string]
+    functionFragment: "hasRole",
+    values: [BytesLike, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "renounceRole",
+    values: [BytesLike, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "revokeRole",
+    values: [BytesLike, string]
   ): string;
 
   decodeFunctionResult(
-    functionFragment: "createVault",
+    functionFragment: "getRoleAdmin",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "destroyVault",
+    functionFragment: "renounceRole",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "transferVault",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
 
-  events: {
-    "BorrowToken(uint256,uint256)": EventFragment;
-    "CreateVault(uint256,address)": EventFragment;
-    "DepositCollateral(uint256,uint256)": EventFragment;
-    "DestroyVault(uint256)": EventFragment;
-    "LiquidateVault(uint256,address,address,uint256,uint256)": EventFragment;
-    "PayBackToken(uint256,uint256,uint256)": EventFragment;
-    "TransferVault(uint256,address,address)": EventFragment;
-    "WithdrawCollateral(uint256,uint256)": EventFragment;
-  };
-
-  getEvent(nameOrSignatureOrTopic: "BorrowToken"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "CreateVault"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "DepositCollateral"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "DestroyVault"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "LiquidateVault"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "PayBackToken"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "TransferVault"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "WithdrawCollateral"): EventFragment;
+  events: {};
 }
 
-export class IBaseVault extends BaseContract {
+export class IAccessControlUpgradeable extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -114,158 +105,150 @@ export class IBaseVault extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: IBaseVaultInterface;
+  interface: IAccessControlUpgradeableInterface;
 
   functions: {
-    createVault(
+    getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<[string]>;
+
+    grantRole(
+      role: BytesLike,
+      account: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    destroyVault(
-      vaultID: BigNumberish,
+    hasRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    renounceRole(
+      role: BytesLike,
+      account: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    transferVault(
-      vaultID: BigNumberish,
-      to: string,
+    revokeRole(
+      role: BytesLike,
+      account: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
 
-  createVault(
+  getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>;
+
+  grantRole(
+    role: BytesLike,
+    account: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  destroyVault(
-    vaultID: BigNumberish,
+  hasRole(
+    role: BytesLike,
+    account: string,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  renounceRole(
+    role: BytesLike,
+    account: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  transferVault(
-    vaultID: BigNumberish,
-    to: string,
+  revokeRole(
+    role: BytesLike,
+    account: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    createVault(overrides?: CallOverrides): Promise<void>;
+    getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>;
 
-    destroyVault(
-      vaultID: BigNumberish,
+    grantRole(
+      role: BytesLike,
+      account: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    transferVault(
-      vaultID: BigNumberish,
-      to: string,
+    hasRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    renounceRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    revokeRole(
+      role: BytesLike,
+      account: string,
       overrides?: CallOverrides
     ): Promise<void>;
   };
 
-  filters: {
-    BorrowToken(
-      vaultID?: null,
-      amount?: null
-    ): TypedEventFilter<
-      [BigNumber, BigNumber],
-      { vaultID: BigNumber; amount: BigNumber }
-    >;
-
-    CreateVault(
-      vaultID?: null,
-      creator?: null
-    ): TypedEventFilter<
-      [BigNumber, string],
-      { vaultID: BigNumber; creator: string }
-    >;
-
-    DepositCollateral(
-      vaultID?: null,
-      amount?: null
-    ): TypedEventFilter<
-      [BigNumber, BigNumber],
-      { vaultID: BigNumber; amount: BigNumber }
-    >;
-
-    DestroyVault(
-      vaultID?: null
-    ): TypedEventFilter<[BigNumber], { vaultID: BigNumber }>;
-
-    LiquidateVault(
-      vaultID?: null,
-      owner?: null,
-      buyer?: null,
-      amountPaid?: null,
-      tokenExtract?: null
-    ): TypedEventFilter<
-      [BigNumber, string, string, BigNumber, BigNumber],
-      {
-        vaultID: BigNumber;
-        owner: string;
-        buyer: string;
-        amountPaid: BigNumber;
-        tokenExtract: BigNumber;
-      }
-    >;
-
-    PayBackToken(
-      vaultID?: null,
-      amount?: null,
-      closingFee?: null
-    ): TypedEventFilter<
-      [BigNumber, BigNumber, BigNumber],
-      { vaultID: BigNumber; amount: BigNumber; closingFee: BigNumber }
-    >;
-
-    TransferVault(
-      vaultID?: null,
-      from?: null,
-      to?: null
-    ): TypedEventFilter<
-      [BigNumber, string, string],
-      { vaultID: BigNumber; from: string; to: string }
-    >;
-
-    WithdrawCollateral(
-      vaultID?: null,
-      amount?: null
-    ): TypedEventFilter<
-      [BigNumber, BigNumber],
-      { vaultID: BigNumber; amount: BigNumber }
-    >;
-  };
+  filters: {};
 
   estimateGas: {
-    createVault(
+    getRoleAdmin(
+      role: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    grantRole(
+      role: BytesLike,
+      account: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    destroyVault(
-      vaultID: BigNumberish,
+    hasRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    renounceRole(
+      role: BytesLike,
+      account: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    transferVault(
-      vaultID: BigNumberish,
-      to: string,
+    revokeRole(
+      role: BytesLike,
+      account: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    createVault(
+    getRoleAdmin(
+      role: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    grantRole(
+      role: BytesLike,
+      account: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    destroyVault(
-      vaultID: BigNumberish,
+    hasRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    renounceRole(
+      role: BytesLike,
+      account: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    transferVault(
-      vaultID: BigNumberish,
-      to: string,
+    revokeRole(
+      role: BytesLike,
+      account: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

@@ -1,28 +1,31 @@
 // SPDX-License-Identifier: agpl-3.0
 pragma solidity ^0.8.0;
 
-import '@openzeppelin/contracts/access/AccessControl.sol';
+import '@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol';
 
-import '@openzeppelin/contracts/token/ERC721/ERC721.sol';
-import '@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol';
+import '@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol';
+
 import '@openzeppelin/contracts/utils/Counters.sol';
 import '@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol';
-import '@openzeppelin/contracts/security/ReentrancyGuard.sol';
 
 import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
-
-import './interfaces/IStablecoin.sol';
+import '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
 import './interfaces/IBaseVault.sol';
+import './interfaces/IStablecoin.sol';
 
 contract BaseVault is
-  ERC721,
-  ERC721Enumerable,
-  ReentrancyGuard,
+  Initializable,
+  ERC721Upgradeable,
+  ERC721EnumerableUpgradeable,
+  ReentrancyGuardUpgradeable,
   IBaseVault,
-  AccessControl
+  AccessControlUpgradeable
 {
   bytes32 public constant TREASURY_ROLE = keccak256('TREASURY_ROLE');
-
+  using SafeERC20 for IERC20;
   using Counters for Counters.Counter;
   Counters.Counter private _userVaultIds;
   /**
@@ -34,14 +37,18 @@ contract BaseVault is
   uint256 public openingFee;
   uint256 public tokenPeg;
   uint256 public totalDebt;
+  // For liquidation
+  uint256 public debtRatio;
+  uint256 public gainRatio;
+  mapping(address => uint256) public tokenDebt;
 
   // Chainlink price source
   AggregatorV3Interface public priceSource;
 
   // Token used as collateral
-  IERC20 public immutable token;
+  IERC20 public token;
   // Token used as debt
-  IStablecoin internal immutable stablecoin;
+  IStablecoin internal stablecoin;
 
   // Address that corresponds to liquidater
   address public stabilityPool;
@@ -53,22 +60,34 @@ contract BaseVault is
   mapping(uint256 => uint256) public vaultCollateral;
   mapping(uint256 => uint256) public vaultDebt;
 
+  constructor() {}
+
   // Lets begin!
-  constructor(
+  function initialize(
     uint256 minimumCollateralPercentage_,
     address priceSource_,
     string memory name_,
     string memory symbol_,
     address token_,
     address stablecoin_
-  ) ERC721(name_, symbol_) {
+  ) public initializer {
     assert(priceSource_ != address(0));
     assert(minimumCollateralPercentage_ != 0);
+    // Initializations
+    __Context_init_unchained();
+    __ERC165_init_unchained();
+    __ERC721_init_unchained(name_, symbol_);
+    __ERC721Enumerable_init_unchained();
+    __ReentrancyGuard_init_unchained();
+    __AccessControl_init_unchained();
+
     //Initial settings!
     debtCeiling = 10e18; // 10 dollas
     closingFee = 50; // 0.5%
     openingFee = 0; // 0.0%
     tokenPeg = 1e8; // $1
+    debtRatio = 2; // 50%
+    gainRatio = 11; // /10 so 1.1, or 10%
     // Initially, will deploy later
     stabilityPool = address(0);
 
@@ -97,6 +116,20 @@ contract BaseVault is
       'buyRiskyVault disabled for public'
     );
     _;
+  }
+
+  /**
+   * @dev sets the gain ratio
+   */
+  function setGainRatio(uint256 gainRatio_) external onlyRole(TREASURY_ROLE) {
+    gainRatio = gainRatio_;
+  }
+
+  /**
+   * @dev sets the debt ratio
+   */
+  function setDebtRatio(uint256 debtRatio_) external onlyRole(TREASURY_ROLE) {
+    debtRatio = debtRatio_;
   }
 
   /**
@@ -272,10 +305,7 @@ contract BaseVault is
     require(vaultDebt[vaultID] == 0, 'Vault as outstanding debt');
 
     if (vaultCollateral[vaultID] != 0) {
-      require(
-        token.transferFrom(address(this), msg.sender, vaultCollateral[vaultID]),
-        'Unable to return collateral'
-      );
+      token.safeTransfer(msg.sender, vaultCollateral[vaultID]);
     }
 
     _burn(vaultID);
@@ -305,7 +335,26 @@ contract BaseVault is
     emit TransferVault(vaultID, msg.sender, to);
   }
 
-  // Each vault must write it's own deposit collateral!
+  /**
+   * @dev ALlows vault owner to deposit ERC20 collateral
+   *
+   * Emits Deposit Collateral event
+   *
+   */
+  function depositCollateral(uint256 vaultID, uint256 amount)
+    external
+    onlyVaultOwner(vaultID)
+  {
+    token.safeTransferFrom(msg.sender, address(this), amount);
+
+    uint256 newCollateral = vaultCollateral[vaultID] + amount;
+
+    assert(newCollateral >= vaultCollateral[vaultID]);
+
+    vaultCollateral[vaultID] = newCollateral;
+
+    emit DepositCollateral(vaultID, amount);
+  }
 
   /**
    * @dev Lets a vault owner borrow stablecoin against collateral
@@ -346,6 +395,61 @@ contract BaseVault is
   }
 
   /**
+   * @dev allows vault owner to withdraw the collateral
+   *
+   * Requirements:
+   * - Withdraw amount is less than or equal to current collateral
+   * - Collateral withdrawal amount does not put debt below minimum collateral
+   *
+   * Emits WithdrawCollateral event
+   */
+  function withdrawCollateral(uint256 vaultID, uint256 amount)
+    external
+    virtual
+    onlyVaultOwner(vaultID)
+    nonReentrant
+  {
+    require(
+      vaultCollateral[vaultID] >= amount,
+      'Vault does not have enough collateral'
+    );
+
+    uint256 newCollateral = vaultCollateral[vaultID] - amount;
+
+    if (vaultDebt[vaultID] != 0) {
+      require(
+        isValidCollateral(newCollateral, vaultDebt[vaultID]),
+        'Withdrawal would put vault below minimum collateral percentage'
+      );
+    }
+
+    vaultCollateral[vaultID] = newCollateral;
+
+    token.safeTransfer(msg.sender, amount);
+
+    emit WithdrawCollateral(vaultID, amount);
+  }
+
+  /*************
+   * Liquidation functions
+   ************** */
+
+  /**
+   * @dev pays the user
+   * Returns the ERC20 token that was liquidated
+   */
+  function getPaid() external virtual nonReentrant {
+    require(
+      tokenDebt[msg.sender] != 0,
+      'No liquidations associated with account.'
+    );
+    uint256 amount = tokenDebt[msg.sender];
+    // Set first in case nonReentrant fails somehow
+    tokenDebt[msg.sender] = 0;
+    token.safeTransfer(msg.sender, amount);
+  }
+
+  /**
    * @dev Pay back the stablecoin to reduce debt
    *
    * Requirements:
@@ -381,41 +485,55 @@ contract BaseVault is
   }
 
   /**
-   * @dev allows vault owner to withdraw the collateral
-   *
-   * Requirements:
-   * - Withdraw amount is less than or equal to current collateral
-   * - Collateral withdrawal amount does not put debt below minimum collateral
-   *
-   * Emits WithdrawCollateral event
+   * @dev checks if the vault can be liquidated
    */
-  function withdrawCollateral(uint256 vaultID, uint256 amount)
-    external
-    virtual
-    onlyVaultOwner(vaultID)
-    nonReentrant
-  {
-    require(
-      vaultCollateral[vaultID] >= amount,
-      'Vault does not have enough collateral'
-    );
-
-    uint256 newCollateral = vaultCollateral[vaultID] - amount;
-
-    if (vaultDebt[vaultID] != 0) {
-      require(
-        isValidCollateral(newCollateral, vaultDebt[vaultID]),
-        'Withdrawal would put vault below minimum collateral percentage'
+  function checkLiquidation(uint256 vaultId_) public view {
+    require(vaultExistence[vaultId_], 'Vault must exist');
+    (
+      uint256 collateralValueTimes100,
+      uint256 debtValue
+    ) = calculateCollateralProperties(
+        vaultCollateral[vaultId_],
+        vaultDebt[vaultId_]
       );
-    }
 
-    vaultCollateral[vaultID] = newCollateral;
+    uint256 collateralPercentage = collateralValueTimes100 / debtValue;
+
     require(
-      token.transferFrom(address(this), msg.sender, amount),
-      'Unable to return collateral'
+      collateralPercentage < minimumCollateralPercentage,
+      'Vault is not below minimum collateral percentage'
+    );
+  }
+
+  /**
+   * @dev checks cost of liquidating
+   */
+  function checkCost(uint256 vaultId_) public view returns (uint256) {
+    require(vaultExistence[vaultId_], 'Vault must exist');
+    (, uint256 debtValue) = calculateCollateralProperties(
+      vaultCollateral[vaultId_],
+      vaultDebt[vaultId_]
     );
 
-    emit WithdrawCollateral(vaultID, amount);
+    debtValue = debtValue / 1e8;
+
+    return debtValue / debtRatio;
+  }
+
+  /**
+   * @dev checks how much token gets extract
+   */
+  function checkExtract(uint256 vaultId_) public view returns (uint256) {
+    require(vaultExistence[vaultId_], 'Vault must exist');
+    (, uint256 debtValue) = calculateCollateralProperties(
+      vaultCollateral[vaultId_],
+      vaultDebt[vaultId_]
+    );
+
+    uint256 tokenExtract = (debtValue * gainRatio) /
+      (10 * getPriceSource() * debtRatio);
+
+    return tokenExtract;
   }
 
   /**
@@ -428,14 +546,18 @@ contract BaseVault is
    *
    * Emits BuyRiskyVault event
    */
-  function buyRiskyVault(uint256 vaultID) external onlyLiquidater nonReentrant {
-    require(vaultExistence[vaultID], 'Vault does not exist');
+  function liquidateVault(uint256 vaultID_)
+    external
+    onlyLiquidater
+    nonReentrant
+  {
+    require(vaultExistence[vaultID_], 'Vault does not exist');
     (
       uint256 collateralValueTimes100,
       uint256 debtValue
     ) = calculateCollateralProperties(
-        vaultCollateral[vaultID],
-        vaultDebt[vaultID]
+        vaultCollateral[vaultID_],
+        vaultDebt[vaultID_]
       );
 
     uint256 collateralPercentage = collateralValueTimes100 / debtValue;
@@ -445,37 +567,33 @@ contract BaseVault is
       'Vault is not below minimum collateral percentage'
     );
 
-    uint256 maximumDebtValue = collateralValueTimes100 /
-      minimumCollateralPercentage;
-
-    uint256 maximumDebt = maximumDebtValue / getPricePeg();
-
-    uint256 debtDifference = vaultDebt[vaultID] - maximumDebt;
+    uint256 tokenExtract = checkExtract(vaultID_);
+    uint256 halfDebt = checkCost(vaultID_);
 
     require(
-      stablecoin.balanceOf(msg.sender) >= debtDifference,
+      stablecoin.balanceOf(msg.sender) >= halfDebt,
       'Token balance too low to pay off outstanding debt'
     );
 
-    address previousOwner = ownerOf(vaultID);
+    vaultDebt[vaultID_] -= halfDebt;
 
-    vaultDebt[vaultID] = maximumDebt;
-
-    uint256 _closingFee = (debtDifference * closingFee * getPricePeg()) /
+    uint256 _closingFee = (halfDebt * closingFee * getPricePeg()) /
       (getPriceSource() * 10000);
 
-    vaultCollateral[vaultID] -= _closingFee;
+    vaultCollateral[vaultID_] -= _closingFee;
     vaultCollateral[treasury] += _closingFee;
 
-    stablecoin.burn(msg.sender, debtDifference);
+    stablecoin.burn(msg.sender, halfDebt);
 
-    _subFromTotalDebt(debtDifference);
-    // burn erc721 (vaultId)
-    _burn(vaultID);
-    // mint erc721 (vaultId)
-    _mint(msg.sender, vaultID);
+    _subFromTotalDebt(halfDebt);
 
-    emit LiquidateVault(vaultID, previousOwner, msg.sender, debtDifference);
+    emit LiquidateVault(
+      vaultID_,
+      ownerOf(vaultID_),
+      msg.sender,
+      halfDebt,
+      tokenExtract
+    );
   }
 
   /**
@@ -593,7 +711,11 @@ contract BaseVault is
     public
     view
     virtual
-    override(ERC721, ERC721Enumerable, AccessControl)
+    override(
+      ERC721Upgradeable,
+      ERC721EnumerableUpgradeable,
+      AccessControlUpgradeable
+    )
     returns (bool)
   {
     return super.supportsInterface(interfaceId);
@@ -603,7 +725,7 @@ contract BaseVault is
     address from,
     address to,
     uint256 tokenId
-  ) internal override(ERC721, ERC721Enumerable) {
+  ) internal override(ERC721Upgradeable, ERC721EnumerableUpgradeable) {
     super._beforeTokenTransfer(from, to, tokenId);
   }
 }

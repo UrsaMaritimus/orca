@@ -66,7 +66,7 @@ interface IVaultInterface extends ethers.utils.Interface {
     "CreateVault(uint256,address)": EventFragment;
     "DepositCollateral(uint256,uint256)": EventFragment;
     "DestroyVault(uint256)": EventFragment;
-    "LiquidateVault(uint256,address,address,uint256)": EventFragment;
+    "LiquidateVault(uint256,address,address,uint256,uint256)": EventFragment;
     "PayBackToken(uint256,uint256,uint256)": EventFragment;
     "TransferVault(uint256,address,address)": EventFragment;
     "WithdrawCollateral(uint256,uint256)": EventFragment;
@@ -235,14 +235,16 @@ export class IVault extends BaseContract {
       vaultID?: null,
       owner?: null,
       buyer?: null,
-      amountPaid?: null
+      amountPaid?: null,
+      tokenExtract?: null
     ): TypedEventFilter<
-      [BigNumber, string, string, BigNumber],
+      [BigNumber, string, string, BigNumber, BigNumber],
       {
         vaultID: BigNumber;
         owner: string;
         buyer: string;
         amountPaid: BigNumber;
+        tokenExtract: BigNumber;
       }
     >;
 

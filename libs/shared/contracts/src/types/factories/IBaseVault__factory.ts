@@ -104,6 +104,12 @@ const _abi = [
         name: "amountPaid",
         type: "uint256",
       },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "tokenExtract",
+        type: "uint256",
+      },
     ],
     name: "LiquidateVault",
     type: "event",

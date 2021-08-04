@@ -25,7 +25,7 @@ interface AVAIInterface extends ethers.utils.Interface {
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "DOMAIN_SEPARATOR()": FunctionFragment;
     "MINTER_ROLE()": FunctionFragment;
-    "addVault(address)": FunctionFragment;
+    "addVault(uint256,address,string,string,address)": FunctionFragment;
     "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
@@ -48,7 +48,6 @@ interface AVAIInterface extends ethers.utils.Interface {
     "transfer(address,uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "vaultCount()": FunctionFragment;
-    "vaultExists(uint256)": FunctionFragment;
     "vaults(uint256)": FunctionFragment;
   };
 
@@ -68,7 +67,10 @@ interface AVAIInterface extends ethers.utils.Interface {
     functionFragment: "MINTER_ROLE",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "addVault", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "addVault",
+    values: [BigNumberish, string, string, string, string]
+  ): string;
   encodeFunctionData(
     functionFragment: "allowance",
     values: [string, string]
@@ -151,10 +153,6 @@ interface AVAIInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "vaultExists",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
     functionFragment: "vaults",
     values: [BigNumberish]
   ): string;
@@ -219,10 +217,6 @@ interface AVAIInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "vaultCount", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "vaultExists",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "vaults", data: BytesLike): Result;
 
   events: {
@@ -295,7 +289,11 @@ export class AVAI extends BaseContract {
     MINTER_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
     addVault(
-      vaultAddress: string,
+      minimumCollateralPercentage_: BigNumberish,
+      priceSource_: string,
+      name_: string,
+      symbol_: string,
+      token_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -404,11 +402,6 @@ export class AVAI extends BaseContract {
 
     vaultCount(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    vaultExists(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
     vaults(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
   };
 
@@ -421,7 +414,11 @@ export class AVAI extends BaseContract {
   MINTER_ROLE(overrides?: CallOverrides): Promise<string>;
 
   addVault(
-    vaultAddress: string,
+    minimumCollateralPercentage_: BigNumberish,
+    priceSource_: string,
+    name_: string,
+    symbol_: string,
+    token_: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -530,8 +527,6 @@ export class AVAI extends BaseContract {
 
   vaultCount(overrides?: CallOverrides): Promise<BigNumber>;
 
-  vaultExists(arg0: BigNumberish, overrides?: CallOverrides): Promise<boolean>;
-
   vaults(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   callStatic: {
@@ -543,7 +538,14 @@ export class AVAI extends BaseContract {
 
     MINTER_ROLE(overrides?: CallOverrides): Promise<string>;
 
-    addVault(vaultAddress: string, overrides?: CallOverrides): Promise<void>;
+    addVault(
+      minimumCollateralPercentage_: BigNumberish,
+      priceSource_: string,
+      name_: string,
+      symbol_: string,
+      token_: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     allowance(
       owner: string,
@@ -650,11 +652,6 @@ export class AVAI extends BaseContract {
 
     vaultCount(overrides?: CallOverrides): Promise<BigNumber>;
 
-    vaultExists(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
     vaults(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
   };
 
@@ -723,7 +720,11 @@ export class AVAI extends BaseContract {
     MINTER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
     addVault(
-      vaultAddress: string,
+      minimumCollateralPercentage_: BigNumberish,
+      priceSource_: string,
+      name_: string,
+      symbol_: string,
+      token_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -835,11 +836,6 @@ export class AVAI extends BaseContract {
 
     vaultCount(overrides?: CallOverrides): Promise<BigNumber>;
 
-    vaultExists(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     vaults(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
   };
 
@@ -855,7 +851,11 @@ export class AVAI extends BaseContract {
     MINTER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     addVault(
-      vaultAddress: string,
+      minimumCollateralPercentage_: BigNumberish,
+      priceSource_: string,
+      name_: string,
+      symbol_: string,
+      token_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -972,11 +972,6 @@ export class AVAI extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     vaultCount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    vaultExists(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
 
     vaults(
       arg0: BigNumberish,

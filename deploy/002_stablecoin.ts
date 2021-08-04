@@ -7,16 +7,14 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   const { deployer } = await getNamedAccounts();
 
-  const stablecoin = await deployments.get('AVAI');
-
-  const vault = await deployments.get('AVAXVault');
-
-  await deploy('AVAXLiquidator', {
-    log: true,
+  const base = await deployments.get('BaseVault');
+  console.log(base.address);
+  await deploy('AVAI', {
     from: deployer,
-    args: [stablecoin.address, vault.address],
+    args: ['AVAI', base.address],
+    log: true,
   });
 };
 export default func;
-func.id = 'init';
-func.tags = ['AVAXVault'];
+func.id = 'AVAI';
+func.tags = ['AVAI'];
