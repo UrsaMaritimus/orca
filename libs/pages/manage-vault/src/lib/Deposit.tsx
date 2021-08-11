@@ -18,7 +18,7 @@ import {
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 
 import { BigNumber, utils } from 'ethers';
-import { fCurrency, fPercent } from '@ursa/util';
+import { fCurrency, fPercent } from '@orca/util';
 
 import { tokenInfo } from './constants';
 import { DepositStepper } from './DepositStepper';

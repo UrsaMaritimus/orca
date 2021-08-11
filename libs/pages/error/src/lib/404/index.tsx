@@ -4,11 +4,11 @@ import { experimentalStyled as styled } from '@material-ui/core/styles';
 
 import { Box, Button, Typography, Container } from '@material-ui/core';
 
-import { Page } from '@ursa/components/page';
-import { varBounceIn, MotionContainer } from '@ursa/components/animate';
-import { Logo } from '@ursa/components/logo';
-import { NextLink } from '@ursa/components/links';
-import { routes } from '@ursa/shared/base';
+import { Page } from '@orca/components/page';
+import { varBounceIn, MotionContainer } from '@orca/components/animate';
+import { Logo } from '@orca/components/logo';
+import { NextLink } from '@orca/components/links';
+import { routes } from '@orca/shared/base';
 
 const RootStyle = styled(Page)(({ theme }) => ({
   display: 'flex',

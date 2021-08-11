@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Box } from '@material-ui/core';
 import { experimentalStyled as styled, alpha } from '@material-ui/core/styles';
 
-import { Logo } from '@ursa/components/logo';
+import { Logo } from '@orca/components/logo';
 
 type Props = {
   [key: string]: string | number | Record<string | number, unknown>;

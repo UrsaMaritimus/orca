@@ -2,9 +2,9 @@ import React, { FC } from 'react';
 
 import { experimentalStyled as styled } from '@material-ui/core/styles';
 
-import { Page } from '@ursa/components/page';
-import { Monitor } from '@ursa/pages/monitor';
-import { AppLayout } from '@ursa/layout/app';
+import { Page } from '@orca/components/page';
+import { Vaults } from '@orca/pages/vaults';
+import { AppLayout } from '@orca/layout/app';
 
 const RootStyle = styled(Page)((theme) => ({
   root: {},
@@ -13,11 +13,11 @@ const RootStyle = styled(Page)((theme) => ({
 const App: FC = () => {
   return (
     <RootStyle
-      title={`Monitor Vaults | ${process.env.NEXT_PUBLIC_TITLE}`}
-      id={'MonitorPage'}
+      title={`Dashboard | ${process.env.NEXT_PUBLIC_TITLE}`}
+      id={'AppPage'}
     >
       <AppLayout>
-        <Monitor />
+        <Vaults />
       </AppLayout>
     </RootStyle>
   );

@@ -1,10 +1,10 @@
 module.exports = {
-  displayName: 'ursa',
+  displayName: 'orca',
   preset: '../../jest.preset.js',
   transform: {
     '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': '@nrwl/react/plugins/jest',
     '^.+\\.[tj]sx?$': 'babel-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../coverage/apps/ursa',
+  coverageDirectory: '../../coverage/apps/orca',
 };

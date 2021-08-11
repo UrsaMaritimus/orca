@@ -8,8 +8,8 @@ import {
   varFadeInDown,
   varFadeInUp,
   MotionInView,
-} from '@ursa/components/animate';
-import { routes } from '@ursa/shared/base';
+} from '@orca/components/animate';
+import { routes } from '@orca/shared/base';
 // ----------------------------------------------------------------------
 
 const ContentStyle = styled('div')(({ theme }) => ({

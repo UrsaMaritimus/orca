@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 
-import { NextLink } from '@ursa/components/links';
+import { NextLink } from '@orca/components/links';
 
 // ----------------------------------------------------------------------
 

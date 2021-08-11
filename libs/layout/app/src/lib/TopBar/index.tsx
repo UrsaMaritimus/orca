@@ -10,11 +10,11 @@ import { Box, AppBar, Toolbar, IconButton, Stack } from '@material-ui/core';
 
 import { useWeb3React } from '@web3-react/core';
 
-import { useCollapseDrawer } from '@ursa/hooks';
+import { useCollapseDrawer } from '@orca/hooks';
 
-import { MHidden } from '@ursa/components/material-extend/hidden';
-import { Account } from '@ursa/components/account';
-import { Balance, AvaiBalance } from '@ursa/components/balance';
+import { MHidden } from '@orca/components/material-extend/hidden';
+import { Account } from '@orca/components/account';
+import { Balance, AvaiBalance } from '@orca/components/balance';
 // ----------------------------------------------------------------------
 
 const DRAWER_WIDTH = 280;

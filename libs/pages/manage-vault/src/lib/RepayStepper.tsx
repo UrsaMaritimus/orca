@@ -16,8 +16,8 @@ import {
 
 import toast from 'react-hot-toast';
 import useSWR from 'swr';
-import { AVAXVault__factory, AVAI__factory } from '@ursa/shared/contracts';
-import { contractAddresses } from '@ursa/shared/deployments';
+import { AVAXVault__factory, AVAI__factory } from '@orca/shared/contracts';
+import { contractAddresses } from '@orca/shared/deployments';
 
 // Ethers and web3 stuff
 import { useWeb3React } from '@web3-react/core';
@@ -25,7 +25,7 @@ import { Web3Provider } from '@ethersproject/providers';
 
 import { useFormik, Form, FormikProvider } from 'formik';
 
-import { fPercent, fShortenNumber } from '@ursa/util';
+import { fPercent, fShortenNumber } from '@orca/util';
 import { BigNumber, utils } from 'ethers';
 import { tokenInfo } from './constants';
 

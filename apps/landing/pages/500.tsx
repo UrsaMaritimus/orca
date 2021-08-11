@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Page500 } from '@ursa/pages/error';
+import { Page500 } from '@orca/pages/error';
 
 const FiveHundy = () => {
   return <Page500 />;

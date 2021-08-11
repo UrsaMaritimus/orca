@@ -1,5 +1,5 @@
-import { routes } from '@ursa/shared/base';
-import { SvgIconStyle } from '@ursa/components/svg-icon-style';
+import { routes } from '@orca/shared/base';
+import { SvgIconStyle } from '@orca/components/svg-icon-style';
 
 // ----------------------------------------------------------------------
 

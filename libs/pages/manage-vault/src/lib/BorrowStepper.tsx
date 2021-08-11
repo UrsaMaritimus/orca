@@ -22,7 +22,7 @@ import { Web3Provider } from '@ethersproject/providers';
 
 import { useFormik, Form, FormikProvider } from 'formik';
 
-import { fPercent, fShortenNumber } from '@ursa/util';
+import { fPercent, fShortenNumber } from '@orca/util';
 import { BigNumber, utils } from 'ethers';
 import { tokenInfo } from './constants';
 

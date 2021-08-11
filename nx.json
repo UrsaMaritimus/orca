@@ -1,5 +1,5 @@
 {
-  "npmScope": "ursa",
+  "npmScope": "orca",
   "affected": {
     "defaultBase": "master"
   },
@@ -100,6 +100,13 @@
     "layout-landing": {
       "tags": []
     },
+    "orca": {
+      "tags": []
+    },
+    "orca-e2e": {
+      "tags": [],
+      "implicitDependencies": ["orca"]
+    },
     "pages-app": {
       "tags": []
     },
@@ -132,13 +139,6 @@
     },
     "test-contract": {
       "tags": []
-    },
-    "ursa": {
-      "tags": []
-    },
-    "ursa-e2e": {
-      "tags": [],
-      "implicitDependencies": ["ursa"]
     },
     "util": {
       "tags": []

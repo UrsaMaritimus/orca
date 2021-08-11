@@ -16,12 +16,12 @@ import {
 
 import { useWeb3React } from '@web3-react/core';
 
-import { NextLink } from '@ursa/components/links';
-import { MHidden } from '@ursa/components/material-extend/hidden';
-import { routes } from '@ursa/shared/base';
-import { Logo } from '@ursa/components/logo';
-import { ScrollBar } from '@ursa/components/scroll-bar';
-import { useCollapseDrawer } from '@ursa/hooks';
+import { NextLink } from '@orca/components/links';
+import { MHidden } from '@orca/components/material-extend/hidden';
+import { routes } from '@orca/shared/base';
+import { Logo } from '@orca/components/logo';
+import { ScrollBar } from '@orca/components/scroll-bar';
+import { useCollapseDrawer } from '@orca/hooks';
 
 import NavSection from './NavSection';
 import MenuLinks from './config';

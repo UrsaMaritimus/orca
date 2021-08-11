@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Page404 } from '@ursa/pages/error';
+import { Page404 } from '@orca/pages/error';
 
 const FourOhFour = () => {
   return <Page404 />;

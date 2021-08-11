@@ -20,10 +20,10 @@ import Router from 'next/router';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 
-import { ThemeProvider as CustomThemeProvider } from '@ursa/components/theme';
-import { CustomToaster } from '@ursa/components/toast';
-import { Settings } from '@ursa/components/settings';
-import { CollapseDrawerProvider } from '@ursa/hooks';
+import { ThemeProvider as CustomThemeProvider } from '@orca/components/theme';
+import { CustomToaster } from '@orca/components/toast';
+import { Settings } from '@orca/components/settings';
+import { CollapseDrawerProvider } from '@orca/hooks';
 
 //Binding events for nprogress
 Router.events.on('routeChangeStart', () => NProgress.start());

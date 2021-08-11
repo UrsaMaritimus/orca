@@ -2,7 +2,7 @@ import { experimentalStyled as styled } from '@material-ui/core/styles';
 
 import { Grid, Container } from '@material-ui/core';
 
-import { Page } from '@ursa/components/page';
+import { Page } from '@orca/components/page';
 
 import Welcome from './Welcome';
 

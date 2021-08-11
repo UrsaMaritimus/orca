@@ -7,14 +7,14 @@ import { toast } from 'react-hot-toast';
 
 import { Button } from '@material-ui/core';
 
-import { useEagerConnect } from '@ursa/hooks';
+import { useEagerConnect } from '@orca/hooks';
 import {
   formatEtherscanLink,
   shortenHex,
   injected,
   AVALANCHE_MAINNET_PARAMS,
   AVALANCHE_TESTNET_PARAMS,
-} from '@ursa/util';
+} from '@orca/util';
 
 const Account = () => {
   const { active, error, activate, chainId, account, setError } =

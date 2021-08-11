@@ -1,4 +1,4 @@
-import { pxToRem, responsiveFontSizes } from '@ursa/util';
+import { pxToRem, responsiveFontSizes } from '@orca/util';
 import { TypographyOptions } from '@material-ui/core/styles/createTypography';
 
 const FONT_PRIMARY = 'Be Vietnam, sans-serif'; // Google Font

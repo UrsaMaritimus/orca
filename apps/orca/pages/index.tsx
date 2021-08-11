@@ -2,10 +2,10 @@ import React, { FC } from 'react';
 import { GetServerSideProps } from 'next';
 import { experimentalStyled as styled } from '@material-ui/core/styles';
 
-import { Page } from '@ursa/components/page';
-import { AppPage } from '@ursa/pages/app';
-import { AppLayout } from '@ursa/layout/app';
-import { routes } from '@ursa/shared/base';
+import { Page } from '@orca/components/page';
+import { AppPage } from '@orca/pages/app';
+import { AppLayout } from '@orca/layout/app';
+import { routes } from '@orca/shared/base';
 
 const RootStyle = styled(Page)((theme) => ({
   root: {},

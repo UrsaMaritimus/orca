@@ -1,6 +1,6 @@
 import { Web3Provider } from '@ethersproject/providers';
-import { AVAXVault__factory, AVAI__factory } from '@ursa/shared/contracts';
-import { contractAddresses } from '@ursa/shared/deployments';
+import { AVAXVault__factory, AVAI__factory } from '@orca/shared/contracts';
+import { contractAddresses } from '@orca/shared/deployments';
 import { utils } from 'ethers';
 
 export const getVault = (

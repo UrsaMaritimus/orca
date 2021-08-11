@@ -22,12 +22,12 @@ import {
   IconButton,
 } from '@material-ui/core';
 
-import { MainTable } from '@ursa/components/table';
-import { useKeepSWRDataLiveAsBlocksArrive } from '@ursa/hooks';
-import { AVAXVault__factory } from '@ursa/shared/contracts';
-import { contractAddresses } from '@ursa/shared/deployments';
-import { Loader } from '@ursa/components/loader';
-import { fShortenNumber } from '@ursa/util';
+import { MainTable } from '@orca/components/table';
+import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
+import { AVAXVault__factory } from '@orca/shared/contracts';
+import { contractAddresses } from '@orca/shared/deployments';
+import { Loader } from '@orca/components/loader';
+import { fShortenNumber } from '@orca/util';
 
 /* eslint-disable-next-line */
 export interface PagesVaultsProps {}

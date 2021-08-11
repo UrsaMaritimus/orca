@@ -17,52 +17,52 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@ursa/components/account": ["libs/components/account/src/index.ts"],
-      "@ursa/components/animate": ["libs/components/animate/src/index.ts"],
-      "@ursa/components/balance": ["libs/components/balance/src/index.ts"],
-      "@ursa/components/links": ["libs/components/links/src/index.ts"],
-      "@ursa/components/loader": ["libs/components/loader/src/index.ts"],
-      "@ursa/components/logo": ["libs/components/logo/src/index.ts"],
-      "@ursa/components/material-extend/avatar": [
+      "@orca/components/account": ["libs/components/account/src/index.ts"],
+      "@orca/components/animate": ["libs/components/animate/src/index.ts"],
+      "@orca/components/balance": ["libs/components/balance/src/index.ts"],
+      "@orca/components/links": ["libs/components/links/src/index.ts"],
+      "@orca/components/loader": ["libs/components/loader/src/index.ts"],
+      "@orca/components/logo": ["libs/components/logo/src/index.ts"],
+      "@orca/components/material-extend/avatar": [
         "libs/components/material-extend/avatar/src/index.ts"
       ],
-      "@ursa/components/material-extend/breadcrumbs": [
+      "@orca/components/material-extend/breadcrumbs": [
         "libs/components/material-extend/breadcrumbs/src/index.ts"
       ],
-      "@ursa/components/material-extend/buttons": [
+      "@orca/components/material-extend/buttons": [
         "libs/components/material-extend/buttons/src/index.ts"
       ],
-      "@ursa/components/material-extend/hidden": [
+      "@orca/components/material-extend/hidden": [
         "libs/components/material-extend/hidden/src/index.ts"
       ],
-      "@ursa/components/page": ["libs/components/page/src/index.ts"],
-      "@ursa/components/popover-menu": [
+      "@orca/components/page": ["libs/components/page/src/index.ts"],
+      "@orca/components/popover-menu": [
         "libs/components/popover-menu/src/index.ts"
       ],
-      "@ursa/components/scroll-bar": [
+      "@orca/components/scroll-bar": [
         "libs/components/scroll-bar/src/index.ts"
       ],
-      "@ursa/components/settings": ["libs/components/settings/src/index.ts"],
-      "@ursa/components/svg-icon-style": [
+      "@orca/components/settings": ["libs/components/settings/src/index.ts"],
+      "@orca/components/svg-icon-style": [
         "libs/components/svg-icon-style/src/index.ts"
       ],
-      "@ursa/components/table": ["libs/components/table/src/index.ts"],
-      "@ursa/components/theme": ["libs/components/theme/src/index.ts"],
-      "@ursa/components/toast": ["libs/components/toast/src/index.ts"],
-      "@ursa/hooks": ["libs/hooks/src/index.ts"],
-      "@ursa/layout/app": ["libs/layout/app/src/index.ts"],
-      "@ursa/layout/landing": ["libs/layout/landing/src/index.ts"],
-      "@ursa/pages/app": ["libs/pages/app/src/index.ts"],
-      "@ursa/pages/error": ["libs/pages/error/src/index.ts"],
-      "@ursa/pages/landing": ["libs/pages/landing/src/index.ts"],
-      "@ursa/pages/manage-vault": ["libs/pages/manage-vault/src/index.ts"],
-      "@ursa/pages/monitor": ["libs/pages/monitor/src/index.ts"],
-      "@ursa/pages/vaults": ["libs/pages/vaults/src/index.ts"],
-      "@ursa/shared/base": ["libs/shared/base/src/index.ts"],
-      "@ursa/shared/contracts": ["libs/shared/contracts/src/index.ts"],
-      "@ursa/shared/deployments": ["libs/shared/deployments/src/index.ts"],
-      "@ursa/shared/styles": ["libs/shared/styles/src/index.ts"],
-      "@ursa/util": ["libs/util/src/index.ts"]
+      "@orca/components/table": ["libs/components/table/src/index.ts"],
+      "@orca/components/theme": ["libs/components/theme/src/index.ts"],
+      "@orca/components/toast": ["libs/components/toast/src/index.ts"],
+      "@orca/hooks": ["libs/hooks/src/index.ts"],
+      "@orca/layout/app": ["libs/layout/app/src/index.ts"],
+      "@orca/layout/landing": ["libs/layout/landing/src/index.ts"],
+      "@orca/pages/app": ["libs/pages/app/src/index.ts"],
+      "@orca/pages/error": ["libs/pages/error/src/index.ts"],
+      "@orca/pages/landing": ["libs/pages/landing/src/index.ts"],
+      "@orca/pages/manage-vault": ["libs/pages/manage-vault/src/index.ts"],
+      "@orca/pages/monitor": ["libs/pages/monitor/src/index.ts"],
+      "@orca/pages/vaults": ["libs/pages/vaults/src/index.ts"],
+      "@orca/shared/base": ["libs/shared/base/src/index.ts"],
+      "@orca/shared/contracts": ["libs/shared/contracts/src/index.ts"],
+      "@orca/shared/deployments": ["libs/shared/deployments/src/index.ts"],
+      "@orca/shared/styles": ["libs/shared/styles/src/index.ts"],
+      "@orca/util": ["libs/util/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"],

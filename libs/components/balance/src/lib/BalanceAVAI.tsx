@@ -4,15 +4,15 @@ import type { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
 import useSWR from 'swr';
 import { Typography, Stack, Box } from '@material-ui/core';
-import { parseBalance } from '@ursa/util';
+import { parseBalance } from '@orca/util';
 
 import { experimentalStyled as styled } from '@material-ui/core/styles';
 
 import { useTheme } from 'next-themes';
 
-import { contractAddresses } from '@ursa/shared/deployments';
-import { AVAI__factory } from '@ursa/shared/contracts';
-import { useKeepSWRDataLiveAsBlocksArrive } from '@ursa/hooks';
+import { contractAddresses } from '@orca/shared/deployments';
+import { AVAI__factory } from '@orca/shared/contracts';
+import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
 const BalanceStyle = styled('div')(({ theme }) => ({
   display: 'flex',

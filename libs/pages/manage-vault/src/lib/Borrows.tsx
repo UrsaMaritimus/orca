@@ -18,7 +18,7 @@ import {
 } from '@material-ui/core';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import { BigNumber, utils } from 'ethers';
-import { fCurrency, fPercent, fShortenNumber } from '@ursa/util';
+import { fCurrency, fPercent, fShortenNumber } from '@orca/util';
 
 import { tokenInfo } from './constants';
 import BorrowStepper from './BorrowStepper';

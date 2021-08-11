@@ -34,11 +34,11 @@ import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 
 // Custom stuff
-import { NextLink } from '@ursa/components/links';
-import { Page } from '@ursa/components/page';
-import { routes } from '@ursa/shared/base';
-import { useKeepSWRDataLiveAsBlocksArrive } from '@ursa/hooks';
-import { Loader } from '@ursa/components/loader';
+import { NextLink } from '@orca/components/links';
+import { Page } from '@orca/components/page';
+import { routes } from '@orca/shared/base';
+import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
+import { Loader } from '@orca/components/loader';
 
 import {
   getVaultInfo,
@@ -49,7 +49,7 @@ import {
 import { Deposit } from './Deposit';
 import { Borrows } from './Borrows';
 import toast from 'react-hot-toast';
-import { AVALANCHE_TESTNET_PARAMS } from '@ursa/util';
+import { AVALANCHE_TESTNET_PARAMS } from '@orca/util';
 
 const RootStyle = styled(Page)(({ theme }) => ({
   paddingTop: theme.spacing(3),

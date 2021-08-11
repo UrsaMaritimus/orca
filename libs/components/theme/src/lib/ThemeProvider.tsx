@@ -20,7 +20,7 @@ import {
   ComponentsOverrides,
   ShadowExtension,
   GlobalStyles,
-} from '@ursa/shared/styles';
+} from '@orca/shared/styles';
 
 const ThemeProvider: FC = ({ children }) => {
   const [mounted, setMounted] = useState(false);

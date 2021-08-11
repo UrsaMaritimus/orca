@@ -19,7 +19,7 @@ import {
   varFadeInDown,
   varFadeInUp,
   MotionInView,
-} from '@ursa/components/animate';
+} from '@orca/components/animate';
 
 // ----------------------------------------------------------------------
 

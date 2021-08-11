@@ -19,7 +19,7 @@ import {
   ListItemIcon,
 } from '@material-ui/core';
 
-import { NextLink } from '@ursa/components/links';
+import { NextLink } from '@orca/components/links';
 
 import MenuLinks from './config';
 

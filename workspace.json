@@ -585,6 +585,83 @@
         }
       }
     },
+    "orca": {
+      "root": "apps/orca",
+      "sourceRoot": "apps/orca",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/next:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "root": "apps/orca",
+            "outputPath": "dist/apps/orca"
+          },
+          "configurations": {
+            "production": {}
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/next:server",
+          "options": {
+            "buildTarget": "orca:build",
+            "dev": true
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "orca:build:production",
+              "dev": false
+            }
+          }
+        },
+        "export": {
+          "executor": "@nrwl/next:export",
+          "options": {
+            "buildTarget": "orca:build:production"
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/orca"],
+          "options": {
+            "jestConfig": "apps/orca/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/orca/**/*.{ts,tsx,js,jsx}"]
+          }
+        }
+      }
+    },
+    "orca-e2e": {
+      "root": "apps/orca-e2e",
+      "sourceRoot": "apps/orca-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/orca-e2e/cypress.json",
+            "tsConfig": "apps/orca-e2e/tsconfig.e2e.json",
+            "devServerTarget": "orca:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "orca:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/orca-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
     "pages-app": {
       "root": "libs/pages/app",
       "sourceRoot": "libs/pages/app/src",
@@ -845,83 +922,6 @@
         }
       }
     },
-    "ursa": {
-      "root": "apps/ursa",
-      "sourceRoot": "apps/ursa",
-      "projectType": "application",
-      "targets": {
-        "build": {
-          "executor": "@nrwl/next:build",
-          "outputs": ["{options.outputPath}"],
-          "options": {
-            "root": "apps/ursa",
-            "outputPath": "dist/apps/ursa"
-          },
-          "configurations": {
-            "production": {}
-          }
-        },
-        "serve": {
-          "executor": "@nrwl/next:server",
-          "options": {
-            "buildTarget": "ursa:build",
-            "dev": true
-          },
-          "configurations": {
-            "production": {
-              "buildTarget": "ursa:build:production",
-              "dev": false
-            }
-          }
-        },
-        "export": {
-          "executor": "@nrwl/next:export",
-          "options": {
-            "buildTarget": "ursa:build:production"
-          }
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/ursa"],
-          "options": {
-            "jestConfig": "apps/ursa/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["apps/ursa/**/*.{ts,tsx,js,jsx}"]
-          }
-        }
-      }
-    },
-    "ursa-e2e": {
-      "root": "apps/ursa-e2e",
-      "sourceRoot": "apps/ursa-e2e/src",
-      "projectType": "application",
-      "targets": {
-        "e2e": {
-          "executor": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/ursa-e2e/cypress.json",
-            "tsConfig": "apps/ursa-e2e/tsconfig.e2e.json",
-            "devServerTarget": "ursa:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "ursa:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["apps/ursa-e2e/**/*.{js,ts}"]
-          }
-        }
-      }
-    },
     "util": {
       "root": "libs/util",
       "sourceRoot": "libs/util/src",
@@ -960,5 +960,5 @@
       }
     }
   },
-  "defaultProject": "ursa"
+  "defaultProject": "orca"
 }

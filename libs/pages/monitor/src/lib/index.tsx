@@ -17,13 +17,13 @@ import {
 } from '@material-ui/core';
 import { TabList, TabPanel, TabContext } from '@material-ui/lab';
 
-import { Page } from '@ursa/components/page';
+import { Page } from '@orca/components/page';
 
 import { AvaxVaults } from './crypto/AVAX';
 import { JoeVaults } from './crypto/JOE';
 import { PngVaults } from './crypto/PNG';
 
-import { AVALANCHE_TESTNET_PARAMS } from '@ursa/util';
+import { AVALANCHE_TESTNET_PARAMS } from '@orca/util';
 
 export interface PagesVaultsProps {}
 

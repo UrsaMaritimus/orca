@@ -23,8 +23,8 @@ import { Web3Provider } from '@ethersproject/providers';
 
 import { useFormik, Form, FormikProvider } from 'formik';
 
-import { useAVAXBalance } from '@ursa/hooks';
-import { fCurrency, fPercent } from '@ursa/util';
+import { useAVAXBalance } from '@orca/hooks';
+import { fCurrency, fPercent } from '@orca/util';
 import { BigNumber, utils } from 'ethers';
 import { tokenInfo } from './constants';
 

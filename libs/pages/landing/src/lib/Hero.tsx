@@ -13,9 +13,9 @@ import {
   varFadeIn,
   varWrapEnter,
   varFadeInRight,
-} from '@ursa/components/animate';
+} from '@orca/components/animate';
 
-import { routes } from '@ursa/shared/base';
+import { routes } from '@orca/shared/base';
 
 // ----------------------------------------------------------------------
 

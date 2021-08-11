@@ -17,7 +17,7 @@ import {
 } from '@material-ui/core';
 
 // components
-import { ScrollBar } from '@ursa/components/scroll-bar';
+import { ScrollBar } from '@orca/components/scroll-bar';
 
 import RowTable, { Row } from './TableRow';
 

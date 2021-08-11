@@ -12,7 +12,7 @@ export const routes = {
   LANDING: {
     MEDIUM: '',
     TWITTER: 'https://twitter.com/0Maritimus',
-    GITHUB: 'https://github.com/UrsaMaritimus/ursa',
+    GITHUB: 'https://github.com/UrsaMaritimus/orca',
     DOCS: 'https://docs.avai.finance/',
     SITE:
       process.env.NODE_ENV === 'development'

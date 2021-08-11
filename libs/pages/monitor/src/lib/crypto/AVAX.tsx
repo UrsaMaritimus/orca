@@ -8,10 +8,10 @@ import { toast } from 'react-hot-toast';
 
 import { Card, CardHeader, Box, Typography } from '@material-ui/core';
 
-import { useKeepSWRDataLiveAsBlocksArrive } from '@ursa/hooks';
-import { AVAXVault__factory } from '@ursa/shared/contracts';
-import { contractAddresses } from '@ursa/shared/deployments';
-import { Loader } from '@ursa/components/loader';
+import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
+import { AVAXVault__factory } from '@orca/shared/contracts';
+import { contractAddresses } from '@orca/shared/deployments';
+import { Loader } from '@orca/components/loader';
 
 import Table from '../table';
 

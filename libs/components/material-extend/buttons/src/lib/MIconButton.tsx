@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 
-import { ButtonAnimate } from '@ursa/components/animate';
+import { ButtonAnimate } from '@orca/components/animate';
 
 import { alpha, useTheme } from '@material-ui/core/styles';
 import IconButton, { IconButtonProps } from '@material-ui/core/IconButton';

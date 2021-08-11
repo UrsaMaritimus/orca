@@ -13,7 +13,7 @@ import {
   FormControlLabel,
 } from '@material-ui/core';
 // components
-import { ScrollBar } from '@ursa/components/scroll-bar';
+import { ScrollBar } from '@orca/components/scroll-bar';
 //
 import SortingSelectingHead from './SortingSelectingHead';
 

@@ -2,9 +2,9 @@ import React from 'react';
 
 import { experimentalStyled as styled } from '@material-ui/core/styles';
 
-import { Page } from '@ursa/components/page';
-import { HomeLayout } from '@ursa/layout/landing';
-import { Hero, Footer, Intro, SignUp } from '@ursa/pages/landing';
+import { Page } from '@orca/components/page';
+import { HomeLayout } from '@orca/layout/landing';
+import { Hero, Footer, Intro, SignUp } from '@orca/pages/landing';
 
 const RootStyle = styled(Page)({
   height: '100%',

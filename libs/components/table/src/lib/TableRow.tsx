@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 
-import { NextLink } from '@ursa/components/links';
+import { NextLink } from '@orca/components/links';
 
 import { Icon } from '@iconify/react';
 import editOutline from '@iconify/icons-eva/edit-outline';
@@ -8,8 +8,8 @@ import editOutline from '@iconify/icons-eva/edit-outline';
 
 import { TableRow, TableCell, Button } from '@material-ui/core';
 
-import { routes } from '@ursa/shared/base';
-import { fPercent, fShortenNumber } from '@ursa/util';
+import { routes } from '@orca/shared/base';
+import { fPercent, fShortenNumber } from '@orca/util';
 
 // ----------------------------------------------------------------------
 

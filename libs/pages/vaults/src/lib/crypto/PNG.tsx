@@ -10,12 +10,12 @@ import { toast } from 'react-hot-toast';
 
 import { Card, CardHeader, Box, Button, Typography } from '@material-ui/core';
 
-import { MainTable } from '@ursa/components/table';
-import { useKeepSWRDataLiveAsBlocksArrive } from '@ursa/hooks';
+import { MainTable } from '@orca/components/table';
+import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
 import useSwr from 'swr';
-import { AVAXVault__factory } from '@ursa/shared/contracts';
-import { contractAddresses } from '@ursa/shared/deployments';
+import { AVAXVault__factory } from '@orca/shared/contracts';
+import { contractAddresses } from '@orca/shared/deployments';
 
 /* eslint-disable-next-line */
 export interface PagesVaultsProps {}
