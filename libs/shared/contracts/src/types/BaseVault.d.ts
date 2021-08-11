@@ -26,6 +26,7 @@ interface BaseVaultInterface extends ethers.utils.Interface {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "borrowToken(uint256,uint256)": FunctionFragment;
+    "changeTreasury(address)": FunctionFragment;
     "checkCost(uint256)": FunctionFragment;
     "checkExtract(uint256)": FunctionFragment;
     "checkLiquidation(uint256)": FunctionFragment;
@@ -36,6 +37,7 @@ interface BaseVaultInterface extends ethers.utils.Interface {
     "depositCollateral(uint256,uint256)": FunctionFragment;
     "destroyVault(uint256)": FunctionFragment;
     "gainRatio()": FunctionFragment;
+    "gateway()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "getPaid()": FunctionFragment;
     "getPricePeg()": FunctionFragment;
@@ -60,6 +62,7 @@ interface BaseVaultInterface extends ethers.utils.Interface {
     "setDebtCeiling(uint256)": FunctionFragment;
     "setDebtRatio(uint256)": FunctionFragment;
     "setGainRatio(uint256)": FunctionFragment;
+    "setGateway(address)": FunctionFragment;
     "setOpeningFee(uint256)": FunctionFragment;
     "setPriceSource(address)": FunctionFragment;
     "setStabilityPool(address)": FunctionFragment;
@@ -81,7 +84,7 @@ interface BaseVaultInterface extends ethers.utils.Interface {
     "treasury()": FunctionFragment;
     "vaultCollateral(uint256)": FunctionFragment;
     "vaultDebt(uint256)": FunctionFragment;
-    "vaultExistence(uint256)": FunctionFragment;
+    "vaultExists(uint256)": FunctionFragment;
     "withdrawCollateral(uint256,uint256)": FunctionFragment;
   };
 
@@ -101,6 +104,10 @@ interface BaseVaultInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "borrowToken",
     values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "changeTreasury",
+    values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "checkCost",
@@ -136,6 +143,7 @@ interface BaseVaultInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "gainRatio", values?: undefined): string;
+  encodeFunctionData(functionFragment: "gateway", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getApproved",
     values: [BigNumberish]
@@ -226,6 +234,7 @@ interface BaseVaultInterface extends ethers.utils.Interface {
     functionFragment: "setGainRatio",
     values: [BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "setGateway", values: [string]): string;
   encodeFunctionData(
     functionFragment: "setOpeningFee",
     values: [BigNumberish]
@@ -293,7 +302,7 @@ interface BaseVaultInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "vaultExistence",
+    functionFragment: "vaultExists",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -313,6 +322,10 @@ interface BaseVaultInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "borrowToken",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "changeTreasury",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "checkCost", data: BytesLike): Result;
@@ -343,6 +356,7 @@ interface BaseVaultInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "gainRatio", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "gateway", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
     data: BytesLike
@@ -415,6 +429,7 @@ interface BaseVaultInterface extends ethers.utils.Interface {
     functionFragment: "setGainRatio",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "setGateway", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setOpeningFee",
     data: BytesLike
@@ -476,7 +491,7 @@ interface BaseVaultInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "vaultDebt", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "vaultExistence",
+    functionFragment: "vaultExists",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -579,6 +594,11 @@ export class BaseVault extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    changeTreasury(
+      to: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     checkCost(
       vaultId_: BigNumberish,
       overrides?: CallOverrides
@@ -617,6 +637,8 @@ export class BaseVault extends BaseContract {
 
     gainRatio(overrides?: CallOverrides): Promise<[BigNumber]>;
 
+    gateway(overrides?: CallOverrides): Promise<[string]>;
+
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -650,7 +672,7 @@ export class BaseVault extends BaseContract {
       name_: string,
       symbol_: string,
       token_: string,
-      stablecoin_: string,
+      owner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -739,6 +761,11 @@ export class BaseVault extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setGateway(
+      gateway_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     setOpeningFee(
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -824,8 +851,8 @@ export class BaseVault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    vaultExistence(
-      arg0: BigNumberish,
+    vaultExists(
+      vaultID: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
@@ -851,6 +878,11 @@ export class BaseVault extends BaseContract {
   borrowToken(
     vaultID: BigNumberish,
     amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  changeTreasury(
+    to: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -892,6 +924,8 @@ export class BaseVault extends BaseContract {
 
   gainRatio(overrides?: CallOverrides): Promise<BigNumber>;
 
+  gateway(overrides?: CallOverrides): Promise<string>;
+
   getApproved(
     tokenId: BigNumberish,
     overrides?: CallOverrides
@@ -925,7 +959,7 @@ export class BaseVault extends BaseContract {
     name_: string,
     symbol_: string,
     token_: string,
-    stablecoin_: string,
+    owner: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -1009,6 +1043,11 @@ export class BaseVault extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setGateway(
+    gateway_: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   setOpeningFee(
     amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -1088,8 +1127,8 @@ export class BaseVault extends BaseContract {
 
   vaultDebt(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
-  vaultExistence(
-    arg0: BigNumberish,
+  vaultExists(
+    vaultID: BigNumberish,
     overrides?: CallOverrides
   ): Promise<boolean>;
 
@@ -1117,6 +1156,8 @@ export class BaseVault extends BaseContract {
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    changeTreasury(to: string, overrides?: CallOverrides): Promise<void>;
 
     checkCost(
       vaultId_: BigNumberish,
@@ -1154,6 +1195,8 @@ export class BaseVault extends BaseContract {
 
     gainRatio(overrides?: CallOverrides): Promise<BigNumber>;
 
+    gateway(overrides?: CallOverrides): Promise<string>;
+
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -1185,7 +1228,7 @@ export class BaseVault extends BaseContract {
       name_: string,
       symbol_: string,
       token_: string,
-      stablecoin_: string,
+      owner: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1269,6 +1312,8 @@ export class BaseVault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setGateway(gateway_: string, overrides?: CallOverrides): Promise<void>;
+
     setOpeningFee(
       amount: BigNumberish,
       overrides?: CallOverrides
@@ -1351,8 +1396,8 @@ export class BaseVault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    vaultExistence(
-      arg0: BigNumberish,
+    vaultExists(
+      vaultID: BigNumberish,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
@@ -1509,6 +1554,11 @@ export class BaseVault extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    changeTreasury(
+      to: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     checkCost(
       vaultId_: BigNumberish,
       overrides?: CallOverrides
@@ -1547,6 +1597,8 @@ export class BaseVault extends BaseContract {
 
     gainRatio(overrides?: CallOverrides): Promise<BigNumber>;
 
+    gateway(overrides?: CallOverrides): Promise<BigNumber>;
+
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -1583,7 +1635,7 @@ export class BaseVault extends BaseContract {
       name_: string,
       symbol_: string,
       token_: string,
-      stablecoin_: string,
+      owner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1667,6 +1719,11 @@ export class BaseVault extends BaseContract {
 
     setGainRatio(
       gainRatio_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setGateway(
+      gateway_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1755,8 +1812,8 @@ export class BaseVault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    vaultExistence(
-      arg0: BigNumberish,
+    vaultExists(
+      vaultID: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1788,6 +1845,11 @@ export class BaseVault extends BaseContract {
     borrowToken(
       vaultID: BigNumberish,
       amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    changeTreasury(
+      to: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1829,6 +1891,8 @@ export class BaseVault extends BaseContract {
 
     gainRatio(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    gateway(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -1865,7 +1929,7 @@ export class BaseVault extends BaseContract {
       name_: string,
       symbol_: string,
       token_: string,
-      stablecoin_: string,
+      owner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1951,6 +2015,11 @@ export class BaseVault extends BaseContract {
 
     setGainRatio(
       gainRatio_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setGateway(
+      gateway_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -2042,8 +2111,8 @@ export class BaseVault extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    vaultExistence(
-      arg0: BigNumberish,
+    vaultExists(
+      vaultID: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

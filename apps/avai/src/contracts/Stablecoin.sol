@@ -1,16 +1,23 @@
 // SPDX-License-Identifier: agpl-3.0
 pragma solidity ^0.8.0;
 
-import '@openzeppelin/contracts/token/ERC20/ERC20.sol';
-import '@openzeppelin/contracts/token/ERC20/extensions/draft-ERC20Permit.sol';
-import '@openzeppelin/contracts/access/AccessControl.sol';
+import '@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol';
+import '@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/token/ERC20/extensions/draft-ERC20PermitUpgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol';
 
 import '@openzeppelin/contracts/proxy/beacon/BeaconProxy.sol';
-import '@openzeppelin/contracts/proxy/beacon/UpgradeableBeacon.sol';
+import './overrides/UpgradeableBeacon.sol';
 
-import './BaseVault.sol';
+import './interfaces/IBaseVault.sol';
 
-contract Stablecoin is ERC20, ERC20Permit, AccessControl {
+contract AVAI is
+  Initializable,
+  ERC20Upgradeable,
+  ERC20PermitUpgradeable,
+  AccessControlUpgradeable,
+  UpgradeableBeacon
+{
   bytes32 public constant BURNER_ROLE = keccak256('BURNER_ROLE');
   bytes32 public constant MINTER_ROLE = keccak256('MINTER_ROLE');
 
@@ -18,16 +25,18 @@ contract Stablecoin is ERC20, ERC20Permit, AccessControl {
   // using SafeMath for uint256;
 
   // The vaults that users can use
-  UpgradeableBeacon immutable baseVault;
   address[] public vaults;
 
-  event CreateVaultType(uint256 vaultID, address vault);
+  event CreateVaultType(address token, string name);
 
-  constructor(string memory name, address vault_)
-    ERC20(name, name)
-    ERC20Permit(name)
-  {
-    baseVault = UpgradeableBeacon(vault_);
+  function initialize(string memory name, address vault_) public initializer {
+    __Context_init_unchained();
+    __ERC20_init_unchained(name, name);
+    __EIP712_init_unchained(name, '1');
+    __ERC20Permit_init_unchained(name);
+    __ERC165_init_unchained();
+    __AccessControl_init_unchained();
+    __UpgradeableBeacon__init(vault_);
     // Treasury
     _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
   }
@@ -66,22 +75,22 @@ contract Stablecoin is ERC20, ERC20Permit, AccessControl {
     string calldata symbol_,
     address token_
   ) external onlyRole(DEFAULT_ADMIN_ROLE) {
-    BeaconProxy proxy = new BeaconProxy(
-      address(baseVault),
-      abi.encodeWithSignature(
-        'initialize(uint256 minimumCollateralPercentage_, address priceSource_, string memory name_, string memory symbol_, address token_, address stablecoin_)',
-        minimumCollateralPercentage_,
-        priceSource_,
-        name_,
-        symbol_,
-        token_,
-        address(this)
-      )
+    address proxy = address(new BeaconProxy(address(this), ''));
+
+    IBaseVault(proxy).initialize(
+      minimumCollateralPercentage_,
+      priceSource_,
+      name_,
+      symbol_,
+      token_,
+      msg.sender
     );
 
-    vaults.push(address(proxy));
-    _setupRole(BURNER_ROLE, address(proxy));
+    vaults.push(proxy);
+    _setupRole(BURNER_ROLE, proxy);
     // Allow the vault to burn stablecoin
-    _setupRole(MINTER_ROLE, address(proxy));
+    _setupRole(MINTER_ROLE, proxy);
+
+    emit CreateVaultType(token_, name_);
   }
 }

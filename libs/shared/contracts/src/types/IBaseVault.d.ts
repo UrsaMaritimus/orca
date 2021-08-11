@@ -21,56 +21,130 @@ import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface IBaseVaultInterface extends ethers.utils.Interface {
   functions: {
-    "createVault()": FunctionFragment;
-    "destroyVault(uint256)": FunctionFragment;
+    "approve(address,uint256)": FunctionFragment;
+    "balanceOf(address)": FunctionFragment;
+    "depositCollateral(uint256,uint256)": FunctionFragment;
+    "getApproved(uint256)": FunctionFragment;
+    "initialize(uint256,address,string,string,address,address)": FunctionFragment;
+    "isApprovedForAll(address,address)": FunctionFragment;
+    "ownerOf(uint256)": FunctionFragment;
+    "safeTransferFrom(address,address,uint256)": FunctionFragment;
+    "setApprovalForAll(address,bool)": FunctionFragment;
+    "supportsInterface(bytes4)": FunctionFragment;
+    "transferFrom(address,address,uint256)": FunctionFragment;
     "transferVault(uint256,address)": FunctionFragment;
+    "vaultExists(uint256)": FunctionFragment;
+    "withdrawCollateral(uint256,uint256)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "createVault",
-    values?: undefined
+    functionFragment: "approve",
+    values: [string, BigNumberish]
+  ): string;
+  encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "depositCollateral",
+    values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "destroyVault",
+    functionFragment: "getApproved",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "initialize",
+    values: [BigNumberish, string, string, string, string, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "isApprovedForAll",
+    values: [string, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "ownerOf",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "safeTransferFrom",
+    values: [string, string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setApprovalForAll",
+    values: [string, boolean]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "supportsInterface",
+    values: [BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "transferFrom",
+    values: [string, string, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "transferVault",
     values: [BigNumberish, string]
   ): string;
+  encodeFunctionData(
+    functionFragment: "vaultExists",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "withdrawCollateral",
+    values: [BigNumberish, BigNumberish]
+  ): string;
 
+  decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "createVault",
+    functionFragment: "depositCollateral",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "destroyVault",
+    functionFragment: "getApproved",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "isApprovedForAll",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "safeTransferFrom",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setApprovalForAll",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "supportsInterface",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "transferFrom",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "transferVault",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "vaultExists",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "withdrawCollateral",
+    data: BytesLike
+  ): Result;
 
   events: {
-    "BorrowToken(uint256,uint256)": EventFragment;
-    "CreateVault(uint256,address)": EventFragment;
-    "DepositCollateral(uint256,uint256)": EventFragment;
-    "DestroyVault(uint256)": EventFragment;
-    "LiquidateVault(uint256,address,address,uint256,uint256)": EventFragment;
-    "PayBackToken(uint256,uint256,uint256)": EventFragment;
-    "TransferVault(uint256,address,address)": EventFragment;
-    "WithdrawCollateral(uint256,uint256)": EventFragment;
+    "Approval(address,address,uint256)": EventFragment;
+    "ApprovalForAll(address,address,bool)": EventFragment;
+    "Transfer(address,address,uint256)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "BorrowToken"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "CreateVault"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "DepositCollateral"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "DestroyVault"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "LiquidateVault"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "PayBackToken"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "TransferVault"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "WithdrawCollateral"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
 export class IBaseVault extends BaseContract {
@@ -117,12 +191,79 @@ export class IBaseVault extends BaseContract {
   interface: IBaseVaultInterface;
 
   functions: {
-    createVault(
+    approve(
+      to: string,
+      tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    destroyVault(
+    balanceOf(
+      owner: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { balance: BigNumber }>;
+
+    depositCollateral(
       vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    getApproved(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[string] & { operator: string }>;
+
+    initialize(
+      minimumCollateralPercentage_: BigNumberish,
+      priceSource_: string,
+      name_: string,
+      symbol_: string,
+      token_: string,
+      owner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    isApprovedForAll(
+      owner: string,
+      operator: string,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    ownerOf(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[string] & { owner: string }>;
+
+    "safeTransferFrom(address,address,uint256)"(
+      from: string,
+      to: string,
+      tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "safeTransferFrom(address,address,uint256,bytes)"(
+      from: string,
+      to: string,
+      tokenId: BigNumberish,
+      data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setApprovalForAll(
+      operator: string,
+      _approved: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    supportsInterface(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    transferFrom(
+      from: string,
+      to: string,
+      tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -131,14 +272,86 @@ export class IBaseVault extends BaseContract {
       to: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    vaultExists(
+      vaultID: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    withdrawCollateral(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
   };
 
-  createVault(
+  approve(
+    to: string,
+    tokenId: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  destroyVault(
+  balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+  depositCollateral(
     vaultID: BigNumberish,
+    amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  getApproved(
+    tokenId: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
+  initialize(
+    minimumCollateralPercentage_: BigNumberish,
+    priceSource_: string,
+    name_: string,
+    symbol_: string,
+    token_: string,
+    owner: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  isApprovedForAll(
+    owner: string,
+    operator: string,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+  "safeTransferFrom(address,address,uint256)"(
+    from: string,
+    to: string,
+    tokenId: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "safeTransferFrom(address,address,uint256,bytes)"(
+    from: string,
+    to: string,
+    tokenId: BigNumberish,
+    data: BytesLike,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setApprovalForAll(
+    operator: string,
+    _approved: boolean,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  supportsInterface(
+    interfaceId: BytesLike,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  transferFrom(
+    from: string,
+    to: string,
+    tokenId: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -148,124 +361,318 @@ export class IBaseVault extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  callStatic: {
-    createVault(overrides?: CallOverrides): Promise<void>;
+  vaultExists(
+    vaultID: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
-    destroyVault(
+  withdrawCollateral(
+    vaultID: BigNumberish,
+    amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  callStatic: {
+    approve(
+      to: string,
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    depositCollateral(
       vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    getApproved(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    initialize(
+      minimumCollateralPercentage_: BigNumberish,
+      priceSource_: string,
+      name_: string,
+      symbol_: string,
+      token_: string,
+      owner: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    isApprovedForAll(
+      owner: string,
+      operator: string,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+    "safeTransferFrom(address,address,uint256)"(
+      from: string,
+      to: string,
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "safeTransferFrom(address,address,uint256,bytes)"(
+      from: string,
+      to: string,
+      tokenId: BigNumberish,
+      data: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setApprovalForAll(
+      operator: string,
+      _approved: boolean,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    supportsInterface(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    transferFrom(
+      from: string,
+      to: string,
+      tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
     transferVault(
       vaultID: BigNumberish,
       to: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    vaultExists(
+      vaultID: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    withdrawCollateral(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
   };
 
   filters: {
-    BorrowToken(
-      vaultID?: null,
-      amount?: null
+    Approval(
+      owner?: string | null,
+      approved?: string | null,
+      tokenId?: BigNumberish | null
     ): TypedEventFilter<
-      [BigNumber, BigNumber],
-      { vaultID: BigNumber; amount: BigNumber }
+      [string, string, BigNumber],
+      { owner: string; approved: string; tokenId: BigNumber }
     >;
 
-    CreateVault(
-      vaultID?: null,
-      creator?: null
+    ApprovalForAll(
+      owner?: string | null,
+      operator?: string | null,
+      approved?: null
     ): TypedEventFilter<
-      [BigNumber, string],
-      { vaultID: BigNumber; creator: string }
+      [string, string, boolean],
+      { owner: string; operator: string; approved: boolean }
     >;
 
-    DepositCollateral(
-      vaultID?: null,
-      amount?: null
+    Transfer(
+      from?: string | null,
+      to?: string | null,
+      tokenId?: BigNumberish | null
     ): TypedEventFilter<
-      [BigNumber, BigNumber],
-      { vaultID: BigNumber; amount: BigNumber }
-    >;
-
-    DestroyVault(
-      vaultID?: null
-    ): TypedEventFilter<[BigNumber], { vaultID: BigNumber }>;
-
-    LiquidateVault(
-      vaultID?: null,
-      owner?: null,
-      buyer?: null,
-      amountPaid?: null,
-      tokenExtract?: null
-    ): TypedEventFilter<
-      [BigNumber, string, string, BigNumber, BigNumber],
-      {
-        vaultID: BigNumber;
-        owner: string;
-        buyer: string;
-        amountPaid: BigNumber;
-        tokenExtract: BigNumber;
-      }
-    >;
-
-    PayBackToken(
-      vaultID?: null,
-      amount?: null,
-      closingFee?: null
-    ): TypedEventFilter<
-      [BigNumber, BigNumber, BigNumber],
-      { vaultID: BigNumber; amount: BigNumber; closingFee: BigNumber }
-    >;
-
-    TransferVault(
-      vaultID?: null,
-      from?: null,
-      to?: null
-    ): TypedEventFilter<
-      [BigNumber, string, string],
-      { vaultID: BigNumber; from: string; to: string }
-    >;
-
-    WithdrawCollateral(
-      vaultID?: null,
-      amount?: null
-    ): TypedEventFilter<
-      [BigNumber, BigNumber],
-      { vaultID: BigNumber; amount: BigNumber }
+      [string, string, BigNumber],
+      { from: string; to: string; tokenId: BigNumber }
     >;
   };
 
   estimateGas: {
-    createVault(
+    approve(
+      to: string,
+      tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    destroyVault(
+    balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    depositCollateral(
       vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    getApproved(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    initialize(
+      minimumCollateralPercentage_: BigNumberish,
+      priceSource_: string,
+      name_: string,
+      symbol_: string,
+      token_: string,
+      owner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    isApprovedForAll(
+      owner: string,
+      operator: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    ownerOf(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "safeTransferFrom(address,address,uint256)"(
+      from: string,
+      to: string,
+      tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "safeTransferFrom(address,address,uint256,bytes)"(
+      from: string,
+      to: string,
+      tokenId: BigNumberish,
+      data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setApprovalForAll(
+      operator: string,
+      _approved: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    supportsInterface(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    transferFrom(
+      from: string,
+      to: string,
+      tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     transferVault(
       vaultID: BigNumberish,
       to: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    vaultExists(
+      vaultID: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    withdrawCollateral(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    createVault(
+    approve(
+      to: string,
+      tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    destroyVault(
+    balanceOf(
+      owner: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    depositCollateral(
       vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    getApproved(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    initialize(
+      minimumCollateralPercentage_: BigNumberish,
+      priceSource_: string,
+      name_: string,
+      symbol_: string,
+      token_: string,
+      owner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    isApprovedForAll(
+      owner: string,
+      operator: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    ownerOf(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "safeTransferFrom(address,address,uint256)"(
+      from: string,
+      to: string,
+      tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "safeTransferFrom(address,address,uint256,bytes)"(
+      from: string,
+      to: string,
+      tokenId: BigNumberish,
+      data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setApprovalForAll(
+      operator: string,
+      _approved: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    supportsInterface(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    transferFrom(
+      from: string,
+      to: string,
+      tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     transferVault(
       vaultID: BigNumberish,
       to: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    vaultExists(
+      vaultID: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    withdrawCollateral(
+      vaultID: BigNumberish,
+      amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

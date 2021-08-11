@@ -22,6 +22,7 @@ import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 interface StablecoinInterface extends ethers.utils.Interface {
   functions: {
     "BURNER_ROLE()": FunctionFragment;
+    "BaseVault_Interface()": FunctionFragment;
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "DOMAIN_SEPARATOR()": FunctionFragment;
     "MINTER_ROLE()": FunctionFragment;
@@ -44,15 +45,21 @@ interface StablecoinInterface extends ethers.utils.Interface {
     "revokeRole(bytes32,address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
+    "test()": FunctionFragment;
     "totalSupply()": FunctionFragment;
     "transfer(address,uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
+    "upgradeVault(address)": FunctionFragment;
     "vaultCount()": FunctionFragment;
     "vaults(uint256)": FunctionFragment;
   };
 
   encodeFunctionData(
     functionFragment: "BURNER_ROLE",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "BaseVault_Interface",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -136,6 +143,7 @@ interface StablecoinInterface extends ethers.utils.Interface {
     values: [BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
+  encodeFunctionData(functionFragment: "test", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "totalSupply",
     values?: undefined
@@ -149,6 +157,10 @@ interface StablecoinInterface extends ethers.utils.Interface {
     values: [string, string, BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "upgradeVault",
+    values: [string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "vaultCount",
     values?: undefined
   ): string;
@@ -159,6 +171,10 @@ interface StablecoinInterface extends ethers.utils.Interface {
 
   decodeFunctionResult(
     functionFragment: "BURNER_ROLE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "BaseVault_Interface",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -207,6 +223,7 @@ interface StablecoinInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "test", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "totalSupply",
     data: BytesLike
@@ -214,6 +231,10 @@ interface StablecoinInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "transferFrom",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "upgradeVault",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "vaultCount", data: BytesLike): Result;
@@ -281,6 +302,8 @@ export class Stablecoin extends BaseContract {
 
   functions: {
     BURNER_ROLE(overrides?: CallOverrides): Promise<[string]>;
+
+    BaseVault_Interface(overrides?: CallOverrides): Promise<[string]>;
 
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
@@ -385,6 +408,8 @@ export class Stablecoin extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<[string]>;
 
+    test(overrides?: CallOverrides): Promise<[string]>;
+
     totalSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     transfer(
@@ -400,12 +425,19 @@ export class Stablecoin extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    upgradeVault(
+      newBaseVault: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     vaultCount(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     vaults(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
   };
 
   BURNER_ROLE(overrides?: CallOverrides): Promise<string>;
+
+  BaseVault_Interface(overrides?: CallOverrides): Promise<string>;
 
   DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
@@ -510,6 +542,8 @@ export class Stablecoin extends BaseContract {
 
   symbol(overrides?: CallOverrides): Promise<string>;
 
+  test(overrides?: CallOverrides): Promise<string>;
+
   totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
   transfer(
@@ -525,12 +559,19 @@ export class Stablecoin extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  upgradeVault(
+    newBaseVault: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   vaultCount(overrides?: CallOverrides): Promise<BigNumber>;
 
   vaults(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   callStatic: {
     BURNER_ROLE(overrides?: CallOverrides): Promise<string>;
+
+    BaseVault_Interface(overrides?: CallOverrides): Promise<string>;
 
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
@@ -545,7 +586,7 @@ export class Stablecoin extends BaseContract {
       symbol_: string,
       token_: string,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<string>;
 
     allowance(
       owner: string,
@@ -635,6 +676,8 @@ export class Stablecoin extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<string>;
 
+    test(overrides?: CallOverrides): Promise<string>;
+
     totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
     transfer(
@@ -649,6 +692,11 @@ export class Stablecoin extends BaseContract {
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    upgradeVault(
+      newBaseVault: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     vaultCount(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -712,6 +760,8 @@ export class Stablecoin extends BaseContract {
 
   estimateGas: {
     BURNER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
+
+    BaseVault_Interface(overrides?: CallOverrides): Promise<BigNumber>;
 
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -819,6 +869,8 @@ export class Stablecoin extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<BigNumber>;
 
+    test(overrides?: CallOverrides): Promise<BigNumber>;
+
     totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
     transfer(
@@ -834,6 +886,11 @@ export class Stablecoin extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    upgradeVault(
+      newBaseVault: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     vaultCount(overrides?: CallOverrides): Promise<BigNumber>;
 
     vaults(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
@@ -841,6 +898,10 @@ export class Stablecoin extends BaseContract {
 
   populateTransaction: {
     BURNER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    BaseVault_Interface(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     DEFAULT_ADMIN_ROLE(
       overrides?: CallOverrides
@@ -956,6 +1017,8 @@ export class Stablecoin extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    test(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     totalSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     transfer(
@@ -968,6 +1031,11 @@ export class Stablecoin extends BaseContract {
       sender: string,
       recipient: string,
       amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    upgradeVault(
+      newBaseVault: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

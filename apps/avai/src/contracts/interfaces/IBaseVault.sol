@@ -1,32 +1,23 @@
 // SPDX-License-Identifier: agpl-3.0
 pragma solidity ^0.8.0;
 
-interface IBaseVault {
-  // Events for general vault operations
-  event CreateVault(uint256 vaultID, address creator);
-  event DestroyVault(uint256 vaultID);
-  event TransferVault(uint256 vaultID, address from, address to);
+import '@openzeppelin/contracts/token/ERC721/IERC721.sol';
 
-  // Buying out a vault event
-  event LiquidateVault(
-    uint256 vaultID,
-    address owner,
-    address buyer,
-    uint256 amountPaid,
-    uint256 tokenExtract
-  );
-
-  // Events for collateral operations
-  event DepositCollateral(uint256 vaultID, uint256 amount);
-  event WithdrawCollateral(uint256 vaultID, uint256 amount);
-
-  // Events for token operations
-  event BorrowToken(uint256 vaultID, uint256 amount);
-  event PayBackToken(uint256 vaultID, uint256 amount, uint256 closingFee);
-
-  function createVault() external;
-
-  function destroyVault(uint256 vaultID) external;
-
+interface IBaseVault is IERC721 {
   function transferVault(uint256 vaultID, address to) external;
+
+  function vaultExists(uint256 vaultID) external view returns (bool);
+
+  function depositCollateral(uint256 vaultID, uint256 amount) external;
+
+  function withdrawCollateral(uint256 vaultID, uint256 amount) external;
+
+  function initialize(
+    uint256 minimumCollateralPercentage_,
+    address priceSource_,
+    string memory name_,
+    string memory symbol_,
+    address token_,
+    address owner
+  ) external;
 }

@@ -19,24 +19,13 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
-interface UpgradeableBeaconInterface extends ethers.utils.Interface {
+interface OwnableUpgradeableInterface extends ethers.utils.Interface {
   functions: {
-    "__UpgradeableBeacon__init(address)": FunctionFragment;
-    "implementation()": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
-    "upgradeTo(address)": FunctionFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: "__UpgradeableBeacon__init",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "implementation",
-    values?: undefined
-  ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
@@ -46,16 +35,7 @@ interface UpgradeableBeaconInterface extends ethers.utils.Interface {
     functionFragment: "transferOwnership",
     values: [string]
   ): string;
-  encodeFunctionData(functionFragment: "upgradeTo", values: [string]): string;
 
-  decodeFunctionResult(
-    functionFragment: "__UpgradeableBeacon__init",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "implementation",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
@@ -65,18 +45,15 @@ interface UpgradeableBeaconInterface extends ethers.utils.Interface {
     functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "upgradeTo", data: BytesLike): Result;
 
   events: {
     "OwnershipTransferred(address,address)": EventFragment;
-    "Upgraded(address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Upgraded"): EventFragment;
 }
 
-export class UpgradeableBeacon extends BaseContract {
+export class OwnableUpgradeable extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -117,16 +94,9 @@ export class UpgradeableBeacon extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: UpgradeableBeaconInterface;
+  interface: OwnableUpgradeableInterface;
 
   functions: {
-    __UpgradeableBeacon__init(
-      implementation_: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    implementation(overrides?: CallOverrides): Promise<[string]>;
-
     owner(overrides?: CallOverrides): Promise<[string]>;
 
     renounceOwnership(
@@ -137,19 +107,7 @@ export class UpgradeableBeacon extends BaseContract {
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
-
-    upgradeTo(
-      newImplementation: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
   };
-
-  __UpgradeableBeacon__init(
-    implementation_: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  implementation(overrides?: CallOverrides): Promise<string>;
 
   owner(overrides?: CallOverrides): Promise<string>;
 
@@ -162,30 +120,13 @@ export class UpgradeableBeacon extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  upgradeTo(
-    newImplementation: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   callStatic: {
-    __UpgradeableBeacon__init(
-      implementation_: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    implementation(overrides?: CallOverrides): Promise<string>;
-
     owner(overrides?: CallOverrides): Promise<string>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
     transferOwnership(
       newOwner: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    upgradeTo(
-      newImplementation: string,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -198,20 +139,9 @@ export class UpgradeableBeacon extends BaseContract {
       [string, string],
       { previousOwner: string; newOwner: string }
     >;
-
-    Upgraded(
-      childImplementation?: string | null
-    ): TypedEventFilter<[string], { childImplementation: string }>;
   };
 
   estimateGas: {
-    __UpgradeableBeacon__init(
-      implementation_: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    implementation(overrides?: CallOverrides): Promise<BigNumber>;
-
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceOwnership(
@@ -222,21 +152,9 @@ export class UpgradeableBeacon extends BaseContract {
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
-
-    upgradeTo(
-      newImplementation: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    __UpgradeableBeacon__init(
-      implementation_: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    implementation(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     renounceOwnership(
@@ -245,11 +163,6 @@ export class UpgradeableBeacon extends BaseContract {
 
     transferOwnership(
       newOwner: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    upgradeTo(
-      newImplementation: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

@@ -21,11 +21,11 @@ contract BaseVault is
   ERC721Upgradeable,
   ERC721EnumerableUpgradeable,
   ReentrancyGuardUpgradeable,
-  IBaseVault,
   AccessControlUpgradeable
 {
   bytes32 public constant TREASURY_ROLE = keccak256('TREASURY_ROLE');
   using SafeERC20 for IERC20;
+  using SafeERC20 for IStablecoin;
   using Counters for Counters.Counter;
   Counters.Counter private _userVaultIds;
   /**
@@ -52,15 +52,37 @@ contract BaseVault is
 
   // Address that corresponds to liquidater
   address public stabilityPool;
+  // address that corresponds to gateway, if there is one
+  address public gateway;
   // Vault that corresponds to the treasury
   uint256 public treasury;
 
   // Vault information
-  mapping(uint256 => bool) public vaultExistence;
+  mapping(uint256 => bool) private vaultExistence;
   mapping(uint256 => uint256) public vaultCollateral;
   mapping(uint256 => uint256) public vaultDebt;
 
-  constructor() {}
+  // Events for general vault operations
+  event CreateVault(uint256 vaultID, address creator);
+  event DestroyVault(uint256 vaultID);
+  event TransferVault(uint256 vaultID, address from, address to);
+
+  // Buying out a vault event
+  event LiquidateVault(
+    uint256 vaultID,
+    address owner,
+    address buyer,
+    uint256 amountPaid,
+    uint256 tokenExtract
+  );
+
+  // Events for collateral operations
+  event DepositCollateral(uint256 vaultID, uint256 amount);
+  event WithdrawCollateral(uint256 vaultID, uint256 amount);
+
+  // Events for token operations
+  event BorrowToken(uint256 vaultID, uint256 amount);
+  event PayBackToken(uint256 vaultID, uint256 amount, uint256 closingFee);
 
   // Lets begin!
   function initialize(
@@ -69,10 +91,8 @@ contract BaseVault is
     string memory name_,
     string memory symbol_,
     address token_,
-    address stablecoin_
+    address owner
   ) public initializer {
-    assert(priceSource_ != address(0));
-    assert(minimumCollateralPercentage_ != 0);
     // Initializations
     __Context_init_unchained();
     __ERC165_init_unchained();
@@ -80,7 +100,8 @@ contract BaseVault is
     __ERC721Enumerable_init_unchained();
     __ReentrancyGuard_init_unchained();
     __AccessControl_init_unchained();
-
+    assert(priceSource_ != address(0));
+    assert(minimumCollateralPercentage_ != 0);
     //Initial settings!
     debtCeiling = 10e18; // 10 dollas
     closingFee = 50; // 0.5%
@@ -90,11 +111,14 @@ contract BaseVault is
     gainRatio = 11; // /10 so 1.1, or 10%
     // Initially, will deploy later
     stabilityPool = address(0);
-
+    gateway = address(0);
     priceSource = AggregatorV3Interface(priceSource_);
 
     token = IERC20(token_);
-    stablecoin = IStablecoin(stablecoin_);
+    stablecoin = IStablecoin(msg.sender);
+    _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+    _setupRole(TREASURY_ROLE, owner);
+    _setRoleAdmin(TREASURY_ROLE, TREASURY_ROLE);
 
     minimumCollateralPercentage = minimumCollateralPercentage_;
   }
@@ -104,11 +128,15 @@ contract BaseVault is
    */
   modifier onlyVaultOwner(uint256 vaultID) {
     require(vaultExistence[vaultID], 'Vault does not exist');
-    require(ownerOf(vaultID) == msg.sender, 'Vault is not owned by you');
+    // Either owner of vault or gateway for AVAX.
+    require(
+      ownerOf(vaultID) == msg.sender || msg.sender == gateway,
+      'Vault is not owned by you'
+    );
     _;
   }
   /**
-   * @dev Only liquidater can do anything with this modifier
+   * @dev Only liquidater can do anything with this modifier (if address === 0, then all users can liquidate)
    */
   modifier onlyLiquidater() {
     require(
@@ -116,6 +144,21 @@ contract BaseVault is
       'buyRiskyVault disabled for public'
     );
     _;
+  }
+
+  /**
+   * @dev allows checking if vault exists or not
+   */
+  function vaultExists(uint256 vaultID) public view returns (bool) {
+    return vaultExistence[vaultID];
+  }
+
+  /**
+   * @dev changes the Treasury. Can only every be one treasury!
+   */
+  function changeTreasury(address to) external onlyRole(TREASURY_ROLE) {
+    _setupRole(TREASURY_ROLE, to);
+    revokeRole(TREASURY_ROLE, msg.sender);
   }
 
   /**
@@ -177,6 +220,14 @@ contract BaseVault is
       'Stability pool cannot be zero address'
     );
     stabilityPool = stabilityPool_;
+  }
+
+  /**
+   * @dev Set the WAVAX gateway for this vault if it needs one
+   */
+  function setGateway(address gateway_) external onlyRole(TREASURY_ROLE) {
+    require(gateway_ != address(0), 'Gateway cannot be zero address');
+    gateway = gateway_;
   }
 
   /**
@@ -273,7 +324,7 @@ contract BaseVault is
    *
    * Emits a CreateVault event
    */
-  function createVault() external override {
+  function createVault() external {
     // Increment ID
     _userVaultIds.increment();
     // Assign ID to vault
@@ -298,7 +349,6 @@ contract BaseVault is
   function destroyVault(uint256 vaultID)
     external
     virtual
-    override
     onlyVaultOwner(vaultID)
     nonReentrant
   {
@@ -324,7 +374,6 @@ contract BaseVault is
    */
   function transferVault(uint256 vaultID, address to)
     external
-    override
     onlyVaultOwner(vaultID)
   {
     // burn erc721 (vaultId)
@@ -405,7 +454,6 @@ contract BaseVault is
    */
   function withdrawCollateral(uint256 vaultID, uint256 amount)
     external
-    virtual
     onlyVaultOwner(vaultID)
     nonReentrant
   {
@@ -515,7 +563,7 @@ contract BaseVault is
       vaultDebt[vaultId_]
     );
 
-    debtValue = debtValue / 1e8;
+    debtValue = debtValue / tokenPeg;
 
     return debtValue / debtRatio;
   }
@@ -575,14 +623,17 @@ contract BaseVault is
       'Token balance too low to pay off outstanding debt'
     );
 
+    stablecoin.safeTransferFrom(msg.sender, address(this), halfDebt);
+
     vaultDebt[vaultID_] -= halfDebt;
 
     uint256 _closingFee = (halfDebt * closingFee * getPricePeg()) /
       (getPriceSource() * 10000);
 
-    vaultCollateral[vaultID_] -= _closingFee;
+    vaultCollateral[vaultID_] -= (_closingFee + tokenExtract);
     vaultCollateral[treasury] += _closingFee;
 
+    tokenDebt[msg.sender] += tokenExtract;
     stablecoin.burn(msg.sender, halfDebt);
 
     _subFromTotalDebt(halfDebt);

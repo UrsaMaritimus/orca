@@ -12,6 +12,7 @@ import {
   BaseContract,
   ContractTransaction,
   Overrides,
+  PayableOverrides,
   CallOverrides,
 } from "ethers";
 import { BytesLike } from "@ethersproject/bytes";
@@ -19,23 +20,23 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
-interface UpgradeableBeaconInterface extends ethers.utils.Interface {
+interface WAVAXGatewayInterface extends ethers.utils.Interface {
   functions: {
-    "__UpgradeableBeacon__init(address)": FunctionFragment;
-    "implementation()": FunctionFragment;
+    "authorizeVault(address)": FunctionFragment;
+    "depositAVAX(address,uint256)": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
-    "upgradeTo(address)": FunctionFragment;
+    "withdrawAVAX(address,uint256,uint256)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "__UpgradeableBeacon__init",
+    functionFragment: "authorizeVault",
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "implementation",
-    values?: undefined
+    functionFragment: "depositAVAX",
+    values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
@@ -46,14 +47,17 @@ interface UpgradeableBeaconInterface extends ethers.utils.Interface {
     functionFragment: "transferOwnership",
     values: [string]
   ): string;
-  encodeFunctionData(functionFragment: "upgradeTo", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "withdrawAVAX",
+    values: [string, BigNumberish, BigNumberish]
+  ): string;
 
   decodeFunctionResult(
-    functionFragment: "__UpgradeableBeacon__init",
+    functionFragment: "authorizeVault",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "implementation",
+    functionFragment: "depositAVAX",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
@@ -65,18 +69,19 @@ interface UpgradeableBeaconInterface extends ethers.utils.Interface {
     functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "upgradeTo", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "withdrawAVAX",
+    data: BytesLike
+  ): Result;
 
   events: {
     "OwnershipTransferred(address,address)": EventFragment;
-    "Upgraded(address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Upgraded"): EventFragment;
 }
 
-export class UpgradeableBeacon extends BaseContract {
+export class WAVAXGateway extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -117,15 +122,19 @@ export class UpgradeableBeacon extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: UpgradeableBeaconInterface;
+  interface: WAVAXGatewayInterface;
 
   functions: {
-    __UpgradeableBeacon__init(
-      implementation_: string,
+    authorizeVault(
+      vault: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    implementation(overrides?: CallOverrides): Promise<[string]>;
+    depositAVAX(
+      vault: string,
+      vaultID: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
@@ -138,18 +147,24 @@ export class UpgradeableBeacon extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    upgradeTo(
-      newImplementation: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
+    withdrawAVAX(
+      vault: string,
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
 
-  __UpgradeableBeacon__init(
-    implementation_: string,
+  authorizeVault(
+    vault: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  implementation(overrides?: CallOverrides): Promise<string>;
+  depositAVAX(
+    vault: string,
+    vaultID: BigNumberish,
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   owner(overrides?: CallOverrides): Promise<string>;
 
@@ -162,18 +177,21 @@ export class UpgradeableBeacon extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  upgradeTo(
-    newImplementation: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
+  withdrawAVAX(
+    vault: string,
+    vaultID: BigNumberish,
+    amount: BigNumberish,
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    __UpgradeableBeacon__init(
-      implementation_: string,
+    authorizeVault(vault: string, overrides?: CallOverrides): Promise<void>;
+
+    depositAVAX(
+      vault: string,
+      vaultID: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    implementation(overrides?: CallOverrides): Promise<string>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
@@ -184,8 +202,10 @@ export class UpgradeableBeacon extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    upgradeTo(
-      newImplementation: string,
+    withdrawAVAX(
+      vault: string,
+      vaultID: BigNumberish,
+      amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -198,19 +218,19 @@ export class UpgradeableBeacon extends BaseContract {
       [string, string],
       { previousOwner: string; newOwner: string }
     >;
-
-    Upgraded(
-      childImplementation?: string | null
-    ): TypedEventFilter<[string], { childImplementation: string }>;
   };
 
   estimateGas: {
-    __UpgradeableBeacon__init(
-      implementation_: string,
+    authorizeVault(
+      vault: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    implementation(overrides?: CallOverrides): Promise<BigNumber>;
+    depositAVAX(
+      vault: string,
+      vaultID: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -223,19 +243,25 @@ export class UpgradeableBeacon extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    upgradeTo(
-      newImplementation: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
+    withdrawAVAX(
+      vault: string,
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    __UpgradeableBeacon__init(
-      implementation_: string,
+    authorizeVault(
+      vault: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    implementation(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    depositAVAX(
+      vault: string,
+      vaultID: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -248,9 +274,11 @@ export class UpgradeableBeacon extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    upgradeTo(
-      newImplementation: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
+    withdrawAVAX(
+      vault: string,
+      vaultID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };
 }

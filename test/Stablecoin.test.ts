@@ -1,19 +1,22 @@
 import { expect } from 'chai';
 
-import { ethers, waffle } from 'hardhat';
+import { ethers, waffle, upgrades } from 'hardhat';
 
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
+
 import {
   AVAI__factory,
   AVAI,
-  AVAXVault,
-  AVAXVault__factory,
+  BaseVault,
+  BaseVault__factory,
 } from '../libs/shared/contracts/src';
 
-describe('Stablecoin', function () {
+describe('Stablecoin', async function () {
   let accounts;
   let Stablecoin: AVAI__factory;
+  let Vault: BaseVault__factory;
   let avai: AVAI;
+  let vault: BaseVault;
 
   before(async () => {
     accounts = await ethers.getSigners();
@@ -21,10 +24,22 @@ describe('Stablecoin', function () {
       'AVAI',
       accounts[0]
     )) as AVAI__factory;
+
+    Vault = (await ethers.getContractFactory(
+      'BaseVault',
+      accounts[0]
+    )) as BaseVault__factory;
   });
 
   beforeEach(async function () {
-    avai = await Stablecoin.deploy('AVAI');
+    vault = await Vault.deploy();
+    await vault.deployed();
+    expect(vault.address).to.be.properAddress;
+
+    avai = (await upgrades.deployProxy(Stablecoin, [
+      'AVAI',
+      vault.address,
+    ])) as AVAI;
     await avai.deployed();
   });
 
@@ -137,77 +152,67 @@ describe('Stablecoin', function () {
     ).to.changeTokenBalance(avai, accounts[1], -50000);
   });
 
-  it('Adds a vault type', async () => {
-    const Vault = (await ethers.getContractFactory(
-      'AVAXVault'
-    )) as AVAXVault__factory;
-    const minimumCollateralPercentage = 150;
-    const priceSource_ = '0x5498BB86BC934c8D34FDA08E81D444153d0D06aD';
-    const symbol = 'avAVAX';
-    const name = 'avAVAX';
-    const token = '0xd00ae08403B9bbb9124bB305C09058E32C39A48c';
-
-    const vault = await Vault.deploy(
-      priceSource_,
-      symbol,
-      name,
-      token,
-      avai.address
-    );
-    await vault.deployed();
-    expect(vault.address).to.be.properAddress;
-
-    const initVaultCount = await avai.vaultCount();
-    // Initially
-    expect(await avai.vaultExists(1)).to.equal(false);
-    expect(
-      await avai.hasRole(await avai.BURNER_ROLE(), vault.address)
-    ).to.equal(false);
-    expect(
-      await avai.hasRole(await avai.MINTER_ROLE(), vault.address)
-    ).to.equal(false);
-
-    // Add vault to stablecoin
-    await expect(avai.addVault(vault.address))
+  it('Succesfully adds vaults', async () => {
+    await expect(
+      avai.addVault(
+        150,
+        '0x5498BB86BC934c8D34FDA08E81D444153d0D06aD',
+        'avAVAX',
+        'avAVAX',
+        '0xd00ae08403B9bbb9124bB305C09058E32C39A48c'
+      )
+    )
       .to.emit(avai, 'CreateVaultType')
-      .withArgs(1, vault.address);
+      .withArgs('0xd00ae08403B9bbb9124bB305C09058E32C39A48c', 'avAVAX');
 
-    // Make sure vault count goes up
-    expect(await avai.vaultCount()).to.equal(initVaultCount.add(1));
-    // Make sure vaults is updated
-    expect(await avai.vaults(1)).to.equal(vault.address);
-    expect(await avai.vaultExists(1)).to.equal(true);
+    await expect(
+      avai.addVault(
+        150,
+        '0x5498BB86BC934c8D34FDA08E81D444153d0D06aD',
+        'avAVAX',
+        'avAVAX',
+        '0xd00ae08403B9bbb9124bB305C09058E32C39A48c'
+      )
+    )
+      .to.emit(avai, 'CreateVaultType')
+      .withArgs('0xd00ae08403B9bbb9124bB305C09058E32C39A48c', 'avAVAX');
 
-    // Check if role has updated!
-    expect(
-      await avai.hasRole(await avai.BURNER_ROLE(), vault.address)
-    ).to.equal(true);
-    expect(
-      await avai.hasRole(await avai.MINTER_ROLE(), vault.address)
-    ).to.equal(true);
+    expect(await avai.vaults(1)).to.be.properAddress;
   });
 
-  it('only allows DEFAULT_ADMIN_ROLE to add a vault', async () => {
-    const Vault = (await ethers.getContractFactory(
-      'AVAXVault'
-    )) as AVAXVault__factory;
-    const minimumCollateralPercentage = 150;
-    const priceSource_ = '0x5498BB86BC934c8D34FDA08E81D444153d0D06aD';
-    const symbol = 'avAVAX';
-    const name = 'avAVAX';
-    const token = '0xd00ae08403B9bbb9124bB305C09058E32C39A48c';
+  it('only allows admin to add vaults', async () => {
+    await expect(
+      avai
+        .connect(accounts[1])
+        .addVault(
+          150,
+          '0x5498BB86BC934c8D34FDA08E81D444153d0D06aD',
+          'avAVAX',
+          'avAVAX',
+          '0xd00ae08403B9bbb9124bB305C09058E32C39A48c'
+        )
+    ).to.be.reverted;
+  });
 
-    const vault = await Vault.deploy(
-      priceSource_,
-      symbol,
-      name,
-      token,
-      avai.address
+  it('gives minter and burner role to vault', async () => {
+    await expect(
+      avai.addVault(
+        150,
+        '0x5498BB86BC934c8D34FDA08E81D444153d0D06aD',
+        'avAVAX',
+        'avAVAX',
+        '0xd00ae08403B9bbb9124bB305C09058E32C39A48c'
+      )
+    )
+      .to.emit(avai, 'CreateVaultType')
+      .withArgs('0xd00ae08403B9bbb9124bB305C09058E32C39A48c', 'avAVAX');
+    const vaultAddress = await avai.vaults(0);
+
+    expect(await avai.hasRole(await avai.MINTER_ROLE(), vaultAddress)).to.equal(
+      true
     );
-    await vault.deployed();
-    expect(vault.address).to.be.properAddress;
-
-    await expect(avai.connect(accounts[1]).addVault(vault.address)).to.be
-      .reverted;
+    expect(await avai.hasRole(await avai.BURNER_ROLE(), vaultAddress)).to.equal(
+      true
+    );
   });
 });

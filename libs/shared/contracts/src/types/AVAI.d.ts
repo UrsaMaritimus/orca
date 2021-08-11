@@ -25,6 +25,7 @@ interface AVAIInterface extends ethers.utils.Interface {
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "DOMAIN_SEPARATOR()": FunctionFragment;
     "MINTER_ROLE()": FunctionFragment;
+    "__UpgradeableBeacon__init(address)": FunctionFragment;
     "addVault(uint256,address,string,string,address)": FunctionFragment;
     "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
@@ -35,11 +36,15 @@ interface AVAIInterface extends ethers.utils.Interface {
     "getRoleAdmin(bytes32)": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
+    "implementation()": FunctionFragment;
     "increaseAllowance(address,uint256)": FunctionFragment;
+    "initialize(string,address)": FunctionFragment;
     "mint(address,uint256)": FunctionFragment;
     "name()": FunctionFragment;
     "nonces(address)": FunctionFragment;
+    "owner()": FunctionFragment;
     "permit(address,address,uint256,uint256,uint8,bytes32,bytes32)": FunctionFragment;
+    "renounceOwnership()": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
@@ -47,6 +52,8 @@ interface AVAIInterface extends ethers.utils.Interface {
     "totalSupply()": FunctionFragment;
     "transfer(address,uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
+    "transferOwnership(address)": FunctionFragment;
+    "upgradeTo(address)": FunctionFragment;
     "vaultCount()": FunctionFragment;
     "vaults(uint256)": FunctionFragment;
   };
@@ -66,6 +73,10 @@ interface AVAIInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "MINTER_ROLE",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "__UpgradeableBeacon__init",
+    values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "addVault",
@@ -102,8 +113,16 @@ interface AVAIInterface extends ethers.utils.Interface {
     values: [BytesLike, string]
   ): string;
   encodeFunctionData(
+    functionFragment: "implementation",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "increaseAllowance",
     values: [string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "initialize",
+    values: [string, string]
   ): string;
   encodeFunctionData(
     functionFragment: "mint",
@@ -111,6 +130,7 @@ interface AVAIInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "nonces", values: [string]): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "permit",
     values: [
@@ -122,6 +142,10 @@ interface AVAIInterface extends ethers.utils.Interface {
       BytesLike,
       BytesLike
     ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "renounceOwnership",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "renounceRole",
@@ -149,6 +173,11 @@ interface AVAIInterface extends ethers.utils.Interface {
     values: [string, string, BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "transferOwnership",
+    values: [string]
+  ): string;
+  encodeFunctionData(functionFragment: "upgradeTo", values: [string]): string;
+  encodeFunctionData(
     functionFragment: "vaultCount",
     values?: undefined
   ): string;
@@ -173,6 +202,10 @@ interface AVAIInterface extends ethers.utils.Interface {
     functionFragment: "MINTER_ROLE",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "__UpgradeableBeacon__init",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "addVault", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
@@ -190,13 +223,23 @@ interface AVAIInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "implementation",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "increaseAllowance",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "nonces", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "permit", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "renounceOwnership",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "renounceRole",
     data: BytesLike
@@ -216,24 +259,33 @@ interface AVAIInterface extends ethers.utils.Interface {
     functionFragment: "transferFrom",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "transferOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "upgradeTo", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "vaultCount", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "vaults", data: BytesLike): Result;
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
-    "CreateVaultType(uint256,address)": EventFragment;
+    "CreateVaultType(address,string)": EventFragment;
+    "OwnershipTransferred(address,address)": EventFragment;
     "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
     "RoleGranted(bytes32,address,address)": EventFragment;
     "RoleRevoked(bytes32,address,address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
+    "Upgraded(address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "CreateVaultType"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Upgraded"): EventFragment;
 }
 
 export class AVAI extends BaseContract {
@@ -288,6 +340,11 @@ export class AVAI extends BaseContract {
 
     MINTER_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
+    __UpgradeableBeacon__init(
+      implementation_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     addVault(
       minimumCollateralPercentage_: BigNumberish,
       priceSource_: string,
@@ -339,9 +396,17 @@ export class AVAI extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    implementation(overrides?: CallOverrides): Promise<[string]>;
+
     increaseAllowance(
       spender: string,
       addedValue: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    initialize(
+      name: string,
+      vault_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -355,6 +420,8 @@ export class AVAI extends BaseContract {
 
     nonces(owner: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
+    owner(overrides?: CallOverrides): Promise<[string]>;
+
     permit(
       owner: string,
       spender: string,
@@ -363,6 +430,10 @@ export class AVAI extends BaseContract {
       v: BigNumberish,
       r: BytesLike,
       s: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -400,6 +471,16 @@ export class AVAI extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    transferOwnership(
+      newOwner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    upgradeTo(
+      newImplementation: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     vaultCount(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     vaults(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
@@ -412,6 +493,11 @@ export class AVAI extends BaseContract {
   DOMAIN_SEPARATOR(overrides?: CallOverrides): Promise<string>;
 
   MINTER_ROLE(overrides?: CallOverrides): Promise<string>;
+
+  __UpgradeableBeacon__init(
+    implementation_: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   addVault(
     minimumCollateralPercentage_: BigNumberish,
@@ -464,9 +550,17 @@ export class AVAI extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  implementation(overrides?: CallOverrides): Promise<string>;
+
   increaseAllowance(
     spender: string,
     addedValue: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  initialize(
+    name: string,
+    vault_: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -480,6 +574,8 @@ export class AVAI extends BaseContract {
 
   nonces(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
+  owner(overrides?: CallOverrides): Promise<string>;
+
   permit(
     owner: string,
     spender: string,
@@ -488,6 +584,10 @@ export class AVAI extends BaseContract {
     v: BigNumberish,
     r: BytesLike,
     s: BytesLike,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  renounceOwnership(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -525,6 +625,16 @@ export class AVAI extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  transferOwnership(
+    newOwner: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  upgradeTo(
+    newImplementation: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   vaultCount(overrides?: CallOverrides): Promise<BigNumber>;
 
   vaults(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
@@ -537,6 +647,11 @@ export class AVAI extends BaseContract {
     DOMAIN_SEPARATOR(overrides?: CallOverrides): Promise<string>;
 
     MINTER_ROLE(overrides?: CallOverrides): Promise<string>;
+
+    __UpgradeableBeacon__init(
+      implementation_: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     addVault(
       minimumCollateralPercentage_: BigNumberish,
@@ -589,11 +704,19 @@ export class AVAI extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    implementation(overrides?: CallOverrides): Promise<string>;
+
     increaseAllowance(
       spender: string,
       addedValue: BigNumberish,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    initialize(
+      name: string,
+      vault_: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     mint(
       account: string,
@@ -605,6 +728,8 @@ export class AVAI extends BaseContract {
 
     nonces(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
+    owner(overrides?: CallOverrides): Promise<string>;
+
     permit(
       owner: string,
       spender: string,
@@ -615,6 +740,8 @@ export class AVAI extends BaseContract {
       s: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
     renounceRole(
       role: BytesLike,
@@ -650,6 +777,16 @@ export class AVAI extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    transferOwnership(
+      newOwner: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    upgradeTo(
+      newImplementation: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     vaultCount(overrides?: CallOverrides): Promise<BigNumber>;
 
     vaults(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
@@ -666,11 +803,16 @@ export class AVAI extends BaseContract {
     >;
 
     CreateVaultType(
-      vaultID?: null,
-      vault?: null
+      token?: null,
+      name?: null
+    ): TypedEventFilter<[string, string], { token: string; name: string }>;
+
+    OwnershipTransferred(
+      previousOwner?: string | null,
+      newOwner?: string | null
     ): TypedEventFilter<
-      [BigNumber, string],
-      { vaultID: BigNumber; vault: string }
+      [string, string],
+      { previousOwner: string; newOwner: string }
     >;
 
     RoleAdminChanged(
@@ -708,6 +850,10 @@ export class AVAI extends BaseContract {
       [string, string, BigNumber],
       { from: string; to: string; value: BigNumber }
     >;
+
+    Upgraded(
+      childImplementation?: string | null
+    ): TypedEventFilter<[string], { childImplementation: string }>;
   };
 
   estimateGas: {
@@ -718,6 +864,11 @@ export class AVAI extends BaseContract {
     DOMAIN_SEPARATOR(overrides?: CallOverrides): Promise<BigNumber>;
 
     MINTER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
+
+    __UpgradeableBeacon__init(
+      implementation_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
 
     addVault(
       minimumCollateralPercentage_: BigNumberish,
@@ -773,9 +924,17 @@ export class AVAI extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    implementation(overrides?: CallOverrides): Promise<BigNumber>;
+
     increaseAllowance(
       spender: string,
       addedValue: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    initialize(
+      name: string,
+      vault_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -789,6 +948,8 @@ export class AVAI extends BaseContract {
 
     nonces(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
+    owner(overrides?: CallOverrides): Promise<BigNumber>;
+
     permit(
       owner: string,
       spender: string,
@@ -797,6 +958,10 @@ export class AVAI extends BaseContract {
       v: BigNumberish,
       r: BytesLike,
       s: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -834,6 +999,16 @@ export class AVAI extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    transferOwnership(
+      newOwner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    upgradeTo(
+      newImplementation: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     vaultCount(overrides?: CallOverrides): Promise<BigNumber>;
 
     vaults(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
@@ -849,6 +1024,11 @@ export class AVAI extends BaseContract {
     DOMAIN_SEPARATOR(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     MINTER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    __UpgradeableBeacon__init(
+      implementation_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
     addVault(
       minimumCollateralPercentage_: BigNumberish,
@@ -907,9 +1087,17 @@ export class AVAI extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    implementation(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     increaseAllowance(
       spender: string,
       addedValue: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    initialize(
+      name: string,
+      vault_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -926,6 +1114,8 @@ export class AVAI extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     permit(
       owner: string,
       spender: string,
@@ -934,6 +1124,10 @@ export class AVAI extends BaseContract {
       v: BigNumberish,
       r: BytesLike,
       s: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -968,6 +1162,16 @@ export class AVAI extends BaseContract {
       sender: string,
       recipient: string,
       amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    transferOwnership(
+      newOwner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    upgradeTo(
+      newImplementation: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

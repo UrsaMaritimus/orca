@@ -1,26 +1,30 @@
 import { expect } from 'chai';
 
-import { ethers, waffle } from 'hardhat';
+import { ethers, upgrades } from 'hardhat';
 
 import {
   AVAI__factory,
   AVAI,
-  AVAXVault,
-  AVAXVault__factory,
-  AVAXLiquidator,
-  AVAXLiquidator__factory,
+  BaseVault,
+  BaseVault__factory,
+  WAVAXGateway,
+  WAVAXGateway__factory,
   PriceSource__factory,
   PriceSource,
+  WAVAX__factory,
+  WAVAX,
 } from '../libs/shared/contracts/src';
 
-describe('Liquidator interactions', function () {
+describe('Avax Vault Test with Gateway', function () {
   let accounts;
-  let Vault: AVAXVault__factory;
+  let Vault: BaseVault__factory;
   let Stablecoin: AVAI__factory;
-  let vault: AVAXVault;
+  let Gateway: WAVAXGateway__factory;
+  let vault: BaseVault;
   let avai: AVAI;
-  let Liq: AVAXLiquidator__factory;
-  let liq: AVAXLiquidator;
+  let wVault: BaseVault;
+  let gateway: WAVAXGateway;
+  let wavax: WAVAX;
   let FakePrice: PriceSource__factory;
   let fakePrice: PriceSource;
 
@@ -28,24 +32,21 @@ describe('Liquidator interactions', function () {
   const priceSource_ = '0x5498BB86BC934c8D34FDA08E81D444153d0D06aD';
   const symbol = 'avAVAX';
   const name = 'avAVAX';
-  //WAVAX
   const token = '0xd00ae08403B9bbb9124bB305C09058E32C39A48c';
 
   before(async () => {
     accounts = await ethers.getSigners();
     Vault = (await ethers.getContractFactory(
-      'AVAXVault'
-    )) as AVAXVault__factory;
+      'BaseVault'
+    )) as BaseVault__factory;
     Stablecoin = (await ethers.getContractFactory(
       'AVAI',
       accounts[0]
     )) as AVAI__factory;
-
-    Liq = (await ethers.getContractFactory(
-      'AVAXLiquidator',
+    Gateway = (await ethers.getContractFactory(
+      'WAVAXGateway',
       accounts[0]
-    )) as AVAXLiquidator__factory;
-
+    )) as WAVAXGateway__factory;
     FakePrice = (await ethers.getContractFactory(
       'PriceSource',
       accounts[0]
@@ -53,86 +54,68 @@ describe('Liquidator interactions', function () {
   });
 
   beforeEach(async function () {
-    avai = await Stablecoin.deploy('AVAI');
+    vault = await Vault.deploy();
+    await vault.deployed();
+    expect(vault.address).to.be.properAddress;
+
+    avai = (await upgrades.deployProxy(Stablecoin, [
+      'AVAI',
+      vault.address,
+    ])) as AVAI;
     await avai.deployed();
 
+    gateway = await Gateway.deploy(token);
+    await gateway.deployed();
+    expect(gateway.address).to.be.properAddress;
+
     expect(avai.address).to.be.properAddress;
-
-    vault = await Vault.deploy(priceSource_, symbol, name, token, avai.address);
-    await vault.deployed();
-
     expect(vault.address).to.be.properAddress;
-    expect(await vault.totalSupply()).to.equal(0);
+    // Deploy wAVAX vault
+    await expect(
+      avai.addVault(
+        minimumCollateralPercentage,
+        priceSource_,
+        symbol,
+        name,
+        token
+      )
+    )
+      .to.emit(avai, 'CreateVaultType')
+      .withArgs(token, symbol);
 
+    wVault = BaseVault__factory.connect(await avai.vaults(0), accounts[0]);
     // Create treasury vault
-    await vault.createVault();
-    vault.setTreasury(1);
+    await wVault.createVault();
+    await wVault.setTreasury(1);
+    // We use a gateway for our purposes
+    await gateway.authorizeVault(wVault.address);
+    await wVault.setGateway(gateway.address);
 
-    // Add vault to stablecoin
-    avai.addVault(vault.address);
-
-    // Make liquidator
-    liq = await Liq.deploy(avai.address, vault.address);
-    await liq.deployed();
-    expect(liq.address).to.be.properAddress;
-
-    // Set base vault to liquidator
-    await vault.setStabilityPool(liq.address);
-    expect(await vault.stabilityPool()).to.equal(liq.address);
-  });
-
-  it('should set correct variables and allow changes to gain/debt ratio', async () => {
-    expect(await liq.stablecoin()).to.equal(avai.address);
-    expect(await liq.vault()).to.equal(vault.address);
-    expect(await liq.debtRatio()).to.equal(2);
-    expect(await liq.gainRatio()).to.equal(11);
-    expect(await liq.treasury()).to.equal(accounts[0].address);
-    expect(await liq.owner()).to.equal(accounts[0].address);
-
-    //gain debt
-    // Only owner!
-    await expect(liq.connect(accounts[1]).setGainRatio(15)).to.be.reverted;
-    await liq.setGainRatio(12);
-    expect(await liq.gainRatio()).to.equal(12);
-
-    await expect(liq.connect(accounts[1]).setDebtRatio(4)).to.be.reverted;
-    await liq.setDebtRatio(3);
-    expect(await liq.debtRatio()).to.equal(3);
-  });
-
-  it('should transfer ownership correctly', async () => {
-    expect(await liq.treasury()).to.equal(accounts[0].address);
-    expect(await liq.owner()).to.equal(accounts[0].address);
-
-    // Change ownership
-
-    // Accounts[1] should not be able to
-    await expect(liq.connect(accounts[1]).setTreasury(accounts[1].address)).to
-      .be.reverted;
-    // Lets transfer now!
-    liq.setTreasury(accounts[1].address);
-
-    expect(await liq.treasury()).to.equal(accounts[1].address);
-    expect(await liq.owner()).to.equal(accounts[1].address);
-
-    // Accounts[0] should now not be able to
-    await expect(liq.connect(accounts[0]).setTreasury(accounts[0].address)).to
-      .be.reverted;
-  });
-
-  // Check liquidation! Long test, this one
-  it('Should allow liquidation', async () => {
-    // Set up with accounts[0]
+    // Get WAVAX
     const overrides = {
-      value: ethers.utils.parseEther('10.0'),
+      value: ethers.utils.parseEther('100.0'),
     };
 
-    await vault.createVault();
-    await vault.depositCollateral(2, overrides);
-    await vault.setDebtCeiling(ethers.utils.parseEther('1000000.0'));
+    wavax = WAVAX__factory.connect(token, accounts[0]);
+    await expect(() => wavax.deposit(overrides)).to.changeEtherBalance(
+      accounts[0],
+      ethers.utils.parseEther('100.0').mul(-1)
+    );
 
-    const collat = await vault.vaultCollateral(2);
-    const price = await vault.getPriceSource();
+    await expect(() => wavax.deposit(overrides)).to.changeTokenBalance(
+      wavax,
+      accounts[0],
+      ethers.utils.parseEther('100.0')
+    );
+
+    wavax.approve(wVault.address, ethers.constants.MaxUint256);
+
+    await wVault.createVault();
+    await wVault.depositCollateral(2, ethers.utils.parseEther('10.0'));
+    await wVault.setDebtCeiling(ethers.utils.parseEther('1000000.0'));
+
+    const collat = await wVault.vaultCollateral(2);
+    const price = await wVault.getPriceSource();
     const collateralAsDebt = collat
       .mul(price)
       .mul(100)
@@ -140,152 +123,190 @@ describe('Liquidator interactions', function () {
       .div('100000000');
 
     // Borrow max AVAI
-    await vault.borrowToken(2, collateralAsDebt);
+    await wVault.borrowToken(2, collateralAsDebt);
+  });
 
-    // With accounts[1]
+  it('should set correct variables and allow changes to gain/debt ratio', async () => {
+    expect(await wVault.debtRatio()).to.equal(2);
+    expect(await wVault.gainRatio()).to.equal(11);
 
+    //gain debt
+    // Only owner!
+    await expect(wVault.connect(accounts[1]).setGainRatio(15)).to.be.reverted;
+    await wVault.setGainRatio(12);
+    expect(await wVault.gainRatio()).to.equal(12);
+
+    await expect(wVault.connect(accounts[1]).setDebtRatio(4)).to.be.reverted;
+    await wVault.setDebtRatio(3);
+    expect(await wVault.debtRatio()).to.equal(3);
+  });
+
+  it('should revert due to vault not existing and not being below MCP', async () => {
     // Should revert, vault doesn't exist
-    await expect(liq.connect(accounts[1]).liquidateVault(3)).to.be.revertedWith(
-      'Vault must exist'
-    );
+    await expect(
+      wVault.connect(accounts[1]).liquidateVault(3)
+    ).to.be.revertedWith('Vault does not exist');
 
     // Obviously MCP is till good
-    await expect(liq.connect(accounts[1]).liquidateVault(2)).to.be.revertedWith(
-      'Vault is not below minimum collateral percentage'
-    );
     await expect(
-      liq.connect(accounts[1]).checkLiquidation(2)
+      wVault.connect(accounts[1]).liquidateVault(2)
     ).to.be.revertedWith('Vault is not below minimum collateral percentage');
+    // Seperate check
+    await expect(
+      wVault.connect(accounts[1]).checkLiquidation(2)
+    ).to.be.revertedWith('Vault is not below minimum collateral percentage');
+  });
 
+  it('should not revert following lowering of price', async () => {
     // But what if we change the price source? dun dun dun
     fakePrice = await FakePrice.deploy(
-      (await vault.getPriceSource()).sub(ethers.utils.parseUnits('1.0', 8))
+      (await wVault.getPriceSource()).sub(ethers.utils.parseUnits('1.0', 8))
     );
     await fakePrice.deployed();
-    await vault.setPriceSource(fakePrice.address);
+    await wVault.setPriceSource(fakePrice.address);
 
     // Won't revert anymore!
-    await liq.connect(accounts[1]).checkLiquidation(2);
+    await wVault.connect(accounts[1]).checkLiquidation(2);
+  });
+
+  it('should revert if not enough AVAI balance', async () => {
+    // But what if we change the price source? dun dun dun
+    fakePrice = await FakePrice.deploy(
+      (await wVault.getPriceSource()).sub(ethers.utils.parseUnits('1.0', 8))
+    );
+    await fakePrice.deployed();
+    await wVault.setPriceSource(fakePrice.address);
+
+    // Won't revert anymore!
+    await wVault.connect(accounts[1]).checkLiquidation(2);
+    // Accounts[1] needs some AVAI, lets mint it for test
+    await expect(
+      wVault.connect(accounts[1]).liquidateVault(2)
+    ).to.be.revertedWith('Token balance too low to pay off outstanding debt');
+  });
+
+  it('should calculate correct token extract', async () => {
+    // Calculate what new vault collateral should be
+    const tokenExtract = await wVault.checkExtract(2);
+    const newPrice = await wVault.getPriceSource();
+    const debtValue = (await wVault.vaultDebt(2)).mul(
+      await wVault.getPricePeg()
+    );
+    const gainRatio = await wVault.gainRatio();
+    const debtRatio = await wVault.debtRatio();
+
+    // Make sure extract is correct
+    const extractCalc = debtValue
+      .mul(gainRatio)
+      .div(newPrice.mul(10).mul(debtRatio));
+
+    expect(tokenExtract).to.equal(extractCalc);
+  });
+
+  // Check liquidation! Long test, this one
+  it('Should allow liquidation', async () => {
+    // But what if we change the price source? dun dun dun
+    fakePrice = await FakePrice.deploy(
+      (await wVault.getPriceSource()).sub(ethers.utils.parseUnits('1.0', 8))
+    );
+    await fakePrice.deployed();
+    await wVault.setPriceSource(fakePrice.address);
+
+    // Won't revert anymore!
+    await wVault.connect(accounts[1]).checkLiquidation(2);
 
     // Accounts[1] needs some AVAI, lets mint it for test
-    await expect(liq.connect(accounts[1]).liquidateVault(2)).to.be.revertedWith(
-      'ERC20: transfer amount exceeds balance'
-    );
+    await expect(
+      wVault.connect(accounts[1]).liquidateVault(2)
+    ).to.be.revertedWith('Token balance too low to pay off outstanding debt');
+
+    // Let the user have minter role
     await avai.grantRole(await avai.MINTER_ROLE(), accounts[1].address);
     await avai
       .connect(accounts[1])
       .mint(accounts[1].address, ethers.utils.parseEther('1000.0')); // 1000 AVAI
 
     // Should revert because not approved
-    await expect(liq.connect(accounts[1]).liquidateVault(2)).to.be.revertedWith(
-      'ERC20: transfer amount exceeds allowance'
-    );
+    await expect(
+      wVault.connect(accounts[1]).liquidateVault(2)
+    ).to.be.revertedWith('ERC20: transfer amount exceeds allowance');
 
     // Allow liquidator to transfer AVAI
     await avai
       .connect(accounts[1])
-      .approve(liq.address, ethers.utils.parseEther('1000.0'));
+      .increaseAllowance(wVault.address, ethers.utils.parseEther('1000.0'));
 
     // Some calcs for compare
-    const collateralValue = (await vault.vaultCollateral(2))
-      .mul(await vault.getPriceSource())
-      .mul(100);
-    const maxDebtValue = collateralValue.div(minimumCollateralPercentage);
-    const maxDebt = maxDebtValue.div(await vault.getPricePeg());
-
-    // How much is burnt on liquidation
-    const debtDifference = (await vault.vaultDebt(2)).sub(maxDebt);
+    const halfDebt = (await wVault.vaultDebt(2)).div(await wVault.debtRatio());
 
     // From liquidation of debt
-    const closingFeeOne = debtDifference
-      .mul(await vault.closingFee())
-      .mul(await vault.getPricePeg())
-      .div((await vault.getPriceSource()).mul(10000));
-
-    // paying off rest
-    const closingFeeTwo = (await liq.checkCost(2))
-      .sub(debtDifference)
-      .mul(await vault.closingFee())
-      .mul(await vault.getPricePeg())
-      .div((await vault.getPriceSource()).mul(10000));
+    const closingFee = halfDebt
+      .mul(await wVault.closingFee())
+      .mul(await wVault.getPricePeg())
+      .div((await wVault.getPriceSource()).mul(10000));
 
     // Calculate what new total debt should be
-    const initTotalDebt = await vault.totalDebt();
-    const newTotalDebt = initTotalDebt
-      .sub(debtDifference)
-      .sub((await liq.checkCost(2)).sub(debtDifference));
+    const initTotalDebt = await wVault.totalDebt();
+    const newTotalDebt = initTotalDebt.sub(halfDebt);
 
     // Calculate what the new vault debt should be
-    const newVaultDebt = maxDebt.sub(
-      (await liq.checkCost(2)).sub(debtDifference)
-    );
+    const newVaultDebt = (await wVault.vaultDebt(2)).sub(halfDebt);
 
     // Calculate what new vault collateral should be
-    const tokenExtract = await liq.checkExtract(2);
-    const newPrice = await vault.getPriceSource();
-    const debtValue = (await vault.vaultDebt(2)).mul(await vault.getPricePeg());
-    const gainRatio = await liq.gainRatio();
-    const debtRatio = await liq.debtRatio();
-
-    const extractCalc = debtValue
-      .mul(gainRatio)
-      .div(newPrice.mul(10).mul(debtRatio));
-
-    expect(tokenExtract).to.equal(extractCalc);
-    const newVaultCollateral = (await vault.vaultCollateral(2))
-      .sub(closingFeeOne)
-      .sub(closingFeeTwo)
-      .sub(tokenExtract);
+    const tokenExtract = await wVault.checkExtract(2);
+    const newVaultCollateral = (await wVault.vaultCollateral(2)).sub(
+      closingFee.add(tokenExtract)
+    );
 
     // Initial tokenDebt held by liquidator
-    const initialTokenDebt = await liq.tokenDebt(accounts[1].address);
+    const initialTokenDebt = await wVault.tokenDebt(accounts[1].address);
 
-    // Initial AVAX held by liquidator
-    const initialAVAX = await accounts[0].provider.getBalance(liq.address);
+    // Initial WAVAX held by liquidator
+    const initialWAVAX = await wavax.balanceOf(wVault.address);
     /**
      * LETS LIQUIDATE
      */
     // Should go through
-    await expect(liq.connect(accounts[1]).liquidateVault(2))
-      .to.emit(vault, 'LiquidateVault')
-      .withArgs(2, accounts[0].address, liq.address, debtDifference);
+    await expect(wVault.connect(accounts[1]).liquidateVault(2))
+      .to.emit(wVault, 'LiquidateVault')
+      .withArgs(
+        2,
+        accounts[0].address,
+        accounts[1].address,
+        halfDebt,
+        tokenExtract
+      );
 
     // Should still be same owner
-    expect(await vault.ownerOf(2)).to.equal(accounts[0].address);
+    expect(await wVault.ownerOf(2)).to.equal(accounts[0].address);
 
-    // closing fee should be added to collateral
-    expect(closingFeeOne.add(closingFeeTwo)).to.equal(
-      await vault.vaultCollateral(1)
-    );
+    // closing fee should be added to collateral (in treasury)
+    expect(closingFee).to.equal(await wVault.vaultCollateral(1));
 
     // Total debt should decrease
-    expect(await vault.totalDebt()).to.equal(newTotalDebt);
+    expect(await wVault.totalDebt()).to.equal(newTotalDebt);
 
     // Should decrease vaults debt
-    expect(await vault.vaultDebt(2)).to.equal(newVaultDebt);
+    expect(await wVault.vaultDebt(2)).to.equal(newVaultDebt);
 
     // Should decrease collateral
-    expect(await vault.vaultCollateral(2)).to.equal(newVaultCollateral);
+    expect(await wVault.vaultCollateral(2)).to.equal(newVaultCollateral);
 
     // Liquidator should be holding the token for acceptance by the user
-    expect(await liq.tokenDebt(accounts[1].address)).to.equal(
+    expect(await wVault.tokenDebt(accounts[1].address)).to.equal(
       initialTokenDebt.add(tokenExtract)
     );
 
-    // FINAL TESTS
-    expect(await accounts[0].provider.getBalance(liq.address)).to.equal(
-      initialAVAX.add(tokenExtract)
-    );
-
     // Should revert, this account has nothing
-    await expect(liq.getPaid()).to.be.revertedWith(
-      "Don't have anything for you."
+    await expect(wVault.getPaid()).to.be.revertedWith(
+      'No liquidations associated with account.'
     );
 
     await expect(() =>
-      liq.connect(accounts[1]).getPaid()
-    ).to.changeEtherBalances(
-      [liq, accounts[1]],
+      wVault.connect(accounts[1]).getPaid()
+    ).to.changeTokenBalances(
+      wavax,
+      [wVault, accounts[1]],
       [tokenExtract.mul(-1), tokenExtract]
     );
   });
