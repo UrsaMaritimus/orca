@@ -9,7 +9,7 @@ import {
   BaseVault__factory,
   WAVAXGateway,
   WAVAXGateway__factory,
-  ERC20__factory,
+  ERC20Upgradeable__factory,
 } from '../libs/shared/contracts/src';
 
 describe('Avax Vault Test with Gateway', function () {
@@ -109,7 +109,7 @@ describe('Avax Vault Test with Gateway', function () {
     await expect(() =>
       gateway.depositAVAX(wVault.address, 2, overrides)
     ).to.changeTokenBalance(
-      ERC20__factory.connect(token, accounts[0]),
+      ERC20Upgradeable__factory.connect(token, accounts[0]),
       wVault,
       ethers.utils.parseEther('10.0')
     );
@@ -162,7 +162,7 @@ describe('Avax Vault Test with Gateway', function () {
     await expect(() =>
       gateway.withdrawAVAX(wVault.address, 2, overrides.value)
     ).to.changeTokenBalance(
-      ERC20__factory.connect(token, accounts[0]),
+      ERC20Upgradeable__factory.connect(token, accounts[0]),
       wVault,
       overrides.value.mul(-1)
     );
@@ -189,7 +189,7 @@ describe('Avax Vault Test with Gateway', function () {
     await expect(() =>
       gateway.withdrawAVAX(wVault.address, 2, ethers.utils.parseEther('5.0'))
     ).to.changeTokenBalance(
-      ERC20__factory.connect(token, accounts[0]),
+      ERC20Upgradeable__factory.connect(token, accounts[0]),
       wVault,
       ethers.utils.parseEther('5.0').mul(-1)
     );

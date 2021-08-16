@@ -7,8 +7,6 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   const { deployer } = await getNamedAccounts();
 
-  const base = await deployments.get('BaseVault');
-
   await deploy('AVAI', {
     from: deployer,
     log: true,
@@ -18,7 +16,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
       execute: {
         init: {
           methodName: 'initialize',
-          args: ['AVAI', base.address],
+          args: ['AVAI'],
         },
       },
     },

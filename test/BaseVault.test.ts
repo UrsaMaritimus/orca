@@ -8,7 +8,7 @@ import {
   BaseVault,
   BaseVault__factory,
   AggregatorV3Interface__factory,
-  ERC20__factory,
+  ERC20Upgradeable__factory,
 } from '../libs/shared/contracts/src';
 
 describe('Base Vault', function () {
@@ -231,7 +231,7 @@ describe('Base Vault', function () {
   });
 
   it('Should set correct token as collateral', async () => {
-    const tokenAddress = ERC20__factory.connect(
+    const tokenAddress = ERC20Upgradeable__factory.connect(
       await wVault.token(),
       accounts[0]
     );

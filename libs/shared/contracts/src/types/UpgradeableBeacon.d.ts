@@ -21,7 +21,6 @@ import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface UpgradeableBeaconInterface extends ethers.utils.Interface {
   functions: {
-    "__UpgradeableBeacon__init(address)": FunctionFragment;
     "implementation()": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
@@ -29,10 +28,6 @@ interface UpgradeableBeaconInterface extends ethers.utils.Interface {
     "upgradeTo(address)": FunctionFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: "__UpgradeableBeacon__init",
-    values: [string]
-  ): string;
   encodeFunctionData(
     functionFragment: "implementation",
     values?: undefined
@@ -48,10 +43,6 @@ interface UpgradeableBeaconInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "upgradeTo", values: [string]): string;
 
-  decodeFunctionResult(
-    functionFragment: "__UpgradeableBeacon__init",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(
     functionFragment: "implementation",
     data: BytesLike
@@ -120,11 +111,6 @@ export class UpgradeableBeacon extends BaseContract {
   interface: UpgradeableBeaconInterface;
 
   functions: {
-    __UpgradeableBeacon__init(
-      implementation_: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     implementation(overrides?: CallOverrides): Promise<[string]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
@@ -143,11 +129,6 @@ export class UpgradeableBeacon extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
-
-  __UpgradeableBeacon__init(
-    implementation_: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
 
   implementation(overrides?: CallOverrides): Promise<string>;
 
@@ -168,11 +149,6 @@ export class UpgradeableBeacon extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    __UpgradeableBeacon__init(
-      implementation_: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     implementation(overrides?: CallOverrides): Promise<string>;
 
     owner(overrides?: CallOverrides): Promise<string>;
@@ -205,11 +181,6 @@ export class UpgradeableBeacon extends BaseContract {
   };
 
   estimateGas: {
-    __UpgradeableBeacon__init(
-      implementation_: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     implementation(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
@@ -230,11 +201,6 @@ export class UpgradeableBeacon extends BaseContract {
   };
 
   populateTransaction: {
-    __UpgradeableBeacon__init(
-      implementation_: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     implementation(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
