@@ -41,7 +41,7 @@ const navConfig = [
   // GENERAL
   // ----------------------------------------------------------------------
   {
-    subheader: 'Ursa Protocol',
+    subheader: 'Orca Protocol',
     items: [
       {
         title: 'Your Vaults',
