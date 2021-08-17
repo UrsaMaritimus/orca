@@ -28,7 +28,8 @@
     "compile": "npx hardhat compile",
     "console": "npx hardhat console",
     "pretest": "yarn compile",
-    "test-contracts": "npx hardhat test"
+    "test-contracts": "npx hardhat test",
+    "deploy-fuji": "yarn hardhat deploy --network fuji --export-all libs/shared/deployments/src/deployments.json"
   },
   "private": true,
   "dependencies": {

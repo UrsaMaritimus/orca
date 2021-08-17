@@ -18,7 +18,7 @@ import {
 } from '@material-ui/core';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import { BigNumber, utils } from 'ethers';
-import { fCurrency, fPercent, fShortenNumber } from '@orca/util';
+import { fCurrency, fPercent, fShortenNumber, fNumber } from '@orca/util';
 
 import { tokenInfo } from './constants';
 import BorrowStepper from './BorrowStepper';
@@ -110,7 +110,7 @@ export const Borrows: FC<BorrowsProps> = ({
                 {utils.formatEther(vaultInfo.debt)} AVAI
               </Typography>
               <Typography variant="caption" sx={{ color: 'grey.500' }}>
-                {fShortenNumber(
+                {fNumber(
                   Number(
                     utils.formatEther(
                       vaultInfo.debt
@@ -151,7 +151,7 @@ export const Borrows: FC<BorrowsProps> = ({
                 Available to Borrow
               </Typography>
               <Typography variant="inherit">
-                {fShortenNumber(
+                {fNumber(
                   Number(
                     utils.formatEther(vaultInfo.borrowingPowerAvailableUSD)
                   )
@@ -159,7 +159,7 @@ export const Borrows: FC<BorrowsProps> = ({
                 AVAI
               </Typography>
               <Typography variant="caption" sx={{ color: 'grey.500' }}>
-                {fShortenNumber(
+                {fNumber(
                   Number(
                     utils.formatEther(
                       vaultInfo.borrowingPowerAvailableUSD

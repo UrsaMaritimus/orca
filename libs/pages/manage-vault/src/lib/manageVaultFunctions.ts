@@ -1,6 +1,11 @@
 import { Web3Provider } from '@ethersproject/providers';
-import { AVAXVault__factory, AVAI__factory } from '@orca/shared/contracts';
-import { contractAddresses } from '@orca/shared/deployments';
+import {
+  BaseVault__factory,
+  AVAI__factory,
+  WAVAXGateway__factory,
+  VaultContracts,
+} from '@orca/shared/contracts';
+import contractAddresses from '@orca/shared/deployments';
 import { utils } from 'ethers';
 
 export const getVault = (
@@ -11,26 +16,42 @@ export const getVault = (
 ) => {
   switch (vaultType) {
     case 'AVAX':
-      return AVAXVault__factory.connect(
+      return BaseVault__factory.connect(
         chainId === 43113
-          ? contractAddresses.fuji.AVAXVault
+          ? VaultContracts.fuji.wavax
           : chainId === 43114
           ? // TODO: Update
-            contractAddresses.fuji.AVAXVault
+            VaultContracts.mainnet.wavax
           : null,
         signer ? library.getSigner() : library
       );
     default:
-      return AVAXVault__factory.connect(
+      return BaseVault__factory.connect(
         chainId === 43113
-          ? contractAddresses.fuji.AVAXVault
+          ? VaultContracts.fuji.wavax
           : chainId === 43114
           ? // TODO: Update
-            contractAddresses.fuji.AVAXVault
+            VaultContracts.mainnet.wavax
           : null,
         signer ? library.getSigner() : library
       );
   }
+};
+
+export const getGateway = (
+  library: Web3Provider,
+  chainId: number,
+  signer = false
+) => {
+  return WAVAXGateway__factory.connect(
+    chainId === 43113
+      ? contractAddresses.fuji.WAVAXGateway.address
+      : chainId === 43114
+      ? // TODO: Update
+        contractAddresses.fuji.WAVAXGateway.address
+      : null,
+    signer ? library.getSigner() : library
+  );
 };
 
 export const getVaultInfo = () => {
@@ -42,7 +63,7 @@ export const getVaultInfo = () => {
   ) => {
     const vault = getVault(vaultType, library, chainId);
     // Check if vault exists
-    const exists = await vault.vaultExistence(vaultID);
+    const exists = await vault.vaultExists(vaultID);
 
     if (exists) {
       try {
@@ -133,10 +154,14 @@ export const depositCollateral = (
   chainId: number
 ) => {
   const vault = getVault(vaultType, library, chainId, true);
-  const overrides = {
-    value: utils.parseEther(amount.toString()),
-  };
-  return vault.depositCollateral(vaultID, overrides);
+  if (vaultType === 'AVAX') {
+    const gateway = getGateway(library, chainId, true);
+    const overrides = {
+      value: utils.parseEther(amount.toString()),
+    };
+    return gateway.depositAVAX(vault.address, vaultID, overrides);
+  }
+  return vault.depositCollateral(vaultID, utils.parseEther(amount.toString()));
 };
 
 export const withdrawCollateral = (
@@ -147,6 +172,14 @@ export const withdrawCollateral = (
   chainId: number
 ) => {
   const vault = getVault(vaultType, library, chainId, true);
+  if (vaultType === 'AVAX') {
+    const gateway = getGateway(library, chainId, true);
+    return gateway.withdrawAVAX(
+      vault.address,
+      vaultID,
+      utils.parseEther(amount.toString())
+    );
+  }
   return vault.withdrawCollateral(vaultID, utils.parseEther(amount.toString()));
 };
 
@@ -176,10 +209,10 @@ export const getAVAIBalance = () => {
   return async (library: Web3Provider, chainId: number, address: string) => {
     const avai = AVAI__factory.connect(
       chainId === 43113
-        ? contractAddresses.fuji.AVAI
+        ? contractAddresses.fuji.AVAI.address
         : chainId === 43114
         ? // TODO: Update
-          contractAddresses.fuji.AVAI
+          contractAddresses.fuji.AVAI.address
         : null,
       library
     );

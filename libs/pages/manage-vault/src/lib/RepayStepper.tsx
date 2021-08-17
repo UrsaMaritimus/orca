@@ -16,8 +16,8 @@ import {
 
 import toast from 'react-hot-toast';
 import useSWR from 'swr';
-import { AVAXVault__factory, AVAI__factory } from '@orca/shared/contracts';
-import { contractAddresses } from '@orca/shared/deployments';
+import { AVAI__factory } from '@orca/shared/contracts';
+import contractAddresses from '@orca/shared/deployments';
 
 // Ethers and web3 stuff
 import { useWeb3React } from '@web3-react/core';
@@ -25,7 +25,7 @@ import { Web3Provider } from '@ethersproject/providers';
 
 import { useFormik, Form, FormikProvider } from 'formik';
 
-import { fPercent, fShortenNumber } from '@orca/util';
+import { fPercent, fShortenNumber, fNumber } from '@orca/util';
 import { BigNumber, utils } from 'ethers';
 import { tokenInfo } from './constants';
 
@@ -72,10 +72,10 @@ export const RepayStepper: FC<RepayStepperProps> = ({
   useEffect(() => {
     const avai = AVAI__factory.connect(
       chainId === 43113
-        ? contractAddresses.fuji.AVAI
+        ? contractAddresses.fuji.AVAI.address
         : chainId === 43114
         ? // TODO: Update
-          contractAddresses.fuji.AVAI
+          contractAddresses.fuji.AVAI.address
         : null,
       library
     );
@@ -224,7 +224,7 @@ export const RepayStepper: FC<RepayStepperProps> = ({
                     Available to repay:
                   </Typography>
                   <Typography variant="h6" textAlign="center">
-                    {fShortenNumber(Number(utils.formatEther(balance)))} AVAI
+                    {fNumber(Number(utils.formatEther(balance)))} AVAI
                   </Typography>
                 </Stack>
                 <Box sx={{ m: 'auto', width: '60%' }}>
@@ -328,7 +328,7 @@ export const RepayStepper: FC<RepayStepperProps> = ({
                       </Typography>
                     </Stack>
                     <Typography variant="caption">
-                      {fShortenNumber(
+                      {fNumber(
                         values.repayAmount /
                           Number(utils.formatUnits(vaultInfo.tokenPrice, 8))
                       )}{' '}
@@ -358,7 +358,7 @@ export const RepayStepper: FC<RepayStepperProps> = ({
                       )}
                     </Typography>
                     <Typography variant="caption">
-                      {fShortenNumber(
+                      {fNumber(
                         Number(utils.formatEther(vaultInfo.debt)) -
                           values.repayAmount
                       )}{' '}

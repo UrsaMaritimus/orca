@@ -24,7 +24,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import { useFormik, Form, FormikProvider } from 'formik';
 
 import { BigNumber, utils } from 'ethers';
-import { fCurrency, fPercent, fShortenNumber } from '@orca/util';
+import { fCurrency, fPercent, fNumber } from '@orca/util';
 
 import { tokenInfo } from './constants';
 
@@ -196,7 +196,7 @@ export const WithdrawStepper: FC<WithdrawStepperProps> = ({
                     Available to withdraw:
                   </Typography>
                   <Typography variant="h6" textAlign="center">
-                    {`${fShortenNumber(
+                    {`${fNumber(
                       Number(utils.formatEther(vaultInfo.availableWithdraw))
                     )} ${token}`}
                   </Typography>
@@ -324,27 +324,31 @@ export const WithdrawStepper: FC<WithdrawStepperProps> = ({
                         // Recacalculate what their new borrowing power will be
                         fPercent(
                           Number(
-                            utils.formatUnits(
-                              utils.parseUnits('100', 6).sub(
-                                vaultInfo.debt
-                                  .mul(1e8)
-                                  .mul(vaultInfo.peg)
-                                  .div(
-                                    vaultInfo.collateral
-                                      .mul(vaultInfo.tokenPrice)
-                                      .sub(
-                                        utils
-                                          .parseEther(
-                                            values.withdrawAmount.toString()
-                                          )
-                                          .mul(vaultInfo.tokenPrice)
-                                      )
-                                  )
-                                  .mul(vaultInfo.mcp)
-                                  .div(100)
-                              ),
-                              6
+                            vaultInfo.collateral.eq(
+                              utils.parseEther(values.withdrawAmount.toString())
                             )
+                              ? 0
+                              : utils.formatUnits(
+                                  utils.parseUnits('100', 6).sub(
+                                    vaultInfo.debt
+                                      .mul(1e8)
+                                      .mul(vaultInfo.peg)
+                                      .div(
+                                        vaultInfo.collateral
+                                          .mul(vaultInfo.tokenPrice)
+                                          .sub(
+                                            utils
+                                              .parseEther(
+                                                values.withdrawAmount.toString()
+                                              )
+                                              .mul(vaultInfo.tokenPrice)
+                                          )
+                                      )
+                                      .mul(vaultInfo.mcp)
+                                      .div(100)
+                                  ),
+                                  6
+                                )
                           )
                         )
                       }

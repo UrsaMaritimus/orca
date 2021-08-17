@@ -20,8 +20,6 @@ import { TabList, TabPanel, TabContext } from '@material-ui/lab';
 import { Page } from '@orca/components/page';
 
 import { AvaxVaults } from './crypto/AVAX';
-import { JoeVaults } from './crypto/JOE';
-import { PngVaults } from './crypto/PNG';
 
 import { AVALANCHE_TESTNET_PARAMS } from '@orca/util';
 
@@ -49,14 +47,14 @@ const collaterals = [
     disabled: true,
     icon: '/static/cryptos/ic_png.svg',
     value: '2',
-    component: <PngVaults />,
+    component: <> </>,
     title: 'PNG',
   },
   {
     disabled: true,
     icon: '/static/cryptos/ic_traderjoe.svg',
     value: '3',
-    component: <JoeVaults />,
+    component: <> </>,
     title: 'JOE',
   },
 ];

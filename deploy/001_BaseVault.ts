@@ -7,21 +7,11 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   const { deployer } = await getNamedAccounts();
 
-  await deploy('AVAI', {
+  await deploy('BaseVault', {
     from: deployer,
     log: true,
-    proxy: {
-      owner: deployer,
-      proxyContract: 'OptimizedTransparentProxy',
-      execute: {
-        init: {
-          methodName: 'initialize',
-          args: ['AVAI'],
-        },
-      },
-    },
   });
 };
 export default func;
-func.id = 'AVAI';
-func.tags = ['AVAI'];
+func.id = 'init';
+func.tags = ['BaseVault'];

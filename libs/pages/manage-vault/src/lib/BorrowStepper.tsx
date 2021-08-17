@@ -22,7 +22,7 @@ import { Web3Provider } from '@ethersproject/providers';
 
 import { useFormik, Form, FormikProvider } from 'formik';
 
-import { fPercent, fShortenNumber } from '@orca/util';
+import { fPercent, fShortenNumber, fNumber } from '@orca/util';
 import { BigNumber, utils } from 'ethers';
 import { tokenInfo } from './constants';
 
@@ -199,7 +199,7 @@ export const BorrowStepper: FC<BorrowStepperProps> = ({
                     Available to borrow:
                   </Typography>
                   <Typography variant="h6" textAlign="center">
-                    {fShortenNumber(
+                    {fNumber(
                       Number(
                         utils.formatEther(vaultInfo.borrowingPowerAvailableUSD)
                       )
@@ -305,7 +305,7 @@ export const BorrowStepper: FC<BorrowStepperProps> = ({
                       </Typography>
                     </Stack>
                     <Typography variant="caption">
-                      {fShortenNumber(
+                      {fNumber(
                         values.borrowAmount /
                           Number(utils.formatUnits(vaultInfo.tokenPrice, 8))
                       )}{' '}
@@ -335,7 +335,7 @@ export const BorrowStepper: FC<BorrowStepperProps> = ({
                       )}
                     </Typography>
                     <Typography variant="caption">
-                      {fShortenNumber(
+                      {fNumber(
                         Number(utils.formatEther(vaultInfo.debt)) +
                           values.borrowAmount
                       )}{' '}

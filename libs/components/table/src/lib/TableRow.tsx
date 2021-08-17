@@ -9,7 +9,7 @@ import editOutline from '@iconify/icons-eva/edit-outline';
 import { TableRow, TableCell, Button } from '@material-ui/core';
 
 import { routes } from '@orca/shared/base';
-import { fPercent, fShortenNumber } from '@orca/util';
+import { fPercent, fNumber } from '@orca/util';
 
 // ----------------------------------------------------------------------
 
@@ -33,10 +33,8 @@ const RowTable: FC<TableProps> = ({ row, collateralType }) => {
       <TableCell component="th" scope="row">
         {row.vaultID}
       </TableCell>
-      <TableCell align="center">
-        {fShortenNumber(Number(row.collateral))}
-      </TableCell>
-      <TableCell align="center">{fShortenNumber(Number(row.debt))}</TableCell>
+      <TableCell align="center">{fNumber(Number(row.collateral))}</TableCell>
+      <TableCell align="center">{fNumber(Number(row.debt))}</TableCell>
       <TableCell align="center">{fPercent(Number(row.ratio))}</TableCell>
       <TableCell align="right">
         <Button

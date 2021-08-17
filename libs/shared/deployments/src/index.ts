@@ -1,20 +1,7 @@
-// Address
-import AVAIjson from './deployments/fuji/AVAI.json';
-import AVAXVaultjson from './deployments/fuji/AVAXVault.json';
-import AVAXLiquidatorjson from './deployments/fuji/AVAXLiquidator.json';
+import json from './deployments';
 
-export const contractAddresses = {
-  fuji: {
-    AVAI: AVAIjson.address,
-    AVAXVault: AVAXVaultjson.address,
-    AVAXLiquidatorjson: AVAXLiquidatorjson.address,
-  },
+const contracts = {
+  fuji: json[43113].fuji.contracts,
 };
 
-export const contractABI = {
-  fuji: {
-    AVAI: AVAIjson.abi,
-    AVAXVault: AVAXVaultjson.abi,
-    AVAXLiquidator: AVAXLiquidatorjson.abi,
-  },
-};
+export default contracts;

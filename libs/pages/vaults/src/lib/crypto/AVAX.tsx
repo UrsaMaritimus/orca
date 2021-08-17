@@ -24,8 +24,7 @@ import {
 
 import { MainTable } from '@orca/components/table';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
-import { AVAXVault__factory } from '@orca/shared/contracts';
-import { contractAddresses } from '@orca/shared/deployments';
+import { BaseVault__factory, VaultContracts } from '@orca/shared/contracts';
 import { Loader } from '@orca/components/loader';
 import { fShortenNumber } from '@orca/util';
 
@@ -40,12 +39,12 @@ export interface PagesVaultsProps {}
  */
 const getAVAXVaults = () => {
   return async (library: Web3Provider, address: string, chainId: number) => {
-    const avaxVault = AVAXVault__factory.connect(
+    const avaxVault = BaseVault__factory.connect(
       chainId === 43113
-        ? contractAddresses.fuji.AVAXVault
+        ? VaultContracts.fuji.wavax
         : chainId === 43114
         ? // TODO: Update
-          contractAddresses.fuji.AVAXVault
+          VaultContracts.mainnet.wavax
         : null,
       library
     );
@@ -88,12 +87,12 @@ const getAVAXVaults = () => {
 
 const getMintCeiling = () => {
   return async (library: Web3Provider, chainId: number) => {
-    const avaxVault = AVAXVault__factory.connect(
+    const avaxVault = BaseVault__factory.connect(
       chainId === 43113
-        ? contractAddresses.fuji.AVAXVault
+        ? VaultContracts.fuji.wavax
         : chainId === 43114
         ? // TODO: Update
-          contractAddresses.fuji.AVAXVault
+          VaultContracts.mainnet.wavax
         : null,
       library
     );
@@ -129,14 +128,14 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
   // Keep all the information up to date
   useEffect(() => {
     if (library) {
-      const avaxVault = AVAXVault__factory.connect(
+      const avaxVault = BaseVault__factory.connect(
         chainId === 43113
-          ? contractAddresses.fuji.AVAXVault
+          ? VaultContracts.fuji.wavax
           : chainId === 43114
           ? // TODO: Update
-            contractAddresses.fuji.AVAXVault
+            VaultContracts.mainnet.wavax
           : null,
-        library
+        library.getSigner()
       );
       // Set events up for updating
       const newVault = avaxVault.filters.CreateVault();
@@ -166,12 +165,12 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
   // For creating a vault
   const createVault = async () => {
     try {
-      const avaxVault = AVAXVault__factory.connect(
+      const avaxVault = BaseVault__factory.connect(
         chainId === 43113
-          ? contractAddresses.fuji.AVAXVault
+          ? VaultContracts.fuji.wavax
           : chainId === 43114
           ? // TODO: Update
-            contractAddresses.fuji.AVAXVault
+            VaultContracts.mainnet.wavax
           : null,
         library.getSigner()
       );

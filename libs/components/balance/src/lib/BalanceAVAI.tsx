@@ -10,7 +10,7 @@ import { experimentalStyled as styled } from '@material-ui/core/styles';
 
 import { useTheme } from 'next-themes';
 
-import { contractAddresses } from '@orca/shared/deployments';
+import contractAddresses from '@orca/shared/deployments';
 import { AVAI__factory } from '@orca/shared/contracts';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
@@ -27,10 +27,10 @@ const getAVAIBalance = () => {
   return async (library: Web3Provider, chainId: number, address: string) => {
     const avai = AVAI__factory.connect(
       chainId === 43113
-        ? contractAddresses.fuji.AVAI
+        ? contractAddresses.fuji.AVAI.address
         : chainId === 43114
         ? // TODO: Update
-          contractAddresses.fuji.AVAI
+          contractAddresses.fuji.AVAI.address
         : null,
       library
     );
@@ -51,10 +51,10 @@ const AvaiBalance = () => {
   useEffect(() => {
     const avai = AVAI__factory.connect(
       chainId === 43113
-        ? contractAddresses.fuji.AVAI
+        ? contractAddresses.fuji.AVAI.address
         : chainId === 43114
         ? // TODO: Update
-          contractAddresses.fuji.AVAI
+          contractAddresses.fuji.AVAI.address
         : null,
       library
     );

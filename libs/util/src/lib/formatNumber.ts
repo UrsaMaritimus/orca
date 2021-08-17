@@ -12,11 +12,15 @@ export const fPercent = (number: number) => {
 };
 
 export const fNumber = (number: number | string) => {
-  return numbro(number).format();
+  return numbro(number).format({ mantissa: 4 });
 };
 
 export const fShortenNumber = (number: number | string) => {
-  return replace(numbro(number).format('0.00a'), '.00', '');
+  return numbro(number).format({
+    average: true,
+    totalLength: 5,
+    thousandSeparated: true,
+  });
 };
 
 export const fData = (number: number | string) => {

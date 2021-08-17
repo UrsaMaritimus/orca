@@ -9,8 +9,7 @@ import { toast } from 'react-hot-toast';
 import { Card, CardHeader, Box, Typography } from '@material-ui/core';
 
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
-import { AVAXVault__factory } from '@orca/shared/contracts';
-import { contractAddresses } from '@orca/shared/deployments';
+import { BaseVault__factory, VaultContracts } from '@orca/shared/contracts';
 import { Loader } from '@orca/components/loader';
 
 import Table from '../table';
@@ -26,17 +25,21 @@ export interface PagesVaultsProps {}
  */
 const getAVAXVaults = () => {
   return async (library: Web3Provider, address: string, chainId: number) => {
-    const avaxVault = AVAXVault__factory.connect(
+    const avaxVault = BaseVault__factory.connect(
       chainId === 43113
-        ? contractAddresses.fuji.AVAXVault
+        ? VaultContracts.fuji.wavax
         : chainId === 43114
         ? // TODO: Update
-          contractAddresses.fuji.AVAXVault
+          VaultContracts.mainnet.wavax
         : null,
       library
     );
     const mcp = await avaxVault.minimumCollateralPercentage();
     const totalSupply = await avaxVault.totalSupply();
+
+    const balance = Number(
+      utils.formatUnits(await avaxVault.balanceOf(address), 0)
+    );
 
     const vaults = await Promise.all(
       [...Array(balance)].map(async (_, i) => {
@@ -86,12 +89,12 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
   // Keep all the information up to date
   useEffect(() => {
     if (library) {
-      const avaxVault = AVAXVault__factory.connect(
+      const avaxVault = BaseVault__factory.connect(
         chainId === 43113
-          ? contractAddresses.fuji.AVAXVault
+          ? VaultContracts.fuji.wavax
           : chainId === 43114
           ? // TODO: Update
-            contractAddresses.fuji.AVAXVault
+            VaultContracts.mainnet.wavax
           : null,
         library
       );
@@ -113,12 +116,12 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
   // For creating a vault
   const createVault = async () => {
     try {
-      const avaxVault = AVAXVault__factory.connect(
+      const avaxVault = BaseVault__factory.connect(
         chainId === 43113
-          ? contractAddresses.fuji.AVAXVault
+          ? VaultContracts.fuji.wavax
           : chainId === 43114
           ? // TODO: Update
-            contractAddresses.fuji.AVAXVault
+            VaultContracts.mainnet.wavax
           : null,
         library.getSigner()
       );

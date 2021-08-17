@@ -20,12 +20,8 @@ import { TabList, TabPanel, TabContext } from '@material-ui/lab';
 import { Page } from '@orca/components/page';
 
 import { AvaxVaults } from './crypto/AVAX';
-import { JoeVaults } from './crypto/JOE';
-import { PngVaults } from './crypto/PNG';
 
 import { AVALANCHE_TESTNET_PARAMS } from '@orca/util';
-
-export interface PagesVaultsProps {}
 
 const RootStyle = styled(Page)(({ theme }) => ({
   paddingTop: theme.spacing(3),
@@ -49,19 +45,19 @@ const collaterals = [
     disabled: true,
     icon: '/static/cryptos/ic_png.svg',
     value: '2',
-    component: <PngVaults />,
+    component: <> </>,
     title: 'PNG',
   },
   {
     disabled: true,
     icon: '/static/cryptos/ic_traderjoe.svg',
     value: '3',
-    component: <JoeVaults />,
+    component: <> </>,
     title: 'JOE',
   },
 ];
 
-export function Vaults(props: PagesVaultsProps) {
+export function Vaults(props) {
   const [value, setValue] = useState('1');
   const [valueScrollable, setValueScrollable] = useState('1');
 
