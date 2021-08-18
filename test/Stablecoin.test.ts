@@ -1,22 +1,20 @@
 import { expect } from 'chai';
 
-import { ethers, waffle, upgrades } from 'hardhat';
-
-import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
+import { ethers, upgrades } from 'hardhat';
 
 import {
   AVAI__factory,
   AVAI,
-  BaseVault,
-  BaseVault__factory,
+  Bank,
+  Bank__factory,
 } from '../libs/shared/contracts/src';
 
 describe('Stablecoin', async function () {
   let accounts;
   let Stablecoin: AVAI__factory;
-  let Vault: BaseVault__factory;
+  let Vault: Bank__factory;
   let avai: AVAI;
-  let vault: BaseVault;
+  let vault: Bank;
 
   before(async () => {
     accounts = await ethers.getSigners();
@@ -26,9 +24,9 @@ describe('Stablecoin', async function () {
     )) as AVAI__factory;
 
     Vault = (await ethers.getContractFactory(
-      'BaseVault',
+      'Bank',
       accounts[0]
-    )) as BaseVault__factory;
+    )) as Bank__factory;
   });
 
   beforeEach(async function () {
@@ -154,7 +152,7 @@ describe('Stablecoin', async function () {
 
   it('Succesfully adds vaults', async () => {
     await expect(
-      avai.addVault(
+      avai.addBank(
         150,
         '0x5498BB86BC934c8D34FDA08E81D444153d0D06aD',
         'avAVAX',
@@ -166,7 +164,7 @@ describe('Stablecoin', async function () {
       .withArgs('0xd00ae08403B9bbb9124bB305C09058E32C39A48c', 'avAVAX');
 
     await expect(
-      avai.addVault(
+      avai.addBank(
         150,
         '0x5498BB86BC934c8D34FDA08E81D444153d0D06aD',
         'avAVAX',
@@ -177,14 +175,14 @@ describe('Stablecoin', async function () {
       .to.emit(avai, 'CreateVaultType')
       .withArgs('0xd00ae08403B9bbb9124bB305C09058E32C39A48c', 'avAVAX');
 
-    expect(await avai.vaults(1)).to.be.properAddress;
+    expect(await avai.banks(1)).to.be.properAddress;
   });
 
   it('only allows admin to add vaults', async () => {
     await expect(
       avai
         .connect(accounts[1])
-        .addVault(
+        .addBank(
           150,
           '0x5498BB86BC934c8D34FDA08E81D444153d0D06aD',
           'avAVAX',
@@ -196,7 +194,7 @@ describe('Stablecoin', async function () {
 
   it('gives minter and burner role to vault', async () => {
     await expect(
-      avai.addVault(
+      avai.addBank(
         150,
         '0x5498BB86BC934c8D34FDA08E81D444153d0D06aD',
         'avAVAX',
@@ -206,7 +204,7 @@ describe('Stablecoin', async function () {
     )
       .to.emit(avai, 'CreateVaultType')
       .withArgs('0xd00ae08403B9bbb9124bB305C09058E32C39A48c', 'avAVAX');
-    const vaultAddress = await avai.vaults(0);
+    const vaultAddress = await avai.banks(0);
 
     expect(await avai.hasRole(await avai.MINTER_ROLE(), vaultAddress)).to.equal(
       true

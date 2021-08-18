@@ -59,7 +59,7 @@ contract UpgradeableBeacon is IBeaconUpgradeable, OwnableUpgradeable {
    *
    * - `newImplementation` must be a contract.
    */
-  function _setImplementation(address newImplementation) private {
+  function _setImplementation(address newImplementation) internal {
     require(
       AddressUpgradeable.isContract(newImplementation),
       'UpgradeableBeacon: implementation is not a contract'

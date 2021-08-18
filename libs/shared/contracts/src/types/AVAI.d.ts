@@ -26,10 +26,11 @@ interface AVAIInterface extends ethers.utils.Interface {
     "DOMAIN_SEPARATOR()": FunctionFragment;
     "MINTER_ROLE()": FunctionFragment;
     "PAUSER_ROLE()": FunctionFragment;
-    "addVault(uint256,address,string,string,address)": FunctionFragment;
+    "addBank(uint256,address,string,string,address)": FunctionFragment;
     "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
+    "banks(uint256)": FunctionFragment;
     "burn(address,uint256)": FunctionFragment;
     "decimals()": FunctionFragment;
     "decreaseAllowance(address,uint256)": FunctionFragment;
@@ -58,7 +59,6 @@ interface AVAIInterface extends ethers.utils.Interface {
     "unpause()": FunctionFragment;
     "upgradeTo(address)": FunctionFragment;
     "vaultCount()": FunctionFragment;
-    "vaults(uint256)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -82,7 +82,7 @@ interface AVAIInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "addVault",
+    functionFragment: "addBank",
     values: [BigNumberish, string, string, string, string]
   ): string;
   encodeFunctionData(
@@ -94,6 +94,7 @@ interface AVAIInterface extends ethers.utils.Interface {
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
+  encodeFunctionData(functionFragment: "banks", values: [BigNumberish]): string;
   encodeFunctionData(
     functionFragment: "burn",
     values: [string, BigNumberish]
@@ -187,10 +188,6 @@ interface AVAIInterface extends ethers.utils.Interface {
     functionFragment: "vaultCount",
     values?: undefined
   ): string;
-  encodeFunctionData(
-    functionFragment: "vaults",
-    values: [BigNumberish]
-  ): string;
 
   decodeFunctionResult(
     functionFragment: "BURNER_ROLE",
@@ -212,10 +209,11 @@ interface AVAIInterface extends ethers.utils.Interface {
     functionFragment: "PAUSER_ROLE",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "addVault", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "addBank", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "banks", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
@@ -274,7 +272,6 @@ interface AVAIInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "unpause", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "upgradeTo", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "vaultCount", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "vaults", data: BytesLike): Result;
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
@@ -355,7 +352,7 @@ export class AVAI extends BaseContract {
 
     PAUSER_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
-    addVault(
+    addBank(
       minimumCollateralPercentage_: BigNumberish,
       priceSource_: string,
       name_: string,
@@ -377,6 +374,8 @@ export class AVAI extends BaseContract {
     ): Promise<ContractTransaction>;
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    banks(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
 
     burn(
       from: string,
@@ -502,8 +501,6 @@ export class AVAI extends BaseContract {
     ): Promise<ContractTransaction>;
 
     vaultCount(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    vaults(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
   };
 
   BURNER_ROLE(overrides?: CallOverrides): Promise<string>;
@@ -516,7 +513,7 @@ export class AVAI extends BaseContract {
 
   PAUSER_ROLE(overrides?: CallOverrides): Promise<string>;
 
-  addVault(
+  addBank(
     minimumCollateralPercentage_: BigNumberish,
     priceSource_: string,
     name_: string,
@@ -538,6 +535,8 @@ export class AVAI extends BaseContract {
   ): Promise<ContractTransaction>;
 
   balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+  banks(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   burn(
     from: string,
@@ -664,8 +663,6 @@ export class AVAI extends BaseContract {
 
   vaultCount(overrides?: CallOverrides): Promise<BigNumber>;
 
-  vaults(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
   callStatic: {
     BURNER_ROLE(overrides?: CallOverrides): Promise<string>;
 
@@ -677,7 +674,7 @@ export class AVAI extends BaseContract {
 
     PAUSER_ROLE(overrides?: CallOverrides): Promise<string>;
 
-    addVault(
+    addBank(
       minimumCollateralPercentage_: BigNumberish,
       priceSource_: string,
       name_: string,
@@ -699,6 +696,8 @@ export class AVAI extends BaseContract {
     ): Promise<boolean>;
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    banks(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
     burn(
       from: string,
@@ -818,8 +817,6 @@ export class AVAI extends BaseContract {
     ): Promise<void>;
 
     vaultCount(overrides?: CallOverrides): Promise<BigNumber>;
-
-    vaults(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
   };
 
   filters: {
@@ -901,7 +898,7 @@ export class AVAI extends BaseContract {
 
     PAUSER_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
-    addVault(
+    addBank(
       minimumCollateralPercentage_: BigNumberish,
       priceSource_: string,
       name_: string,
@@ -923,6 +920,8 @@ export class AVAI extends BaseContract {
     ): Promise<BigNumber>;
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    banks(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
     burn(
       from: string,
@@ -1051,8 +1050,6 @@ export class AVAI extends BaseContract {
     ): Promise<BigNumber>;
 
     vaultCount(overrides?: CallOverrides): Promise<BigNumber>;
-
-    vaults(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -1068,7 +1065,7 @@ export class AVAI extends BaseContract {
 
     PAUSER_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    addVault(
+    addBank(
       minimumCollateralPercentage_: BigNumberish,
       priceSource_: string,
       name_: string,
@@ -1091,6 +1088,11 @@ export class AVAI extends BaseContract {
 
     balanceOf(
       account: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    banks(
+      arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1224,10 +1226,5 @@ export class AVAI extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     vaultCount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    vaults(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
   };
 }

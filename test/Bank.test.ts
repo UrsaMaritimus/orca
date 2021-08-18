@@ -5,19 +5,19 @@ import { ethers, waffle, upgrades } from 'hardhat';
 import {
   AVAI__factory,
   AVAI,
-  BaseVault,
-  BaseVault__factory,
+  Bank,
+  Bank__factory,
   AggregatorV3Interface__factory,
   ERC20Upgradeable__factory,
 } from '../libs/shared/contracts/src';
 
-describe('Base Vault', function () {
+describe('Bank', function () {
   let accounts;
-  let Vault: BaseVault__factory;
+  let Vault: Bank__factory;
   let Stablecoin: AVAI__factory;
-  let vault: BaseVault;
+  let vault: Bank;
   let avai: AVAI;
-  let wVault: BaseVault;
+  let wVault: Bank;
 
   const minimumCollateralPercentage = 150;
   const priceSource_ = '0x5498BB86BC934c8D34FDA08E81D444153d0D06aD';
@@ -27,9 +27,7 @@ describe('Base Vault', function () {
 
   before(async () => {
     accounts = await ethers.getSigners();
-    Vault = (await ethers.getContractFactory(
-      'BaseVault'
-    )) as BaseVault__factory;
+    Vault = (await ethers.getContractFactory('Bank')) as Bank__factory;
     Stablecoin = (await ethers.getContractFactory(
       'AVAI',
       accounts[0]
@@ -51,7 +49,7 @@ describe('Base Vault', function () {
     expect(vault.address).to.be.properAddress;
     // Deploy wAVAX vault
     await expect(
-      avai.addVault(
+      avai.addBank(
         minimumCollateralPercentage,
         priceSource_,
         symbol,
@@ -62,10 +60,10 @@ describe('Base Vault', function () {
       .to.emit(avai, 'CreateVaultType')
       .withArgs(token, symbol);
 
-    wVault = BaseVault__factory.connect(await avai.vaults(0), accounts[0]);
+    wVault = Bank__factory.connect(await avai.banks(0), accounts[0]);
   });
 
-  // Lets check some of the BaseVault interactions!
+  // Lets check some of the Bank interactions!
   // Ownership checked in each individual type i.e. ERC20 vault or AVAX vault
 
   // Start with basic unit tests

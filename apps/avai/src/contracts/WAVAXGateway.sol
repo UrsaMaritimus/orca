@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 import '@openzeppelin/contracts/access/Ownable.sol';
 import './interfaces/IWAVAX.sol';
-import './interfaces/IBaseVault.sol';
+import './interfaces/IBank.sol';
 
 contract WAVAXGateway is Ownable {
   IWAVAX internal immutable WAVAX;
@@ -17,9 +17,9 @@ contract WAVAXGateway is Ownable {
    * @dev Only vault owner can do anything with this modifier
    */
   modifier onlyVaultOwner(uint256 vaultID, address vault) {
-    require(IBaseVault(vault).vaultExists(vaultID), 'Vault does not exist');
+    require(IBank(vault).vaultExists(vaultID), 'Vault does not exist');
     require(
-      IBaseVault(vault).ownerOf(vaultID) == msg.sender,
+      IBank(vault).ownerOf(vaultID) == msg.sender,
       'Vault is not owned by you'
     );
     _;
@@ -41,7 +41,7 @@ contract WAVAXGateway is Ownable {
     onlyVaultOwner(vaultID, vault)
   {
     WAVAX.deposit{value: msg.value}();
-    IBaseVault(vault).depositCollateral(vaultID, msg.value);
+    IBank(vault).depositCollateral(vaultID, msg.value);
   }
 
   /**
@@ -52,7 +52,7 @@ contract WAVAXGateway is Ownable {
     uint256 vaultID,
     uint256 amount
   ) external payable onlyVaultOwner(vaultID, vault) {
-    IBaseVault(vault).withdrawCollateral(vaultID, amount);
+    IBank(vault).withdrawCollateral(vaultID, amount);
     WAVAX.withdraw(amount);
     payable(msg.sender).transfer(amount);
   }

@@ -1,6 +1,6 @@
 import { Web3Provider } from '@ethersproject/providers';
 import {
-  BaseVault__factory,
+  Bank__factory,
   AVAI__factory,
   WAVAXGateway__factory,
   VaultContracts,
@@ -16,7 +16,7 @@ export const getVault = (
 ) => {
   switch (vaultType) {
     case 'AVAX':
-      return BaseVault__factory.connect(
+      return Bank__factory.connect(
         chainId === 43113
           ? VaultContracts.fuji.wavax
           : chainId === 43114
@@ -26,7 +26,7 @@ export const getVault = (
         signer ? library.getSigner() : library
       );
     default:
-      return BaseVault__factory.connect(
+      return Bank__factory.connect(
         chainId === 43113
           ? VaultContracts.fuji.wavax
           : chainId === 43114

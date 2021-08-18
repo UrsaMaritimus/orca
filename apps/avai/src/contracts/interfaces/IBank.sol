@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 import '@openzeppelin/contracts/token/ERC721/IERC721.sol';
 
-interface IBaseVault is IERC721 {
+interface IBank is IERC721 {
   function transferVault(uint256 vaultID, address to) external;
 
   function vaultExists(uint256 vaultID) external view returns (bool);

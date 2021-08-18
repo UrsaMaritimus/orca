@@ -24,7 +24,7 @@ import {
 
 import { MainTable } from '@orca/components/table';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
-import { BaseVault__factory, VaultContracts } from '@orca/shared/contracts';
+import { Bank__factory, VaultContracts } from '@orca/shared/contracts';
 import { Loader } from '@orca/components/loader';
 import { fShortenNumber } from '@orca/util';
 
@@ -39,7 +39,7 @@ export interface PagesVaultsProps {}
  */
 const getAVAXVaults = () => {
   return async (library: Web3Provider, address: string, chainId: number) => {
-    const avaxVault = BaseVault__factory.connect(
+    const avaxVault = Bank__factory.connect(
       chainId === 43113
         ? VaultContracts.fuji.wavax
         : chainId === 43114
@@ -87,7 +87,7 @@ const getAVAXVaults = () => {
 
 const getMintCeiling = () => {
   return async (library: Web3Provider, chainId: number) => {
-    const avaxVault = BaseVault__factory.connect(
+    const avaxVault = Bank__factory.connect(
       chainId === 43113
         ? VaultContracts.fuji.wavax
         : chainId === 43114
@@ -128,7 +128,7 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
   // Keep all the information up to date
   useEffect(() => {
     if (library) {
-      const avaxVault = BaseVault__factory.connect(
+      const avaxVault = Bank__factory.connect(
         chainId === 43113
           ? VaultContracts.fuji.wavax
           : chainId === 43114
@@ -165,7 +165,7 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
   // For creating a vault
   const createVault = async () => {
     try {
-      const avaxVault = BaseVault__factory.connect(
+      const avaxVault = Bank__factory.connect(
         chainId === 43113
           ? VaultContracts.fuji.wavax
           : chainId === 43114

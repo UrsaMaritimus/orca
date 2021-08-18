@@ -5,7 +5,7 @@ export default {
       chainId: '43113',
       contracts: {
         AVAI: {
-          address: '0x4C8bFcC941b5287C656B1079B0c8664756BD1151',
+          address: '0x99D459efF99c2E6401B8945c16c52dAC8d37bD3f',
           abi: [
             {
               anonymous: false,
@@ -367,7 +367,7 @@ export default {
                   type: 'address',
                 },
               ],
-              name: 'addVault',
+              name: 'addBank',
               outputs: [],
               stateMutability: 'nonpayable',
               type: 'function',
@@ -434,6 +434,25 @@ export default {
                   internalType: 'uint256',
                   name: '',
                   type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              name: 'banks',
+              outputs: [
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
                 },
               ],
               stateMutability: 'view',
@@ -900,25 +919,6 @@ export default {
             {
               inputs: [
                 {
-                  internalType: 'uint256',
-                  name: '',
-                  type: 'uint256',
-                },
-              ],
-              name: 'vaults',
-              outputs: [
-                {
-                  internalType: 'address',
-                  name: '',
-                  type: 'address',
-                },
-              ],
-              stateMutability: 'view',
-              type: 'function',
-            },
-            {
-              inputs: [
-                {
                   internalType: 'address',
                   name: 'initialLogic',
                   type: 'address',
@@ -940,7 +940,7 @@ export default {
           ],
         },
         AVAI_Implementation: {
-          address: '0x1dcC21F8137df45034D1885caAFC034AE1e1f60e',
+          address: '0x8BF3D57FA045ACA9b9Bc77676120bf8619DE5B03',
           abi: [
             {
               anonymous: false,
@@ -1237,7 +1237,7 @@ export default {
                   type: 'address',
                 },
               ],
-              name: 'addVault',
+              name: 'addBank',
               outputs: [],
               stateMutability: 'nonpayable',
               type: 'function',
@@ -1304,6 +1304,25 @@ export default {
                   internalType: 'uint256',
                   name: '',
                   type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              name: 'banks',
+              outputs: [
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
                 },
               ],
               stateMutability: 'view',
@@ -1793,29 +1812,10 @@ export default {
               stateMutability: 'view',
               type: 'function',
             },
-            {
-              inputs: [
-                {
-                  internalType: 'uint256',
-                  name: '',
-                  type: 'uint256',
-                },
-              ],
-              name: 'vaults',
-              outputs: [
-                {
-                  internalType: 'address',
-                  name: '',
-                  type: 'address',
-                },
-              ],
-              stateMutability: 'view',
-              type: 'function',
-            },
           ],
         },
         AVAI_Proxy: {
-          address: '0x4C8bFcC941b5287C656B1079B0c8664756BD1151',
+          address: '0x99D459efF99c2E6401B8945c16c52dAC8d37bD3f',
           abi: [
             {
               inputs: [
@@ -1918,8 +1918,8 @@ export default {
             },
           ],
         },
-        BaseVault: {
-          address: '0x049D190D79ab0C1563918741CfE1e395059f42c1',
+        Bank: {
+          address: '0x77fF37899206B4b9178729494E2220B367674E39',
           abi: [
             {
               anonymous: false,
@@ -3317,7 +3317,7 @@ export default {
           ],
         },
         DefaultProxyAdmin: {
-          address: '0x660cCBd06B5A7bCFDfAA6C5842cE706c76cd7DE4',
+          address: '0xfd9eaF6cBE056c6E9B0906f759F9184C0beFCb5D',
           abi: [
             {
               inputs: [
@@ -3482,7 +3482,7 @@ export default {
           ],
         },
         WAVAXGateway: {
-          address: '0xF7d71a6965127230D6a72737F662a25C6E3C8B09',
+          address: '0x036Ebbc4cDe2d9756806557Ed6E024A7E3c53C2a',
           abi: [
             {
               inputs: [

@@ -7,7 +7,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   const { deployer } = await getNamedAccounts();
 
-  const base = await deployments.get('BaseVault');
+  const base = await deployments.get('Bank');
 
   await deploy('AVAI', {
     from: deployer,

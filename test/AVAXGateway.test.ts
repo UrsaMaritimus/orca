@@ -5,8 +5,8 @@ import { ethers, upgrades } from 'hardhat';
 import {
   AVAI__factory,
   AVAI,
-  BaseVault,
-  BaseVault__factory,
+  Bank,
+  Bank__factory,
   WAVAXGateway,
   WAVAXGateway__factory,
   ERC20Upgradeable__factory,
@@ -14,12 +14,12 @@ import {
 
 describe('Avax Vault Test with Gateway', function () {
   let accounts;
-  let Vault: BaseVault__factory;
+  let Vault: Bank__factory;
   let Stablecoin: AVAI__factory;
   let Gateway: WAVAXGateway__factory;
-  let vault: BaseVault;
+  let vault: Bank;
   let avai: AVAI;
-  let wVault: BaseVault;
+  let wVault: Bank;
   let gateway: WAVAXGateway;
 
   const minimumCollateralPercentage = 150;
@@ -30,9 +30,7 @@ describe('Avax Vault Test with Gateway', function () {
 
   before(async () => {
     accounts = await ethers.getSigners();
-    Vault = (await ethers.getContractFactory(
-      'BaseVault'
-    )) as BaseVault__factory;
+    Vault = (await ethers.getContractFactory('Bank')) as Bank__factory;
     Stablecoin = (await ethers.getContractFactory(
       'AVAI',
       accounts[0]
@@ -62,7 +60,7 @@ describe('Avax Vault Test with Gateway', function () {
     expect(vault.address).to.be.properAddress;
     // Deploy wAVAX vault
     await expect(
-      avai.addVault(
+      avai.addBank(
         minimumCollateralPercentage,
         priceSource_,
         symbol,
@@ -73,7 +71,7 @@ describe('Avax Vault Test with Gateway', function () {
       .to.emit(avai, 'CreateVaultType')
       .withArgs(token, symbol);
 
-    wVault = BaseVault__factory.connect(await avai.vaults(0), accounts[0]);
+    wVault = Bank__factory.connect(await avai.banks(0), accounts[0]);
     // Create treasury vault
     await wVault.createVault();
     await wVault.setTreasury(1);

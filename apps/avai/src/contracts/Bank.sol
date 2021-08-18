@@ -13,10 +13,9 @@ import '@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol';
 
 import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 import '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
-import './interfaces/IBaseVault.sol';
 import './interfaces/IStablecoin.sol';
 
-contract BaseVault is
+contract Bank is
   Initializable,
   ERC721Upgradeable,
   ERC721EnumerableUpgradeable,
@@ -478,25 +477,6 @@ contract BaseVault is
     emit WithdrawCollateral(vaultID, amount);
   }
 
-  /*************
-   * Liquidation functions
-   ************** */
-
-  /**
-   * @dev pays the user
-   * Returns the ERC20 token that was liquidated
-   */
-  function getPaid() external virtual nonReentrant {
-    require(
-      tokenDebt[msg.sender] != 0,
-      'No liquidations associated with account.'
-    );
-    uint256 amount = tokenDebt[msg.sender];
-    // Set first in case nonReentrant fails somehow
-    tokenDebt[msg.sender] = 0;
-    token.safeTransfer(msg.sender, amount);
-  }
-
   /**
    * @dev Pay back the stablecoin to reduce debt
    *
@@ -530,6 +510,25 @@ contract BaseVault is
     stablecoin.burn(msg.sender, amount);
 
     emit PayBackToken(vaultID, amount, _closingFee);
+  }
+
+  /*************
+   * Liquidation functions
+   ************** */
+
+  /**
+   * @dev pays the user
+   * Returns the ERC20 token that was liquidated
+   */
+  function getPaid() external virtual nonReentrant {
+    require(
+      tokenDebt[msg.sender] != 0,
+      'No liquidations associated with account.'
+    );
+    uint256 amount = tokenDebt[msg.sender];
+    // Set first in case nonReentrant fails somehow
+    tokenDebt[msg.sender] = 0;
+    token.safeTransfer(msg.sender, amount);
   }
 
   /**

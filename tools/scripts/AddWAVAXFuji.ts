@@ -1,8 +1,8 @@
-import { ethers, deployments } from 'hardhat';
+import { ethers } from 'hardhat';
 
 import {
   AVAI__factory,
-  BaseVault__factory,
+  Bank__factory,
   WAVAXGateway__factory,
 } from '../../libs/shared/contracts/src';
 
@@ -20,7 +20,7 @@ const addWavaxVault = async () => {
   const avai = AVAI__factory.connect(contracts.fuji.AVAI.address, accounts[0]);
 
   // Create WAVAX Vault
-  await avai.addVault(
+  await avai.addBank(
     minimumCollateralPercentage,
     priceSource_,
     symbol,
@@ -29,9 +29,9 @@ const addWavaxVault = async () => {
   );
 
   // One for now, will be zero for launch
-  const vaultNum = 2;
-  const wavaxVault = BaseVault__factory.connect(
-    await avai.vaults(vaultNum),
+  const vaultNum = 0;
+  const wavaxVault = Bank__factory.connect(
+    await avai.banks(vaultNum),
     accounts[0]
   );
   await wavaxVault.createVault();

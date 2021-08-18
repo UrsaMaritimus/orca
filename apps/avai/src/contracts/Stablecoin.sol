@@ -6,8 +6,8 @@ import '@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/token/ERC20/extensions/draft-ERC20PermitUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol';
-import '@openzeppelin/contracts/proxy/beacon/BeaconProxy.sol';
 
+import '@openzeppelin/contracts/proxy/beacon/BeaconProxy.sol';
 import './overrides/UpgradeableBeacon.sol';
 
 contract AVAI is
@@ -26,7 +26,7 @@ contract AVAI is
   // using SafeMath for uint256;
 
   // The vaults that users can use
-  address[] public vaults;
+  address[] public banks;
 
   event CreateVaultType(address token, string name);
 
@@ -45,10 +45,29 @@ contract AVAI is
   }
 
   /**
+   * @dev Upgrades the beacon to a new implementation.
+   *
+   * Emits an {Upgraded} event.
+   *
+   * Requirements:
+   *
+   * - msg.sender must be the owner of the contract.
+   * - `newImplementation` must be a contract.
+   */
+  function upgradeTo(address newImplementation)
+    public
+    override
+    onlyRole(DEFAULT_ADMIN_ROLE)
+  {
+    _setImplementation(newImplementation);
+    emit Upgraded(newImplementation);
+  }
+
+  /**
    * @dev check on the current number of vault types deployed
    */
   function vaultCount() external view returns (uint256) {
-    return vaults.length;
+    return banks.length;
   }
 
   /**
@@ -69,16 +88,16 @@ contract AVAI is
   }
 
   /**
-   * @dev Adds a vault after creation for book keeping on the stablecoin
+   * @dev Adds a bank after creation for book keeping on the stablecoin
    */
-  function addVault(
+  function addBank(
     uint256 minimumCollateralPercentage_,
     address priceSource_,
     string calldata name_,
     string calldata symbol_,
     address token_
   ) external onlyRole(DEFAULT_ADMIN_ROLE) {
-    address vault = address(
+    address bank = address(
       new BeaconProxy(
         address(this),
         abi.encodeWithSignature(
@@ -93,11 +112,11 @@ contract AVAI is
       )
     );
 
-    vaults.push(vault);
+    banks.push(bank);
 
-    _setupRole(BURNER_ROLE, vault);
+    _setupRole(BURNER_ROLE, bank);
     // Allow the vault to burn stablecoin
-    _setupRole(MINTER_ROLE, vault);
+    _setupRole(MINTER_ROLE, bank);
 
     emit CreateVaultType(token_, name_);
   }

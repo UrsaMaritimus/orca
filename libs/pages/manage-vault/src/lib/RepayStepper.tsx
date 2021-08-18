@@ -255,7 +255,7 @@ export const RepayStepper: FC<RepayStepperProps> = ({
                             onClick={() =>
                               setFieldValue(
                                 'repayAmount',
-                                Number(utils.formatEther(balance))
+                                utils.formatEther(balance)
                               )
                             }
                             variant="text"
