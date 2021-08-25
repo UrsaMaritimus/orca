@@ -27,84 +27,10 @@ import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 import { Bank__factory, VaultContracts } from '@orca/shared/contracts';
 import { Loader } from '@orca/components/loader';
 import { fShortenNumber } from '@orca/util';
+import { getVaults, mintCeiling } from '@orca/shared/funcs';
 
 /* eslint-disable-next-line */
 export interface PagesVaultsProps {}
-
-/**
- *
- * @param library Provider for web3
- * @param address Address of user
- * @returns An array of {vaultID, collateral, debt, ratio} for each vault
- */
-const getAVAXVaults = () => {
-  return async (library: Web3Provider, address: string, chainId: number) => {
-    const avaxVault = Bank__factory.connect(
-      chainId === 43113
-        ? VaultContracts.fuji.wavax
-        : chainId === 43114
-        ? // TODO: Update
-          VaultContracts.mainnet.wavax
-        : null,
-      library
-    );
-    const balance = Number(
-      utils.formatUnits(await avaxVault.balanceOf(address), 0)
-    );
-
-    const vaults = await Promise.all(
-      [...Array(balance)].map(async (_, i) => {
-        return await avaxVault.tokenOfOwnerByIndex(address, i);
-      })
-    );
-
-    //Get each vault's collateral and debt
-    return Promise.all(
-      vaults.map(async (vault) => {
-        try {
-          const collateral = await avaxVault.vaultCollateral(vault);
-          const debt = await avaxVault.vaultDebt(vault);
-          const price = await avaxVault.getPriceSource();
-          const peg = await avaxVault.getPricePeg();
-
-          const ratio = debt.isZero()
-            ? utils.formatUnits(0, 0)
-            : debt.mul(peg).mul(100).div(collateral.mul(price));
-
-          return {
-            vaultID: vault.toString(),
-            collateral: utils.formatEther(collateral),
-            debt: utils.formatEther(debt),
-            ratio: ratio.toString(),
-          };
-        } catch (err) {
-          console.log(err.message);
-        }
-      })
-    );
-  };
-};
-
-const getMintCeiling = () => {
-  return async (library: Web3Provider, chainId: number) => {
-    const avaxVault = Bank__factory.connect(
-      chainId === 43113
-        ? VaultContracts.fuji.wavax
-        : chainId === 43114
-        ? // TODO: Update
-          VaultContracts.mainnet.wavax
-        : null,
-      library
-    );
-
-    const debtCeiling = await avaxVault.debtCeiling();
-    const totalDebt = await avaxVault.totalDebt();
-    return {
-      debtCeiling,
-      totalDebt,
-    };
-  };
-};
 
 export const AvaxVaults: FC<PagesVaultsProps> = () => {
   const { account, library, chainId } = useWeb3React<Web3Provider>();
@@ -113,15 +39,15 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
 
   // Grab user's vaults
   const { data: vaults, mutate: avaxVaultMutate } = useSwr(
-    shouldFetch ? [library, account, chainId] : null,
-    getAVAXVaults()
+    shouldFetch ? ['getAvaxVaults', library, account, chainId, 'wavax'] : null,
+    getVaults()
   );
   useKeepSWRDataLiveAsBlocksArrive(avaxVaultMutate);
 
   // Grab user's vaults
   const { data: debtInfo, mutate: debtMutate } = useSwr(
-    shouldFetch ? [library, chainId] : null,
-    getMintCeiling()
+    shouldFetch ? ['getMintCeiling', library, chainId, 'wavax'] : null,
+    mintCeiling()
   );
   useKeepSWRDataLiveAsBlocksArrive(debtMutate);
 

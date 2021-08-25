@@ -134,6 +134,9 @@
     "shared-deployments": {
       "tags": []
     },
+    "shared-funcs": {
+      "tags": []
+    },
     "shared-styles": {
       "tags": []
     },

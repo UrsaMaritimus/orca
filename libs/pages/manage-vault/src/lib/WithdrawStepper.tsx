@@ -25,10 +25,9 @@ import { useFormik, Form, FormikProvider } from 'formik';
 
 import { BigNumber, utils } from 'ethers';
 import { fCurrency, fPercent, fNumber } from '@orca/util';
+import { withdrawCollateral } from '@orca/shared/funcs';
 
-import { tokenInfo } from './constants';
-
-import { withdrawCollateral } from './manageVaultFunctions';
+import { tokenInfo } from '@orca/shared/base';
 
 // ----------------------------------------------------------------------
 
@@ -117,7 +116,7 @@ export const WithdrawStepper: FC<WithdrawStepperProps> = ({
         library,
         vaultID,
         values.withdrawAmount,
-        token,
+        tokenInfo[token as string].erc20,
         chainId
       );
       handleNext();

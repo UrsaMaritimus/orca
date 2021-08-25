@@ -8,7 +8,7 @@ import '@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol';
 
-import '@openzeppelin/contracts/utils/Counters.sol';
+import '@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol';
 import '@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol';
 
 import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
@@ -25,8 +25,8 @@ contract Bank is
   bytes32 public constant TREASURY_ROLE = keccak256('TREASURY_ROLE');
   using SafeERC20 for IERC20;
   using SafeERC20 for IStablecoin;
-  using Counters for Counters.Counter;
-  Counters.Counter private _userVaultIds;
+  using CountersUpgradeable for CountersUpgradeable.Counter;
+  CountersUpgradeable.Counter private _userVaultIds;
   /**
    * Set all of these upon initalization
    */
@@ -336,6 +336,10 @@ contract Bank is
     _mint(msg.sender, newVaultId);
   }
 
+  function vaultCounts() external view returns (uint256) {
+    return _userVaultIds.current();
+  }
+
   /**
    * @dev User can destroy a vault. Will return all collateral upon destroying.
    *
@@ -616,7 +620,6 @@ contract Bank is
 
     uint256 tokenExtract = checkExtract(vaultID_);
     uint256 halfDebt = checkCost(vaultID_);
-
     require(
       stablecoin.balanceOf(msg.sender) >= halfDebt,
       'Token balance too low to pay off outstanding debt'
@@ -633,7 +636,7 @@ contract Bank is
     vaultCollateral[treasury] += _closingFee;
 
     tokenDebt[msg.sender] += tokenExtract;
-    stablecoin.burn(msg.sender, halfDebt);
+    stablecoin.burn(address(this), halfDebt);
 
     _subFromTotalDebt(halfDebt);
 

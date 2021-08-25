@@ -24,7 +24,12 @@ const BalanceStyle = styled('div')(({ theme }) => ({
 }));
 
 const getAVAIBalance = () => {
-  return async (library: Web3Provider, chainId: number, address: string) => {
+  return async (
+    _: string,
+    library: Web3Provider,
+    chainId: number,
+    address: string
+  ) => {
     const avai = AVAI__factory.connect(
       chainId === 43113
         ? contractAddresses.fuji.AVAI.address
@@ -42,7 +47,7 @@ const AvaiBalance = () => {
   const { account, library, chainId } = useWeb3React<Web3Provider>();
   const shouldFetch = typeof account === 'string' && !!library;
   const { data: balance, mutate: avaiMutate } = useSWR(
-    shouldFetch ? [library, chainId, account] : null,
+    shouldFetch ? ['avaiBalance', library, chainId, account] : null,
     getAVAIBalance()
   );
   const { theme, systemTheme } = useTheme();

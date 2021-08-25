@@ -1,4 +1,4 @@
-import json from './deployments';
+import json from './deploymentContracts';
 
 const contracts = {
   fuji: json[43113].fuji.contracts,

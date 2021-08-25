@@ -1,61 +1,13 @@
 import { Web3Provider } from '@ethersproject/providers';
-import {
-  Bank__factory,
-  AVAI__factory,
-  WAVAXGateway__factory,
-  VaultContracts,
-} from '@orca/shared/contracts';
-import contractAddresses from '@orca/shared/deployments';
 import { utils } from 'ethers';
 
-export const getVault = (
-  vaultType: string,
-  library: Web3Provider,
-  chainId: number,
-  signer = false
-) => {
-  switch (vaultType) {
-    case 'AVAX':
-      return Bank__factory.connect(
-        chainId === 43113
-          ? VaultContracts.fuji.wavax
-          : chainId === 43114
-          ? // TODO: Update
-            VaultContracts.mainnet.wavax
-          : null,
-        signer ? library.getSigner() : library
-      );
-    default:
-      return Bank__factory.connect(
-        chainId === 43113
-          ? VaultContracts.fuji.wavax
-          : chainId === 43114
-          ? // TODO: Update
-            VaultContracts.mainnet.wavax
-          : null,
-        signer ? library.getSigner() : library
-      );
-  }
-};
+import { getVault } from './getVault';
+import { getGateway } from './gateway';
 
-export const getGateway = (
-  library: Web3Provider,
-  chainId: number,
-  signer = false
-) => {
-  return WAVAXGateway__factory.connect(
-    chainId === 43113
-      ? contractAddresses.fuji.WAVAXGateway.address
-      : chainId === 43114
-      ? // TODO: Update
-        contractAddresses.fuji.WAVAXGateway.address
-      : null,
-    signer ? library.getSigner() : library
-  );
-};
-
+// swr
 export const getVaultInfo = () => {
   return async (
+    _: string,
     library: Web3Provider,
     chainId: number,
     vaultType: string,
@@ -122,8 +74,57 @@ export const getVaultInfo = () => {
   };
 };
 
+// swr
+export const getVaults = () => {
+  return async (
+    _: string,
+    library: Web3Provider,
+    address: string,
+    chainId: number,
+    vaultType: string
+  ) => {
+    const tokenVault = getVault(vaultType, library, chainId);
+    const balance = Number(
+      utils.formatUnits(await tokenVault.balanceOf(address), 0)
+    );
+
+    const vaults = await Promise.all(
+      [...Array(balance)].map(async (_, i) => {
+        return await tokenVault.tokenOfOwnerByIndex(address, i);
+      })
+    );
+    const price = await tokenVault.getPriceSource();
+    const peg = await tokenVault.getPricePeg();
+
+    //Get each vault's collateral and debt
+    return Promise.all(
+      vaults.map(async (vault) => {
+        try {
+          const collateral = await tokenVault.vaultCollateral(vault);
+          const debt = await tokenVault.vaultDebt(vault);
+
+          const ratio = debt.isZero()
+            ? utils.formatUnits(0, 0)
+            : debt.mul(peg).mul(100).div(collateral.mul(price));
+
+          return {
+            vaultID: vault.toString(),
+            collateral: utils.formatEther(collateral),
+            debt: utils.formatEther(debt),
+            ratio: ratio.toString(),
+          };
+        } catch (err) {
+          console.log(err.message);
+        }
+      })
+    );
+  };
+};
+
+// swr
 export const vaultOwner = () => {
   return async (
+    _: string,
     library: Web3Provider,
     vaultID: number,
     address: string,
@@ -136,6 +137,26 @@ export const vaultOwner = () => {
   };
 };
 
+// swr
+export const mintCeiling = () => {
+  return async (
+    _: string,
+    library: Web3Provider,
+    chainId: number,
+    vaultType: string
+  ) => {
+    const vault = getVault(vaultType, library, chainId);
+
+    const debtCeiling = await vault.debtCeiling();
+    const totalDebt = await vault.totalDebt();
+    return {
+      debtCeiling,
+      totalDebt,
+    };
+  };
+};
+
+// callable
 export const deleteVault = (
   library: Web3Provider,
   vaultID: number,
@@ -145,7 +166,7 @@ export const deleteVault = (
   const vault = getVault(vaultType, library, chainId, true);
   return vault.destroyVault(vaultID);
 };
-
+// callable
 export const depositCollateral = (
   library: Web3Provider,
   vaultID: number,
@@ -163,7 +184,7 @@ export const depositCollateral = (
   }
   return vault.depositCollateral(vaultID, utils.parseEther(amount.toString()));
 };
-
+// callable
 export const withdrawCollateral = (
   library: Web3Provider,
   vaultID: number,
@@ -182,7 +203,7 @@ export const withdrawCollateral = (
   }
   return vault.withdrawCollateral(vaultID, utils.parseEther(amount.toString()));
 };
-
+// callable
 export const borrowToken = (
   library: Web3Provider,
   vaultID: number,
@@ -193,7 +214,7 @@ export const borrowToken = (
   const vault = getVault(vaultType, library, chainId, true);
   return vault.borrowToken(vaultID, utils.parseEther(amount.toString()));
 };
-
+// callable
 export const payBackToken = (
   library: Web3Provider,
   vaultID: number,
@@ -203,19 +224,4 @@ export const payBackToken = (
 ) => {
   const vault = getVault(vaultType, library, chainId, true);
   return vault.payBackToken(vaultID, utils.parseEther(amount.toString()));
-};
-
-export const getAVAIBalance = () => {
-  return async (library: Web3Provider, chainId: number, address: string) => {
-    const avai = AVAI__factory.connect(
-      chainId === 43113
-        ? contractAddresses.fuji.AVAI.address
-        : chainId === 43114
-        ? // TODO: Update
-          contractAddresses.fuji.AVAI.address
-        : null,
-      library
-    );
-    return avai.balanceOf(address);
-  };
 };

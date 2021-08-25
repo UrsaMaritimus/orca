@@ -101,7 +101,7 @@ export function Vaults(props) {
   if (typeof account !== 'string')
     return (
       <RootStyle title={`Vaults | ${process.env.NEXT_PUBLIC_TITLE}`}>
-        <Container maxWidth="lg">Not connected.</Container>
+        <Container maxWidth="lg">Not connected to metamask.</Container>
       </RootStyle>
     );
   // Default return

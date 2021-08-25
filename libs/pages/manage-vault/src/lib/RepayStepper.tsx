@@ -24,12 +24,10 @@ import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 
 import { useFormik, Form, FormikProvider } from 'formik';
-
-import { fPercent, fShortenNumber, fNumber } from '@orca/util';
+import { payBackToken, avaiBalance } from '@orca/shared/funcs';
+import { fPercent, fNumber } from '@orca/util';
 import { BigNumber, utils } from 'ethers';
-import { tokenInfo } from './constants';
-
-import { payBackToken, getAVAIBalance } from './manageVaultFunctions';
+import { tokenInfo } from '@orca/shared/base';
 
 // ----------------------------------------------------------------------
 
@@ -66,8 +64,8 @@ export const RepayStepper: FC<RepayStepperProps> = ({
   // Get AVAI balances
   const shouldFetch = typeof account === 'string' && !!library;
   const { data: balance, mutate: avaiMutate } = useSWR(
-    shouldFetch ? [library, chainId, account] : null,
-    getAVAIBalance()
+    shouldFetch ? ['getAvaiBalanceRepay', library, chainId, account] : null,
+    avaiBalance()
   );
   useEffect(() => {
     const avai = AVAI__factory.connect(
@@ -110,7 +108,7 @@ export const RepayStepper: FC<RepayStepperProps> = ({
       .required('Deposit amount required')
       .moreThan(0, 'Must be larger than zero.')
       .positive('Must be positive')
-      .max(Number(utils.formatEther(balance))),
+      .max(Number(utils.formatEther(vaultInfo.debt))),
   });
   const formik = useFormik({
     initialValues: {
@@ -145,7 +143,7 @@ export const RepayStepper: FC<RepayStepperProps> = ({
         library,
         vaultID,
         values.repayAmount,
-        token,
+        tokenInfo[token as string].erc20,
         chainId
       );
       handleNext();
@@ -215,7 +213,7 @@ export const RepayStepper: FC<RepayStepperProps> = ({
         </>
       )}
       <>
-        {activeStep === 0 && (
+        {activeStep === 0 && balance && (
           <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
               <Box sx={{ m: 2 }}>
@@ -224,7 +222,10 @@ export const RepayStepper: FC<RepayStepperProps> = ({
                     Available to repay:
                   </Typography>
                   <Typography variant="h6" textAlign="center">
-                    {fNumber(Number(utils.formatEther(balance)))} AVAI
+                    {balance.gte(vaultInfo.debt)
+                      ? fNumber(Number(utils.formatEther(vaultInfo.debt)))
+                      : fNumber(Number(utils.formatEther(balance)))}{' '}
+                    AVAI
                   </Typography>
                 </Stack>
                 <Box sx={{ m: 'auto', width: '60%' }}>
@@ -255,7 +256,9 @@ export const RepayStepper: FC<RepayStepperProps> = ({
                             onClick={() =>
                               setFieldValue(
                                 'repayAmount',
-                                utils.formatEther(balance)
+                                balance.gte(vaultInfo.debt)
+                                  ? utils.formatEther(vaultInfo.debt)
+                                  : utils.formatEther(balance)
                               )
                             }
                             variant="text"
@@ -290,7 +293,7 @@ export const RepayStepper: FC<RepayStepperProps> = ({
             </Form>
           </FormikProvider>
         )}
-        {activeStep === 1 && (
+        {activeStep === 1 && balance && (
           <>
             <Box
               p={2}

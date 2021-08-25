@@ -83,6 +83,7 @@ interface BankInterface extends ethers.utils.Interface {
     "transferVault(uint256,address)": FunctionFragment;
     "treasury()": FunctionFragment;
     "vaultCollateral(uint256)": FunctionFragment;
+    "vaultCounts()": FunctionFragment;
     "vaultDebt(uint256)": FunctionFragment;
     "vaultExists(uint256)": FunctionFragment;
     "withdrawCollateral(uint256,uint256)": FunctionFragment;
@@ -298,6 +299,10 @@ interface BankInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "vaultCounts",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "vaultDebt",
     values: [BigNumberish]
   ): string;
@@ -487,6 +492,10 @@ interface BankInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "treasury", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "vaultCollateral",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "vaultCounts",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "vaultDebt", data: BytesLike): Result;
@@ -846,6 +855,8 @@ export class Bank extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
+    vaultCounts(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     vaultDebt(
       arg0: BigNumberish,
       overrides?: CallOverrides
@@ -1125,6 +1136,8 @@ export class Bank extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
+  vaultCounts(overrides?: CallOverrides): Promise<BigNumber>;
+
   vaultDebt(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
   vaultExists(
@@ -1390,6 +1403,8 @@ export class Bank extends BaseContract {
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    vaultCounts(overrides?: CallOverrides): Promise<BigNumber>;
 
     vaultDebt(
       arg0: BigNumberish,
@@ -1807,6 +1822,8 @@ export class Bank extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    vaultCounts(overrides?: CallOverrides): Promise<BigNumber>;
+
     vaultDebt(
       arg0: BigNumberish,
       overrides?: CallOverrides
@@ -2105,6 +2122,8 @@ export class Bank extends BaseContract {
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    vaultCounts(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     vaultDebt(
       arg0: BigNumberish,

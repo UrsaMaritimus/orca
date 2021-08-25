@@ -20,15 +20,14 @@ import toast from 'react-hot-toast';
 // Ethers and web3 stuff
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
-
+import { BigNumber, utils } from 'ethers';
 import { useFormik, Form, FormikProvider } from 'formik';
 
 import { useAVAXBalance } from '@orca/hooks';
 import { fCurrency, fPercent } from '@orca/util';
-import { BigNumber, utils } from 'ethers';
-import { tokenInfo } from './constants';
+import { depositCollateral } from '@orca/shared/funcs';
 
-import { depositCollateral } from './manageVaultFunctions';
+import { tokenInfo } from '@orca/shared/base';
 
 // ----------------------------------------------------------------------
 
@@ -123,7 +122,7 @@ export const DepositStepper: FC<DepositStepperProps> = ({
       library,
       vaultID,
       values.depositAmount,
-      token,
+      tokenInfo[token as string].erc20,
       chainId
     );
     handleNext();

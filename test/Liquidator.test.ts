@@ -82,6 +82,7 @@ describe('Avax Vault Test with Gateway', function () {
       .withArgs(token, symbol);
 
     wVault = Bank__factory.connect(await avai.banks(0), accounts[0]);
+
     // Create treasury vault
     await wVault.createVault();
     await wVault.setTreasury(1);
@@ -217,12 +218,10 @@ describe('Avax Vault Test with Gateway', function () {
     await expect(
       wVault.connect(accounts[1]).liquidateVault(2)
     ).to.be.revertedWith('Token balance too low to pay off outstanding debt');
-
+    const mintVal = await wVault.checkCost(2);
     // Let the user have minter role
     await avai.grantRole(await avai.MINTER_ROLE(), accounts[1].address);
-    await avai
-      .connect(accounts[1])
-      .mint(accounts[1].address, ethers.utils.parseEther('1000.0')); // 1000 AVAI
+    await avai.connect(accounts[1]).mint(accounts[1].address, mintVal.add(10)); // 1000 AVAI
 
     // Should revert because not approved
     await expect(

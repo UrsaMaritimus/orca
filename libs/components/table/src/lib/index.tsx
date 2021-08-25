@@ -87,13 +87,17 @@ const MainTable: FC<MainTableProps> = ({ rows, collateralType, debtType }) => {
             <TableBody>
               {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => (
-                  <RowTable
-                    key={row.vaultID}
-                    row={row}
-                    collateralType={collateralType}
-                  />
-                ))}
+                .map((row) => {
+                  if (row) {
+                    return (
+                      <RowTable
+                        key={row.vaultID}
+                        row={row}
+                        collateralType={collateralType}
+                      />
+                    );
+                  }
+                })}
             </TableBody>
           </Table>
         </TableContainer>

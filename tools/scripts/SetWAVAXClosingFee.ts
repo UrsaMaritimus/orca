@@ -4,9 +4,9 @@ import { AVAI__factory, Bank__factory } from '../../libs/shared/contracts/src';
 
 import contracts from '../../libs/shared/deployments/src';
 
-const adjustWavaxDebtCeiling = async () => {
+const adjustWavaxClosingFee = async () => {
   // Test net constants
-  const ceiling = ethers.utils.parseEther('100000');
+  const fee = ethers.utils.parseUnits('75', 0);
   const accounts = await ethers.getSigners();
   const avai = AVAI__factory.connect(contracts.fuji.AVAI.address, accounts[0]);
 
@@ -16,10 +16,12 @@ const adjustWavaxDebtCeiling = async () => {
     await avai.banks(vaultNum),
     accounts[0]
   );
-  await wavaxVault.setDebtCeiling(ceiling);
+  console.log(await wavaxVault.closingFee());
+  await wavaxVault.setClosingFee(fee);
+  console.log(await wavaxVault.closingFee());
 };
 
-adjustWavaxDebtCeiling()
+adjustWavaxClosingFee()
   .then(() => process.exit(0))
   .catch((error) => {
     console.error(error);

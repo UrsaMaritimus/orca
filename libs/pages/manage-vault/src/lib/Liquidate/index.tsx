@@ -2,8 +2,6 @@
 import { FC, useState } from 'react';
 import { Icon } from '@iconify/react';
 import infoOutline from '@iconify/icons-eva/info-outline';
-import plusCircleOutline from '@iconify/icons-eva/plus-circle-outline';
-import minusCircleOutline from '@iconify/icons-eva/minus-circle-outline';
 import {
   Card,
   Box,
@@ -13,20 +11,18 @@ import {
   Container,
   Popover,
   IconButton,
-  Tab,
+  Divider,
 } from '@material-ui/core';
-import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 
 import { BigNumber, utils } from 'ethers';
 import { fCurrency, fPercent } from '@orca/util';
 
 import { tokenInfo } from '@orca/shared/base';
-import { DepositStepper } from './DepositStepper';
-import { WithdrawStepper } from './WithdrawStepper';
+import { LiquidateVault } from './liquidate';
 
 //-----------------------------------------
 
-type DepositProps = {
+type LiquidateProps = {
   token: string;
   isOwner: boolean;
   vaultID: number;
@@ -47,10 +43,9 @@ type DepositProps = {
   };
 };
 
-export const Deposit: FC<DepositProps> = ({
+export const Liquidate: FC<LiquidateProps> = ({
   token,
   vaultInfo,
-  isOwner,
   vaultID,
 }) => {
   const [hover, setHover] = useState(null);
@@ -62,11 +57,6 @@ export const Deposit: FC<DepositProps> = ({
 
   const handleHoverClose = () => {
     setHover(null);
-  };
-
-  // For tabs
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
   };
 
   return (
@@ -86,7 +76,7 @@ export const Deposit: FC<DepositProps> = ({
         <Container maxWidth="lg">
           <Box sx={{ flexGrow: 1 }}>
             <Stack alignItems="center" direction="row" spacing={1}>
-              <Typography variant="h4">Deposits in</Typography>
+              <Typography variant="h4">Liquidate Vault</Typography>
               <Stack alignItems="center" direction="row" spacing={1}>
                 <Box
                   component="img"
@@ -129,7 +119,7 @@ export const Deposit: FC<DepositProps> = ({
               <Stack alignItems="center">
                 <Stack direction="row" alignItems="center">
                   <Typography variant="h6" textAlign="center">
-                    Maximum LTV
+                    Current LTV
                   </Typography>
                   <IconButton
                     onMouseEnter={handleHoverOpen}
@@ -140,15 +130,14 @@ export const Deposit: FC<DepositProps> = ({
                   </IconButton>
                 </Stack>
                 <Typography variant="inherit">
-                  {fPercent(vaultInfo.maxLTV)}{' '}
+                  {fPercent(Number(utils.formatUnits(vaultInfo.LTV, 6)))}{' '}
                 </Typography>
                 <Typography variant="caption" sx={{ color: 'grey.500' }}>
-                  {fCurrency(Number(utils.formatEther(vaultInfo.maxLTVUSD)))}{' '}
-                  USD
+                  Max LTV: {fPercent(vaultInfo.maxLTV)}
                 </Typography>
               </Stack>
             </Grid>
-            <Grid item sm={6} sx={{ mt: 2 }}>
+            <Grid item sm={12} sx={{ mt: 2 }}>
               <Stack alignItems="center">
                 <Typography variant="h6" textAlign="center">
                   Borrowing Power Used
@@ -166,115 +155,16 @@ export const Deposit: FC<DepositProps> = ({
                 </Typography>
               </Stack>
             </Grid>
-            <Grid item sm={6} sx={{ mt: 2 }}>
-              <Stack alignItems="center">
-                <Typography variant="h6" textAlign="center">
-                  Borrowing Power Available
-                </Typography>
-                <Typography variant="inherit">
-                  {fPercent(
-                    Number(
-                      utils.formatUnits(vaultInfo.borrowingPowerAvailable, 6)
-                    )
-                  )}
-                </Typography>
-                <Typography variant="caption" sx={{ color: 'grey.500' }}>
-                  {fCurrency(
-                    Number(
-                      utils.formatEther(vaultInfo.borrowingPowerAvailableUSD)
-                    )
-                  )}{' '}
-                  USD
-                </Typography>
-              </Stack>
-            </Grid>
           </Grid>
-          {isOwner && (
-            <TabContext value={value}>
-              <Box
-                sx={{
-                  pt: 2,
-                  pb: 2,
-                  mr: 1,
-                  ml: 1,
-                  mt: 3,
-                  mb: 3,
-                  borderRadius: 1,
-                  bgcolor: (theme) =>
-                    theme.palette.mode === 'light' ? 'grey.400' : 'grey.600',
-                }}
-              >
-                <Container maxWidth="lg">
-                  <TabList
-                    onChange={handleChange}
-                    variant="fullWidth"
-                    indicatorColor="primary"
-                  >
-                    <Tab
-                      key="Deposit"
-                      label={
-                        <Stack direction="row" alignItems="center" spacing={1}>
-                          <Icon
-                            icon={plusCircleOutline}
-                            width={30}
-                            height={30}
-                          />{' '}
-                          <Typography variant="h4">Deposit</Typography>
-                        </Stack>
-                      }
-                      value={String(1)}
-                    />
-                    <Tab
-                      key="Withdraw"
-                      label={
-                        <Stack direction="row" alignItems="center" spacing={1}>
-                          <Icon
-                            icon={minusCircleOutline}
-                            width={30}
-                            height={30}
-                          />{' '}
-                          <Typography variant="h4">Withdraw</Typography>
-                        </Stack>
-                      }
-                      value={String(2)}
-                      sx={{ fontSize: 'x-large' }}
-                    />
-                  </TabList>
-                </Container>
-              </Box>
-              <Box
-                sx={{
-                  p: 2,
-                  mt: 2,
-                  width: '100%',
-                  borderRadius: 1,
-                  bgcolor: 'grey.50012',
-                }}
-              >
-                <TabPanel key="Deposit" value={String(1)}>
-                  <Box
-                    sx={{
-                      p: 3,
-                      minHeight: 180,
-                    }}
-                  >
-                    <DepositStepper
-                      token={token}
-                      vaultInfo={vaultInfo}
-                      approved={token === 'AVAX'}
-                      vaultID={vaultID}
-                    />
-                  </Box>
-                </TabPanel>
-                <TabPanel key="Withdraw" value={String(2)}>
-                  <WithdrawStepper
-                    token={token}
-                    vaultInfo={vaultInfo}
-                    vaultID={vaultID}
-                  />
-                </TabPanel>
-              </Box>
-            </TabContext>
+          {Number(utils.formatUnits(vaultInfo.borrowingPowerUsed, 6)) > 100 && (
+            <>
+              <Divider sx={{ mt: 2, mb: 2 }} />
+              <LiquidateVault
+                vaultInfo={vaultInfo}
+                vaultID={Number(vaultID)}
+                token={token as string}
+              />
+            </>
           )}
         </Container>
       </Card>
@@ -312,4 +202,4 @@ export const Deposit: FC<DepositProps> = ({
   );
 };
 
-export default Deposit;
+export default Liquidate;

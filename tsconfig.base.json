@@ -61,6 +61,7 @@
       "@orca/shared/base": ["libs/shared/base/src/index.ts"],
       "@orca/shared/contracts": ["libs/shared/contracts/src/index.ts"],
       "@orca/shared/deployments": ["libs/shared/deployments/src/index.ts"],
+      "@orca/shared/funcs": ["libs/shared/funcs/src/index.ts"],
       "@orca/shared/styles": ["libs/shared/styles/src/index.ts"],
       "@orca/util": ["libs/util/src/index.ts"]
     }

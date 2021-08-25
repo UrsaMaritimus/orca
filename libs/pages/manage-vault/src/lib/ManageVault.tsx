@@ -9,10 +9,11 @@ import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import { useRouter } from 'next/router';
 import { experimentalStyled as styled } from '@material-ui/core/styles';
 
+import toast from 'react-hot-toast';
+
 import {
   Card,
   CardHeader,
-  Grid,
   IconButton,
   Container,
   Dialog,
@@ -39,17 +40,18 @@ import { Page } from '@orca/components/page';
 import { routes } from '@orca/shared/base';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 import { Loader } from '@orca/components/loader';
-
+import { AVALANCHE_TESTNET_PARAMS } from '@orca/util';
 import {
   getVaultInfo,
   vaultOwner,
   deleteVault,
   getVault,
-} from './manageVaultFunctions';
+} from '@orca/shared/funcs';
+
 import { Deposit } from './Deposit';
 import { Borrows } from './Borrows';
-import toast from 'react-hot-toast';
-import { AVALANCHE_TESTNET_PARAMS } from '@orca/util';
+import { Liquidate } from './Liquidate';
+import { tokenInfo } from '@orca/shared/base';
 
 const RootStyle = styled(Page)(({ theme }) => ({
   paddingTop: theme.spacing(3),
@@ -96,7 +98,7 @@ export function ManageVault() {
     const result = await deleteVault(
       library,
       Number(vaultID),
-      token as string,
+      tokenInfo[token as string].erc20,
       chainId
     );
     setOpenDestroy(false);
@@ -125,14 +127,31 @@ export function ManageVault() {
 
   // Vault info using SWR
   const { data: vaultInfo, mutate: vaultInfoMutate } = useSwr(
-    shouldFetch ? [library, chainId, token, vaultID] : null,
+    shouldFetch
+      ? [
+          'getVaultInfo',
+          library,
+          chainId,
+          tokenInfo[token as string].erc20,
+          vaultID,
+        ]
+      : null,
     getVaultInfo()
   );
   useKeepSWRDataLiveAsBlocksArrive(vaultInfoMutate);
 
   // Is owner?
   const { data: isOwner, mutate: vaultOwnerMutate } = useSwr(
-    shouldFetch ? [library, vaultID, account, token, chainId] : null,
+    shouldFetch
+      ? [
+          'vaultOwner',
+          library,
+          vaultID,
+          account,
+          tokenInfo[token as string].erc20,
+          chainId,
+        ]
+      : null,
     vaultOwner()
   );
   useKeepSWRDataLiveAsBlocksArrive(vaultOwnerMutate);
@@ -141,7 +160,11 @@ export function ManageVault() {
   useEffect(() => {
     if (library) {
       // Change this in the future
-      const vault = getVault(token as string, library, chainId);
+      const vault = getVault(
+        tokenInfo[token as string].erc20,
+        library,
+        chainId
+      );
       // Set events up for updating
       const depositedCollateral = vault.filters.DepositCollateral();
       vault.on(depositedCollateral, (vaultId, amount) => {
@@ -213,7 +236,7 @@ export function ManageVault() {
         </Container>
       </RootStyle>
     );
-  // Default return
+
   if (typeof account === 'string' && vaultInfo)
     return (
       <RootStyle title={`Manage Vault | ${process.env.NEXT_PUBLIC_TITLE}`}>
@@ -252,52 +275,67 @@ export function ManageVault() {
                   ) : undefined
                 }
               />
-              <Box sx={{ p: 2, mt: 2, width: '100%', borderRadius: 1 }}>
-                <TabList
-                  onChange={handleChange}
-                  variant="fullWidth"
-                  indicatorColor="primary"
-                >
-                  <Tab
-                    key="Collateral"
-                    label={
-                      <Stack direction="row" alignItems="center" spacing={1}>
-                        <Typography variant="h4">Collateral</Typography>
-                      </Stack>
-                    }
-                    value={String(1)}
-                  />
-                  <Tab
-                    key="Loans"
-                    label={
-                      <Stack direction="row" alignItems="center" spacing={1}>
-                        <Typography variant="h4">Loans</Typography>
-                      </Stack>
-                    }
-                    value={String(2)}
-                    sx={{ fontSize: 'x-large' }}
-                  />
-                </TabList>
-              </Box>{' '}
+              {isOwner && (
+                <Box sx={{ p: 2, mt: 2, width: '100%', borderRadius: 1 }}>
+                  <TabList
+                    onChange={handleChange}
+                    variant="fullWidth"
+                    indicatorColor="primary"
+                  >
+                    <Tab
+                      key="Collateral"
+                      label={
+                        <Stack direction="row" alignItems="center" spacing={1}>
+                          <Typography variant="h4">Collateral</Typography>
+                        </Stack>
+                      }
+                      value={String(1)}
+                    />
+                    <Tab
+                      key="Loans"
+                      label={
+                        <Stack direction="row" alignItems="center" spacing={1}>
+                          <Typography variant="h4">Loans</Typography>
+                        </Stack>
+                      }
+                      value={String(2)}
+                      sx={{ fontSize: 'x-large' }}
+                    />
+                  </TabList>
+                </Box>
+              )}
             </Card>
-            <TabPanel key="Deposit" value={String(1)}>
-              <Deposit
-                token={token as string}
+            {isOwner && (
+              <>
+                <TabPanel key="Deposit" value={String(1)}>
+                  <Deposit
+                    token={token as string}
+                    vaultInfo={vaultInfo}
+                    isOwner={isOwner}
+                    vaultID={Number(vaultID)}
+                  />
+                </TabPanel>
+                <TabPanel key="Withdraw" value={String(2)}>
+                  <Borrows
+                    vaultInfo={vaultInfo}
+                    vaultID={Number(vaultID)}
+                    isOwner={isOwner}
+                    token={token as string}
+                  />
+                </TabPanel>
+              </>
+            )}
+            {!isOwner && (
+              <Liquidate
                 vaultInfo={vaultInfo}
-                isOwner={isOwner}
-                vaultID={Number(vaultID)}
-              />
-            </TabPanel>
-            <TabPanel key="Withdraw" value={String(2)}>
-              <Borrows
-                vaultInfo={vaultInfo}
                 vaultID={Number(vaultID)}
                 isOwner={isOwner}
                 token={token as string}
               />
-            </TabPanel>
+            )}
           </Container>
         </TabContext>
+
         {
           // Dialogs an popovers for use in the page
         }

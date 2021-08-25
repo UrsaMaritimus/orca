@@ -851,6 +851,27 @@
         }
       }
     },
+    "shared-funcs": {
+      "root": "libs/shared/funcs",
+      "sourceRoot": "libs/shared/funcs/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/shared/funcs/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/funcs"],
+          "options": {
+            "jestConfig": "libs/shared/funcs/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "shared-styles": {
       "root": "libs/shared/styles",
       "sourceRoot": "libs/shared/styles/src",
