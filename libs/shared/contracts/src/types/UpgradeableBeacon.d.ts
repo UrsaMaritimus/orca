@@ -25,7 +25,7 @@ interface UpgradeableBeaconInterface extends ethers.utils.Interface {
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
-    "upgradeTo(address)": FunctionFragment;
+    "upgradeToNewBank(address)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -41,7 +41,10 @@ interface UpgradeableBeaconInterface extends ethers.utils.Interface {
     functionFragment: "transferOwnership",
     values: [string]
   ): string;
-  encodeFunctionData(functionFragment: "upgradeTo", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "upgradeToNewBank",
+    values: [string]
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "implementation",
@@ -56,7 +59,10 @@ interface UpgradeableBeaconInterface extends ethers.utils.Interface {
     functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "upgradeTo", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "upgradeToNewBank",
+    data: BytesLike
+  ): Result;
 
   events: {
     "OwnershipTransferred(address,address)": EventFragment;
@@ -124,7 +130,7 @@ export class UpgradeableBeacon extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    upgradeTo(
+    upgradeToNewBank(
       newImplementation: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -143,7 +149,7 @@ export class UpgradeableBeacon extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  upgradeTo(
+  upgradeToNewBank(
     newImplementation: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -160,7 +166,7 @@ export class UpgradeableBeacon extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    upgradeTo(
+    upgradeToNewBank(
       newImplementation: string,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -194,7 +200,7 @@ export class UpgradeableBeacon extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    upgradeTo(
+    upgradeToNewBank(
       newImplementation: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -214,7 +220,7 @@ export class UpgradeableBeacon extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    upgradeTo(
+    upgradeToNewBank(
       newImplementation: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;

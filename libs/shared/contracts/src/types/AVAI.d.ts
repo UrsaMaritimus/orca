@@ -57,7 +57,7 @@ interface AVAIInterface extends ethers.utils.Interface {
     "transferFrom(address,address,uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "unpause()": FunctionFragment;
-    "upgradeTo(address)": FunctionFragment;
+    "upgradeToNewBank(address)": FunctionFragment;
     "vaultCount()": FunctionFragment;
   };
 
@@ -183,7 +183,10 @@ interface AVAIInterface extends ethers.utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(functionFragment: "unpause", values?: undefined): string;
-  encodeFunctionData(functionFragment: "upgradeTo", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "upgradeToNewBank",
+    values: [string]
+  ): string;
   encodeFunctionData(
     functionFragment: "vaultCount",
     values?: undefined
@@ -270,7 +273,10 @@ interface AVAIInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "unpause", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "upgradeTo", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "upgradeToNewBank",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "vaultCount", data: BytesLike): Result;
 
   events: {
@@ -495,7 +501,7 @@ export class AVAI extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    upgradeTo(
+    upgradeToNewBank(
       newImplementation: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -656,7 +662,7 @@ export class AVAI extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  upgradeTo(
+  upgradeToNewBank(
     newImplementation: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -811,7 +817,7 @@ export class AVAI extends BaseContract {
 
     unpause(overrides?: CallOverrides): Promise<void>;
 
-    upgradeTo(
+    upgradeToNewBank(
       newImplementation: string,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -1044,7 +1050,7 @@ export class AVAI extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    upgradeTo(
+    upgradeToNewBank(
       newImplementation: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -1220,7 +1226,7 @@ export class AVAI extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    upgradeTo(
+    upgradeToNewBank(
       newImplementation: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;

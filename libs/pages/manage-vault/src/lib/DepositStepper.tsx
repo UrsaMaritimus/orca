@@ -107,47 +107,44 @@ export const DepositStepper: FC<DepositStepperProps> = ({
     },
   });
 
-  const {
-    errors,
-    touched,
-    values,
-    setFieldValue,
-    handleSubmit,
-    getFieldProps,
-    resetForm,
-  } = formik;
+  const { errors, touched, values, handleSubmit, getFieldProps, resetForm } =
+    formik;
 
   const handleDeposit = async () => {
-    const result = await depositCollateral(
-      library,
-      vaultID,
-      values.depositAmount,
-      tokenInfo[token as string].erc20,
-      chainId
-    );
-    handleNext();
-    // Make a promise for destroying vault
-    await toast.promise(
-      result.wait(1),
-      {
-        loading: 'Depositing collateral...',
-        success: <b>Collateral deposited!</b>,
-        error: <b>Failed to deposit collateral.</b>,
-      },
-      {
-        style: {
-          minWidth: '100px',
+    try {
+      const result = await depositCollateral(
+        library,
+        vaultID,
+        values.depositAmount,
+        tokenInfo[token as string].erc20,
+        chainId
+      );
+      handleNext();
+      // Make a promise for destroying vault
+      await toast.promise(
+        result.wait(1),
+        {
+          loading: 'Depositing collateral...',
+          success: <b>Collateral deposited!</b>,
+          error: <b>Failed to deposit collateral.</b>,
         },
-        loading: {
-          duration: Infinity,
-        },
-        success: {
-          duration: 5000,
-        },
-      }
-    );
-    resetForm();
-    handleReset();
+        {
+          style: {
+            minWidth: '100px',
+          },
+          loading: {
+            duration: Infinity,
+          },
+          success: {
+            duration: 5000,
+          },
+        }
+      );
+      resetForm();
+      handleReset();
+    } catch (error) {
+      toast.error(error.data.message);
+    }
   };
   return (
     <>

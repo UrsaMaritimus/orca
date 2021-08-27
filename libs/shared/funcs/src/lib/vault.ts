@@ -164,6 +164,10 @@ export const deleteVault = (
   chainId: number
 ) => {
   const vault = getVault(vaultType, library, chainId, true);
+  if (vaultType === 'wavax') {
+    const gateway = getGateway(library, chainId, true);
+    return gateway.destroyVault(vault.address, vaultID);
+  }
   return vault.destroyVault(vaultID);
 };
 // callable
@@ -175,7 +179,7 @@ export const depositCollateral = (
   chainId: number
 ) => {
   const vault = getVault(vaultType, library, chainId, true);
-  if (vaultType === 'AVAX') {
+  if (vaultType === 'wavax') {
     const gateway = getGateway(library, chainId, true);
     const overrides = {
       value: utils.parseEther(amount.toString()),
@@ -193,7 +197,7 @@ export const withdrawCollateral = (
   chainId: number
 ) => {
   const vault = getVault(vaultType, library, chainId, true);
-  if (vaultType === 'AVAX') {
+  if (vaultType === 'wavax') {
     const gateway = getGateway(library, chainId, true);
     return gateway.withdrawAVAX(
       vault.address,

@@ -40,7 +40,12 @@ export const VaultReward: FC<VaultRewardProps> = ({ token }) => {
 
   const handleGetPaid = async () => {
     try {
-      const result = await getReward(library, chainId, tokenInfo[token].erc20);
+      const result = await getReward(
+        library,
+        chainId,
+        tokenInfo[token].erc20,
+        account
+      );
       await toast.promise(
         result.wait(1),
         {

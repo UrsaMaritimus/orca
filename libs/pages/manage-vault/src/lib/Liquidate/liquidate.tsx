@@ -12,7 +12,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import useSWR from 'swr';
 
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
-import { routes } from '@orca/shared/base';
+import { routes, tokenInfo } from '@orca/shared/base';
 import { fCurrency, fNumber } from '@orca/util';
 import { BigNumber, utils } from 'ethers';
 import {
@@ -58,7 +58,14 @@ export const LiquidateVault: FC<LiquidateProps> = ({
   //Avai is approved
   const { data: approved, mutate: avaiMutate } = useSWR(
     shouldFetch
-      ? ['avaiApproved', library, account, chainId, vaultInfo.debt, token]
+      ? [
+          'avaiApproved',
+          library,
+          account,
+          chainId,
+          vaultInfo.debt,
+          tokenInfo[token as string].erc20,
+        ]
       : null,
     avaiApproved()
   );
@@ -78,7 +85,7 @@ export const LiquidateVault: FC<LiquidateProps> = ({
         library,
         chainId,
         utils.parseEther('100000000'),
-        token
+        tokenInfo[token as string].erc20
       );
 
       await toast.promise(
@@ -109,7 +116,12 @@ export const LiquidateVault: FC<LiquidateProps> = ({
   const handleLiquidate = async () => {
     try {
       console.log(vaultID);
-      const result = await liquidateVault(library, chainId, token, vaultID);
+      const result = await liquidateVault(
+        library,
+        chainId,
+        tokenInfo[token as string].erc20,
+        vaultID
+      );
 
       await toast.promise(
         result.wait(1),

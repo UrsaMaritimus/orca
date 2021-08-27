@@ -45,25 +45,6 @@ contract AVAI is
   }
 
   /**
-   * @dev Upgrades the beacon to a new implementation.
-   *
-   * Emits an {Upgraded} event.
-   *
-   * Requirements:
-   *
-   * - msg.sender must be the owner of the contract.
-   * - `newImplementation` must be a contract.
-   */
-  function upgradeTo(address newImplementation)
-    public
-    override
-    onlyRole(DEFAULT_ADMIN_ROLE)
-  {
-    _setImplementation(newImplementation);
-    emit Upgraded(newImplementation);
-  }
-
-  /**
    * @dev check on the current number of vault types deployed
    */
   function vaultCount() external view returns (uint256) {

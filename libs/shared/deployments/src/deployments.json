@@ -940,7 +940,7 @@
           ]
         },
         "AVAI_Implementation": {
-          "address": "0xBeD650e154dbcB56792C96E3a47A02f2B9466D43",
+          "address": "0xFeCfC4AC2E404a1B1ddA4500A27cB7EE3b82E583",
           "abi": [
             {
               "anonymous": false,
@@ -1919,7 +1919,7 @@
           ]
         },
         "Bank": {
-          "address": "0xD4087dF401213fb283A81EE0ABFDe1341924F28d",
+          "address": "0x8d537D89641fA33f2675f63FA29Db08112182258",
           "abi": [
             {
               "anonymous": false,
@@ -2515,7 +2515,13 @@
               "type": "function"
             },
             {
-              "inputs": [],
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "user",
+                  "type": "address"
+                }
+              ],
               "name": "getPaid",
               "outputs": [],
               "stateMutability": "nonpayable",
@@ -3495,7 +3501,7 @@
           ]
         },
         "WAVAXGateway": {
-          "address": "0x843995775466e02ba785A5E76ed49E2327Bae041",
+          "address": "0xeC98b29429B8Cf909e7A6FFA98b08336a9693E4c",
           "abi": [
             {
               "inputs": [
@@ -3554,6 +3560,37 @@
                 }
               ],
               "name": "depositAVAX",
+              "outputs": [],
+              "stateMutability": "payable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "vault",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "vaultID",
+                  "type": "uint256"
+                }
+              ],
+              "name": "destroyVault",
+              "outputs": [],
+              "stateMutability": "payable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "vault",
+                  "type": "address"
+                }
+              ],
+              "name": "getPaid",
               "outputs": [],
               "stateMutability": "payable",
               "type": "function"

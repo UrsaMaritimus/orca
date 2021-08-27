@@ -47,7 +47,11 @@ contract UpgradeableBeacon is IBeaconUpgradeable, OwnableUpgradeable {
    * - msg.sender must be the owner of the contract.
    * - `newImplementation` must be a contract.
    */
-  function upgradeTo(address newImplementation) public virtual onlyOwner {
+  function upgradeToNewBank(address newImplementation)
+    public
+    virtual
+    onlyOwner
+  {
     _setImplementation(newImplementation);
     emit Upgraded(newImplementation);
   }

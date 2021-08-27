@@ -1,5 +1,6 @@
 import { Web3Provider } from '@ethersproject/providers';
 import { getVault } from './getVault';
+import { getGateway } from './gateway';
 
 export const liquidateVault = async (
   library: Web3Provider,

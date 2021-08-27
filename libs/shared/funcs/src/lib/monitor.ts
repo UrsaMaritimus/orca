@@ -1,6 +1,7 @@
 import { Web3Provider } from '@ethersproject/providers';
 import { utils } from 'ethers';
 import { getVault } from './getVault';
+import { getGateway } from './gateway';
 
 export const monitorBadVaults = () => {
   return async (
@@ -65,8 +66,13 @@ export const monitorRewards = () => {
 export const getReward = async (
   library: Web3Provider,
   chainId: number,
-  vaultType: string
+  vaultType: string,
+  address: string
 ) => {
   const vault = getVault(vaultType, library, chainId, true);
-  return vault.getPaid();
+  if (vaultType === 'wavax') {
+    const gateway = getGateway(library, chainId, true);
+    return gateway.getPaid(vault.address);
+  }
+  return vault.getPaid(address);
 };

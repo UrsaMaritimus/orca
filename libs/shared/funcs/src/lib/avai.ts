@@ -67,7 +67,6 @@ export const approveAvai = async (
       : null,
     library.getSigner()
   );
-
   const vault = getVault(vaultType, library, chainId, true);
 
   return avai.increaseAllowance(vault.address, amount);
