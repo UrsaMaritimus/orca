@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { ethers, waffle, upgrades } from 'hardhat';
-
+import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 import {
   AVAI__factory,
   AVAI,
@@ -12,7 +12,7 @@ import {
 } from '../libs/shared/contracts/src';
 
 describe('Bank', function () {
-  let accounts;
+  let accounts: SignerWithAddress[];
   let Vault: Bank__factory;
   let Stablecoin: AVAI__factory;
   let vault: Bank;

@@ -24,6 +24,7 @@ interface IBankInterface extends ethers.utils.Interface {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "depositCollateral(uint256,uint256)": FunctionFragment;
+    "destroyVault(uint256)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "initialize(uint256,address,string,string,address,address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
@@ -45,6 +46,10 @@ interface IBankInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "depositCollateral",
     values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "destroyVault",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "getApproved",
@@ -95,6 +100,10 @@ interface IBankInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "depositCollateral",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "destroyVault",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -208,6 +217,11 @@ export class IBank extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    destroyVault(
+      vaultID: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -299,6 +313,11 @@ export class IBank extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  destroyVault(
+    vaultID: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   getApproved(
     tokenId: BigNumberish,
     overrides?: CallOverrides
@@ -384,6 +403,11 @@ export class IBank extends BaseContract {
     depositCollateral(
       vaultID: BigNumberish,
       amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    destroyVault(
+      vaultID: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -505,6 +529,11 @@ export class IBank extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    destroyVault(
+      vaultID: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
@@ -597,6 +626,11 @@ export class IBank extends BaseContract {
     depositCollateral(
       vaultID: BigNumberish,
       amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    destroyVault(
+      vaultID: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

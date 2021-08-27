@@ -141,6 +141,19 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
+        name: "vaultID",
+        type: "uint256",
+      },
+    ],
+    name: "destroyVault",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
         name: "tokenId",
         type: "uint256",
       },

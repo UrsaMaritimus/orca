@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { ethers, upgrades } from 'hardhat';
-
+import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 import {
   AVAI__factory,
   AVAI,
@@ -15,8 +15,8 @@ import {
   WAVAX,
 } from '../libs/shared/contracts/src';
 
-describe('Avax Vault Test with Gateway', function () {
-  let accounts;
+describe('Liquidator Test', function () {
+  let accounts: SignerWithAddress[];
   let Vault: Bank__factory;
   let Stablecoin: AVAI__factory;
   let Gateway: WAVAXGateway__factory;
@@ -299,12 +299,24 @@ describe('Avax Vault Test with Gateway', function () {
       'No liquidations associated with account.'
     );
 
+    // Because waffles doesn't work
+    const initBalanceVault = await wavax.balanceOf(wVault.address);
+    const initBalanceUser = await wavax.balanceOf(accounts[1].address);
+    await wVault.connect(accounts[1]).getPaid();
+
+    expect(await wavax.balanceOf(wVault.address)).to.equal(
+      initBalanceVault.sub(tokenExtract)
+    );
+    expect(await wavax.balanceOf(accounts[1].address)).to.equal(
+      initBalanceUser.add(tokenExtract)
+    );
+    /*
     await expect(() =>
       wVault.connect(accounts[1]).getPaid()
     ).to.changeTokenBalances(
       wavax,
       [wVault, accounts[1]],
       [tokenExtract.mul(-1), tokenExtract]
-    );
+    );*/
   });
 });

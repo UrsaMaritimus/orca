@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { ethers, upgrades } from 'hardhat';
-
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import {
   AVAI__factory,
   AVAI,
@@ -10,10 +10,11 @@ import {
   WAVAXGateway,
   WAVAXGateway__factory,
   ERC20Upgradeable__factory,
+  ERC20Upgradeable,
 } from '../libs/shared/contracts/src';
 
 describe('Avax Vault Test with Gateway', function () {
-  let accounts;
+  let accounts: SignerWithAddress[];
   let Vault: Bank__factory;
   let Stablecoin: AVAI__factory;
   let Gateway: WAVAXGateway__factory;
@@ -21,6 +22,7 @@ describe('Avax Vault Test with Gateway', function () {
   let avai: AVAI;
   let wVault: Bank;
   let gateway: WAVAXGateway;
+  let wavax: ERC20Upgradeable;
 
   const minimumCollateralPercentage = 150;
   const priceSource_ = '0x5498BB86BC934c8D34FDA08E81D444153d0D06aD';
@@ -78,6 +80,9 @@ describe('Avax Vault Test with Gateway', function () {
     // We use a gateway for our purposes
     await gateway.authorizeVault(wVault.address);
     await wVault.setGateway(gateway.address);
+
+    // wavax setup
+    wavax = ERC20Upgradeable__factory.connect(token, accounts[0]);
   });
 
   // Deposit collateral
@@ -104,13 +109,20 @@ describe('Avax Vault Test with Gateway', function () {
       gateway.depositAVAX(wVault.address, 2, overrides)
     ).to.changeEtherBalance(accounts[0], ethers.utils.parseEther('-10.0'));
 
+    const initBalance = await wavax.balanceOf(wVault.address);
+    await gateway.depositAVAX(wVault.address, 2, overrides);
+    expect(await wavax.balanceOf(wVault.address)).to.equal(
+      initBalance.add(overrides.value)
+    );
+
+    /** waffles not working right now
     await expect(() =>
       gateway.depositAVAX(wVault.address, 2, overrides)
     ).to.changeTokenBalance(
       ERC20Upgradeable__factory.connect(token, accounts[0]),
       wVault,
       ethers.utils.parseEther('10.0')
-    );
+    );*/
   });
 
   it('Should only allow vault owner to deposit as long as vault exists with gateway', async () => {
@@ -156,7 +168,12 @@ describe('Avax Vault Test with Gateway', function () {
     // initial collateral
     const secondCollat = await wVault.vaultCollateral(2);
 
-    // Lets try withdrawing
+    const initBalance = await wavax.balanceOf(wVault.address);
+    await gateway.withdrawAVAX(wVault.address, 2, overrides.value);
+    expect(await wavax.balanceOf(wVault.address)).to.equal(
+      initBalance.sub(overrides.value)
+    );
+    /*
     await expect(() =>
       gateway.withdrawAVAX(wVault.address, 2, overrides.value)
     ).to.changeTokenBalance(
@@ -164,6 +181,7 @@ describe('Avax Vault Test with Gateway', function () {
       wVault,
       overrides.value.mul(-1)
     );
+    */
 
     expect(await wVault.vaultCollateral(2)).to.equal(
       secondCollat.sub(overrides.value)
@@ -183,6 +201,16 @@ describe('Avax Vault Test with Gateway', function () {
       gateway.withdrawAVAX(wVault.address, 2, ethers.utils.parseEther('5.0'))
     ).to.changeEtherBalance(accounts[0], ethers.utils.parseEther('5.0'));
 
+    const initBalance = await wavax.balanceOf(wVault.address);
+    await gateway.withdrawAVAX(
+      wVault.address,
+      2,
+      ethers.utils.parseEther('5.0')
+    );
+    expect(await wavax.balanceOf(wVault.address)).to.equal(
+      initBalance.sub(ethers.utils.parseEther('5.0'))
+    );
+    /*
     // Lets try withdrawing
     await expect(() =>
       gateway.withdrawAVAX(wVault.address, 2, ethers.utils.parseEther('5.0'))
@@ -190,7 +218,7 @@ describe('Avax Vault Test with Gateway', function () {
       ERC20Upgradeable__factory.connect(token, accounts[0]),
       wVault,
       ethers.utils.parseEther('5.0').mul(-1)
-    );
+    );*/
   });
 
   it('should emit withdraw collateral', async () => {

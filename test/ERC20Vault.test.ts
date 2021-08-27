@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { ethers, waffle, upgrades } from 'hardhat';
-
+import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 import {
   AVAI__factory,
   AVAI,
@@ -14,7 +14,7 @@ import {
 } from '../libs/shared/contracts/src';
 
 describe('ERC20 Vault Test', function () {
-  let accounts;
+  let accounts: SignerWithAddress[];
   let Vault: Bank__factory;
   let Stablecoin: AVAI__factory;
   let Gateway: WAVAXGateway__factory;
@@ -148,15 +148,26 @@ describe('ERC20 Vault Test', function () {
       initCollat.add(ethers.utils.parseEther('10.0'))
     );
 
-    // Check balances according to blockchain
+    // Because waffles doesn't work
+    const initBalanceVault = await wavax.balanceOf(wVault.address);
+    const initBalanceUser = await wavax.balanceOf(accounts[0].address);
+    await wVault.depositCollateral(2, ethers.utils.parseEther('10.0'));
+
+    expect(await wavax.balanceOf(wVault.address)).to.equal(
+      initBalanceVault.add(ethers.utils.parseEther('10.0'))
+    );
+    expect(await wavax.balanceOf(accounts[0].address)).to.equal(
+      initBalanceUser.sub(ethers.utils.parseEther('10.0'))
+    );
+
+    /* waffles doesn't work
     await expect(() =>
       wVault.depositCollateral(2, ethers.utils.parseEther('10.0'))
     ).to.changeTokenBalances(
       wavax,
       [accounts[0], wVault],
       [ethers.utils.parseEther('-10.0'), ethers.utils.parseEther('10.0')]
-    );
-    console.log(await accounts[0].getBalance());
+    );*/
   });
 
   it('Should only allow vault owner to deposit as long as vault exists', async () => {
@@ -182,14 +193,26 @@ describe('ERC20 Vault Test', function () {
     // initial collateral
     const initCollat = await wVault.vaultCollateral(2);
 
-    // Lets try withdrawing
+    // Because waffles doesn't work
+    const initBalanceVault = await wavax.balanceOf(wVault.address);
+    const initBalanceUser = await wavax.balanceOf(accounts[0].address);
+    await wVault.withdrawCollateral(2, ethers.utils.parseEther('10.0'));
+
+    expect(await wavax.balanceOf(wVault.address)).to.equal(
+      initBalanceVault.sub(ethers.utils.parseEther('10.0'))
+    );
+    expect(await wavax.balanceOf(accounts[0].address)).to.equal(
+      initBalanceUser.add(ethers.utils.parseEther('10.0'))
+    );
+
+    /*
     await expect(() =>
       wVault.withdrawCollateral(2, ethers.utils.parseEther('10.0'))
     ).changeTokenBalances(
       wavax,
       [accounts[0], wVault],
       [ethers.utils.parseEther('10.0'), ethers.utils.parseEther('-10.0')]
-    );
+    );*/
 
     expect(await wVault.vaultCollateral(2)).to.equal(
       initCollat.sub(ethers.utils.parseEther('10.0'))
@@ -202,6 +225,18 @@ describe('ERC20 Vault Test', function () {
     await wVault.createVault();
     await wVault.depositCollateral(2, ethers.utils.parseEther('10.0'));
 
+    // Because waffles doesn't work
+    const initBalanceVault = await wavax.balanceOf(wVault.address);
+    const initBalanceUser = await wavax.balanceOf(accounts[0].address);
+    await wVault.withdrawCollateral(2, ethers.utils.parseEther('5.0'));
+
+    expect(await wavax.balanceOf(wVault.address)).to.equal(
+      initBalanceVault.sub(ethers.utils.parseEther('5.0'))
+    );
+    expect(await wavax.balanceOf(accounts[0].address)).to.equal(
+      initBalanceUser.add(ethers.utils.parseEther('5.0'))
+    );
+    /*
     // Lets try withdrawing
     await expect(() =>
       wVault.withdrawCollateral(2, ethers.utils.parseEther('5.0'))
@@ -209,7 +244,7 @@ describe('ERC20 Vault Test', function () {
       wavax,
       [accounts[0], wVault],
       [ethers.utils.parseEther('5.0'), ethers.utils.parseEther('-5.0')]
-    );
+    );*/
   });
 
   it('should emit withdraw collateral', async () => {
@@ -451,14 +486,27 @@ describe('ERC20 Vault Test', function () {
     );
 
     const withdrawAmount = ethers.utils.parseEther('5.0').mul(9950).div(10000);
+    // Because waffles doesn't work
+    const initBalanceVault = await wavax.balanceOf(wVault.address);
+    const initBalanceUser = await wavax.balanceOf(accounts[0].address);
+    await wVault.withdrawCollateral(2, withdrawAmount);
+
+    expect(await wavax.balanceOf(wVault.address)).to.equal(
+      initBalanceVault.sub(withdrawAmount)
+    );
+    expect(await wavax.balanceOf(accounts[0].address)).to.equal(
+      initBalanceUser.add(withdrawAmount)
+    );
+
     // Lets withdraw max collateral now
+    /*
     await expect(() =>
       wVault.withdrawCollateral(2, withdrawAmount)
     ).to.changeTokenBalances(
       wavax,
       [accounts[0], wVault],
       [withdrawAmount, withdrawAmount.mul(-1)]
-    );
+    );*/
   });
 
   it('should allow destroying of vault', async () => {
@@ -530,10 +578,24 @@ describe('ERC20 Vault Test', function () {
     expect(await wVault.vaultDebt(2)).to.equal(0);
 
     const currentCollat = await wVault.vaultCollateral(2);
+
+    // Because waffles doesn't work
+    const initBalanceVault = await wavax.balanceOf(wVault.address);
+    const initBalanceUser = await wavax.balanceOf(accounts[0].address);
+    await wVault.destroyVault(2);
+
+    expect(await wavax.balanceOf(wVault.address)).to.equal(
+      initBalanceVault.sub(currentCollat)
+    );
+    expect(await wavax.balanceOf(accounts[0].address)).to.equal(
+      initBalanceUser.add(currentCollat)
+    );
+
+    /*
     await expect(() => wVault.destroyVault(2)).to.changeTokenBalances(
       wavax,
       [accounts[0], wVault],
       [currentCollat, currentCollat.mul(-1)]
-    );
+    );*/
   });
 });

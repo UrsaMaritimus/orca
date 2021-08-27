@@ -49,7 +49,6 @@ export default {
   networks: {
     hardhat: {
       gasPrice: 225000000000,
-      //chainId: !forkingData ? 43112 : undefined, //Only specify a chainId if we are not forking
       forking: forkingData,
     },
     avash: {
