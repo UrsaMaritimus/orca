@@ -146,6 +146,17 @@ contract Bank is
   }
 
   /**
+   * @dev Only gateway allowed, or user if its not WAVAX.
+   */
+  modifier onlyUser(address user) {
+    require(
+      msg.sender == user || msg.sender == gateway,
+      'Cannot get paid if not yours'
+    );
+    _;
+  }
+
+  /**
    * @dev allows checking if vault exists or not
    */
   function vaultExists(uint256 vaultID) public view returns (bool) {
@@ -524,14 +535,11 @@ contract Bank is
    * @dev pays the user
    * Returns the ERC20 token that was liquidated
    */
-  function getPaid() external virtual nonReentrant {
-    require(
-      tokenDebt[msg.sender] != 0,
-      'No liquidations associated with account.'
-    );
-    uint256 amount = tokenDebt[msg.sender];
+  function getPaid(address user) external nonReentrant onlyUser(user) {
+    require(tokenDebt[user] != 0, 'No liquidations associated with account.');
+    uint256 amount = tokenDebt[user];
     // Set first in case nonReentrant fails somehow
-    tokenDebt[msg.sender] = 0;
+    tokenDebt[user] = 0;
     token.safeTransfer(msg.sender, amount);
   }
 

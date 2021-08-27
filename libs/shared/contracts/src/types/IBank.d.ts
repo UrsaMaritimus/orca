@@ -26,6 +26,7 @@ interface IBankInterface extends ethers.utils.Interface {
     "depositCollateral(uint256,uint256)": FunctionFragment;
     "destroyVault(uint256)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
+    "getPaid(address)": FunctionFragment;
     "initialize(uint256,address,string,string,address,address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
@@ -55,6 +56,7 @@ interface IBankInterface extends ethers.utils.Interface {
     functionFragment: "getApproved",
     values: [BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "getPaid", values: [string]): string;
   encodeFunctionData(
     functionFragment: "initialize",
     values: [BigNumberish, string, string, string, string, string]
@@ -110,6 +112,7 @@ interface IBankInterface extends ethers.utils.Interface {
     functionFragment: "getApproved",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getPaid", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
@@ -227,6 +230,11 @@ export class IBank extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string] & { operator: string }>;
 
+    getPaid(
+      user: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     initialize(
       minimumCollateralPercentage_: BigNumberish,
       priceSource_: string,
@@ -323,6 +331,11 @@ export class IBank extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  getPaid(
+    user: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   initialize(
     minimumCollateralPercentage_: BigNumberish,
     priceSource_: string,
@@ -415,6 +428,8 @@ export class IBank extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    getPaid(user: string, overrides?: CallOverrides): Promise<void>;
 
     initialize(
       minimumCollateralPercentage_: BigNumberish,
@@ -539,6 +554,11 @@ export class IBank extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getPaid(
+      user: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     initialize(
       minimumCollateralPercentage_: BigNumberish,
       priceSource_: string,
@@ -637,6 +657,11 @@ export class IBank extends BaseContract {
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getPaid(
+      user: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     initialize(

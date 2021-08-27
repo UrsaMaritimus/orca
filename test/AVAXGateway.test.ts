@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { ethers, upgrades } from 'hardhat';
-import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
+import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 import {
   AVAI__factory,
   AVAI,
@@ -11,6 +11,8 @@ import {
   WAVAXGateway__factory,
   ERC20Upgradeable__factory,
   ERC20Upgradeable,
+  PriceSource,
+  PriceSource__factory,
 } from '../libs/shared/contracts/src';
 
 describe('Avax Vault Test with Gateway', function () {
@@ -23,6 +25,8 @@ describe('Avax Vault Test with Gateway', function () {
   let wVault: Bank;
   let gateway: WAVAXGateway;
   let wavax: ERC20Upgradeable;
+  let FakePrice: PriceSource__factory;
+  let fakePrice: PriceSource;
 
   const minimumCollateralPercentage = 150;
   const priceSource_ = '0x5498BB86BC934c8D34FDA08E81D444153d0D06aD';
@@ -41,6 +45,10 @@ describe('Avax Vault Test with Gateway', function () {
       'WAVAXGateway',
       accounts[0]
     )) as WAVAXGateway__factory;
+    FakePrice = (await ethers.getContractFactory(
+      'PriceSource',
+      accounts[0]
+    )) as PriceSource__factory;
   });
 
   beforeEach(async function () {
@@ -236,5 +244,105 @@ describe('Avax Vault Test with Gateway', function () {
     )
       .to.emit(wVault, 'WithdrawCollateral')
       .withArgs(2, ethers.utils.parseEther('5.0'));
+  });
+
+  it('should destroy vault', async () => {
+    // Set up
+    const overrides = {
+      value: ethers.utils.parseEther('10.0'),
+    };
+
+    await wVault.createVault();
+    await gateway.depositAVAX(wVault.address, 2, overrides);
+
+    // Lets try destroying
+    await expect(gateway.destroyVault(wVault.address, 2))
+      .to.emit(wVault, 'DestroyVault')
+      .withArgs(2);
+  });
+
+  it('should transfer WAVAX upon destroy vault', async () => {
+    // Set up
+    const overrides = {
+      value: ethers.utils.parseEther('10.0'),
+    };
+
+    await wVault.createVault();
+    await gateway.depositAVAX(wVault.address, 2, overrides);
+
+    // Lets try destroying
+    await expect(() =>
+      gateway.destroyVault(wVault.address, 2)
+    ).to.changeEtherBalance(accounts[0], overrides.value);
+
+    expect(await wavax.balanceOf(wVault.address)).to.equal(0);
+  });
+
+  it('should only let user delete vault', async () => {
+    // Set up
+    const overrides = {
+      value: ethers.utils.parseEther('10.0'),
+    };
+
+    await wVault.createVault();
+    await gateway.depositAVAX(wVault.address, 2, overrides);
+
+    await expect(gateway.connect(accounts[1]).destroyVault(wVault.address, 2))
+      .to.be.reverted;
+  });
+
+  it('should let user get paid after liquidation', async () => {
+    // Get WAVAX
+    const overrides = {
+      value: ethers.utils.parseEther('100.0'),
+    };
+
+    await wVault.createVault();
+    await gateway.depositAVAX(wVault.address, 2, overrides);
+    await wVault.setDebtCeiling(ethers.utils.parseEther('1000000.0'));
+
+    const collat = await wVault.vaultCollateral(2);
+    const price = await wVault.getPriceSource();
+    const collateralAsDebt = collat
+      .mul(price)
+      .mul(100)
+      .div(150)
+      .div('100000000');
+
+    // Borrow max AVAI
+    await wVault.borrowToken(2, collateralAsDebt);
+
+    // But what if we change the price source? dun dun dun
+    fakePrice = await FakePrice.deploy(
+      (await wVault.getPriceSource()).sub(ethers.utils.parseUnits('1.0', 8))
+    );
+    await fakePrice.deployed();
+    await wVault.setPriceSource(fakePrice.address);
+
+    const mintVal = await wVault.checkCost(2);
+    // Let the user have minter role
+    await avai.grantRole(await avai.MINTER_ROLE(), accounts[1].address);
+    await avai.connect(accounts[1]).mint(accounts[1].address, mintVal.add(10)); // 1000 AVAI
+
+    // Allow liquidator to transfer AVAI
+    await avai
+      .connect(accounts[1])
+      .increaseAllowance(wVault.address, ethers.utils.parseEther('100000.0'));
+
+    const tokenExtract = await wVault.checkExtract(2);
+    await expect(wVault.connect(accounts[1]).liquidateVault(2)).to.emit(
+      wVault,
+      'LiquidateVault'
+    );
+
+    // Try getting paid
+    // Should revert, this account has nothing
+    await expect(gateway.getPaid(wVault.address)).to.be.revertedWith(
+      'No liquidations associated with account.'
+    );
+    // Lets try getting paid
+    await expect(() =>
+      gateway.connect(accounts[1]).getPaid(wVault.address)
+    ).to.changeEtherBalance(accounts[1], tokenExtract);
   });
 });

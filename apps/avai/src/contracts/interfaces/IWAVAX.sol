@@ -2,6 +2,11 @@
 pragma solidity ^0.8.0;
 
 interface IWAVAX {
+  /**
+   * @dev Returns the amount of tokens owned by `account`.
+   */
+  function balanceOf(address account) external view returns (uint256);
+
   function deposit() external payable;
 
   function withdraw(uint256) external;

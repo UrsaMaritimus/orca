@@ -24,6 +24,8 @@ interface WAVAXGatewayInterface extends ethers.utils.Interface {
   functions: {
     "authorizeVault(address)": FunctionFragment;
     "depositAVAX(address,uint256)": FunctionFragment;
+    "destroyVault(address,uint256)": FunctionFragment;
+    "getPaid(address)": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
@@ -38,6 +40,11 @@ interface WAVAXGatewayInterface extends ethers.utils.Interface {
     functionFragment: "depositAVAX",
     values: [string, BigNumberish]
   ): string;
+  encodeFunctionData(
+    functionFragment: "destroyVault",
+    values: [string, BigNumberish]
+  ): string;
+  encodeFunctionData(functionFragment: "getPaid", values: [string]): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
@@ -60,6 +67,11 @@ interface WAVAXGatewayInterface extends ethers.utils.Interface {
     functionFragment: "depositAVAX",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "destroyVault",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "getPaid", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
@@ -136,6 +148,17 @@ export class WAVAXGateway extends BaseContract {
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    destroyVault(
+      vault: string,
+      vaultID: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    getPaid(
+      vault: string,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     owner(overrides?: CallOverrides): Promise<[string]>;
 
     renounceOwnership(
@@ -166,6 +189,17 @@ export class WAVAXGateway extends BaseContract {
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  destroyVault(
+    vault: string,
+    vaultID: BigNumberish,
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  getPaid(
+    vault: string,
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   owner(overrides?: CallOverrides): Promise<string>;
 
   renounceOwnership(
@@ -192,6 +226,14 @@ export class WAVAXGateway extends BaseContract {
       vaultID: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    destroyVault(
+      vault: string,
+      vaultID: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    getPaid(vault: string, overrides?: CallOverrides): Promise<void>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
@@ -232,6 +274,17 @@ export class WAVAXGateway extends BaseContract {
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    destroyVault(
+      vault: string,
+      vaultID: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    getPaid(
+      vault: string,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceOwnership(
@@ -260,6 +313,17 @@ export class WAVAXGateway extends BaseContract {
     depositAVAX(
       vault: string,
       vaultID: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    destroyVault(
+      vault: string,
+      vaultID: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    getPaid(
+      vault: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

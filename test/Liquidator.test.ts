@@ -295,14 +295,19 @@ describe('Liquidator Test', function () {
     );
 
     // Should revert, this account has nothing
-    await expect(wVault.getPaid()).to.be.revertedWith(
+    await expect(wVault.getPaid(accounts[0].address)).to.be.revertedWith(
       'No liquidations associated with account.'
+    );
+
+    // Should revert, not owned by account
+    await expect(wVault.getPaid(accounts[1].address)).to.be.revertedWith(
+      'Cannot get paid if not yours'
     );
 
     // Because waffles doesn't work
     const initBalanceVault = await wavax.balanceOf(wVault.address);
     const initBalanceUser = await wavax.balanceOf(accounts[1].address);
-    await wVault.connect(accounts[1]).getPaid();
+    await wVault.connect(accounts[1]).getPaid(accounts[1].address);
 
     expect(await wavax.balanceOf(wVault.address)).to.equal(
       initBalanceVault.sub(tokenExtract)

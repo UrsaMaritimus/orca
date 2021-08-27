@@ -39,7 +39,7 @@ interface BankInterface extends ethers.utils.Interface {
     "gainRatio()": FunctionFragment;
     "gateway()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
-    "getPaid()": FunctionFragment;
+    "getPaid(address)": FunctionFragment;
     "getPricePeg()": FunctionFragment;
     "getPriceSource()": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
@@ -149,7 +149,7 @@ interface BankInterface extends ethers.utils.Interface {
     functionFragment: "getApproved",
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "getPaid", values?: undefined): string;
+  encodeFunctionData(functionFragment: "getPaid", values: [string]): string;
   encodeFunctionData(
     functionFragment: "getPricePeg",
     values?: undefined
@@ -654,6 +654,7 @@ export class Bank extends BaseContract {
     ): Promise<[string]>;
 
     getPaid(
+      user: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -943,6 +944,7 @@ export class Bank extends BaseContract {
   ): Promise<string>;
 
   getPaid(
+    user: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -1215,7 +1217,7 @@ export class Bank extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string>;
 
-    getPaid(overrides?: CallOverrides): Promise<void>;
+    getPaid(user: string, overrides?: CallOverrides): Promise<void>;
 
     getPricePeg(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1620,6 +1622,7 @@ export class Bank extends BaseContract {
     ): Promise<BigNumber>;
 
     getPaid(
+      user: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1916,6 +1919,7 @@ export class Bank extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getPaid(
+      user: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

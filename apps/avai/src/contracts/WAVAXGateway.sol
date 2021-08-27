@@ -57,5 +57,29 @@ contract WAVAXGateway is Ownable {
     payable(msg.sender).transfer(amount);
   }
 
+  /**
+   * @dev withdraws avax to the user upone destroying vault
+   */
+  function destroyVault(address vault, uint256 vaultID)
+    external
+    payable
+    onlyVaultOwner(vaultID, vault)
+  {
+    IBank(vault).destroyVault(vaultID);
+    uint256 balance = WAVAX.balanceOf(address(this));
+    WAVAX.withdraw(balance);
+    payable(msg.sender).transfer(balance);
+  }
+
+  /**
+   * @dev withdraws avax to the user upon destroying vault
+   */
+  function getPaid(address vault) external payable {
+    IBank(vault).getPaid(msg.sender);
+    uint256 balance = WAVAX.balanceOf(address(this));
+    WAVAX.withdraw(balance);
+    payable(msg.sender).transfer(balance);
+  }
+
   receive() external payable {}
 }

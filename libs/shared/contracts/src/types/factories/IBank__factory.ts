@@ -172,6 +172,19 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+    ],
+    name: "getPaid",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "uint256",
         name: "minimumCollateralPercentage_",
         type: "uint256",

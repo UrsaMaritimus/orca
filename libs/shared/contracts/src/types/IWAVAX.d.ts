@@ -23,6 +23,7 @@ import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 interface IWAVAXInterface extends ethers.utils.Interface {
   functions: {
     "approve(address,uint256)": FunctionFragment;
+    "balanceOf(address)": FunctionFragment;
     "deposit()": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "withdraw(uint256)": FunctionFragment;
@@ -32,6 +33,7 @@ interface IWAVAXInterface extends ethers.utils.Interface {
     functionFragment: "approve",
     values: [string, BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
   encodeFunctionData(functionFragment: "deposit", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "transferFrom",
@@ -43,6 +45,7 @@ interface IWAVAXInterface extends ethers.utils.Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "deposit", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "transferFrom",
@@ -103,6 +106,8 @@ export class IWAVAX extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    balanceOf(account: string, overrides?: CallOverrides): Promise<[BigNumber]>;
+
     deposit(
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -125,6 +130,8 @@ export class IWAVAX extends BaseContract {
     wad: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 
   deposit(
     overrides?: PayableOverrides & { from?: string | Promise<string> }
@@ -149,6 +156,8 @@ export class IWAVAX extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
+
     deposit(overrides?: CallOverrides): Promise<void>;
 
     transferFrom(
@@ -169,6 +178,8 @@ export class IWAVAX extends BaseContract {
       wad: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     deposit(
       overrides?: PayableOverrides & { from?: string | Promise<string> }
@@ -192,6 +203,11 @@ export class IWAVAX extends BaseContract {
       guy: string,
       wad: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    balanceOf(
+      account: string,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     deposit(

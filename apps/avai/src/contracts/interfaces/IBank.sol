@@ -14,6 +14,8 @@ interface IBank is IERC721 {
 
   function destroyVault(uint256 vaultID) external;
 
+  function getPaid(address user) external;
+
   function initialize(
     uint256 minimumCollateralPercentage_,
     address priceSource_,
