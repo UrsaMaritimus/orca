@@ -32,7 +32,7 @@ const CARDS = [
   {
     icon: '/static/icons/ic_code.svg',
     title: 'Orca DAO',
-    description: 'Community controlled through the governing token POD',
+    description: 'Community controlled through the governing token ORCA',
   },
   {
     icon: '/static/icons/accounting.svg',

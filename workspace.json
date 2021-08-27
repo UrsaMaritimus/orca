@@ -704,6 +704,27 @@
         }
       }
     },
+    "pages-exchange": {
+      "root": "libs/pages/exchange",
+      "sourceRoot": "libs/pages/exchange/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/pages/exchange/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/pages/exchange"],
+          "options": {
+            "jestConfig": "libs/pages/exchange/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "pages-landing": {
       "root": "libs/pages/landing",
       "sourceRoot": "libs/pages/landing/src",
@@ -783,6 +804,27 @@
           "outputs": ["coverage/libs/pages/vaults"],
           "options": {
             "jestConfig": "libs/pages/vaults/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "pages-yield": {
+      "root": "libs/pages/yield",
+      "sourceRoot": "libs/pages/yield/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/pages/yield/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/pages/yield"],
+          "options": {
+            "jestConfig": "libs/pages/yield/jest.config.js",
             "passWithNoTests": true
           }
         }

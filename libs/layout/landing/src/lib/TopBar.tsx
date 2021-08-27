@@ -21,6 +21,8 @@ import {
   ListItemText,
   ListItemIcon,
   Link,
+  Stack,
+  Typography,
 } from '@material-ui/core';
 
 import { routes, useOffSetTop } from '@orca/shared/base';
@@ -116,7 +118,10 @@ const TopBar: FC = () => {
             ...(offset && { color: 'text.primary' }),
           }}
         >
-          {link.title}
+          <Stack direction="row" alignItems="center">
+            <Icon icon={link.icon} width={20} height={20} />{' '}
+            <Box sx={{ ml: 1 }}>{link.title}</Box>
+          </Stack>
         </NextLink>
       ))}
     </>

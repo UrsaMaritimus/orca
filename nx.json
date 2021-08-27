@@ -113,6 +113,9 @@
     "pages-error": {
       "tags": []
     },
+    "pages-exchange": {
+      "tags": []
+    },
     "pages-landing": {
       "tags": []
     },
@@ -123,6 +126,9 @@
       "tags": []
     },
     "pages-vaults": {
+      "tags": []
+    },
+    "pages-yield": {
       "tags": []
     },
     "shared-base": {

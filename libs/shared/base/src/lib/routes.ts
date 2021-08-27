@@ -5,13 +5,16 @@ export const routes = {
       USER: '/vaults',
       MONITOR: '/monitor',
     },
+    EXCHANGE: {
+      USDC: '/exchange/usdc',
+    },
     YIELD: {
-      FARM: '/farming',
+      FARM: '/yield/farming',
     },
   },
   LANDING: {
     MEDIUM: '',
-    TWITTER: 'https://twitter.com/0Maritimus',
+    TWITTER: 'https://twitter.com/OrcaDAO',
     GITHUB: 'https://github.com/UrsaMaritimus/orca',
     DOCS: 'https://docs.avai.finance/',
     SITE:

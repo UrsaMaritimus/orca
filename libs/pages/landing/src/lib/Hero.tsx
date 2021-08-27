@@ -13,6 +13,7 @@ import {
   varFadeIn,
   varWrapEnter,
   varFadeInRight,
+  varFadeInUp,
 } from '@orca/components/animate';
 
 import { routes } from '@orca/shared/base';
@@ -34,7 +35,7 @@ const RootStyle = styled(motion.div)(({ theme }) => ({
 }));
 
 const ContentStyle = styled('div')(({ theme }) => ({
-  zIndex: 10,
+  zIndex: 111,
   maxWidth: 520,
   margin: 'auto',
   textAlign: 'center',
@@ -53,7 +54,29 @@ const HeroOverlayStyle = styled(motion.img)({
   height: '100%',
   objectFit: 'cover',
   position: 'absolute',
+  opacity: 0.9,
 });
+
+const HeroImgStyle = styled(motion.img)(({ theme }) => ({
+  top: 400,
+  right: 0,
+  bottom: 0,
+  zIndex: 8,
+  width: '150%',
+  margin: 'auto',
+  position: 'absolute',
+  filter: 'blur(2px)',
+  [theme.breakpoints.up('md')]: {
+    right: '10%',
+    width: 'auto',
+    height: '125vh',
+  },
+  [theme.breakpoints.down('md')]: {
+    top: 200,
+    width: 'auto',
+    height: '50vh',
+  },
+}));
 
 // ----------------------------------------------------------------------
 
@@ -62,9 +85,15 @@ const Hero: FC = () => {
     <>
       <RootStyle initial="initial" animate="animate" variants={varWrapEnter}>
         <HeroOverlayStyle
-          src="/static/images/overlay.svg"
+          src="/static/images/overlay.png"
           variants={varFadeIn}
           alt="overlay"
+        />
+
+        <HeroImgStyle
+          alt="hero"
+          src="/static/images/hero.svg"
+          variants={varFadeInUp}
         />
 
         <Container maxWidth="lg">

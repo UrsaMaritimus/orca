@@ -31,7 +31,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 const SignUp: FC = () => {
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" sx={{ mt: 4 }}>
       <ContentStyle>
         <MotionInView variants={varFadeInUp} sx={{ mb: { xs: 3, md: 0 } }}>
           <Box

@@ -1,4 +1,5 @@
 import { routes } from '@orca/shared/base';
+import { Box } from '@material-ui/core';
 import { SvgIconStyle } from '@orca/components/svg-icon-style';
 
 // ----------------------------------------------------------------------
@@ -7,6 +8,15 @@ const getIcon = (name: string) => (
   <SvgIconStyle
     src={`/static/icons/navbar/${name}.svg`}
     sx={{ width: 22, height: 22 }}
+  />
+);
+
+const getUSDIcon = (src: string) => (
+  <Box
+    component="img"
+    src={`/static/icons/navbar/${src}.svg`}
+    sx={{ width: 22, height: 22 }}
+    color="inherit"
   />
 );
 
@@ -35,6 +45,7 @@ const ICONS = {
   authenticator: getIcon('ic_authenticator'),
   farm: getIcon('ic_farm'),
   monitor: getIcon('ic_monitor'),
+  usdc: getUSDIcon('ic_usdc'),
 };
 
 const navConfig = [
@@ -53,6 +64,12 @@ const navConfig = [
         icon: ICONS.monitor,
         href: routes.APP.VAULTS.MONITOR,
       },
+    ],
+  },
+  {
+    subheader: 'Exchange',
+    items: [
+      { title: 'USDC Swap', icon: ICONS.usdc, href: routes.APP.EXCHANGE.USDC },
     ],
   },
   {
