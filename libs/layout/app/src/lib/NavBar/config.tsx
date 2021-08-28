@@ -69,7 +69,11 @@ const navConfig = [
   {
     subheader: 'Exchange',
     items: [
-      { title: 'USDC Swap', icon: ICONS.usdc, href: routes.APP.EXCHANGE.USDC },
+      {
+        title: 'USDC Exchange',
+        icon: ICONS.usdc,
+        href: routes.APP.EXCHANGE.USDC,
+      },
     ],
   },
   {

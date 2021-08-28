@@ -4,3 +4,4 @@ export * from './liquidate';
 export * from './vault';
 export * from './gateway';
 export * from './monitor';
+export * from './exchange';

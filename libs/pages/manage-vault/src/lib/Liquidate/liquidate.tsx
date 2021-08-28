@@ -71,7 +71,7 @@ export const LiquidateVault: FC<LiquidateProps> = ({
   );
   // Get avai balance
   const { data: userAvaiBalance, mutate: avaiBalanceMutate } = useSWR(
-    shouldFetch ? ['avaiApproved', library, chainId, account] : null,
+    shouldFetch ? ['avaiBalanceLiquidate', library, chainId, account] : null,
     avaiBalance()
   );
 

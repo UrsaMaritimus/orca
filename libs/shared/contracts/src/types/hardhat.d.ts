@@ -109,6 +109,18 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Proxy__factory>;
     getContractFactory(
+      name: "ERC20",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20__factory>;
+    getContractFactory(
+      name: "ERC20Burnable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20Burnable__factory>;
+    getContractFactory(
+      name: "IERC20Metadata",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC20Metadata__factory>;
+    getContractFactory(
       name: "IERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20__factory>;
@@ -156,6 +168,14 @@ declare module "hardhat/types/runtime" {
       name: "PriceSource",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.PriceSource__factory>;
+    getContractFactory(
+      name: "FakeUSDC",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.FakeUSDC__factory>;
+    getContractFactory(
+      name: "USDCExchange",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.USDCExchange__factory>;
     getContractFactory(
       name: "WAVAXGateway",
       signerOrOptions?: ethers.Signer | FactoryOptions

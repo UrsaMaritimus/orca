@@ -11,8 +11,8 @@ export const fPercent = (number: number) => {
   return numbro(number / 100).format('0.0%');
 };
 
-export const fNumber = (number: number | string) => {
-  return numbro(number).format({ mantissa: 4 });
+export const fNumber = (number: number | string, mantissa = 4) => {
+  return numbro(number).format({ mantissa });
 };
 
 export const fShortenNumber = (number: number | string) => {
