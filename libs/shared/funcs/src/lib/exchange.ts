@@ -104,6 +104,20 @@ export const usdBalanceExchange = () => {
   };
 };
 
+export const exchangeInfo = () => {
+  return async (_: string, library: Web3Provider, chainId: number) => {
+    const exchange = getUSDCExchange(library, chainId);
+    const reserves = await exchange.usdReserves();
+    const mintingFee = (await exchange.usdcRate()).sub(10000);
+    const redeemFee = (await exchange.avaiRate()).sub(9900);
+    return {
+      reserves,
+      mintingFee,
+      redeemFee,
+    };
+  };
+};
+
 // callable function
 export const approveUsdExchange = async (
   library: Web3Provider,

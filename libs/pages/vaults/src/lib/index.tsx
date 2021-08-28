@@ -23,6 +23,7 @@ import { AvaxVaults } from './crypto/AVAX';
 
 import { AVALANCHE_TESTNET_PARAMS } from '@orca/util';
 
+//--------------------------------------------------------------------------
 const RootStyle = styled(Page)(({ theme }) => ({
   paddingTop: theme.spacing(3),
   paddingBottom: theme.spacing(15),
@@ -32,6 +33,8 @@ const CollateralStyle = styled(Container)(({ theme }) => ({
   paddingTop: theme.spacing(2),
   paddingBottom: theme.spacing(2),
 }));
+
+//--------------------------------------------------------------------------
 
 const collaterals = [
   {
@@ -69,32 +72,37 @@ export function Vaults(props) {
 
   if (chainId === 43114) {
     return (
-      <Container maxWidth="md">
-        <Box>
-          <Stack>
-            <Typography variant="h1" sx={{ textAlign: 'center', mt: 2, mb: 2 }}>
-              {' '}
-              Main Net not deployed yet. Please switch to Fuji.
-            </Typography>
-
-            {library && (
-              <Button
-                sx={{ m: 'auto' }}
-                size="large"
-                variant="contained"
-                onClick={() => {
-                  library.provider.request({
-                    method: 'wallet_addEthereumChain',
-                    params: [AVALANCHE_TESTNET_PARAMS],
-                  });
-                }}
+      <RootStyle title={`Vaults | ${process.env.NEXT_PUBLIC_TITLE}`}>
+        <Container maxWidth="md">
+          <Box>
+            <Stack>
+              <Typography
+                variant="h1"
+                sx={{ textAlign: 'center', mt: 2, mb: 2 }}
               >
-                Add FUJI Network
-              </Button>
-            )}
-          </Stack>
-        </Box>
-      </Container>
+                {' '}
+                Main Net not deployed yet. Please switch to Fuji.
+              </Typography>
+
+              {library && (
+                <Button
+                  sx={{ m: 'auto' }}
+                  size="large"
+                  variant="contained"
+                  onClick={() => {
+                    library.provider.request({
+                      method: 'wallet_addEthereumChain',
+                      params: [AVALANCHE_TESTNET_PARAMS],
+                    });
+                  }}
+                >
+                  Add FUJI Network
+                </Button>
+              )}
+            </Stack>
+          </Box>
+        </Container>
+      </RootStyle>
     );
   }
 
@@ -144,7 +152,7 @@ export function Vaults(props) {
                         <Typography
                           variant="h6"
                           sx={{
-                            color: data.disabled ? 'grey.700' : 'grey.400',
+                            color: data.disabled ? 'disabled' : 'inherit',
                           }}
                         >
                           {data.title}

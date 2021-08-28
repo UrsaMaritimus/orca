@@ -61,11 +61,11 @@ const HeroImgStyle = styled(motion.img)(({ theme }) => ({
   top: 400,
   right: 0,
   bottom: 0,
-  zIndex: 8,
+  zIndex: 10,
   width: '150%',
   margin: 'auto',
   position: 'absolute',
-  filter: 'blur(2px)',
+  filter: 'blur(6px)',
   [theme.breakpoints.up('md')]: {
     right: '10%',
     width: 'auto',
@@ -103,23 +103,25 @@ const Hero: FC = () => {
                 component="h1"
                 sx={{ typography: 'h1', color: 'common.white' }}
               >
-                Use your
-                <br />
-                crypto assets <br /> with
-                <Typography component="span" variant="h1" color="primary">
-                  &nbsp;AVAI Finance
-                </Typography>{' '}
-                and the{' '}
-                <Typography component="span" variant="h1" color="secondary">
-                  Orca DAO
-                </Typography>
+                Finance Your Inner Whale
               </Box>
             </motion.div>
 
             <motion.div variants={varFadeInRight}>
               <Box component="p" sx={{ color: 'common.white', py: 5 }}>
-                Collateral-backed stablecoin that lets you take 0% interest
-                loans, all controlled by the avalanche community!
+                <Typography component="span" variant="h5" color="secondary">
+                  OrcaDAO
+                </Typography>{' '}
+                is a protocol featuring the first Avalanche-native stablecoin
+                <Typography component="span" variant="h5" color="primary">
+                  &nbsp;AVAI
+                </Typography>{' '}
+                and governance token{' '}
+                <Typography component="span" variant="h5" color="primary">
+                  ORCA
+                </Typography>{' '}
+                that allow for lending using crypto collateral at 0% interest,
+                built on and for the Avalanche Network.
               </Box>
             </motion.div>
 

@@ -8,7 +8,7 @@ export const fCurrency = (value: number | string) => {
 };
 
 export const fPercent = (number: number) => {
-  return numbro(number / 100).format('0.0%');
+  return numbro(number / 100).format('0.00%');
 };
 
 export const fNumber = (number: number | string, mantissa = 4) => {

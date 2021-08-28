@@ -1,7 +1,7 @@
 import { pxToRem, responsiveFontSizes } from '@orca/util';
 import { TypographyOptions } from '@material-ui/core/styles/createTypography';
 
-const FONT_PRIMARY = 'Be Vietnam, sans-serif'; // Google Font
+const FONT_PRIMARY = 'Merriweather, serif'; // Google Font
 // const FONT_SECONDARY = 'CircularStd, sans-serif'; // Local Font
 
 export const Typography: TypographyOptions = {

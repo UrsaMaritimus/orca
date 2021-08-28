@@ -40,7 +40,7 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
         >
           <CardHeader
             title={'AVAX Vault Monitor'}
-            subheader={'Vaults close to liquidation'}
+            subheader={'Vaults close to liquidation (above 60%)'}
             avatar={
               <Box
                 component="img"

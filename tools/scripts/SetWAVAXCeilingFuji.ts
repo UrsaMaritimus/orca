@@ -6,7 +6,7 @@ import contracts from '../../libs/shared/deployments/src';
 
 const adjustWavaxDebtCeiling = async () => {
   // Test net constants
-  const ceiling = ethers.utils.parseEther('100000');
+  const ceiling = ethers.utils.parseEther('10000000');
   const accounts = await ethers.getSigners();
   const avai = AVAI__factory.connect(contracts.fuji.AVAI.address, accounts[0]);
 

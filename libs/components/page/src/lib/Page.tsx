@@ -1,8 +1,37 @@
 import { forwardRef } from 'react';
 
+import { experimentalStyled as styled } from '@material-ui/core/styles';
 import Head from 'next/head';
-
+import {
+  varFadeIn,
+  varWrapEnter,
+  varFadeInRight,
+  varFadeInUp,
+} from '@orca/components/animate';
+import { motion } from 'framer-motion';
 import RouteProgress from './progress';
+// ---------------------------------------------------------------------
+
+const HeroImgStyle = styled(motion.img)(({ theme }) => ({
+  top: 450,
+  right: 0,
+  bottom: 0,
+  zIndex: -99,
+  width: '150%',
+  margin: 'auto',
+  position: 'absolute',
+  filter: 'blur(6px)',
+  [theme.breakpoints.up('md')]: {
+    right: '5%',
+    width: 'auto',
+    height: '125vh',
+  },
+  [theme.breakpoints.down('md')]: {
+    top: 200,
+    width: 'auto',
+    height: '50vh',
+  },
+}));
 
 // ----------------------------------------------------------------------
 type Props = {
@@ -39,7 +68,20 @@ const Page = forwardRef<HTMLDivElement, Props>(
 
           <title>{title}</title>
         </Head>
-        <RouteProgress>{children}</RouteProgress>
+        <RouteProgress>
+          <motion.div
+            initial="initial"
+            animate="animate"
+            variants={varWrapEnter}
+          >
+            <HeroImgStyle
+              alt="hero"
+              src="/static/images/hero.svg"
+              variants={varFadeInUp}
+            />
+          </motion.div>
+          {children}
+        </RouteProgress>
       </div>
     );
   }

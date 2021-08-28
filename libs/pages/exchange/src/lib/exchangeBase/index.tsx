@@ -5,7 +5,7 @@ import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 
 import { experimentalStyled as styled } from '@material-ui/core/styles';
-
+import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 import {
   Card,
   CardHeader,
@@ -22,11 +22,7 @@ import {
 import { Page } from '@orca/components/page';
 import { AVALANCHE_TESTNET_PARAMS } from '@orca/util';
 
-import {
-  usdBalance,
-  avaiBalance,
-  usdBalanceExchange,
-} from '@orca/shared/funcs';
+import { usdBalance, avaiBalance, exchangeInfo } from '@orca/shared/funcs';
 
 import { Mint } from './mint';
 import { Redeem } from './redeem';
@@ -61,19 +57,19 @@ export const ExchangeBase: FC<ExchangeProps> = ({ token }) => {
   // Get usdc balance
   const { data: userUSDBalance, mutate: usdcBalanceMutate } = useSWR(
     shouldFetch
-      ? [`usdcBalanceMint${token}`, library, chainId, account, token]
+      ? [`usdBalanceMint${token}`, library, chainId, account, token]
       : null,
     usdBalance()
   );
 
   // Get usdc balance of exchange
-  const { data: exchangeUSDBalance, mutate: usdcBalanceExchangeMutate } =
-    useSWR(
-      shouldFetch
-        ? [`usdcBalanceExchangeMint${token}`, library, chainId]
-        : null,
-      usdBalanceExchange()
-    );
+  const { data: usdcExchangeInfo, mutate: usdcExchangeInfoMutate } = useSWR(
+    shouldFetch ? [`usdExchangeInfo${token}`, library, chainId] : null,
+    exchangeInfo()
+  );
+  useKeepSWRDataLiveAsBlocksArrive(usdcExchangeInfoMutate);
+  useKeepSWRDataLiveAsBlocksArrive(usdcBalanceMutate);
+  useKeepSWRDataLiveAsBlocksArrive(avaiBalanceMutate);
 
   // For tabs
   const [view, changeView] = useState<'mint' | 'redeem'>('mint');
@@ -159,17 +155,28 @@ export const ExchangeBase: FC<ExchangeProps> = ({ token }) => {
           </CollateralStyle>
         </Card>
       </Container>
-      {view === 'mint' && userUSDBalance && exchangeUSDBalance && (
+      {view === 'mint' && userUSDBalance && usdcExchangeInfo && (
         <Mint
           token={token}
           library={library}
           chainId={chainId}
           account={account}
           usdBalance={userUSDBalance}
-          exchangeBalance={exchangeUSDBalance}
+          exchangeBalance={usdcExchangeInfo.reserves}
+          mintingFee={usdcExchangeInfo.mintingFee}
         />
       )}
-      {view === 'redeem' && <Redeem />}
+      {view === 'redeem' && (
+        <Redeem
+          token={token}
+          library={library}
+          chainId={chainId}
+          account={account}
+          avaiBalance={userAvaiBalance}
+          exchangeBalance={usdcExchangeInfo.reserves}
+          mintingFee={usdcExchangeInfo.mintingFee}
+        />
+      )}
     </RootStyle>
   );
 };

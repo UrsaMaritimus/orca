@@ -66,7 +66,7 @@ type RowProps = {
 
 const SortingSelecting: FC<RowProps> = ({ rows, collateralType }) => {
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
-  const [orderBy, setOrderBy] = useState('vault');
+  const [orderBy, setOrderBy] = useState('cp');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -133,7 +133,6 @@ const SortingSelecting: FC<RowProps> = ({ rows, collateralType }) => {
                         {fCurrency(Number(utils.formatEther(row.debt)))}
                       </TableCell>
                       <TableCell align="center">
-                        {' '}
                         <Button
                           variant="contained"
                           size="medium"
@@ -141,8 +140,9 @@ const SortingSelecting: FC<RowProps> = ({ rows, collateralType }) => {
                           LinkComponent={NextLink}
                           href={`${routes.APP.VAULTS.USER}/${collateralType}/${row.num}`}
                           startIcon={<Icon icon={dropletOutline} />}
+                          disabled={row.cp.gte(150)}
                         >
-                          Check Liquidation
+                          Liquidate
                         </Button>
                       </TableCell>
                     </TableRow>

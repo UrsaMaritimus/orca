@@ -18,7 +18,7 @@ import {
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 
 import { BigNumber, utils } from 'ethers';
-import { fCurrency, fPercent } from '@orca/util';
+import { fCurrency, fPercent, fNumber } from '@orca/util';
 
 import { tokenInfo } from '@orca/shared/base';
 import { DepositStepper } from './DepositStepper';
@@ -109,7 +109,8 @@ export const Deposit: FC<DepositProps> = ({
               <Stack alignItems="center" sx={{ mt: 0.75 }}>
                 <Typography variant="h6">Collateral</Typography>
                 <Typography variant="inherit">
-                  {utils.formatEther(vaultInfo.collateral)} {token}
+                  {fNumber(Number(utils.formatEther(vaultInfo.collateral)))}{' '}
+                  {token}
                 </Typography>
                 <Typography variant="caption" sx={{ color: 'grey.500' }}>
                   {fCurrency(

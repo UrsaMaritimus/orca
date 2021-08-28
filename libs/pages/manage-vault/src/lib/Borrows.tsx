@@ -18,7 +18,7 @@ import {
 } from '@material-ui/core';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import { BigNumber, utils } from 'ethers';
-import { fCurrency, fPercent, fShortenNumber, fNumber } from '@orca/util';
+import { fCurrency, fPercent, fNumber } from '@orca/util';
 
 import { tokenInfo } from '@orca/shared/base';
 import BorrowStepper from './BorrowStepper';
@@ -236,7 +236,7 @@ export const Borrows: FC<BorrowsProps> = ({
               >
                 <Typography variant="h4" textAlign="center" color="grey.600">
                   Note: There is a closing fee when using this vault type of{' '}
-                  {vaultInfo.closingFee.toNumber() / 100} %
+                  {vaultInfo.closingFee.toNumber() / 100}%
                 </Typography>
               </Box>
             )}

@@ -29,7 +29,7 @@ import {
   approveUsdExchange,
   mintFromExchange,
 } from '@orca/shared/funcs';
-import { fNumber } from '@orca/util';
+import { fNumber, fPercent } from '@orca/util';
 import { erc20Tokens, tokenInfo } from '@orca/shared/base';
 import toast from 'react-hot-toast';
 
@@ -52,6 +52,7 @@ type MintProps = {
   account: string;
   usdBalance: BigNumber;
   exchangeBalance: BigNumber;
+  mintingFee: BigNumber;
 };
 
 export const Mint: FC<MintProps> = ({
@@ -61,6 +62,7 @@ export const Mint: FC<MintProps> = ({
   account,
   usdBalance,
   exchangeBalance,
+  mintingFee,
 }) => {
   const shouldFetch = !!library;
   // Get usdc approved
@@ -368,7 +370,7 @@ export const Mint: FC<MintProps> = ({
                         disabled={userUSDApproved}
                         onClick={handleApproveUSDC}
                       >
-                        Approve AVAI
+                        Approve {token}
                       </Button>{' '}
                       <Button
                         color="primary"
@@ -389,7 +391,7 @@ export const Mint: FC<MintProps> = ({
         </Card>
         <Card
           sx={{
-            width: 275,
+            width: 400,
             m: 'auto',
             borderTopLeftRadius: 0,
             borderTopRightRadius: 0,
@@ -409,12 +411,12 @@ export const Mint: FC<MintProps> = ({
                 variant="subtitle2"
                 color="grey.600"
               >
-                0.75%
+                {fPercent(Number(utils.formatUnits(mintingFee, 0)) / 100)}
               </Typography>
             </Grid>
             <Grid item sm={6}>
               <Typography sx={{ ml: 2 }} color="grey.600" variant="subtitle2">
-                {token} Balance
+                Available {token} Balance
               </Typography>
             </Grid>
             <Grid item sm={6}>
