@@ -5,7 +5,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { toast } from 'react-hot-toast';
 
-import { Button } from '@material-ui/core';
+import { Box, Button, Stack, Typography } from '@material-ui/core';
 
 import { useEagerConnect } from '@orca/hooks';
 import {
@@ -87,7 +87,15 @@ const Account = () => {
         sx={{ mr: 1.5 }}
         onClick={onClick}
       >
-        Failed to connect
+        <Stack direction="row" alignItems={'center'} spacing={1}>
+          <Typography>Failed to Connect</Typography>
+          <Box
+            component="img"
+            src="/static/icons/ic_metamask.svg"
+            sx={{ width: 30, height: 30 }}
+            color="inherit"
+          />
+        </Stack>
       </Button>
     );
   }
@@ -101,7 +109,15 @@ const Account = () => {
         sx={{ mr: 1.5 }}
         onClick={onClick}
       >
-        Attempting Connection
+        <Stack direction="row" alignItems={'center'} spacing={1}>
+          <Typography>Connecting...</Typography>
+          <Box
+            component="img"
+            src="/static/icons/ic_metamask.svg"
+            sx={{ width: 30, height: 30 }}
+            color="inherit"
+          />
+        </Stack>
       </Button>
     );
   }
@@ -120,9 +136,19 @@ const Account = () => {
             size="large"
             onClick={onClick}
           >
-            {MetaMaskOnboarding.isMetaMaskInstalled()
-              ? 'Connect to MetaMask'
-              : 'Connect to Wallet'}
+            {MetaMaskOnboarding.isMetaMaskInstalled() ? (
+              <Stack direction="row" alignItems={'center'} spacing={1}>
+                <Typography>Connect</Typography>
+                <Box
+                  component="img"
+                  src="/static/icons/ic_metamask.svg"
+                  sx={{ width: 30, height: 30 }}
+                  color="inherit"
+                />
+              </Stack>
+            ) : (
+              'Connect to Wallet'
+            )}
           </Button>
         ) : (
           <Button
@@ -149,7 +175,15 @@ const Account = () => {
       rel="noopener noreferrer"
       sx={{ mr: 1.5 }}
     >
-      {`${shortenHex(account, 4)}`}
+      <Stack direction="row" alignItems={'center'} spacing={1}>
+        <Typography>{`${shortenHex(account, 4)}`}</Typography>
+        <Box
+          component="img"
+          src="/static/icons/ic_metamask.svg"
+          sx={{ width: 30, height: 30 }}
+          color="inherit"
+        />
+      </Stack>
     </Button>
   );
 };

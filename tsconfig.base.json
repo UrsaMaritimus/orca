@@ -20,6 +20,7 @@
       "@orca/components/account": ["libs/components/account/src/index.ts"],
       "@orca/components/animate": ["libs/components/animate/src/index.ts"],
       "@orca/components/balance": ["libs/components/balance/src/index.ts"],
+      "@orca/components/connect": ["libs/components/connect/src/index.ts"],
       "@orca/components/links": ["libs/components/links/src/index.ts"],
       "@orca/components/loader": ["libs/components/loader/src/index.ts"],
       "@orca/components/logo": ["libs/components/logo/src/index.ts"],

@@ -20,7 +20,7 @@ import {
 } from '@material-ui/core';
 
 import { Page } from '@orca/components/page';
-import { AVALANCHE_TESTNET_PARAMS } from '@orca/util';
+import { Connect } from '@orca/components/connect';
 
 import { usdBalance, avaiBalance, exchangeInfo } from '@orca/shared/funcs';
 
@@ -77,107 +77,72 @@ export const ExchangeBase: FC<ExchangeProps> = ({ token }) => {
     changeView(view === 'mint' ? 'redeem' : 'mint');
   };
 
-  if (chainId === 43114) {
-    return (
-      <Container maxWidth="md">
-        <Box>
-          <Stack>
-            <Typography variant="h1" sx={{ textAlign: 'center', mt: 2, mb: 2 }}>
-              {' '}
-              Main Net not deployed yet. Please switch to Fuji.
-            </Typography>
-
-            {library && (
-              <Button
-                sx={{ m: 'auto' }}
-                size="large"
-                variant="contained"
-                onClick={() => {
-                  library.provider.request({
-                    method: 'wallet_addEthereumChain',
-                    params: [AVALANCHE_TESTNET_PARAMS],
-                  });
-                }}
-              >
-                Add FUJI Network
-              </Button>
-            )}
-          </Stack>
-        </Box>
-      </Container>
-    );
-  }
-
-  if (typeof account !== 'string')
-    return (
-      <RootStyle title={`Vaults | ${process.env.NEXT_PUBLIC_TITLE}`}>
-        <Container maxWidth="lg">Not connected to metamask.</Container>
-      </RootStyle>
-    );
   // Default return
   return (
-    <RootStyle title={`Exchange ${token} | ${process.env.NEXT_PUBLIC_TITLE}`}>
-      <Container maxWidth="sm">
-        <Card
-          sx={{
-            mb: 3,
-            height: 180,
-            position: 'relative',
-          }}
-        >
-          <CardHeader
-            title={`${token} Exchange`}
-            subheader={`Swap your ${token} for AVAI!`}
-          />
-          <CollateralStyle>
-            <Grid container justifyContent="center">
-              <Grid item>
-                <ToggleButtonGroup value={view} onChange={handleChangeView}>
-                  <ToggleButton
-                    value="mint"
-                    aria-label="mint"
-                    size="large"
-                    sx={{ width: 100 }}
-                  >
-                    <Typography variant="h6">Mint</Typography>
-                  </ToggleButton>
-                  <ToggleButton
-                    value="redeem"
-                    aria-label="redeem"
-                    size="large"
-                    sx={{ width: 100 }}
-                  >
-                    <Typography variant="h6">Redeem</Typography>
-                  </ToggleButton>
-                </ToggleButtonGroup>
+    <Connect title={`Exchange ${token}`}>
+      <RootStyle title={`Exchange ${token} | ${process.env.NEXT_PUBLIC_TITLE}`}>
+        <Container maxWidth="sm">
+          <Card
+            sx={{
+              mb: 3,
+              height: 180,
+              position: 'relative',
+            }}
+          >
+            <CardHeader
+              title={`${token} Exchange`}
+              subheader={`Swap your ${token} for AVAI!`}
+            />
+            <CollateralStyle>
+              <Grid container justifyContent="center">
+                <Grid item>
+                  <ToggleButtonGroup value={view} onChange={handleChangeView}>
+                    <ToggleButton
+                      value="mint"
+                      aria-label="mint"
+                      size="large"
+                      sx={{ width: 100 }}
+                    >
+                      <Typography variant="h6">Mint</Typography>
+                    </ToggleButton>
+                    <ToggleButton
+                      value="redeem"
+                      aria-label="redeem"
+                      size="large"
+                      sx={{ width: 100 }}
+                    >
+                      <Typography variant="h6">Redeem</Typography>
+                    </ToggleButton>
+                  </ToggleButtonGroup>
+                </Grid>
               </Grid>
-            </Grid>
-          </CollateralStyle>
-        </Card>
-      </Container>
-      {view === 'mint' && userUSDBalance && usdcExchangeInfo && (
-        <Mint
-          token={token}
-          library={library}
-          chainId={chainId}
-          account={account}
-          usdBalance={userUSDBalance}
-          exchangeBalance={usdcExchangeInfo.reserves}
-          mintingFee={usdcExchangeInfo.mintingFee}
-        />
-      )}
-      {view === 'redeem' && (
-        <Redeem
-          token={token}
-          library={library}
-          chainId={chainId}
-          account={account}
-          avaiBalance={userAvaiBalance}
-          exchangeBalance={usdcExchangeInfo.reserves}
-          mintingFee={usdcExchangeInfo.mintingFee}
-        />
-      )}
-    </RootStyle>
+            </CollateralStyle>
+          </Card>
+        </Container>
+        {view === 'mint' && userUSDBalance && usdcExchangeInfo && (
+          <Mint
+            token={token}
+            library={library}
+            chainId={chainId}
+            account={account}
+            usdBalance={userUSDBalance}
+            exchangeBalance={usdcExchangeInfo.reserves}
+            mintingFee={usdcExchangeInfo.mintingFee}
+          />
+        )}
+        {view === 'redeem' && (
+          <Redeem
+            token={token}
+            library={library}
+            chainId={chainId}
+            account={account}
+            avaiBalance={userAvaiBalance}
+            exchangeBalance={usdcExchangeInfo.reserves}
+            mintingFee={usdcExchangeInfo.mintingFee}
+          />
+        )}
+      </RootStyle>
+    </Connect>
   );
 };
 
