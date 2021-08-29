@@ -23,6 +23,7 @@ interface IBankInterface extends ethers.utils.Interface {
   functions: {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
+    "changeTreasury(address)": FunctionFragment;
     "depositCollateral(uint256,uint256)": FunctionFragment;
     "destroyVault(uint256)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
@@ -32,6 +33,16 @@ interface IBankInterface extends ethers.utils.Interface {
     "ownerOf(uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
+    "setClosingFee(uint256)": FunctionFragment;
+    "setDebtCeiling(uint256)": FunctionFragment;
+    "setDebtRatio(uint256)": FunctionFragment;
+    "setGainRatio(uint256)": FunctionFragment;
+    "setGateway(address)": FunctionFragment;
+    "setOpeningFee(uint256)": FunctionFragment;
+    "setPriceSource(address)": FunctionFragment;
+    "setStabilityPool(address)": FunctionFragment;
+    "setTokenPeg(uint256)": FunctionFragment;
+    "setTreasury(uint256)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "transferVault(uint256,address)": FunctionFragment;
@@ -44,6 +55,10 @@ interface IBankInterface extends ethers.utils.Interface {
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "changeTreasury",
+    values: [string]
+  ): string;
   encodeFunctionData(
     functionFragment: "depositCollateral",
     values: [BigNumberish, BigNumberish]
@@ -78,6 +93,43 @@ interface IBankInterface extends ethers.utils.Interface {
     values: [string, boolean]
   ): string;
   encodeFunctionData(
+    functionFragment: "setClosingFee",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setDebtCeiling",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setDebtRatio",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setGainRatio",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(functionFragment: "setGateway", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "setOpeningFee",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setPriceSource",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setStabilityPool",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setTokenPeg",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setTreasury",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "supportsInterface",
     values: [BytesLike]
   ): string;
@@ -100,6 +152,10 @@ interface IBankInterface extends ethers.utils.Interface {
 
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "changeTreasury",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "depositCollateral",
     data: BytesLike
@@ -125,6 +181,43 @@ interface IBankInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setApprovalForAll",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setClosingFee",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setDebtCeiling",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setDebtRatio",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setGainRatio",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "setGateway", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setOpeningFee",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setPriceSource",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setStabilityPool",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setTokenPeg",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setTreasury",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -214,6 +307,11 @@ export class IBank extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber] & { balance: BigNumber }>;
 
+    changeTreasury(
+      to: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     depositCollateral(
       vaultID: BigNumberish,
       amount: BigNumberish,
@@ -277,6 +375,56 @@ export class IBank extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setClosingFee(
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setDebtCeiling(
+      debtCeiling_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setDebtRatio(
+      debtRatio_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setGainRatio(
+      gainRatio_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setGateway(
+      gateway_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setOpeningFee(
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setPriceSource(
+      priceSource_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setStabilityPool(
+      stabilityPool_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setTokenPeg(
+      tokenPeg_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setTreasury(
+      treasury_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -314,6 +462,11 @@ export class IBank extends BaseContract {
   ): Promise<ContractTransaction>;
 
   balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+  changeTreasury(
+    to: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   depositCollateral(
     vaultID: BigNumberish,
@@ -375,6 +528,56 @@ export class IBank extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setClosingFee(
+    amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setDebtCeiling(
+    debtCeiling_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setDebtRatio(
+    debtRatio_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setGainRatio(
+    gainRatio_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setGateway(
+    gateway_: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setOpeningFee(
+    amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setPriceSource(
+    priceSource_: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setStabilityPool(
+    stabilityPool_: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setTokenPeg(
+    tokenPeg_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setTreasury(
+    treasury_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   supportsInterface(
     interfaceId: BytesLike,
     overrides?: CallOverrides
@@ -412,6 +615,8 @@ export class IBank extends BaseContract {
     ): Promise<void>;
 
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    changeTreasury(to: string, overrides?: CallOverrides): Promise<void>;
 
     depositCollateral(
       vaultID: BigNumberish,
@@ -467,6 +672,53 @@ export class IBank extends BaseContract {
     setApprovalForAll(
       operator: string,
       _approved: boolean,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setClosingFee(
+      amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setDebtCeiling(
+      debtCeiling_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setDebtRatio(
+      debtRatio_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setGainRatio(
+      gainRatio_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setGateway(gateway_: string, overrides?: CallOverrides): Promise<void>;
+
+    setOpeningFee(
+      amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setPriceSource(
+      priceSource_: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setStabilityPool(
+      stabilityPool_: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setTokenPeg(
+      tokenPeg_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setTreasury(
+      treasury_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -538,6 +790,11 @@ export class IBank extends BaseContract {
 
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
+    changeTreasury(
+      to: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     depositCollateral(
       vaultID: BigNumberish,
       amount: BigNumberish,
@@ -598,6 +855,56 @@ export class IBank extends BaseContract {
     setApprovalForAll(
       operator: string,
       _approved: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setClosingFee(
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setDebtCeiling(
+      debtCeiling_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setDebtRatio(
+      debtRatio_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setGainRatio(
+      gainRatio_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setGateway(
+      gateway_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setOpeningFee(
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setPriceSource(
+      priceSource_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setStabilityPool(
+      stabilityPool_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setTokenPeg(
+      tokenPeg_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setTreasury(
+      treasury_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -643,6 +950,11 @@ export class IBank extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    changeTreasury(
+      to: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     depositCollateral(
       vaultID: BigNumberish,
       amount: BigNumberish,
@@ -703,6 +1015,56 @@ export class IBank extends BaseContract {
     setApprovalForAll(
       operator: string,
       _approved: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setClosingFee(
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setDebtCeiling(
+      debtCeiling_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setDebtRatio(
+      debtRatio_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setGainRatio(
+      gainRatio_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setGateway(
+      gateway_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setOpeningFee(
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setPriceSource(
+      priceSource_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setStabilityPool(
+      stabilityPool_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setTokenPeg(
+      tokenPeg_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setTreasury(
+      treasury_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

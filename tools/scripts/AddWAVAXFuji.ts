@@ -36,7 +36,7 @@ const addWavaxVault = async () => {
     accounts[0]
   );
   await wavaxVault.createVault();
-  await wavaxVault.setTreasury(1);
+  await avai.setTreasury(vaultNum, 1);
   console.log('Bank address:', wavaxVault.address);
   // Set up gateway
   const gateway = WAVAXGateway__factory.connect(
@@ -46,7 +46,7 @@ const addWavaxVault = async () => {
   console.log('Connected to gateway');
   await gateway.authorizeVault(wavaxVault.address);
   console.log('Authorized gateway');
-  await wavaxVault.setGateway(gateway.address);
+  await avai.setGateway(vaultNum, gateway.address);
   console.log('Set new gateway on wavax vault.');
 };
 

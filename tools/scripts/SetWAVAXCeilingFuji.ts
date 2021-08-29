@@ -12,11 +12,7 @@ const adjustWavaxDebtCeiling = async () => {
 
   // One for now, will be zero for launch
   const vaultNum = 0;
-  const wavaxVault = Bank__factory.connect(
-    await avai.banks(vaultNum),
-    accounts[0]
-  );
-  await wavaxVault.setDebtCeiling(ceiling);
+  await avai.setDebtCeiling(vaultNum, ceiling);
 };
 
 adjustWavaxDebtCeiling()

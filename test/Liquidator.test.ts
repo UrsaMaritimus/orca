@@ -85,10 +85,10 @@ describe('Liquidator Test', function () {
 
     // Create treasury vault
     await wVault.createVault();
-    await wVault.setTreasury(1);
+    await avai.setTreasury(0, 1);
     // We use a gateway for our purposes
     await gateway.authorizeVault(wVault.address);
-    await wVault.setGateway(gateway.address);
+    await avai.setGateway(0, gateway.address);
 
     // Get WAVAX
     const overrides = {
@@ -111,7 +111,7 @@ describe('Liquidator Test', function () {
 
     await wVault.createVault();
     await wVault.depositCollateral(2, ethers.utils.parseEther('10.0'));
-    await wVault.setDebtCeiling(ethers.utils.parseEther('1000000.0'));
+    await avai.setDebtCeiling(0, ethers.utils.parseEther('1000000.0'));
 
     const collat = await wVault.vaultCollateral(2);
     const price = await wVault.getPriceSource();
@@ -131,12 +131,12 @@ describe('Liquidator Test', function () {
 
     //gain debt
     // Only owner!
-    await expect(wVault.connect(accounts[1]).setGainRatio(15)).to.be.reverted;
-    await wVault.setGainRatio(12);
+    await expect(wVault.setGainRatio(15)).to.be.reverted;
+    await avai.setGainRatio(0, 12);
     expect(await wVault.gainRatio()).to.equal(12);
 
-    await expect(wVault.connect(accounts[1]).setDebtRatio(4)).to.be.reverted;
-    await wVault.setDebtRatio(3);
+    await expect(wVault.setDebtRatio(4)).to.be.reverted;
+    await avai.setDebtRatio(0, 3);
     expect(await wVault.debtRatio()).to.equal(3);
   });
 
@@ -162,7 +162,7 @@ describe('Liquidator Test', function () {
       (await wVault.getPriceSource()).sub(ethers.utils.parseUnits('1.0', 8))
     );
     await fakePrice.deployed();
-    await wVault.setPriceSource(fakePrice.address);
+    await avai.setPriceSource(0, fakePrice.address);
 
     // Won't revert anymore!
     await wVault.connect(accounts[1]).checkLiquidation(2);
@@ -174,7 +174,7 @@ describe('Liquidator Test', function () {
       (await wVault.getPriceSource()).sub(ethers.utils.parseUnits('1.0', 8))
     );
     await fakePrice.deployed();
-    await wVault.setPriceSource(fakePrice.address);
+    await avai.setPriceSource(0, fakePrice.address);
 
     // Won't revert anymore!
     await wVault.connect(accounts[1]).checkLiquidation(2);
@@ -209,7 +209,7 @@ describe('Liquidator Test', function () {
       (await wVault.getPriceSource()).sub(ethers.utils.parseUnits('1.0', 8))
     );
     await fakePrice.deployed();
-    await wVault.setPriceSource(fakePrice.address);
+    await avai.setPriceSource(0, fakePrice.address);
 
     // Won't revert anymore!
     await wVault.connect(accounts[1]).checkLiquidation(2);

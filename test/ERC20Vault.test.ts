@@ -76,10 +76,10 @@ describe('ERC20 Vault Test', function () {
     wVault = Bank__factory.connect(await avai.banks(0), accounts[0]);
     // Create treasury vault
     await wVault.createVault();
-    await wVault.setTreasury(1);
+    await avai.setTreasury(0, 1);
     // We use a gateway for our purposes
     await gateway.authorizeVault(wVault.address);
-    await wVault.setGateway(gateway.address);
+    await avai.setGateway(0, gateway.address);
 
     // Get WAVAX
     const overrides = {
@@ -336,7 +336,7 @@ describe('ERC20 Vault Test', function () {
     await wVault.createVault();
     await wVault.depositCollateral(2, ethers.utils.parseEther('10.0'));
     // For test
-    await wVault.setDebtCeiling(ethers.utils.parseEther('1000000.0'));
+    await avai.setDebtCeiling(0, ethers.utils.parseEther('1000000.0'));
 
     // Calculate invalid collateral
     const collat = await wVault.vaultCollateral(2);
@@ -457,7 +457,7 @@ describe('ERC20 Vault Test', function () {
 
     await wVault.createVault();
     await wVault.depositCollateral(2, ethers.utils.parseEther('10.0'));
-    await wVault.setDebtCeiling(ethers.utils.parseEther('1000000.0'));
+    await avai.setDebtCeiling(0, ethers.utils.parseEther('1000000.0'));
 
     const collat = await wVault.vaultCollateral(2);
     const price = await wVault.getPriceSource();
@@ -514,7 +514,7 @@ describe('ERC20 Vault Test', function () {
 
     await wVault.createVault();
     await wVault.depositCollateral(2, ethers.utils.parseEther('10.0'));
-    await wVault.setDebtCeiling(ethers.utils.parseEther('1000000.0'));
+    await avai.setDebtCeiling(0, ethers.utils.parseEther('1000000.0'));
 
     const collat = await wVault.vaultCollateral(2);
     const price = await wVault.getPriceSource();
@@ -560,7 +560,7 @@ describe('ERC20 Vault Test', function () {
 
     await wVault.createVault();
     await wVault.depositCollateral(2, ethers.utils.parseEther('10.0'));
-    await wVault.setDebtCeiling(ethers.utils.parseEther('1000000.0'));
+    await avai.setDebtCeiling(0, ethers.utils.parseEther('1000000.0'));
 
     const collat = await wVault.vaultCollateral(2);
     const price = await wVault.getPriceSource();

@@ -77,7 +77,7 @@ describe('Bank', function () {
 
   // Only to be used at discretion of the community!
   it('can set new token peg', async () => {
-    await wVault.setTokenPeg(ethers.utils.parseUnits('1.0', 'gwei'));
+    await avai.setTokenPeg(0, ethers.utils.parseUnits('1.0', 'gwei'));
 
     const pricePeg = await wVault.getPricePeg();
     // USDT/USDC has 6 decimal points.
@@ -91,11 +91,8 @@ describe('Bank', function () {
   });
 
   it('Only allows account with treasury role to change peg', async () => {
-    await expect(
-      wVault
-        .connect(accounts[1])
-        .setTokenPeg(ethers.utils.parseUnits('1.0', 'gwei'))
-    ).to.be.reverted;
+    await expect(wVault.setTokenPeg(ethers.utils.parseUnits('1.0', 'gwei'))).to
+      .be.reverted;
   });
 
   it('sets proper debt ceiling', async () => {
@@ -105,7 +102,7 @@ describe('Bank', function () {
   });
 
   it('can set proper debt ceiling', async () => {
-    await wVault.setDebtCeiling(ethers.utils.parseEther('100.0'));
+    await avai.setDebtCeiling(0, ethers.utils.parseEther('100.0'));
     expect(await wVault.debtCeiling()).to.equal(
       ethers.utils.parseEther('100.0')
     );
@@ -138,7 +135,7 @@ describe('Bank', function () {
   // Only to be used at discretion of the community! If Chainlink fails, for example
   it('can set new price source', async () => {
     const newPriceSource = '0x31CF013A08c6Ac228C94551d535d5BAfE19c602a';
-    await wVault.setPriceSource(newPriceSource);
+    await avai.setPriceSource(0, newPriceSource);
 
     // Make sure source is right
     expect(await wVault.priceSource()).to.equal(newPriceSource);
@@ -169,7 +166,7 @@ describe('Bank', function () {
   });
 
   it('correctly changes stability pool', async () => {
-    await wVault.setStabilityPool(accounts[1].address);
+    await avai.setStabilityPool(0, accounts[1].address);
     expect(await wVault.stabilityPool()).to.equal(accounts[1].address);
   });
 
@@ -189,7 +186,7 @@ describe('Bank', function () {
   });
 
   it('changes opening fee correctly', async () => {
-    await wVault.setOpeningFee(50);
+    await avai.setOpeningFee(0, 50);
     expect(await wVault.openingFee()).to.equal(50);
   });
 
@@ -198,11 +195,11 @@ describe('Bank', function () {
   });
 
   it('sets correct closing fee', async () => {
-    expect(await wVault.closingFee()).to.equal(50);
+    expect(await wVault.closingFee()).to.equal(75);
   });
 
   it('changes closing fee correctly', async () => {
-    await wVault.setClosingFee(100);
+    await avai.setClosingFee(0, 100);
     expect(await wVault.closingFee()).to.equal(100);
   });
 
@@ -213,7 +210,7 @@ describe('Bank', function () {
   // Treasury setting tests
   it('sets treasury properly', async () => {
     await wVault.createVault();
-    await wVault.setTreasury(1);
+    await avai.setTreasury(0, 1);
 
     expect(await wVault.treasury()).to.equal(1);
   });
@@ -258,40 +255,31 @@ describe('Bank', function () {
 
   it('should set deployer to treasury role and no other accounts', async () => {
     const TREASURY_ROLE = await wVault.TREASURY_ROLE();
-    // Check first account
-    expect(await wVault.hasRole(TREASURY_ROLE, accounts[0].address)).to.equal(
-      true
-    );
+    // Check avai
+    expect(await wVault.hasRole(TREASURY_ROLE, avai.address)).to.equal(true);
     // No other account should have default admin role
     // Check rest of accounts
-    accounts.slice(1).forEach(async (account) => {
+    accounts.forEach(async (account) => {
       expect(await wVault.hasRole(TREASURY_ROLE, account.address)).to.equal(
         false
       );
     });
-
-    // Check stablecoin as well
-    expect(await wVault.hasRole(TREASURY_ROLE, avai.address)).to.equal(false);
   });
 
   it('Should allow transfering of treasury role', async () => {
     const TREASURY_ROLE = await wVault.TREASURY_ROLE();
-    // Check first account
-    expect(await wVault.hasRole(TREASURY_ROLE, accounts[0].address)).to.equal(
-      true
-    );
+    // Check avai
+    expect(await wVault.hasRole(TREASURY_ROLE, avai.address)).to.equal(true);
     // Check second account
     expect(await wVault.hasRole(TREASURY_ROLE, accounts[1].address)).to.equal(
       false
     );
 
     // Now transfer
-    await wVault.changeTreasury(accounts[1].address);
+    await avai.changeTreasury(0, accounts[1].address);
     // Recheck
     // Check first account
-    expect(await wVault.hasRole(TREASURY_ROLE, accounts[0].address)).to.equal(
-      false
-    );
+    expect(await wVault.hasRole(TREASURY_ROLE, avai.address)).to.equal(false);
     // Check second account
     expect(await wVault.hasRole(TREASURY_ROLE, accounts[1].address)).to.equal(
       true
@@ -305,6 +293,8 @@ describe('Bank', function () {
     });
 
     // Check stablecoin as well
-    expect(await wVault.hasRole(TREASURY_ROLE, avai.address)).to.equal(false);
+    expect(await wVault.hasRole(TREASURY_ROLE, accounts[0].address)).to.equal(
+      false
+    );
   });
 });

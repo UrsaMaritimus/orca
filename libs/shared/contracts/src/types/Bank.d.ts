@@ -45,7 +45,7 @@ interface BankInterface extends ethers.utils.Interface {
     "getRoleAdmin(bytes32)": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
-    "initialize(uint256,address,string,string,address,address)": FunctionFragment;
+    "initialize(uint256,address,string,string,address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "liquidateVault(uint256)": FunctionFragment;
     "minimumCollateralPercentage()": FunctionFragment;
@@ -172,7 +172,7 @@ interface BankInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "initialize",
-    values: [BigNumberish, string, string, string, string, string]
+    values: [BigNumberish, string, string, string, string]
   ): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
@@ -682,7 +682,6 @@ export class Bank extends BaseContract {
       name_: string,
       symbol_: string,
       token_: string,
-      owner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -972,7 +971,6 @@ export class Bank extends BaseContract {
     name_: string,
     symbol_: string,
     token_: string,
-    owner: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -1243,7 +1241,6 @@ export class Bank extends BaseContract {
       name_: string,
       symbol_: string,
       token_: string,
-      owner: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1653,7 +1650,6 @@ export class Bank extends BaseContract {
       name_: string,
       symbol_: string,
       token_: string,
-      owner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1950,7 +1946,6 @@ export class Bank extends BaseContract {
       name_: string,
       symbol_: string,
       token_: string,
-      owner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

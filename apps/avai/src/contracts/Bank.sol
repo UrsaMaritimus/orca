@@ -89,8 +89,7 @@ contract Bank is
     address priceSource_,
     string memory name_,
     string memory symbol_,
-    address token_,
-    address owner
+    address token_
   ) public initializer {
     // Initializations
     __Context_init_unchained();
@@ -103,7 +102,7 @@ contract Bank is
     assert(minimumCollateralPercentage_ != 0);
     //Initial settings!
     debtCeiling = 10e18; // 10 dollas
-    closingFee = 50; // 0.5%
+    closingFee = 75; // 0.75%
     openingFee = 0; // 0.0%
     tokenPeg = 1e8; // $1
     debtRatio = 2; // 50%
@@ -116,7 +115,7 @@ contract Bank is
     token = IERC20(token_);
     stablecoin = IStablecoin(msg.sender);
     _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
-    _setupRole(TREASURY_ROLE, owner);
+    _setupRole(TREASURY_ROLE, msg.sender);
     _setRoleAdmin(TREASURY_ROLE, TREASURY_ROLE);
 
     minimumCollateralPercentage = minimumCollateralPercentage_;

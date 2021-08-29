@@ -32,6 +32,7 @@ interface AVAIInterface extends ethers.utils.Interface {
     "balanceOf(address)": FunctionFragment;
     "banks(uint256)": FunctionFragment;
     "burn(address,uint256)": FunctionFragment;
+    "changeTreasury(uint256,address)": FunctionFragment;
     "decimals()": FunctionFragment;
     "decreaseAllowance(address,uint256)": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
@@ -50,6 +51,16 @@ interface AVAIInterface extends ethers.utils.Interface {
     "renounceOwnership()": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
+    "setClosingFee(uint256,uint256)": FunctionFragment;
+    "setDebtCeiling(uint256,uint256)": FunctionFragment;
+    "setDebtRatio(uint256,uint256)": FunctionFragment;
+    "setGainRatio(uint256,uint256)": FunctionFragment;
+    "setGateway(uint256,address)": FunctionFragment;
+    "setOpeningFee(uint256,uint256)": FunctionFragment;
+    "setPriceSource(uint256,address)": FunctionFragment;
+    "setStabilityPool(uint256,address)": FunctionFragment;
+    "setTokenPeg(uint256,uint256)": FunctionFragment;
+    "setTreasury(uint256,uint256)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
     "totalSupply()": FunctionFragment;
@@ -98,6 +109,10 @@ interface AVAIInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "burn",
     values: [string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "changeTreasury",
+    values: [BigNumberish, string]
   ): string;
   encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
   encodeFunctionData(
@@ -162,6 +177,46 @@ interface AVAIInterface extends ethers.utils.Interface {
     values: [BytesLike, string]
   ): string;
   encodeFunctionData(
+    functionFragment: "setClosingFee",
+    values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setDebtCeiling",
+    values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setDebtRatio",
+    values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setGainRatio",
+    values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setGateway",
+    values: [BigNumberish, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setOpeningFee",
+    values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setPriceSource",
+    values: [BigNumberish, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setStabilityPool",
+    values: [BigNumberish, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setTokenPeg",
+    values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setTreasury",
+    values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "supportsInterface",
     values: [BytesLike]
   ): string;
@@ -218,6 +273,10 @@ interface AVAIInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "banks", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "changeTreasury",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "decreaseAllowance",
@@ -254,6 +313,43 @@ interface AVAIInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setClosingFee",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setDebtCeiling",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setDebtRatio",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setGainRatio",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "setGateway", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setOpeningFee",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setPriceSource",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setStabilityPool",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setTokenPeg",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setTreasury",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "supportsInterface",
     data: BytesLike
@@ -389,6 +485,12 @@ export class AVAI extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    changeTreasury(
+      bankID: BigNumberish,
+      to: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     decimals(overrides?: CallOverrides): Promise<[number]>;
 
     decreaseAllowance(
@@ -470,6 +572,66 @@ export class AVAI extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setClosingFee(
+      bankID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setDebtCeiling(
+      bankID: BigNumberish,
+      debtCeiling_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setDebtRatio(
+      bankID: BigNumberish,
+      debtRatio_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setGainRatio(
+      bankID: BigNumberish,
+      gainRatio_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setGateway(
+      bankID: BigNumberish,
+      gateway_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setOpeningFee(
+      bankID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setPriceSource(
+      bankID: BigNumberish,
+      priceSource_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setStabilityPool(
+      bankID: BigNumberish,
+      stabilityPool_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setTokenPeg(
+      bankID: BigNumberish,
+      tokenPeg_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setTreasury(
+      bankID: BigNumberish,
+      treasury_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -547,6 +709,12 @@ export class AVAI extends BaseContract {
   burn(
     from: string,
     amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  changeTreasury(
+    bankID: BigNumberish,
+    to: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -631,6 +799,66 @@ export class AVAI extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setClosingFee(
+    bankID: BigNumberish,
+    amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setDebtCeiling(
+    bankID: BigNumberish,
+    debtCeiling_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setDebtRatio(
+    bankID: BigNumberish,
+    debtRatio_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setGainRatio(
+    bankID: BigNumberish,
+    gainRatio_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setGateway(
+    bankID: BigNumberish,
+    gateway_: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setOpeningFee(
+    bankID: BigNumberish,
+    amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setPriceSource(
+    bankID: BigNumberish,
+    priceSource_: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setStabilityPool(
+    bankID: BigNumberish,
+    stabilityPool_: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setTokenPeg(
+    bankID: BigNumberish,
+    tokenPeg_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setTreasury(
+    bankID: BigNumberish,
+    treasury_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   supportsInterface(
     interfaceId: BytesLike,
     overrides?: CallOverrides
@@ -711,6 +939,12 @@ export class AVAI extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    changeTreasury(
+      bankID: BigNumberish,
+      to: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     decimals(overrides?: CallOverrides): Promise<number>;
 
     decreaseAllowance(
@@ -785,6 +1019,66 @@ export class AVAI extends BaseContract {
     revokeRole(
       role: BytesLike,
       account: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setClosingFee(
+      bankID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setDebtCeiling(
+      bankID: BigNumberish,
+      debtCeiling_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setDebtRatio(
+      bankID: BigNumberish,
+      debtRatio_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setGainRatio(
+      bankID: BigNumberish,
+      gainRatio_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setGateway(
+      bankID: BigNumberish,
+      gateway_: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setOpeningFee(
+      bankID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setPriceSource(
+      bankID: BigNumberish,
+      priceSource_: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setStabilityPool(
+      bankID: BigNumberish,
+      stabilityPool_: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setTokenPeg(
+      bankID: BigNumberish,
+      tokenPeg_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setTreasury(
+      bankID: BigNumberish,
+      treasury_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -935,6 +1229,12 @@ export class AVAI extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    changeTreasury(
+      bankID: BigNumberish,
+      to: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     decimals(overrides?: CallOverrides): Promise<BigNumber>;
 
     decreaseAllowance(
@@ -1016,6 +1316,66 @@ export class AVAI extends BaseContract {
     revokeRole(
       role: BytesLike,
       account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setClosingFee(
+      bankID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setDebtCeiling(
+      bankID: BigNumberish,
+      debtCeiling_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setDebtRatio(
+      bankID: BigNumberish,
+      debtRatio_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setGainRatio(
+      bankID: BigNumberish,
+      gainRatio_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setGateway(
+      bankID: BigNumberish,
+      gateway_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setOpeningFee(
+      bankID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setPriceSource(
+      bankID: BigNumberish,
+      priceSource_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setStabilityPool(
+      bankID: BigNumberish,
+      stabilityPool_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setTokenPeg(
+      bankID: BigNumberish,
+      tokenPeg_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setTreasury(
+      bankID: BigNumberish,
+      treasury_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1108,6 +1468,12 @@ export class AVAI extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    changeTreasury(
+      bankID: BigNumberish,
+      to: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     decimals(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     decreaseAllowance(
@@ -1192,6 +1558,66 @@ export class AVAI extends BaseContract {
     revokeRole(
       role: BytesLike,
       account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setClosingFee(
+      bankID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setDebtCeiling(
+      bankID: BigNumberish,
+      debtCeiling_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setDebtRatio(
+      bankID: BigNumberish,
+      debtRatio_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setGainRatio(
+      bankID: BigNumberish,
+      gainRatio_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setGateway(
+      bankID: BigNumberish,
+      gateway_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setOpeningFee(
+      bankID: BigNumberish,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setPriceSource(
+      bankID: BigNumberish,
+      priceSource_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setStabilityPool(
+      bankID: BigNumberish,
+      stabilityPool_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setTokenPeg(
+      bankID: BigNumberish,
+      tokenPeg_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setTreasury(
+      bankID: BigNumberish,
+      treasury_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

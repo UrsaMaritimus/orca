@@ -9,6 +9,7 @@ import '@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol'
 
 import '@openzeppelin/contracts/proxy/beacon/BeaconProxy.sol';
 import './overrides/UpgradeableBeacon.sol';
+import './interfaces/IBank.sol';
 
 contract AVAI is
   Initializable,
@@ -82,13 +83,12 @@ contract AVAI is
       new BeaconProxy(
         address(this),
         abi.encodeWithSignature(
-          'initialize(uint256,address,string,string,address,address)',
+          'initialize(uint256,address,string,string,address)',
           minimumCollateralPercentage_,
           priceSource_,
           name_,
           symbol_,
-          token_,
-          msg.sender
+          token_
         )
       )
     );
@@ -143,5 +143,118 @@ contract AVAI is
   ) internal override(ERC20Upgradeable) {
     super._beforeTokenTransfer(from, to, tokenId);
     require(!paused(), 'Pausable: token transfer while paused');
+  }
+
+  //--------------------------------------
+  // Bank stuff
+
+  /**
+   * @dev changes the Treasury. Can only every be one treasury!
+   */
+  function changeTreasury(uint256 bankID, address to)
+    external
+    onlyRole(DEFAULT_ADMIN_ROLE)
+  {
+    IBank(banks[bankID]).changeTreasury(to);
+  }
+
+  /**
+   * @dev sets the gain ratio
+   */
+  function setGainRatio(uint256 bankID, uint256 gainRatio_)
+    external
+    onlyRole(DEFAULT_ADMIN_ROLE)
+  {
+    IBank(banks[bankID]).setGainRatio(gainRatio_);
+  }
+
+  /**
+   * @dev sets the debt ratio
+   */
+  function setDebtRatio(uint256 bankID, uint256 debtRatio_)
+    external
+    onlyRole(DEFAULT_ADMIN_ROLE)
+  {
+    IBank(banks[bankID]).setDebtRatio(debtRatio_);
+  }
+
+  /**
+   * @dev Set the debt ceiling for this vault
+   */
+  function setDebtCeiling(uint256 bankID, uint256 debtCeiling_)
+    external
+    onlyRole(DEFAULT_ADMIN_ROLE)
+  {
+    IBank(banks[bankID]).setDebtCeiling(debtCeiling_);
+  }
+
+  /**
+   * @dev Set the price source for this vault
+   */
+  function setPriceSource(uint256 bankID, address priceSource_)
+    external
+    onlyRole(DEFAULT_ADMIN_ROLE)
+  {
+    IBank(banks[bankID]).setPriceSource(priceSource_);
+  }
+
+  /**
+   * @dev Set the price source for this vault
+   */
+  function setTokenPeg(uint256 bankID, uint256 tokenPeg_)
+    external
+    onlyRole(DEFAULT_ADMIN_ROLE)
+  {
+    IBank(banks[bankID]).setTokenPeg(tokenPeg_);
+  }
+
+  /**
+   * @dev Set the stability pool (liquidator) for this vault
+   */
+  function setStabilityPool(uint256 bankID, address stabilityPool_)
+    external
+    onlyRole(DEFAULT_ADMIN_ROLE)
+  {
+    IBank(banks[bankID]).setStabilityPool(stabilityPool_);
+  }
+
+  /**
+   * @dev Set the WAVAX gateway for this vault if it needs one
+   */
+  function setGateway(uint256 bankID, address gateway_)
+    external
+    onlyRole(DEFAULT_ADMIN_ROLE)
+  {
+    IBank(banks[bankID]).setGateway(gateway_);
+  }
+
+  /**
+   * @dev Set the closing fee for this vault
+   */
+  function setClosingFee(uint256 bankID, uint256 amount)
+    external
+    onlyRole(DEFAULT_ADMIN_ROLE)
+  {
+    IBank(banks[bankID]).setClosingFee(amount);
+  }
+
+  /**
+   * @dev Set the opening fee for this vault
+   */
+  function setOpeningFee(uint256 bankID, uint256 amount)
+    external
+    onlyRole(DEFAULT_ADMIN_ROLE)
+  {
+    IBank(banks[bankID]).setOpeningFee(amount);
+  }
+
+  /**
+   * @dev Set the treasury vault for this vault
+   */
+  function setTreasury(uint256 bankID, uint256 treasury_)
+    external
+    onlyRole(DEFAULT_ADMIN_ROLE)
+  {
+    IBank(banks[bankID]).setTreasury(treasury_);
   }
 }

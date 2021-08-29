@@ -5,7 +5,7 @@ export default {
       chainId: '43113',
       contracts: {
         AVAI: {
-          address: '0x939142641c3736bFdF1107f884De4Ff69Dc73C3f',
+          address: '0x4995da5DF5AA38e18206155f6F4178Af2158B6C4',
           abi: [
             {
               anonymous: false,
@@ -477,6 +477,24 @@ export default {
               type: 'function',
             },
             {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'address',
+                  name: 'to',
+                  type: 'address',
+                },
+              ],
+              name: 'changeTreasury',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
               inputs: [],
               name: 'decimals',
               outputs: [
@@ -788,6 +806,186 @@ export default {
             {
               inputs: [
                 {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'setClosingFee',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'debtCeiling_',
+                  type: 'uint256',
+                },
+              ],
+              name: 'setDebtCeiling',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'debtRatio_',
+                  type: 'uint256',
+                },
+              ],
+              name: 'setDebtRatio',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'gainRatio_',
+                  type: 'uint256',
+                },
+              ],
+              name: 'setGainRatio',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'address',
+                  name: 'gateway_',
+                  type: 'address',
+                },
+              ],
+              name: 'setGateway',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'setOpeningFee',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'address',
+                  name: 'priceSource_',
+                  type: 'address',
+                },
+              ],
+              name: 'setPriceSource',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'address',
+                  name: 'stabilityPool_',
+                  type: 'address',
+                },
+              ],
+              name: 'setStabilityPool',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'tokenPeg_',
+                  type: 'uint256',
+                },
+              ],
+              name: 'setTokenPeg',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'treasury_',
+                  type: 'uint256',
+                },
+              ],
+              name: 'setTreasury',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
                   internalType: 'bytes4',
                   name: 'interfaceId',
                   type: 'bytes4',
@@ -953,7 +1151,7 @@ export default {
           ],
         },
         AVAI_Implementation: {
-          address: '0x316c4d1F05807f422E1Cbbf3e981CB577c4ab688',
+          address: '0x4Ab721a7a730aeB2A24FecEb0A2eF6641183a2ea',
           abi: [
             {
               anonymous: false,
@@ -1360,6 +1558,24 @@ export default {
               type: 'function',
             },
             {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'address',
+                  name: 'to',
+                  type: 'address',
+                },
+              ],
+              name: 'changeTreasury',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
               inputs: [],
               name: 'decimals',
               outputs: [
@@ -1684,6 +1900,186 @@ export default {
             {
               inputs: [
                 {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'setClosingFee',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'debtCeiling_',
+                  type: 'uint256',
+                },
+              ],
+              name: 'setDebtCeiling',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'debtRatio_',
+                  type: 'uint256',
+                },
+              ],
+              name: 'setDebtRatio',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'gainRatio_',
+                  type: 'uint256',
+                },
+              ],
+              name: 'setGainRatio',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'address',
+                  name: 'gateway_',
+                  type: 'address',
+                },
+              ],
+              name: 'setGateway',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'setOpeningFee',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'address',
+                  name: 'priceSource_',
+                  type: 'address',
+                },
+              ],
+              name: 'setPriceSource',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'address',
+                  name: 'stabilityPool_',
+                  type: 'address',
+                },
+              ],
+              name: 'setStabilityPool',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'tokenPeg_',
+                  type: 'uint256',
+                },
+              ],
+              name: 'setTokenPeg',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'treasury_',
+                  type: 'uint256',
+                },
+              ],
+              name: 'setTreasury',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
                   internalType: 'bytes4',
                   name: 'interfaceId',
                   type: 'bytes4',
@@ -1828,7 +2224,7 @@ export default {
           ],
         },
         AVAI_Proxy: {
-          address: '0x939142641c3736bFdF1107f884De4Ff69Dc73C3f',
+          address: '0x4995da5DF5AA38e18206155f6F4178Af2158B6C4',
           abi: [
             {
               inputs: [
@@ -1932,7 +2328,7 @@ export default {
           ],
         },
         Bank: {
-          address: '0x8d537D89641fA33f2675f63FA29Db08112182258',
+          address: '0x58aA3541106fa8D387b62E1EB52E15d667A41C4d',
           abi: [
             {
               anonymous: false,
@@ -2652,11 +3048,6 @@ export default {
                 {
                   internalType: 'address',
                   name: 'token_',
-                  type: 'address',
-                },
-                {
-                  internalType: 'address',
-                  name: 'owner',
                   type: 'address',
                 },
               ],
@@ -3794,7 +4185,7 @@ export default {
           ],
         },
         WAVAXGateway: {
-          address: '0xeC98b29429B8Cf909e7A6FFA98b08336a9693E4c',
+          address: '0x4cC6E99dAE92608256405792fC8B79d788D3C7dC',
           abi: [
             {
               inputs: [
@@ -3951,7 +4342,7 @@ export default {
           ],
         },
         USDCExchange_Implementation: {
-          address: '0x89f6867d4b27F952109EF270D207fC31bCA93852',
+          address: '0xa917d4438CF5f968bA39AcA28d2eAd15DC8081Cc',
           abi: [
             {
               anonymous: false,
@@ -4169,7 +4560,7 @@ export default {
           ],
         },
         USDCExchange_Proxy: {
-          address: '0x8b7A56E46CE04b8197Fd6b1A73f37B06108c4b84',
+          address: '0x4b30B09f8dAb1e7e89374632D41cb47ca1e85a20',
           abi: [
             {
               inputs: [
@@ -4273,7 +4664,7 @@ export default {
           ],
         },
         USDCExchange: {
-          address: '0x8b7A56E46CE04b8197Fd6b1A73f37B06108c4b84',
+          address: '0x4b30B09f8dAb1e7e89374632D41cb47ca1e85a20',
           abi: [
             {
               anonymous: false,

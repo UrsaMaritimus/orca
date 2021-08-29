@@ -84,10 +84,10 @@ describe('Avax Vault Test with Gateway', function () {
     wVault = Bank__factory.connect(await avai.banks(0), accounts[0]);
     // Create treasury vault
     await wVault.createVault();
-    await wVault.setTreasury(1);
+    await avai.setTreasury(0, 1);
     // We use a gateway for our purposes
     await gateway.authorizeVault(wVault.address);
-    await wVault.setGateway(gateway.address);
+    await avai.setGateway(0, gateway.address);
 
     // wavax setup
     wavax = ERC20Upgradeable__factory.connect(token, accounts[0]);
@@ -299,7 +299,7 @@ describe('Avax Vault Test with Gateway', function () {
 
     await wVault.createVault();
     await gateway.depositAVAX(wVault.address, 2, overrides);
-    await wVault.setDebtCeiling(ethers.utils.parseEther('1000000.0'));
+    await avai.setDebtCeiling(0, ethers.utils.parseEther('1000000.0'));
 
     const collat = await wVault.vaultCollateral(2);
     const price = await wVault.getPriceSource();
@@ -317,7 +317,7 @@ describe('Avax Vault Test with Gateway', function () {
       (await wVault.getPriceSource()).sub(ethers.utils.parseUnits('1.0', 8))
     );
     await fakePrice.deployed();
-    await wVault.setPriceSource(fakePrice.address);
+    await avai.setPriceSource(0, fakePrice.address);
 
     const mintVal = await wVault.checkCost(2);
     // Let the user have minter role

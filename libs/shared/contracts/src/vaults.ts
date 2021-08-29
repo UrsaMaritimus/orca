@@ -1,9 +1,9 @@
 export const VaultContracts = {
   fuji: {
-    wavax: '0xF3c21a5020edFD3f3Af3FB6D2a063981Ad583510',
+    wavax: '0x7126268D25fC2D118Fbd177c83aF850b59516312',
   },
   mainnet: {
     // TODO: Update to mainnet address
-    wavax: '0xF3c21a5020edFD3f3Af3FB6D2a063981Ad583510',
+    wavax: '0x7126268D25fC2D118Fbd177c83aF850b59516312',
   },
 };

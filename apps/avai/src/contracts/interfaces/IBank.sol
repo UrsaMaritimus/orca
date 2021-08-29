@@ -16,6 +16,28 @@ interface IBank is IERC721 {
 
   function getPaid(address user) external;
 
+  function changeTreasury(address to) external;
+
+  function setGainRatio(uint256 gainRatio_) external;
+
+  function setDebtRatio(uint256 debtRatio_) external;
+
+  function setDebtCeiling(uint256 debtCeiling_) external;
+
+  function setPriceSource(address priceSource_) external;
+
+  function setTokenPeg(uint256 tokenPeg_) external;
+
+  function setStabilityPool(address stabilityPool_) external;
+
+  function setGateway(address gateway_) external;
+
+  function setClosingFee(uint256 amount) external;
+
+  function setOpeningFee(uint256 amount) external;
+
+  function setTreasury(uint256 treasury_) external;
+
   function initialize(
     uint256 minimumCollateralPercentage_,
     address priceSource_,
