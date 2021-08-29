@@ -14,8 +14,6 @@ import {
   Grid,
 } from '@material-ui/core';
 
-import toast from 'react-hot-toast';
-
 // Ethers and web3 stuff
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
@@ -24,7 +22,7 @@ import { useFormik, Form, FormikProvider } from 'formik';
 
 import { fPercent, fNumber } from '@orca/util';
 import { borrowToken } from '@orca/shared/funcs';
-
+import { handleTransaction } from '@orca/components/transaction';
 import { tokenInfo } from '@orca/shared/base';
 
 // ----------------------------------------------------------------------
@@ -114,41 +112,24 @@ export const BorrowStepper: FC<BorrowStepperProps> = ({
   } = formik;
 
   const handleBorrow = async () => {
-    try {
-      const result = await borrowToken(
+    handleTransaction({
+      transaction: borrowToken(
         library,
         vaultID,
         values.borrowAmount,
         tokenInfo[token as string].erc20,
         chainId
-      );
-      handleNext();
-      // Make a promise for destroying vault
-      await toast.promise(
-        result.wait(1),
-        {
-          loading: 'Borrowing AVAI...',
-          success: <b>Succesfully borrowed!</b>,
-          error: <b>Failed to borrow AVAI.</b>,
-        },
-        {
-          style: {
-            minWidth: '100px',
-          },
-          loading: {
-            duration: Infinity,
-          },
-          success: {
-            duration: 5000,
-          },
-        }
-      );
-      resetForm();
-      handleReset();
-    } catch (err) {
-      toast.error(err.message);
-    }
+      ),
+      messages: {
+        loading: 'Borrowing AVAI...',
+        success: 'Succesfully borrowed!',
+        error: 'Failed to borrow AVAI.',
+      },
+    });
+    resetForm();
+    handleReset();
   };
+
   return (
     <>
       <Stepper activeStep={activeStep} alternativeLabel>

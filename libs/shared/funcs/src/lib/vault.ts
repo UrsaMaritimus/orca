@@ -170,6 +170,16 @@ export const deleteVault = (
   }
   return vault.destroyVault(vaultID);
 };
+
+// callable
+export const makeVault = (
+  library: Web3Provider,
+  vaultType: string,
+  chainId: number
+) => {
+  const vault = getVault(vaultType, library, chainId, true);
+  return vault.createVault();
+};
 // callable
 export const depositCollateral = (
   library: Web3Provider,

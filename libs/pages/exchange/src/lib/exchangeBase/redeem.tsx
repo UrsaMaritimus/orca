@@ -23,6 +23,7 @@ import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { BigNumber, utils } from 'ethers';
 
+import { handleTransaction } from '@orca/components/transaction';
 import { Loader } from '@orca/components/loader';
 import {
   avaiApprovedExchange,
@@ -31,7 +32,6 @@ import {
 } from '@orca/shared/funcs';
 import { fNumber, fPercent } from '@orca/util';
 import { erc20Tokens, tokenInfo } from '@orca/shared/base';
-import toast from 'react-hot-toast';
 
 // ------------------------------------------------------
 
@@ -83,7 +83,7 @@ export const Redeem: FC<MintProps> = ({
 
   const formik = useFormik({
     initialValues: {
-      swapAmount: 0,
+      swapAmount: undefined,
       returnAmount: 0,
     },
     validationSchema: ValueSchema,
@@ -125,7 +125,7 @@ export const Redeem: FC<MintProps> = ({
             )
           )
     );
-  }, [values, setFieldValue]);
+  }, [values, setFieldValue, mintingFee]);
 
   if (chainId === 43114) {
     return (
@@ -140,70 +140,37 @@ export const Redeem: FC<MintProps> = ({
 
   // For approving AVAI
   const handleApproveAVAI = async () => {
-    try {
-      const result = await approveAvaiExchange(
+    handleTransaction({
+      transaction: approveAvaiExchange(
         library,
         chainId,
         utils.parseEther('1000000000000')
-      );
-
-      await toast.promise(
-        result.wait(1),
-        {
-          loading: 'Approving AVAI...',
-          success: <b>Succesfully approved!</b>,
-          error: <b>Failed to approve AVAI.</b>,
-        },
-        {
-          style: {
-            minWidth: '100px',
-          },
-          loading: {
-            duration: Infinity,
-          },
-          success: {
-            duration: 5000,
-          },
-        }
-      );
-      avaiApprovedMutate(undefined, true);
-    } catch (err) {
-      toast.error(err.message);
-    }
+      ),
+      messages: {
+        loading: 'Approving AVAI...',
+        success: 'Succesfully approved!',
+        error: 'Failed to approve AVAI.',
+      },
+      mutates: [avaiApprovedMutate],
+    });
   };
 
   // For redeeming USDC for AVAI
   const handleMintAVAI = async () => {
-    try {
-      const result = await redeemFromExchange(
+    handleTransaction({
+      transaction: redeemFromExchange(
         library,
         chainId,
         utils.parseEther(values.swapAmount ? values.swapAmount.toString() : '0')
-      );
-
-      await toast.promise(
-        result.wait(1),
-        {
-          loading: 'Redeeming USDC...',
-          success: <b>Succesfully redeemed!</b>,
-          error: <b>Failed to redeem usdc.</b>,
-        },
-        {
-          style: {
-            minWidth: '100px',
-          },
-          loading: {
-            duration: Infinity,
-          },
-          success: {
-            duration: 5000,
-          },
-        }
-      );
-      resetForm();
-    } catch (err) {
-      toast.error(err.data.message);
-    }
+      ),
+      messages: {
+        loading: 'Redeeming USDC...',
+        success: 'Succesfully redeemed!',
+        error: 'Failed to redeem usdc.',
+      },
+      mutates: [avaiApprovedMutate],
+    });
+    resetForm();
   };
 
   if (typeof account === 'string') {

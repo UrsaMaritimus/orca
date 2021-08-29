@@ -3,7 +3,7 @@ import useSwr from 'swr';
 
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
-import toast from 'react-hot-toast';
+
 import {
   Card,
   CardHeader,
@@ -13,6 +13,7 @@ import {
   Stack,
 } from '@material-ui/core';
 
+import { handleTransaction } from '@orca/components/transaction';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 import { monitorRewards, getReward } from '@orca/shared/funcs';
 import { tokenInfo } from '@orca/shared/base';
@@ -39,35 +40,14 @@ export const VaultReward: FC<VaultRewardProps> = ({ token }) => {
   useKeepSWRDataLiveAsBlocksArrive(monitorRewardMutate);
 
   const handleGetPaid = async () => {
-    try {
-      const result = await getReward(
-        library,
-        chainId,
-        tokenInfo[token].erc20,
-        account
-      );
-      await toast.promise(
-        result.wait(1),
-        {
-          loading: 'Getting reward...',
-          success: <b>Succesfully claimed reward!</b>,
-          error: <b>Failed to claim reward.</b>,
-        },
-        {
-          style: {
-            minWidth: '100px',
-          },
-          loading: {
-            duration: Infinity,
-          },
-          success: {
-            duration: 5000,
-          },
-        }
-      );
-    } catch (error) {
-      toast.error(error.message);
-    }
+    handleTransaction({
+      transaction: getReward(library, chainId, tokenInfo[token].erc20, account),
+      messages: {
+        loading: 'Getting reward...',
+        success: 'Succesfully claimed reward!',
+        error: 'Failed to claim reward.',
+      },
+    });
   };
 
   if (typeof account === 'string' && reward && reward.isReward) {

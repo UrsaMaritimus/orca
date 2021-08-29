@@ -466,6 +466,29 @@
         }
       }
     },
+    "components-transaction": {
+      "root": "libs/components/transaction",
+      "sourceRoot": "libs/components/transaction/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/components/transaction/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/components/transaction"],
+          "options": {
+            "jestConfig": "libs/components/transaction/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "hooks": {
       "root": "libs/hooks",
       "sourceRoot": "libs/hooks/src",

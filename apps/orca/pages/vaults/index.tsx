@@ -12,14 +12,9 @@ const RootStyle = styled(Page)((theme) => ({
 
 const App: FC = () => {
   return (
-    <RootStyle
-      title={`Dashboard | ${process.env.NEXT_PUBLIC_TITLE}`}
-      id={'AppPage'}
-    >
-      <AppLayout>
-        <Vaults />
-      </AppLayout>
-    </RootStyle>
+    <AppLayout>
+      <Vaults />
+    </AppLayout>
   );
 };
 

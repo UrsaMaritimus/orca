@@ -31,7 +31,7 @@ import {
 } from '@orca/shared/funcs';
 import { fNumber, fPercent } from '@orca/util';
 import { erc20Tokens, tokenInfo } from '@orca/shared/base';
-import toast from 'react-hot-toast';
+import { handleTransaction } from '@orca/components/transaction';
 
 // ------------------------------------------------------
 
@@ -90,7 +90,7 @@ export const Mint: FC<MintProps> = ({
 
   const formik = useFormik({
     initialValues: {
-      swapAmount: 0,
+      swapAmount: undefined,
       returnAmount: 0,
     },
     validationSchema: ValueSchema,
@@ -146,74 +146,40 @@ export const Mint: FC<MintProps> = ({
 
   // For approving USDC
   const handleApproveUSDC = async () => {
-    try {
-      const result = await approveUsdExchange(
+    handleTransaction({
+      transaction: approveUsdExchange(
         library,
         chainId,
         utils.parseEther('1000000000000'),
         token
-      );
-
-      await toast.promise(
-        result.wait(1),
-        {
-          loading: 'Approving USDC...',
-          success: <b>Succesfully approved!</b>,
-          error: <b>Failed to approve USDC.</b>,
-        },
-        {
-          style: {
-            minWidth: '100px',
-          },
-          loading: {
-            duration: Infinity,
-          },
-          success: {
-            duration: 5000,
-          },
-        }
-      );
-      usdcApprovedMutate(undefined, true);
-    } catch (err) {
-      toast.error(err.message);
-    }
+      ),
+      messages: {
+        loading: 'Approving USDC...',
+        success: 'Succesfully approved!',
+        error: 'Failed to approve USDC.',
+      },
+      mutates: [usdcApprovedMutate],
+    });
   };
 
   // For minting AVAI from USDC
   const handleMintAVAI = async () => {
-    try {
-      const result = await mintFromExchange(
+    await handleTransaction({
+      transaction: mintFromExchange(
         library,
         chainId,
         utils.parseUnits(
           values.swapAmount ? values.swapAmount.toString() : '0',
           6
         )
-      );
-
-      await toast.promise(
-        result.wait(1),
-        {
-          loading: 'Minting AVAI...',
-          success: <b>Succesfully minted!</b>,
-          error: <b>Failed to mint AVAI.</b>,
-        },
-        {
-          style: {
-            minWidth: '100px',
-          },
-          loading: {
-            duration: Infinity,
-          },
-          success: {
-            duration: 5000,
-          },
-        }
-      );
-      resetForm();
-    } catch (err) {
-      toast.error(err.data.message);
-    }
+      ),
+      messages: {
+        loading: 'Minting AVAI...',
+        success: 'Succesfully minted!',
+        error: 'Failed to mint AVAI.',
+      },
+    });
+    resetForm();
   };
 
   if (typeof account === 'string') {

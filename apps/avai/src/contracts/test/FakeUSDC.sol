@@ -11,6 +11,13 @@ contract FakeUSDC is ERC20 {
     _mint(msg.sender, 1000000000000);
   }
 
+  /**
+   * Minting for all, for testnet!
+   */
+  function mint(uint256 amount) external {
+    _mint(msg.sender, amount);
+  }
+
   function decimals() public view virtual override returns (uint8) {
     return TOKEN_DECIMALS;
   }

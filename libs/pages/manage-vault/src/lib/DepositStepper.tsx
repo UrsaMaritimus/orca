@@ -15,7 +15,7 @@ import {
   Grid,
 } from '@material-ui/core';
 
-import toast from 'react-hot-toast';
+import { handleTransaction } from '@orca/components/transaction';
 
 // Ethers and web3 stuff
 import { useWeb3React } from '@web3-react/core';
@@ -111,40 +111,24 @@ export const DepositStepper: FC<DepositStepperProps> = ({
     formik;
 
   const handleDeposit = async () => {
-    try {
-      const result = await depositCollateral(
+    handleNext();
+    handleTransaction({
+      transaction: depositCollateral(
         library,
         vaultID,
         values.depositAmount,
         tokenInfo[token as string].erc20,
         chainId
-      );
-      handleNext();
-      // Make a promise for destroying vault
-      await toast.promise(
-        result.wait(1),
-        {
-          loading: 'Depositing collateral...',
-          success: <b>Collateral deposited!</b>,
-          error: <b>Failed to deposit collateral.</b>,
-        },
-        {
-          style: {
-            minWidth: '100px',
-          },
-          loading: {
-            duration: Infinity,
-          },
-          success: {
-            duration: 5000,
-          },
-        }
-      );
-      resetForm();
-      handleReset();
-    } catch (error) {
-      toast.error(error.data.message);
-    }
+      ),
+      messages: {
+        loading: 'Depositing collateral...',
+        success: 'Collateral deposited!',
+        error: 'Failed to deposit collateral.',
+      },
+    });
+
+    resetForm();
+    handleReset();
   };
   return (
     <>

@@ -1,6 +1,7 @@
 import { Web3Provider } from '@ethersproject/providers';
 import {
   ERC20Upgradeable__factory,
+  FakeUSDC__factory,
   USDCExchange__factory,
   AVAI__factory,
 } from '@orca/shared/contracts';
@@ -174,4 +175,21 @@ export const redeemFromExchange = async (
 ) => {
   const exchange = getUSDCExchange(library, chainId, true);
   return exchange.redeem(amount);
+};
+
+export const mintFakeUSDC = async (
+  library: Web3Provider,
+  chainId: number,
+  amount: BigNumber,
+  usdType: string
+) => {
+  const usd = FakeUSDC__factory.connect(
+    chainId === 43113
+      ? erc20Tokens[usdType].fuji.address
+      : chainId === 43114
+      ? erc20Tokens[usdType].mainnet.address
+      : null,
+    library.getSigner()
+  );
+  return usd.mint(amount);
 };

@@ -9,12 +9,9 @@ import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 import {
   Card,
   CardHeader,
-  Box,
   Typography,
-  Stack,
   Grid,
   Container,
-  Button,
   ToggleButton,
   ToggleButtonGroup,
 } from '@material-ui/core';
@@ -26,6 +23,8 @@ import { usdBalance, avaiBalance, exchangeInfo } from '@orca/shared/funcs';
 
 import { Mint } from './mint';
 import { Redeem } from './redeem';
+import { FakeUSDCFaucet } from '../usdc/fakeUsdcCreate';
+import { Loader } from '@orca/components/loader';
 
 //-----------------------------------------------------------------
 
@@ -119,27 +118,44 @@ export const ExchangeBase: FC<ExchangeProps> = ({ token }) => {
             </CollateralStyle>
           </Card>
         </Container>
-        {view === 'mint' && userUSDBalance && usdcExchangeInfo && (
-          <Mint
-            token={token}
-            library={library}
-            chainId={chainId}
-            account={account}
-            usdBalance={userUSDBalance}
-            exchangeBalance={usdcExchangeInfo.reserves}
-            mintingFee={usdcExchangeInfo.mintingFee}
-          />
-        )}
-        {view === 'redeem' && (
-          <Redeem
-            token={token}
-            library={library}
-            chainId={chainId}
-            account={account}
-            avaiBalance={userAvaiBalance}
-            exchangeBalance={usdcExchangeInfo.reserves}
-            mintingFee={usdcExchangeInfo.mintingFee}
-          />
+        {view === 'mint' &&
+          (userUSDBalance && usdcExchangeInfo ? (
+            <Mint
+              token={token}
+              library={library}
+              chainId={chainId}
+              account={account}
+              usdBalance={userUSDBalance}
+              exchangeBalance={usdcExchangeInfo.reserves}
+              mintingFee={usdcExchangeInfo.mintingFee}
+            />
+          ) : (
+            <Container maxWidth="sm">
+              <Card>
+                <Loader />
+              </Card>
+            </Container>
+          ))}
+        {view === 'redeem' &&
+          (userUSDBalance && usdcExchangeInfo ? (
+            <Redeem
+              token={token}
+              library={library}
+              chainId={chainId}
+              account={account}
+              avaiBalance={userAvaiBalance}
+              exchangeBalance={usdcExchangeInfo.reserves}
+              mintingFee={usdcExchangeInfo.mintingFee}
+            />
+          ) : (
+            <Container maxWidth="sm">
+              <Card>
+                <Loader />
+              </Card>
+            </Container>
+          ))}
+        {chainId === 43113 && userUSDBalance && (
+          <FakeUSDCFaucet token={token} usdBalance={userUSDBalance} />
         )}
       </RootStyle>
     </Connect>

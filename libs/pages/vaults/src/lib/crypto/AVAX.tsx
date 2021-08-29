@@ -9,8 +9,6 @@ import { Icon } from '@iconify/react';
 import infoOutline from '@iconify/icons-eva/info-outline';
 import plusFill from '@iconify/icons-eva/plus-fill';
 
-import { toast } from 'react-hot-toast';
-
 import {
   Card,
   CardHeader,
@@ -24,10 +22,15 @@ import {
 
 import { MainTable } from '@orca/components/table';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
-import { Bank__factory, VaultContracts } from '@orca/shared/contracts';
 import { Loader } from '@orca/components/loader';
 import { fShortenNumber } from '@orca/util';
-import { getVaults, mintCeiling } from '@orca/shared/funcs';
+import {
+  getVaults,
+  mintCeiling,
+  makeVault,
+  getVault,
+} from '@orca/shared/funcs';
+import { handleTransaction } from '@orca/components/transaction';
 
 /* eslint-disable-next-line */
 export interface PagesVaultsProps {}
@@ -54,15 +57,7 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
   // Keep all the information up to date
   useEffect(() => {
     if (library) {
-      const avaxVault = Bank__factory.connect(
-        chainId === 43113
-          ? VaultContracts.fuji.wavax
-          : chainId === 43114
-          ? // TODO: Update
-            VaultContracts.mainnet.wavax
-          : null,
-        library.getSigner()
-      );
+      const avaxVault = getVault('wavax', library, chainId);
       // Set events up for updating
       const newVault = avaxVault.filters.CreateVault();
       avaxVault.on(newVault, (vaultId, creator) => {
@@ -90,41 +85,14 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
 
   // For creating a vault
   const createVault = async () => {
-    try {
-      const avaxVault = Bank__factory.connect(
-        chainId === 43113
-          ? VaultContracts.fuji.wavax
-          : chainId === 43114
-          ? // TODO: Update
-            VaultContracts.mainnet.wavax
-          : null,
-        library.getSigner()
-      );
-
-      const result = await avaxVault.createVault();
-
-      toast.promise(
-        result.wait(1),
-        {
-          loading: 'Creating vault...',
-          success: <b>Vault created!</b>,
-          error: <b>Vault failed to be created.</b>,
-        },
-        {
-          style: {
-            minWidth: '100px',
-          },
-          loading: {
-            duration: Infinity,
-          },
-          success: {
-            duration: 5000,
-          },
-        }
-      );
-    } catch (err) {
-      toast.error(err.message);
-    }
+    handleTransaction({
+      transaction: makeVault(library, 'wavax', chainId),
+      messages: {
+        loading: 'Creating vault...',
+        success: 'Vault created!',
+        error: 'Vault failed to be created.',
+      },
+    });
   };
 
   const [hover, setHover] = useState(null);

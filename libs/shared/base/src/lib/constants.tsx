@@ -36,7 +36,7 @@ export const erc20Tokens: { [key: string]: ERC20TokenInfo } = {
       address: '0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664',
     },
     fuji: {
-      address: '0xa6dd9CA47C7F6f4AADdD4c664Eb8b56AE7004c6d',
+      address: '0xE55Cd5fF426FaaD0450B4ADe03f02eCbC4770bb9',
     },
   },
 };

@@ -15,8 +15,6 @@ import {
   Grid,
 } from '@material-ui/core';
 
-import toast from 'react-hot-toast';
-
 // Ethers and web3 stuff
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
@@ -28,6 +26,7 @@ import { fCurrency, fPercent, fNumber } from '@orca/util';
 import { withdrawCollateral } from '@orca/shared/funcs';
 
 import { tokenInfo } from '@orca/shared/base';
+import { handleTransaction } from '@orca/components/transaction';
 
 // ----------------------------------------------------------------------
 
@@ -111,40 +110,22 @@ export const WithdrawStepper: FC<WithdrawStepperProps> = ({
   } = formik;
 
   const handleWithdraw = async () => {
-    try {
-      const result = await withdrawCollateral(
+    handleTransaction({
+      transaction: withdrawCollateral(
         library,
         vaultID,
         values.withdrawAmount,
         tokenInfo[token as string].erc20,
         chainId
-      );
-      handleNext();
-      // Make a promise for destroying vault
-      await toast.promise(
-        result.wait(1),
-        {
-          loading: 'Withdrawing collateral...',
-          success: <b>Collateral withdrawn!</b>,
-          error: <b>Failed to withdraw collateral.</b>,
-        },
-        {
-          style: {
-            minWidth: '100px',
-          },
-          loading: {
-            duration: Infinity,
-          },
-          success: {
-            duration: 5000,
-          },
-        }
-      );
-      resetForm();
-      handleReset();
-    } catch (err) {
-      toast.error(err.message);
-    }
+      ),
+      messages: {
+        loading: 'Withdrawing collateral...',
+        success: 'Collateral withdrawn!',
+        error: 'Failed to withdraw collateral.',
+      },
+    });
+    resetForm();
+    handleReset();
   };
   return (
     <>

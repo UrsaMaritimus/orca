@@ -28,6 +28,7 @@ import { payBackToken, avaiBalance } from '@orca/shared/funcs';
 import { fPercent, fNumber } from '@orca/util';
 import { BigNumber, utils } from 'ethers';
 import { tokenInfo } from '@orca/shared/base';
+import { handleTransaction } from '@orca/components/transaction';
 
 // ----------------------------------------------------------------------
 
@@ -138,40 +139,22 @@ export const RepayStepper: FC<RepayStepperProps> = ({
   } = formik;
 
   const handleRepay = async () => {
-    try {
-      const result = await payBackToken(
+    handleTransaction({
+      transaction: payBackToken(
         library,
         vaultID,
         values.repayAmount,
         tokenInfo[token as string].erc20,
         chainId
-      );
-      handleNext();
-      // Make a promise for destroying vault
-      await toast.promise(
-        result.wait(1),
-        {
-          loading: 'Paying back AVAI...',
-          success: <b>Succesfully repayed!</b>,
-          error: <b>Failed to pay back AVAI.</b>,
-        },
-        {
-          style: {
-            minWidth: '100px',
-          },
-          loading: {
-            duration: Infinity,
-          },
-          success: {
-            duration: 5000,
-          },
-        }
-      );
-      resetForm();
-      handleReset();
-    } catch (err) {
-      toast.error(err.message);
-    }
+      ),
+      messages: {
+        loading: 'Paying back AVAI...',
+        success: 'Succesfully repayed!',
+        error: 'Failed to pay back AVAI.',
+      },
+    });
+    resetForm();
+    handleReset();
   };
   return (
     <>

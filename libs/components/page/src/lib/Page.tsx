@@ -13,23 +13,18 @@ import RouteProgress from './progress';
 // ---------------------------------------------------------------------
 
 const HeroImgStyle = styled(motion.img)(({ theme }) => ({
-  top: 450,
+  top: 250,
   right: 0,
   bottom: 0,
   zIndex: -99,
   width: '150%',
   margin: 'auto',
-  position: 'absolute',
+  position: 'fixed',
   filter: 'blur(6px)',
   [theme.breakpoints.up('md')]: {
-    right: '5%',
+    left: '5%',
     width: 'auto',
     height: '125vh',
-  },
-  [theme.breakpoints.down('md')]: {
-    top: 200,
-    width: 'auto',
-    height: '50vh',
   },
 }));
 

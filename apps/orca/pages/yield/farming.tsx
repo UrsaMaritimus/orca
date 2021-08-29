@@ -11,14 +11,9 @@ const RootStyle = styled(Page)((theme) => ({
 
 const App: FC = () => {
   return (
-    <RootStyle
-      title={`USDC Exchange | ${process.env.NEXT_PUBLIC_TITLE}`}
-      id={'USDC'}
-    >
-      <AppLayout>
-        <Farming />
-      </AppLayout>
-    </RootStyle>
+    <AppLayout>
+      <Farming />
+    </AppLayout>
   );
 };
 

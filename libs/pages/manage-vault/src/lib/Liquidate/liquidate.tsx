@@ -21,6 +21,7 @@ import {
   liquidateVault,
   avaiBalance,
 } from '@orca/shared/funcs';
+import { handleTransaction } from '@orca/components/transaction';
 
 // ----------------------------------------------------------------------
 
@@ -80,74 +81,38 @@ export const LiquidateVault: FC<LiquidateProps> = ({
   useKeepSWRDataLiveAsBlocksArrive(avaiBalanceMutate);
 
   const handleApproveAvai = async () => {
-    try {
-      const result = await approveAvai(
+    handleTransaction({
+      transaction: approveAvai(
         library,
         chainId,
         utils.parseEther('100000000'),
         tokenInfo[token as string].erc20
-      );
-
-      await toast.promise(
-        result.wait(1),
-        {
-          loading: 'Approving AVAI...',
-          success: <b>Succesfully approved!</b>,
-          error: <b>Failed to approve AVAI.</b>,
-        },
-        {
-          style: {
-            minWidth: '100px',
-          },
-          loading: {
-            duration: Infinity,
-          },
-          success: {
-            duration: 5000,
-          },
-        }
-      );
-      avaiMutate(undefined, true);
-    } catch (err) {
-      toast.error(err.message);
-    }
+      ),
+      messages: {
+        loading: 'Approving AVAI...',
+        success: 'Succesfully approved!',
+        error: 'Failed to approve AVAI.',
+      },
+      mutates: [avaiMutate],
+    });
   };
 
   const handleLiquidate = async () => {
-    try {
-      console.log(vaultID);
-      const result = await liquidateVault(
+    handleTransaction({
+      transaction: liquidateVault(
         library,
         chainId,
         tokenInfo[token as string].erc20,
         vaultID
-      );
-
-      await toast.promise(
-        result.wait(1),
-        {
-          loading: 'Liquidating vault...',
-          success: <b>Succesfully liquidated!</b>,
-          error: <b>Failed to liquidate vault.</b>,
-        },
-        {
-          style: {
-            minWidth: '100px',
-          },
-          loading: {
-            duration: Infinity,
-          },
-          success: {
-            duration: 5000,
-          },
-        }
-      );
-      avaiMutate(undefined, true);
-      avaiBalanceMutate(undefined, true);
-      router.push(routes.APP.VAULTS.MONITOR);
-    } catch (err) {
-      toast.error(err.message);
-    }
+      ),
+      messages: {
+        loading: 'Liquidating vault...',
+        success: 'Succesfully liquidated!',
+        error: 'Failed to liquidate vault.',
+      },
+      mutates: [avaiMutate, avaiBalanceMutate],
+    });
+    router.push(routes.APP.VAULTS.MONITOR);
   };
 
   return (

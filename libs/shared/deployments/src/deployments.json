@@ -3904,8 +3904,165 @@
             }
           ]
         },
+        "WAVAXGateway": {
+          "address": "0x4cC6E99dAE92608256405792fC8B79d788D3C7dC",
+          "abi": [
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "wavax",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "nonpayable",
+              "type": "constructor"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": true,
+                  "internalType": "address",
+                  "name": "previousOwner",
+                  "type": "address"
+                },
+                {
+                  "indexed": true,
+                  "internalType": "address",
+                  "name": "newOwner",
+                  "type": "address"
+                }
+              ],
+              "name": "OwnershipTransferred",
+              "type": "event"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "vault",
+                  "type": "address"
+                }
+              ],
+              "name": "authorizeVault",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "vault",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "vaultID",
+                  "type": "uint256"
+                }
+              ],
+              "name": "depositAVAX",
+              "outputs": [],
+              "stateMutability": "payable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "vault",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "vaultID",
+                  "type": "uint256"
+                }
+              ],
+              "name": "destroyVault",
+              "outputs": [],
+              "stateMutability": "payable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "vault",
+                  "type": "address"
+                }
+              ],
+              "name": "getPaid",
+              "outputs": [],
+              "stateMutability": "payable",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "owner",
+              "outputs": [
+                {
+                  "internalType": "address",
+                  "name": "",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "renounceOwnership",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "newOwner",
+                  "type": "address"
+                }
+              ],
+              "name": "transferOwnership",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "vault",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "vaultID",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "amount",
+                  "type": "uint256"
+                }
+              ],
+              "name": "withdrawAVAX",
+              "outputs": [],
+              "stateMutability": "payable",
+              "type": "function"
+            },
+            {
+              "stateMutability": "payable",
+              "type": "receive"
+            }
+          ]
+        },
         "FakeUSDC": {
-          "address": "0xa6dd9CA47C7F6f4AADdD4c664Eb8b56AE7004c6d",
+          "address": "0xE55Cd5fF426FaaD0450B4ADe03f02eCbC4770bb9",
           "abi": [
             {
               "inputs": [],
@@ -4091,6 +4248,19 @@
               "type": "function"
             },
             {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "amount",
+                  "type": "uint256"
+                }
+              ],
+              "name": "mint",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
               "inputs": [],
               "name": "name",
               "outputs": [
@@ -4184,165 +4354,8 @@
             }
           ]
         },
-        "WAVAXGateway": {
-          "address": "0x4cC6E99dAE92608256405792fC8B79d788D3C7dC",
-          "abi": [
-            {
-              "inputs": [
-                {
-                  "internalType": "address",
-                  "name": "wavax",
-                  "type": "address"
-                }
-              ],
-              "stateMutability": "nonpayable",
-              "type": "constructor"
-            },
-            {
-              "anonymous": false,
-              "inputs": [
-                {
-                  "indexed": true,
-                  "internalType": "address",
-                  "name": "previousOwner",
-                  "type": "address"
-                },
-                {
-                  "indexed": true,
-                  "internalType": "address",
-                  "name": "newOwner",
-                  "type": "address"
-                }
-              ],
-              "name": "OwnershipTransferred",
-              "type": "event"
-            },
-            {
-              "inputs": [
-                {
-                  "internalType": "address",
-                  "name": "vault",
-                  "type": "address"
-                }
-              ],
-              "name": "authorizeVault",
-              "outputs": [],
-              "stateMutability": "nonpayable",
-              "type": "function"
-            },
-            {
-              "inputs": [
-                {
-                  "internalType": "address",
-                  "name": "vault",
-                  "type": "address"
-                },
-                {
-                  "internalType": "uint256",
-                  "name": "vaultID",
-                  "type": "uint256"
-                }
-              ],
-              "name": "depositAVAX",
-              "outputs": [],
-              "stateMutability": "payable",
-              "type": "function"
-            },
-            {
-              "inputs": [
-                {
-                  "internalType": "address",
-                  "name": "vault",
-                  "type": "address"
-                },
-                {
-                  "internalType": "uint256",
-                  "name": "vaultID",
-                  "type": "uint256"
-                }
-              ],
-              "name": "destroyVault",
-              "outputs": [],
-              "stateMutability": "payable",
-              "type": "function"
-            },
-            {
-              "inputs": [
-                {
-                  "internalType": "address",
-                  "name": "vault",
-                  "type": "address"
-                }
-              ],
-              "name": "getPaid",
-              "outputs": [],
-              "stateMutability": "payable",
-              "type": "function"
-            },
-            {
-              "inputs": [],
-              "name": "owner",
-              "outputs": [
-                {
-                  "internalType": "address",
-                  "name": "",
-                  "type": "address"
-                }
-              ],
-              "stateMutability": "view",
-              "type": "function"
-            },
-            {
-              "inputs": [],
-              "name": "renounceOwnership",
-              "outputs": [],
-              "stateMutability": "nonpayable",
-              "type": "function"
-            },
-            {
-              "inputs": [
-                {
-                  "internalType": "address",
-                  "name": "newOwner",
-                  "type": "address"
-                }
-              ],
-              "name": "transferOwnership",
-              "outputs": [],
-              "stateMutability": "nonpayable",
-              "type": "function"
-            },
-            {
-              "inputs": [
-                {
-                  "internalType": "address",
-                  "name": "vault",
-                  "type": "address"
-                },
-                {
-                  "internalType": "uint256",
-                  "name": "vaultID",
-                  "type": "uint256"
-                },
-                {
-                  "internalType": "uint256",
-                  "name": "amount",
-                  "type": "uint256"
-                }
-              ],
-              "name": "withdrawAVAX",
-              "outputs": [],
-              "stateMutability": "payable",
-              "type": "function"
-            },
-            {
-              "stateMutability": "payable",
-              "type": "receive"
-            }
-          ]
-        },
         "USDCExchange_Implementation": {
-          "address": "0xa917d4438CF5f968bA39AcA28d2eAd15DC8081Cc",
+          "address": "0x21d59b758342D769559ea01aa7c7711f9dA52D8E",
           "abi": [
             {
               "anonymous": false,
@@ -4560,7 +4573,7 @@
           ]
         },
         "USDCExchange_Proxy": {
-          "address": "0x4b30B09f8dAb1e7e89374632D41cb47ca1e85a20",
+          "address": "0x69034A05940a60b25cB15c2F88bEFF1b6f5794aB",
           "abi": [
             {
               "inputs": [
@@ -4664,7 +4677,7 @@
           ]
         },
         "USDCExchange": {
-          "address": "0x4b30B09f8dAb1e7e89374632D41cb47ca1e85a20",
+          "address": "0x69034A05940a60b25cB15c2F88bEFF1b6f5794aB",
           "abi": [
             {
               "anonymous": false,

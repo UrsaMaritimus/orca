@@ -50,6 +50,9 @@
       "@orca/components/table": ["libs/components/table/src/index.ts"],
       "@orca/components/theme": ["libs/components/theme/src/index.ts"],
       "@orca/components/toast": ["libs/components/toast/src/index.ts"],
+      "@orca/components/transaction": [
+        "libs/components/transaction/src/index.ts"
+      ],
       "@orca/hooks": ["libs/hooks/src/index.ts"],
       "@orca/layout/app": ["libs/layout/app/src/index.ts"],
       "@orca/layout/landing": ["libs/layout/landing/src/index.ts"],

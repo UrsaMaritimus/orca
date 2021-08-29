@@ -87,6 +87,9 @@
     "components-toast": {
       "tags": []
     },
+    "components-transaction": {
+      "tags": []
+    },
     "hooks": {
       "tags": []
     },
