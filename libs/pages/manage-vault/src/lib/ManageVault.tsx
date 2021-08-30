@@ -250,7 +250,7 @@ export function ManageVault() {
                 </Box>
               )}
             </Card>
-            {isOwner && vaultInfo ? (
+            {vaultInfo ? (
               <>
                 <TabPanel key="Deposit" value={String(1)}>
                   <Deposit
