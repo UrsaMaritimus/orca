@@ -81,7 +81,7 @@ export const LiquidateVault: FC<LiquidateProps> = ({
   useKeepSWRDataLiveAsBlocksArrive(avaiBalanceMutate);
 
   const handleApproveAvai = async () => {
-    handleTransaction({
+    await handleTransaction({
       transaction: approveAvai(
         library,
         chainId,
@@ -98,7 +98,7 @@ export const LiquidateVault: FC<LiquidateProps> = ({
   };
 
   const handleLiquidate = async () => {
-    handleTransaction({
+    await handleTransaction({
       transaction: liquidateVault(
         library,
         chainId,

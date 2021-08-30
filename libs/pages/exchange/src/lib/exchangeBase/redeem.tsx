@@ -140,7 +140,7 @@ export const Redeem: FC<MintProps> = ({
 
   // For approving AVAI
   const handleApproveAVAI = async () => {
-    handleTransaction({
+    await handleTransaction({
       transaction: approveAvaiExchange(
         library,
         chainId,

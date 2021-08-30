@@ -112,7 +112,7 @@ export const DepositStepper: FC<DepositStepperProps> = ({
 
   const handleDeposit = async () => {
     handleNext();
-    handleTransaction({
+    await handleTransaction({
       transaction: depositCollateral(
         library,
         vaultID,

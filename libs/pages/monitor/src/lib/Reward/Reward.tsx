@@ -40,7 +40,7 @@ export const VaultReward: FC<VaultRewardProps> = ({ token }) => {
   useKeepSWRDataLiveAsBlocksArrive(monitorRewardMutate);
 
   const handleGetPaid = async () => {
-    handleTransaction({
+    await handleTransaction({
       transaction: getReward(library, chainId, tokenInfo[token].erc20, account),
       messages: {
         loading: 'Getting reward...',

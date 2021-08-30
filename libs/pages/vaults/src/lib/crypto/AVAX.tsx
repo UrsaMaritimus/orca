@@ -85,7 +85,7 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
 
   // For creating a vault
   const createVault = async () => {
-    handleTransaction({
+    await handleTransaction({
       transaction: makeVault(library, 'wavax', chainId),
       messages: {
         loading: 'Creating vault...',

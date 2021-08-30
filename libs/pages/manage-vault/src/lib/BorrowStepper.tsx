@@ -112,7 +112,8 @@ export const BorrowStepper: FC<BorrowStepperProps> = ({
   } = formik;
 
   const handleBorrow = async () => {
-    handleTransaction({
+    handleNext();
+    await handleTransaction({
       transaction: borrowToken(
         library,
         vaultID,

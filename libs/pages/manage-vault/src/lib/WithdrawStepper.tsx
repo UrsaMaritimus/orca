@@ -110,7 +110,8 @@ export const WithdrawStepper: FC<WithdrawStepperProps> = ({
   } = formik;
 
   const handleWithdraw = async () => {
-    handleTransaction({
+    handleNext();
+    await handleTransaction({
       transaction: withdrawCollateral(
         library,
         vaultID,
@@ -300,7 +301,7 @@ export const WithdrawStepper: FC<WithdrawStepperProps> = ({
                 <Grid item sm mt={2}>
                   <Stack alignItems={'flex-end'}>
                     <Typography variant="h6">
-                      {
+                      {values.withdrawAmount &&
                         // Recacalculate what their new borrowing power will be
                         fPercent(
                           Number(
@@ -330,8 +331,7 @@ export const WithdrawStepper: FC<WithdrawStepperProps> = ({
                                   6
                                 )
                           )
-                        )
-                      }
+                        )}
                     </Typography>
                     <Typography variant="caption">
                       {fCurrency(

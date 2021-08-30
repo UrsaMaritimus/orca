@@ -139,7 +139,8 @@ export const RepayStepper: FC<RepayStepperProps> = ({
   } = formik;
 
   const handleRepay = async () => {
-    handleTransaction({
+    handleNext();
+    await handleTransaction({
       transaction: payBackToken(
         library,
         vaultID,
