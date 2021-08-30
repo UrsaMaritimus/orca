@@ -67,7 +67,7 @@ const SignUp: FC = () => {
             {
               <Typography variant="h2">
                 Get started with
-                <br /> AVAI Finance today
+                <br /> the OrcaDAO
               </Typography>
             }
           </MotionInView>

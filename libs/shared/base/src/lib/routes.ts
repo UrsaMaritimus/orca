@@ -13,7 +13,7 @@ export const routes = {
     },
   },
   LANDING: {
-    MEDIUM: 'https://medium.com/@SeaFi_Labs',
+    MEDIUM: 'https://medium.com/@OrcaDAO',
     TWITTER: 'https://twitter.com/OrcaDAO',
     GITHUB: 'https://github.com/UrsaMaritimus/orca',
     DOCS: 'https://docs.avai.finance/',
