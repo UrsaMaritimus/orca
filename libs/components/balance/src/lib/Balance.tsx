@@ -36,7 +36,7 @@ const AvaxBalance = () => {
           color="inherit"
         />
         <Typography
-          variant="h6"
+          variant="inherit"
           sx={{ color: theme === 'light' ? 'grey.600' : 'grey.200' }}
         >
           {data} AVAX

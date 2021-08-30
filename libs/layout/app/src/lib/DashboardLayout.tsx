@@ -1,8 +1,11 @@
 import { useState, FC } from 'react';
 import { experimentalStyled as styled } from '@material-ui/core/styles';
 
+import { MHidden } from '@orca/components/material-extend/hidden';
+
 import NavBar from './NavBar';
 import TopBar from './TopBar';
+import { MobileAccountInfo } from './Mobile';
 
 // ----------------------------------------------------------------------
 
@@ -38,6 +41,9 @@ const DashboardLayout: FC = ({ children }) => {
       <TopBar onOpenNav={() => setOpenNav(true)} />
       <NavBar onCloseNav={() => setOpenNav(false)} isOpenNav={openNav} />
       <MainStyle>{children}</MainStyle>
+      <MHidden width="smUp">
+        <MobileAccountInfo />
+      </MHidden>
     </RootStyle>
   );
 };

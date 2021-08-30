@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, FC } from 'react';
 
 import type { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
@@ -17,7 +17,7 @@ import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 const BalanceStyle = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  padding: theme.spacing(1, 2.5),
+  padding: theme.spacing(1, 1.5),
   margin: theme.spacing(1),
   borderRadius: theme.shape.borderRadiusSm,
   backgroundColor: theme.palette.grey[500_12],
@@ -43,7 +43,33 @@ const getAVAIBalance = () => {
   };
 };
 
-const AvaiBalance = () => {
+type AvaiBalanceProps = {
+  size?: 'small' | 'large' | 'medium';
+  iconSize?: number;
+  variant?:
+    | 'button'
+    | 'caption'
+    | 'h1'
+    | 'h2'
+    | 'h3'
+    | 'h4'
+    | 'h5'
+    | 'h6'
+    | 'inherit'
+    | 'overline'
+    | 'subtitle1'
+    | 'subtitle2'
+    | 'body1'
+    | 'body2';
+  fontSize?: number;
+};
+
+const AvaiBalance: FC<AvaiBalanceProps> = ({
+  size,
+  iconSize,
+  variant,
+  fontSize,
+}) => {
   const { account, library, chainId } = useWeb3React<Web3Provider>();
   const shouldFetch = typeof account === 'string' && !!library;
   const { data: balance, mutate: avaiMutate } = useSWR(
@@ -83,17 +109,17 @@ const AvaiBalance = () => {
           component="img"
           src={'/static/cryptos/ic_avai.svg'}
           sx={{
-            width: 30,
-
-            height: 30,
+            width: iconSize ? iconSize : 30,
+            height: iconSize ? iconSize : 30,
           }}
           color="inherit"
         />
         <Typography
-          variant="h6"
+          variant={variant ? variant : 'inherit'}
+          fontSize={fontSize && fontSize}
           sx={{ color: theme === 'light' ? 'grey.600' : 'grey.200' }}
         >
-          {balance && parseBalance(balance)} AVAI
+          {balance && parseBalance(balance)} {size === 'small' ? '' : 'AVAI'}
         </Typography>
       </Stack>
     </BalanceStyle>

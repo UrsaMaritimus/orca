@@ -76,7 +76,7 @@ export function Vaults(props: PagesVaultsProps) {
             <Card
               sx={{
                 mb: 3,
-                height: 160,
+                height: 180,
                 position: 'relative',
               }}
             >
@@ -85,7 +85,12 @@ export function Vaults(props: PagesVaultsProps) {
                 subheader={'This is the type of collateral used'}
               />
               <CollateralStyle>
-                <TabList onChange={handleChange}>
+                <TabList
+                  onChange={handleChange}
+                  scrollButtons="auto"
+                  variant="scrollable"
+                  allowScrollButtonsMobile
+                >
                   {collaterals.map((data) => (
                     <Tab
                       icon={

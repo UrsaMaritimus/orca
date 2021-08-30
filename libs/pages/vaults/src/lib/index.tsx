@@ -86,8 +86,9 @@ export function Vaults(props) {
                 <CollateralStyle>
                   <TabList
                     onChange={handleChange}
-                    variant="scrollable"
                     scrollButtons="auto"
+                    variant="scrollable"
+                    allowScrollButtonsMobile
                   >
                     {collaterals.map((data) => (
                       <Tab
@@ -96,7 +97,6 @@ export function Vaults(props) {
                             alignItems="center"
                             justifyContent="center"
                             direction="row"
-                            spacing={1}
                           >
                             <Box
                               component="img"

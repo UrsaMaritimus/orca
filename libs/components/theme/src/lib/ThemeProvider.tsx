@@ -3,6 +3,7 @@ import { FC, useEffect, useMemo, useState } from 'react';
 import {
   ThemeProvider as MuiThemeProvider,
   createTheme,
+  responsiveFontSizes,
 } from '@material-ui/core/styles';
 
 import { StyledEngineProvider, CssBaseline } from '@material-ui/core';
@@ -49,7 +50,7 @@ const ThemeProvider: FC = ({ children }) => {
 
   return (
     <StyledEngineProvider injectFirst>
-      <MuiThemeProvider theme={customTheme}>
+      <MuiThemeProvider theme={responsiveFontSizes(customTheme)}>
         <CssBaseline />
         <GlobalStyles />
         <LocalizationProvider dateAdapter={AdapterDateFns}>

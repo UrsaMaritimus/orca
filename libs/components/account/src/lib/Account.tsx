@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import MetaMaskOnboarding from '@metamask/onboarding';
 import { useWeb3React, UnsupportedChainIdError } from '@web3-react/core';
 import { UserRejectedRequestError } from '@web3-react/injected-connector';
@@ -16,7 +17,28 @@ import {
   AVALANCHE_TESTNET_PARAMS,
 } from '@orca/util';
 
-const Account = () => {
+type AccountProps = {
+  size?: 'small' | 'large' | 'medium';
+  iconSize?: number;
+  variant?:
+    | 'button'
+    | 'caption'
+    | 'h1'
+    | 'h2'
+    | 'h3'
+    | 'h4'
+    | 'h5'
+    | 'h6'
+    | 'inherit'
+    | 'overline'
+    | 'subtitle1'
+    | 'subtitle2'
+    | 'body1'
+    | 'body2';
+  fontSize?: number;
+};
+
+const Account: FC<AccountProps> = ({ size, iconSize, variant, fontSize }) => {
   const { active, error, activate, chainId, account, setError } =
     useWeb3React();
 
@@ -82,17 +104,25 @@ const Account = () => {
     return (
       <Button
         variant="contained"
-        size="large"
+        size={size ? size : 'large'}
         color="primary"
         sx={{ mr: 1.5 }}
         onClick={onClick}
       >
         <Stack direction="row" alignItems={'center'} spacing={1}>
-          <Typography>Failed to Connect</Typography>
+          <Typography
+            variant={variant ? variant : 'inherit'}
+            fontSize={fontSize && fontSize}
+          >
+            Failed to Connect
+          </Typography>
           <Box
             component="img"
             src="/static/icons/ic_metamask.svg"
-            sx={{ width: 30, height: 30 }}
+            sx={{
+              width: iconSize ? iconSize : 30,
+              height: iconSize ? iconSize : 30,
+            }}
             color="inherit"
           />
         </Stack>
@@ -105,16 +135,24 @@ const Account = () => {
       <Button
         color="primary"
         variant="contained"
-        size="large"
+        size={size ? size : 'large'}
         sx={{ mr: 1.5 }}
         onClick={onClick}
       >
         <Stack direction="row" alignItems={'center'} spacing={1}>
-          <Typography>Connecting...</Typography>
+          <Typography
+            variant={variant ? variant : 'inherit'}
+            fontSize={fontSize && fontSize}
+          >
+            Connecting...
+          </Typography>
           <Box
             component="img"
             src="/static/icons/ic_metamask.svg"
-            sx={{ width: 30, height: 30 }}
+            sx={{
+              width: iconSize ? iconSize : 30,
+              height: iconSize ? iconSize : 30,
+            }}
             color="inherit"
           />
         </Stack>
@@ -133,16 +171,24 @@ const Account = () => {
           <Button
             variant="contained"
             color="primary"
-            size="large"
+            size={size ? size : 'large'}
             onClick={onClick}
           >
             {MetaMaskOnboarding.isMetaMaskInstalled() ? (
               <Stack direction="row" alignItems={'center'} spacing={1}>
-                <Typography>Connect</Typography>
+                <Typography
+                  variant={variant ? variant : 'inherit'}
+                  fontSize={fontSize && fontSize}
+                >
+                  Connect
+                </Typography>
                 <Box
                   component="img"
                   src="/static/icons/ic_metamask.svg"
-                  sx={{ width: 30, height: 30 }}
+                  sx={{
+                    width: iconSize ? iconSize : 30,
+                    height: iconSize ? iconSize : 30,
+                  }}
                   color="inherit"
                 />
               </Stack>
@@ -153,7 +199,7 @@ const Account = () => {
         ) : (
           <Button
             variant="contained"
-            size="large"
+            size={size ? size : 'large'}
             color="primary"
             sx={{ mr: 1.5 }}
             onClick={() => onboarding.current?.startOnboarding()}
@@ -168,7 +214,7 @@ const Account = () => {
   return (
     <Button
       variant="contained"
-      size="large"
+      size={size ? size : 'large'}
       color="primary"
       href={formatEtherscanLink('Account', [chainId as number, account])}
       target="_blank"
@@ -176,11 +222,17 @@ const Account = () => {
       sx={{ mr: 1.5 }}
     >
       <Stack direction="row" alignItems={'center'} spacing={1}>
-        <Typography>{`${shortenHex(account, 4)}`}</Typography>
+        <Typography
+          variant={variant ? variant : 'inherit'}
+          fontSize={fontSize && fontSize}
+        >{`${shortenHex(account, 4)}`}</Typography>
         <Box
           component="img"
           src="/static/icons/ic_metamask.svg"
-          sx={{ width: 30, height: 30 }}
+          sx={{
+            width: iconSize ? iconSize : 30,
+            height: iconSize ? iconSize : 30,
+          }}
           color="inherit"
         />
       </Stack>
