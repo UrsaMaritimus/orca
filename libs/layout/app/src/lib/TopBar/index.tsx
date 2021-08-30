@@ -15,6 +15,7 @@ import { useCollapseDrawer } from '@orca/hooks';
 import { MHidden } from '@orca/components/material-extend/hidden';
 import { Account } from '@orca/components/account';
 import { Balance, AvaiBalance } from '@orca/components/balance';
+import { ImportantLinks } from './ImportantLinks';
 // ----------------------------------------------------------------------
 
 const DRAWER_WIDTH = 280;
@@ -86,6 +87,7 @@ const TopBar: FC<Props> = ({ onOpenNav }) => {
           {isConnected && <AvaiBalance />}
           {isConnected && <Balance />}
           <Account />
+          <ImportantLinks />
         </Stack>
       </ToolbarStyle>
     </RootStyle>

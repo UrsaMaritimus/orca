@@ -14,6 +14,7 @@
     "**/*.jsx",
     "**/*.ts",
     "**/*.tsx",
-    "../../hooks/src/lib/CollapseDrawerContext/CollapseDrawerContext.tsx"
+    "../../hooks/src/lib/CollapseDrawerContext/CollapseDrawerContext.tsx",
+    "src/lib/TopBar/ImportantLinks.tsx"
   ]
 }

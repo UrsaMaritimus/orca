@@ -8,7 +8,7 @@ type HandleTransactionType = {
     success: string;
     error: string;
   };
-  mutates?: ((data?: any, shouldRevalidate?: boolean) => Promise<boolean>)[];
+  mutates?: ((data?: any, shouldRevalidate?: boolean) => Promise<any>)[];
 };
 
 // For minting USDC
