@@ -4,6 +4,8 @@ import Image from 'next/image';
 
 type Props = {
   sx?: Record<string, unknown>;
+  height?: number;
+  width?: number;
 };
 
 const Logo: FC<Props> = ({ sx, ...other }) => {

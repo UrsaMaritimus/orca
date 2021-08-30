@@ -92,7 +92,7 @@ export const ImportantLinks: FC = () => {
             Important Links
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            Take part!
+            Explore OrcaDAO
           </Typography>
         </Box>
 

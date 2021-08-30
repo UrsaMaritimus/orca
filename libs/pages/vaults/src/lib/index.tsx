@@ -19,6 +19,7 @@ import { TabList, TabPanel, TabContext } from '@material-ui/lab';
 import { Page } from '@orca/components/page';
 import { Connect } from '@orca/components/connect';
 import { AvaxVaults } from './crypto/AVAX';
+import { ScrollBar } from '@orca/components/scroll-bar';
 
 //--------------------------------------------------------------------------
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -73,7 +74,7 @@ export function Vaults(props) {
             <Card
               sx={{
                 mb: 3,
-                height: 160,
+                height: 180,
                 position: 'relative',
               }}
             >
@@ -81,45 +82,52 @@ export function Vaults(props) {
                 title={'Choose your vault type'}
                 subheader={'This will be used as collateral'}
               />
-              <CollateralStyle>
-                <TabList onChange={handleChange}>
-                  {collaterals.map((data) => (
-                    <Tab
-                      icon={
-                        <Stack
-                          alignItems="center"
-                          justifyContent="center"
-                          direction="row"
-                          spacing={1}
-                        >
-                          <Box
-                            component="img"
-                            src={data.icon}
-                            sx={{
-                              width: 30,
-                              height: 30,
-                              opacity: data.disabled ? 0.1 : 1,
-                            }}
-                            color="inherit"
-                          />
-                          <Typography
-                            variant="h6"
-                            sx={{
-                              color: data.disabled ? 'disabled' : 'inherit',
-                            }}
+              <ScrollBar>
+                <CollateralStyle>
+                  <TabList
+                    onChange={handleChange}
+                    variant="scrollable"
+                    scrollButtons="auto"
+                  >
+                    {collaterals.map((data) => (
+                      <Tab
+                        icon={
+                          <Stack
+                            alignItems="center"
+                            justifyContent="center"
+                            direction="row"
+                            spacing={1}
                           >
-                            {data.title}
-                          </Typography>
-                        </Stack>
-                      }
-                      key={data.value}
-                      value={data.value}
-                      disabled={data.disabled}
-                    />
-                  ))}
-                </TabList>
-              </CollateralStyle>
+                            <Box
+                              component="img"
+                              src={data.icon}
+                              sx={{
+                                width: 30,
+                                height: 30,
+                                opacity: data.disabled ? 0.1 : 1,
+                              }}
+                              color="inherit"
+                            />
+                            <Typography
+                              variant="h6"
+                              sx={{
+                                color: data.disabled ? 'disabled' : 'inherit',
+                              }}
+                            >
+                              {data.title}
+                            </Typography>
+                          </Stack>
+                        }
+                        key={data.value}
+                        value={data.value}
+                        disabled={data.disabled}
+                      />
+                    ))}
+                  </TabList>
+                </CollateralStyle>
+              </ScrollBar>
             </Card>
+
             {collaterals.map((data) => (
               <TabPanel key={data.value} value={data.value}>
                 {data.component}

@@ -15,6 +15,8 @@ import { useCollapseDrawer } from '@orca/hooks';
 import { MHidden } from '@orca/components/material-extend/hidden';
 import { Account } from '@orca/components/account';
 import { Balance, AvaiBalance } from '@orca/components/balance';
+import { LargeLogo } from '@orca/components/logo';
+
 import { ImportantLinks } from './ImportantLinks';
 // ----------------------------------------------------------------------
 
@@ -76,19 +78,23 @@ const TopBar: FC<Props> = ({ onOpenNav }) => {
         </MHidden>
 
         <Box sx={{ flexGrow: 1 }} />
-
-        <Stack
-          direction="row"
-          justifyContent="flex-end"
-          alignItems="center"
-          sx={{ mt: 3 }}
-          spacing={{ xs: 0.5, sm: 1.5 }}
-        >
-          {isConnected && <AvaiBalance />}
-          {isConnected && <Balance />}
-          <Account />
-          <ImportantLinks />
-        </Stack>
+        <MHidden width="smUp">
+          <LargeLogo width={100} height={100} />
+        </MHidden>
+        <MHidden width="smDown">
+          <Stack
+            direction="row"
+            justifyContent="flex-end"
+            alignItems="center"
+            sx={{ mt: 3 }}
+            spacing={{ xs: 0.5, sm: 1.5 }}
+          >
+            {isConnected && <AvaiBalance />}
+            {isConnected && <Balance />}
+            <Account />
+            <ImportantLinks />
+          </Stack>
+        </MHidden>
       </ToolbarStyle>
     </RootStyle>
   );

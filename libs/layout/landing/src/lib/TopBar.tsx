@@ -23,6 +23,7 @@ import {
   Link,
   Stack,
   Typography,
+  Grid,
 } from '@material-ui/core';
 
 import { routes, useOffSetTop } from '@orca/shared/base';
@@ -182,7 +183,12 @@ const TopBar: FC = () => {
           }}
         >
           <NextLink href="/">
-            <LargeLogo />
+            <Hidden mdDown>
+              <LargeLogo />
+            </Hidden>
+            <Hidden mdUp>
+              <LargeLogo height={100} width={100} />
+            </Hidden>
           </NextLink>
           <Box sx={{ flexGrow: 1 }} />
 

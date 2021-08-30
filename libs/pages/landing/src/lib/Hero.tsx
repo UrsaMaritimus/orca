@@ -1,5 +1,6 @@
 import { FC } from 'react';
 
+import Image from 'next/image';
 import { Icon } from '@iconify/react';
 
 import flashFill from '@iconify/icons-eva/flash-fill';
@@ -8,7 +9,7 @@ import { motion } from 'framer-motion';
 import { experimentalStyled as styled } from '@material-ui/core/styles';
 
 import { Box, Typography, Container, Button, Link } from '@material-ui/core';
-
+import { makeStyles } from '@material-ui/styles';
 import {
   varFadeIn,
   varWrapEnter,
@@ -49,38 +50,32 @@ const ContentStyle = styled('div')(({ theme }) => ({
 }));
 
 const HeroOverlayStyle = styled(motion.img)({
-  zIndex: 9,
+  zIndex: 10,
   width: '100%',
   height: '100%',
   objectFit: 'cover',
   position: 'absolute',
-  opacity: 0.9,
 });
 
-const HeroImgStyle = styled(motion.img)(({ theme }) => ({
-  top: 400,
-  right: 0,
-  bottom: 0,
-  zIndex: 10,
-  width: '150%',
-  margin: 'auto',
-  position: 'absolute',
-  filter: 'blur(6px)',
-  [theme.breakpoints.up('md')]: {
-    right: '10%',
-    width: 'auto',
-    height: '125vh',
+const useStyles = makeStyles({
+  orca: {
+    position: 'relative',
+    filter: 'blur(6px)',
+    zIndex: 10,
+    top: 250,
   },
-  [theme.breakpoints.down('md')]: {
-    top: 200,
-    width: 'auto',
-    height: '50vh',
+  motion: {
+    zIndex: 9,
   },
-}));
+  heroMotion: {
+    zIndex: 10,
+  },
+});
 
 // ----------------------------------------------------------------------
 
 const Hero: FC = () => {
+  const classes = useStyles();
   return (
     <>
       <RootStyle initial="initial" animate="animate" variants={varWrapEnter}>
@@ -90,12 +85,11 @@ const Hero: FC = () => {
           alt="overlay"
         />
 
-        <HeroImgStyle
-          alt="hero"
+        <Image
           src="/static/images/hero.svg"
-          variants={varFadeInUp}
+          layout="fill"
+          className={classes.orca}
         />
-
         <Container maxWidth="lg">
           <ContentStyle>
             <motion.div variants={varFadeInRight}>
@@ -112,7 +106,7 @@ const Hero: FC = () => {
                 <Typography component="span" variant="h5" color="secondary">
                   OrcaDAO
                 </Typography>{' '}
-                is a protocol featuring the first Avalanche-native stablecoin
+                is a protocol featuring the Avalanche-native stablecoin
                 <Typography component="span" variant="h5" color="primary">
                   &nbsp;AVAI
                 </Typography>{' '}
