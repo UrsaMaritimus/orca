@@ -1,32 +1,25 @@
 import { forwardRef } from 'react';
 
-import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
+
 import Head from 'next/head';
-import {
-  varFadeIn,
-  varWrapEnter,
-  varFadeInRight,
-  varFadeInUp,
-} from '@orca/components/animate';
-import { motion } from 'framer-motion';
+import Image from 'next/image';
 import RouteProgress from './progress';
 // ---------------------------------------------------------------------
 
-const HeroImgStyle = styled(motion.img)(({ theme }) => ({
-  top: 250,
-  right: 0,
-  bottom: 0,
-  zIndex: -99,
-  width: '150%',
-  margin: 'auto',
-  position: 'fixed',
-  filter: 'blur(6px)',
-  [theme.breakpoints.up('md')]: {
+const useStyles = makeStyles({
+  orca: {
+    top: 250,
+    right: 0,
+    bottom: 0,
+    zIndex: -99,
+    margin: 'auto',
+    position: 'relative',
+    filter: 'blur(6px)',
     left: '5%',
-    width: 'auto',
     height: '125vh',
   },
-}));
+});
 
 // ----------------------------------------------------------------------
 type Props = {
@@ -37,6 +30,7 @@ type Props = {
 };
 const Page = forwardRef<HTMLDivElement, Props>(
   ({ children, title = '', ...other }, ref) => {
+    const classes = useStyles();
     return (
       <div ref={ref} {...other}>
         <Head>
@@ -64,17 +58,11 @@ const Page = forwardRef<HTMLDivElement, Props>(
           <title>{title}</title>
         </Head>
         <RouteProgress>
-          <motion.div
-            initial="initial"
-            animate="animate"
-            variants={varWrapEnter}
-          >
-            <HeroImgStyle
-              alt="hero"
-              src="/static/images/hero.svg"
-              variants={varFadeInUp}
-            />
-          </motion.div>
+          <Image
+            src="/static/images/hero.svg"
+            layout="fill"
+            className={classes.orca}
+          />
           {children}
         </RouteProgress>
       </div>
