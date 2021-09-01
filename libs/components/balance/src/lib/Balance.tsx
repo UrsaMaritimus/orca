@@ -29,14 +29,14 @@ const AvaxBalance = () => {
           component="img"
           src={'/static/cryptos/ic_avax.svg'}
           sx={{
-            width: 30,
+            width: 35,
 
-            height: 30,
+            height: 35,
           }}
           color="inherit"
         />
         <Typography
-          variant="inherit"
+          variant="button"
           sx={{ color: theme === 'light' ? 'grey.600' : 'grey.200' }}
         >
           {data} AVAX

@@ -18,7 +18,7 @@ export const fNumber = (number: number | string, mantissa = 4) => {
 export const fShortenNumber = (number: number | string) => {
   return numbro(number).format({
     average: true,
-    totalLength: 5,
+    mantissa: 2,
     thousandSeparated: true,
   });
 };

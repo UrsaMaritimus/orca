@@ -1,5 +1,7 @@
 import type { BigNumberish } from '@ethersproject/bignumber';
 import { formatUnits } from '@ethersproject/units';
+import { fCurrency, fShortenNumber } from '..';
+import { fNumber } from './formatNumber';
 
 export function shortenHex(hex: string, length = 4) {
   return `${hex.substring(0, length + 2)}…${hex.substring(
@@ -28,8 +30,5 @@ export function formatEtherscanLink(
   }
 }
 
-export const parseBalance = (
-  balance: BigNumberish,
-  decimals = 18,
-  decimalsToDisplay = 3
-) => Number(formatUnits(balance, decimals)).toFixed(decimalsToDisplay);
+export const parseBalance = (balance: BigNumberish, decimals = 18) =>
+  fShortenNumber(Number(formatUnits(balance, decimals)));

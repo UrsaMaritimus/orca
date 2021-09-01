@@ -17,28 +17,7 @@ import {
   AVALANCHE_TESTNET_PARAMS,
 } from '@orca/util';
 
-type AccountProps = {
-  size?: 'small' | 'large' | 'medium';
-  iconSize?: number;
-  variant?:
-    | 'button'
-    | 'caption'
-    | 'h1'
-    | 'h2'
-    | 'h3'
-    | 'h4'
-    | 'h5'
-    | 'h6'
-    | 'inherit'
-    | 'overline'
-    | 'subtitle1'
-    | 'subtitle2'
-    | 'body1'
-    | 'body2';
-  fontSize?: number;
-};
-
-const Account: FC<AccountProps> = ({ size, iconSize, variant, fontSize }) => {
+const Account: FC = () => {
   const { active, error, activate, chainId, account, setError } =
     useWeb3React();
 
@@ -104,26 +83,18 @@ const Account: FC<AccountProps> = ({ size, iconSize, variant, fontSize }) => {
     return (
       <Button
         variant="contained"
-        size={size ? size : 'large'}
         color="primary"
         sx={{ mr: 1.5 }}
         onClick={onClick}
       >
         <Stack direction="row" alignItems={'center'} spacing={1}>
-          <Typography
-            variant={variant ? variant : 'inherit'}
-            fontSize={fontSize && fontSize}
-          >
-            Failed to Connect
-          </Typography>
+          <Typography variant="button">Failed to Connect</Typography>
           <Box
             component="img"
             src="/static/icons/ic_metamask.svg"
-            sx={{
-              width: iconSize ? iconSize : 30,
-              height: iconSize ? iconSize : 30,
-            }}
             color="inherit"
+            width={30}
+            height={30}
           />
         </Stack>
       </Button>
@@ -135,25 +106,17 @@ const Account: FC<AccountProps> = ({ size, iconSize, variant, fontSize }) => {
       <Button
         color="primary"
         variant="contained"
-        size={size ? size : 'large'}
         sx={{ mr: 1.5 }}
         onClick={onClick}
       >
         <Stack direction="row" alignItems={'center'} spacing={1}>
-          <Typography
-            variant={variant ? variant : 'inherit'}
-            fontSize={fontSize && fontSize}
-          >
-            Connecting...
-          </Typography>
+          <Typography variant="button">Connecting...</Typography>
           <Box
             component="img"
             src="/static/icons/ic_metamask.svg"
-            sx={{
-              width: iconSize ? iconSize : 30,
-              height: iconSize ? iconSize : 30,
-            }}
             color="inherit"
+            width={30}
+            height={30}
           />
         </Stack>
       </Button>
@@ -168,28 +131,16 @@ const Account: FC<AccountProps> = ({ size, iconSize, variant, fontSize }) => {
     return (
       <div>
         {hasMetaMaskOrWeb3Available ? (
-          <Button
-            variant="contained"
-            color="primary"
-            size={size ? size : 'large'}
-            onClick={onClick}
-          >
+          <Button variant="contained" color="primary" onClick={onClick}>
             {MetaMaskOnboarding.isMetaMaskInstalled() ? (
               <Stack direction="row" alignItems={'center'} spacing={1}>
-                <Typography
-                  variant={variant ? variant : 'inherit'}
-                  fontSize={fontSize && fontSize}
-                >
-                  Connect
-                </Typography>
+                <Typography variant="button">Connect</Typography>
                 <Box
                   component="img"
                   src="/static/icons/ic_metamask.svg"
-                  sx={{
-                    width: iconSize ? iconSize : 30,
-                    height: iconSize ? iconSize : 30,
-                  }}
                   color="inherit"
+                  width={30}
+                  height={30}
                 />
               </Stack>
             ) : (
@@ -199,7 +150,6 @@ const Account: FC<AccountProps> = ({ size, iconSize, variant, fontSize }) => {
         ) : (
           <Button
             variant="contained"
-            size={size ? size : 'large'}
             color="primary"
             sx={{ mr: 1.5 }}
             onClick={() => onboarding.current?.startOnboarding()}
@@ -214,26 +164,20 @@ const Account: FC<AccountProps> = ({ size, iconSize, variant, fontSize }) => {
   return (
     <Button
       variant="contained"
-      size={size ? size : 'large'}
       color="primary"
       href={formatEtherscanLink('Account', [chainId as number, account])}
       target="_blank"
       rel="noopener noreferrer"
-      sx={{ mr: 1.5 }}
+      size="medium"
     >
       <Stack direction="row" alignItems={'center'} spacing={1}>
-        <Typography
-          variant={variant ? variant : 'inherit'}
-          fontSize={fontSize && fontSize}
-        >{`${shortenHex(account, 4)}`}</Typography>
+        <Typography variant="button">{`${shortenHex(account, 4)}`}</Typography>
         <Box
           component="img"
           src="/static/icons/ic_metamask.svg"
-          sx={{
-            width: iconSize ? iconSize : 30,
-            height: iconSize ? iconSize : 30,
-          }}
           color="inherit"
+          width={30}
+          height={30}
         />
       </Stack>
     </Button>
