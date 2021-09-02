@@ -30,13 +30,13 @@ const RowTable: FC<TableProps> = ({ row, collateralType }) => {
 
   return (
     <TableRow>
-      <TableCell component="th" scope="row">
+      <TableCell component="th" align="center" scope="row">
         {row.vaultID}
       </TableCell>
-      <TableCell align="center">{fNumber(Number(row.collateral))}</TableCell>
-      <TableCell align="center">{fNumber(Number(row.debt))}</TableCell>
+      <TableCell align="center">{fNumber(Number(row.collateral), 2)}</TableCell>
+      <TableCell align="center">{fNumber(Number(row.debt), 2)}</TableCell>
       <TableCell align="center">{fPercent(Number(row.ratio))}</TableCell>
-      <TableCell align="right">
+      <TableCell align="center">
         <Button
           variant="contained"
           size="medium"

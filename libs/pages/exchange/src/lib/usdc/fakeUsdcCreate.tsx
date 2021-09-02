@@ -13,12 +13,14 @@ import {
   Stack,
   Box,
   Button,
+  Grid,
 } from '@material-ui/core';
 
 import { mintFakeUSDC } from '@orca/shared/funcs';
 import { BigNumber, utils } from 'ethers';
 import { fNumber } from '@orca/util';
 import { handleTransaction } from '@orca/components/transaction';
+import LoadingButton from '@material-ui/lab/LoadingButton';
 
 //-----------------------------------------------------------------
 
@@ -33,11 +35,13 @@ type ExchangeProps = {
 };
 
 export const FakeUSDCFaucet: FC<ExchangeProps> = ({ token, usdBalance }) => {
+  const [minting, setMinting] = useState<boolean>(false);
   const { account, library, chainId } = useWeb3React<Web3Provider>();
 
   // For minting USDC
   const handleMintUSDC = async () => {
-    const transaction = await handleTransaction({
+    setMinting(true);
+    await handleTransaction({
       transaction: mintFakeUSDC(
         library,
         chainId,
@@ -50,6 +54,7 @@ export const FakeUSDCFaucet: FC<ExchangeProps> = ({ token, usdBalance }) => {
         error: 'Failed to mint USDC.',
       },
     });
+    setMinting(false);
   };
   // Default return
   return (
@@ -67,43 +72,28 @@ export const FakeUSDCFaucet: FC<ExchangeProps> = ({ token, usdBalance }) => {
           subheader={`Mint some  fake USDC for use in the swap! FUJI testnet only.`}
         />
         <CollateralStyle>
-          <Box sx={{ mx: 15 }}>
-            <Stack spacing={2}>
-              <Stack
-                direction="row"
-                justifyContent={'space-between'}
-                sx={{ mt: 2 }}
+          <Grid container>
+            <Grid item xs={12} display="flex" justifyContent="center">
+              <Typography variant="h6">
+                Balance:{' '}
+                {`${fNumber(
+                  Number(utils.formatUnits(usdBalance, 6)),
+                  2
+                )} ${token}`}
+              </Typography>
+            </Grid>
+
+            <Grid item xs={12} mt={2} display="flex" justifyContent="center">
+              <LoadingButton
+                variant="contained"
+                size="large"
+                onClick={handleMintUSDC}
+                loading={minting}
               >
-                <Typography
-                  color="textSecondary"
-                  variant="subtitle2"
-                  textAlign="left"
-                >
-                  Balance:
-                </Typography>
-                <Typography
-                  color="textSecondary"
-                  variant="subtitle2"
-                  textAlign="right"
-                >
-                  {`${fNumber(
-                    Number(utils.formatUnits(usdBalance, 6)),
-                    2
-                  )} ${token}`}
-                </Typography>
-              </Stack>
-              <div>
-                <Button
-                  variant="contained"
-                  size="large"
-                  sx={{ ml: 6 }}
-                  onClick={handleMintUSDC}
-                >
-                  Mint 1000 USDC
-                </Button>
-              </div>
-            </Stack>
-          </Box>
+                Mint 1000 USDC
+              </LoadingButton>
+            </Grid>
+          </Grid>
         </CollateralStyle>
       </Card>
     </Container>

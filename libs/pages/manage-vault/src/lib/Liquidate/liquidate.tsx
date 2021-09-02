@@ -4,13 +4,12 @@ import { useRouter } from 'next/router';
 // material
 import { Grid, Stack, Typography, Button } from '@material-ui/core';
 
-import toast from 'react-hot-toast';
-
 // Ethers and web3 stuff
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 import useSWR from 'swr';
 
+import LoadingButton from '@material-ui/lab/LoadingButton';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 import { routes, tokenInfo } from '@orca/shared/base';
 import { fCurrency, fNumber } from '@orca/util';
@@ -50,6 +49,8 @@ export const LiquidateVault: FC<LiquidateProps> = ({
   vaultInfo,
   vaultID,
 }) => {
+  const [approving, setApproving] = useState<boolean>(false);
+  const [liquidating, setLiquidating] = useState<boolean>(false);
   const router = useRouter();
   // web3 init info
   const { account, library, chainId } = useWeb3React<Web3Provider>();
@@ -81,6 +82,7 @@ export const LiquidateVault: FC<LiquidateProps> = ({
   useKeepSWRDataLiveAsBlocksArrive(avaiBalanceMutate);
 
   const handleApproveAvai = async () => {
+    setApproving(true);
     await handleTransaction({
       transaction: approveAvai(
         library,
@@ -95,9 +97,11 @@ export const LiquidateVault: FC<LiquidateProps> = ({
       },
       mutates: [avaiMutate],
     });
+    setApproving(false);
   };
 
   const handleLiquidate = async () => {
+    setLiquidating(true);
     await handleTransaction({
       transaction: liquidateVault(
         library,
@@ -112,12 +116,13 @@ export const LiquidateVault: FC<LiquidateProps> = ({
       },
       mutates: [avaiMutate, avaiBalanceMutate],
     });
+    setLiquidating(false);
     router.push(routes.APP.VAULTS.MONITOR);
   };
 
   return (
     <Grid container>
-      <Grid item sm={6}>
+      <Grid item xs={12} sm={6} sx={{ mb: 2 }}>
         <Stack alignItems="center">
           <Typography variant="h6" textAlign="center">
             AVAI Needed to Pay Debt
@@ -139,7 +144,7 @@ export const LiquidateVault: FC<LiquidateProps> = ({
           </Typography>
         </Stack>
       </Grid>
-      <Grid item sm={6}>
+      <Grid item xs={12} sm={6}>
         <Stack alignItems="center">
           <Typography variant="h6" textAlign="center">
             AVAX Reward from Liquidating
@@ -167,36 +172,42 @@ export const LiquidateVault: FC<LiquidateProps> = ({
       {userAvaiBalance && userAvaiBalance.gte(vaultInfo.debt.div(2)) && (
         <Grid item sm={12} alignItems="center" sx={{ mt: 2 }}>
           <Stack alignItems="center" direction="row" justifyContent="center">
-            <Button
+            <LoadingButton
               color="primary"
               variant="contained"
               size="large"
               sx={{ mr: 1 }}
-              disabled={approved}
+              disabled={approved || userAvaiBalance.isZero()}
               onClick={handleApproveAvai}
+              loading={approving}
             >
               Approve AVAI
-            </Button>{' '}
-            <Button
+            </LoadingButton>
+            <LoadingButton
               color="primary"
               variant="contained"
               size="large"
               disabled={!approved}
               onClick={handleLiquidate}
+              loading={approving}
             >
               Liquidate
-            </Button>
+            </LoadingButton>
           </Stack>
         </Grid>
       )}
       {userAvaiBalance && !userAvaiBalance.gte(vaultInfo.debt.div(2)) && (
-        <Grid item sm={12} justifyContent="center" sx={{ mt: 2 }}>
-          <Stack alignItems="center">
-            <Typography sx={{ mt: 2 }}>
-              Need {utils.formatEther(vaultInfo.debt.div(2))} AVAI to liquidate
-              this vault{' '}
-            </Typography>
-          </Stack>
+        <Grid
+          item
+          sm={12}
+          display="flex"
+          justifyContent="center"
+          sx={{ mt: 2 }}
+        >
+          <Typography sx={{ mt: 2 }}>
+            Need {utils.formatEther(vaultInfo.debt.div(2))} AVAI to liquidate
+            this vault{' '}
+          </Typography>
         </Grid>
       )}
     </Grid>

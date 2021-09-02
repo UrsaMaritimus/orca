@@ -14,6 +14,7 @@ import {
   IconButton,
   Popover,
   Box,
+  Grid,
 } from '@material-ui/core';
 
 // components
@@ -52,65 +53,76 @@ const MainTable: FC<MainTableProps> = ({ rows, collateralType, debtType }) => {
     setHover(null);
   };
   return (
-    <>
-      <ScrollBar>
-        <TableContainer sx={{ minWidth: 800, mt: 3 }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell component="th" scope="row">
-                  Vault ID
-                </TableCell>
-                <TableCell align="center">
-                  Collateral ({collateralType})
-                </TableCell>
-                <TableCell align="center">Debt ({debtType})</TableCell>
-                <TableCell align="right">
-                  <Stack
-                    direction="row"
-                    alignItems="center"
-                    justifyContent="center"
+    <Grid container>
+      <Grid item xs={12}>
+        <ScrollBar>
+          <TableContainer sx={{ maxWidth: '750px', mt: 3, mx: 'auto' }}>
+            <Table size={'medium'}>
+              <TableHead>
+                <TableRow>
+                  <TableCell
+                    component="th"
+                    scope="row"
+                    align="center"
+                    sx={{ px: 0.5, maxWidth: '250px' }}
                   >
-                    <Typography variant="inherit">LTV</Typography>
-                    <IconButton
-                      onMouseEnter={handleHoverOpen}
-                      onMouseLeave={handleHoverClose}
-                      color="secondary"
+                    Vault ID
+                  </TableCell>
+                  <TableCell align="center" sx={{ px: 0.5, maxWidth: '250px' }}>
+                    Collateral <br />({collateralType})
+                  </TableCell>
+                  <TableCell align="center" sx={{ px: 0.5, maxWidth: '250px' }}>
+                    Debt <br />({debtType})
+                  </TableCell>
+                  <TableCell align="center" sx={{ px: 0.5, maxWidth: '250px' }}>
+                    <Stack
+                      direction="row"
+                      alignItems="center"
+                      justifyContent="center"
                     >
-                      <Icon icon={infoOutline} width={25} height={25} />
-                    </IconButton>
-                  </Stack>{' '}
-                </TableCell>
-                <TableCell align="right"></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
-                  if (row) {
-                    return (
-                      <RowTable
-                        key={row.vaultID}
-                        row={row}
-                        collateralType={collateralType}
-                      />
-                    );
-                  }
-                })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </ScrollBar>
-      <TablePagination
-        component="div"
-        page={page}
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        onPageChange={handleChangePage}
-        rowsPerPageOptions={[5, 10, 25]}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+                      <Typography variant="inherit">LTV</Typography>
+                      <IconButton
+                        onMouseEnter={handleHoverOpen}
+                        onMouseLeave={handleHoverClose}
+                        color="secondary"
+                      >
+                        <Icon icon={infoOutline} width={20} height={20} />
+                      </IconButton>
+                    </Stack>{' '}
+                  </TableCell>
+                  <TableCell sx={{ p: 0, maxWidth: '20px' }}></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row) => {
+                    if (row) {
+                      return (
+                        <RowTable
+                          key={row.vaultID}
+                          row={row}
+                          collateralType={collateralType}
+                        />
+                      );
+                    }
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </ScrollBar>
+      </Grid>
+      <Grid item xs={12}>
+        <TablePagination
+          component="div"
+          page={page}
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          onPageChange={handleChangePage}
+          rowsPerPageOptions={[5, 10, 25]}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Grid>
       <Popover
         id="mouse-over-popover"
         open={Boolean(hover)}
@@ -141,7 +153,7 @@ const MainTable: FC<MainTableProps> = ({ rows, collateralType, debtType }) => {
           </Typography>
         </Box>
       </Popover>
-    </>
+    </Grid>
   );
 };
 

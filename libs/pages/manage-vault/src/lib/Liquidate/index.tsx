@@ -88,72 +88,128 @@ export const Liquidate: FC<LiquidateProps> = ({
                   }}
                   color="inherit"
                 />
-                <Typography variant="h6" sx={{ color: 'grey.500' }}>
+                <Typography variant="h4" sx={{ color: 'grey.500' }}>
                   {token}
                 </Typography>
               </Stack>
             </Stack>
           </Box>
           <Grid container sx={{ mt: 2 }}>
-            <Grid item sm={6}>
-              <Stack alignItems="center" sx={{ mt: 0.75 }}>
-                <Typography variant="h6">Collateral</Typography>
-                <Typography variant="inherit">
-                  {utils.formatEther(vaultInfo.collateral)} {token}
-                </Typography>
-                <Typography variant="caption" sx={{ color: 'grey.500' }}>
-                  {fCurrency(
-                    Number(
-                      utils.formatEther(
-                        vaultInfo.collateral
-                          .mul(vaultInfo.tokenPrice)
-                          .div(vaultInfo.peg)
-                      )
-                    )
-                  )}{' '}
-                  USD
-                </Typography>
-              </Stack>
-            </Grid>
-            <Grid item sm={6}>
-              <Stack alignItems="center">
-                <Stack direction="row" alignItems="center">
-                  <Typography variant="h6" textAlign="center">
-                    Current LTV
+            <Grid item xs={12}>
+              <Grid container>
+                <Grid item xs={4}>
+                  <Typography variant="subtitle1">Collateral</Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={8}
+                  display="flex"
+                  justifyContent="flex-end"
+                  alignItems="center"
+                >
+                  <Typography variant="body2">
+                    {utils.formatEther(vaultInfo.collateral)}
                   </Typography>
-                  <IconButton
-                    onMouseEnter={handleHoverOpen}
-                    onMouseLeave={handleHoverClose}
-                    color="secondary"
+                  <Typography sx={{ ml: 0.5 }} variant="caption">
+                    {token}
+                  </Typography>
+                </Grid>
+                <Grid item xs={4}></Grid>
+                <Grid item xs={8} display="flex" justifyContent="flex-end">
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      color: (theme) =>
+                        theme.palette.mode === 'light'
+                          ? 'grey.600'
+                          : 'grey.400',
+                    }}
                   >
-                    <Icon icon={infoOutline} width={25} height={25} />
-                  </IconButton>
-                </Stack>
-                <Typography variant="inherit">
-                  {fPercent(Number(utils.formatUnits(vaultInfo.LTV, 6)))}{' '}
-                </Typography>
-                <Typography variant="caption" sx={{ color: 'grey.500' }}>
-                  Max LTV: {fPercent(vaultInfo.maxLTV)}
-                </Typography>
-              </Stack>
+                    {fCurrency(
+                      Number(
+                        utils.formatEther(
+                          vaultInfo.collateral
+                            .mul(vaultInfo.tokenPrice)
+                            .div(vaultInfo.peg)
+                        )
+                      )
+                    )}{' '}
+                    USD
+                  </Typography>
+                </Grid>
+              </Grid>
             </Grid>
-            <Grid item sm={12} sx={{ mt: 2 }}>
-              <Stack alignItems="center">
-                <Typography variant="h6" textAlign="center">
-                  Borrowing Power Used
-                </Typography>
-                <Typography variant="inherit">
-                  {fPercent(
-                    Number(utils.formatUnits(vaultInfo.borrowingPowerUsed, 6))
-                  )}
-                </Typography>
-                <Typography variant="caption" sx={{ color: 'grey.500' }}>
-                  {fCurrency(
-                    Number(utils.formatEther(vaultInfo.borrowingPowerUsedUSD))
-                  )}{' '}
-                  USD
-                </Typography>
-              </Stack>
+            <Grid item xs={12}>
+              <Grid container alignItems="center">
+                <Grid item xs={7}>
+                  <Stack direction="row" alignItems="center">
+                    <Typography variant="subtitle1" textAlign="center">
+                      LTV
+                    </Typography>
+                    <IconButton
+                      onMouseEnter={handleHoverOpen}
+                      onMouseLeave={handleHoverClose}
+                      color="secondary"
+                    >
+                      <Icon icon={infoOutline} width={20} height={20} />
+                    </IconButton>
+                  </Stack>
+                </Grid>
+                <Grid item xs={5} display="flex" justifyContent="flex-end">
+                  <Typography variant="body2">
+                    {fPercent(Number(utils.formatUnits(vaultInfo.LTV, 6)))}{' '}
+                  </Typography>
+                </Grid>
+                <Grid item xs={7} sm={false}></Grid>
+                <Grid item xs={5} display="flex" justifyContent="flex-end">
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      color: (theme) =>
+                        theme.palette.mode === 'light'
+                          ? 'grey.600'
+                          : 'grey.400',
+                    }}
+                  >
+                    Max LTV: {fPercent(vaultInfo.maxLTV)}
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={12} sx={{ mt: 2 }}>
+              <Grid container alignItems="center">
+                <Grid item xs={7}>
+                  <Typography variant="subtitle1">Borrowing Power</Typography>
+                </Grid>
+                <Grid item xs={5} display="flex" justifyContent="flex-end">
+                  <Typography variant="body2">
+                    {fPercent(
+                      Number(
+                        utils.formatUnits(vaultInfo.borrowingPowerAvailable, 6)
+                      )
+                    )}
+                  </Typography>
+                </Grid>
+                <Grid item xs={7} sm={false}></Grid>
+                <Grid item xs={5} display="flex" justifyContent="flex-end">
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      color: (theme) =>
+                        theme.palette.mode === 'light'
+                          ? 'grey.600'
+                          : 'grey.400',
+                    }}
+                  >
+                    {fCurrency(
+                      Number(
+                        utils.formatEther(vaultInfo.borrowingPowerAvailableUSD)
+                      )
+                    )}{' '}
+                    USD
+                  </Typography>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
           {Number(utils.formatUnits(vaultInfo.borrowingPowerUsed, 6)) > 100 && (

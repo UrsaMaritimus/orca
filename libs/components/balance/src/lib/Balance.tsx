@@ -13,7 +13,7 @@ const BalanceStyle = styled('div')(({ theme }) => ({
   padding: theme.spacing(1, 2.5),
   margin: theme.spacing(1),
   borderRadius: theme.shape.borderRadiusSm,
-  backgroundColor: theme.palette.grey[500_12],
+  backgroundColor: theme.palette.grey[500_80],
 }));
 
 const AvaxBalance = () => {
@@ -29,9 +29,9 @@ const AvaxBalance = () => {
           component="img"
           src={'/static/cryptos/ic_avax.svg'}
           sx={{
-            width: 35,
+            width: 30,
 
-            height: 35,
+            height: 30,
           }}
           color="inherit"
         />

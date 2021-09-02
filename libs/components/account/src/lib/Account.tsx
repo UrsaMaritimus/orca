@@ -54,13 +54,12 @@ const Account: FC = () => {
               activate(
                 injected,
                 (error) => {
-                  toast.error(error.message);
+                  console.log(error.message);
                 },
                 false
               );
             })
             .catch((error: any) => {
-              toast.error(error.message);
               setError(error);
             });
         });

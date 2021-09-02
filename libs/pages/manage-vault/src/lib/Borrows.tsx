@@ -96,81 +96,109 @@ export const Borrows: FC<BorrowsProps> = ({
                 }}
                 color="inherit"
               />
-              <Typography variant="h6" sx={{ color: 'grey.500' }}>
+              <Typography variant="h4" sx={{ color: 'grey.500' }}>
                 AVAI
               </Typography>
             </Stack>
           </Stack>
         </Box>
-        <Grid container sx={{ mt: 2 }}>
-          <Grid item sm={6}>
-            <Stack alignItems="center" sx={{ mt: 0.75 }}>
-              <Typography variant="h6">Debt</Typography>
-              <Typography variant="inherit">
-                {utils.formatEther(vaultInfo.debt)} AVAI
-              </Typography>
-              <Typography variant="caption" sx={{ color: 'grey.500' }}>
-                {fNumber(
-                  Number(
-                    utils.formatEther(
-                      vaultInfo.debt
-                        .mul(vaultInfo.peg)
-                        .div(vaultInfo.tokenPrice)
-                    )
-                  )
-                )}{' '}
-                {token}
-              </Typography>
-            </Stack>
-          </Grid>
-          <Grid item sm={6}>
-            <Stack alignItems="center">
-              <Stack direction="row" alignItems="center">
-                <Typography variant="h6" textAlign="center">
-                  Current LTV
+        <Grid container>
+          <Grid item xs={12} sm={6} sx={{ mt: 1 }}>
+            <Grid container>
+              <Grid item xs={7} sm={12} display="flex" justifyContent="center">
+                <Typography variant="h6">Debt</Typography>
+              </Grid>
+              <Grid item xs={5} sm={12} display="flex" justifyContent="center">
+                <Typography variant="inherit">
+                  {fNumber(Number(utils.formatEther(vaultInfo.debt)), 2)} AVAI
                 </Typography>
-                <IconButton
-                  onMouseEnter={handleHoverOpen}
-                  onMouseLeave={handleHoverClose}
-                  color="secondary"
-                >
-                  <Icon icon={infoOutline} width={25} height={25} />
-                </IconButton>
-              </Stack>
-              <Typography variant="inherit">
-                {fPercent(Number(utils.formatUnits(vaultInfo.LTV, 6)))}{' '}
-              </Typography>
-              <Typography variant="caption" sx={{ color: 'grey.500' }}>
-                Max LTV: {fPercent(vaultInfo.maxLTV)}
-              </Typography>
-            </Stack>
+              </Grid>
+              <Grid item xs={7} sm={false}></Grid>
+              <Grid item xs={5} sm={12} display="flex" justifyContent="center">
+                <Typography variant="caption" sx={{ color: 'grey.500' }}>
+                  {fNumber(
+                    Number(
+                      utils.formatEther(
+                        vaultInfo.debt
+                          .mul(vaultInfo.peg)
+                          .div(vaultInfo.tokenPrice)
+                      )
+                    ),
+                    2
+                  )}{' '}
+                  {token}
+                </Typography>
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item sm={12} sx={{ mt: 2 }}>
-            <Stack alignItems="center">
-              <Typography variant="h6" textAlign="center">
-                Available to Borrow
-              </Typography>
-              <Typography variant="inherit">
-                {fNumber(
-                  Number(
-                    utils.formatEther(vaultInfo.borrowingPowerAvailableUSD)
-                  )
-                )}{' '}
-                AVAI
-              </Typography>
-              <Typography variant="caption" sx={{ color: 'grey.500' }}>
-                {fNumber(
-                  Number(
-                    utils.formatEther(
-                      vaultInfo.borrowingPowerAvailableUSD
-                        .mul(vaultInfo.peg)
-                        .div(vaultInfo.tokenPrice)
+
+          <Grid item xs={12} sm={6} sx={{ mt: 1 }}>
+            <Grid container alignItems="center">
+              <Grid item xs={7} sm={12} display="flex" justifyContent="center">
+                <Typography variant="h6" textAlign="center">
+                  Available to Borrow
+                </Typography>
+              </Grid>
+              <Grid item xs={5} sm={12} display="flex" justifyContent="center">
+                <Typography variant="inherit" textAlign="center">
+                  {fNumber(
+                    Number(
+                      utils.formatEther(vaultInfo.borrowingPowerAvailableUSD)
+                    ),
+                    2
+                  )}{' '}
+                  AVAI
+                </Typography>
+              </Grid>
+              <Grid item xs={7} sm={false}></Grid>
+              <Grid item xs={5} sm={12} display="flex" justifyContent="center">
+                <Typography
+                  variant="caption"
+                  sx={{ color: 'grey.500' }}
+                  textAlign="center"
+                >
+                  {fNumber(
+                    Number(
+                      utils.formatEther(
+                        vaultInfo.borrowingPowerAvailableUSD
+                          .mul(vaultInfo.peg)
+                          .div(vaultInfo.tokenPrice)
+                      )
                     )
-                  )
-                )}{' '}
-                {token}
-              </Typography>
-            </Stack>
+                  )}{' '}
+                  {token}
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} sm={12} sx={{ mt: 2 }}>
+            <Grid container alignItems="center">
+              <Grid item xs={7} sm={12} display="flex" justifyContent="center">
+                <Stack direction="row" alignItems="center">
+                  <Typography variant="h6" textAlign="center">
+                    Current LTV
+                  </Typography>
+                  <IconButton
+                    onMouseEnter={handleHoverOpen}
+                    onMouseLeave={handleHoverClose}
+                    color="secondary"
+                  >
+                    <Icon icon={infoOutline} width={20} height={20} />
+                  </IconButton>
+                </Stack>
+              </Grid>
+              <Grid item xs={5} sm={12} display="flex" justifyContent="center">
+                <Typography variant="inherit">
+                  {fPercent(Number(utils.formatUnits(vaultInfo.LTV, 6)))}{' '}
+                </Typography>
+              </Grid>
+              <Grid item xs={7} sm={false}></Grid>
+              <Grid item xs={5} sm={12} display="flex" justifyContent="center">
+                <Typography variant="caption" sx={{ color: 'grey.500' }}>
+                  Max LTV: {fPercent(vaultInfo.maxLTV)}
+                </Typography>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
         {isOwner && (
@@ -218,6 +246,31 @@ export const Borrows: FC<BorrowsProps> = ({
                 </TabList>
               </Container>
             </Box>
+
+            <Box
+              sx={{
+                p: 2,
+                mt: 2,
+                width: '100%',
+                borderRadius: 1,
+                bgcolor: 'grey.50012',
+              }}
+            >
+              <TabPanel key="Deposit" value={String(1)}>
+                <BorrowStepper
+                  token={token}
+                  vaultInfo={vaultInfo}
+                  vaultID={vaultID}
+                />
+              </TabPanel>
+              <TabPanel key="Withdraw" value={String(2)}>
+                <RepayStepper
+                  token={token}
+                  vaultInfo={vaultInfo}
+                  vaultID={vaultID}
+                />
+              </TabPanel>
+            </Box>
             {!vaultInfo.closingFee.isZero() && (
               <Box
                 sx={{
@@ -234,50 +287,12 @@ export const Borrows: FC<BorrowsProps> = ({
                       : 'warning.light',
                 }}
               >
-                <Typography variant="h4" textAlign="center" color="grey.600">
-                  Note: There is a closing fee when using this vault type of{' '}
+                <Typography variant="h6" textAlign="center" color="grey.600">
+                  Note: There is a closing fee when using this Bank of{' '}
                   {vaultInfo.closingFee.toNumber() / 100}%
                 </Typography>
               </Box>
             )}
-            <Box
-              sx={{
-                p: 2,
-                mt: 2,
-                width: '100%',
-                borderRadius: 1,
-                bgcolor: 'grey.50012',
-              }}
-            >
-              <TabPanel key="Deposit" value={String(1)}>
-                <Box
-                  sx={{
-                    p: 3,
-                    minHeight: 180,
-                  }}
-                >
-                  <BorrowStepper
-                    token={token}
-                    vaultInfo={vaultInfo}
-                    vaultID={vaultID}
-                  />
-                </Box>
-              </TabPanel>
-              <TabPanel key="Withdraw" value={String(2)}>
-                <Box
-                  sx={{
-                    p: 3,
-                    minHeight: 180,
-                  }}
-                >
-                  <RepayStepper
-                    token={token}
-                    vaultInfo={vaultInfo}
-                    vaultID={vaultID}
-                  />
-                </Box>
-              </TabPanel>
-            </Box>
           </TabContext>
         )}
       </Container>

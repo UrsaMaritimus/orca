@@ -51,13 +51,16 @@ const SortingSelectingHead: FC<SortingSelectionHeadProps> = ({
           align={'center'}
           padding={'normal'}
           sortDirection={orderBy === 'num' ? order : false}
+          scope="row"
+          component="th"
+          sx={{ px: 0.5, maxWidth: '250px' }}
         >
           <TableSortLabel
             active={orderBy === 'num'}
             direction={orderBy === 'num' ? order : 'asc'}
             onClick={createSortHandler('num')}
           >
-            <Typography variant="inherit">Vault #</Typography>
+            <Typography variant="inherit">Vault ID</Typography>
 
             {orderBy === 'num' ? (
               <Box component="span" sx={{ ...visuallyHidden }}>
@@ -69,8 +72,8 @@ const SortingSelectingHead: FC<SortingSelectionHeadProps> = ({
         <TableCell
           key={'cp'}
           align={'center'}
-          padding={'normal'}
           sortDirection={orderBy === 'cp' ? order : false}
+          sx={{ px: 0.5, maxWidth: '250px' }}
         >
           <TableSortLabel
             active={orderBy === 'cp'}
@@ -83,7 +86,7 @@ const SortingSelectingHead: FC<SortingSelectionHeadProps> = ({
               onMouseLeave={handleHoverClose}
               color="secondary"
             >
-              <Icon icon={infoOutline} width={25} height={25} />
+              <Icon icon={infoOutline} width={20} height={20} />
             </IconButton>
 
             {orderBy === 'cp' ? (
@@ -96,15 +99,17 @@ const SortingSelectingHead: FC<SortingSelectionHeadProps> = ({
         <TableCell
           key={'collateral'}
           align={'center'}
-          padding={'normal'}
           sortDirection={orderBy === 'collateral' ? order : false}
+          sx={{ px: 2, maxWidth: '250px' }}
         >
           <TableSortLabel
             active={orderBy === 'collateral'}
             direction={orderBy === 'collateral' ? order : 'asc'}
             onClick={createSortHandler('collateral')}
           >
-            Collateral (USD)
+            Collateral
+            <br />
+            (USD)
             {orderBy === 'collateral' ? (
               <Box component="span" sx={{ ...visuallyHidden }}>
                 {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
@@ -112,26 +117,8 @@ const SortingSelectingHead: FC<SortingSelectionHeadProps> = ({
             ) : null}
           </TableSortLabel>
         </TableCell>
-        <TableCell
-          key={'debt'}
-          align={'center'}
-          padding={'normal'}
-          sortDirection={orderBy === 'debt' ? order : false}
-        >
-          <TableSortLabel
-            active={orderBy === 'debt'}
-            direction={orderBy === 'debt' ? order : 'asc'}
-            onClick={createSortHandler('debt')}
-          >
-            Debt (USD)
-            {orderBy === 'debt' ? (
-              <Box component="span" sx={{ ...visuallyHidden }}>
-                {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-              </Box>
-            ) : null}
-          </TableSortLabel>
-        </TableCell>
-        <TableCell></TableCell>
+
+        <TableCell sx={{ px: 2, maxWidth: '250px' }}></TableCell>
       </TableRow>
       <Popover
         id="mouse-over-popover"

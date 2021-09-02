@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { Web3Provider } from '@ethersproject/providers';
 
@@ -18,6 +18,7 @@ import {
   Grid,
 } from '@material-ui/core';
 import { experimentalStyled as styled } from '@material-ui/core/styles';
+import LoadingButton from '@material-ui/lab/LoadingButton';
 
 import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
@@ -30,7 +31,7 @@ import {
   approveAvaiExchange,
   redeemFromExchange,
 } from '@orca/shared/funcs';
-import { fNumber, fPercent } from '@orca/util';
+import { fCurrency, fNumber, fPercent } from '@orca/util';
 import { erc20Tokens, tokenInfo } from '@orca/shared/base';
 
 // ------------------------------------------------------
@@ -64,6 +65,8 @@ export const Redeem: FC<MintProps> = ({
   exchangeBalance,
   mintingFee,
 }) => {
+  const [approving, setApproving] = useState<boolean>(false);
+  const [redeeming, setRedeeming] = useState<boolean>(false);
   const shouldFetch = !!library;
   // Get usdc approved
   const { data: userAVAIApproved, mutate: avaiApprovedMutate } = useSWR(
@@ -140,6 +143,7 @@ export const Redeem: FC<MintProps> = ({
 
   // For approving AVAI
   const handleApproveAVAI = async () => {
+    setApproving(true);
     await handleTransaction({
       transaction: approveAvaiExchange(
         library,
@@ -153,11 +157,13 @@ export const Redeem: FC<MintProps> = ({
       },
       mutates: [avaiApprovedMutate],
     });
+    setApproving(false);
   };
 
   // For redeeming USDC for AVAI
   const handleMintAVAI = async () => {
-    handleTransaction({
+    setRedeeming(true);
+    await handleTransaction({
       transaction: redeemFromExchange(
         library,
         chainId,
@@ -170,6 +176,7 @@ export const Redeem: FC<MintProps> = ({
       },
       mutates: [avaiApprovedMutate],
     });
+    setRedeeming(false);
     resetForm();
   };
 
@@ -191,34 +198,34 @@ export const Redeem: FC<MintProps> = ({
 
           <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-              <Box sx={{ m: 'auto', width: '60%' }}>
-                <Stack>
-                  {/* Balances of USD */}
-                  <Stack
-                    direction="row"
-                    justifyContent={'space-between'}
-                    sx={{ mt: 2 }}
-                  >
-                    <Typography
-                      color="textSecondary"
-                      variant="subtitle2"
-                      textAlign="left"
-                    >
-                      Balance:
-                    </Typography>
-                    <Typography
-                      color="textSecondary"
-                      variant="subtitle2"
-                      textAlign="right"
-                    >
-                      {`${fNumber(
-                        Number(utils.formatEther(avaiBalance)),
-                        2
-                      )} AVAI`}
-                    </Typography>
-                  </Stack>
-                  {/* How much to use for minting */}
-                  <Box sx={{ m: 1 }}>
+              <Grid container>
+                {/* Balances of USD */}
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  display="flex"
+                  justifyContent={'center'}
+                >
+                  <Typography variant="h6">Balance:</Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  display="flex"
+                  justifyContent={'center'}
+                >
+                  <Typography variant="h6">
+                    {`${fNumber(
+                      Number(utils.formatEther(avaiBalance)),
+                      2
+                    )} AVAI`}
+                  </Typography>
+                </Grid>
+                {/* How much to use for minting */}
+                <Grid item xs={12} display="flex" justifyContent="center">
+                  <Box sx={{ mx: 'auto', my: 2, width: '80%' }}>
                     <TextField
                       fullWidth
                       type="number"
@@ -260,95 +267,103 @@ export const Redeem: FC<MintProps> = ({
                       helperText={touched.swapAmount && errors.swapAmount}
                     />
                   </Box>
-                  {/* Transition */}
-                  <Box sx={{ margin: 'auto' }}>
-                    <Icon icon={arrowheadDownOutline} width={25} height={25} />
-                  </Box>
-                  {/* Displays output in AVAI */}
-                  <Box sx={{ m: 1 }}>
-                    <Stack
-                      direction="row"
-                      justifyContent={'space-between'}
-                      sx={{ mb: 1 }}
+                </Grid>
+                {/* Transition */}
+                <Grid item xs={12} display="flex" justifyContent="center">
+                  <Icon icon={arrowheadDownOutline} width={25} height={25} />
+                </Grid>
+                {/* Displays output in AVAI */}
+                <Grid
+                  item
+                  xs={12}
+                  display="flex"
+                  justifyContent="flex-start"
+                  sx={{ mb: 1 }}
+                >
+                  <Box sx={{ mx: 'auto', mt: 1, width: '80%' }}>
+                    <Typography
+                      color="textSecondary"
+                      variant="subtitle2"
+                      textAlign="left"
                     >
-                      <Typography
-                        color="textSecondary"
-                        variant="subtitle2"
-                        textAlign="left"
-                      >
-                        Expected Output
-                      </Typography>
-                    </Stack>
-                    {/* In textfield which has font changed */}
-                    <Box sx={{ mb: 2 }}>
-                      <ReturnTextField
-                        fullWidth
-                        type="number"
-                        label="Amount"
-                        variant="filled"
-                        disabled
-                        {...getFieldProps('returnAmount')}
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <Box
-                                component="img"
-                                src={erc20Tokens[token].icon}
-                                sx={{
-                                  width: 25,
+                      Expected Output
+                    </Typography>
+                  </Box>
+                </Grid>
+                {/* In textfield which has font changed */}
+                <Grid
+                  xs={12}
+                  display="flex"
+                  justifyContent="flex-start"
+                  sx={{ mb: 2 }}
+                >
+                  <Box sx={{ mx: 'auto', width: '80%' }}>
+                    <ReturnTextField
+                      fullWidth
+                      type="number"
+                      label="Amount"
+                      variant="filled"
+                      disabled
+                      {...getFieldProps('returnAmount')}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <Box
+                              component="img"
+                              src={erc20Tokens[token].icon}
+                              sx={{
+                                width: 25,
 
-                                  height: 25,
-                                }}
-                                color="inherit"
-                              />
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
-                    </Box>
+                                height: 25,
+                              }}
+                              color="inherit"
+                            />
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
                   </Box>
-                  {/* Lets handle everything now! */}
-                  <Box
-                    sx={{
-                      mx: 'auto',
-                      mb: 2,
-                    }}
+                </Grid>
+                {/* Lets handle everything now! */}
+                <Grid
+                  item
+                  xs={6}
+                  mb={2}
+                  display="flex"
+                  justifyContent="flex-end"
+                >
+                  <LoadingButton
+                    color="primary"
+                    variant="contained"
+                    size="large"
+                    sx={{ mr: 1 }}
+                    disabled={userAVAIApproved}
+                    onClick={handleApproveAVAI}
+                    loading={approving}
                   >
-                    <Stack
-                      alignItems="center"
-                      direction="row"
-                      justifyContent="center"
-                    >
-                      <Button
-                        color="primary"
-                        variant="contained"
-                        size="large"
-                        sx={{ mr: 1 }}
-                        disabled={userAVAIApproved}
-                        onClick={handleApproveAVAI}
-                      >
-                        Approve AVAI
-                      </Button>{' '}
-                      <Button
-                        color="primary"
-                        variant="contained"
-                        size="large"
-                        disabled={!userAVAIApproved}
-                        sx={{ px: 4 }}
-                        onClick={handleMintAVAI}
-                      >
-                        Exchange
-                      </Button>
-                    </Stack>
-                  </Box>
-                </Stack>
-              </Box>
+                    Approve AVAI
+                  </LoadingButton>
+                </Grid>
+                <Grid item xs={6} display="flex" justifyContent="flex-start">
+                  <LoadingButton
+                    color="primary"
+                    variant="contained"
+                    size="large"
+                    disabled={!userAVAIApproved || avaiBalance.isZero()}
+                    sx={{ px: 4 }}
+                    onClick={handleMintAVAI}
+                    loading={redeeming}
+                  >
+                    Exchange
+                  </LoadingButton>
+                </Grid>
+              </Grid>
             </Form>
           </FormikProvider>
         </Card>
         <Card
           sx={{
-            width: 400,
+            maxWidth: 300,
             m: 'auto',
             borderTopLeftRadius: 0,
             borderTopRightRadius: 0,
@@ -357,12 +372,12 @@ export const Redeem: FC<MintProps> = ({
           }}
         >
           <Grid container sx={{ my: 2 }}>
-            <Grid item sm={6}>
+            <Grid item xs={6}>
               <Typography sx={{ ml: 2 }} color="grey.600" variant="subtitle2">
                 Minting Fee
               </Typography>
             </Grid>
-            <Grid item sm={6}>
+            <Grid item xs={6}>
               <Typography
                 sx={{ mr: 2, textAlign: 'right' }}
                 variant="subtitle2"
@@ -371,18 +386,18 @@ export const Redeem: FC<MintProps> = ({
                 {fPercent(Number(utils.formatUnits(mintingFee, 0)) / 100)}
               </Typography>
             </Grid>
-            <Grid item sm={6}>
+            <Grid item xs={6}>
               <Typography sx={{ ml: 2 }} color="grey.600" variant="subtitle2">
-                Available {token} Balance
+                Available {token}
               </Typography>
             </Grid>
-            <Grid item sm={6}>
+            <Grid item xs={6}>
               <Typography
                 sx={{ mr: 2, textAlign: 'right' }}
                 variant="subtitle2"
                 color="grey.600"
               >
-                {fNumber(Number(utils.formatUnits(exchangeBalance, 6)), 2)}
+                {fCurrency(Number(utils.formatUnits(exchangeBalance, 6)))}
               </Typography>
             </Grid>
           </Grid>

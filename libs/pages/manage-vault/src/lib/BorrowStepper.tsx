@@ -12,14 +12,19 @@ import {
   InputAdornment,
   Stack,
   Grid,
+  Backdrop,
 } from '@material-ui/core';
+import LoadingButton from '@material-ui/lab/LoadingButton';
 
+import { Icon } from '@iconify/react';
+import arrowRight from '@iconify/icons-eva/arrow-right-outline';
+import backSpace from '@iconify/icons-eva/backspace-outline';
 // Ethers and web3 stuff
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 import { BigNumber, utils } from 'ethers';
 import { useFormik, Form, FormikProvider } from 'formik';
-
+import { Loader } from '@orca/components/loader';
 import { fPercent, fNumber } from '@orca/util';
 import { borrowToken } from '@orca/shared/funcs';
 import { handleTransaction } from '@orca/components/transaction';
@@ -145,116 +150,119 @@ export const BorrowStepper: FC<BorrowStepperProps> = ({
           );
         })}
       </Stepper>
-      {activeStep === steps.length && (
-        <>
-          <Box
-            p={2}
-            borderRadius={1}
-            width="90%"
-            mx="auto"
-            mt={2}
-            mb={2}
-            sx={{
-              bgcolor: (theme) =>
-                theme.palette.mode === 'light' ? 'grey.400' : 'grey.600',
-            }}
-          >
-            <Typography sx={{ my: 1 }}>
-              Transaction submitted, awaiting confirmation.
-            </Typography>
-          </Box>
-
-          <Box sx={{ display: 'flex' }}>
-            <Box sx={{ flexGrow: 1 }} />
-            <Button onClick={handleReset}>Reset</Button>
-          </Box>
-        </>
-      )}
       <>
         {activeStep === 0 && (
           <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-              <Box sx={{ m: 2 }}>
-                <Stack direction="row" justifyContent="space-evenly">
+              <Grid container sx={{ m: 2 }}>
+                <Grid item sm={6} xs={12}>
                   <Typography variant="h6" textAlign="center">
                     Available to borrow:
                   </Typography>
-                  <Typography variant="h6" textAlign="center">
-                    {fNumber(
-                      Number(
-                        utils.formatEther(vaultInfo.borrowingPowerAvailableUSD)
-                      )
-                    )}{' '}
-                    AVAI
-                  </Typography>
-                </Stack>
-                <Box sx={{ m: 'auto', width: '60%' }}>
-                  <TextField
-                    fullWidth
-                    type="number"
-                    label="Borrow Amount"
-                    variant="filled"
-                    {...getFieldProps('borrowAmount')}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <Box
-                            component="img"
-                            src={tokenInfo['AVAI'].icon}
-                            sx={{
-                              width: 25,
-
-                              height: 25,
-                            }}
-                            color="inherit"
-                          />
-                        </InputAdornment>
-                      ),
-                      endAdornment: (
-                        <InputAdornment position="start">
-                          <Button
-                            onClick={() =>
-                              setFieldValue('borrowAmount', maxBorrow)
-                            }
-                            variant="text"
-                          >
-                            MAX
-                          </Button>
-                        </InputAdornment>
-                      ),
-                    }}
-                    error={Boolean(touched.borrowAmount && errors.borrowAmount)}
-                    helperText={touched.borrowAmount && errors.borrowAmount}
-                  />
-                </Box>
-              </Box>
-              <Box
-                sx={{ display: 'flex', pl: 2, pr: 2, width: '60%', m: 'auto' }}
-              >
-                <Button
-                  color="inherit"
-                  disabled
-                  onClick={handleBack}
-                  sx={{ mr: 1 }}
+                </Grid>
+                <Grid
+                  item
+                  sm={6}
+                  xs={12}
+                  display="flex"
+                  justifyContent="center"
                 >
-                  Back
-                </Button>
-                <Box sx={{ flexGrow: 1 }} />
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                    <Box
+                      component="img"
+                      src={tokenInfo['AVAI'].icon}
+                      sx={{
+                        width: 15,
 
-                <Button type="submit" variant="contained">
-                  Next
-                </Button>
+                        height: 15,
+                      }}
+                      color="inherit"
+                    />
+                    <Typography variant="h6" textAlign="center">
+                      {fNumber(
+                        Number(
+                          utils.formatEther(
+                            vaultInfo.borrowingPowerAvailableUSD
+                          )
+                        ),
+                        2
+                      )}{' '}
+                      AVAI
+                    </Typography>
+                  </Stack>
+                </Grid>
+              </Grid>
+              <Box sx={{ mx: 'auto', my: 2, width: '80%' }}>
+                <TextField
+                  fullWidth
+                  type="number"
+                  label="Borrow Amount"
+                  variant="filled"
+                  {...getFieldProps('borrowAmount')}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Box
+                          component="img"
+                          src={tokenInfo['AVAI'].icon}
+                          sx={{
+                            width: 25,
+
+                            height: 25,
+                          }}
+                          color="inherit"
+                        />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="start">
+                        <Button
+                          onClick={() =>
+                            setFieldValue('borrowAmount', maxBorrow)
+                          }
+                          variant="text"
+                        >
+                          MAX
+                        </Button>
+                      </InputAdornment>
+                    ),
+                  }}
+                  error={Boolean(touched.borrowAmount && errors.borrowAmount)}
+                  helperText={touched.borrowAmount && errors.borrowAmount}
+                />
               </Box>
+              <Grid container>
+                <Grid item xs={6} display="flex" justifyContent="center">
+                  <Button
+                    color="inherit"
+                    disabled
+                    onClick={handleBack}
+                    sx={{ mr: 1 }}
+                    startIcon={<Icon icon={backSpace} width={25} height={25} />}
+                  >
+                    Back
+                  </Button>
+                </Grid>
+                <Grid xs={6} display="flex" justifyContent="center">
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    endIcon={<Icon icon={arrowRight} width={25} height={25} />}
+                  >
+                    Next
+                  </Button>
+                </Grid>
+              </Grid>
             </Form>
           </FormikProvider>
         )}
-        {activeStep === 1 && (
+        {activeStep >= 1 && (
           <>
             <Box
               p={2}
               borderRadius={1}
-              mx="auto"
-              width="50%"
+              mx={'auto'}
+              width="95%"
               mt={2}
               mb={2}
               sx={{
@@ -263,14 +271,26 @@ export const BorrowStepper: FC<BorrowStepperProps> = ({
               }}
             >
               <Grid container sx={{ mt: 1, mb: 1 }}>
-                <Grid item sm={6}>
+                <Grid
+                  item
+                  xs={3}
+                  sm={5}
+                  display="flex"
+                  justifyContent="flex-end"
+                >
                   <Typography variant="subtitle1" textAlign="center">
-                    Added Debt:
+                    Added Debt
                   </Typography>
                 </Grid>
-                <Grid item sm>
+                <Grid
+                  item
+                  xs={9}
+                  sm={7}
+                  display="flex"
+                  justifyContent="flex-end"
+                >
                   <Stack alignItems={'flex-end'}>
-                    <Stack direction="row" spacing={1} alignItems={'center'}>
+                    <Stack direction="row" spacing={1} alignItems={'flex-end'}>
                       <Box
                         component="img"
                         src={tokenInfo['AVAI'].icon}
@@ -281,11 +301,22 @@ export const BorrowStepper: FC<BorrowStepperProps> = ({
                         }}
                         color="inherit"
                       />
-                      <Typography variant="subtitle1">
-                        {values.borrowAmount} AVAI
+                      <Typography variant="body2">
+                        {values.borrowAmount}
+                      </Typography>
+                      <Typography sx={{ ml: 0.5 }} variant="caption">
+                        AVAI
                       </Typography>
                     </Stack>
-                    <Typography variant="caption">
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        color: (theme) =>
+                          theme.palette.mode === 'light'
+                            ? 'grey.600'
+                            : 'grey.400',
+                      }}
+                    >
                       {fNumber(
                         values.borrowAmount /
                           Number(utils.formatUnits(vaultInfo.tokenPrice, 8))
@@ -294,14 +325,28 @@ export const BorrowStepper: FC<BorrowStepperProps> = ({
                     </Typography>
                   </Stack>
                 </Grid>
-                <Grid item sm={6} mt={2}>
+                <Grid
+                  item
+                  xs={4}
+                  sm={5}
+                  mt={2}
+                  display="flex"
+                  justifyContent="flex-end"
+                >
                   <Typography variant="subtitle1" textAlign="center">
-                    New LTV:
+                    New LTV
                   </Typography>
                 </Grid>
-                <Grid item sm mt={2}>
+                <Grid
+                  item
+                  xs={8}
+                  sm={7}
+                  mt={2}
+                  display="flex"
+                  justifyContent="flex-end"
+                >
                   <Stack alignItems={'flex-end'}>
-                    <Typography variant="h6">
+                    <Typography variant="body2" textAlign="center">
                       {fPercent(
                         (100 *
                           (Number(utils.formatEther(vaultInfo.debt)) +
@@ -315,10 +360,20 @@ export const BorrowStepper: FC<BorrowStepperProps> = ({
                           )
                       )}
                     </Typography>
-                    <Typography variant="caption">
+                    <Typography
+                      variant="caption"
+                      textAlign="center"
+                      sx={{
+                        color: (theme) =>
+                          theme.palette.mode === 'light'
+                            ? 'grey.600'
+                            : 'grey.400',
+                      }}
+                    >
                       {fNumber(
                         Number(utils.formatEther(vaultInfo.debt)) +
-                          values.borrowAmount
+                          values.borrowAmount,
+                        2
                       )}{' '}
                       AVAI Borrowed
                     </Typography>
@@ -326,18 +381,30 @@ export const BorrowStepper: FC<BorrowStepperProps> = ({
                 </Grid>
               </Grid>
             </Box>
-            <Box
-              sx={{ display: 'flex', pl: 2, pr: 2, mx: 'auto', width: '60%' }}
-            >
-              <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
-                Back
-              </Button>
-              <Box sx={{ flexGrow: 1 }} />
-
-              <Button variant="contained" onClick={handleBorrow}>
-                Submit
-              </Button>
-            </Box>
+            <Grid container>
+              <Grid xs={6} display="flex" justifyContent="center">
+                <LoadingButton
+                  startIcon={<Icon icon={backSpace} width={25} height={25} />}
+                  color="inherit"
+                  onClick={handleBack}
+                  sx={{ mr: 1 }}
+                  loading={activeStep === steps.length}
+                >
+                  Back
+                </LoadingButton>
+              </Grid>
+              <Grid xs={6} display="flex" justifyContent="center">
+                <LoadingButton
+                  endIcon={<Icon icon={arrowRight} width={25} height={25} />}
+                  variant="contained"
+                  onClick={handleBorrow}
+                  loading={activeStep === steps.length}
+                  loadingPosition="end"
+                >
+                  Submit
+                </LoadingButton>
+              </Grid>
+            </Grid>
           </>
         )}
       </>

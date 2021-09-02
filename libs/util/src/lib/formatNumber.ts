@@ -15,10 +15,10 @@ export const fNumber = (number: number | string, mantissa = 4) => {
   return numbro(number).format({ mantissa });
 };
 
-export const fShortenNumber = (number: number | string) => {
+export const fShortenNumber = (number: number | string, mantissa = 2) => {
   return numbro(number).format({
     average: true,
-    mantissa: 2,
+    mantissa,
     thousandSeparated: true,
   });
 };

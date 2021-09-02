@@ -31,7 +31,7 @@ export const MobileAccountInfo: FC = () => {
     <BannerStyle>
       <Grid container alignItems="center">
         {isConnected && (
-          <Grid item xs={5}>
+          <Grid item xs={5} display="flex" justifyContent="center">
             <AvaiBalance />
           </Grid>
         )}

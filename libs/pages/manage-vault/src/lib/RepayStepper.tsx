@@ -12,9 +12,13 @@ import {
   InputAdornment,
   Stack,
   Grid,
+  Backdrop,
 } from '@material-ui/core';
+import LoadingButton from '@material-ui/lab/LoadingButton';
 
-import toast from 'react-hot-toast';
+import { Icon } from '@iconify/react';
+import arrowRight from '@iconify/icons-eva/arrow-right-outline';
+import backSpace from '@iconify/icons-eva/backspace-outline';
 import useSWR from 'swr';
 import { AVAI__factory } from '@orca/shared/contracts';
 import contractAddresses from '@orca/shared/deployments';
@@ -22,7 +26,7 @@ import contractAddresses from '@orca/shared/deployments';
 // Ethers and web3 stuff
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
-
+import { Loader } from '@orca/components/loader';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { payBackToken, avaiBalance } from '@orca/shared/funcs';
 import { fPercent, fNumber } from '@orca/util';
@@ -171,119 +175,107 @@ export const RepayStepper: FC<RepayStepperProps> = ({
           );
         })}
       </Stepper>
-      {activeStep === steps.length && (
-        <>
-          <Box
-            p={2}
-            borderRadius={1}
-            width="90%"
-            mx="auto"
-            mt={2}
-            mb={2}
-            sx={{
-              bgcolor: (theme) =>
-                theme.palette.mode === 'light' ? 'grey.400' : 'grey.600',
-            }}
-          >
-            <Typography sx={{ my: 1 }}>
-              Transaction submitted, awaiting confirmation.
-            </Typography>
-          </Box>
-
-          <Box sx={{ display: 'flex' }}>
-            <Box sx={{ flexGrow: 1 }} />
-            <Button onClick={handleReset}>Reset</Button>
-          </Box>
-        </>
-      )}
       <>
         {activeStep === 0 && balance && (
           <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-              <Box sx={{ m: 2 }}>
-                <Stack direction="row" justifyContent="space-evenly">
+              <Grid container sx={{ m: 2 }}>
+                <Grid item sm={6} xs={12}>
                   <Typography variant="h6" textAlign="center">
                     Available to repay:
                   </Typography>
+                </Grid>
+                <Grid
+                  item
+                  sm={6}
+                  xs={12}
+                  display="flex"
+                  justifyContent="center"
+                >
                   <Typography variant="h6" textAlign="center">
                     {balance.gte(vaultInfo.debt)
                       ? fNumber(Number(utils.formatEther(vaultInfo.debt)))
                       : fNumber(Number(utils.formatEther(balance)))}{' '}
                     AVAI
                   </Typography>
-                </Stack>
-                <Box sx={{ m: 'auto', width: '60%' }}>
-                  <TextField
-                    fullWidth
-                    type="number"
-                    label="Repay Amount"
-                    variant="filled"
-                    {...getFieldProps('repayAmount')}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <Box
-                            component="img"
-                            src={tokenInfo['AVAI'].icon}
-                            sx={{
-                              width: 25,
+                </Grid>
+              </Grid>
+              <Box sx={{ mx: 'auto', my: 2, width: '80%' }}>
+                <TextField
+                  fullWidth
+                  type="number"
+                  label="Repay Amount"
+                  variant="filled"
+                  {...getFieldProps('repayAmount')}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Box
+                          component="img"
+                          src={tokenInfo['AVAI'].icon}
+                          sx={{
+                            width: 25,
 
-                              height: 25,
-                            }}
-                            color="inherit"
-                          />
-                        </InputAdornment>
-                      ),
-                      endAdornment: (
-                        <InputAdornment position="start">
-                          <Button
-                            onClick={() =>
-                              setFieldValue(
-                                'repayAmount',
-                                balance.gte(vaultInfo.debt)
-                                  ? utils.formatEther(vaultInfo.debt)
-                                  : utils.formatEther(balance)
-                              )
-                            }
-                            variant="text"
-                          >
-                            MAX
-                          </Button>
-                        </InputAdornment>
-                      ),
-                    }}
-                    error={Boolean(touched.repayAmount && errors.repayAmount)}
-                    helperText={touched.repayAmount && errors.repayAmount}
-                  />
-                </Box>
+                            height: 25,
+                          }}
+                          color="inherit"
+                        />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="start">
+                        <Button
+                          onClick={() =>
+                            setFieldValue(
+                              'repayAmount',
+                              balance.gte(vaultInfo.debt)
+                                ? utils.formatEther(vaultInfo.debt)
+                                : utils.formatEther(balance)
+                            )
+                          }
+                          variant="text"
+                        >
+                          MAX
+                        </Button>
+                      </InputAdornment>
+                    ),
+                  }}
+                  error={Boolean(touched.repayAmount && errors.repayAmount)}
+                  helperText={touched.repayAmount && errors.repayAmount}
+                />
               </Box>
-              <Box
-                sx={{ display: 'flex', pl: 2, pr: 2, width: '60%', m: 'auto' }}
-              >
-                <Button
-                  color="inherit"
-                  disabled
-                  onClick={handleBack}
-                  sx={{ mr: 1 }}
-                >
-                  Back
-                </Button>
-                <Box sx={{ flexGrow: 1 }} />
-
-                <Button type="submit" variant="contained">
-                  Next
-                </Button>
-              </Box>
+              <Grid container>
+                <Grid item xs={6} display="flex" justifyContent="center">
+                  <Button
+                    color="inherit"
+                    disabled
+                    onClick={handleBack}
+                    sx={{ mr: 1 }}
+                    startIcon={<Icon icon={backSpace} width={25} height={25} />}
+                  >
+                    Back
+                  </Button>
+                </Grid>
+                <Grid xs={6} display="flex" justifyContent="center">
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    endIcon={<Icon icon={arrowRight} width={25} height={25} />}
+                  >
+                    Next
+                  </Button>
+                </Grid>
+              </Grid>
             </Form>
           </FormikProvider>
         )}
-        {activeStep === 1 && balance && (
+        {activeStep >= 1 && balance && (
           <>
             <Box
               p={2}
               borderRadius={1}
               mx="auto"
-              width="50%"
+              width="95%"
               mt={2}
               mb={2}
               sx={{
@@ -292,12 +284,24 @@ export const RepayStepper: FC<RepayStepperProps> = ({
               }}
             >
               <Grid container sx={{ mt: 1, mb: 1 }}>
-                <Grid item sm={6}>
+                <Grid
+                  item
+                  xs={3}
+                  sm={5}
+                  display="flex"
+                  justifyContent="flex-end"
+                >
                   <Typography variant="subtitle1" textAlign="center">
-                    Removed Debt:
+                    Amount
                   </Typography>
                 </Grid>
-                <Grid item sm>
+                <Grid
+                  item
+                  xs={9}
+                  sm={7}
+                  display="flex"
+                  justifyContent="flex-end"
+                >
                   <Stack alignItems={'flex-end'}>
                     <Stack direction="row" spacing={1} alignItems={'center'}>
                       <Box
@@ -310,11 +314,23 @@ export const RepayStepper: FC<RepayStepperProps> = ({
                         }}
                         color="inherit"
                       />
-                      <Typography variant="subtitle1">
-                        {values.repayAmount} AVAI
+                      <Typography variant="body2">
+                        {values.repayAmount}
                       </Typography>
+                      <Typography
+                        sx={{ ml: 0.25 }}
+                        variant="body2"
+                      ></Typography>
                     </Stack>
-                    <Typography variant="caption">
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        color: (theme) =>
+                          theme.palette.mode === 'light'
+                            ? 'grey.600'
+                            : 'grey.400',
+                      }}
+                    >
                       {fNumber(
                         values.repayAmount /
                           Number(utils.formatUnits(vaultInfo.tokenPrice, 8))
@@ -323,14 +339,28 @@ export const RepayStepper: FC<RepayStepperProps> = ({
                     </Typography>
                   </Stack>
                 </Grid>
-                <Grid item sm={6} mt={2}>
+                <Grid
+                  item
+                  xs={4}
+                  sm={5}
+                  mt={2}
+                  display="flex"
+                  justifyContent="flex-end"
+                >
                   <Typography variant="subtitle1" textAlign="center">
-                    New LTV:
+                    New LTV
                   </Typography>
                 </Grid>
-                <Grid item sm mt={2}>
+                <Grid
+                  item
+                  xs={8}
+                  sm={7}
+                  mt={2}
+                  display="flex"
+                  justifyContent="flex-end"
+                >
                   <Stack alignItems={'flex-end'}>
-                    <Typography variant="h6">
+                    <Typography variant="body2" textAlign="center">
                       {fPercent(
                         (100 *
                           (Number(utils.formatEther(vaultInfo.debt)) -
@@ -344,10 +374,20 @@ export const RepayStepper: FC<RepayStepperProps> = ({
                           )
                       )}
                     </Typography>
-                    <Typography variant="caption">
+                    <Typography
+                      variant="caption"
+                      textAlign="center"
+                      sx={{
+                        color: (theme) =>
+                          theme.palette.mode === 'light'
+                            ? 'grey.600'
+                            : 'grey.400',
+                      }}
+                    >
                       {fNumber(
                         Number(utils.formatEther(vaultInfo.debt)) -
-                          values.repayAmount
+                          values.repayAmount,
+                        2
                       )}{' '}
                       AVAI Borrowed
                     </Typography>
@@ -355,18 +395,30 @@ export const RepayStepper: FC<RepayStepperProps> = ({
                 </Grid>
               </Grid>
             </Box>
-            <Box
-              sx={{ display: 'flex', pl: 2, pr: 2, mx: 'auto', width: '60%' }}
-            >
-              <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
-                Back
-              </Button>
-              <Box sx={{ flexGrow: 1 }} />
-
-              <Button variant="contained" onClick={handleRepay}>
-                Submit
-              </Button>
-            </Box>
+            <Grid container>
+              <Grid xs={6} display="flex" justifyContent="center">
+                <LoadingButton
+                  startIcon={<Icon icon={backSpace} width={25} height={25} />}
+                  color="inherit"
+                  onClick={handleBack}
+                  sx={{ mr: 1 }}
+                  loading={activeStep === steps.length}
+                >
+                  Back
+                </LoadingButton>
+              </Grid>
+              <Grid xs={6} display="flex" justifyContent="center">
+                <LoadingButton
+                  endIcon={<Icon icon={arrowRight} width={25} height={25} />}
+                  variant="contained"
+                  onClick={handleRepay}
+                  loading={activeStep === steps.length}
+                  loadingPosition="end"
+                >
+                  Submit
+                </LoadingButton>
+              </Grid>
+            </Grid>
           </>
         )}
       </>

@@ -70,7 +70,7 @@ export function Vaults(props) {
     <Connect title={'Vaults'}>
       <RootStyle title={`Vaults | ${process.env.NEXT_PUBLIC_TITLE}`}>
         <TabContext value={value}>
-          <Container maxWidth="md">
+          <Container maxWidth="sm">
             <Card
               sx={{
                 mb: 3,
@@ -112,6 +112,7 @@ export function Vaults(props) {
                               variant="h6"
                               sx={{
                                 color: data.disabled ? 'disabled' : 'inherit',
+                                ml: 0.5,
                               }}
                             >
                               {data.title}

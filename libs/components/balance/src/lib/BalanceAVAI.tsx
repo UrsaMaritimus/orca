@@ -20,7 +20,8 @@ const BalanceStyle = styled('div')(({ theme }) => ({
   padding: theme.spacing(1, 1.5),
   margin: theme.spacing(1),
   borderRadius: theme.shape.borderRadiusSm,
-  backgroundColor: theme.palette.grey[500_12],
+  backgroundColor: theme.palette.grey[500_80],
+  maxWidth: '150px',
 }));
 
 const getAVAIBalance = () => {
@@ -75,43 +76,23 @@ const AvaiBalance: FC = () => {
       avai.removeAllListeners(balanceChange);
     };
   }, [library, account, avaiMutate, chainId]);
-  if (balance)
-    return (
-      <BalanceStyle>
-        <Stack direction="row" spacing={1} alignItems="center">
-          <Box
-            component="img"
-            src={'/static/cryptos/ic_avai.svg'}
-            sx={{
-              width: 30,
-              height: 30,
-            }}
-            color="inherit"
-          />
-          <Typography
-            variant="button"
-            sx={{ color: theme === 'light' ? 'grey.600' : 'grey.200' }}
-          >
-            {parseBalance(balance)} AVAI
-          </Typography>
-        </Stack>
-      </BalanceStyle>
-    );
+
   return (
     <BalanceStyle>
       <Grid container alignItems="center">
-        <Grid item xs={4}>
+        <Grid item xs={3} display="flex" justifyContent="center">
           <Box
             component="img"
             src={'/static/cryptos/ic_avai.svg'}
             sx={{
               width: 30,
               height: 30,
+              mr: 1,
             }}
             color="inherit"
           />
         </Grid>
-        <Grid xs={8} display="flex" justifyContent="center">
+        <Grid xs={9} display="flex" justifyContent="center">
           <Typography
             variant="button"
             sx={{
@@ -119,7 +100,7 @@ const AvaiBalance: FC = () => {
             }}
             textAlign="center"
           >
-            {0} AVAI
+            {balance ? parseBalance(balance) : '0'} AVAI
           </Typography>
         </Grid>
       </Grid>

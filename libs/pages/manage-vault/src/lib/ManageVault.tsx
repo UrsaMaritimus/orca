@@ -187,7 +187,7 @@ export function ManageVault() {
     <Connect title={'Manage Vault'}>
       <RootStyle title={`Manage Vault | ${process.env.NEXT_PUBLIC_TITLE}`}>
         <TabContext value={value}>
-          <Container maxWidth="md">
+          <Container maxWidth="sm">
             <Card>
               <CardHeader
                 title={`${token} Vault #${vaultID}`}

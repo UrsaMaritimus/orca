@@ -13,8 +13,13 @@ import {
   InputAdornment,
   Stack,
   Grid,
+  Backdrop,
 } from '@material-ui/core';
+import LoadingButton from '@material-ui/lab/LoadingButton';
 
+import { Icon } from '@iconify/react';
+import arrowRight from '@iconify/icons-eva/arrow-right-outline';
+import backSpace from '@iconify/icons-eva/backspace-outline';
 // Ethers and web3 stuff
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
@@ -25,6 +30,7 @@ import { BigNumber, utils } from 'ethers';
 import { fCurrency, fPercent, fNumber } from '@orca/util';
 import { withdrawCollateral } from '@orca/shared/funcs';
 
+import { Loader } from '@orca/components/loader';
 import { tokenInfo } from '@orca/shared/base';
 import { handleTransaction } from '@orca/components/transaction';
 
@@ -142,118 +148,119 @@ export const WithdrawStepper: FC<WithdrawStepperProps> = ({
           );
         })}
       </Stepper>
-      {activeStep === steps.length && (
-        <>
-          <Box
-            p={2}
-            borderRadius={1}
-            width="90%"
-            mx="auto"
-            mt={2}
-            mb={2}
-            sx={{
-              bgcolor: (theme) =>
-                theme.palette.mode === 'light' ? 'grey.400' : 'grey.600',
-            }}
-          >
-            <Typography sx={{ my: 1 }}>
-              Transaction submitted, awaiting confirmation.
-            </Typography>
-          </Box>
 
-          <Box sx={{ display: 'flex' }}>
-            <Box sx={{ flexGrow: 1 }} />
-            <Button onClick={handleReset}>Reset</Button>
-          </Box>
-        </>
-      )}
       <>
         {activeStep === 0 && (
           <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-              <Box sx={{ m: 'auto', width: '60%' }}>
-                <Stack direction="row" justifyContent="space-evenly">
+              <Grid container sx={{ m: 2 }}>
+                <Grid item sm={6} xs={12}>
                   <Typography variant="h6" textAlign="center">
                     Available to withdraw:
                   </Typography>
-                  <Typography variant="h6" textAlign="center">
-                    {`${fNumber(
-                      Number(utils.formatEther(vaultInfo.availableWithdraw))
-                    )} ${token}`}
-                  </Typography>
-                </Stack>
-                <Box sx={{ m: 2 }}>
-                  <TextField
-                    fullWidth
-                    type="number"
-                    label="Withdraw Amount"
-                    variant="filled"
-                    {...getFieldProps('withdrawAmount')}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <Box
-                            component="img"
-                            src={tokenInfo[token as string].icon}
-                            sx={{
-                              width: 25,
-
-                              height: 25,
-                            }}
-                            color="inherit"
-                          />
-                        </InputAdornment>
-                      ),
-                      endAdornment: (
-                        <InputAdornment position="start">
-                          <Button
-                            onClick={() =>
-                              setFieldValue(
-                                'withdrawAmount',
-                                utils.formatEther(vaultInfo.availableWithdraw)
-                              )
-                            }
-                            variant="text"
-                          >
-                            MAX
-                          </Button>
-                        </InputAdornment>
-                      ),
-                    }}
-                    error={Boolean(
-                      touched.withdrawAmount && errors.withdrawAmount
-                    )}
-                    helperText={touched.withdrawAmount && errors.withdrawAmount}
-                  />
-                </Box>
-              </Box>
-              <Box
-                sx={{ display: 'flex', pl: 2, pr: 2, width: '60%', m: 'auto' }}
-              >
-                <Button
-                  color="inherit"
-                  disabled
-                  onClick={handleBack}
-                  sx={{ mr: 1 }}
+                </Grid>
+                <Grid
+                  item
+                  sm={6}
+                  xs={12}
+                  display="flex"
+                  justifyContent="center"
                 >
-                  Back
-                </Button>
-                <Box sx={{ flexGrow: 1 }} />
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                    <Box
+                      component="img"
+                      src={tokenInfo[token as string].icon}
+                      sx={{
+                        width: 15,
 
-                <Button type="submit" variant="contained">
-                  Next
-                </Button>
+                        height: 15,
+                      }}
+                      color="inherit"
+                    />
+                    <Typography variant="h6" textAlign="center">
+                      {`${fNumber(
+                        Number(utils.formatEther(vaultInfo.availableWithdraw))
+                      )} ${token}`}
+                    </Typography>
+                  </Stack>
+                </Grid>
+              </Grid>
+              <Box sx={{ mx: 'auto', my: 2, width: '80%' }}>
+                <TextField
+                  fullWidth
+                  type="number"
+                  label="Withdraw Amount"
+                  variant="filled"
+                  {...getFieldProps('withdrawAmount')}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Box
+                          component="img"
+                          src={tokenInfo[token as string].icon}
+                          sx={{
+                            width: 25,
+
+                            height: 25,
+                          }}
+                          color="inherit"
+                        />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="start">
+                        <Button
+                          onClick={() =>
+                            setFieldValue(
+                              'withdrawAmount',
+                              utils.formatEther(vaultInfo.availableWithdraw)
+                            )
+                          }
+                          variant="text"
+                        >
+                          MAX
+                        </Button>
+                      </InputAdornment>
+                    ),
+                  }}
+                  error={Boolean(
+                    touched.withdrawAmount && errors.withdrawAmount
+                  )}
+                  helperText={touched.withdrawAmount && errors.withdrawAmount}
+                />
               </Box>
+              <Grid container>
+                <Grid item xs={6} display="flex" justifyContent="center">
+                  <Button
+                    color="inherit"
+                    disabled
+                    onClick={handleBack}
+                    sx={{ mr: 1 }}
+                    startIcon={<Icon icon={backSpace} width={25} height={25} />}
+                  >
+                    Back
+                  </Button>
+                </Grid>
+                <Grid xs={6} display="flex" justifyContent="center">
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    endIcon={<Icon icon={arrowRight} width={25} height={25} />}
+                  >
+                    Next
+                  </Button>
+                </Grid>
+              </Grid>
             </Form>
           </FormikProvider>
         )}
-        {activeStep === 1 && (
+        {activeStep >= 1 && (
           <>
             <Box
               p={2}
               borderRadius={1}
-              width="50%"
-              mx="auto"
+              mx={'auto'}
+              width="95%"
               mt={2}
               mb={2}
               sx={{
@@ -262,14 +269,26 @@ export const WithdrawStepper: FC<WithdrawStepperProps> = ({
               }}
             >
               <Grid container sx={{ mt: 1, mb: 1 }}>
-                <Grid item sm={8}>
-                  <Typography variant="h5" textAlign="end">
-                    Removed Collateral:
+                <Grid
+                  item
+                  xs={3}
+                  sm={5}
+                  display="flex"
+                  justifyContent="flex-end"
+                >
+                  <Typography variant="subtitle1" textAlign="center">
+                    Amount
                   </Typography>
                 </Grid>
-                <Grid item sm>
+                <Grid
+                  item
+                  xs={9}
+                  sm={7}
+                  display="flex"
+                  justifyContent="flex-end"
+                >
                   <Stack alignItems={'flex-end'}>
-                    <Stack direction="row" spacing={1} alignItems={'center'}>
+                    <Stack direction="row" spacing={0.5} alignItems={'center'}>
                       <Box
                         component="img"
                         src={tokenInfo[token as string].icon}
@@ -280,11 +299,22 @@ export const WithdrawStepper: FC<WithdrawStepperProps> = ({
                         }}
                         color="inherit"
                       />
-                      <Typography variant="subtitle1">
-                        {values.withdrawAmount} {token}
+                      <Typography variant="body2">
+                        {values.withdrawAmount}
+                      </Typography>
+                      <Typography sx={{ ml: 0.5 }} variant="caption">
+                        {token}
                       </Typography>
                     </Stack>
-                    <Typography variant="caption">
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        color: (theme) =>
+                          theme.palette.mode === 'light'
+                            ? 'grey.600'
+                            : 'grey.400',
+                      }}
+                    >
                       {fCurrency(
                         values.withdrawAmount *
                           Number(utils.formatUnits(vaultInfo.tokenPrice, 8))
@@ -293,14 +323,28 @@ export const WithdrawStepper: FC<WithdrawStepperProps> = ({
                     </Typography>
                   </Stack>
                 </Grid>
-                <Grid item sm={8} mt={2}>
-                  <Typography variant="h5" textAlign="end">
-                    New Borrowing Power:{' '}
+                <Grid
+                  item
+                  xs={4}
+                  sm={5}
+                  mt={2}
+                  display="flex"
+                  justifyContent="flex-end"
+                >
+                  <Typography variant="subtitle1" textAlign="center">
+                    Borrowing Power
                   </Typography>
                 </Grid>
-                <Grid item sm mt={2}>
+                <Grid
+                  item
+                  xs={8}
+                  sm={7}
+                  mt={2}
+                  display="flex"
+                  justifyContent="flex-end"
+                >
                   <Stack alignItems={'flex-end'}>
-                    <Typography variant="h6">
+                    <Typography variant="subtitle2">
                       {values.withdrawAmount &&
                         // Recacalculate what their new borrowing power will be
                         fPercent(
@@ -333,7 +377,15 @@ export const WithdrawStepper: FC<WithdrawStepperProps> = ({
                           )
                         )}
                     </Typography>
-                    <Typography variant="caption">
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        color: (theme) =>
+                          theme.palette.mode === 'light'
+                            ? 'grey.600'
+                            : 'grey.400',
+                      }}
+                    >
                       {fCurrency(
                         (Number(utils.formatEther(vaultInfo.collateral)) -
                           values.withdrawAmount) *
@@ -347,18 +399,30 @@ export const WithdrawStepper: FC<WithdrawStepperProps> = ({
                 </Grid>
               </Grid>
             </Box>
-            <Box
-              sx={{ display: 'flex', pl: 2, pr: 2, width: '60%', m: 'auto' }}
-            >
-              <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
-                Back
-              </Button>
-              <Box sx={{ flexGrow: 1 }} />
-
-              <Button variant="contained" onClick={handleWithdraw}>
-                Submit
-              </Button>
-            </Box>
+            <Grid container>
+              <Grid xs={6} display="flex" justifyContent="center">
+                <LoadingButton
+                  startIcon={<Icon icon={backSpace} width={25} height={25} />}
+                  color="inherit"
+                  onClick={handleBack}
+                  sx={{ mr: 1 }}
+                  loading={activeStep === steps.length}
+                >
+                  Back
+                </LoadingButton>
+              </Grid>
+              <Grid xs={6} display="flex" justifyContent="center">
+                <LoadingButton
+                  endIcon={<Icon icon={arrowRight} width={25} height={25} />}
+                  variant="contained"
+                  onClick={handleWithdraw}
+                  loading={activeStep === steps.length}
+                  loadingPosition="end"
+                >
+                  Submit
+                </LoadingButton>
+              </Grid>
+            </Grid>
           </>
         )}
       </>

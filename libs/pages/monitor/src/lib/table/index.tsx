@@ -9,6 +9,7 @@ import {
   TableCell,
   TableContainer,
   TablePagination,
+  Grid,
 } from '@material-ui/core';
 
 import { Icon } from '@iconify/react';
@@ -89,91 +90,90 @@ const SortingSelecting: FC<RowProps> = ({ rows, collateralType }) => {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
   return (
-    <>
-      <ScrollBar>
-        <TableContainer sx={{ minWidth: 800 }}>
-          <Table size={'medium'}>
-            <SortingSelectingHead
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-            />
-            <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row: Row, index) => {
-                  const labelId = `enhanced-table-checkbox-${index}`;
+    <Grid container>
+      <Grid item xs={12}>
+        <ScrollBar>
+          <TableContainer sx={{ maxWidth: '750px', mt: 3, mx: 'auto' }}>
+            <Table size={'medium'}>
+              <SortingSelectingHead
+                order={order}
+                orderBy={orderBy}
+                onRequestSort={handleRequestSort}
+                rowCount={rows.length}
+              />
+              <TableBody>
+                {stableSort(rows, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row: Row, index) => {
+                    const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (
-                    <TableRow hover tabIndex={-1} key={row.num}>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                        align="left"
-                      >
-                        {row.num}
-                      </TableCell>
-                      <TableCell align="center">
-                        {fPercent(
-                          Number(
-                            utils.formatUnits(
-                              BigNumber.from(1e8).div(row.cp),
-                              4
-                            )
-                          )
-                        )}{' '}
-                      </TableCell>
-                      <TableCell align="center">
-                        {fCurrency(Number(utils.formatEther(row.collateral)))}
-                      </TableCell>
-                      <TableCell align="center">
-                        {fCurrency(Number(utils.formatEther(row.debt)))}
-                      </TableCell>
-                      <TableCell align="center">
-                        <Button
-                          variant="contained"
-                          size="medium"
-                          color="primary"
-                          LinkComponent={NextLink}
-                          href={`${routes.APP.VAULTS.USER}/${collateralType}/${row.num}`}
-                          startIcon={<Icon icon={dropletOutline} />}
-                          disabled={row.cp.gte(150)}
+                    return (
+                      <TableRow hover tabIndex={-1} key={row.num}>
+                        <TableCell
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          align="center"
                         >
-                          Liquidate
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: 43 * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </ScrollBar>
-
-      <Box sx={{ position: 'relative' }}>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Box>
-    </>
+                          {row.num}
+                        </TableCell>
+                        <TableCell align="center">
+                          {fPercent(
+                            Number(
+                              utils.formatUnits(
+                                BigNumber.from(1e8).div(row.cp),
+                                4
+                              )
+                            )
+                          )}{' '}
+                        </TableCell>
+                        <TableCell align="center">
+                          {fCurrency(Number(utils.formatEther(row.collateral)))}
+                        </TableCell>
+                        <TableCell align="center">
+                          <Button
+                            variant="contained"
+                            size="medium"
+                            color="primary"
+                            LinkComponent={NextLink}
+                            href={`${routes.APP.VAULTS.USER}/${collateralType}/${row.num}`}
+                            startIcon={<Icon icon={dropletOutline} />}
+                            disabled={row.cp.gte(150)}
+                          >
+                            Liquidate
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                {emptyRows > 0 && (
+                  <TableRow
+                    style={{
+                      height: 43 * emptyRows,
+                    }}
+                  >
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </ScrollBar>
+      </Grid>
+      <Grid item xs={12}>
+        <Box sx={{ position: 'relative' }}>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Box>
+      </Grid>
+    </Grid>
   );
 };
 

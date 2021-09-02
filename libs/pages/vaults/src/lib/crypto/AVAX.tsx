@@ -18,11 +18,13 @@ import {
   Stack,
   Popover,
   IconButton,
+  Grid,
+  Container,
 } from '@material-ui/core';
 
+import { Loader } from '@orca/components/loader';
 import { MainTable } from '@orca/components/table';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
-import { Loader } from '@orca/components/loader';
 import { fShortenNumber } from '@orca/util';
 import {
   getVaults,
@@ -126,7 +128,7 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
               <Box
                 component="img"
                 src="/static/cryptos/ic_avax.svg"
-                sx={{ width: 40, height: 40 }}
+                sx={{ width: 35, height: 35 }}
                 color="inherit"
               />
             }
@@ -136,6 +138,7 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
                 color="primary"
                 startIcon={<Icon icon={plusFill} />}
                 onClick={createVault}
+                size="medium"
               >
                 Create Vault
               </Button>
@@ -173,11 +176,12 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
           >
             <Stack direction="row" alignItems="center" justifyContent="center">
               <Typography variant="h5" textAlign="center" color="grey.600">
-                AVAX Vault currently has available to mint:{' '}
+                Available to mint:{' '}
                 {fShortenNumber(
                   utils.formatEther(
                     debtInfo.debtCeiling.sub(debtInfo.totalDebt)
-                  )
+                  ),
+                  4
                 )}{' '}
                 AVAI
               </Typography>
@@ -186,7 +190,7 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
                 onMouseLeave={handleHoverClose}
                 color="info"
               >
-                <Icon icon={infoOutline} width={25} height={25} />
+                <Icon icon={infoOutline} width={20} height={20} />
               </IconButton>
             </Stack>
           </Box>
