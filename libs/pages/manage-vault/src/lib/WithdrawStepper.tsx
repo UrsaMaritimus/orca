@@ -136,6 +136,12 @@ export const WithdrawStepper: FC<WithdrawStepperProps> = ({
   };
   return (
     <>
+      <Backdrop
+        sx={{ position: 'absolute', zIndex: 99 }}
+        open={activeStep === steps.length}
+      >
+        <Loader />
+      </Backdrop>
       <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((label, index) => {
           const stepProps = { completed: false };

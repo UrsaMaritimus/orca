@@ -154,7 +154,7 @@ export const RepayStepper: FC<RepayStepperProps> = ({
       ),
       messages: {
         loading: 'Paying back AVAI...',
-        success: 'Succesfully repayed!',
+        success: 'Successfully repayed!',
         error: 'Failed to pay back AVAI.',
       },
     });
@@ -163,6 +163,12 @@ export const RepayStepper: FC<RepayStepperProps> = ({
   };
   return (
     <>
+      <Backdrop
+        sx={{ position: 'absolute', zIndex: 99 }}
+        open={activeStep === steps.length}
+      >
+        <Loader />
+      </Backdrop>
       <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((label, index) => {
           const stepProps = { completed: false };

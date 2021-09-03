@@ -69,6 +69,7 @@
     "react-intersection-observer": "^8.32.0",
     "react-scroll": "^1.8.3",
     "react-toastify": "^7.0.4",
+    "recoil": "^0.4.1",
     "regenerator-runtime": "0.13.7",
     "simplebar-react": "^2.3.5",
     "swr": "^0.5.6",

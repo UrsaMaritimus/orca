@@ -128,7 +128,7 @@ export const BorrowStepper: FC<BorrowStepperProps> = ({
       ),
       messages: {
         loading: 'Borrowing AVAI...',
-        success: 'Succesfully borrowed!',
+        success: 'Successfully borrowed!',
         error: 'Failed to borrow AVAI.',
       },
     });
@@ -138,6 +138,12 @@ export const BorrowStepper: FC<BorrowStepperProps> = ({
 
   return (
     <>
+      <Backdrop
+        sx={{ position: 'absolute', zIndex: 99 }}
+        open={activeStep === steps.length}
+      >
+        <Loader />
+      </Backdrop>
       <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((label, index) => {
           const stepProps = { completed: false };
