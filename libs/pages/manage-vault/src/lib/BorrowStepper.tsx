@@ -22,37 +22,20 @@ import backSpace from '@iconify/icons-eva/backspace-outline';
 // Ethers and web3 stuff
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
-import { BigNumber, utils } from 'ethers';
+import { utils } from 'ethers';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { Loader } from '@orca/components/loader';
 import { fPercent, fNumber } from '@orca/util';
 import { borrowToken } from '@orca/shared/funcs';
-import { handleTransaction } from '@orca/components/transaction';
+import {
+  handleTransaction,
+  useAddTransaction,
+} from '@orca/components/transaction';
 import { tokenInfo } from '@orca/shared/base';
-
+import { StepperProps } from './stepper.type';
 // ----------------------------------------------------------------------
 
-type BorrowStepperProps = {
-  token: string;
-  vaultID: number;
-  vaultInfo: {
-    collateral: BigNumber;
-    debt: BigNumber;
-    LTV: BigNumber;
-    maxLTV: number;
-    maxLTVUSD: BigNumber;
-    borrowingPowerAvailable: BigNumber;
-    borrowingPowerAvailableUSD: BigNumber;
-    borrowingPowerUsed: BigNumber;
-    borrowingPowerUsedUSD: BigNumber;
-    tokenPrice: BigNumber;
-    availableWithdraw: BigNumber;
-    peg: BigNumber;
-    mcp: BigNumber;
-  };
-};
-
-export const BorrowStepper: FC<BorrowStepperProps> = ({
+export const BorrowStepper: FC<StepperProps> = ({
   token,
   vaultInfo,
   vaultID,
@@ -64,6 +47,7 @@ export const BorrowStepper: FC<BorrowStepperProps> = ({
   const { account, library, chainId } = useWeb3React<Web3Provider>();
 
   const [activeStep, setActiveStep] = useState(0);
+  const addTransaction = useAddTransaction();
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -118,7 +102,7 @@ export const BorrowStepper: FC<BorrowStepperProps> = ({
 
   const handleBorrow = async () => {
     handleNext();
-    await handleTransaction({
+    const success = await handleTransaction({
       transaction: borrowToken(
         library,
         vaultID,
@@ -131,6 +115,14 @@ export const BorrowStepper: FC<BorrowStepperProps> = ({
         success: 'Successfully borrowed!',
         error: 'Failed to borrow AVAI.',
       },
+      chainId,
+    });
+    addTransaction({
+      type: 'borrow',
+      amount: utils.parseEther(values.borrowAmount.toString()),
+      vault: token,
+      success: success.success,
+      hash: success.hash,
     });
     resetForm();
     handleReset();

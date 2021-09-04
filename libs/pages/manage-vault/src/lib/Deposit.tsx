@@ -23,31 +23,10 @@ import { fCurrency, fPercent, fNumber } from '@orca/util';
 import { tokenInfo } from '@orca/shared/base';
 import { DepositStepper } from './DepositStepper';
 import { WithdrawStepper } from './WithdrawStepper';
-
+import { ActionProps } from './stepper.type';
 //-----------------------------------------
 
-type DepositProps = {
-  token: string;
-  isOwner: boolean;
-  vaultID: number;
-  vaultInfo: {
-    collateral: BigNumber;
-    debt: BigNumber;
-    LTV: BigNumber;
-    maxLTV: number;
-    maxLTVUSD: BigNumber;
-    borrowingPowerAvailable: BigNumber;
-    borrowingPowerAvailableUSD: BigNumber;
-    borrowingPowerUsed: BigNumber;
-    borrowingPowerUsedUSD: BigNumber;
-    tokenPrice: BigNumber;
-    availableWithdraw: BigNumber;
-    peg: BigNumber;
-    mcp: BigNumber;
-  };
-};
-
-export const Deposit: FC<DepositProps> = ({
+export const Deposit: FC<ActionProps> = ({
   token,
   vaultInfo,
   isOwner,

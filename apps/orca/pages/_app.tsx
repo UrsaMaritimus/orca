@@ -24,6 +24,7 @@ import { ThemeProvider as CustomThemeProvider } from '@orca/components/theme';
 import { CustomToaster } from '@orca/components/toast';
 import { Settings } from '@orca/components/settings';
 import { CollapseDrawerProvider } from '@orca/hooks';
+import { AccountInfo } from '@orca/components/account';
 
 //Binding events for nprogress
 Router.events.on('routeChangeStart', () => NProgress.start());
@@ -56,7 +57,7 @@ export default function NextWeb3App({ Component, pageProps }: AppProps) {
                 />
               </Head>
               <Settings />
-
+              <AccountInfo />
               <Component {...pageProps} />
               <CustomToaster />
             </CollapseDrawerProvider>

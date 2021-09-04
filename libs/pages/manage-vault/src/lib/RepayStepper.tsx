@@ -30,33 +30,16 @@ import { Loader } from '@orca/components/loader';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { payBackToken, avaiBalance } from '@orca/shared/funcs';
 import { fPercent, fNumber } from '@orca/util';
-import { BigNumber, utils } from 'ethers';
+import { utils } from 'ethers';
 import { tokenInfo } from '@orca/shared/base';
-import { handleTransaction } from '@orca/components/transaction';
-
+import {
+  handleTransaction,
+  useAddTransaction,
+} from '@orca/components/transaction';
+import { StepperProps } from './stepper.type';
 // ----------------------------------------------------------------------
 
-type RepayStepperProps = {
-  token: string;
-  vaultID: number;
-  vaultInfo: {
-    collateral: BigNumber;
-    debt: BigNumber;
-    LTV: BigNumber;
-    maxLTV: number;
-    maxLTVUSD: BigNumber;
-    borrowingPowerAvailable: BigNumber;
-    borrowingPowerAvailableUSD: BigNumber;
-    borrowingPowerUsed: BigNumber;
-    borrowingPowerUsedUSD: BigNumber;
-    tokenPrice: BigNumber;
-    availableWithdraw: BigNumber;
-    peg: BigNumber;
-    mcp: BigNumber;
-  };
-};
-
-export const RepayStepper: FC<RepayStepperProps> = ({
+export const RepayStepper: FC<StepperProps> = ({
   token,
   vaultInfo,
   vaultID,
@@ -66,6 +49,7 @@ export const RepayStepper: FC<RepayStepperProps> = ({
 
   // web3 init info
   const { account, library, chainId } = useWeb3React<Web3Provider>();
+  const addTransaction = useAddTransaction();
   // Get AVAI balances
   const shouldFetch = typeof account === 'string' && !!library;
   const { data: balance, mutate: avaiMutate } = useSWR(
@@ -144,7 +128,7 @@ export const RepayStepper: FC<RepayStepperProps> = ({
 
   const handleRepay = async () => {
     handleNext();
-    await handleTransaction({
+    const success = await handleTransaction({
       transaction: payBackToken(
         library,
         vaultID,
@@ -157,6 +141,14 @@ export const RepayStepper: FC<RepayStepperProps> = ({
         success: 'Successfully repayed!',
         error: 'Failed to pay back AVAI.',
       },
+      chainId,
+    });
+    addTransaction({
+      type: 'payback',
+      amount: utils.parseEther(values.repayAmount.toString()),
+      vault: token,
+      success: success.success,
+      hash: success.hash,
     });
     resetForm();
     handleReset();

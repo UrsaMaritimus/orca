@@ -94,6 +94,7 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
         success: 'Vault created!',
         error: 'Vault failed to be created.',
       },
+      chainId,
     });
   };
 

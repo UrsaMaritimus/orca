@@ -39,7 +39,7 @@ const CollateralStyle = styled(Container)(({ theme }) => ({
 }));
 
 type ExchangeProps = {
-  token: string;
+  token: 'USDC';
 };
 
 export const ExchangeBase: FC<ExchangeProps> = ({ token }) => {

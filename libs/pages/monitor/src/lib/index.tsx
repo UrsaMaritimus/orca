@@ -72,7 +72,7 @@ export function Vaults(props: PagesVaultsProps) {
     <Connect title={'Monitor Vaults'}>
       <RootStyle title={`Monitor Vaults | ${process.env.NEXT_PUBLIC_TITLE}`}>
         <TabContext value={value}>
-          <Container maxWidth="md">
+          <Container maxWidth="sm">
             <Card
               sx={{
                 mb: 3,

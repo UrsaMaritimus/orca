@@ -9,8 +9,6 @@ import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import { useRouter } from 'next/router';
 import { experimentalStyled as styled } from '@material-ui/core/styles';
 
-import toast from 'react-hot-toast';
-
 import {
   Card,
   CardHeader,
@@ -110,6 +108,7 @@ export function ManageVault() {
         success: 'Vault destroyed!',
         error: 'Vault failed to be destroyed.',
       },
+      chainId,
     });
 
     router.push(routes.APP.VAULTS.USER);
@@ -254,7 +253,7 @@ export function ManageVault() {
               <>
                 <TabPanel key="Deposit" value={String(1)}>
                   <Deposit
-                    token={token as string}
+                    token={token as 'AVAX'}
                     vaultInfo={vaultInfo}
                     isOwner={isOwner}
                     vaultID={Number(vaultID)}

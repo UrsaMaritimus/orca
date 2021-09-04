@@ -1,9 +1,8 @@
-import { FC } from 'react';
+import { useEffect, useLayoutEffect, useRef, FC, useState } from 'react';
 import MetaMaskOnboarding from '@metamask/onboarding';
 import { useWeb3React, UnsupportedChainIdError } from '@web3-react/core';
 import { UserRejectedRequestError } from '@web3-react/injected-connector';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-
+import { useSetRecoilState } from 'recoil';
 import { toast } from 'react-hot-toast';
 
 import { Box, Button, Stack, Typography } from '@material-ui/core';
@@ -16,8 +15,11 @@ import {
   AVALANCHE_MAINNET_PARAMS,
   AVALANCHE_TESTNET_PARAMS,
 } from '@orca/util';
+import { seeAccount } from './atom';
+import { AccountInfo } from './AccountInfo';
 
 const Account: FC = () => {
+  const setSeeAccount = useSetRecoilState(seeAccount);
   const { active, error, activate, chainId, account, setError } =
     useWeb3React();
 
@@ -68,6 +70,12 @@ const Account: FC = () => {
         setConnecting(false);
         setError(error);
       }
+    });
+  };
+
+  const seeAccountInfo = () => {
+    setSeeAccount((seeAccount) => {
+      return seeAccount ? false : true;
     });
   };
 
@@ -164,10 +172,8 @@ const Account: FC = () => {
     <Button
       variant="contained"
       color="primary"
-      href={formatEtherscanLink('Account', [chainId as number, account])}
-      target="_blank"
-      rel="noopener noreferrer"
       size="medium"
+      onClick={seeAccountInfo}
     >
       <Stack direction="row" alignItems={'center'} spacing={1}>
         <Typography variant="button">{`${shortenHex(account, 4)}`}</Typography>

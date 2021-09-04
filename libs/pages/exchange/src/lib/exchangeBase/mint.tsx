@@ -31,7 +31,10 @@ import {
 } from '@orca/shared/funcs';
 import { fCurrency, fNumber, fPercent } from '@orca/util';
 import { erc20Tokens, tokenInfo } from '@orca/shared/base';
-import { handleTransaction } from '@orca/components/transaction';
+import {
+  handleTransaction,
+  useAddTransaction,
+} from '@orca/components/transaction';
 
 // ------------------------------------------------------
 
@@ -46,7 +49,7 @@ const ReturnTextField = styled(TextField)(({ theme }) => ({
 //----------------------------------------------------------
 
 type MintProps = {
-  token: string;
+  token: 'USDC';
   library: Web3Provider;
   chainId: number;
   account: string;
@@ -67,6 +70,7 @@ export const Mint: FC<MintProps> = ({
   const [approving, setApproving] = useState<boolean>(false);
   const [minting, setMinting] = useState<boolean>(false);
   const shouldFetch = !!library;
+  const addTransaction = useAddTransaction();
   // Get usdc approved
   const { data: userUSDApproved, mutate: usdcApprovedMutate } = useSWR(
     shouldFetch
@@ -126,7 +130,7 @@ export const Mint: FC<MintProps> = ({
             Number(
               utils.formatEther(
                 utils
-                  .parseUnits(values.swapAmount.toString(), 6)
+                  .parseUnits(fNumber(values.swapAmount, 6).toString(), 6)
                   .mul(utils.parseUnits('1', 16))
                   .div(10075)
               )
@@ -162,6 +166,7 @@ export const Mint: FC<MintProps> = ({
         error: 'Failed to approve USDC.',
       },
       mutates: [usdcApprovedMutate],
+      chainId,
     });
     setApproving(false);
   };
@@ -169,7 +174,7 @@ export const Mint: FC<MintProps> = ({
   // For minting AVAI from USDC
   const handleMintAVAI = async () => {
     setMinting(true);
-    await handleTransaction({
+    const success = await handleTransaction({
       transaction: mintFromExchange(
         library,
         chainId,
@@ -183,6 +188,14 @@ export const Mint: FC<MintProps> = ({
         success: 'Succesfully minted!',
         error: 'Failed to mint AVAI.',
       },
+      chainId,
+    });
+    addTransaction({
+      type: 'mint',
+      amount: utils.parseUnits(values.swapAmount.toString(), 6),
+      vault: token,
+      success: success.success,
+      hash: success.hash,
     });
     setMinting(false);
     resetForm();

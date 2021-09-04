@@ -20,12 +20,15 @@ import LoadingButton from '@material-ui/lab/LoadingButton';
 import { Icon } from '@iconify/react';
 import arrowRight from '@iconify/icons-eva/arrow-right-outline';
 import backSpace from '@iconify/icons-eva/backspace-outline';
-import { handleTransaction } from '@orca/components/transaction';
+import {
+  handleTransaction,
+  useAddTransaction,
+} from '@orca/components/transaction';
 
 // Ethers and web3 stuff
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
-import { BigNumber, utils } from 'ethers';
+import { utils } from 'ethers';
 import { useFormik, Form, FormikProvider } from 'formik';
 
 import { Loader } from '@orca/components/loader';
@@ -34,31 +37,10 @@ import { fCurrency, fPercent } from '@orca/util';
 import { depositCollateral } from '@orca/shared/funcs';
 
 import { tokenInfo } from '@orca/shared/base';
-
+import { StepperProps } from './stepper.type';
 // ----------------------------------------------------------------------
 
-type DepositStepperProps = {
-  token: string;
-  approved: boolean;
-  vaultID: number;
-  vaultInfo: {
-    collateral: BigNumber;
-    debt: BigNumber;
-    LTV: BigNumber;
-    maxLTV: number;
-    maxLTVUSD: BigNumber;
-    borrowingPowerAvailable: BigNumber;
-    borrowingPowerAvailableUSD: BigNumber;
-    borrowingPowerUsed: BigNumber;
-    borrowingPowerUsedUSD: BigNumber;
-    tokenPrice: BigNumber;
-    availableWithdraw: BigNumber;
-    peg: BigNumber;
-    mcp: BigNumber;
-  };
-};
-
-export const DepositStepper: FC<DepositStepperProps> = ({
+export const DepositStepper: FC<StepperProps> = ({
   token,
   approved,
   vaultInfo,
@@ -73,6 +55,7 @@ export const DepositStepper: FC<DepositStepperProps> = ({
   // web3 init info
   const { account, library, chainId } = useWeb3React<Web3Provider>();
   const { data: AVAXBalance } = useAVAXBalance(account as string);
+  const addTransaction = useAddTransaction();
 
   const [activeStep, setActiveStep] = useState(0);
 
@@ -118,7 +101,7 @@ export const DepositStepper: FC<DepositStepperProps> = ({
 
   const handleDeposit = async () => {
     handleNext();
-    await handleTransaction({
+    const success = await handleTransaction({
       transaction: depositCollateral(
         library,
         vaultID,
@@ -131,8 +114,15 @@ export const DepositStepper: FC<DepositStepperProps> = ({
         success: 'Collateral deposited!',
         error: 'Failed to deposit collateral.',
       },
+      chainId,
     });
-
+    addTransaction({
+      type: 'deposit',
+      amount: utils.parseEther(values.depositAmount.toString()),
+      vault: token,
+      success: success.success,
+      hash: success.hash,
+    });
     resetForm();
     handleReset();
   };

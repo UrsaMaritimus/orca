@@ -53,6 +53,7 @@ export const FakeUSDCFaucet: FC<ExchangeProps> = ({ token, usdBalance }) => {
         success: 'Succesfully minted!',
         error: 'Failed to mint USDC.',
       },
+      chainId,
     });
     setMinting(false);
   };

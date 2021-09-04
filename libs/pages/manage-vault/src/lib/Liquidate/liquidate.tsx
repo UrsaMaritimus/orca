@@ -96,6 +96,7 @@ export const LiquidateVault: FC<LiquidateProps> = ({
         error: 'Failed to approve AVAI.',
       },
       mutates: [avaiMutate],
+      chainId,
     });
     setApproving(false);
   };
@@ -115,6 +116,7 @@ export const LiquidateVault: FC<LiquidateProps> = ({
         error: 'Failed to liquidate vault.',
       },
       mutates: [avaiMutate, avaiBalanceMutate],
+      chainId,
     });
     setLiquidating(false);
     router.push(routes.APP.VAULTS.MONITOR);

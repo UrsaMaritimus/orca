@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/styles';
 
 import Head from 'next/head';
 import Image from 'next/image';
+
 import RouteProgress from './progress';
 // ---------------------------------------------------------------------
 

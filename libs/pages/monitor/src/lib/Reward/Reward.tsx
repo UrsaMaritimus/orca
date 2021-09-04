@@ -47,6 +47,7 @@ export const VaultReward: FC<VaultRewardProps> = ({ token }) => {
         success: 'Succesfully claimed reward!',
         error: 'Failed to claim reward.',
       },
+      chainId,
     });
   };
 

@@ -24,7 +24,10 @@ import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { BigNumber, utils } from 'ethers';
 
-import { handleTransaction } from '@orca/components/transaction';
+import {
+  handleTransaction,
+  useAddTransaction,
+} from '@orca/components/transaction';
 import { Loader } from '@orca/components/loader';
 import {
   avaiApprovedExchange,
@@ -47,7 +50,7 @@ const ReturnTextField = styled(TextField)(({ theme }) => ({
 //----------------------------------------------------------
 
 type MintProps = {
-  token: string;
+  token: 'USDC';
   library: Web3Provider;
   chainId: number;
   account: string;
@@ -67,6 +70,7 @@ export const Redeem: FC<MintProps> = ({
 }) => {
   const [approving, setApproving] = useState<boolean>(false);
   const [redeeming, setRedeeming] = useState<boolean>(false);
+  const addTransaction = useAddTransaction();
   const shouldFetch = !!library;
   // Get usdc approved
   const { data: userAVAIApproved, mutate: avaiApprovedMutate } = useSWR(
@@ -120,7 +124,7 @@ export const Redeem: FC<MintProps> = ({
             Number(
               utils.formatUnits(
                 utils
-                  .parseEther(values.swapAmount.toString())
+                  .parseEther(fNumber(values.swapAmount.toString(), 18))
                   .mul(utils.parseUnits('1', 4).sub(mintingFee))
                   .div(utils.parseUnits('1', 16)),
                 6
@@ -156,6 +160,7 @@ export const Redeem: FC<MintProps> = ({
         error: 'Failed to approve AVAI.',
       },
       mutates: [avaiApprovedMutate],
+      chainId,
     });
     setApproving(false);
   };
@@ -163,7 +168,7 @@ export const Redeem: FC<MintProps> = ({
   // For redeeming USDC for AVAI
   const handleMintAVAI = async () => {
     setRedeeming(true);
-    await handleTransaction({
+    const success = await handleTransaction({
       transaction: redeemFromExchange(
         library,
         chainId,
@@ -175,6 +180,14 @@ export const Redeem: FC<MintProps> = ({
         error: 'Failed to redeem usdc.',
       },
       mutates: [avaiApprovedMutate],
+      chainId,
+    });
+    addTransaction({
+      type: 'redeem',
+      amount: utils.parseEther(values.swapAmount.toString()),
+      vault: token,
+      success: success.success,
+      hash: success.hash,
     });
     setRedeeming(false);
     resetForm();

@@ -26,44 +26,27 @@ import { Web3Provider } from '@ethersproject/providers';
 
 import { useFormik, Form, FormikProvider } from 'formik';
 
-import { BigNumber, utils } from 'ethers';
+import { utils } from 'ethers';
 import { fCurrency, fPercent, fNumber } from '@orca/util';
 import { withdrawCollateral } from '@orca/shared/funcs';
 
 import { Loader } from '@orca/components/loader';
 import { tokenInfo } from '@orca/shared/base';
-import { handleTransaction } from '@orca/components/transaction';
-
+import {
+  handleTransaction,
+  useAddTransaction,
+} from '@orca/components/transaction';
+import { StepperProps } from './stepper.type';
 // ----------------------------------------------------------------------
 
-type WithdrawStepperProps = {
-  token: string;
-  vaultID: number;
-  vaultInfo: {
-    collateral: BigNumber;
-    debt: BigNumber;
-    LTV: BigNumber;
-    maxLTV: number;
-    maxLTVUSD: BigNumber;
-    borrowingPowerAvailable: BigNumber;
-    borrowingPowerAvailableUSD: BigNumber;
-    borrowingPowerUsed: BigNumber;
-    borrowingPowerUsedUSD: BigNumber;
-    tokenPrice: BigNumber;
-    availableWithdraw: BigNumber;
-    peg: BigNumber;
-    mcp: BigNumber;
-  };
-};
-
-export const WithdrawStepper: FC<WithdrawStepperProps> = ({
+export const WithdrawStepper: FC<StepperProps> = ({
   token,
   vaultInfo,
   vaultID,
 }) => {
   // Set steps
   const steps = ['How much to withdraw', 'Withdraw'];
-
+  const addTransaction = useAddTransaction();
   // web3 init info
   const { library, chainId } = useWeb3React<Web3Provider>();
 
@@ -117,7 +100,7 @@ export const WithdrawStepper: FC<WithdrawStepperProps> = ({
 
   const handleWithdraw = async () => {
     handleNext();
-    await handleTransaction({
+    const success = await handleTransaction({
       transaction: withdrawCollateral(
         library,
         vaultID,
@@ -130,6 +113,14 @@ export const WithdrawStepper: FC<WithdrawStepperProps> = ({
         success: 'Collateral withdrawn!',
         error: 'Failed to withdraw collateral.',
       },
+      chainId,
+    });
+    addTransaction({
+      type: 'withdraw',
+      amount: utils.parseEther(values.withdrawAmount.toString()),
+      vault: token,
+      success: success.success,
+      hash: success.hash,
     });
     resetForm();
     handleReset();

@@ -29,6 +29,5 @@ export function formatEtherscanLink(
     }
   }
 }
-
 export const parseBalance = (balance: BigNumberish, decimals = 18) =>
   fShortenNumber(Number(formatUnits(balance, decimals)));
