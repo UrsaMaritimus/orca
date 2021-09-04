@@ -40,7 +40,6 @@ import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 import { Loader } from '@orca/components/loader';
 import { Connect } from '@orca/components/connect';
 import { handleTransaction } from '@orca/components/transaction';
-
 import {
   getVaultInfo,
   vaultOwner,
@@ -64,7 +63,6 @@ export function ManageVault() {
   // web3 init info
   const { account, library, chainId } = useWeb3React<Web3Provider>();
   const shouldFetch = !!library;
-
   // Get the url unfo
   const router = useRouter();
   const { vaultID, token } = router.query;

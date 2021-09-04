@@ -6,7 +6,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import { Web3ReactProvider } from '@web3-react/core';
 import type { AppProps } from 'next/app';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import Head from 'next/head';
 
@@ -25,6 +25,10 @@ import { CustomToaster } from '@orca/components/toast';
 import { Settings } from '@orca/components/settings';
 import { CollapseDrawerProvider } from '@orca/hooks';
 
+// emotion
+import { CacheProvider, EmotionCache } from '@emotion/react';
+import createEmotionCache from '../emotion';
+
 //Binding events for nprogress
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
@@ -34,33 +38,35 @@ function getLibrary(provider: ExternalProvider | JsonRpcFetchFunc) {
   return new Web3Provider(provider);
 }
 
-export default function NextWeb3App({ Component, pageProps }: AppProps) {
-  // For material-UI
-  useEffect(() => {
-    const jssStyles = document.querySelector('#jss-server-side');
-    if (jssStyles) {
-      jssStyles.parentElement.removeChild(jssStyles);
-    }
-  }, []);
+interface MyAppProps extends AppProps {
+  emotionCache?: EmotionCache;
+}
+
+const clientSideEmotionCache = createEmotionCache();
+
+export default function NextWeb3App(props: MyAppProps) {
+  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   return (
-    <Web3ReactProvider getLibrary={getLibrary}>
-      <NextThemeProvider defaultTheme="system" enableSystem>
-        <CustomThemeProvider>
-          <CollapseDrawerProvider>
-            <Head>
-              <meta
-                name="viewport"
-                content="minimum-scale=1, initial-scale=1, width=device-width"
-              />
-            </Head>
-            <Settings />
+    <CacheProvider value={emotionCache}>
+      <Web3ReactProvider getLibrary={getLibrary}>
+        <NextThemeProvider defaultTheme="system" enableSystem>
+          <CustomThemeProvider>
+            <CollapseDrawerProvider>
+              <Head>
+                <meta
+                  name="viewport"
+                  content="minimum-scale=1, initial-scale=1, width=device-width"
+                />
+              </Head>
+              <Settings />
 
-            <Component {...pageProps} />
-            <CustomToaster />
-          </CollapseDrawerProvider>
-        </CustomThemeProvider>
-      </NextThemeProvider>
-    </Web3ReactProvider>
+              <Component {...pageProps} />
+              <CustomToaster />
+            </CollapseDrawerProvider>
+          </CustomThemeProvider>
+        </NextThemeProvider>
+      </Web3ReactProvider>
+    </CacheProvider>
   );
 }

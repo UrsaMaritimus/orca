@@ -6,8 +6,8 @@ import { Web3Provider } from '@ethersproject/providers';
 import { Web3ReactProvider } from '@web3-react/core';
 import type { AppProps } from 'next/app';
 
-import React, { useEffect } from 'react';
-import { RecoilRoot } from 'recoil';
+import React from 'react';
+
 import Head from 'next/head';
 
 import { ThemeProvider as NextThemeProvider } from 'next-themes';
@@ -24,7 +24,10 @@ import { ThemeProvider as CustomThemeProvider } from '@orca/components/theme';
 import { CustomToaster } from '@orca/components/toast';
 import { Settings } from '@orca/components/settings';
 import { CollapseDrawerProvider } from '@orca/hooks';
-import { AccountInfo } from '@orca/components/account';
+
+// emotion
+import { CacheProvider, EmotionCache } from '@emotion/react';
+import createEmotionCache from '../emotion';
 
 //Binding events for nprogress
 Router.events.on('routeChangeStart', () => NProgress.start());
@@ -35,17 +38,17 @@ function getLibrary(provider: ExternalProvider | JsonRpcFetchFunc) {
   return new Web3Provider(provider);
 }
 
-export default function NextWeb3App({ Component, pageProps }: AppProps) {
-  // For material-UI
-  useEffect(() => {
-    const jssStyles = document.querySelector('#jss-server-side');
-    if (jssStyles) {
-      jssStyles.parentElement.removeChild(jssStyles);
-    }
-  }, []);
+interface MyAppProps extends AppProps {
+  emotionCache?: EmotionCache;
+}
+
+const clientSideEmotionCache = createEmotionCache();
+
+export default function NextWeb3App(props: MyAppProps) {
+  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   return (
-    <RecoilRoot>
+    <CacheProvider value={emotionCache}>
       <Web3ReactProvider getLibrary={getLibrary}>
         <NextThemeProvider defaultTheme="system" enableSystem>
           <CustomThemeProvider>
@@ -57,13 +60,13 @@ export default function NextWeb3App({ Component, pageProps }: AppProps) {
                 />
               </Head>
               <Settings />
-              <AccountInfo />
+
               <Component {...pageProps} />
               <CustomToaster />
             </CollapseDrawerProvider>
           </CustomThemeProvider>
         </NextThemeProvider>
       </Web3ReactProvider>
-    </RecoilRoot>
+    </CacheProvider>
   );
 }

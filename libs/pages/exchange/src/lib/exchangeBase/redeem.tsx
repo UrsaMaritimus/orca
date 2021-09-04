@@ -16,6 +16,7 @@ import {
   InputAdornment,
   Container,
   Grid,
+  Backdrop,
 } from '@material-ui/core';
 import { experimentalStyled as styled } from '@material-ui/core/styles';
 import LoadingButton from '@material-ui/lab/LoadingButton';
@@ -57,6 +58,7 @@ type MintProps = {
   avaiBalance: BigNumber;
   exchangeBalance: BigNumber;
   mintingFee: BigNumber;
+  mutates: any[];
 };
 
 export const Redeem: FC<MintProps> = ({
@@ -67,6 +69,7 @@ export const Redeem: FC<MintProps> = ({
   avaiBalance,
   exchangeBalance,
   mintingFee,
+  mutates,
 }) => {
   const [approving, setApproving] = useState<boolean>(false);
   const [redeeming, setRedeeming] = useState<boolean>(false);
@@ -96,6 +99,7 @@ export const Redeem: FC<MintProps> = ({
     validationSchema: ValueSchema,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       try {
+        handleMintAVAI();
         setSubmitting(false);
       } catch (error) {
         console.error(error);
@@ -179,7 +183,7 @@ export const Redeem: FC<MintProps> = ({
         success: 'Succesfully redeemed!',
         error: 'Failed to redeem usdc.',
       },
-      mutates: [avaiApprovedMutate],
+      mutates,
       chainId,
     });
     addTransaction({
@@ -191,12 +195,16 @@ export const Redeem: FC<MintProps> = ({
     });
     setRedeeming(false);
     resetForm();
+    setFieldValue('swapAmount', 0);
   };
 
   if (typeof account === 'string') {
     return (
       <Container maxWidth="sm">
         <Card>
+          <Backdrop sx={{ position: 'absolute', zIndex: 99 }} open={redeeming}>
+            <Loader />
+          </Backdrop>
           <CardHeader
             title={'AVAI Exchange'}
             avatar={
@@ -364,8 +372,8 @@ export const Redeem: FC<MintProps> = ({
                     size="large"
                     disabled={!userAVAIApproved || avaiBalance.isZero()}
                     sx={{ px: 4 }}
-                    onClick={handleMintAVAI}
                     loading={redeeming}
+                    type="submit"
                   >
                     Exchange
                   </LoadingButton>

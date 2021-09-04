@@ -2,7 +2,6 @@ import { ContractTransaction } from 'ethers';
 import toast from 'react-hot-toast';
 import { NextLink } from '@orca/components/links';
 import { formatEtherscanLink } from '@orca/util';
-import { Button } from '@material-ui/core';
 
 type HandleTransactionType = {
   transaction: Promise<ContractTransaction>;
@@ -87,6 +86,6 @@ export const handleTransaction = async ({
     return { success: true, hash: result.hash };
   } catch (err) {
     toast.error(err.data ? err.data.message : err.message);
-    return { success: false, hash: result.hash };
+    return { success: false, hash: '' };
   }
 };

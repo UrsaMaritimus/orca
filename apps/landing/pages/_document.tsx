@@ -6,7 +6,8 @@ import Document, {
   NextScript,
   DocumentContext,
 } from 'next/document';
-import { ServerStyleSheets } from '@material-ui/styles';
+import createEmotionServer from '@emotion/server/create-instance';
+import createEmotionCache from '../emotion';
 
 interface Props {
   html: string;
@@ -17,22 +18,35 @@ interface Props {
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext): Promise<Props> {
     // Render app and page and get the context of the page with collected side effects.
-    const sheets = new ServerStyleSheets();
+    const cache = createEmotionCache();
+    const { extractCriticalToChunks } = createEmotionServer(cache);
     const originalRenderPage = ctx.renderPage;
 
-    ctx.renderPage = (): ReturnType<typeof ctx.renderPage> =>
+    ctx.renderPage = () =>
       originalRenderPage({
-        enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
+        // eslint-disable-next-line react/display-name
+        enhanceApp: (App: any) => (props) =>
+          <App emotionCache={cache} {...props} />,
       });
 
     const initialProps = await Document.getInitialProps(ctx);
-
+    const emotionStyles = extractCriticalToChunks(initialProps.html);
+    // This is important. It prevents emotion to render invalid HTML.
+    // See https://github.com/mui-org/material-ui/issues/26561#issuecomment-855286153
+    const emotionStyleTags = emotionStyles.styles.map((style) => (
+      <style
+        data-emotion={`${style.key} ${style.ids.join(' ')}`}
+        key={style.key}
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: style.css }}
+      />
+    ));
     return {
       ...initialProps,
       // Styles fragment is rendered after the app and page rendering finish.
       styles: [
         ...React.Children.toArray(initialProps.styles),
-        sheets.getStyleElement(),
+        ...emotionStyleTags,
       ],
     };
   }

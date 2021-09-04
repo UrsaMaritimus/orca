@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import useSwr from 'swr';
 
 import { useWeb3React } from '@web3-react/core';
@@ -19,6 +19,7 @@ import { monitorRewards, getReward } from '@orca/shared/funcs';
 import { tokenInfo } from '@orca/shared/base';
 import { fNumber } from '@orca/util';
 import { utils } from 'ethers';
+import LoadingButton from '@material-ui/lab/LoadingButton';
 
 /* eslint-disable-next-line */
 export interface VaultRewardProps {
@@ -27,7 +28,7 @@ export interface VaultRewardProps {
 
 export const VaultReward: FC<VaultRewardProps> = ({ token }) => {
   const { account, library, chainId } = useWeb3React<Web3Provider>();
-
+  const [gettingReward, setGettingReward] = useState<boolean>(false);
   const shouldFetch = !!library;
 
   // Grab user's rewards
@@ -40,6 +41,7 @@ export const VaultReward: FC<VaultRewardProps> = ({ token }) => {
   useKeepSWRDataLiveAsBlocksArrive(monitorRewardMutate);
 
   const handleGetPaid = async () => {
+    setGettingReward(true);
     await handleTransaction({
       transaction: getReward(library, chainId, tokenInfo[token].erc20, account),
       messages: {
@@ -49,6 +51,7 @@ export const VaultReward: FC<VaultRewardProps> = ({ token }) => {
       },
       chainId,
     });
+    setGettingReward(false);
   };
 
   if (typeof account === 'string' && reward && reward.isReward) {
@@ -77,14 +80,15 @@ export const VaultReward: FC<VaultRewardProps> = ({ token }) => {
               !
             </Typography>
             <Box>
-              <Button
+              <LoadingButton
                 color="primary"
                 variant="contained"
                 size="large"
                 onClick={handleGetPaid}
+                loading={gettingReward}
               >
                 Claim Reward
-              </Button>
+              </LoadingButton>
             </Box>
           </Stack>
         </Card>

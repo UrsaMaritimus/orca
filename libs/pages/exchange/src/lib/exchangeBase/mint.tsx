@@ -15,6 +15,7 @@ import {
   InputAdornment,
   Container,
   Grid,
+  Backdrop,
 } from '@material-ui/core';
 import { experimentalStyled as styled } from '@material-ui/core/styles';
 import LoadingButton from '@material-ui/lab/LoadingButton';
@@ -56,6 +57,7 @@ type MintProps = {
   usdBalance: BigNumber;
   exchangeBalance: BigNumber;
   mintingFee: BigNumber;
+  mutates: any[];
 };
 
 export const Mint: FC<MintProps> = ({
@@ -66,6 +68,7 @@ export const Mint: FC<MintProps> = ({
   usdBalance,
   exchangeBalance,
   mintingFee,
+  mutates,
 }) => {
   const [approving, setApproving] = useState<boolean>(false);
   const [minting, setMinting] = useState<boolean>(false);
@@ -96,12 +99,13 @@ export const Mint: FC<MintProps> = ({
 
   const formik = useFormik({
     initialValues: {
-      swapAmount: undefined,
+      swapAmount: 0,
       returnAmount: 0,
     },
     validationSchema: ValueSchema,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       try {
+        handleMintAVAI();
         setSubmitting(false);
       } catch (error) {
         console.error(error);
@@ -188,8 +192,11 @@ export const Mint: FC<MintProps> = ({
         success: 'Succesfully minted!',
         error: 'Failed to mint AVAI.',
       },
+      mutates,
       chainId,
     });
+    resetForm();
+    setFieldValue('swapAmount', 0);
     addTransaction({
       type: 'mint',
       amount: utils.parseUnits(values.swapAmount.toString(), 6),
@@ -198,13 +205,15 @@ export const Mint: FC<MintProps> = ({
       hash: success.hash,
     });
     setMinting(false);
-    resetForm();
   };
 
   if (typeof account === 'string') {
     return (
       <Container maxWidth="sm">
         <Card>
+          <Backdrop sx={{ position: 'absolute', zIndex: 99 }} open={minting}>
+            <Loader />
+          </Backdrop>
           <CardHeader
             title={'USDC Exchange'}
             avatar={
@@ -372,8 +381,8 @@ export const Mint: FC<MintProps> = ({
                     size="large"
                     disabled={!userUSDApproved || usdBalance.isZero()}
                     sx={{ minWidth: '150px' }}
-                    onClick={handleMintAVAI}
                     loading={minting}
+                    type="submit"
                   >
                     Exchange
                   </LoadingButton>

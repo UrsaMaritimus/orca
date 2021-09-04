@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 
-import { makeStyles } from '@material-ui/styles';
+import { styled } from '@mui/material/styles';
 
 import Head from 'next/head';
 import Image from 'next/image';
@@ -8,18 +8,16 @@ import Image from 'next/image';
 import RouteProgress from './progress';
 // ---------------------------------------------------------------------
 
-const useStyles = makeStyles({
-  orca: {
-    top: 250,
-    right: 0,
-    bottom: 0,
-    zIndex: -99,
-    margin: 'auto',
-    position: 'relative',
-    filter: 'blur(6px)',
-    left: '5%',
-    height: '125vh',
-  },
+const StyledImage = styled(Image)({
+  top: 250,
+  right: 0,
+  bottom: 0,
+  zIndex: -99,
+  margin: 'auto',
+  position: 'relative',
+  filter: 'blur(6px)',
+  left: '5%',
+  height: '125vh',
 });
 
 // ----------------------------------------------------------------------
@@ -31,7 +29,6 @@ type Props = {
 };
 const Page = forwardRef<HTMLDivElement, Props>(
   ({ children, title = '', ...other }, ref) => {
-    const classes = useStyles();
     return (
       <div ref={ref} {...other}>
         <Head>
@@ -59,11 +56,7 @@ const Page = forwardRef<HTMLDivElement, Props>(
           <title>{title}</title>
         </Head>
         <RouteProgress>
-          <Image
-            src="/static/images/hero.svg"
-            layout="fill"
-            className={classes.orca}
-          />
+          <StyledImage src="/static/images/hero.svg" layout="fill" />
           {children}
         </RouteProgress>
       </div>

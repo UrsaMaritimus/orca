@@ -128,6 +128,7 @@ export const ExchangeBase: FC<ExchangeProps> = ({ token }) => {
               usdBalance={userUSDBalance}
               exchangeBalance={usdcExchangeInfo.reserves}
               mintingFee={usdcExchangeInfo.mintingFee}
+              mutates={[avaiBalanceMutate, usdcBalanceMutate]}
             />
           ) : (
             <Container maxWidth="sm">
@@ -146,6 +147,7 @@ export const ExchangeBase: FC<ExchangeProps> = ({ token }) => {
               avaiBalance={userAvaiBalance}
               exchangeBalance={usdcExchangeInfo.reserves}
               mintingFee={usdcExchangeInfo.mintingFee}
+              mutates={[avaiBalanceMutate, usdcBalanceMutate]}
             />
           ) : (
             <Container maxWidth="sm">

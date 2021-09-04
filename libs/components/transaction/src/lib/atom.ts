@@ -6,7 +6,14 @@ import { recoilPersist } from 'recoil-persist';
 const { persistAtom } = recoilPersist();
 
 type Transaction = {
-  type: 'deposit' | 'withdraw' | 'borrow' | 'payback' | 'mint' | 'redeem';
+  type:
+    | 'deposit'
+    | 'withdraw'
+    | 'borrow'
+    | 'payback'
+    | 'mint'
+    | 'redeem'
+    | 'liquidate';
   amount: BigNumber;
   vault?: 'AVAX' | 'USDC';
   success: boolean;

@@ -6,7 +6,7 @@ import {
   responsiveFontSizes,
 } from '@material-ui/core/styles';
 
-import { StyledEngineProvider, CssBaseline } from '@material-ui/core';
+import { CssBaseline } from '@material-ui/core';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
 
@@ -49,15 +49,13 @@ const ThemeProvider: FC = ({ children }) => {
   if (!mounted) return null;
 
   return (
-    <StyledEngineProvider injectFirst>
-      <MuiThemeProvider theme={responsiveFontSizes(customTheme)}>
-        <CssBaseline />
-        <GlobalStyles />
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          {children}
-        </LocalizationProvider>
-      </MuiThemeProvider>
-    </StyledEngineProvider>
+    <MuiThemeProvider theme={responsiveFontSizes(customTheme)}>
+      <CssBaseline />
+      <GlobalStyles />
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        {children}
+      </LocalizationProvider>
+    </MuiThemeProvider>
   );
 };
 

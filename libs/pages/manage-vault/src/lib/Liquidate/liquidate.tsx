@@ -2,7 +2,7 @@ import { useState, FC } from 'react';
 import { useRouter } from 'next/router';
 
 // material
-import { Grid, Stack, Typography, Button } from '@material-ui/core';
+import { Grid, Stack, Typography, Button, Backdrop } from '@material-ui/core';
 
 // Ethers and web3 stuff
 import { useWeb3React } from '@web3-react/core';
@@ -20,12 +20,16 @@ import {
   liquidateVault,
   avaiBalance,
 } from '@orca/shared/funcs';
-import { handleTransaction } from '@orca/components/transaction';
+import {
+  handleTransaction,
+  useAddTransaction,
+} from '@orca/components/transaction';
+import { Loader } from '@orca/components/loader';
 
 // ----------------------------------------------------------------------
 
 type LiquidateProps = {
-  token: string;
+  token: 'AVAX';
   vaultID: number;
   vaultInfo: {
     collateral: BigNumber;
@@ -52,6 +56,7 @@ export const LiquidateVault: FC<LiquidateProps> = ({
   const [approving, setApproving] = useState<boolean>(false);
   const [liquidating, setLiquidating] = useState<boolean>(false);
   const router = useRouter();
+  const addTransaction = useAddTransaction();
   // web3 init info
   const { account, library, chainId } = useWeb3React<Web3Provider>();
   const shouldFetch =
@@ -103,7 +108,7 @@ export const LiquidateVault: FC<LiquidateProps> = ({
 
   const handleLiquidate = async () => {
     setLiquidating(true);
-    await handleTransaction({
+    const success = await handleTransaction({
       transaction: liquidateVault(
         library,
         chainId,
@@ -118,12 +123,25 @@ export const LiquidateVault: FC<LiquidateProps> = ({
       mutates: [avaiMutate, avaiBalanceMutate],
       chainId,
     });
+    addTransaction({
+      type: 'liquidate',
+      amount: vaultInfo.debt.div(2),
+      vault: token,
+      success: success.success,
+      hash: success.hash,
+    });
     setLiquidating(false);
-    router.push(routes.APP.VAULTS.MONITOR);
+    if (success.success) router.push(routes.APP.VAULTS.MONITOR);
   };
 
   return (
     <Grid container>
+      <Backdrop
+        sx={{ position: 'absolute', zIndex: 99 }}
+        open={liquidating || approving}
+      >
+        <Loader />
+      </Backdrop>
       <Grid item xs={12} sm={6} sx={{ mb: 2 }}>
         <Stack alignItems="center">
           <Typography variant="h6" textAlign="center">
@@ -191,7 +209,7 @@ export const LiquidateVault: FC<LiquidateProps> = ({
               size="large"
               disabled={!approved}
               onClick={handleLiquidate}
-              loading={approving}
+              loading={liquidating}
             >
               Liquidate
             </LoadingButton>
