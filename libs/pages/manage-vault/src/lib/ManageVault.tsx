@@ -35,7 +35,7 @@ import { Web3Provider } from '@ethersproject/providers';
 // Custom stuff
 import { NextLink } from '@orca/components/links';
 import { Page } from '@orca/components/page';
-import { routes } from '@orca/shared/base';
+import { routes, tokenInfo } from '@orca/shared/base';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 import { Loader } from '@orca/components/loader';
 import { Connect } from '@orca/components/connect';
@@ -45,12 +45,13 @@ import {
   vaultOwner,
   deleteVault,
   getVault,
+  payBackToken,
 } from '@orca/shared/funcs';
 
 import { Deposit } from './Deposit';
 import { Borrows } from './Borrows';
 import { Liquidate } from './Liquidate';
-import { tokenInfo } from '@orca/shared/base';
+import { AccountDialog } from './AccountCheck';
 
 const RootStyle = styled(Page)(({ theme }) => ({
   paddingTop: theme.spacing(3),
@@ -94,7 +95,7 @@ export function ManageVault() {
   // Destroy the vault
   const handleCloseDestroy = async () => {
     setOpenDestroy(false);
-    handleTransaction({
+    await handleTransaction({
       transaction: deleteVault(
         library,
         Number(vaultID),
@@ -153,22 +154,30 @@ export function ManageVault() {
         chainId
       );
       // Set events up for updating
+
       const depositedCollateral = vault.filters.DepositCollateral();
-      vault.on(depositedCollateral, (vaultId, amount) => {
+      const withdrawCollateral = vault.filters.WithdrawCollateral();
+      const borrowToken = vault.filters.BorrowToken();
+      const paybackToken = vault.filters.PayBackToken();
+      vault.on(depositedCollateral, (vaultId) => {
         if (vaultID === vaultId.toString()) {
-          console.log(
-            `EMIT: ${vaultId} deposited more collateral of amount ${amount}`
-          );
+          vaultInfoMutate(undefined, true);
+        }
+      });
+      vault.on(withdrawCollateral, (vaultId) => {
+        if (vaultID === vaultId.toString()) {
           vaultInfoMutate(undefined, true);
         }
       });
 
-      const withdrawCollateral = vault.filters.WithdrawCollateral();
-      vault.on(withdrawCollateral, (vaultId, amount) => {
+      vault.on(borrowToken, (vaultId) => {
         if (vaultID === vaultId.toString()) {
-          console.log(
-            `EMIT: ${vaultId} withdrew collateral of amount ${amount}`
-          );
+          vaultInfoMutate(undefined, true);
+        }
+      });
+
+      vault.on(paybackToken, (vaultId) => {
+        if (vaultID === vaultId.toString()) {
           vaultInfoMutate(undefined, true);
         }
       });
@@ -176,6 +185,8 @@ export function ManageVault() {
       return () => {
         vault.removeAllListeners(depositedCollateral);
         vault.removeAllListeners(withdrawCollateral);
+        vault.removeAllListeners(borrowToken);
+        vault.removeAllListeners(paybackToken);
       };
     }
   }, [library, account, vaultInfoMutate, chainId, token, vaultID]);
@@ -336,6 +347,13 @@ export function ManageVault() {
             </Typography>
           </Box>
         </Popover>
+        {vaultInfo && isOwner && (
+          <AccountDialog
+            vaultID={Number(vaultID)}
+            vaultInfo={vaultInfo}
+            token={token as 'AVAX'}
+          />
+        )}
       </RootStyle>
     </Connect>
   );

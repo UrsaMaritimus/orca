@@ -16,7 +16,6 @@ import {
   AVALANCHE_TESTNET_PARAMS,
 } from '@orca/util';
 import { seeAccount } from './atom';
-import { AccountInfo } from './AccountInfo';
 
 const Account: FC = () => {
   const setSeeAccount = useSetRecoilState(seeAccount);

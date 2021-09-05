@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import useSwr from 'swr';
 
 import { useWeb3React } from '@web3-react/core';
@@ -7,7 +7,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import { Card, CardHeader, Box, Typography } from '@mui/material';
 
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
-import { monitorBadVaults } from '@orca/shared/funcs';
+import { monitorBadVaults, getVault, liquidateVault } from '@orca/shared/funcs';
 import { Loader } from '@orca/components/loader';
 
 import Table from '../table';
@@ -27,6 +27,22 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
     monitorBadVaults()
   );
   useKeepSWRDataLiveAsBlocksArrive(monitorVaultMutate);
+
+  // Keep all the information up to date
+  useEffect(() => {
+    if (library) {
+      const avaxVault = getVault('wavax', library, chainId);
+      // Set events up for updating
+      const liquidatedVault = avaxVault.filters.LiquidateVault();
+      avaxVault.on(liquidatedVault, () => {
+        monitorVaultMutate(undefined, true);
+      });
+
+      return () => {
+        avaxVault.removeAllListeners(liquidatedVault);
+      };
+    }
+  }, [library, account, monitorVaultMutate, chainId]);
 
   if (typeof account === 'string' && badVaults) {
     return (

@@ -20,7 +20,6 @@ export enum NOTIFICATIONS_TYPES {
 }
 
 const useStyles = makeStyles()((theme) => {
-  console.log(theme);
   // Checks the palette light mode
   const isLight = theme.palette.mode === 'light';
 

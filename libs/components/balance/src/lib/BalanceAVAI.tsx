@@ -92,7 +92,7 @@ const AvaiBalance: FC = () => {
             color="inherit"
           />
         </Grid>
-        <Grid xs={9} display="flex" justifyContent="center">
+        <Grid item xs={9} display="flex" justifyContent="center">
           <Typography
             variant="button"
             sx={{

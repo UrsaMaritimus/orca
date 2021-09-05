@@ -241,7 +241,7 @@ export const BorrowStepper: FC<StepperProps> = ({
                     Back
                   </Button>
                 </Grid>
-                <Grid xs={6} display="flex" justifyContent="center">
+                <Grid item xs={6} display="flex" justifyContent="center">
                   <Button
                     type="submit"
                     variant="contained"
@@ -380,7 +380,7 @@ export const BorrowStepper: FC<StepperProps> = ({
               </Grid>
             </Box>
             <Grid container>
-              <Grid xs={6} display="flex" justifyContent="center">
+              <Grid item xs={6} display="flex" justifyContent="center">
                 <LoadingButton
                   startIcon={<Icon icon={backSpace} width={25} height={25} />}
                   color="inherit"
@@ -391,7 +391,7 @@ export const BorrowStepper: FC<StepperProps> = ({
                   Back
                 </LoadingButton>
               </Grid>
-              <Grid xs={6} display="flex" justifyContent="center">
+              <Grid item xs={6} display="flex" justifyContent="center">
                 <LoadingButton
                   endIcon={<Icon icon={arrowRight} width={25} height={25} />}
                   variant="contained"

@@ -60,11 +60,16 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
       const avaxVault = getVault('wavax', library, chainId);
       // Set events up for updating
       const newVault = avaxVault.filters.CreateVault();
+      const destroyVault = avaxVault.filters.DestroyVault();
       avaxVault.on(newVault, (vaultId, creator) => {
         if (creator === account) {
           console.log(`EMIT: ${creator} created new vault ${vaultId}`);
           avaxVaultMutate(undefined, true);
         }
+      });
+
+      avaxVault.on(destroyVault, (vaultId) => {
+        avaxVaultMutate(undefined, true);
       });
 
       const increaseDebt = avaxVault.filters.BorrowToken();
@@ -79,6 +84,7 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
         avaxVault.removeAllListeners(newVault);
         avaxVault.removeAllListeners(increaseDebt);
         avaxVault.removeAllListeners(decreaseDebt);
+        avaxVault.removeAllListeners(destroyVault);
       };
     }
   }, [library, account, avaxVaultMutate, debtMutate, chainId]);

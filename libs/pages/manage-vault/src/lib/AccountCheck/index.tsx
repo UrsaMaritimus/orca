@@ -1,4 +1,5 @@
-import { forwardRef, useState } from 'react';
+import { forwardRef, useState, FC, useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
 // material
 import {
   Slide,
@@ -11,6 +12,10 @@ import {
 } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 
+import { useUpdateAccount, accountState } from './atom';
+import { StepperProps } from '../stepper.type';
+import { BigNumber } from 'ethers';
+
 // ----------------------------------------------------------------------
 
 const Transition = forwardRef(function Transition(
@@ -21,23 +26,51 @@ const Transition = forwardRef(function Transition(
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-export default function TransitionsDialogs() {
+
+export const AccountDialog: FC<StepperProps> = ({
+  vaultInfo,
+  vaultID,
+  token,
+}) => {
   const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
   const handleClose = () => {
     setOpen(false);
   };
 
+  // Check if should be open or not
+  const updateAccount = useUpdateAccount();
+  const account = useRecoilValue(accountState);
+
+  useEffect(() => {
+    const bank = account[token];
+    if (bank) {
+      const accountInfo = account[token].filter(
+        (val) => val.vaultID === vaultID
+      )[0];
+      if (accountInfo) {
+        const closingFee = BigNumber.from(accountInfo.debt)
+          .mul(vaultInfo.closingFee)
+          .mul(vaultInfo.peg)
+          .div(vaultInfo.tokenPrice.mul(10000));
+
+        if (
+          vaultInfo.collateral.add(closingFee).lt(accountInfo.collateral) &&
+          vaultInfo.debt.lt(accountInfo.debt)
+        ) {
+          setOpen(true);
+        }
+      }
+    }
+    updateAccount(token, {
+      collateral: vaultInfo.collateral,
+      debt: vaultInfo.debt,
+      vaultID,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [vaultInfo, token, vaultID]);
+
   return (
     <div>
-      <Button variant="outlined" color="success" onClick={handleClickOpen}>
-        Transitions Dialogs
-      </Button>
-
       <Dialog
         open={open}
         TransitionComponent={Transition}
@@ -47,23 +80,21 @@ export default function TransitionsDialogs() {
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle id="alert-dialog-slide-title">
-          Use Google's location service?
+          Vault Possibly Liquidated
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            Let Google help apps determine location. This means sending
-            anonymous location data to Google, even when no apps are running.
+            It appears your collateral has lowered, which means you were likely
+            liquidated! This means half your debt was paid off in exchange for
+            the equivalent amount of your collateral, along with a 10% fee.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button color="inherit" onClick={handleClose}>
-            Disagree
-          </Button>
           <Button variant="contained" onClick={handleClose}>
-            Agree
+            Acknowledge
           </Button>
         </DialogActions>
       </Dialog>
     </div>
   );
-}
+};
