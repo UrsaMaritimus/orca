@@ -225,7 +225,7 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
               The debt ceiling is a security feature put into place to reduce a
               possibility of exploitation. Once the debt ceiling is reached, no
-              further AVAI can be borrowed. However, this can be and is
+              further AVAI can be borrowed. However, this can and will be
               increased.
             </Typography>
           </Box>
