@@ -4,14 +4,7 @@ import useSwr from 'swr';
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 
-import {
-  Card,
-  CardHeader,
-  Box,
-  Typography,
-  Button,
-  Stack,
-} from '@material-ui/core';
+import { Card, CardHeader, Box, Typography, Stack } from '@mui/material';
 
 import { handleTransaction } from '@orca/components/transaction';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
@@ -19,7 +12,7 @@ import { monitorRewards, getReward } from '@orca/shared/funcs';
 import { tokenInfo } from '@orca/shared/base';
 import { fNumber } from '@orca/util';
 import { utils } from 'ethers';
-import LoadingButton from '@material-ui/lab/LoadingButton';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 /* eslint-disable-next-line */
 export interface VaultRewardProps {

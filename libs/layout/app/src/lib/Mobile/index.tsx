@@ -1,16 +1,14 @@
-import { useState, FC, useEffect } from 'react';
+import { FC } from 'react';
 import { useWeb3React } from '@web3-react/core';
 
-import Box from '@material-ui/core/Box';
-import Backdrop from '@material-ui/core/Backdrop';
-import Stack from '@material-ui/core/Stack';
+import Stack from '@mui/material/Stack';
 
-import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 
 import { Account } from '@orca/components/account';
 import { AvaiBalance } from '@orca/components/balance';
 import { ImportantLinks } from '../TopBar/ImportantLinks';
-import { Grid } from '@material-ui/core';
+import { Grid } from '@mui/material';
 // ----------------------------------------------------------------------
 
 const BannerStyle = styled('div')(({ theme }) => ({

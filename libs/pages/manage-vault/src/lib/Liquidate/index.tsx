@@ -12,7 +12,7 @@ import {
   Popover,
   IconButton,
   Divider,
-} from '@material-ui/core';
+} from '@mui/material';
 
 import { BigNumber, utils } from 'ethers';
 import { fCurrency, fPercent } from '@orca/util';
@@ -23,7 +23,7 @@ import { LiquidateVault } from './liquidate';
 //-----------------------------------------
 
 type LiquidateProps = {
-  token: string;
+  token: 'AVAX';
   isOwner: boolean;
   vaultID: number;
   vaultInfo: {
@@ -218,7 +218,7 @@ export const Liquidate: FC<LiquidateProps> = ({
               <LiquidateVault
                 vaultInfo={vaultInfo}
                 vaultID={Number(vaultID)}
-                token={token as string}
+                token={token}
               />
             </>
           )}

@@ -1,5 +1,5 @@
-import { Theme } from '@material-ui/core/styles';
-import '@material-ui/lab/themeAugmentation';
+import { Theme } from '@mui/material/styles';
+
 const Avatar = (theme: Theme) => {
   return {
     MuiAvatar: {
@@ -19,7 +19,6 @@ const Avatar = (theme: Theme) => {
             fontSize: 14,
             color: theme.palette.primary.main,
             backgroundColor: theme.palette.primary.lighter,
-            
           },
         },
       },

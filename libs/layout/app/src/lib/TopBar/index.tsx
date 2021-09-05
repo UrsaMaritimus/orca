@@ -4,9 +4,9 @@ import { Icon } from '@iconify/react';
 
 import menu2Fill from '@iconify/icons-eva/menu-2-fill';
 
-import { alpha, experimentalStyled as styled } from '@material-ui/core/styles';
+import { alpha, styled } from '@mui/material/styles';
 
-import { Box, AppBar, Toolbar, IconButton, Stack } from '@material-ui/core';
+import { Box, AppBar, Toolbar, IconButton, Stack } from '@mui/material';
 
 import { useWeb3React } from '@web3-react/core';
 

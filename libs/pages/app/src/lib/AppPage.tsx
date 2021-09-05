@@ -1,6 +1,6 @@
-import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 
-import { Grid, Container } from '@material-ui/core';
+import { Grid, Container } from '@mui/material';
 
 import { Page } from '@orca/components/page';
 

@@ -8,8 +8,8 @@ import bookOpenOutline from '@iconify/icons-eva/book-open-outline';
 import bxlDiscordAlt from '@iconify/icons-bx/bxl-discord-alt';
 import bxlMedium from '@iconify/icons-bx/bxl-medium';
 // material
-import { alpha } from '@material-ui/core/styles';
-import { Stack, Box, Divider, MenuItem, Typography } from '@material-ui/core';
+import { alpha } from '@mui/material/styles';
+import { Stack, Box, Divider, MenuItem, Typography } from '@mui/material';
 
 import { routes } from '@orca/shared/base';
 import { MIconButton } from '@orca/components/material-extend/buttons';

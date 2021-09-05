@@ -18,9 +18,7 @@ import {
   Stack,
   Popover,
   IconButton,
-  Grid,
-  Container,
-} from '@material-ui/core';
+} from '@mui/material';
 
 import { Loader } from '@orca/components/loader';
 import { MainTable } from '@orca/components/table';

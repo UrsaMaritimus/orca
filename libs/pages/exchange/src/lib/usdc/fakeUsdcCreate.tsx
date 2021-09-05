@@ -4,7 +4,7 @@ import { useState, FC } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 
-import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 import {
   Card,
   CardHeader,
@@ -14,13 +14,13 @@ import {
   Box,
   Button,
   Grid,
-} from '@material-ui/core';
+} from '@mui/material';
 
 import { mintFakeUSDC } from '@orca/shared/funcs';
 import { BigNumber, utils } from 'ethers';
 import { fNumber } from '@orca/util';
 import { handleTransaction } from '@orca/components/transaction';
-import LoadingButton from '@material-ui/lab/LoadingButton';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 //-----------------------------------------------------------------
 

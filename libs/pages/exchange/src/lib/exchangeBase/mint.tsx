@@ -16,9 +16,9 @@ import {
   Container,
   Grid,
   Backdrop,
-} from '@material-ui/core';
-import { experimentalStyled as styled } from '@material-ui/core/styles';
-import LoadingButton from '@material-ui/lab/LoadingButton';
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';

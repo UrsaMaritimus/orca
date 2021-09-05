@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import SimpleBarReact from 'simplebar-react';
 
-import { alpha, experimentalStyled as styled } from '@material-ui/core/styles';
+import { alpha, styled } from '@mui/material/styles';
 
-import { Box } from '@material-ui/core';
+import { Box } from '@mui/material';
 
 const RootStyle = styled('div')({
   flexGrow: 1,

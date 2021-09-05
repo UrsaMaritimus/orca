@@ -4,7 +4,7 @@ import useSWR from 'swr';
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 
-import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 import {
   Card,
@@ -14,7 +14,7 @@ import {
   Container,
   ToggleButton,
   ToggleButtonGroup,
-} from '@material-ui/core';
+} from '@mui/material';
 
 import { Page } from '@orca/components/page';
 import { Connect } from '@orca/components/connect';

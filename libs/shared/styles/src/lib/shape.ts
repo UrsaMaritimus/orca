@@ -1,4 +1,4 @@
-import { ShapeOptions } from '@material-ui/system/createTheme/shape';
+import { ShapeOptions } from '@mui/system/createTheme/shape';
 
 export const Shape: ShapeOptions = {
   borderRadius: 8,

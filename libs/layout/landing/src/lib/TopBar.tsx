@@ -7,7 +7,7 @@ import menu2Fill from '@iconify/icons-eva/menu-2-fill';
 import githubOutline from '@iconify/icons-eva/github-outline';
 import bookOpenOutline from '@iconify/icons-eva/book-open-outline';
 
-import { experimentalStyled as styled, alpha } from '@material-ui/core/styles';
+import { styled, alpha } from '@mui/material/styles';
 
 import {
   Box,
@@ -22,9 +22,7 @@ import {
   ListItemIcon,
   Link,
   Stack,
-  Typography,
-  Grid,
-} from '@material-ui/core';
+} from '@mui/material';
 
 import { routes, useOffSetTop } from '@orca/shared/base';
 import { MIconButton } from '@orca/components/material-extend/buttons';

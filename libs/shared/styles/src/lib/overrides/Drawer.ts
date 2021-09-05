@@ -1,5 +1,5 @@
-import { alpha, Theme } from '@material-ui/core';
-import '@material-ui/lab/themeAugmentation';
+import { alpha, Theme } from '@mui/material';
+
 // ----------------------------------------------------------------------
 
 export default function Drawer(theme: Theme) {

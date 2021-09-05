@@ -1,5 +1,4 @@
-import { Theme, alpha } from '@material-ui/core/styles';
-import '@material-ui/lab/themeAugmentation';
+import { Theme, alpha } from '@mui/material/styles';
 
 const Pagination = (theme: Theme) => {
   return {

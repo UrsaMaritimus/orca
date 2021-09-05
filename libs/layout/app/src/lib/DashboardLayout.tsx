@@ -1,5 +1,5 @@
 import { useState, FC } from 'react';
-import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 
 import { MHidden } from '@orca/components/material-extend/hidden';
 

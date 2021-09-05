@@ -5,7 +5,6 @@ import { styled } from '@mui/material/styles';
 import Head from 'next/head';
 import Image from 'next/image';
 
-import RouteProgress from './progress';
 // ---------------------------------------------------------------------
 
 const StyledImage = styled(Image)({
@@ -55,10 +54,8 @@ const Page = forwardRef<HTMLDivElement, Props>(
 
           <title>{title}</title>
         </Head>
-        <RouteProgress>
-          <StyledImage src="/static/images/hero.svg" layout="fill" />
-          {children}
-        </RouteProgress>
+        <StyledImage src="/static/images/hero.svg" layout="fill" />
+        {children}
       </div>
     );
   }

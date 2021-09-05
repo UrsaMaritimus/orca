@@ -2,8 +2,8 @@
 import { FC, useState } from 'react';
 import { Icon } from '@iconify/react';
 import infoOutline from '@iconify/icons-eva/info-outline';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import MoneyOffIcon from '@material-ui/icons/MoneyOff';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import MoneyOffIcon from '@mui/icons-material/MoneyOff';
 
 import {
   Card,
@@ -15,39 +15,18 @@ import {
   Popover,
   IconButton,
   Tab,
-} from '@material-ui/core';
-import { TabContext, TabList, TabPanel } from '@material-ui/lab';
+} from '@mui/material';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { BigNumber, utils } from 'ethers';
 import { fCurrency, fPercent, fNumber } from '@orca/util';
 
 import { tokenInfo } from '@orca/shared/base';
 import BorrowStepper from './BorrowStepper';
 import RepayStepper from './RepayStepper';
+import { ActionProps } from './stepper.type';
 //-----------------------------------------
 
-type BorrowsProps = {
-  token: string;
-  isOwner: boolean;
-  vaultID: number;
-  vaultInfo: {
-    collateral: BigNumber;
-    debt: BigNumber;
-    LTV: BigNumber;
-    maxLTV: number;
-    maxLTVUSD: BigNumber;
-    borrowingPowerAvailable: BigNumber;
-    borrowingPowerAvailableUSD: BigNumber;
-    borrowingPowerUsed: BigNumber;
-    borrowingPowerUsedUSD: BigNumber;
-    tokenPrice: BigNumber;
-    availableWithdraw: BigNumber;
-    peg: BigNumber;
-    mcp: BigNumber;
-    closingFee: BigNumber;
-  };
-};
-
-export const Borrows: FC<BorrowsProps> = ({
+export const Borrows: FC<ActionProps> = ({
   token,
   vaultInfo,
   isOwner,

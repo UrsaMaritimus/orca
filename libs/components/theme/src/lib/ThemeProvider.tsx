@@ -4,11 +4,11 @@ import {
   ThemeProvider as MuiThemeProvider,
   createTheme,
   responsiveFontSizes,
-} from '@material-ui/core/styles';
+} from '@mui/material/styles';
 
-import { CssBaseline } from '@material-ui/core';
-import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
-import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
+import { CssBaseline } from '@mui/material';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
 import { useTheme } from 'next-themes';
 
@@ -20,7 +20,7 @@ import {
   Breakpoints,
   ComponentsOverrides,
   ShadowExtension,
-  GlobalStyles,
+  CustomGlobalStyles,
 } from '@orca/shared/styles';
 
 const ThemeProvider: FC = ({ children }) => {
@@ -50,8 +50,8 @@ const ThemeProvider: FC = ({ children }) => {
 
   return (
     <MuiThemeProvider theme={responsiveFontSizes(customTheme)}>
+      <CustomGlobalStyles />
       <CssBaseline />
-      <GlobalStyles />
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         {children}
       </LocalizationProvider>

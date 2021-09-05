@@ -1,7 +1,7 @@
 import React, { useEffect, FC } from 'react';
 import { useRouter } from 'next/router';
 
-import { alpha, experimentalStyled as styled } from '@material-ui/core/styles';
+import { alpha, styled } from '@mui/material/styles';
 
 import {
   Stack,
@@ -12,7 +12,7 @@ import {
   Typography,
   Button,
   Box,
-} from '@material-ui/core';
+} from '@mui/material';
 
 import { useWeb3React } from '@web3-react/core';
 

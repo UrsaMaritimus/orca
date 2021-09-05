@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { motion } from 'framer-motion';
-import { Box } from '@material-ui/core';
-import { experimentalStyled as styled, alpha } from '@material-ui/core/styles';
+import { Box } from '@mui/material';
+import { styled, alpha } from '@mui/material/styles';
 
 import { Logo } from '@orca/components/logo';
 

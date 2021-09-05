@@ -4,7 +4,7 @@ import {
   alpha,
   useTheme,
   experimentalStyled as styled,
-} from '@material-ui/core/styles';
+} from '@mui/material/styles';
 
 import {
   Box,
@@ -13,7 +13,7 @@ import {
   Typography,
   Container,
   useMediaQuery,
-} from '@material-ui/core';
+} from '@mui/material';
 
 import {
   varFadeInDown,

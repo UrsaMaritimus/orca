@@ -1,6 +1,6 @@
 import { Palette } from './palette';
-import { alpha } from '@material-ui/core/styles';
-import { Shadows as MuiShadows } from '@material-ui/core/styles/shadows';
+import { alpha } from '@mui/material/styles';
+import { Shadows as MuiShadows } from '@mui/material/styles/shadows';
 
 const BASE_LIGHT = Palette.light.grey[500];
 const BASE_DARK = '#000000';

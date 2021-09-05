@@ -3,10 +3,10 @@ import { useEffect, FC } from 'react';
 import type { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
 import useSWR from 'swr';
-import { Typography, Stack, Box, Grid } from '@material-ui/core';
+import { Typography, Stack, Box, Grid } from '@mui/material';
 import { parseBalance } from '@orca/util';
 
-import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 
 import { useTheme } from 'next-themes';
 

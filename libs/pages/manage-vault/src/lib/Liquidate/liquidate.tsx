@@ -2,14 +2,14 @@ import { useState, FC } from 'react';
 import { useRouter } from 'next/router';
 
 // material
-import { Grid, Stack, Typography, Button, Backdrop } from '@material-ui/core';
+import { Grid, Stack, Typography, Button, Backdrop } from '@mui/material';
 
 // Ethers and web3 stuff
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 import useSWR from 'swr';
 
-import LoadingButton from '@material-ui/lab/LoadingButton';
+import LoadingButton from '@mui/lab/LoadingButton';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 import { routes, tokenInfo } from '@orca/shared/base';
 import { fCurrency, fNumber } from '@orca/util';

@@ -5,7 +5,7 @@ import { UserRejectedRequestError } from '@web3-react/injected-connector';
 import { useSetRecoilState } from 'recoil';
 import { toast } from 'react-hot-toast';
 
-import { Box, Button, Stack, Typography } from '@material-ui/core';
+import { Box, Button, Stack, Typography } from '@mui/material';
 
 import { useEagerConnect } from '@orca/hooks';
 import {

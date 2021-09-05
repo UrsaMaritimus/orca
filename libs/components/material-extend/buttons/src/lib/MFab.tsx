@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
-import { Fab, FabProps } from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
+import { Fab, FabProps } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 import { ButtonAnimate } from '@orca/components/animate';
 

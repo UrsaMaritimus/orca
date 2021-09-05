@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 
-import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 
 import {
   Card,
@@ -13,8 +13,8 @@ import {
   Stack,
   Tab,
   Container,
-} from '@material-ui/core';
-import { TabList, TabPanel, TabContext } from '@material-ui/lab';
+} from '@mui/material';
+import { TabList, TabPanel, TabContext } from '@mui/lab';
 
 import { Page } from '@orca/components/page';
 import { Connect } from '@orca/components/connect';

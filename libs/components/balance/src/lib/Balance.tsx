@@ -1,9 +1,9 @@
 import type { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
 import { useAVAXBalance } from '@orca/hooks';
-import { Typography, Stack, Box } from '@material-ui/core';
+import { Typography, Stack, Box } from '@mui/material';
 
-import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 
 import { useTheme } from 'next-themes';
 

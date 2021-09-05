@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { motion } from 'framer-motion';
-import { Box, BoxProps } from '@material-ui/core';
+import { Box, BoxProps } from '@mui/material';
 
 import { varWrapEnter } from './variants';
 

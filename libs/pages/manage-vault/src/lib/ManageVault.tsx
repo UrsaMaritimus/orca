@@ -7,7 +7,7 @@ import backArrowIos from '@iconify/icons-eva/arrow-ios-back-outline';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 
 import { useRouter } from 'next/router';
-import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 
 import {
   Card,
@@ -25,8 +25,8 @@ import {
   Typography,
   Tab,
   Stack,
-} from '@material-ui/core';
-import { TabContext, TabList, TabPanel } from '@material-ui/lab';
+} from '@mui/material';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
 
 // Ethers and web3 stuff
 import { useWeb3React } from '@web3-react/core';
@@ -262,7 +262,7 @@ export function ManageVault() {
                     vaultInfo={vaultInfo}
                     vaultID={Number(vaultID)}
                     isOwner={isOwner}
-                    token={token as string}
+                    token={token as 'AVAX'}
                   />
                 </TabPanel>
               </>
@@ -283,7 +283,7 @@ export function ManageVault() {
                 vaultInfo={vaultInfo}
                 vaultID={Number(vaultID)}
                 isOwner={isOwner}
-                token={token as string}
+                token={token as 'AVAX'}
               />
             )}
           </Container>

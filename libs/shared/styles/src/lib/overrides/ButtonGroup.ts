@@ -1,5 +1,4 @@
-import { alpha, Theme } from '@material-ui/core/styles';
-import '@material-ui/lab/themeAugmentation';
+import { alpha, Theme } from '@mui/material/styles';
 
 const ButtonGroup = (theme: Theme) => {
   return {

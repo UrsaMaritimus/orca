@@ -1,6 +1,6 @@
-import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 
-import { Card, CardHeader, Container } from '@material-ui/core';
+import { Card, CardHeader, Container } from '@mui/material';
 import { Connect } from '@orca/components/connect';
 import { Page } from '@orca/components/page';
 

@@ -2,8 +2,8 @@ import { Icon } from '@iconify/react';
 import squareFill from '@iconify/icons-eva/square-fill';
 import minusSquareFill from '@iconify/icons-eva/minus-square-fill';
 import checkmarkSquare2Fill from '@iconify/icons-eva/checkmark-square-2-fill';
-import { Theme } from '@material-ui/core/styles';
-import '@material-ui/lab/themeAugmentation';
+import { Theme } from '@mui/material/styles';
+
 const ICON_MEDIUM = { width: 24, height: 24 };
 const ICON_SMALL = { width: 20, height: 20 };
 

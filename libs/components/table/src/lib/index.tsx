@@ -15,7 +15,7 @@ import {
   Popover,
   Box,
   Grid,
-} from '@material-ui/core';
+} from '@mui/material';
 
 // components
 import { ScrollBar } from '@orca/components/scroll-bar';

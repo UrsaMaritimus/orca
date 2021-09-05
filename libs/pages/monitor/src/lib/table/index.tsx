@@ -10,7 +10,7 @@ import {
   TableContainer,
   TablePagination,
   Grid,
-} from '@material-ui/core';
+} from '@mui/material';
 
 import { Icon } from '@iconify/react';
 import dropletOutline from '@iconify/icons-eva/droplet-outline';

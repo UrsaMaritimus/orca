@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import TopBar from './TopBar';
-import { Box } from '@material-ui/core';
+import { Box } from '@mui/material';
 // ----------------------------------------------------------------------
 
 const HomeLayout: FC = ({ children }) => {

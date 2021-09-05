@@ -1,11 +1,10 @@
-import { useEffect, FC, useState } from 'react';
+import { FC } from 'react';
 import useSwr from 'swr';
 
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
-import { utils } from 'ethers';
 
-import { Card, CardHeader, Box, Typography } from '@material-ui/core';
+import { Card, CardHeader, Box, Typography } from '@mui/material';
 
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 import { monitorBadVaults } from '@orca/shared/funcs';

@@ -1,5 +1,5 @@
-import { alpha, Theme } from '@material-ui/core/styles';
-import '@material-ui/lab/themeAugmentation';
+import { alpha, Theme } from '@mui/material/styles';
+
 const Backdrop = (theme: Theme) => {
   const varLow = alpha(theme.palette.grey[900], 0.48);
   const varHigh = alpha(theme.palette.grey[900], 1);

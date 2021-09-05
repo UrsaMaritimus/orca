@@ -18,6 +18,8 @@ export type StepperProps = {
     availableWithdraw: BigNumber;
     peg: BigNumber;
     mcp: BigNumber;
+    closingFee: BigNumber;
+    openingFee: BigNumber;
   };
 };
 

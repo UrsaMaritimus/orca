@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 
 import { Page } from '@orca/components/page';
 import { Monitor } from '@orca/pages/monitor';

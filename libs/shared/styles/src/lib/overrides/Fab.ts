@@ -1,5 +1,5 @@
-import { Theme } from '@material-ui/core/styles';
-import '@material-ui/lab/themeAugmentation';
+import { Theme } from '@mui/material/styles';
+
 const Fab = (theme: Theme) => {
   return {
     MuiFab: {

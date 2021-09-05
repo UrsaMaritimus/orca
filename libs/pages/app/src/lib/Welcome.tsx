@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
-import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 
-import { Typography, Box, Card, CardContent } from '@material-ui/core';
+import { Typography, Box, Card, CardContent } from '@mui/material';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Card)(({ theme }) => ({

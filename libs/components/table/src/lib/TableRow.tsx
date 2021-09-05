@@ -6,7 +6,7 @@ import { Icon } from '@iconify/react';
 import editOutline from '@iconify/icons-eva/edit-outline';
 // material
 
-import { TableRow, TableCell, Button } from '@material-ui/core';
+import { TableRow, TableCell, Button } from '@mui/material';
 
 import { routes } from '@orca/shared/base';
 import { fPercent, fNumber } from '@orca/util';

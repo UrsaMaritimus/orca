@@ -13,9 +13,9 @@ import {
   Stack,
   Grid,
   Backdrop,
-} from '@material-ui/core';
+} from '@mui/material';
 
-import LoadingButton from '@material-ui/lab/LoadingButton';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 import { Icon } from '@iconify/react';
 import arrowRight from '@iconify/icons-eva/arrow-right-outline';

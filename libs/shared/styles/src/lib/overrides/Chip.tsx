@@ -1,5 +1,5 @@
-import { Theme } from '@material-ui/core/styles';
-import '@material-ui/lab/themeAugmentation';
+import { Theme } from '@mui/material/styles';
+
 import { Icon } from '@iconify/react';
 import closeCircleFill from '@iconify/icons-eva/close-circle-fill';
 

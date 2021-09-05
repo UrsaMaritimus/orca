@@ -3,8 +3,7 @@ import infoFill from '@iconify/icons-eva/info-fill';
 import alertCircleFill from '@iconify/icons-eva/alert-circle-fill';
 import alertTriangleFill from '@iconify/icons-eva/alert-triangle-fill';
 import checkmarkCircle2Fill from '@iconify/icons-eva/checkmark-circle-2-fill';
-import { Theme } from '@material-ui/core/styles';
-import '@material-ui/lab/themeAugmentation';
+import { Theme } from '@mui/material/styles';
 
 const Alert = (theme: Theme) => {
   const isLight = theme.palette.mode === 'light';

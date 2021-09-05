@@ -6,15 +6,13 @@ import { Icon } from '@iconify/react';
 import flashFill from '@iconify/icons-eva/flash-fill';
 
 import { motion } from 'framer-motion';
-import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 
-import { Box, Typography, Container, Button, Link } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Box, Typography, Container, Button, Link } from '@mui/material';
 import {
   varFadeIn,
   varWrapEnter,
   varFadeInRight,
-  varFadeInUp,
 } from '@orca/components/animate';
 
 import { routes } from '@orca/shared/base';
@@ -57,25 +55,16 @@ const HeroOverlayStyle = styled(motion.img)({
   position: 'absolute',
 });
 
-const useStyles = makeStyles({
-  orca: {
-    position: 'relative',
-    filter: 'blur(6px)',
-    zIndex: 10,
-    top: 250,
-  },
-  motion: {
-    zIndex: 9,
-  },
-  heroMotion: {
-    zIndex: 10,
-  },
+const StyledImage = styled(Image)({
+  position: 'relative',
+  filter: 'blur(6px)',
+  zIndex: 10,
+  top: 250,
 });
 
 // ----------------------------------------------------------------------
 
 const Hero: FC = () => {
-  const classes = useStyles();
   return (
     <>
       <RootStyle initial="initial" animate="animate" variants={varWrapEnter}>
@@ -85,11 +74,7 @@ const Hero: FC = () => {
           alt="overlay"
         />
 
-        <Image
-          src="/static/images/hero.svg"
-          layout="fill"
-          className={classes.orca}
-        />
+        <StyledImage src="/static/images/hero.svg" layout="fill" />
         <Container maxWidth="lg">
           <ContentStyle>
             <motion.div variants={varFadeInRight}>

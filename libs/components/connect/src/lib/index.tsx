@@ -1,20 +1,11 @@
 /* eslint-disable-next-line */
-import { useState, FC } from 'react';
+import { FC } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 
-import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 
-import {
-  Card,
-  CardHeader,
-  Box,
-  Typography,
-  Stack,
-  Tab,
-  Container,
-  Button,
-} from '@material-ui/core';
+import { Box, Typography, Stack, Container, Button } from '@mui/material';
 
 import { Page } from '@orca/components/page';
 
@@ -24,11 +15,6 @@ import { AVALANCHE_TESTNET_PARAMS } from '@orca/util';
 const RootStyle = styled(Page)(({ theme }) => ({
   paddingTop: theme.spacing(3),
   paddingBottom: theme.spacing(15),
-}));
-
-const CollateralStyle = styled(Container)(({ theme }) => ({
-  paddingTop: theme.spacing(2),
-  paddingBottom: theme.spacing(2),
 }));
 
 //--------------------------------------------------------------------------

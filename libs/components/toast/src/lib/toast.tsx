@@ -1,5 +1,5 @@
-import { toast, Toaster } from 'react-hot-toast';
-import { FC, useCallback } from 'react';
+import { Toaster } from 'react-hot-toast';
+import { FC } from 'react';
 
 import { Icon } from '@iconify/react';
 import infoFill from '@iconify/icons-eva/info-fill';
@@ -7,9 +7,10 @@ import alertCircleFill from '@iconify/icons-eva/alert-circle-fill';
 import alertTriangleFill from '@iconify/icons-eva/alert-triangle-fill';
 import checkmarkCircle2Fill from '@iconify/icons-eva/checkmark-circle-2-fill';
 
-import { alpha } from '@material-ui/core/styles';
-import { makeStyles } from '@material-ui/styles';
-import { Box } from '@material-ui/core';
+import { alpha } from '@mui/material/styles';
+
+import { Box } from '@mui/material';
+import { makeStyles } from '@orca/shared/styles';
 
 export enum NOTIFICATIONS_TYPES {
   SUCCESS = 'success',
@@ -18,7 +19,8 @@ export enum NOTIFICATIONS_TYPES {
   INFO = 'info',
 }
 
-const useStyles = makeStyles((theme) => {
+const useStyles = makeStyles()((theme) => {
+  console.log(theme);
   // Checks the palette light mode
   const isLight = theme.palette.mode === 'light';
 
@@ -123,12 +125,12 @@ type ViewProps = {
   type: string;
 };
 export const ToastView: FC<ViewProps> = ({ message, type }) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   return <div className={classes.root}>{message}</div>;
 };
 
 export const CustomToaster: FC = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   return (
     <Toaster
       position="bottom-right"

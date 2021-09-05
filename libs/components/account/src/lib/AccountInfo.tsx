@@ -4,7 +4,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 import { Jazzicon } from '@ukstv/jazzicon-react';
-import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 
 import {
   Grid,
@@ -18,7 +18,7 @@ import {
   Modal,
   Divider,
   Box,
-} from '@material-ui/core';
+} from '@mui/material';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import { utils } from 'ethers';

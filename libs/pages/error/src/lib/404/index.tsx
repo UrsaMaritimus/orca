@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { motion } from 'framer-motion';
-import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 
-import { Box, Button, Typography, Container } from '@material-ui/core';
+import { Box, Button, Typography, Container } from '@mui/material';
 
 import { Page } from '@orca/components/page';
 import { varBounceIn, MotionContainer } from '@orca/components/animate';

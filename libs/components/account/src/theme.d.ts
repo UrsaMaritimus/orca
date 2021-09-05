@@ -1,9 +1,9 @@
-import * as createPalette from '@material-ui/core/styles/createPalette';
-import * as typography from '@material-ui/core/styles/createTypography';
-import { Theme } from '@material-ui/core/styles';
+import * as createPalette from '@mui/material/styles/createPalette';
+import * as typography from '@mui/material/styles/createTypography';
+import { Theme } from '@mui/material/styles/styles';
 
 // Type declar for createPalette
-declare module '@material-ui/core/styles/createPalette' {
+declare module '@mui/material/styles/createPalette' {
   export interface IPaletteColorOptions {
     lighter?: string;
     light?: string;
@@ -72,7 +72,7 @@ declare module '@material-ui/core/styles/createPalette' {
 }
 
 // Type declare for shape
-declare module '@material-ui/system/createTheme/shape' {
+declare module '@mui/system/createTheme/shape' {
   export interface Shape {
     borderRadiusSm: number | string;
     borderRadiusMd: number | string;
@@ -80,7 +80,7 @@ declare module '@material-ui/system/createTheme/shape' {
 }
 
 // Type declare for shadow on the theme
-declare module '@material-ui/core/styles/createTheme' {
+declare module '@mui/material/styles/createTheme' {
   export interface IShadowExtension {
     z1: string;
     z8: string;
@@ -102,8 +102,4 @@ declare module '@material-ui/core/styles/createTheme' {
   export interface Theme {
     shadowExtension: IShadowExtension;
   }
-}
-
-declare module '@material-ui/styles' {
-  interface DefaultTheme extends Theme {}
 }

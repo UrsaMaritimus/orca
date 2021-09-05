@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Dialog, DialogProps } from '@material-ui/core';
+import { Dialog, DialogProps } from '@mui/material';
 
 import { varFadeInUp } from './variants';
 

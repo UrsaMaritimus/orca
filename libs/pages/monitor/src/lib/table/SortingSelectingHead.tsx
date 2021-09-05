@@ -3,7 +3,7 @@ import { FC, useState } from 'react';
 import { Icon } from '@iconify/react';
 import infoOutline from '@iconify/icons-eva/info-outline';
 // material
-import { visuallyHidden } from '@material-ui/utils';
+import { visuallyHidden } from '@mui/utils';
 import {
   Box,
   Popover,
@@ -13,7 +13,7 @@ import {
   TableSortLabel,
   Typography,
   IconButton,
-} from '@material-ui/core';
+} from '@mui/material';
 
 // ----------------------------------------------------------------------
 

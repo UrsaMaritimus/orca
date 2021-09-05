@@ -1,7 +1,7 @@
 import { FC } from 'react';
 // material
-import { useMediaQuery } from '@material-ui/core';
-import { Theme, Breakpoint } from '@material-ui/core/styles';
+import { useMediaQuery } from '@mui/material';
+import { Theme, Breakpoint } from '@mui/material/styles';
 
 // ----------------------------------------------------------------------
 

@@ -1,5 +1,5 @@
 import { pxToRem, responsiveFontSizes } from '@orca/util';
-import { TypographyOptions } from '@material-ui/core/styles/createTypography';
+import { TypographyOptions } from '@mui/material/styles/createTypography';
 
 const FONT_PRIMARY = 'Merriweather, serif'; // Google Font
 // const FONT_SECONDARY = 'CircularStd, sans-serif'; // Local Font

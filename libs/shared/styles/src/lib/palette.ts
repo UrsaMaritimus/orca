@@ -1,4 +1,4 @@
-import { alpha, PaletteOptions } from '@material-ui/core/styles';
+import { alpha, PaletteOptions } from '@mui/material/styles';
 
 const createGradient = (color1: string, color2: string) => {
   return `linear-gradient(to bottom, ${color1}, ${color2})`;

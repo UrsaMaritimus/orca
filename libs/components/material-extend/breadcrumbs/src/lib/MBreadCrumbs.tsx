@@ -1,13 +1,8 @@
 import last from 'lodash/last';
 import React, { FC } from 'react';
 
-import {
-  Breadcrumbs,
-  BreadcrumbsProps,
-  Typography,
-  Box,
-} from '@material-ui/core';
-import { SvgIconProps } from '@material-ui/core/SvgIcon';
+import { Breadcrumbs, BreadcrumbsProps, Typography, Box } from '@mui/material';
+import { SvgIconProps } from '@mui/material/SvgIcon';
 
 import { NextLink } from '@orca/components/links';
 
