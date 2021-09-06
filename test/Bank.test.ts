@@ -56,7 +56,9 @@ describe('Bank', function () {
         name,
         token
       )
-    ).to.emit(avai, 'CreateVaultType');
+    )
+      .to.emit(avai, 'CreateVaultType')
+      .withArgs(token, symbol);
 
     wVault = Bank__factory.connect(await avai.banks(0), accounts[0]);
   });

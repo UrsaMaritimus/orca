@@ -159,7 +159,9 @@ describe('Stablecoin', async function () {
         'avAVAX',
         '0xd00ae08403B9bbb9124bB305C09058E32C39A48c'
       )
-    ).to.emit(avai, 'CreateVaultType');
+    )
+      .to.emit(avai, 'CreateVaultType')
+      .withArgs('0xd00ae08403B9bbb9124bB305C09058E32C39A48c', 'avAVAX');
 
     await expect(
       avai.addBank(
@@ -169,7 +171,9 @@ describe('Stablecoin', async function () {
         'avAVAX',
         '0xd00ae08403B9bbb9124bB305C09058E32C39A48c'
       )
-    ).to.emit(avai, 'CreateVaultType');
+    )
+      .to.emit(avai, 'CreateVaultType')
+      .withArgs('0xd00ae08403B9bbb9124bB305C09058E32C39A48c', 'avAVAX');
 
     expect(await avai.banks(1)).to.be.properAddress;
   });
@@ -197,7 +201,9 @@ describe('Stablecoin', async function () {
         'avAVAX',
         '0xd00ae08403B9bbb9124bB305C09058E32C39A48c'
       )
-    ).to.emit(avai, 'CreateVaultType');
+    )
+      .to.emit(avai, 'CreateVaultType')
+      .withArgs('0xd00ae08403B9bbb9124bB305C09058E32C39A48c', 'avAVAX');
     const vaultAddress = await avai.banks(0);
 
     expect(await avai.hasRole(await avai.MINTER_ROLE(), vaultAddress)).to.equal(
