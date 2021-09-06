@@ -7,8 +7,8 @@
       "hash": "0xf630056e10eb965209d6e2919bb08ba6172ee21d09bf2c389a6a0bde9fceda05",
       "type": 0,
       "accessList": null,
-      "blockHash": "0xb631ad5eed72a6fe3eeeaedacfa1a56032df0beae30f46fe956fc46fd7d62912",
-      "blockNumber": 1156446,
+      "blockHash": "0xb90de7a4909843d8e41ed022e24ddf54d0acac10646400c79eefe805600d74ac",
+      "blockNumber": 1156797,
       "transactionIndex": 0,
       "confirmations": 1,
       "from": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
@@ -3815,7 +3815,7 @@
           {
             "contract": "USDCExchange",
             "label": "avai",
-            "type": "t_contract(IStablecoin)9174",
+            "type": "t_contract(IStablecoin)9171",
             "src": "apps/avai/src/contracts/USDCExchange.sol:20"
           },
           {
@@ -3841,7 +3841,7 @@
           "t_contract(IERC20)5479": {
             "label": "contract IERC20"
           },
-          "t_contract(IStablecoin)9174": {
+          "t_contract(IStablecoin)9171": {
             "label": "contract IStablecoin"
           },
           "t_uint256": {
@@ -3862,9 +3862,9 @@
         }
       }
     },
-    "ab6068a1bf9c7fcd1671e1c52aa4eef9f2e7765051dd97ff4fb36d2f12d0d54c": {
+    "616a75d9b77adbe1d80794116931aae99cdd0a2cfd7dc54d019b1b0c3f8926be": {
       "address": "0x969E3128DB078b179E9F3b3679710d2443cCDB72",
-      "txHash": "0x0da886e106167c3ade3ab96cc43ad751227632219d4c40d5dd231af058ee650a",
+      "txHash": "0x65b10aa9c3c75e3246bbc534708074ff964890e8778c265ea7e04d1eb6dad94a",
       "layout": {
         "storage": [
           {

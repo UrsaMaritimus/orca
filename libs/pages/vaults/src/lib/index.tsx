@@ -44,17 +44,17 @@ const collaterals = [
   },
   {
     disabled: true,
-    icon: '/static/cryptos/ic_png.svg',
+    icon: '/static/cryptos/ic_eth.svg',
     value: '2',
     component: <> </>,
-    title: 'PNG',
+    title: 'ETH',
   },
   {
     disabled: true,
-    icon: '/static/cryptos/ic_traderjoe.svg',
+    icon: '/static/cryptos/ic_wbtc.svg',
     value: '3',
     component: <> </>,
-    title: 'JOE',
+    title: 'BTC',
   },
 ];
 
