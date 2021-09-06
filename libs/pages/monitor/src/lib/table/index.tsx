@@ -19,7 +19,7 @@ import { ScrollBar } from '@orca/components/scroll-bar';
 //
 import SortingSelectingHead from './SortingSelectingHead';
 import { BigNumber, utils } from 'ethers';
-import { fPercent, fCurrency } from '@orca/util';
+import { fPercent, fCurrency, colorScale } from '@orca/util';
 import { routes } from '@orca/shared/base';
 import { NextLink } from '@orca/components/links';
 
@@ -117,7 +117,22 @@ const SortingSelecting: FC<RowProps> = ({ rows, collateralType }) => {
                         >
                           {row.num}
                         </TableCell>
-                        <TableCell align="center">
+                        <TableCell
+                          align="center"
+                          sx={{
+                            color: colorScale(
+                              Number(
+                                utils.formatUnits(
+                                  BigNumber.from(1e8).div(row.cp),
+                                  4
+                                )
+                              ),
+                              50,
+                              65
+                            ),
+                            fontWeight: 'bold',
+                          }}
+                        >
                           {fPercent(
                             Number(
                               utils.formatUnits(

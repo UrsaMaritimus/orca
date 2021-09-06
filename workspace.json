@@ -114,6 +114,29 @@
         }
       }
     },
+    "components-colorbar": {
+      "root": "libs/components/colorbar",
+      "sourceRoot": "libs/components/colorbar/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/components/colorbar/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/components/colorbar"],
+          "options": {
+            "jestConfig": "libs/components/colorbar/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "components-connect": {
       "root": "libs/components/connect",
       "sourceRoot": "libs/components/connect/src",

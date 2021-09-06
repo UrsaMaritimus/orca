@@ -30,7 +30,7 @@ export const monitorBadVaults = () => {
             .mul(priceSource)
             .div(debt.mul(pricePeg));
           // Anything below 200% is getting close, I suppose
-          if (cp.lte(166)) {
+          if (cp.lte(200)) {
             acc.push({
               num: i + 1,
               debt,

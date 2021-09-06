@@ -27,7 +27,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import { useFormik, Form, FormikProvider } from 'formik';
 
 import { utils } from 'ethers';
-import { fCurrency, fPercent, fNumber } from '@orca/util';
+import { fCurrency, fPercent, fNumber, colorScale } from '@orca/util';
 import { withdrawCollateral } from '@orca/shared/funcs';
 
 import { Loader } from '@orca/components/loader';
@@ -238,7 +238,7 @@ export const WithdrawStepper: FC<StepperProps> = ({
                     Back
                   </Button>
                 </Grid>
-                <Grid xs={6} display="flex" justifyContent="center">
+                <Grid item xs={6} display="flex" justifyContent="center">
                   <Button
                     type="submit"
                     variant="contained"
@@ -329,7 +329,7 @@ export const WithdrawStepper: FC<StepperProps> = ({
                   justifyContent="flex-end"
                 >
                   <Typography variant="subtitle1" textAlign="center">
-                    Borrowing Power
+                    New LTV
                   </Typography>
                 </Grid>
                 <Grid
@@ -341,41 +341,46 @@ export const WithdrawStepper: FC<StepperProps> = ({
                   justifyContent="flex-end"
                 >
                   <Stack alignItems={'flex-end'}>
-                    <Typography variant="subtitle2">
-                      {values.withdrawAmount &&
-                        // Recacalculate what their new borrowing power will be
-                        fPercent(
+                    <Typography
+                      variant="body2"
+                      textAlign="center"
+                      color={colorScale(
+                        (100 * Number(utils.formatEther(vaultInfo.debt))) /
                           Number(
-                            vaultInfo.collateral.eq(
-                              utils.parseEther(values.withdrawAmount.toString())
-                            )
-                              ? 0
-                              : utils.formatUnits(
-                                  utils.parseUnits('100', 6).sub(
-                                    vaultInfo.debt
-                                      .mul(1e8)
-                                      .mul(vaultInfo.peg)
-                                      .div(
-                                        vaultInfo.collateral
-                                          .mul(vaultInfo.tokenPrice)
-                                          .sub(
-                                            utils
-                                              .parseEther(
-                                                values.withdrawAmount.toString()
-                                              )
-                                              .mul(vaultInfo.tokenPrice)
-                                          )
-                                      )
-                                      .mul(vaultInfo.mcp)
-                                      .div(100)
-                                  ),
-                                  6
+                            utils.formatEther(
+                              vaultInfo.collateral
+                                .add(
+                                  utils.parseEther(
+                                    values.withdrawAmount.toString()
+                                  )
                                 )
+                                .mul(vaultInfo.tokenPrice)
+                                .div(vaultInfo.peg)
+                            )
+                          ),
+                        40,
+                        vaultInfo.maxLTV
+                      )}
+                    >
+                      {fPercent(
+                        (100 * Number(utils.formatEther(vaultInfo.debt))) /
+                          Number(
+                            utils.formatEther(
+                              vaultInfo.collateral
+                                .add(
+                                  utils.parseEther(
+                                    values.withdrawAmount.toString()
+                                  )
+                                )
+                                .mul(vaultInfo.tokenPrice)
+                                .div(vaultInfo.peg)
+                            )
                           )
-                        )}
+                      )}
                     </Typography>
                     <Typography
                       variant="caption"
+                      textAlign="center"
                       sx={{
                         color: (theme) =>
                           theme.palette.mode === 'light'
@@ -390,14 +395,14 @@ export const WithdrawStepper: FC<StepperProps> = ({
                           (vaultInfo.maxLTV / 100) -
                           Number(utils.formatEther(vaultInfo.debt))
                       )}{' '}
-                      USD
+                      AVAI Available
                     </Typography>
                   </Stack>
                 </Grid>
               </Grid>
             </Box>
             <Grid container>
-              <Grid xs={6} display="flex" justifyContent="center">
+              <Grid item xs={6} display="flex" justifyContent="center">
                 <LoadingButton
                   startIcon={<Icon icon={backSpace} width={25} height={25} />}
                   color="inherit"
@@ -408,7 +413,7 @@ export const WithdrawStepper: FC<StepperProps> = ({
                   Back
                 </LoadingButton>
               </Grid>
-              <Grid xs={6} display="flex" justifyContent="center">
+              <Grid item xs={6} display="flex" justifyContent="center">
                 <LoadingButton
                   endIcon={<Icon icon={arrowRight} width={25} height={25} />}
                   variant="contained"

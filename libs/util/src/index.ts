@@ -4,3 +4,4 @@ export * from './lib/formatFontSize';
 export * from './lib/formatNumber';
 export * from './lib/formatTime';
 export * from './lib/networks/networks';
+export * from './lib/formatFontColor';

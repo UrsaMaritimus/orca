@@ -19,7 +19,7 @@ import {
 
 // components
 import { ScrollBar } from '@orca/components/scroll-bar';
-
+import { ColorBar } from '@orca/components/colorbar';
 import RowTable, { Row } from './TableRow';
 
 // ----------------------------------------------------------------------
@@ -145,12 +145,21 @@ const MainTable: FC<MainTableProps> = ({ rows, collateralType, debtType }) => {
           <Typography variant="subtitle1" gutterBottom>
             Loan to Value Ratio
           </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+          <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>
             The loan to value (LTV) ratio signifies how much of your{' '}
             {collateralType} collateral has been used to borrow against. The max
             LTV signifies the maximum amount of collateral that can be loaned
             against before risking liquidation.
           </Typography>
+          <ColorBar />
+          <Grid container>
+            <Grid item xs={6} display="flex" justifyContent="flex-start">
+              <Typography variant={'caption'}>Safe</Typography>
+            </Grid>
+            <Grid item xs={6} display="flex" justifyContent="flex-end">
+              <Typography variant={'caption'}>Risky</Typography>
+            </Grid>
+          </Grid>
         </Box>
       </Popover>
     </Grid>

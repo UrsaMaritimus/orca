@@ -17,13 +17,14 @@ import {
   Tab,
 } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { BigNumber, utils } from 'ethers';
-import { fCurrency, fPercent, fNumber } from '@orca/util';
+import { utils } from 'ethers';
+import { fCurrency, fPercent, fNumber, colorScale } from '@orca/util';
 
 import { tokenInfo } from '@orca/shared/base';
 import BorrowStepper from './BorrowStepper';
 import RepayStepper from './RepayStepper';
 import { ActionProps } from './stepper.type';
+import { ColorBar } from '@orca/components/colorbar';
 //-----------------------------------------
 
 export const Borrows: FC<ActionProps> = ({
@@ -60,7 +61,7 @@ export const Borrows: FC<ActionProps> = ({
           theme.palette.mode === 'light' ? 'grey.200' : 'grey.700',
       }}
     >
-      <Container maxWidth="lg">
+      <Container>
         <Box sx={{ flexGrow: 1 }}>
           <Stack alignItems="center" direction="row" spacing={1}>
             <Typography variant="h4">Borrows in</Typography>
@@ -81,8 +82,8 @@ export const Borrows: FC<ActionProps> = ({
             </Stack>
           </Stack>
         </Box>
-        <Grid container>
-          <Grid item xs={12} sm={6} sx={{ mt: 1 }}>
+        <Grid container my={2}>
+          <Grid item xs={12} sm={4} sx={{ mt: 0.5 }}>
             <Grid container>
               <Grid item xs={7} sm={12} display="flex" justifyContent="center">
                 <Typography variant="h6">Debt</Typography>
@@ -111,15 +112,23 @@ export const Borrows: FC<ActionProps> = ({
             </Grid>
           </Grid>
 
-          <Grid item xs={12} sm={6} sx={{ mt: 1 }}>
+          <Grid item xs={12} sm={4} sx={{ mt: 0.5 }}>
             <Grid container alignItems="center">
               <Grid item xs={7} sm={12} display="flex" justifyContent="center">
                 <Typography variant="h6" textAlign="center">
-                  Available to Borrow
+                  Available
                 </Typography>
               </Grid>
               <Grid item xs={5} sm={12} display="flex" justifyContent="center">
-                <Typography variant="inherit" textAlign="center">
+                <Typography
+                  variant="inherit"
+                  textAlign="center"
+                  color={colorScale(
+                    Number(utils.formatUnits(vaultInfo.LTV, 6)),
+                    40,
+                    vaultInfo.maxLTV
+                  )}
+                >
                   {fNumber(
                     Number(
                       utils.formatEther(vaultInfo.borrowingPowerAvailableUSD)
@@ -150,7 +159,7 @@ export const Borrows: FC<ActionProps> = ({
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12} sm={12} sx={{ mt: 2 }}>
+          <Grid item xs={12} sm={4}>
             <Grid container alignItems="center">
               <Grid item xs={7} sm={12} display="flex" justifyContent="center">
                 <Stack direction="row" alignItems="center">
@@ -167,7 +176,14 @@ export const Borrows: FC<ActionProps> = ({
                 </Stack>
               </Grid>
               <Grid item xs={5} sm={12} display="flex" justifyContent="center">
-                <Typography variant="inherit">
+                <Typography
+                  variant="inherit"
+                  color={colorScale(
+                    Number(utils.formatUnits(vaultInfo.LTV, 6)),
+                    40,
+                    vaultInfo.maxLTV
+                  )}
+                >
                   {fPercent(Number(utils.formatUnits(vaultInfo.LTV, 6)))}{' '}
                 </Typography>
               </Grid>
@@ -297,12 +313,21 @@ export const Borrows: FC<ActionProps> = ({
           <Typography variant="subtitle1" gutterBottom>
             Loan to Value Ratio
           </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+          <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>
             The loan to value ratio signifies how much of your {token}{' '}
             collateral can be used to borrow against. For example, given $100
             USD worth of {token}, you can borrow {fCurrency(vaultInfo.maxLTV)}{' '}
             USD worth.
           </Typography>
+          <ColorBar />
+          <Grid container>
+            <Grid item xs={6} display="flex" justifyContent="flex-start">
+              <Typography variant={'caption'}>Safe</Typography>
+            </Grid>
+            <Grid item xs={6} display="flex" justifyContent="flex-end">
+              <Typography variant={'caption'}>Risky</Typography>
+            </Grid>
+          </Grid>
         </Box>
       </Popover>
     </Card>

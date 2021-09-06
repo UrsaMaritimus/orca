@@ -29,7 +29,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import { Loader } from '@orca/components/loader';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { payBackToken, avaiBalance } from '@orca/shared/funcs';
-import { fPercent, fNumber } from '@orca/util';
+import { fPercent, fNumber, colorScale } from '@orca/util';
 import { utils } from 'ethers';
 import { tokenInfo } from '@orca/shared/base';
 import {
@@ -358,7 +358,24 @@ export const RepayStepper: FC<StepperProps> = ({
                   justifyContent="flex-end"
                 >
                   <Stack alignItems={'flex-end'}>
-                    <Typography variant="body2" textAlign="center">
+                    <Typography
+                      variant="body2"
+                      textAlign="center"
+                      color={colorScale(
+                        (100 *
+                          (Number(utils.formatEther(vaultInfo.debt)) -
+                            values.repayAmount)) /
+                          Number(
+                            utils.formatEther(
+                              vaultInfo.collateral
+                                .mul(vaultInfo.tokenPrice)
+                                .div(vaultInfo.peg)
+                            )
+                          ),
+                        40,
+                        vaultInfo.maxLTV
+                      )}
+                    >
                       {fPercent(
                         (100 *
                           (Number(utils.formatEther(vaultInfo.debt)) -

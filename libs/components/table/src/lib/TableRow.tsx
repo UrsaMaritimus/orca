@@ -9,7 +9,7 @@ import editOutline from '@iconify/icons-eva/edit-outline';
 import { TableRow, TableCell, Button } from '@mui/material';
 
 import { routes } from '@orca/shared/base';
-import { fPercent, fNumber } from '@orca/util';
+import { fPercent, fNumber, colorScale } from '@orca/util';
 
 // ----------------------------------------------------------------------
 
@@ -35,7 +35,9 @@ const RowTable: FC<TableProps> = ({ row, collateralType }) => {
       </TableCell>
       <TableCell align="center">{fNumber(Number(row.collateral), 2)}</TableCell>
       <TableCell align="center">{fNumber(Number(row.debt), 2)}</TableCell>
-      <TableCell align="center">{fPercent(Number(row.ratio))}</TableCell>
+      <TableCell align="center" sx={{ color: colorScale(Number(row.ratio)) }}>
+        {fPercent(Number(row.ratio))}
+      </TableCell>
       <TableCell align="center">
         <Button
           variant="contained"

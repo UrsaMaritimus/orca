@@ -18,8 +18,9 @@ import {
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 
 import { utils } from 'ethers';
-import { fCurrency, fPercent, fNumber } from '@orca/util';
+import { fCurrency, fPercent, fNumber, colorScale } from '@orca/util';
 
+import { ColorBar } from '@orca/components/colorbar';
 import { tokenInfo } from '@orca/shared/base';
 import { DepositStepper } from './DepositStepper';
 import { WithdrawStepper } from './WithdrawStepper';
@@ -47,18 +48,17 @@ export const Deposit: FC<ActionProps> = ({
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
   return (
     <>
-      <Container maxWidth="sm">
-        <Card
-          sx={{
-            p: 2,
-            mt: 2,
-            bgcolor: (theme) =>
-              theme.palette.mode === 'light' ? 'grey.200' : 'grey.700',
-          }}
-        >
+      <Card
+        sx={{
+          p: 2,
+          mt: 2,
+          bgcolor: (theme) =>
+            theme.palette.mode === 'light' ? 'grey.200' : 'grey.700',
+        }}
+      >
+        <Container>
           <Box sx={{ flexGrow: 1 }}>
             <Stack alignItems="center" direction="row" spacing={1}>
               <Typography variant="h4">Deposits in</Typography>
@@ -79,8 +79,8 @@ export const Deposit: FC<ActionProps> = ({
               </Stack>
             </Stack>
           </Box>
-          <Grid container sx={{ mt: 2 }}>
-            <Grid item xs={12} sm={6}>
+          <Grid container sx={{ my: 3 }}>
+            <Grid item xs={12} sm={4} mt={0.5}>
               <Grid container>
                 <Grid
                   item
@@ -134,62 +134,7 @@ export const Deposit: FC<ActionProps> = ({
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <Grid container alignItems="center">
-                <Grid
-                  item
-                  xs={7}
-                  sm={12}
-                  display="flex"
-                  justifyContent="center"
-                >
-                  <Stack direction="row" alignItems="center">
-                    <Typography variant="h6" textAlign="center">
-                      Current LTV
-                    </Typography>
-                    <IconButton
-                      onMouseEnter={handleHoverOpen}
-                      onMouseLeave={handleHoverClose}
-                      color="secondary"
-                    >
-                      <Icon icon={infoOutline} width={20} height={20} />
-                    </IconButton>
-                  </Stack>
-                </Grid>
-                <Grid
-                  item
-                  xs={5}
-                  sm={12}
-                  display="flex"
-                  justifyContent="center"
-                >
-                  <Typography variant="inherit">
-                    {fPercent(Number(utils.formatUnits(vaultInfo.LTV, 6)))}{' '}
-                  </Typography>
-                </Grid>
-                <Grid item xs={7} sm={false}></Grid>
-                <Grid
-                  item
-                  xs={5}
-                  sm={12}
-                  display="flex"
-                  justifyContent="center"
-                >
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      color: (theme) =>
-                        theme.palette.mode === 'light'
-                          ? 'grey.600'
-                          : 'grey.400',
-                    }}
-                  >
-                    Max LTV: {fPercent(vaultInfo.maxLTV)}
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} sm={6} sx={{ mt: 1 }}>
+            <Grid item xs={12} sm={4} mt={0.5}>
               <Grid container alignItems="center">
                 <Grid
                   item
@@ -209,7 +154,14 @@ export const Deposit: FC<ActionProps> = ({
                   display="flex"
                   justifyContent="center"
                 >
-                  <Typography variant="inherit">
+                  <Typography
+                    variant="inherit"
+                    color={colorScale(
+                      Number(utils.formatUnits(vaultInfo.LTV, 6)),
+                      40,
+                      vaultInfo.maxLTV
+                    )}
+                  >
                     {fPercent(
                       Number(utils.formatUnits(vaultInfo.borrowingPowerUsed, 6))
                     )}
@@ -240,7 +192,7 @@ export const Deposit: FC<ActionProps> = ({
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={12} sm={6} sx={{ mt: 1 }}>
+            <Grid item xs={12} sm={4}>
               <Grid container alignItems="center">
                 <Grid
                   item
@@ -249,9 +201,18 @@ export const Deposit: FC<ActionProps> = ({
                   display="flex"
                   justifyContent="center"
                 >
-                  <Typography variant="h6" textAlign="center">
-                    Borrowing Power
-                  </Typography>
+                  <Stack direction="row" alignItems="center">
+                    <Typography variant="h6" textAlign="center">
+                      Current LTV
+                    </Typography>
+                    <IconButton
+                      onMouseEnter={handleHoverOpen}
+                      onMouseLeave={handleHoverClose}
+                      color="secondary"
+                    >
+                      <Icon icon={infoOutline} width={20} height={20} />
+                    </IconButton>
+                  </Stack>
                 </Grid>
                 <Grid
                   item
@@ -260,12 +221,15 @@ export const Deposit: FC<ActionProps> = ({
                   display="flex"
                   justifyContent="center"
                 >
-                  <Typography variant="inherit">
-                    {fPercent(
-                      Number(
-                        utils.formatUnits(vaultInfo.borrowingPowerAvailable, 6)
-                      )
+                  <Typography
+                    variant="inherit"
+                    color={colorScale(
+                      Number(utils.formatUnits(vaultInfo.LTV, 6)),
+                      40,
+                      vaultInfo.maxLTV
                     )}
+                  >
+                    {fPercent(Number(utils.formatUnits(vaultInfo.LTV, 6)))}{' '}
                   </Typography>
                 </Grid>
                 <Grid item xs={7} sm={false}></Grid>
@@ -285,12 +249,7 @@ export const Deposit: FC<ActionProps> = ({
                           : 'grey.400',
                     }}
                   >
-                    {fCurrency(
-                      Number(
-                        utils.formatEther(vaultInfo.borrowingPowerAvailableUSD)
-                      )
-                    )}{' '}
-                    USD
+                    Max LTV: {fPercent(vaultInfo.maxLTV)}
                   </Typography>
                 </Grid>
               </Grid>
@@ -388,8 +347,9 @@ export const Deposit: FC<ActionProps> = ({
               </Box>
             </TabContext>
           )}
-        </Card>
-      </Container>
+        </Container>
+      </Card>
+
       <Popover
         id="mouse-over-popover"
         open={Boolean(hover)}
@@ -412,12 +372,21 @@ export const Deposit: FC<ActionProps> = ({
           <Typography variant="subtitle1" gutterBottom>
             Loan to Value Ratio
           </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+          <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>
             The loan to value ratio signifies how much of your {token}{' '}
             collateral can be used to borrow against. For example, given $100
             USD worth of {token}, you can borrow {fCurrency(vaultInfo.maxLTV)}{' '}
             USD worth.
           </Typography>
+          <ColorBar />
+          <Grid container>
+            <Grid item xs={6} display="flex" justifyContent="flex-start">
+              <Typography variant={'caption'}>Safe</Typography>
+            </Grid>
+            <Grid item xs={6} display="flex" justifyContent="flex-end">
+              <Typography variant={'caption'}>Risky</Typography>
+            </Grid>
+          </Grid>
         </Box>
       </Popover>
     </>

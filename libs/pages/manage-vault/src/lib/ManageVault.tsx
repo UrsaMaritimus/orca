@@ -45,7 +45,6 @@ import {
   vaultOwner,
   deleteVault,
   getVault,
-  payBackToken,
 } from '@orca/shared/funcs';
 
 import { Deposit } from './Deposit';

@@ -25,7 +25,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import { utils } from 'ethers';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { Loader } from '@orca/components/loader';
-import { fPercent, fNumber } from '@orca/util';
+import { fPercent, fNumber, colorScale } from '@orca/util';
 import { borrowToken } from '@orca/shared/funcs';
 import {
   handleTransaction,
@@ -344,7 +344,24 @@ export const BorrowStepper: FC<StepperProps> = ({
                   justifyContent="flex-end"
                 >
                   <Stack alignItems={'flex-end'}>
-                    <Typography variant="body2" textAlign="center">
+                    <Typography
+                      variant="body2"
+                      textAlign="center"
+                      color={colorScale(
+                        (100 *
+                          (Number(utils.formatEther(vaultInfo.debt)) +
+                            values.borrowAmount)) /
+                          Number(
+                            utils.formatEther(
+                              vaultInfo.collateral
+                                .mul(vaultInfo.tokenPrice)
+                                .div(vaultInfo.peg)
+                            )
+                          ),
+                        40,
+                        vaultInfo.maxLTV
+                      )}
+                    >
                       {fPercent(
                         (100 *
                           (Number(utils.formatEther(vaultInfo.debt)) +

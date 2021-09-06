@@ -33,7 +33,7 @@ import { useFormik, Form, FormikProvider } from 'formik';
 
 import { Loader } from '@orca/components/loader';
 import { useAVAXBalance } from '@orca/hooks';
-import { fCurrency, fPercent } from '@orca/util';
+import { colorScale, fCurrency, fNumber, fPercent } from '@orca/util';
 import { depositCollateral } from '@orca/shared/funcs';
 
 import { tokenInfo } from '@orca/shared/base';
@@ -310,7 +310,7 @@ export const DepositStepper: FC<StepperProps> = ({
                   justifyContent="flex-end"
                 >
                   <Typography variant="subtitle1" textAlign="center">
-                    Borrowing Power
+                    New LTV
                   </Typography>
                 </Grid>
                 <Grid
@@ -322,37 +322,46 @@ export const DepositStepper: FC<StepperProps> = ({
                   justifyContent="flex-end"
                 >
                   <Stack alignItems={'flex-end'}>
-                    <Typography variant="subtitle2">
-                      {values.depositAmount &&
-                        // Recacalculate what their new borrowing power will be
-                        fPercent(
+                    <Typography
+                      variant="body2"
+                      textAlign="center"
+                      color={colorScale(
+                        (100 * Number(utils.formatEther(vaultInfo.debt))) /
                           Number(
-                            utils.formatUnits(
-                              utils.parseUnits('100', 6).sub(
-                                vaultInfo.debt
-                                  .mul(1e8)
-                                  .mul(vaultInfo.peg)
-                                  .div(
-                                    vaultInfo.collateral
-                                      .mul(vaultInfo.tokenPrice)
-                                      .add(
-                                        utils
-                                          .parseEther(
-                                            values.depositAmount.toString()
-                                          )
-                                          .mul(vaultInfo.tokenPrice)
-                                      )
+                            utils.formatEther(
+                              vaultInfo.collateral
+                                .add(
+                                  utils.parseEther(
+                                    values.depositAmount.toString()
                                   )
-                                  .mul(vaultInfo.mcp)
-                                  .div(100)
-                              ),
-                              6
+                                )
+                                .mul(vaultInfo.tokenPrice)
+                                .div(vaultInfo.peg)
+                            )
+                          ),
+                        40,
+                        vaultInfo.maxLTV
+                      )}
+                    >
+                      {fPercent(
+                        (100 * Number(utils.formatEther(vaultInfo.debt))) /
+                          Number(
+                            utils.formatEther(
+                              vaultInfo.collateral
+                                .add(
+                                  utils.parseEther(
+                                    values.depositAmount.toString()
+                                  )
+                                )
+                                .mul(vaultInfo.tokenPrice)
+                                .div(vaultInfo.peg)
                             )
                           )
-                        )}
+                      )}
                     </Typography>
                     <Typography
                       variant="caption"
+                      textAlign="center"
                       sx={{
                         color: (theme) =>
                           theme.palette.mode === 'light'
@@ -367,7 +376,7 @@ export const DepositStepper: FC<StepperProps> = ({
                           (vaultInfo.maxLTV / 100) -
                           Number(utils.formatEther(vaultInfo.debt))
                       )}{' '}
-                      USD
+                      AVAI Available
                     </Typography>
                   </Stack>
                 </Grid>
