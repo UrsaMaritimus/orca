@@ -325,39 +325,43 @@ export const DepositStepper: FC<StepperProps> = ({
                     <Typography
                       variant="body2"
                       textAlign="center"
-                      color={colorScale(
-                        (100 * Number(utils.formatEther(vaultInfo.debt))) /
-                          Number(
-                            utils.formatEther(
-                              vaultInfo.collateral
-                                .add(
-                                  utils.parseEther(
-                                    values.depositAmount.toString()
+                      color={
+                        values.depositAmount &&
+                        colorScale(
+                          (100 * Number(utils.formatEther(vaultInfo.debt))) /
+                            Number(
+                              utils.formatEther(
+                                vaultInfo.collateral
+                                  .add(
+                                    utils.parseEther(
+                                      values.depositAmount.toString()
+                                    )
                                   )
-                                )
-                                .mul(vaultInfo.tokenPrice)
-                                .div(vaultInfo.peg)
-                            )
-                          ),
-                        40,
-                        vaultInfo.maxLTV
-                      )}
+                                  .mul(vaultInfo.tokenPrice)
+                                  .div(vaultInfo.peg)
+                              )
+                            ),
+                          40,
+                          vaultInfo.maxLTV
+                        )
+                      }
                     >
-                      {fPercent(
-                        (100 * Number(utils.formatEther(vaultInfo.debt))) /
-                          Number(
-                            utils.formatEther(
-                              vaultInfo.collateral
-                                .add(
-                                  utils.parseEther(
-                                    values.depositAmount.toString()
+                      {values.depositAmount &&
+                        fPercent(
+                          (100 * Number(utils.formatEther(vaultInfo.debt))) /
+                            Number(
+                              utils.formatEther(
+                                vaultInfo.collateral
+                                  .add(
+                                    utils.parseEther(
+                                      values.depositAmount.toString()
+                                    )
                                   )
-                                )
-                                .mul(vaultInfo.tokenPrice)
-                                .div(vaultInfo.peg)
+                                  .mul(vaultInfo.tokenPrice)
+                                  .div(vaultInfo.peg)
+                              )
                             )
-                          )
-                      )}
+                        )}
                     </Typography>
                     <Typography
                       variant="caption"
