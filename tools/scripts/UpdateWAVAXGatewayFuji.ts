@@ -29,7 +29,7 @@ const updateWavaxGateway = async () => {
   console.log('Connected to gateway');
   await gateway.authorizeVault(wavaxVault.address);
   console.log('Authorized gateway');
-  await wavaxVault.setGateway(gateway.address);
+  await avai.setGateway(0, gateway.address);
   console.log('Set new gateway on wavax vault.');
 };
 
