@@ -23,6 +23,9 @@ contract USDCExchange is
   uint256 public avaiRate;
   address public treasury;
 
+  event Mint(address minter, uint256 amount, uint256 fee);
+  event Redeem(address redeemer, uint256 amount, uint256 fee);
+
   function initialize(address usdc_, address avai_) public initializer {
     __Context_init_unchained();
     __Ownable_init_unchained();
@@ -81,6 +84,7 @@ contract USDCExchange is
     usdc.safeTransfer(treasury, fee);
     // Transfer miMatic to sender
     avai.mint(msg.sender, amountToSend);
+    emit Mint(msg.sender, amountToSend, fee);
   }
 
   /**
@@ -105,5 +109,6 @@ contract USDCExchange is
     usdc.safeTransfer(msg.sender, amountToSend);
     // Transfer USDC fee to treasury
     usdc.safeTransfer(treasury, fee);
+    emit Redeem(msg.sender, amountToSend, fee);
   }
 }

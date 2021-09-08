@@ -512,10 +512,17 @@ interface BankInterface extends ethers.utils.Interface {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
     "BorrowToken(uint256,uint256)": EventFragment;
+    "ChangeDebtRatio(uint256)": EventFragment;
+    "ChangeGainRatio(uint256)": EventFragment;
     "CreateVault(uint256,address)": EventFragment;
     "DepositCollateral(uint256,uint256)": EventFragment;
     "DestroyVault(uint256)": EventFragment;
-    "LiquidateVault(uint256,address,address,uint256,uint256)": EventFragment;
+    "GetPaid(uint256,address)": EventFragment;
+    "LiquidateVault(uint256,address,address,uint256,uint256,uint256)": EventFragment;
+    "NewClosingFee(uint256)": EventFragment;
+    "NewDebtCeiling(uint256)": EventFragment;
+    "NewOpeningFee(uint256)": EventFragment;
+    "NewPeg(uint256)": EventFragment;
     "PayBackToken(uint256,uint256,uint256)": EventFragment;
     "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
     "RoleGranted(bytes32,address,address)": EventFragment;
@@ -528,10 +535,17 @@ interface BankInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "BorrowToken"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ChangeDebtRatio"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ChangeGainRatio"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "CreateVault"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "DepositCollateral"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "DestroyVault"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "GetPaid"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "LiquidateVault"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewClosingFee"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewDebtCeiling"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewOpeningFee"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewPeg"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "PayBackToken"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
@@ -1449,6 +1463,14 @@ export class Bank extends BaseContract {
       { vaultID: BigNumber; amount: BigNumber }
     >;
 
+    ChangeDebtRatio(
+      newDebtRatio?: null
+    ): TypedEventFilter<[BigNumber], { newDebtRatio: BigNumber }>;
+
+    ChangeGainRatio(
+      newGainRatio?: null
+    ): TypedEventFilter<[BigNumber], { newGainRatio: BigNumber }>;
+
     CreateVault(
       vaultID?: null,
       creator?: null
@@ -1469,22 +1491,46 @@ export class Bank extends BaseContract {
       vaultID?: null
     ): TypedEventFilter<[BigNumber], { vaultID: BigNumber }>;
 
+    GetPaid(
+      amount?: null,
+      user?: null
+    ): TypedEventFilter<
+      [BigNumber, string],
+      { amount: BigNumber; user: string }
+    >;
+
     LiquidateVault(
       vaultID?: null,
       owner?: null,
       buyer?: null,
       amountPaid?: null,
-      tokenExtract?: null
+      tokenExtract?: null,
+      closingFee?: null
     ): TypedEventFilter<
-      [BigNumber, string, string, BigNumber, BigNumber],
+      [BigNumber, string, string, BigNumber, BigNumber, BigNumber],
       {
         vaultID: BigNumber;
         owner: string;
         buyer: string;
         amountPaid: BigNumber;
         tokenExtract: BigNumber;
+        closingFee: BigNumber;
       }
     >;
+
+    NewClosingFee(
+      newClosingFee?: null
+    ): TypedEventFilter<[BigNumber], { newClosingFee: BigNumber }>;
+
+    NewDebtCeiling(
+      newDebtCeiling?: null
+    ): TypedEventFilter<[BigNumber], { newDebtCeiling: BigNumber }>;
+
+    NewOpeningFee(
+      newOpeningFee?: null
+    ): TypedEventFilter<[BigNumber], { newOpeningFee: BigNumber }>;
+
+    NewPeg(newPew?: null): TypedEventFilter<[BigNumber], { newPew: BigNumber }>;
 
     PayBackToken(
       vaultID?: null,

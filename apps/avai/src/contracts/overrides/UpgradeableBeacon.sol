@@ -27,6 +27,7 @@ contract UpgradeableBeacon is IBeaconUpgradeable, OwnableUpgradeable {
     internal
     initializer
   {
+    __Ownable_init_unchained();
     _setImplementation(implementation_);
   }
 

@@ -43,7 +43,6 @@ contract Bank is
 
   // Chainlink price source
   AggregatorV3Interface public priceSource;
-
   // Token used as collateral
   IERC20 public token;
   // Token used as debt
@@ -72,7 +71,8 @@ contract Bank is
     address owner,
     address buyer,
     uint256 amountPaid,
-    uint256 tokenExtract
+    uint256 tokenExtract,
+    uint256 closingFee
   );
 
   // Events for collateral operations
@@ -82,6 +82,15 @@ contract Bank is
   // Events for token operations
   event BorrowToken(uint256 vaultID, uint256 amount);
   event PayBackToken(uint256 vaultID, uint256 amount, uint256 closingFee);
+
+  // Bank Operations
+  event GetPaid(uint256 amount, address user);
+  event ChangeGainRatio(uint256 newGainRatio);
+  event ChangeDebtRatio(uint256 newDebtRatio);
+  event NewPeg(uint256 newPew);
+  event NewDebtCeiling(uint256 newDebtCeiling);
+  event NewClosingFee(uint256 newClosingFee);
+  event NewOpeningFee(uint256 newOpeningFee);
 
   // Lets begin!
   function initialize(
@@ -175,6 +184,7 @@ contract Bank is
    */
   function setGainRatio(uint256 gainRatio_) external onlyRole(TREASURY_ROLE) {
     gainRatio = gainRatio_;
+    emit ChangeGainRatio(gainRatio_);
   }
 
   /**
@@ -182,6 +192,7 @@ contract Bank is
    */
   function setDebtRatio(uint256 debtRatio_) external onlyRole(TREASURY_ROLE) {
     debtRatio = debtRatio_;
+    emit ChangeDebtRatio(debtRatio_);
   }
 
   /**
@@ -196,6 +207,7 @@ contract Bank is
       'setCeiling: Must be over the amount of current debt ceiling.'
     );
     debtCeiling = debtCeiling_;
+    emit NewDebtCeiling(debtCeiling_);
   }
 
   /**
@@ -215,6 +227,7 @@ contract Bank is
   function setTokenPeg(uint256 tokenPeg_) external onlyRole(TREASURY_ROLE) {
     require(tokenPeg_ > 0, 'Peg cannot be zero');
     tokenPeg = tokenPeg_;
+    emit NewPeg(tokenPeg_);
   }
 
   /**
@@ -244,6 +257,7 @@ contract Bank is
    */
   function setClosingFee(uint256 amount) external onlyRole(TREASURY_ROLE) {
     closingFee = amount;
+    emit NewClosingFee(amount);
   }
 
   /**
@@ -251,6 +265,7 @@ contract Bank is
    */
   function setOpeningFee(uint256 amount) external onlyRole(TREASURY_ROLE) {
     openingFee = amount;
+    emit NewOpeningFee(amount);
   }
 
   /**
@@ -540,6 +555,7 @@ contract Bank is
     // Set first in case nonReentrant fails somehow
     tokenDebt[user] = 0;
     token.safeTransfer(msg.sender, amount);
+    emit GetPaid(amount, msg.sender);
   }
 
   /**
@@ -652,7 +668,8 @@ contract Bank is
       ownerOf(vaultID_),
       msg.sender,
       halfDebt,
-      tokenExtract
+      tokenExtract,
+      _closingFee
     );
   }
 

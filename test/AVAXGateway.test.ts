@@ -79,7 +79,6 @@ describe('Avax Vault Test with Gateway', function () {
       )
     )
       .to.emit(avai, 'CreateVaultType')
-      .withArgs(token, symbol);
 
     wVault = Bank__factory.connect(await avai.banks(0), accounts[0]);
     // Create treasury vault

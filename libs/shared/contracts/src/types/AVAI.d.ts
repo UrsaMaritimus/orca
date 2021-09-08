@@ -377,7 +377,7 @@ interface AVAIInterface extends ethers.utils.Interface {
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
-    "CreateVaultType(address,string)": EventFragment;
+    "CreateVaultType(address,uint256,address,string,address)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Paused(address)": EventFragment;
     "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
@@ -1131,8 +1131,20 @@ export class AVAI extends BaseContract {
 
     CreateVaultType(
       token?: null,
-      name?: null
-    ): TypedEventFilter<[string, string], { token: string; name: string }>;
+      minimumCollateralPercentage?: null,
+      priceSource?: null,
+      name?: null,
+      bank?: null
+    ): TypedEventFilter<
+      [string, BigNumber, string, string, string],
+      {
+        token: string;
+        minimumCollateralPercentage: BigNumber;
+        priceSource: string;
+        name: string;
+        bank: string;
+      }
+    >;
 
     OwnershipTransferred(
       previousOwner?: string | null,

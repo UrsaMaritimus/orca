@@ -77,9 +77,7 @@ describe('Liquidator Test', function () {
         name,
         token
       )
-    )
-      .to.emit(avai, 'CreateVaultType')
-      .withArgs(token, symbol);
+    ).to.emit(avai, 'CreateVaultType');
 
     wVault = Bank__factory.connect(await avai.banks(0), accounts[0]);
 
@@ -271,7 +269,8 @@ describe('Liquidator Test', function () {
         accounts[0].address,
         accounts[1].address,
         halfDebt,
-        tokenExtract
+        tokenExtract,
+        closingFee
       );
 
     // Should still be same owner

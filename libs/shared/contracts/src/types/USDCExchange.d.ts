@@ -113,10 +113,14 @@ interface USDCExchangeInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "usdcRate", data: BytesLike): Result;
 
   events: {
+    "Mint(address,uint256,uint256)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
+    "Redeem(address,uint256,uint256)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "Mint"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Redeem"): EventFragment;
 }
 
 export class USDCExchange extends BaseContract {
@@ -315,12 +319,30 @@ export class USDCExchange extends BaseContract {
   };
 
   filters: {
+    Mint(
+      minter?: null,
+      amount?: null,
+      fee?: null
+    ): TypedEventFilter<
+      [string, BigNumber, BigNumber],
+      { minter: string; amount: BigNumber; fee: BigNumber }
+    >;
+
     OwnershipTransferred(
       previousOwner?: string | null,
       newOwner?: string | null
     ): TypedEventFilter<
       [string, string],
       { previousOwner: string; newOwner: string }
+    >;
+
+    Redeem(
+      redeemer?: null,
+      amount?: null,
+      fee?: null
+    ): TypedEventFilter<
+      [string, BigNumber, BigNumber],
+      { redeemer: string; amount: BigNumber; fee: BigNumber }
     >;
   };
 

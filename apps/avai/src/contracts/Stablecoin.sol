@@ -29,7 +29,13 @@ contract AVAI is
   // The vaults that users can use
   address[] public banks;
 
-  event CreateVaultType(address token, string name);
+  event CreateVaultType(
+    address token,
+    uint256 minimumCollateralPercentage,
+    address priceSource,
+    string name,
+    address bank
+  );
 
   function initialize(string memory name, address vault_) public initializer {
     __Context_init_unchained();
@@ -99,7 +105,13 @@ contract AVAI is
     // Allow the vault to burn stablecoin
     _setupRole(MINTER_ROLE, bank);
 
-    emit CreateVaultType(token_, name_);
+    emit CreateVaultType(
+      token_,
+      minimumCollateralPercentage_,
+      priceSource_,
+      name_,
+      bank
+    );
   }
 
   /**
