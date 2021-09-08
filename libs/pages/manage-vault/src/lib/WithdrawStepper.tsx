@@ -344,39 +344,43 @@ export const WithdrawStepper: FC<StepperProps> = ({
                     <Typography
                       variant="body2"
                       textAlign="center"
-                      color={colorScale(
-                        (100 * Number(utils.formatEther(vaultInfo.debt))) /
-                          Number(
-                            utils.formatEther(
-                              vaultInfo.collateral
-                                .add(
-                                  utils.parseEther(
-                                    values.withdrawAmount.toString()
+                      color={
+                        values.withdrawAmount &&
+                        colorScale(
+                          (100 * Number(utils.formatEther(vaultInfo.debt))) /
+                            Number(
+                              utils.formatEther(
+                                vaultInfo.collateral
+                                  .add(
+                                    utils.parseEther(
+                                      values.withdrawAmount.toString()
+                                    )
                                   )
-                                )
-                                .mul(vaultInfo.tokenPrice)
-                                .div(vaultInfo.peg)
-                            )
-                          ),
-                        40,
-                        vaultInfo.maxLTV
-                      )}
+                                  .mul(vaultInfo.tokenPrice)
+                                  .div(vaultInfo.peg)
+                              )
+                            ),
+                          40,
+                          vaultInfo.maxLTV
+                        )
+                      }
                     >
-                      {fPercent(
-                        (100 * Number(utils.formatEther(vaultInfo.debt))) /
-                          Number(
-                            utils.formatEther(
-                              vaultInfo.collateral
-                                .add(
-                                  utils.parseEther(
-                                    values.withdrawAmount.toString()
+                      {values.withdrawAmount &&
+                        fPercent(
+                          (100 * Number(utils.formatEther(vaultInfo.debt))) /
+                            Number(
+                              utils.formatEther(
+                                vaultInfo.collateral
+                                  .add(
+                                    utils.parseEther(
+                                      values.withdrawAmount.toString()
+                                    )
                                   )
-                                )
-                                .mul(vaultInfo.tokenPrice)
-                                .div(vaultInfo.peg)
+                                  .mul(vaultInfo.tokenPrice)
+                                  .div(vaultInfo.peg)
+                              )
                             )
-                          )
-                      )}
+                        )}
                     </Typography>
                     <Typography
                       variant="caption"
