@@ -46,11 +46,13 @@ const ICONS = {
   farm: getIcon('ic_farm'),
   monitor: getIcon('ic_monitor'),
   usdc: getUSDIcon('ic_usdc'),
+  home: getIcon('ic_home'),
 };
 
 const navConfig = [
   // GENERAL
   // ----------------------------------------------------------------------
+  { items: [{ title: 'Home', icon: ICONS.home, href: routes.APP.ROOT }] },
   {
     subheader: 'Orca Protocol',
     items: [

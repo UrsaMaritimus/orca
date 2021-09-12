@@ -114,6 +114,29 @@
         }
       }
     },
+    "components-carousel": {
+      "root": "libs/components/carousel",
+      "sourceRoot": "libs/components/carousel/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/components/carousel/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/components/carousel"],
+          "options": {
+            "jestConfig": "libs/components/carousel/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "components-colorbar": {
       "root": "libs/components/colorbar",
       "sourceRoot": "libs/components/colorbar/src",

@@ -9,7 +9,7 @@ import { varWrapEnter } from './variants';
 
 type Props = {
   open: boolean;
-  initial: boolean | string;
+  initial?: boolean | string;
 } & Omit<BoxProps, 'initial'>;
 
 const MotionContainer: FC<Props> = ({ open, children, ...other }) => {

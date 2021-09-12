@@ -12,6 +12,11 @@ export const routes = {
       FARM: '/yield/farming',
     },
   },
+  MEDIUM: {
+    INTRODUCTION:
+      'https://medium.com/@OrcaDAO/introducing-orcadao-avalanches-native-stablecoin-protocol-2461a25b854d',
+    SEAFUND: 'https://medium.com/@OrcaDAO/the-orcadao-seafund-dc2ee5b58a4d',
+  },
   LANDING: {
     MEDIUM: 'https://medium.com/@OrcaDAO',
     TWITTER: 'https://twitter.com/OrcaDAO',
