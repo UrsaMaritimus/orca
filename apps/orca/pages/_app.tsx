@@ -31,6 +31,10 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import createEmotionCache from '../emotion';
 import { AccountInfo } from '@orca/components/account';
 
+//apollo
+import { ApolloProvider } from '@apollo/client';
+import { useApollo } from '@orca/graphql';
+
 //Binding events for nprogress
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
@@ -49,28 +53,33 @@ const clientSideEmotionCache = createEmotionCache();
 export default function NextWeb3App(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
+  // For graphql
+  const apolloClient = useApollo(pageProps.initialApolloState);
+
   return (
     <RecoilRoot>
-      <CacheProvider value={emotionCache}>
-        <Web3ReactProvider getLibrary={getLibrary}>
-          <NextThemeProvider defaultTheme="system" enableSystem>
-            <CustomThemeProvider>
-              <CollapseDrawerProvider>
-                <Head>
-                  <meta
-                    name="viewport"
-                    content="minimum-scale=1, initial-scale=1, width=device-width"
-                  />
-                </Head>
-                <Settings />
-                <AccountInfo />
-                <Component {...pageProps} />
-                <CustomToaster />
-              </CollapseDrawerProvider>
-            </CustomThemeProvider>
-          </NextThemeProvider>
-        </Web3ReactProvider>
-      </CacheProvider>
+      <ApolloProvider client={apolloClient}>
+        <CacheProvider value={emotionCache}>
+          <Web3ReactProvider getLibrary={getLibrary}>
+            <NextThemeProvider defaultTheme="system" enableSystem>
+              <CustomThemeProvider>
+                <CollapseDrawerProvider>
+                  <Head>
+                    <meta
+                      name="viewport"
+                      content="minimum-scale=1, initial-scale=1, width=device-width"
+                    />
+                  </Head>
+                  <Settings />
+                  <AccountInfo />
+                  <Component {...pageProps} />
+                  <CustomToaster />
+                </CollapseDrawerProvider>
+              </CustomThemeProvider>
+            </NextThemeProvider>
+          </Web3ReactProvider>
+        </CacheProvider>
+      </ApolloProvider>
     </RecoilRoot>
   );
 }

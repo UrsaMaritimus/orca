@@ -18,6 +18,6 @@ export const useBlockNumber = () => {
   const shouldFetch = !!library;
 
   return useSWR(shouldFetch ? ['BlockNumber'] : null, getBlockNumber(library), {
-    refreshInterval: 10 * 1000,
+    refreshInterval: 2.5 * 1000,
   });
 };

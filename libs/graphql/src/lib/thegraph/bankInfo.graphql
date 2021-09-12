@@ -1,0 +1,6 @@
+subscription BankInfo($id: ID!) {
+  bank(id: $id) {
+    debtCeiling
+    totalDebt
+  }
+}

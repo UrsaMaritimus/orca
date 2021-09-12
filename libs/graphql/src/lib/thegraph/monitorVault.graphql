@@ -1,0 +1,7 @@
+subscription MonitorVaults($bankID: String) {
+  vaults(where: { bank: $bankID, debt_gt: 0 }) {
+    collateral
+    debt
+    id
+  }
+}

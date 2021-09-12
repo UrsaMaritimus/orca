@@ -94,7 +94,11 @@ export const Liquidate: FC<LiquidateProps> = ({
         <Grid container my={3}>
           <Grid item xs={12} display="flex" justifyContent="center">
             <Typography variant="h4">
-              Vault not ready to be liquidated.
+              Vault{' '}
+              {Number(utils.formatUnits(vaultInfo.borrowingPowerUsed, 6)) > 100
+                ? 'is'
+                : 'not'}{' '}
+              ready to be liquidated.
             </Typography>
           </Grid>
           <Grid item xs={12} display="flex" justifyContent="center">

@@ -1,5 +1,5 @@
 /* eslint-disable-next-line */
-import { useState } from 'react';
+import { useState, FC } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 
@@ -21,8 +21,6 @@ import { Connect } from '@orca/components/connect';
 
 import { AvaxVaults } from './crypto/AVAX';
 
-export interface PagesVaultsProps {}
-
 const RootStyle = styled(Page)(({ theme }) => ({
   paddingTop: theme.spacing(3),
   paddingBottom: theme.spacing(15),
@@ -33,12 +31,18 @@ const CollateralStyle = styled(Container)(({ theme }) => ({
   paddingBottom: theme.spacing(2),
 }));
 
-const collaterals = [
+const collaterals = (
+  account: string,
+  library: Web3Provider,
+  chainId: number
+) => [
   {
     disabled: false,
     icon: '/static/cryptos/ic_avax.svg',
     value: '1',
-    component: <AvaxVaults />,
+    component: (
+      <AvaxVaults library={library} account={account} chainId={chainId} />
+    ),
     title: 'AVAX',
   },
   {
@@ -57,7 +61,7 @@ const collaterals = [
   },
 ];
 
-export function Vaults(props: PagesVaultsProps) {
+export const Vaults: FC = () => {
   const [value, setValue] = useState('1');
   const [valueScrollable, setValueScrollable] = useState('1');
 
@@ -91,7 +95,7 @@ export function Vaults(props: PagesVaultsProps) {
                   variant="scrollable"
                   allowScrollButtonsMobile
                 >
-                  {collaterals.map((data) => (
+                  {collaterals(account, library, chainId).map((data) => (
                     <Tab
                       icon={
                         <Stack
@@ -128,7 +132,7 @@ export function Vaults(props: PagesVaultsProps) {
                 </TabList>
               </CollateralStyle>
             </Card>
-            {collaterals.map((data) => (
+            {collaterals(account, library, chainId).map((data) => (
               <TabPanel key={data.value} value={data.value}>
                 {data.component}
               </TabPanel>
@@ -138,6 +142,6 @@ export function Vaults(props: PagesVaultsProps) {
       </RootStyle>
     </Connect>
   );
-}
+};
 
 export default Vaults;

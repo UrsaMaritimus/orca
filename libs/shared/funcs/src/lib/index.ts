@@ -5,3 +5,5 @@ export * from './vault';
 export * from './gateway';
 export * from './monitor';
 export * from './exchange';
+export * from './vaultContract';
+export * from './price';

@@ -1,30 +1,24 @@
-import type { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
 import useSWR from 'swr';
 
 import { parseBalance } from '@orca/util';
 import { useKeepSWRDataLiveAsBlocksArrive } from './useKeepSWRDataLiveAsBlocksArrive';
+import { BigNumber } from '@ethersproject/bignumber';
 
-const getAVAXBalance = (library: Web3Provider) => {
-  return async (_: string, address: string) => {
-    return library.getBalance(address).then((balance) => parseBalance(balance));
-  };
-};
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export const useAVAXBalance = (address: string, suspense = false) => {
   const { library, chainId } = useWeb3React();
 
   const shouldFetch = typeof address === 'string' && !!library;
 
-  const result = useSWR(
-    shouldFetch ? ['AVAXBalance', address, chainId] : null,
-    getAVAXBalance(library),
-    {
-      suspense,
-    }
+  const { data, mutate } = useSWR(
+    shouldFetch ? `/api/balance/${chainId}/${address}` : null,
+    fetcher,
+    { refreshInterval: 1000 }
   );
 
-  useKeepSWRDataLiveAsBlocksArrive(result.mutate);
+  useKeepSWRDataLiveAsBlocksArrive(mutate);
 
-  return result;
+  return { data: parseBalance(BigNumber.from(data ? data.balance : 0)) };
 };

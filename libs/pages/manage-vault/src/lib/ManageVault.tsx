@@ -1,6 +1,5 @@
 /* eslint-disable-next-line */
-import { useState, useEffect } from 'react';
-import useSwr from 'swr';
+import { useState } from 'react';
 
 import { Icon } from '@iconify/react';
 import backArrowIos from '@iconify/icons-eva/arrow-ios-back-outline';
@@ -36,21 +35,17 @@ import { Web3Provider } from '@ethersproject/providers';
 import { NextLink } from '@orca/components/links';
 import { Page } from '@orca/components/page';
 import { routes, tokenInfo } from '@orca/shared/base';
-import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 import { Loader } from '@orca/components/loader';
 import { Connect } from '@orca/components/connect';
 import { handleTransaction } from '@orca/components/transaction';
-import {
-  getVaultInfo,
-  vaultOwner,
-  deleteVault,
-  getVault,
-} from '@orca/shared/funcs';
+import { deleteVault } from '@orca/shared/funcs';
 
 import { Deposit } from './Deposit';
 import { Borrows } from './Borrows';
 import { Liquidate } from './Liquidate';
 import { AccountDialog } from './AccountCheck';
+import { useGetVaultInfo } from './useVaultInfo';
+import { VaultInfo } from './stepper.type';
 
 const RootStyle = styled(Page)(({ theme }) => ({
   paddingTop: theme.spacing(3),
@@ -62,7 +57,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
 export function ManageVault() {
   // web3 init info
   const { account, library, chainId } = useWeb3React<Web3Provider>();
-  const shouldFetch = !!library;
+
   // Get the url unfo
   const router = useRouter();
   const { vaultID, token } = router.query;
@@ -112,84 +107,22 @@ export function ManageVault() {
     router.push(routes.APP.VAULTS.USER);
   };
 
-  // Vault info using SWR
-  const { data: vaultInfo, mutate: vaultInfoMutate } = useSwr(
-    shouldFetch
-      ? [
-          'getVaultInfo',
-          library,
-          chainId,
-          tokenInfo[token as string].erc20,
-          vaultID,
-        ]
-      : null,
-    getVaultInfo()
+  // Get vault info
+  const { loading, vaultInfo } = useGetVaultInfo(
+    library,
+    chainId,
+    vaultID as string,
+    account
   );
-  useKeepSWRDataLiveAsBlocksArrive(vaultInfoMutate);
-
-  // Is owner?
-  const { data: isOwner, mutate: vaultOwnerMutate } = useSwr(
-    shouldFetch
-      ? [
-          'vaultOwner',
-          library,
-          vaultID,
-          account,
-          tokenInfo[token as string].erc20,
-          chainId,
-        ]
-      : null,
-    vaultOwner()
-  );
-  useKeepSWRDataLiveAsBlocksArrive(vaultOwnerMutate);
-
-  // Keep all the information up to date
-  useEffect(() => {
-    if (library) {
-      // Change this in the future
-      const vault = getVault(
-        tokenInfo[token as string].erc20,
-        library,
-        chainId
-      );
-      // Set events up for updating
-
-      const depositedCollateral = vault.filters.DepositCollateral();
-      const withdrawCollateral = vault.filters.WithdrawCollateral();
-      const borrowToken = vault.filters.BorrowToken();
-      const paybackToken = vault.filters.PayBackToken();
-      vault.on(depositedCollateral, (vaultId) => {
-        if (vaultID === vaultId.toString()) {
-          vaultInfoMutate(undefined, true);
-        }
-      });
-      vault.on(withdrawCollateral, (vaultId) => {
-        if (vaultID === vaultId.toString()) {
-          vaultInfoMutate(undefined, true);
-        }
-      });
-
-      vault.on(borrowToken, (vaultId) => {
-        if (vaultID === vaultId.toString()) {
-          vaultInfoMutate(undefined, true);
-        }
-      });
-
-      vault.on(paybackToken, (vaultId) => {
-        if (vaultID === vaultId.toString()) {
-          vaultInfoMutate(undefined, true);
-        }
-      });
-
-      return () => {
-        vault.removeAllListeners(depositedCollateral);
-        vault.removeAllListeners(withdrawCollateral);
-        vault.removeAllListeners(borrowToken);
-        vault.removeAllListeners(paybackToken);
-      };
-    }
-  }, [library, account, vaultInfoMutate, chainId, token, vaultID]);
-
+  if (loading) {
+    return (
+      <Container maxWidth="sm">
+        <Card>
+          <Loader />
+        </Card>
+      </Container>
+    );
+  }
   return (
     <Connect title={'Manage Vault'}>
       <RootStyle title={`Manage Vault | ${process.env.NEXT_PUBLIC_TITLE}`}>
@@ -210,8 +143,8 @@ export function ManageVault() {
                 }
                 sx={{ mb: 3 }}
                 action={
-                  isOwner ? (
-                    vaultInfo && vaultInfo.debt.isZero() ? (
+                  vaultInfo.isOwner ? (
+                    !loading && vaultInfo.debt.isZero() ? (
                       <IconButton color="secondary" onClick={handleClickOpen}>
                         <Icon icon={trash2Outline} width={30} height={30} />
                       </IconButton>
@@ -227,7 +160,7 @@ export function ManageVault() {
                   ) : undefined
                 }
               />
-              {isOwner && (
+              {vaultInfo.isOwner && (
                 <Box sx={{ p: 2, mt: 2, width: '100%', borderRadius: 1 }}>
                   <TabList
                     onChange={handleChange}
@@ -257,13 +190,13 @@ export function ManageVault() {
                 </Box>
               )}
             </Card>
-            {vaultInfo ? (
+            {!loading ? (
               <>
                 <TabPanel key="Deposit" value={String(1)}>
                   <Deposit
                     token={token as 'AVAX'}
                     vaultInfo={vaultInfo}
-                    isOwner={isOwner}
+                    isOwner={vaultInfo.isOwner}
                     vaultID={Number(vaultID)}
                   />
                 </TabPanel>
@@ -271,7 +204,7 @@ export function ManageVault() {
                   <Borrows
                     vaultInfo={vaultInfo}
                     vaultID={Number(vaultID)}
-                    isOwner={isOwner}
+                    isOwner={vaultInfo.isOwner}
                     token={token as 'AVAX'}
                   />
                 </TabPanel>
@@ -288,11 +221,11 @@ export function ManageVault() {
               </Card>
             )}
 
-            {!isOwner && vaultInfo && (
+            {!vaultInfo.isOwner && !loading && (
               <Liquidate
                 vaultInfo={vaultInfo}
                 vaultID={Number(vaultID)}
-                isOwner={isOwner}
+                isOwner={vaultInfo.isOwner}
                 token={token as 'AVAX'}
               />
             )}
@@ -346,7 +279,7 @@ export function ManageVault() {
             </Typography>
           </Box>
         </Popover>
-        {vaultInfo && isOwner && (
+        {vaultInfo && vaultInfo.isOwner && (
           <AccountDialog
             vaultID={Number(vaultID)}
             vaultInfo={vaultInfo}

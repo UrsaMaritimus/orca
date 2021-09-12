@@ -54,6 +54,7 @@
       "@orca/components/transaction": [
         "libs/components/transaction/src/index.ts"
       ],
+      "@orca/graphql": ["libs/graphql/src/index.ts"],
       "@orca/hooks": ["libs/hooks/src/index.ts"],
       "@orca/layout/app": ["libs/layout/app/src/index.ts"],
       "@orca/layout/landing": ["libs/layout/landing/src/index.ts"],

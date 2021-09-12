@@ -93,6 +93,9 @@
     "components-transaction": {
       "tags": []
     },
+    "graphql": {
+      "tags": []
+    },
     "hooks": {
       "tags": []
     },

@@ -1,9 +1,7 @@
-import { useEffect, FC, useState } from 'react';
-import useSwr from 'swr';
+import { FC, useState } from 'react';
 
-import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
-import { utils } from 'ethers';
+import { BigNumber, utils } from 'ethers';
 
 import { Icon } from '@iconify/react';
 import infoOutline from '@iconify/icons-eva/info-outline';
@@ -22,72 +20,28 @@ import {
 
 import { Loader } from '@orca/components/loader';
 import { MainTable } from '@orca/components/table';
-import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 import { fShortenNumber } from '@orca/util';
-import {
-  getVaults,
-  mintCeiling,
-  makeVault,
-  getVault,
-} from '@orca/shared/funcs';
+import { makeVault, getContract, bankPrice } from '@orca/shared/funcs';
 import { handleTransaction } from '@orca/components/transaction';
+import { useBankInfoSubscription } from '@orca/graphql';
+import { useGetVaults } from './useVault';
 
 /* eslint-disable-next-line */
-export interface PagesVaultsProps {}
+export interface PagesVaultsProps {
+  account: string;
+  library: Web3Provider;
+  chainId: number;
+}
 
-export const AvaxVaults: FC<PagesVaultsProps> = () => {
-  const { account, library, chainId } = useWeb3React<Web3Provider>();
-
-  const shouldFetch = !!library;
-
-  // Grab user's vaults
-  const { data: vaults, mutate: avaxVaultMutate } = useSwr(
-    shouldFetch ? ['getAvaxVaults', library, account, chainId, 'wavax'] : null,
-    getVaults()
-  );
-  useKeepSWRDataLiveAsBlocksArrive(avaxVaultMutate);
-
-  // Grab user's vaults
-  const { data: debtInfo, mutate: debtMutate } = useSwr(
-    shouldFetch ? ['getMintCeiling', library, chainId, 'wavax'] : null,
-    mintCeiling()
-  );
-  useKeepSWRDataLiveAsBlocksArrive(debtMutate);
-
-  // Keep all the information up to date
-  useEffect(() => {
-    if (library) {
-      const avaxVault = getVault('wavax', library, chainId);
-      // Set events up for updating
-      const newVault = avaxVault.filters.CreateVault();
-      const destroyVault = avaxVault.filters.DestroyVault();
-      avaxVault.on(newVault, (vaultId, creator) => {
-        if (creator === account) {
-          console.log(`EMIT: ${creator} created new vault ${vaultId}`);
-          avaxVaultMutate(undefined, true);
-        }
-      });
-
-      avaxVault.on(destroyVault, (vaultId) => {
-        avaxVaultMutate(undefined, true);
-      });
-
-      const increaseDebt = avaxVault.filters.BorrowToken();
-      const decreaseDebt = avaxVault.filters.PayBackToken();
-      avaxVault.on(increaseDebt, () => {
-        debtMutate(undefined, true);
-      });
-      avaxVault.on(decreaseDebt, () => {
-        debtMutate(undefined, true);
-      });
-      return () => {
-        avaxVault.removeAllListeners(newVault);
-        avaxVault.removeAllListeners(increaseDebt);
-        avaxVault.removeAllListeners(decreaseDebt);
-        avaxVault.removeAllListeners(destroyVault);
-      };
-    }
-  }, [library, account, avaxVaultMutate, debtMutate, chainId]);
+export const AvaxVaults: FC<PagesVaultsProps> = ({
+  account,
+  library,
+  chainId,
+}) => {
+  const { loading, rows } = useGetVaults(library, chainId, account);
+  const { data: bankData } = useBankInfoSubscription({
+    variables: { id: getContract(chainId, 'wavax').toLowerCase() },
+  });
 
   // For creating a vault
   const createVault = async () => {
@@ -112,18 +66,7 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
     setHover(null);
   };
 
-  if (chainId === 43114) {
-    return (
-      <Card>
-        <Typography variant="h1" sx={{ textAlign: 'center', mt: 2, mb: 2 }}>
-          {' '}
-          Main Net not deployed yet. Please switch to Fuji.
-        </Typography>
-      </Card>
-    );
-  }
-
-  if (typeof account === 'string' && vaults) {
+  if (typeof account === 'string' && !loading) {
     return (
       <div>
         <Card>
@@ -149,12 +92,8 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
               </Button>
             }
           />
-          {vaults.length > 0 ? (
-            <MainTable
-              rows={vaults}
-              collateralType={'AVAX'}
-              debtType={'AVAI'}
-            />
+          {rows.length > 0 ? (
+            <MainTable rows={rows} collateralType={'AVAX'} debtType={'AVAI'} />
           ) : (
             <Typography
               variant="h4"
@@ -165,7 +104,7 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
             </Typography>
           )}
         </Card>
-        {debtInfo && (
+        {bankData && (
           <Box
             sx={{
               pt: 2,
@@ -184,7 +123,9 @@ export const AvaxVaults: FC<PagesVaultsProps> = () => {
                 Available to mint:{' '}
                 {fShortenNumber(
                   utils.formatEther(
-                    debtInfo.debtCeiling.sub(debtInfo.totalDebt)
+                    BigNumber.from(bankData.bank.debtCeiling).sub(
+                      BigNumber.from(bankData.bank.totalDebt)
+                    )
                   ),
                   4
                 )}{' '}

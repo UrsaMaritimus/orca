@@ -20,6 +20,7 @@ import { Page } from '@orca/components/page';
 import { Connect } from '@orca/components/connect';
 import { AvaxVaults } from './crypto/AVAX';
 import { ScrollBar } from '@orca/components/scroll-bar';
+import { Loader } from '@orca/components/loader';
 
 //--------------------------------------------------------------------------
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -34,12 +35,18 @@ const CollateralStyle = styled(Container)(({ theme }) => ({
 
 //--------------------------------------------------------------------------
 
-const collaterals = [
+const collaterals = (
+  account: string,
+  library: Web3Provider,
+  chainId: number
+) => [
   {
     disabled: false,
     icon: '/static/cryptos/ic_avax.svg',
     value: '1',
-    component: <AvaxVaults />,
+    component: (
+      <AvaxVaults account={account} library={library} chainId={chainId} />
+    ),
     title: 'AVAX',
   },
   {
@@ -64,6 +71,10 @@ export function Vaults(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const { account, library, chainId } = useWeb3React<Web3Provider>();
+
+  const shouldFetch = !!library;
 
   // Default return
   return (
@@ -90,7 +101,7 @@ export function Vaults(props) {
                     variant="scrollable"
                     allowScrollButtonsMobile
                   >
-                    {collaterals.map((data) => (
+                    {collaterals(account, library, chainId).map((data) => (
                       <Tab
                         icon={
                           <Stack
@@ -129,11 +140,17 @@ export function Vaults(props) {
               </ScrollBar>
             </Card>
 
-            {collaterals.map((data) => (
-              <TabPanel key={data.value} value={data.value}>
-                {data.component}
-              </TabPanel>
-            ))}
+            {shouldFetch ? (
+              collaterals(account, library, chainId).map((data) => (
+                <TabPanel key={data.value} value={data.value}>
+                  {data.component}
+                </TabPanel>
+              ))
+            ) : (
+              <Card>
+                <Loader />
+              </Card>
+            )}
           </Container>
         </TabContext>
       </RootStyle>

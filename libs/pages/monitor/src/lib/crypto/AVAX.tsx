@@ -12,39 +12,22 @@ import { Loader } from '@orca/components/loader';
 
 import Table from '../table';
 import { VaultReward } from '../Reward/Reward';
+import { useMonitorVaults } from './useMonitor';
 
 /* eslint-disable-next-line */
-export interface PagesVaultsProps {}
+export interface PagesVaultsProps {
+  library: Web3Provider;
+  chainId: number;
+  account: string;
+}
 
-export const AvaxVaults: FC<PagesVaultsProps> = () => {
-  const { account, library, chainId } = useWeb3React<Web3Provider>();
-
-  const shouldFetch = !!library;
-
-  // Grabs bad's vaults
-  const { data: badVaults, mutate: monitorVaultMutate } = useSwr(
-    shouldFetch ? ['monitorBadAvaxVaults', library, chainId, 'wavax'] : null,
-    monitorBadVaults()
-  );
-  useKeepSWRDataLiveAsBlocksArrive(monitorVaultMutate);
-
-  // Keep all the information up to date
-  useEffect(() => {
-    if (library) {
-      const avaxVault = getVault('wavax', library, chainId);
-      // Set events up for updating
-      const liquidatedVault = avaxVault.filters.LiquidateVault();
-      avaxVault.on(liquidatedVault, () => {
-        monitorVaultMutate(undefined, true);
-      });
-
-      return () => {
-        avaxVault.removeAllListeners(liquidatedVault);
-      };
-    }
-  }, [library, account, monitorVaultMutate, chainId]);
-
-  if (typeof account === 'string' && badVaults) {
+export const AvaxVaults: FC<PagesVaultsProps> = ({
+  library,
+  chainId,
+  account,
+}) => {
+  const { loading, rows: badVaults } = useMonitorVaults(library, chainId);
+  if (typeof account === 'string' && badVaults && !loading) {
     return (
       <div>
         <Card

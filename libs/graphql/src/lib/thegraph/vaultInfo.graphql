@@ -1,0 +1,41 @@
+query getUserVaults($id: ID!) {
+  user(id: $id) {
+    vaults {
+      id
+      debt
+      collateral
+      bank {
+        treasury
+      }
+    }
+  }
+}
+
+subscription UserVaults($user: String!, $bank: String!) {
+  vaults(where: { user: $user, bank: $bank }) {
+    id
+    collateral
+    debt
+    bank {
+      treasury
+    }
+  }
+}
+
+subscription VaultInfo($vaultID: ID!) {
+  vault(id: $vaultID) {
+    id
+    collateral
+    debt
+    bank {
+      id
+      minimumCollateralPercentage
+      closingFee
+      openingFee
+      tokenPeg
+    }
+    user {
+      id
+    }
+  }
+}
