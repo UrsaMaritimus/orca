@@ -46,6 +46,14 @@ declare module '@mui/material/styles/createPalette' {
     error: string;
   }
 
+  export interface CHART {
+    violet: string[];
+    blue: string[];
+    green: string[];
+    yellow: string[];
+    red: string[];
+  }
+
   export interface PaletteOptions {
     color: {
       primary?: IPaletteColorOptions;
@@ -56,6 +64,7 @@ declare module '@mui/material/styles/createPalette' {
       success?: IPaletteColorOptions;
     };
     gradients?: GRADIENT;
+    chart?: CHART;
   }
 
   export interface Palette {
@@ -68,6 +77,7 @@ declare module '@mui/material/styles/createPalette' {
       success: IPaletteColor;
     };
     gradients: GRADIENT;
+    chart: CHART;
   }
 }
 
