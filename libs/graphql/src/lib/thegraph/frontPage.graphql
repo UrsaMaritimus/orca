@@ -1,0 +1,24 @@
+subscription TotalSupplyFrontPage {
+  stablecoins(first: 1) {
+    totalSupply
+  }
+}
+
+subscription BankInfoFrontPage {
+  banks(first: 2) {
+    id
+    treasury
+    totalDebt
+    totalCollateral
+    token {
+      symbol
+    }
+  }
+}
+
+subscription ExchangeInfoFrontPage {
+  exchanges(first: 2) {
+    treasury
+    usdHeld
+  }
+}

@@ -21,6 +21,7 @@
       "@orca/components/animate": ["libs/components/animate/src/index.ts"],
       "@orca/components/balance": ["libs/components/balance/src/index.ts"],
       "@orca/components/carousel": ["libs/components/carousel/src/index.ts"],
+      "@orca/components/chart": ["libs/components/chart/src/index.ts"],
       "@orca/components/colorbar": ["libs/components/colorbar/src/index.ts"],
       "@orca/components/connect": ["libs/components/connect/src/index.ts"],
       "@orca/components/links": ["libs/components/links/src/index.ts"],

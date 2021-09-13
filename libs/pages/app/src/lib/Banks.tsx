@@ -1,1 +1,0 @@
-import { FC } from 'react';

@@ -196,6 +196,66 @@ export type Block_Height = {
   number?: Maybe<Scalars['Int']>;
 };
 
+export type Exchange = {
+  __typename?: 'Exchange';
+  id: Scalars['ID'];
+  mintingFee: Scalars['BigInt'];
+  redeemingFee: Scalars['BigInt'];
+  treasury: Scalars['BigInt'];
+  usdHeld: Scalars['BigInt'];
+};
+
+export type Exchange_Filter = {
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
+  mintingFee?: Maybe<Scalars['BigInt']>;
+  mintingFee_gt?: Maybe<Scalars['BigInt']>;
+  mintingFee_gte?: Maybe<Scalars['BigInt']>;
+  mintingFee_in?: Maybe<Array<Scalars['BigInt']>>;
+  mintingFee_lt?: Maybe<Scalars['BigInt']>;
+  mintingFee_lte?: Maybe<Scalars['BigInt']>;
+  mintingFee_not?: Maybe<Scalars['BigInt']>;
+  mintingFee_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  redeemingFee?: Maybe<Scalars['BigInt']>;
+  redeemingFee_gt?: Maybe<Scalars['BigInt']>;
+  redeemingFee_gte?: Maybe<Scalars['BigInt']>;
+  redeemingFee_in?: Maybe<Array<Scalars['BigInt']>>;
+  redeemingFee_lt?: Maybe<Scalars['BigInt']>;
+  redeemingFee_lte?: Maybe<Scalars['BigInt']>;
+  redeemingFee_not?: Maybe<Scalars['BigInt']>;
+  redeemingFee_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  treasury?: Maybe<Scalars['BigInt']>;
+  treasury_gt?: Maybe<Scalars['BigInt']>;
+  treasury_gte?: Maybe<Scalars['BigInt']>;
+  treasury_in?: Maybe<Array<Scalars['BigInt']>>;
+  treasury_lt?: Maybe<Scalars['BigInt']>;
+  treasury_lte?: Maybe<Scalars['BigInt']>;
+  treasury_not?: Maybe<Scalars['BigInt']>;
+  treasury_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  usdHeld?: Maybe<Scalars['BigInt']>;
+  usdHeld_gt?: Maybe<Scalars['BigInt']>;
+  usdHeld_gte?: Maybe<Scalars['BigInt']>;
+  usdHeld_in?: Maybe<Array<Scalars['BigInt']>>;
+  usdHeld_lt?: Maybe<Scalars['BigInt']>;
+  usdHeld_lte?: Maybe<Scalars['BigInt']>;
+  usdHeld_not?: Maybe<Scalars['BigInt']>;
+  usdHeld_not_in?: Maybe<Array<Scalars['BigInt']>>;
+};
+
+export enum Exchange_OrderBy {
+  Id = 'id',
+  MintingFee = 'mintingFee',
+  RedeemingFee = 'redeemingFee',
+  Treasury = 'treasury',
+  UsdHeld = 'usdHeld'
+}
+
 export type Liquidation = {
   __typename?: 'Liquidation';
   id: Scalars['ID'];
@@ -269,6 +329,8 @@ export type Query = {
   _meta?: Maybe<_Meta_>;
   bank?: Maybe<Bank>;
   banks: Array<Bank>;
+  exchange?: Maybe<Exchange>;
+  exchanges: Array<Exchange>;
   liquidation?: Maybe<Liquidation>;
   liquidations: Array<Liquidation>;
   stablecoin?: Maybe<Stablecoin>;
@@ -302,6 +364,22 @@ export type QueryBanksArgs = {
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
   where?: Maybe<Bank_Filter>;
+};
+
+
+export type QueryExchangeArgs = {
+  block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+};
+
+
+export type QueryExchangesArgs = {
+  block?: Maybe<Block_Height>;
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Exchange_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<Exchange_Filter>;
 };
 
 
@@ -505,6 +583,8 @@ export type Subscription = {
   _meta?: Maybe<_Meta_>;
   bank?: Maybe<Bank>;
   banks: Array<Bank>;
+  exchange?: Maybe<Exchange>;
+  exchanges: Array<Exchange>;
   liquidation?: Maybe<Liquidation>;
   liquidations: Array<Liquidation>;
   stablecoin?: Maybe<Stablecoin>;
@@ -538,6 +618,22 @@ export type SubscriptionBanksArgs = {
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
   where?: Maybe<Bank_Filter>;
+};
+
+
+export type SubscriptionExchangeArgs = {
+  block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+};
+
+
+export type SubscriptionExchangesArgs = {
+  block?: Maybe<Block_Height>;
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Exchange_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<Exchange_Filter>;
 };
 
 
@@ -925,6 +1021,21 @@ export type MonitorVaultsSubscriptionVariables = Exact<{
 
 export type MonitorVaultsSubscription = { __typename?: 'Subscription', vaults: Array<{ __typename?: 'Vault', collateral: any, debt: any, id: string }> };
 
+export type TotalSupplyFrontPageSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type TotalSupplyFrontPageSubscription = { __typename?: 'Subscription', stablecoins: Array<{ __typename?: 'Stablecoin', totalSupply: any }> };
+
+export type BankInfoFrontPageSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type BankInfoFrontPageSubscription = { __typename?: 'Subscription', banks: Array<{ __typename?: 'Bank', id: string, treasury: any, totalDebt: any, totalCollateral: any, token: { __typename?: 'Token', symbol: string } }> };
+
+export type ExchangeInfoFrontPageSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ExchangeInfoFrontPageSubscription = { __typename?: 'Subscription', exchanges: Array<{ __typename?: 'Exchange', treasury: any, usdHeld: any }> };
+
 export type GetUserVaultsQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -1011,6 +1122,100 @@ export function useMonitorVaultsSubscription(baseOptions?: ApolloReactHooks.Subs
       }
 export type MonitorVaultsSubscriptionHookResult = ReturnType<typeof useMonitorVaultsSubscription>;
 export type MonitorVaultsSubscriptionResult = Apollo.SubscriptionResult<MonitorVaultsSubscription>;
+export const TotalSupplyFrontPageDocument = gql`
+    subscription TotalSupplyFrontPage {
+  stablecoins(first: 1) {
+    totalSupply
+  }
+}
+    `;
+
+/**
+ * __useTotalSupplyFrontPageSubscription__
+ *
+ * To run a query within a React component, call `useTotalSupplyFrontPageSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useTotalSupplyFrontPageSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTotalSupplyFrontPageSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useTotalSupplyFrontPageSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<TotalSupplyFrontPageSubscription, TotalSupplyFrontPageSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useSubscription<TotalSupplyFrontPageSubscription, TotalSupplyFrontPageSubscriptionVariables>(TotalSupplyFrontPageDocument, options);
+      }
+export type TotalSupplyFrontPageSubscriptionHookResult = ReturnType<typeof useTotalSupplyFrontPageSubscription>;
+export type TotalSupplyFrontPageSubscriptionResult = Apollo.SubscriptionResult<TotalSupplyFrontPageSubscription>;
+export const BankInfoFrontPageDocument = gql`
+    subscription BankInfoFrontPage {
+  banks(first: 2) {
+    id
+    treasury
+    totalDebt
+    totalCollateral
+    token {
+      symbol
+    }
+  }
+}
+    `;
+
+/**
+ * __useBankInfoFrontPageSubscription__
+ *
+ * To run a query within a React component, call `useBankInfoFrontPageSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useBankInfoFrontPageSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBankInfoFrontPageSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useBankInfoFrontPageSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<BankInfoFrontPageSubscription, BankInfoFrontPageSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useSubscription<BankInfoFrontPageSubscription, BankInfoFrontPageSubscriptionVariables>(BankInfoFrontPageDocument, options);
+      }
+export type BankInfoFrontPageSubscriptionHookResult = ReturnType<typeof useBankInfoFrontPageSubscription>;
+export type BankInfoFrontPageSubscriptionResult = Apollo.SubscriptionResult<BankInfoFrontPageSubscription>;
+export const ExchangeInfoFrontPageDocument = gql`
+    subscription ExchangeInfoFrontPage {
+  exchanges(first: 2) {
+    treasury
+    usdHeld
+  }
+}
+    `;
+
+/**
+ * __useExchangeInfoFrontPageSubscription__
+ *
+ * To run a query within a React component, call `useExchangeInfoFrontPageSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useExchangeInfoFrontPageSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useExchangeInfoFrontPageSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useExchangeInfoFrontPageSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<ExchangeInfoFrontPageSubscription, ExchangeInfoFrontPageSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useSubscription<ExchangeInfoFrontPageSubscription, ExchangeInfoFrontPageSubscriptionVariables>(ExchangeInfoFrontPageDocument, options);
+      }
+export type ExchangeInfoFrontPageSubscriptionHookResult = ReturnType<typeof useExchangeInfoFrontPageSubscription>;
+export type ExchangeInfoFrontPageSubscriptionResult = Apollo.SubscriptionResult<ExchangeInfoFrontPageSubscription>;
 export const GetUserVaultsDocument = gql`
     query getUserVaults($id: ID!) {
   user(id: $id) {

@@ -137,6 +137,27 @@
         }
       }
     },
+    "components-chart": {
+      "root": "libs/components/chart",
+      "sourceRoot": "libs/components/chart/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/components/chart/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/components/chart"],
+          "options": {
+            "jestConfig": "libs/components/chart/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "components-colorbar": {
       "root": "libs/components/colorbar",
       "sourceRoot": "libs/components/colorbar/src",

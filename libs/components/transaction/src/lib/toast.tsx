@@ -77,6 +77,9 @@ export const handleTransaction = async ({
         success: {
           duration: 5000,
         },
+        error: {
+          duration: 5000,
+        },
       }
     );
     if (mutates && mutates.length > 0)
