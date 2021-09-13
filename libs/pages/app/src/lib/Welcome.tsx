@@ -77,6 +77,7 @@ const Welcome: FC = () => {
         sx={{
           p: 3,
           width: 360,
+          height: '100%',
           margin: { xs: 'auto', md: 'inherit' },
         }}
       />

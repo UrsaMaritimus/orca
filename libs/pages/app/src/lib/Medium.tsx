@@ -1,7 +1,8 @@
 import Slider from 'react-slick';
-import PropTypes from 'prop-types';
+import Image from 'next/image';
+
 import { motion } from 'framer-motion';
-import { useState, useRef } from 'react';
+import { useState, useRef, FC } from 'react';
 // material
 import { alpha, useTheme, styled } from '@mui/material/styles';
 import { CardContent, Box, Card, Typography, Link } from '@mui/material';
@@ -13,8 +14,6 @@ import {
   CarouselControlsArrowsBasic1,
 } from '@orca/components/carousel';
 
-import { NextLink } from '@orca/components/links';
-
 import { routes } from '@orca/shared/base';
 
 // ----------------------------------------------------------------------
@@ -24,14 +23,14 @@ const banners = [
     id: 0,
     title: 'OrcaDAO Introduction',
     description: 'Learn about the OrcaDAO',
-    image: '/static/images/LaunchBanner1.png',
+    image: '/static/images/LaunchBanner.svg',
     link: routes.MEDIUM.INTRODUCTION,
   },
   {
     id: 1,
     title: 'OrcaDAO SeaFund',
     description: 'Whales helping whales',
-    image: '/static/images/SeaFundBanner.png',
+    image: '/static/images/SeaFundBanner.svg',
     link: routes.MEDIUM.SEAFUND,
   },
 ];
@@ -47,12 +46,18 @@ const CarouselImgStyle = styled('img')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-CarouselItem.propTypes = {
-  item: PropTypes.object,
-  isActive: PropTypes.bool,
+type CarouselItemProps = {
+  item: {
+    id: number | string;
+    title: string;
+    description: string;
+    image: string;
+    link: string;
+  };
+  isActive: boolean;
 };
 
-function CarouselItem({ item, isActive }) {
+const CarouselItem: FC<CarouselItemProps> = ({ item, isActive }) => {
   const { image, title, description, link } = item;
 
   return (
@@ -105,7 +110,7 @@ function CarouselItem({ item, isActive }) {
       </Box>
     </Link>
   );
-}
+};
 
 export default function MediumArticles() {
   const theme = useTheme();

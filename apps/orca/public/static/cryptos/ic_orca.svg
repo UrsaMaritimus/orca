@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="Icon_Name"
+   data-name="Icon Name"
+   viewBox="0 0 10.12 10.12"
+   version="1.1"
+   sodipodi:docname="ic_pod2.svg"
+   inkscape:export-filename="P:\Brand\ic_pod2.png"
+   inkscape:export-xdpi="30000"
+   inkscape:export-ydpi="30000"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15, custom)">
+  <metadata
+     id="metadata28">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     id="namedview26"
+     showgrid="false"
+     inkscape:zoom="85.770752"
+     inkscape:cx="5.0599999"
+     inkscape:cy="5.0599999"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="Icon_Name" />
+  <defs
+     id="defs15">
+    <style
+       id="style2">.cls-1{fill:url(#linear-gradient);}.cls-2{fill:#fff;}.cls-3{fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:0.08px;}</style>
+    <linearGradient
+       id="linear-gradient"
+       x1="8.5912"
+       y1="7.7303"
+       x2="0.5188"
+       y2="1.6293"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0"
+         stop-color="#2bb673"
+         id="stop4" />
+      <stop
+         offset="0.1754"
+         stop-color="#2ab37a"
+         id="stop6" />
+      <stop
+         offset="0.428"
+         stop-color="#27ab8d"
+         id="stop8" />
+      <stop
+         offset="0.7258"
+         stop-color="#239dac"
+         id="stop10" />
+      <stop
+         offset="0.8571"
+         stop-color="#2196bc"
+         id="stop12" />
+    </linearGradient>
+  </defs>
+  <circle
+     class="cls-1"
+     cx="5.06"
+     cy="5.06"
+     r="5.06"
+     id="circle17" />
+  <path
+     class="cls-2"
+     d="M3.9992,15.7782a4.3672,4.3672,0,0,0,.6942-.8217,4.2332,4.2332,0,0,0,.3836-1.0016c.1742-.7159.2675-1.4093.4472-2.1488a3.9806,3.9806,0,0,1,3.13-3.0638,2.9511,2.9511,0,0,1,1.1926.107,1.2452,1.2452,0,0,1,.3166.1461.4708.4708,0,0,1,.189.2284.3416.3416,0,0,1-.023.2842.46.46,0,0,1-.1008.1174,2.1162,2.1162,0,0,0-.36.359,4.3914,4.3914,0,0,0-.7,1.9021,5.4268,5.4268,0,0,0,.0234,2.0757,3.0838,3.0838,0,0,0,.9821,1.8172l-.0212.034A2.6526,2.6526,0,0,1,8.76,14.074a4.9451,4.9451,0,0,1-.1171-2.2785,8.7417,8.7417,0,0,1,.2657-1.1006,2.6987,2.6987,0,0,1,.5488-1.0612A2.61,2.61,0,0,1,9.88,9.2269c.011-.0071.0179-.0217-.0081.0172a.1954.1954,0,0,0-.0172.1522c.0222.0561.0327.04.0085.0287a.771.771,0,0,0-.18-.0834,2.4615,2.4615,0,0,0-.9768-.1049,3.5748,3.5748,0,0,0-2.8629,2.66c-.1859.677-.3411,1.43-.5578,2.1232a4.4034,4.4034,0,0,1-.4636,1.0166,3.8275,3.8275,0,0,1-.8.7737Z"
+     transform="translate(-2.027 -7.3254)"
+     id="path19" />
+  <path
+     class="cls-2"
+     d="M5.9709,13.1383a3.9573,3.9573,0,0,1,2.41-3.6628,5.7444,5.7444,0,0,0-1.5536,1.5982A6.7629,6.7629,0,0,0,5.9829,13.14Z"
+     transform="translate(-2.027 -7.3254)"
+     id="path21" />
+  <path
+     class="cls-3"
+     d="M8.3879,14.1975V13.94H7.6885l-.3026-.8869H6.9744l-.3013.8869H5.97v.2575h.6157l-.1333.3922H5.97v.2575h.3949l-.2879.8474H6.43l.2743-.831h.9365l.2823.831h.3644l-.2892-.8474h.39V14.59H7.91l-.1338-.3922ZM7.0331,13.833c.0511-.1607.0941-.3214.1332-.4782h.008c.0391.1528.0784.31.1371.482l.0351.1032h-.35Zm.5344.7567h-.79l.1327-.3922h.5244Z"
+     transform="translate(-2.027 -7.3254)"
+     id="path23" />
+</svg>

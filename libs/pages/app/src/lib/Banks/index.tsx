@@ -50,7 +50,7 @@ export const BanksAnalytics: FC = () => {
               <Grid item xs={12} sm={4} display="flex" justifyContent="center">
                 <Box
                   component="img"
-                  src="/static/cryptos/ic_orca.png"
+                  src="/static/cryptos/ic_orca.svg"
                   sx={{ width: 75, height: 75 }}
                   color="inherit"
                 />
