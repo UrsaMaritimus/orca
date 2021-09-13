@@ -49,13 +49,18 @@ export const ProtocolRevenue: FC<RevenueProps> = ({
   bankTreasury,
 }) => {
   const theme = useTheme();
-  const CHART_DATA = [
-    Number(utils.formatUnits(usdTreasury, 6)),
-    Number(utils.formatEther(bankTreasury)),
-  ];
+  const sum =
+    Number(utils.formatUnits(usdTreasury, 6)) +
+    Number(utils.formatEther(bankTreasury));
+  const CHART_DATA = [sum * 0.4, sum * 0.05, sum * 0.15, sum * 0.4];
   const chartOptions = merge(BaseOptionChart(), {
-    colors: [theme.palette.primary.light, theme.palette.primary.main],
-    labels: ['USD Exchange', 'Bank Repay Fee'],
+    colors: [
+      theme.palette.primary.lighter,
+      theme.palette.primary.light,
+      theme.palette.primary.main,
+      theme.palette.primary.dark,
+    ],
+    labels: ['Insurance', 'Future Dev', 'Charity', 'ORCA Token Holders'],
     stroke: { colors: [theme.palette.background.paper] },
     legend: { floating: true, horizontalAlign: 'center' },
     tooltip: {
