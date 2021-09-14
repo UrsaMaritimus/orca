@@ -1014,13 +1014,6 @@ export type BankInfoSubscriptionVariables = Exact<{
 
 export type BankInfoSubscription = { __typename?: 'Subscription', bank?: Maybe<{ __typename?: 'Bank', debtCeiling: any, totalDebt: any }> };
 
-export type MonitorVaultsSubscriptionVariables = Exact<{
-  bankID?: Maybe<Scalars['String']>;
-}>;
-
-
-export type MonitorVaultsSubscription = { __typename?: 'Subscription', vaults: Array<{ __typename?: 'Vault', collateral: any, debt: any, id: string }> };
-
 export type TotalSupplyFrontPageSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1029,12 +1022,19 @@ export type TotalSupplyFrontPageSubscription = { __typename?: 'Subscription', st
 export type BankInfoFrontPageSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type BankInfoFrontPageSubscription = { __typename?: 'Subscription', banks: Array<{ __typename?: 'Bank', id: string, treasury: any, totalDebt: any, totalCollateral: any, token: { __typename?: 'Token', symbol: string } }> };
+export type BankInfoFrontPageSubscription = { __typename?: 'Subscription', banks: Array<{ __typename?: 'Bank', id: string, treasury: any, totalDebt: any, totalCollateral: any, tokenPeg: any, token: { __typename?: 'Token', symbol: string, price: { __typename?: 'TokenPrice', priceUSD: any } } }> };
 
 export type ExchangeInfoFrontPageSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ExchangeInfoFrontPageSubscription = { __typename?: 'Subscription', exchanges: Array<{ __typename?: 'Exchange', treasury: any, usdHeld: any }> };
+
+export type MonitorVaultsSubscriptionVariables = Exact<{
+  bankID?: Maybe<Scalars['String']>;
+}>;
+
+
+export type MonitorVaultsSubscription = { __typename?: 'Subscription', vaults: Array<{ __typename?: 'Vault', collateral: any, debt: any, id: string }> };
 
 export type GetUserVaultsQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -1090,38 +1090,6 @@ export function useBankInfoSubscription(baseOptions: ApolloReactHooks.Subscripti
       }
 export type BankInfoSubscriptionHookResult = ReturnType<typeof useBankInfoSubscription>;
 export type BankInfoSubscriptionResult = Apollo.SubscriptionResult<BankInfoSubscription>;
-export const MonitorVaultsDocument = gql`
-    subscription MonitorVaults($bankID: String) {
-  vaults(where: {bank: $bankID, debt_gt: 0}) {
-    collateral
-    debt
-    id
-  }
-}
-    `;
-
-/**
- * __useMonitorVaultsSubscription__
- *
- * To run a query within a React component, call `useMonitorVaultsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useMonitorVaultsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useMonitorVaultsSubscription({
- *   variables: {
- *      bankID: // value for 'bankID'
- *   },
- * });
- */
-export function useMonitorVaultsSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<MonitorVaultsSubscription, MonitorVaultsSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<MonitorVaultsSubscription, MonitorVaultsSubscriptionVariables>(MonitorVaultsDocument, options);
-      }
-export type MonitorVaultsSubscriptionHookResult = ReturnType<typeof useMonitorVaultsSubscription>;
-export type MonitorVaultsSubscriptionResult = Apollo.SubscriptionResult<MonitorVaultsSubscription>;
 export const TotalSupplyFrontPageDocument = gql`
     subscription TotalSupplyFrontPage {
   stablecoins(first: 1) {
@@ -1158,8 +1126,12 @@ export const BankInfoFrontPageDocument = gql`
     treasury
     totalDebt
     totalCollateral
+    tokenPeg
     token {
       symbol
+      price {
+        priceUSD
+      }
     }
   }
 }
@@ -1216,6 +1188,38 @@ export function useExchangeInfoFrontPageSubscription(baseOptions?: ApolloReactHo
       }
 export type ExchangeInfoFrontPageSubscriptionHookResult = ReturnType<typeof useExchangeInfoFrontPageSubscription>;
 export type ExchangeInfoFrontPageSubscriptionResult = Apollo.SubscriptionResult<ExchangeInfoFrontPageSubscription>;
+export const MonitorVaultsDocument = gql`
+    subscription MonitorVaults($bankID: String) {
+  vaults(where: {bank: $bankID, debt_gt: 0}) {
+    collateral
+    debt
+    id
+  }
+}
+    `;
+
+/**
+ * __useMonitorVaultsSubscription__
+ *
+ * To run a query within a React component, call `useMonitorVaultsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useMonitorVaultsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMonitorVaultsSubscription({
+ *   variables: {
+ *      bankID: // value for 'bankID'
+ *   },
+ * });
+ */
+export function useMonitorVaultsSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<MonitorVaultsSubscription, MonitorVaultsSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useSubscription<MonitorVaultsSubscription, MonitorVaultsSubscriptionVariables>(MonitorVaultsDocument, options);
+      }
+export type MonitorVaultsSubscriptionHookResult = ReturnType<typeof useMonitorVaultsSubscription>;
+export type MonitorVaultsSubscriptionResult = Apollo.SubscriptionResult<MonitorVaultsSubscription>;
 export const GetUserVaultsDocument = gql`
     query getUserVaults($id: ID!) {
   user(id: $id) {

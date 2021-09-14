@@ -1,6 +1,4 @@
 import { FC } from 'react';
-import { useWeb3React } from '@web3-react/core';
-import { Web3Provider } from '@ethersproject/providers';
 import { Grid, Card, CardHeader, Typography, Box, Stack } from '@mui/material';
 import { utils } from 'ethers';
 import { Loader } from '@orca/components/loader';
@@ -10,8 +8,7 @@ import { fNumber } from '@orca/util';
 import { ProtocolRevenue } from './revenue';
 
 export const BanksAnalytics: FC = () => {
-  const { library, chainId } = useWeb3React<Web3Provider>();
-  const { loading, data } = useFrontPageInfo(library, chainId);
+  const { loading, data } = useFrontPageInfo();
   return (
     <Grid container spacing={3}>
       <Grid item xs={6} md={4}>

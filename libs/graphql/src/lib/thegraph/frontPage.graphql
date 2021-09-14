@@ -10,8 +10,12 @@ subscription BankInfoFrontPage {
     treasury
     totalDebt
     totalCollateral
+    tokenPeg
     token {
       symbol
+      price {
+        priceUSD
+      }
     }
   }
 }
