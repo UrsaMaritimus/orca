@@ -1,4 +1,4 @@
-import { BigNumber } from 'ethers';
+import { BigNumber, utils } from 'ethers';
 
 import {
   useBankInfoFrontPageSubscription,
@@ -51,7 +51,26 @@ export const useFrontPageInfo = () => {
       },
       BigNumber.from(0)
     );
-    console.log(exchangeInfoFrontPage.exchanges);
+
+    const indivBanks = bankInfoFrontPage.banks.map((bank) => {
+      const name = bank.token.symbol.toLowerCase();
+      const debt = BigNumber.from(bank.totalDebt);
+      const collateral = BigNumber.from(bank.totalCollateral)
+        .mul(BigNumber.from(bank.token.price.priceUSD))
+        .div(BigNumber.from(bank.tokenPeg));
+      const ltv = debt.mul(10000).div(collateral);
+      const maxLtv =
+        10000 / Number(utils.formatUnits(bank.minimumCollateralPercentage, 0));
+      return {
+        name,
+        debt,
+        collateral,
+        ltv,
+        id: name,
+        maxLtv,
+      };
+    });
+
     return {
       loading: false,
       data: {
@@ -61,6 +80,7 @@ export const useFrontPageInfo = () => {
         totalDebt,
         bankTreasury,
         exchangeTreasury,
+        indivBanks,
       },
     };
   } else {

@@ -18,12 +18,12 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), {
 
 // ----------------------------------------------------------------------
 
-const CHART_HEIGHT = 340;
-const LEGEND_HEIGHT = 72;
+const CHART_HEIGHT = 415;
+const LEGEND_HEIGHT = 80;
 
 const ChartWrapperStyle = styled('div')(({ theme }) => ({
   height: CHART_HEIGHT,
-  marginTop: theme.spacing(1),
+  marginTop: theme.spacing(5),
   '& .apexcharts-canvas svg': { height: CHART_HEIGHT },
   '& .apexcharts-canvas svg,.apexcharts-canvas foreignObject': {
     overflow: 'visible',
@@ -102,7 +102,7 @@ export const ProtocolRevenue: FC<RevenueProps> = ({
           series={CHART_DATA}
           // @ts-expect-error due to weird differences between string and const
           options={chartOptions}
-          height={280}
+          height={320}
         />
       </ChartWrapperStyle>
     </Card>

@@ -17,6 +17,16 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     erc20: 'avai',
     display: 'AVAI',
   },
+  ETH: {
+    icon: '/static/cryptos/ic_eth.svg',
+    erc20: 'weth.e',
+    display: 'WETH.e',
+  },
+  BTC: {
+    icon: '/static/cryptos/ic_wbtc.svg',
+    erc20: 'wbtc.e',
+    display: 'WBTC.e',
+  },
 };
 
 type ERC20TokenInfo = {

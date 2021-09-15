@@ -1022,7 +1022,7 @@ export type TotalSupplyFrontPageSubscription = { __typename?: 'Subscription', st
 export type BankInfoFrontPageSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type BankInfoFrontPageSubscription = { __typename?: 'Subscription', banks: Array<{ __typename?: 'Bank', id: string, treasury: any, totalDebt: any, totalCollateral: any, tokenPeg: any, token: { __typename?: 'Token', symbol: string, price: { __typename?: 'TokenPrice', priceUSD: any } } }> };
+export type BankInfoFrontPageSubscription = { __typename?: 'Subscription', banks: Array<{ __typename?: 'Bank', id: string, treasury: any, totalDebt: any, totalCollateral: any, tokenPeg: any, minimumCollateralPercentage: any, token: { __typename?: 'Token', symbol: string, price: { __typename?: 'TokenPrice', priceUSD: any } } }> };
 
 export type ExchangeInfoFrontPageSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -1127,6 +1127,7 @@ export const BankInfoFrontPageDocument = gql`
     totalDebt
     totalCollateral
     tokenPeg
+    minimumCollateralPercentage
     token {
       symbol
       price {

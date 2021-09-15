@@ -47,7 +47,7 @@ const Welcome: FC = () => {
         }}
       >
         <Typography gutterBottom variant="h4" sx={{ color: 'grey.800' }}>
-          Welcome {account ? 'back' : ''} to Orca Protocol!
+          Welcome {account ? 'back' : ''} to Orca Protocol
         </Typography>
 
         <Typography
@@ -55,8 +55,8 @@ const Welcome: FC = () => {
           color="grey.700"
           sx={{ pb: { xs: 3, xl: 5 }, maxWidth: 480, mx: 'auto' }}
         >
-          Explore the Orca DAO and open a vault! Borrow the stablecoin AVAI
-          using your crypto collateral, completely in your control!
+          Explore the Orca DAO and open a vault, borrow the stablecoin AVAI
+          using your crypto collateral, completely in your control.
         </Typography>
         <br />
         <br />

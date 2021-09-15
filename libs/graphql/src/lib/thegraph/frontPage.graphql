@@ -11,6 +11,7 @@ subscription BankInfoFrontPage {
     totalDebt
     totalCollateral
     tokenPeg
+    minimumCollateralPercentage
     token {
       symbol
       price {
