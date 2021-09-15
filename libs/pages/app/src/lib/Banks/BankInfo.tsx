@@ -116,7 +116,7 @@ export const BankInfo: FC<BankInfoProps> = ({ data }) => {
     autoplaySpeed: 5000,
     dots: true,
     arrows: false,
-    autoplay: true,
+    autoplay: false,
     slidesToShow: matches ? 1 : 2,
     slidesToScroll: matches ? 1 : 2,
     pauseOnHover: true,
@@ -161,7 +161,7 @@ export const BankInfo: FC<BankInfoProps> = ({ data }) => {
   ];
 
   return (
-    <Box sx={{ my: 2 }}>
+    <Box sx={{ my: 2, position: 'relative' }}>
       <Slider ref={carouselRef} {...settings}>
         {data.map((app, index) => (
           <CarouselItem
