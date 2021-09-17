@@ -113,9 +113,21 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC20__factory>;
     getContractFactory(
+      name: "ERC20Permit",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20Permit__factory>;
+    getContractFactory(
+      name: "IERC20Permit",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC20Permit__factory>;
+    getContractFactory(
       name: "ERC20Burnable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC20Burnable__factory>;
+    getContractFactory(
+      name: "ERC20Votes",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20Votes__factory>;
     getContractFactory(
       name: "IERC20Metadata",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -153,6 +165,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IWAVAX__factory>;
     getContractFactory(
+      name: "ORCA",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ORCA__factory>;
+    getContractFactory(
       name: "UpgradeableBeacon",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.UpgradeableBeacon__factory>;
@@ -160,6 +176,10 @@ declare module "hardhat/types/runtime" {
       name: "WAVAX",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.WAVAX__factory>;
+    getContractFactory(
+      name: "PodLeader",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.PodLeader__factory>;
     getContractFactory(
       name: "AVAI",
       signerOrOptions?: ethers.Signer | FactoryOptions

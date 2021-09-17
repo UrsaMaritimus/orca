@@ -83,6 +83,10 @@ export default class MyDocument extends Document {
             rel="stylesheet"
           />
           <meta
+            name="description"
+            content="OrcaDAO is a protocol featuring the Avalanche-native stablecoin AVAI and governance token ORCA that allow for lending using crypto collateral at 0% interest, built on and for the Avalanche Network."
+          />
+          <meta
             name="keywords"
             content="orca,crypto,loan,stablecoin,avalanche,avax,avai"
           />
