@@ -58,7 +58,10 @@ export const useFrontPageInfo = () => {
       const collateral = BigNumber.from(bank.totalCollateral)
         .mul(BigNumber.from(bank.token.price.priceUSD))
         .div(BigNumber.from(bank.tokenPeg));
-      const ltv = debt.mul(10000).div(collateral);
+
+      const ltv = collateral.isZero()
+        ? BigNumber.from(0)
+        : debt.mul(10000).div(collateral);
       const maxLtv =
         10000 / Number(utils.formatUnits(bank.minimumCollateralPercentage, 0));
       return {
