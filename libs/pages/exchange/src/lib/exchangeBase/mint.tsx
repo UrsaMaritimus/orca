@@ -45,6 +45,15 @@ const ReturnTextField = styled(TextField)(({ theme }) => ({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  '& .MuiFilledInput-root': {
+    borderRadius: theme.shape.borderRadiusSm,
+  },
+}));
+
+const InputTextField = styled(TextField)(({ theme }) => ({
+  '& .MuiFilledInput-root': {
+    borderRadius: theme.shape.borderRadiusSm,
+  },
 }));
 
 //----------------------------------------------------------
@@ -99,7 +108,7 @@ export const Mint: FC<MintProps> = ({
 
   const formik = useFormik({
     initialValues: {
-      swapAmount: 0,
+      swapAmount: undefined,
       returnAmount: 0,
     },
     validationSchema: ValueSchema,
@@ -249,14 +258,15 @@ export const Mint: FC<MintProps> = ({
                   <Typography variant="h6">
                     {`${fNumber(
                       Number(utils.formatUnits(usdBalance, 6)),
-                      2
+                      2,
+                      true
                     )} ${token}`}
                   </Typography>
                 </Grid>
                 {/* How much to use for minting */}
                 <Grid item xs={12} display="flex" justifyContent="center">
                   <Box sx={{ mx: 'auto', my: 2, width: '80%' }}>
-                    <TextField
+                    <InputTextField
                       fullWidth
                       type="number"
                       label="Amount"
@@ -292,6 +302,7 @@ export const Mint: FC<MintProps> = ({
                             </Button>
                           </InputAdornment>
                         ),
+                        disableUnderline: true,
                       }}
                       error={Boolean(touched.swapAmount && errors.swapAmount)}
                       helperText={touched.swapAmount && errors.swapAmount}
@@ -350,6 +361,7 @@ export const Mint: FC<MintProps> = ({
                             />
                           </InputAdornment>
                         ),
+                        disableUnderline: true,
                       }}
                     />
                   </Box>

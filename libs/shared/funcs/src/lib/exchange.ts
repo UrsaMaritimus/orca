@@ -135,7 +135,7 @@ export const approveUsdExchange = async (
     library.getSigner()
   );
   const exchange = getUSDCExchange(library, chainId);
-  return usd.increaseAllowance(exchange.address, amount);
+  return usd.approve(exchange.address, amount);
 };
 
 // callable function
@@ -154,7 +154,7 @@ export const approveAvaiExchange = async (
     library.getSigner()
   );
   const exchange = getUSDCExchange(library, chainId);
-  return avai.increaseAllowance(exchange.address, amount);
+  return avai.approve(exchange.address, amount);
 };
 
 // callable function

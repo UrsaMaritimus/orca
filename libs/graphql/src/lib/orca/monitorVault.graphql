@@ -1,4 +1,4 @@
-subscription MonitorVaults($bankID: String) {
+subscription MonitorVaults($bankID: String) @api(name: orca) {
   vaults(where: { bank: $bankID, debt_gt: 0 }) {
     collateral
     debt

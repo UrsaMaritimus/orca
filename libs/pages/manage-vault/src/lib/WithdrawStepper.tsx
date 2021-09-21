@@ -14,6 +14,7 @@ import {
   Stack,
   Grid,
   Backdrop,
+  styled,
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 
@@ -37,6 +38,12 @@ import {
   useAddTransaction,
 } from '@orca/components/transaction';
 import { StepperProps } from './stepper.type';
+
+const InputTextField = styled(TextField)(({ theme }) => ({
+  '& .MuiFilledInput-root': {
+    borderRadius: theme.shape.borderRadiusSm,
+  },
+}));
 // ----------------------------------------------------------------------
 
 export const WithdrawStepper: FC<StepperProps> = ({
@@ -183,7 +190,7 @@ export const WithdrawStepper: FC<StepperProps> = ({
                 </Grid>
               </Grid>
               <Box sx={{ mx: 'auto', my: 2, width: '80%' }}>
-                <TextField
+                <InputTextField
                   fullWidth
                   type="number"
                   label="Withdraw Amount"
@@ -219,6 +226,7 @@ export const WithdrawStepper: FC<StepperProps> = ({
                         </Button>
                       </InputAdornment>
                     ),
+                    disableUnderline: true,
                   }}
                   error={Boolean(
                     touched.withdrawAmount && errors.withdrawAmount

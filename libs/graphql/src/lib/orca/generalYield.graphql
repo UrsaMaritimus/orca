@@ -1,0 +1,24 @@
+subscription GeneralYieldInfo($pair: Bytes!) @api(name: orca) {
+  pools(where: { pair: $pair }) {
+    id
+    pair
+    allocPoint
+    totalStaked
+    depositFee
+    leader {
+      orcaPerSec
+      totalAllocPoints
+    }
+  }
+}
+
+subscription UserStaked($id: ID!) @api(name: orca) {
+  user(id: $id) {
+    pools {
+      staked
+      pool {
+        pair
+      }
+    }
+  }
+}

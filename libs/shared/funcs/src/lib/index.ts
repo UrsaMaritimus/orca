@@ -7,3 +7,4 @@ export * from './monitor';
 export * from './exchange';
 export * from './vaultContract';
 export * from './price';
+export * from './yield';

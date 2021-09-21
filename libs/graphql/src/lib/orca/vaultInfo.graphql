@@ -1,4 +1,4 @@
-query getUserVaults($id: ID!) {
+query getUserVaults($id: ID!) @api(name: orca) {
   user(id: $id) {
     vaults {
       id
@@ -11,7 +11,7 @@ query getUserVaults($id: ID!) {
   }
 }
 
-subscription UserVaults($user: String!, $bank: String!) {
+subscription UserVaults($user: String!, $bank: String!) @api(name: orca) {
   vaults(where: { user: $user, bank: $bank }) {
     id
     collateral
@@ -22,7 +22,7 @@ subscription UserVaults($user: String!, $bank: String!) {
   }
 }
 
-subscription VaultInfo($vaultID: ID!) {
+subscription VaultInfo($vaultID: ID!) @api(name: orca) {
   vault(id: $vaultID) {
     id
     collateral

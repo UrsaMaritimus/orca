@@ -1,9 +1,9 @@
 module.exports = {
-  schema: 'https://api.thegraph.com/subgraphs/name/ursamaritimus/orcadao',
-  documents: ['./libs/graphql/src/lib/**/*.graphql'],
   overwrite: true,
   generates: {
-    './libs/graphql/src/generated/index.ts': {
+    './libs/graphql/src/generated/orca.ts': {
+      documents: ['./libs/graphql/src/lib/orca/**/*.graphql'],
+      schema: 'https://api.thegraph.com/subgraphs/name/ursamaritimus/orcadao',
       plugins: [
         'typescript',
         'typescript-operations',
@@ -17,8 +17,21 @@ module.exports = {
         apolloReactHooksImportFrom: '@apollo/client',
       },
     },
-    './graphql.schema.json': {
-      plugins: ['introspection'],
+    './libs/graphql/src/generated/png.ts': {
+      documents: ['./libs/graphql/src/lib/png/**/*.graphql'],
+      schema: 'https://api.thegraph.com/subgraphs/name/pangolindex/exchange',
+      plugins: [
+        'typescript',
+        'typescript-operations',
+        'typescript-react-apollo',
+      ],
+      config: {
+        skipTypename: false,
+        withHooks: true,
+        withHOC: false,
+        withComponent: false,
+        apolloReactHooksImportFrom: '@apollo/client',
+      },
     },
   },
 };

@@ -13,6 +13,7 @@ import {
   Stack,
   Grid,
   Backdrop,
+  styled,
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 
@@ -37,6 +38,12 @@ import {
   useAddTransaction,
 } from '@orca/components/transaction';
 import { StepperProps } from './stepper.type';
+
+const InputTextField = styled(TextField)(({ theme }) => ({
+  '& .MuiFilledInput-root': {
+    borderRadius: theme.shape.borderRadiusSm,
+  },
+}));
 // ----------------------------------------------------------------------
 
 export const RepayStepper: FC<StepperProps> = ({
@@ -199,7 +206,7 @@ export const RepayStepper: FC<StepperProps> = ({
                 </Grid>
               </Grid>
               <Box sx={{ mx: 'auto', my: 2, width: '80%' }}>
-                <TextField
+                <InputTextField
                   fullWidth
                   type="number"
                   label="Repay Amount"
@@ -237,6 +244,7 @@ export const RepayStepper: FC<StepperProps> = ({
                         </Button>
                       </InputAdornment>
                     ),
+                    disableUnderline: true,
                   }}
                   error={Boolean(touched.repayAmount && errors.repayAmount)}
                   helperText={touched.repayAmount && errors.repayAmount}

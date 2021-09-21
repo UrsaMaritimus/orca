@@ -1,4 +1,3 @@
-import replace from 'lodash/replace';
 import numbro from 'numbro';
 
 // ----------------------------------------------------------------------
@@ -11,8 +10,12 @@ export const fPercent = (number: number) => {
   return numbro(number / 100).format('0.00%');
 };
 
-export const fNumber = (number: number | string, mantissa = 4) => {
-  return numbro(number).format({ mantissa });
+export const fNumber = (
+  number: number | string,
+  mantissa = 4,
+  thousandSeparated = false
+) => {
+  return numbro(number).format({ mantissa, thousandSeparated });
 };
 
 export const fShortenNumber = (number: number | string, mantissa = 2) => {

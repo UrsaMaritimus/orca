@@ -11,7 +11,6 @@ import {
   Box,
   Button,
   Typography,
-  Stack,
   TextField,
   InputAdornment,
   Container,
@@ -45,6 +44,15 @@ const ReturnTextField = styled(TextField)(({ theme }) => ({
     '-webkit-text-fill-color': theme.palette.secondary.dark,
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  '& .MuiFilledInput-root': {
+    borderRadius: theme.shape.borderRadiusSm,
+  },
+}));
+
+const InputTextField = styled(TextField)(({ theme }) => ({
+  '& .MuiFilledInput-root': {
+    borderRadius: theme.shape.borderRadiusSm,
   },
 }));
 
@@ -240,14 +248,15 @@ export const Redeem: FC<MintProps> = ({
                   <Typography variant="h6">
                     {`${fNumber(
                       Number(utils.formatEther(avaiBalance)),
-                      2
+                      2,
+                      true
                     )} AVAI`}
                   </Typography>
                 </Grid>
                 {/* How much to use for minting */}
                 <Grid item xs={12} display="flex" justifyContent="center">
                   <Box sx={{ mx: 'auto', my: 2, width: '80%' }}>
-                    <TextField
+                    <InputTextField
                       fullWidth
                       type="number"
                       label="Amount"
@@ -283,6 +292,7 @@ export const Redeem: FC<MintProps> = ({
                             </Button>
                           </InputAdornment>
                         ),
+                        disableUnderline: true,
                       }}
                       error={Boolean(touched.swapAmount && errors.swapAmount)}
                       helperText={touched.swapAmount && errors.swapAmount}
@@ -341,6 +351,7 @@ export const Redeem: FC<MintProps> = ({
                             />
                           </InputAdornment>
                         ),
+                        disableUnderline: true,
                       }}
                     />
                   </Box>

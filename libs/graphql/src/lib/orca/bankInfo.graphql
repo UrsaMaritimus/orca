@@ -1,4 +1,4 @@
-subscription BankInfo($id: ID!) {
+subscription BankInfo($id: ID!) @api(name: orca) {
   bank(id: $id) {
     debtCeiling
     totalDebt

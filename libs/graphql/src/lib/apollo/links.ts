@@ -1,28 +1,49 @@
-import { HttpLink, ApolloLink, split, from } from '@apollo/client';
+import {
+  HttpLink,
+  ApolloLink,
+  split,
+  from,
+  createHttpLink,
+} from '@apollo/client';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { onError } from '@apollo/client/link/error';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { NextPageContext } from 'next';
+import { MultiAPILink } from '@habx/apollo-multi-endpoint-link';
 
 // For when just using http protocols
-export const httpLink = (ctx?: NextPageContext): HttpLink => {
-  return new HttpLink({
-    uri: 'https://api.thegraph.com/subgraphs/name/ursamaritimus/orcadao', // must be absolute for SSR to work
-    fetch,
+export const httpLink = (ctx?: NextPageContext): MultiAPILink => {
+  return new MultiAPILink({
+    endpoints: {
+      orca: 'https://api.thegraph.com/subgraphs/name/ursamaritimus/orcadao',
+      png: 'https://api.thegraph.com/subgraphs/name/pangolindex/exchange',
+    },
+    createHttpLink: () => createHttpLink(),
+    wsSuffix: '',
+    httpSuffix: '',
   });
 };
 
 // For when using socket protocols
-export const wsLink = (): WebSocketLink => {
+export const wsLink = (): MultiAPILink => {
   // Return out link with the headers
-  return new WebSocketLink({
-    uri: 'wss://api.thegraph.com/subgraphs/name/ursamaritimus/orcadao',
-    options: {
-      reconnect: true,
+  return new MultiAPILink({
+    endpoints: {
+      orca: 'wss://api.thegraph.com/subgraphs/name/ursamaritimus/orcadao',
+      png: 'wss://api.thegraph.com/subgraphs/name/pangolindex/exchange',
     },
+    createHttpLink: () => createHttpLink(),
+    createWsLink: (endpoint: string) =>
+      new WebSocketLink({
+        uri: endpoint,
+        options: {
+          reconnect: true,
+        },
+      }),
+    wsSuffix: '',
+    httpSuffix: '',
   });
 };
-
 // Good way to log any errors
 export const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
