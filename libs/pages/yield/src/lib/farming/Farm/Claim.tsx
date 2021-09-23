@@ -106,6 +106,9 @@ export const Claim: FC<ClaimProps> = ({
           size="large"
           onClick={handleClaim}
           loading={depositing}
+          disabled={
+            !shouldFetch || (rewardTokenPending && rewardTokenPending.isZero())
+          }
         >
           Claim
         </LoadingButton>

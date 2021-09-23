@@ -8,10 +8,9 @@ import { parseBalance } from '@orca/util';
 
 import { styled } from '@mui/material/styles';
 
-import { useTheme } from 'next-themes';
-
 import contractAddresses from '@orca/shared/deployments';
 import { AVAI__factory } from '@orca/shared/contracts';
+import { avaiBalance } from '@orca/shared/funcs';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
 const BalanceStyle = styled('div')(({ theme }) => ({
@@ -24,34 +23,13 @@ const BalanceStyle = styled('div')(({ theme }) => ({
   maxWidth: '150px',
 }));
 
-const getAVAIBalance = () => {
-  return async (
-    _: string,
-    library: Web3Provider,
-    chainId: number,
-    address: string
-  ) => {
-    const avai = AVAI__factory.connect(
-      chainId === 43113
-        ? contractAddresses.fuji.AVAI.address
-        : chainId === 43114
-        ? // TODO: Update
-          contractAddresses.fuji.AVAI.address
-        : null,
-      library
-    );
-    return avai.balanceOf(address);
-  };
-};
-
 const AvaiBalance: FC = () => {
   const { account, library, chainId } = useWeb3React<Web3Provider>();
   const shouldFetch = typeof account === 'string' && !!library;
   const { data: balance, mutate: avaiMutate } = useSWR(
     shouldFetch ? ['avaiBalance', library, chainId, account] : null,
-    getAVAIBalance()
+    avaiBalance()
   );
-  const { theme, systemTheme } = useTheme();
   useKeepSWRDataLiveAsBlocksArrive(avaiMutate);
 
   useEffect(() => {
@@ -96,7 +74,8 @@ const AvaiBalance: FC = () => {
           <Typography
             variant="button"
             sx={{
-              color: theme === 'light' ? 'grey.600' : 'grey.200',
+              color: (theme) =>
+                theme.palette.mode === 'light' ? 'grey.600' : 'grey.200',
             }}
             textAlign="center"
           >

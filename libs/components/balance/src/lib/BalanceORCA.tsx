@@ -8,10 +8,9 @@ import { parseBalance } from '@orca/util';
 
 import { styled } from '@mui/material/styles';
 
-import { useTheme } from 'next-themes';
-
 import contractAddresses from '@orca/shared/deployments';
-import { AVAI__factory } from '@orca/shared/contracts';
+import { ORCA__factory } from '@orca/shared/contracts';
+import { orcaBalance } from '@orca/shared/funcs';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
 const BalanceStyle = styled('div')(({ theme }) => ({
@@ -21,61 +20,40 @@ const BalanceStyle = styled('div')(({ theme }) => ({
   margin: theme.spacing(1),
   borderRadius: theme.shape.borderRadiusSm,
   backgroundColor: theme.palette.grey[500_80],
-  maxWidth: '150px',
+  maxWidth: '175px',
 }));
 
-const getAVAIBalance = () => {
-  return async (
-    _: string,
-    library: Web3Provider,
-    chainId: number,
-    address: string
-  ) => {
-    const avai = AVAI__factory.connect(
-      chainId === 43113
-        ? contractAddresses.fuji.AVAI.address
-        : chainId === 43114
-        ? // TODO: Update
-          contractAddresses.fuji.AVAI.address
-        : null,
-      library
-    );
-    return avai.balanceOf(address);
-  };
-};
-
-const AvaiBalance: FC = () => {
+const OrcaBalance: FC = () => {
   const { account, library, chainId } = useWeb3React<Web3Provider>();
   const shouldFetch = typeof account === 'string' && !!library;
-  const { data: balance, mutate: avaiMutate } = useSWR(
-    shouldFetch ? ['avaiBalance', library, chainId, account] : null,
-    getAVAIBalance()
+  const { data: balance, mutate: orcaMutate } = useSWR(
+    shouldFetch ? ['orcaBalance', library, chainId, account] : null,
+    orcaBalance()
   );
-  const { theme, systemTheme } = useTheme();
-  useKeepSWRDataLiveAsBlocksArrive(avaiMutate);
+  useKeepSWRDataLiveAsBlocksArrive(orcaMutate);
 
   useEffect(() => {
-    const avai = AVAI__factory.connect(
+    const orca = ORCA__factory.connect(
       chainId === 43113
-        ? contractAddresses.fuji.AVAI.address
+        ? contractAddresses.fuji.ORCA.address
         : chainId === 43114
         ? // TODO: Update
-          contractAddresses.fuji.AVAI.address
+          contractAddresses.fuji.ORCA.address
         : null,
       library
     );
 
-    const balanceChange = avai.filters.Transfer();
-    avai.on(balanceChange, (from, to, balance) => {
+    const balanceChange = orca.filters.Transfer();
+    orca.on(balanceChange, (from, to, balance) => {
       if (from === account || to === account) {
-        avaiMutate(undefined, true);
+        orcaMutate(undefined, true);
       }
     });
 
     return () => {
-      avai.removeAllListeners(balanceChange);
+      orca.removeAllListeners(balanceChange);
     };
-  }, [library, account, avaiMutate, chainId]);
+  }, [library, account, orcaMutate, chainId]);
 
   return (
     <BalanceStyle>
@@ -83,7 +61,7 @@ const AvaiBalance: FC = () => {
         <Grid item xs={3} display="flex" justifyContent="center">
           <Box
             component="img"
-            src={'/static/cryptos/ic_avai.svg'}
+            src={'/static/cryptos/ic_orca.svg'}
             sx={{
               width: 30,
               height: 30,
@@ -96,11 +74,12 @@ const AvaiBalance: FC = () => {
           <Typography
             variant="button"
             sx={{
-              color: theme === 'light' ? 'grey.600' : 'grey.200',
+              color: (theme) =>
+                theme.palette.mode === 'light' ? 'grey.600' : 'grey.200',
             }}
             textAlign="center"
           >
-            {balance ? parseBalance(balance) : '0'} AVAI
+            {balance ? parseBalance(balance) : '0'} ORCA
           </Typography>
         </Grid>
       </Grid>
@@ -108,4 +87,4 @@ const AvaiBalance: FC = () => {
   );
 };
 
-export default AvaiBalance;
+export default OrcaBalance;

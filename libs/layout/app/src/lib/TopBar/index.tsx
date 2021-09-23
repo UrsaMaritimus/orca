@@ -14,7 +14,7 @@ import { useCollapseDrawer } from '@orca/hooks';
 
 import { MHidden } from '@orca/components/material-extend/hidden';
 import { Account } from '@orca/components/account';
-import { Balance, AvaiBalance } from '@orca/components/balance';
+import { Balance, AvaiBalance, OrcaBalance } from '@orca/components/balance';
 import { LargeLogo } from '@orca/components/logo';
 
 import { ImportantLinks } from './ImportantLinks';
@@ -89,6 +89,7 @@ const TopBar: FC<Props> = ({ onOpenNav }) => {
             sx={{ mt: 3 }}
             spacing={{ xs: 0.5, sm: 1.5 }}
           >
+            {isConnected && <OrcaBalance />}
             {isConnected && <AvaiBalance />}
             {isConnected && <Balance />}
             <Account />
