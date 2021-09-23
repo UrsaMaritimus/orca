@@ -192,11 +192,11 @@ export const depositCollateral = (
   if (vaultType === 'wavax') {
     const gateway = getGateway(library, chainId, true);
     const overrides = {
-      value: utils.parseEther(amount.toString()),
+      value: utils.parseEther(amount.toFixed(18)),
     };
     return gateway.depositAVAX(vault.address, vaultID, overrides);
   }
-  return vault.depositCollateral(vaultID, utils.parseEther(amount.toString()));
+  return vault.depositCollateral(vaultID, utils.parseEther(amount.toFixed(18)));
 };
 // callable
 export const withdrawCollateral = (
@@ -212,10 +212,13 @@ export const withdrawCollateral = (
     return gateway.withdrawAVAX(
       vault.address,
       vaultID,
-      utils.parseEther(amount.toString())
+      utils.parseEther(amount.toFixed(18))
     );
   }
-  return vault.withdrawCollateral(vaultID, utils.parseEther(amount.toString()));
+  return vault.withdrawCollateral(
+    vaultID,
+    utils.parseEther(amount.toFixed(18))
+  );
 };
 // callable
 export const borrowToken = (
@@ -226,7 +229,7 @@ export const borrowToken = (
   chainId: number
 ) => {
   const vault = getVault(vaultType, library, chainId, true);
-  return vault.borrowToken(vaultID, utils.parseEther(amount.toString()));
+  return vault.borrowToken(vaultID, utils.parseEther(amount.toFixed(18)));
 };
 // callable
 export const payBackToken = (
@@ -237,5 +240,8 @@ export const payBackToken = (
   chainId: number
 ) => {
   const vault = getVault(vaultType, library, chainId, true);
-  return vault.payBackToken(vaultID, utils.parseEther(amount.toString()));
+  return vault.payBackToken(
+    vaultID,
+    utils.parseEther(Number(amount).toFixed(18))
+  );
 };

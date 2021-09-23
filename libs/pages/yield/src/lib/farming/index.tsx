@@ -30,13 +30,13 @@ export const Farming: FC = () => {
         <Card
           sx={{
             mb: 3,
-            height: 160,
+            height: 100,
             position: 'relative',
           }}
         >
           <CardHeader
             title={'Yield Farming'}
-            subheader={'Coming soon to a Main Net near you!'}
+            subheader={'Stake your tokens and earn rewards!'}
           />
         </Card>
         <AvaiFarm

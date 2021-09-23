@@ -136,7 +136,7 @@ export const Redeem: FC<MintProps> = ({
             Number(
               utils.formatUnits(
                 utils
-                  .parseEther(fNumber(values.swapAmount.toString(), 18))
+                  .parseEther(fNumber(values.swapAmount.toFixed(18), 18))
                   .mul(utils.parseUnits('1', 4).sub(mintingFee))
                   .div(utils.parseUnits('1', 16)),
                 6
@@ -184,7 +184,9 @@ export const Redeem: FC<MintProps> = ({
       transaction: redeemFromExchange(
         library,
         chainId,
-        utils.parseEther(values.swapAmount ? values.swapAmount.toString() : '0')
+        utils.parseEther(
+          values.swapAmount ? values.swapAmount.toFixed(18) : '0'
+        )
       ),
       messages: {
         loading: 'Redeeming USDC...',
@@ -196,7 +198,7 @@ export const Redeem: FC<MintProps> = ({
     });
     addTransaction({
       type: 'redeem',
-      amount: utils.parseEther(values.swapAmount.toString()),
+      amount: utils.parseEther(values.swapAmount.toFixed(18)),
       vault: token,
       success: success.success,
       hash: success.hash,

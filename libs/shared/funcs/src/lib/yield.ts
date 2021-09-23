@@ -32,6 +32,19 @@ export const getTokenBalance = () => {
     return token.balanceOf(account);
   };
 };
+// swr function
+export const getRewardBalance = () => {
+  return async (
+    _: string,
+    library: Web3Provider,
+    account: string,
+    chainId: number,
+    pid: number
+  ) => {
+    const leader = getPodLeader(library, chainId);
+    return leader.pendingRewards(pid, account.toLowerCase());
+  };
+};
 
 // swr function
 export const tokenApproved = () => {
@@ -59,7 +72,7 @@ export const approveToken = (
   const token = ERC20__factory.connect(address, library.getSigner());
   const leader = getPodLeader(library, chainId);
 
-  return token.approve(leader.address, utils.parseEther(amount.toString()));
+  return token.approve(leader.address, utils.parseEther(amount.toFixed(18)));
 };
 
 export const depositFarm = (
@@ -69,5 +82,15 @@ export const depositFarm = (
   amount: number
 ) => {
   const leader = getPodLeader(library, chainId, true);
-  return leader.deposit(pid, utils.parseEther(amount.toString()));
+  return leader.deposit(pid, utils.parseEther(amount.toFixed(18)));
+};
+
+export const withdrawFarm = (
+  library: Web3Provider,
+  chainId: number,
+  pid: number,
+  amount: number
+) => {
+  const leader = getPodLeader(library, chainId, true);
+  return leader.withdraw(pid, utils.parseEther(amount.toFixed(18)));
 };

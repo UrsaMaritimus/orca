@@ -126,7 +126,7 @@ export const BorrowStepper: FC<StepperProps> = ({
     });
     addTransaction({
       type: 'borrow',
-      amount: utils.parseEther(values.borrowAmount.toString()),
+      amount: utils.parseEther(values.borrowAmount.toFixed(18)),
       vault: token,
       success: success.success,
       hash: success.hash,

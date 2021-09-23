@@ -361,7 +361,7 @@ export const WithdrawStepper: FC<StepperProps> = ({
                                 vaultInfo.collateral
                                   .add(
                                     utils.parseEther(
-                                      values.withdrawAmount.toString()
+                                      values.withdrawAmount.toFixed(18)
                                     )
                                   )
                                   .mul(vaultInfo.tokenPrice)
@@ -381,7 +381,7 @@ export const WithdrawStepper: FC<StepperProps> = ({
                                 vaultInfo.collateral
                                   .add(
                                     utils.parseEther(
-                                      values.withdrawAmount.toString()
+                                      values.withdrawAmount.toFixed(18)
                                     )
                                   )
                                   .mul(vaultInfo.tokenPrice)

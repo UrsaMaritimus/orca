@@ -108,10 +108,10 @@ export const Deposit: FC<DepositProps> = ({
 
   const formik = useFormik({
     initialValues: {
-      depositAmount: undefined,
+      depositAmount: 0,
     },
     validationSchema: ValueSchema,
-    onSubmit: async (values, { setSubmitting, resetForm }) => {
+    onSubmit: async (values, { resetForm, setSubmitting }) => {
       try {
         setDepositing(true);
         await handleTransaction({
@@ -140,15 +140,8 @@ export const Deposit: FC<DepositProps> = ({
     },
   });
 
-  const {
-    errors,
-    touched,
-    values,
-    setFieldValue,
-    handleSubmit,
-    getFieldProps,
-    resetForm,
-  } = formik;
+  const { errors, touched, setFieldValue, handleSubmit, getFieldProps } =
+    formik;
 
   const handleApprove = async () => {
     setApproving(true);
@@ -165,16 +158,14 @@ export const Deposit: FC<DepositProps> = ({
     setApproving(false);
   };
 
-  console.log(tokenIsApproved);
-
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Grid container>
           <Grid item xs={4}>
-            <Typography variant="subtitle2">Balance:</Typography>
+            <Typography variant="subtitle1">Wallet:</Typography>
           </Grid>
-          <Grid item xs={8} display="flex" justifyContent="center">
+          <Grid item xs={8} display="flex" justifyContent="flex-end">
             <Stack direction="row" alignItems="center" spacing={1}>
               <Box
                 component="img"
@@ -186,7 +177,7 @@ export const Deposit: FC<DepositProps> = ({
                 }}
                 color="inherit"
               />
-              <Typography variant="subtitle2" textAlign="center">
+              <Typography variant="subtitle1" textAlign="center">
                 {shouldFetch
                   ? fNumber(
                       Number(utils.formatEther(farmBalance ? farmBalance : 0)),
@@ -197,8 +188,23 @@ export const Deposit: FC<DepositProps> = ({
               </Typography>
             </Stack>
           </Grid>
+          <Grid item xs={12} display="flex" justifyContent="flex-end">
+            <NextLink
+              href={link}
+              underline="hover"
+              rel="noreferrer"
+              variant="subtitle2"
+              color="secondary.darker"
+              alignItems="center"
+              display="flex"
+              target="_blank"
+            >
+              Get LP
+              <Icon icon={externalLinkOutline} width={20} height={20} />
+            </NextLink>
+          </Grid>
         </Grid>
-        <Box sx={{ mt: 1 }}>
+        <Box sx={{ mt: 1, mb: 2 }}>
           <ReturnTextField
             fullWidth
             type="number"
@@ -245,26 +251,15 @@ export const Deposit: FC<DepositProps> = ({
           />
         </Box>
         <Grid container>
-          <Grid item xs={12} display="flex" justifyContent="flex-end" mb={1}>
-            <NextLink
-              href={link}
-              underline="hover"
-              rel="noreferrer"
-              variant="subtitle2"
-              color="secondary.darker"
-              alignItems="center"
-              display="flex"
-              target="_blank"
-            >
-              Get LP
-              <Icon icon={externalLinkOutline} width={20} height={20} />
-            </NextLink>
-          </Grid>
           <Grid item xs={6} display="flex" justifyContent="flex-end">
             <LoadingButton
               variant="contained"
               size="large"
-              disabled={!shouldFetch || tokenIsApproved}
+              disabled={
+                !shouldFetch ||
+                tokenIsApproved ||
+                (farmBalance && farmBalance.isZero())
+              }
               sx={{ mr: 1 }}
               loading={approving}
               onClick={handleApprove}
@@ -276,7 +271,11 @@ export const Deposit: FC<DepositProps> = ({
             <LoadingButton
               variant="contained"
               size="large"
-              disabled={!shouldFetch || !tokenIsApproved}
+              disabled={
+                !shouldFetch ||
+                !tokenIsApproved ||
+                (farmBalance && farmBalance.isZero())
+              }
               loading={depositing}
               type="submit"
             >

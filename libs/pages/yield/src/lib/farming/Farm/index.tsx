@@ -12,6 +12,7 @@ import {
   Stack,
   Box,
   useMediaQuery,
+  Divider,
 } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
 
@@ -23,6 +24,8 @@ import { fCurrency, fNumber } from '@orca/util';
 import { LoadingDots } from '@orca/components/loader';
 
 import Deposit from './Deposit';
+import Withdraw from './Withdraw';
+import Claim from './Claim';
 
 type FarmProps = {
   handleChange: (
@@ -115,7 +118,7 @@ export const Farm: FC<FarmProps> = ({
                   color="grey.700"
                 />
                 <Stack alignItems={matches ? 'center' : 'flex-start'}>
-                  <Typography sx={{ color: 'grey.800' }} variant="h4">
+                  <Typography sx={{ color: 'grey.800' }} variant="h6">
                     {name}
                   </Typography>
                   <Typography sx={{ color: 'grey.700' }} variant="caption">
@@ -140,7 +143,7 @@ export const Farm: FC<FarmProps> = ({
                   color="grey.700"
                 />
                 <Stack alignItems="center">
-                  <Typography sx={{ color: 'grey.800' }} variant="h4">
+                  <Typography sx={{ color: 'grey.800' }} variant="h6">
                     {reward}
                   </Typography>
                   <Typography sx={{ color: 'grey.700' }} variant="caption">
@@ -151,7 +154,7 @@ export const Farm: FC<FarmProps> = ({
             </Grid>
             <Grid item xs={4} md={2} display="flex" justifyContent="center">
               <Stack alignItems="center">
-                <Typography sx={{ color: 'grey.800' }} variant="h4">
+                <Typography sx={{ color: 'grey.800' }} variant="h6">
                   {library ? (
                     totalStakedUSD === 0 ? (
                       fCurrency(totalStakedUSD)
@@ -182,7 +185,7 @@ export const Farm: FC<FarmProps> = ({
             <Grid item xs={4} md={2} display="flex" justifyContent="center">
               {' '}
               <Stack alignItems="center">
-                <Typography sx={{ color: 'grey.800' }} variant="h4">
+                <Typography sx={{ color: 'grey.800' }} variant="h6">
                   {loading ? <LoadingDots /> : fNumber(apr, 0, true)}
                   {loading ? '' : '%'}
                 </Typography>
@@ -199,7 +202,7 @@ export const Farm: FC<FarmProps> = ({
           }}
         >
           <Typography sx={{ color: 'grey.700' }} color="inherit">
-            <Grid container>
+            <Grid container spacing={matches ? 2 : 0}>
               <Grid item xs={12} md={4}>
                 <Deposit
                   account={account}
@@ -210,6 +213,46 @@ export const Farm: FC<FarmProps> = ({
                   link={link}
                   pid={pid}
                   chainId={chainId}
+                />
+              </Grid>
+              <Grid item xs={12} md={1} display="flex" justifyContent="center">
+                <Divider
+                  variant="middle"
+                  orientation={matches ? 'horizontal' : 'vertical'}
+                  flexItem
+                  sx={{ width: matches ? '100%' : '0%' }}
+                />
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Withdraw
+                  account={account}
+                  library={library}
+                  name={name}
+                  img={img}
+                  farm={farm}
+                  link={link}
+                  pid={pid}
+                  chainId={chainId}
+                  totalStaked={totalStaked}
+                  totalStakedUSD={totalStakedUSD}
+                />
+              </Grid>
+              <Grid item xs={12} md={1} display="flex" justifyContent="center">
+                <Divider
+                  variant="middle"
+                  orientation={matches ? 'horizontal' : 'vertical'}
+                  flexItem
+                  sx={{ width: matches ? '100%' : '0%' }}
+                />
+              </Grid>
+              <Grid item xs={12} md={2}>
+                <Claim
+                  account={account}
+                  library={library}
+                  img={rewardImg}
+                  pid={pid}
+                  chainId={chainId}
+                  reward={reward}
                 />
               </Grid>
             </Grid>

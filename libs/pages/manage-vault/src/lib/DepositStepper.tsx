@@ -125,7 +125,7 @@ export const DepositStepper: FC<StepperProps> = ({
     });
     addTransaction({
       type: 'deposit',
-      amount: utils.parseEther(values.depositAmount.toString()),
+      amount: utils.parseEther(values.depositAmount.toFixed(18)),
       vault: token,
       success: success.success,
       hash: success.hash,
@@ -342,7 +342,7 @@ export const DepositStepper: FC<StepperProps> = ({
                                 vaultInfo.collateral
                                   .add(
                                     utils.parseEther(
-                                      values.depositAmount.toString()
+                                      values.depositAmount.toFixed(18)
                                     )
                                   )
                                   .mul(vaultInfo.tokenPrice)
@@ -362,7 +362,7 @@ export const DepositStepper: FC<StepperProps> = ({
                                 vaultInfo.collateral
                                   .add(
                                     utils.parseEther(
-                                      values.depositAmount.toString()
+                                      values.depositAmount.toFixed(18)
                                     )
                                   )
                                   .mul(vaultInfo.tokenPrice)
