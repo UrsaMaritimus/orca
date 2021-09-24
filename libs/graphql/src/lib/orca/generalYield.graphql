@@ -1,3 +1,9 @@
+query OrcaPerSec @api(name: orca) {
+  podLeaders(first: 1) {
+    orcaPerSec
+  }
+}
+
 subscription GeneralYieldInfo($pair: Bytes!) @api(name: orca) {
   pools(where: { pair: $pair }) {
     id

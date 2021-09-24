@@ -38,6 +38,7 @@ type Props = {
   arrowLine?: boolean;
   onNext: React.MouseEventHandler<HTMLButtonElement>;
   onPrevious: React.MouseEventHandler<HTMLButtonElement>;
+  sx?: any;
 };
 
 export const CarouselControlsArrowsBasic1: FC<Props> = ({

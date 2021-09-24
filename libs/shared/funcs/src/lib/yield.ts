@@ -4,6 +4,8 @@ import { ERC20__factory, PodLeader__factory } from '@orca/shared/contracts';
 import contracts from '@orca/shared/deployments';
 import { utils } from 'ethers';
 
+const all_pids = [0, 1];
+
 export const getPodLeader = (
   library: Web3Provider,
   chainId: number,
@@ -43,6 +45,26 @@ export const getRewardBalance = () => {
   ) => {
     const leader = getPodLeader(library, chainId);
     return leader.pendingRewards(pid, account.toLowerCase());
+  };
+};
+
+// swr function
+export const getTotalRewardBalance = () => {
+  return async (
+    _: string,
+    library: Web3Provider,
+    account: string,
+    chainId: number
+  ) => {
+    const leader = getPodLeader(library, chainId);
+    return Promise.all(
+      all_pids.map(async (pid) => {
+        return {
+          pid,
+          pending: await leader.pendingRewards(pid, account.toLowerCase()),
+        };
+      })
+    );
   };
 };
 

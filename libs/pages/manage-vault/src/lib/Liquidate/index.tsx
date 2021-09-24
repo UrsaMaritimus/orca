@@ -106,15 +106,17 @@ export const Liquidate: FC<LiquidateProps> = ({
               <Typography variant="subtitle2">
                 Liquidation Price: $
                 {fNumber(
-                  Number(
-                    utils.formatUnits(
-                      vaultInfo.debt
-                        .mul(vaultInfo.peg)
-                        .mul(vaultInfo.mcp)
-                        .div(vaultInfo.collateral.mul(100)),
-                      8
-                    )
-                  ),
+                  !vaultInfo.collateral.isZero()
+                    ? Number(
+                        utils.formatUnits(
+                          vaultInfo.debt
+                            .mul(vaultInfo.peg)
+                            .mul(vaultInfo.mcp)
+                            .div(vaultInfo.collateral.mul(100)),
+                          8
+                        )
+                      )
+                    : 0,
                   2
                 )}{' '}
                 USD

@@ -10,5 +10,7 @@ export {
   useUserVaultsSubscription,
   useVaultInfoSubscription,
   useUserStakedSubscription,
+  useOrcaStatsSubscription,
+  useOrcaPerSecQuery,
 } from './orca';
 export { useGetTokenDataSubscription } from './png';

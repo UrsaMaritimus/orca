@@ -7,7 +7,7 @@ import { useTheme } from '@mui/material/styles';
 import {
   CardContent,
   Box,
-  Card,
+  Paper,
   Typography,
   Grid,
   CardHeader,
@@ -19,6 +19,7 @@ import {
 import {
   CarouselControlsPaging1,
   CarouselControlsArrowsBasic1,
+  CarouselControlsArrowsBasic2,
 } from '@orca/components/carousel';
 
 import { tokenInfo } from '@orca/shared/base';
@@ -47,7 +48,16 @@ const CarouselItem: FC<CarouselItemProps> = ({ item, isActive }) => {
   const { collateral, debt, ltv, name, message, maxLtv } = item;
 
   return (
-    <Card sx={{ mx: 1 }}>
+    <Paper
+      sx={{
+        mt: 2,
+        mb: 2,
+        mx: 1.5,
+        borderRadius: 2,
+        bgcolor: 'background.neutral',
+        boxShadow: 5,
+      }}
+    >
       <CardHeader
         title={filter(tokenInfo, (info) => info.erc20 === name)[0].display}
         avatar={
@@ -95,7 +105,7 @@ const CarouselItem: FC<CarouselItemProps> = ({ item, isActive }) => {
           </Grid>
         )}
       </CardContent>
-    </Card>
+    </Paper>
   );
 };
 
@@ -161,7 +171,11 @@ export const BankInfo: FC<BankInfoProps> = ({ data }) => {
   ];
 
   return (
-    <Box sx={{ my: 2, position: 'relative' }}>
+    <Box sx={{ position: 'relative' }}>
+      <CardHeader
+        title="Stable Coin Banks"
+        subheader="Use your crypto as collateral to borrow AVAI"
+      />
       <Slider ref={carouselRef} {...settings}>
         {data.map((app, index) => (
           <CarouselItem
@@ -179,8 +193,7 @@ export const BankInfo: FC<BankInfoProps> = ({ data }) => {
             />
           ))}
       </Slider>
-
-      <CarouselControlsArrowsBasic1
+      <CarouselControlsArrowsBasic2
         onNext={handleNext}
         onPrevious={handlePrevious}
       />

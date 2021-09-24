@@ -7,6 +7,7 @@ import { Page } from '@orca/components/page';
 import Welcome from './Welcome';
 import MediumArticles from './Medium';
 import BanksAnalytics from './Banks';
+import { YieldFarmInfo } from './Farms';
 
 // ----------------------------------------------------------------------
 const RootStyle = styled(Page)({});
@@ -26,6 +27,9 @@ function DashboardAppView() {
           </Grid>
           <Grid item xs={12}>
             <BanksAnalytics />
+          </Grid>
+          <Grid item xs={12}>
+            <YieldFarmInfo />
           </Grid>
         </Grid>
       </Container>

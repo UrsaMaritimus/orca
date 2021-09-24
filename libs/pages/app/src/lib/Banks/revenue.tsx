@@ -93,7 +93,7 @@ export const ProtocolRevenue: FC<RevenueProps> = ({
   });
 
   return (
-    <Card>
+    <Card sx={{ bgcolor: 'background.neutral' }}>
       <ChartStyles />
       <CardHeader title="Orca Protocol Total Revenue" />
       <ChartWrapperStyle dir="ltr">

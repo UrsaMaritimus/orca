@@ -4,23 +4,13 @@ import { Grid, Box, Stack, Typography } from '@mui/material';
 import { Web3Provider } from '@ethersproject/providers';
 
 import useSWR from 'swr';
-import { getRewardBalance } from '@orca/shared/funcs';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { utils } from 'ethers';
 import { fNumber } from '@orca/util';
 
-import {
-  handleTransaction,
-  useAddTransaction,
-} from '@orca/components/transaction';
-import { NextLink } from '@orca/components/links';
-import {
-  approveToken,
-  getTokenBalance,
-  tokenApproved,
-  depositFarm,
-} from '@orca/shared/funcs';
+import { handleTransaction } from '@orca/components/transaction';
+import { depositFarm, getRewardBalance } from '@orca/shared/funcs';
 
 type ClaimProps = {
   img: string;

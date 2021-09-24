@@ -53,9 +53,10 @@ const ArrowStyle = styled(MIconButton)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 type Props = {
-  arrowLine: boolean;
+  arrowLine?: boolean;
   onNext: React.MouseEventHandler<HTMLButtonElement>;
   onPrevious: React.MouseEventHandler<HTMLButtonElement>;
+  sx?: any;
 };
 
 export const CarouselControlsArrowsBasic2: FC<Props> = ({

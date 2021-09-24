@@ -318,6 +318,70 @@ export enum Liquidation_OrderBy {
   User = 'user'
 }
 
+export type Orca = {
+  __typename?: 'Orca';
+  circulatingSupply: Scalars['BigInt'];
+  id: Scalars['ID'];
+  leader: Scalars['Bytes'];
+  maxSupply: Scalars['BigInt'];
+  team: Scalars['Bytes'];
+  treasury: Scalars['Bytes'];
+};
+
+export type Orca_Filter = {
+  circulatingSupply?: Maybe<Scalars['BigInt']>;
+  circulatingSupply_gt?: Maybe<Scalars['BigInt']>;
+  circulatingSupply_gte?: Maybe<Scalars['BigInt']>;
+  circulatingSupply_in?: Maybe<Array<Scalars['BigInt']>>;
+  circulatingSupply_lt?: Maybe<Scalars['BigInt']>;
+  circulatingSupply_lte?: Maybe<Scalars['BigInt']>;
+  circulatingSupply_not?: Maybe<Scalars['BigInt']>;
+  circulatingSupply_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
+  leader?: Maybe<Scalars['Bytes']>;
+  leader_contains?: Maybe<Scalars['Bytes']>;
+  leader_in?: Maybe<Array<Scalars['Bytes']>>;
+  leader_not?: Maybe<Scalars['Bytes']>;
+  leader_not_contains?: Maybe<Scalars['Bytes']>;
+  leader_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  maxSupply?: Maybe<Scalars['BigInt']>;
+  maxSupply_gt?: Maybe<Scalars['BigInt']>;
+  maxSupply_gte?: Maybe<Scalars['BigInt']>;
+  maxSupply_in?: Maybe<Array<Scalars['BigInt']>>;
+  maxSupply_lt?: Maybe<Scalars['BigInt']>;
+  maxSupply_lte?: Maybe<Scalars['BigInt']>;
+  maxSupply_not?: Maybe<Scalars['BigInt']>;
+  maxSupply_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  team?: Maybe<Scalars['Bytes']>;
+  team_contains?: Maybe<Scalars['Bytes']>;
+  team_in?: Maybe<Array<Scalars['Bytes']>>;
+  team_not?: Maybe<Scalars['Bytes']>;
+  team_not_contains?: Maybe<Scalars['Bytes']>;
+  team_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  treasury?: Maybe<Scalars['Bytes']>;
+  treasury_contains?: Maybe<Scalars['Bytes']>;
+  treasury_in?: Maybe<Array<Scalars['Bytes']>>;
+  treasury_not?: Maybe<Scalars['Bytes']>;
+  treasury_not_contains?: Maybe<Scalars['Bytes']>;
+  treasury_not_in?: Maybe<Array<Scalars['Bytes']>>;
+};
+
+export enum Orca_OrderBy {
+  CirculatingSupply = 'circulatingSupply',
+  Id = 'id',
+  Leader = 'leader',
+  MaxSupply = 'maxSupply',
+  Team = 'team',
+  Treasury = 'treasury'
+}
+
 export enum OrderDirection {
   Asc = 'asc',
   Desc = 'desc'
@@ -617,6 +681,8 @@ export type Query = {
   exchanges: Array<Exchange>;
   liquidation?: Maybe<Liquidation>;
   liquidations: Array<Liquidation>;
+  orca?: Maybe<Orca>;
+  orcas: Array<Orca>;
   podLeader?: Maybe<PodLeader>;
   podLeaders: Array<PodLeader>;
   pool?: Maybe<Pool>;
@@ -686,6 +752,22 @@ export type QueryLiquidationsArgs = {
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
   where?: Maybe<Liquidation_Filter>;
+};
+
+
+export type QueryOrcaArgs = {
+  block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+};
+
+
+export type QueryOrcasArgs = {
+  block?: Maybe<Block_Height>;
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Orca_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<Orca_Filter>;
 };
 
 
@@ -925,6 +1007,8 @@ export type Subscription = {
   exchanges: Array<Exchange>;
   liquidation?: Maybe<Liquidation>;
   liquidations: Array<Liquidation>;
+  orca?: Maybe<Orca>;
+  orcas: Array<Orca>;
   podLeader?: Maybe<PodLeader>;
   podLeaders: Array<PodLeader>;
   pool?: Maybe<Pool>;
@@ -994,6 +1078,22 @@ export type SubscriptionLiquidationsArgs = {
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
   where?: Maybe<Liquidation_Filter>;
+};
+
+
+export type SubscriptionOrcaArgs = {
+  block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+};
+
+
+export type SubscriptionOrcasArgs = {
+  block?: Maybe<Block_Height>;
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Orca_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<Orca_Filter>;
 };
 
 
@@ -1432,6 +1532,11 @@ export type ExchangeInfoFrontPageSubscriptionVariables = Exact<{ [key: string]: 
 
 export type ExchangeInfoFrontPageSubscription = { __typename?: 'Subscription', exchanges: Array<{ __typename?: 'Exchange', treasury: any, usdHeld: any }> };
 
+export type OrcaPerSecQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type OrcaPerSecQuery = { __typename?: 'Query', podLeaders: Array<{ __typename?: 'PodLeader', orcaPerSec: any }> };
+
 export type GeneralYieldInfoSubscriptionVariables = Exact<{
   pair: Scalars['Bytes'];
 }>;
@@ -1452,6 +1557,13 @@ export type MonitorVaultsSubscriptionVariables = Exact<{
 
 
 export type MonitorVaultsSubscription = { __typename?: 'Subscription', vaults: Array<{ __typename?: 'Vault', collateral: any, debt: any, id: string }> };
+
+export type OrcaStatsSubscriptionVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type OrcaStatsSubscription = { __typename?: 'Subscription', orca?: Maybe<{ __typename?: 'Orca', id: string, circulatingSupply: any, maxSupply: any }> };
 
 export type GetUserVaultsQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -1606,6 +1718,40 @@ export function useExchangeInfoFrontPageSubscription(baseOptions?: ApolloReactHo
       }
 export type ExchangeInfoFrontPageSubscriptionHookResult = ReturnType<typeof useExchangeInfoFrontPageSubscription>;
 export type ExchangeInfoFrontPageSubscriptionResult = Apollo.SubscriptionResult<ExchangeInfoFrontPageSubscription>;
+export const OrcaPerSecDocument = gql`
+    query OrcaPerSec @api(name: orca) {
+  podLeaders(first: 1) {
+    orcaPerSec
+  }
+}
+    `;
+
+/**
+ * __useOrcaPerSecQuery__
+ *
+ * To run a query within a React component, call `useOrcaPerSecQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOrcaPerSecQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOrcaPerSecQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useOrcaPerSecQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<OrcaPerSecQuery, OrcaPerSecQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<OrcaPerSecQuery, OrcaPerSecQueryVariables>(OrcaPerSecDocument, options);
+      }
+export function useOrcaPerSecLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<OrcaPerSecQuery, OrcaPerSecQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<OrcaPerSecQuery, OrcaPerSecQueryVariables>(OrcaPerSecDocument, options);
+        }
+export type OrcaPerSecQueryHookResult = ReturnType<typeof useOrcaPerSecQuery>;
+export type OrcaPerSecLazyQueryHookResult = ReturnType<typeof useOrcaPerSecLazyQuery>;
+export type OrcaPerSecQueryResult = Apollo.QueryResult<OrcaPerSecQuery, OrcaPerSecQueryVariables>;
 export const GeneralYieldInfoDocument = gql`
     subscription GeneralYieldInfo($pair: Bytes!) @api(name: orca) {
   pools(where: {pair: $pair}) {
@@ -1711,6 +1857,38 @@ export function useMonitorVaultsSubscription(baseOptions?: ApolloReactHooks.Subs
       }
 export type MonitorVaultsSubscriptionHookResult = ReturnType<typeof useMonitorVaultsSubscription>;
 export type MonitorVaultsSubscriptionResult = Apollo.SubscriptionResult<MonitorVaultsSubscription>;
+export const OrcaStatsDocument = gql`
+    subscription OrcaStats($id: ID!) @api(name: orca) {
+  orca(id: $id) {
+    id
+    circulatingSupply
+    maxSupply
+  }
+}
+    `;
+
+/**
+ * __useOrcaStatsSubscription__
+ *
+ * To run a query within a React component, call `useOrcaStatsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useOrcaStatsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOrcaStatsSubscription({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useOrcaStatsSubscription(baseOptions: ApolloReactHooks.SubscriptionHookOptions<OrcaStatsSubscription, OrcaStatsSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useSubscription<OrcaStatsSubscription, OrcaStatsSubscriptionVariables>(OrcaStatsDocument, options);
+      }
+export type OrcaStatsSubscriptionHookResult = ReturnType<typeof useOrcaStatsSubscription>;
+export type OrcaStatsSubscriptionResult = Apollo.SubscriptionResult<OrcaStatsSubscription>;
 export const GetUserVaultsDocument = gql`
     query getUserVaults($id: ID!) @api(name: orca) {
   user(id: $id) {

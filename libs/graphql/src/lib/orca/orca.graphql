@@ -1,0 +1,7 @@
+subscription OrcaStats($id: ID!) @api(name: orca) {
+  orca(id: $id) {
+    id
+    circulatingSupply
+    maxSupply
+  }
+}

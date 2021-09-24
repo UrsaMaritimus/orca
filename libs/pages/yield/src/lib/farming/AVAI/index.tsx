@@ -1,9 +1,8 @@
 import { FC } from 'react';
 
 import { Farm } from '../Farm';
-import { farmConstants } from '../farmConstants';
 import { useMonitorFarmAvai } from '../../YieldData/getYieldData';
-import { routes } from '@orca/shared/base';
+import { routes, farmConstants } from '@orca/shared/base';
 
 type AvaiProps = {
   account: string;

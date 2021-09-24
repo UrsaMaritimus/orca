@@ -12,6 +12,7 @@ import { varFadeInRight, MotionContainer } from '@orca/components/animate';
 import {
   CarouselControlsPaging1,
   CarouselControlsArrowsBasic1,
+  CarouselControlsArrowsBasic2,
 } from '@orca/components/carousel';
 
 import { routes } from '@orca/shared/base';
@@ -121,21 +122,14 @@ export default function MediumArticles() {
 
   const settings = {
     speed: 1000,
-    dots: true,
+    dots: false,
     arrows: false,
     autoplay: true,
     slidesToShow: 1,
     slidesToScroll: 1,
     pauseOnHover: true,
+    fade: true,
     beforeChange: (current, next) => setCurrentIndex(next),
-    ...CarouselControlsPaging1({
-      color: 'secondary.main',
-      sx: {
-        top: theme.spacing(37),
-        bottom: 'auto',
-        right: 'auto',
-      },
-    }),
   };
 
   const handlePrevious = () => {
@@ -158,7 +152,7 @@ export default function MediumArticles() {
         ))}
       </Slider>
 
-      <CarouselControlsArrowsBasic1
+      <CarouselControlsArrowsBasic2
         onNext={handleNext}
         onPrevious={handlePrevious}
       />

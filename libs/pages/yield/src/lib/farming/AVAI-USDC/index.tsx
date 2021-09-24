@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { Farm } from '../Farm';
-import { farmConstants } from '../farmConstants';
+import { farmConstants } from '@orca/shared/base';
 import { useMonitorFarms } from '../../YieldData/getYieldData';
 
 type AvaiProps = {
