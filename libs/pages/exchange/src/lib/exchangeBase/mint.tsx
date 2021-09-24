@@ -192,7 +192,7 @@ export const Mint: FC<MintProps> = ({
         library,
         chainId,
         utils.parseUnits(
-          values.swapAmount ? values.swapAmount.toFixed(18) : '0',
+          values.swapAmount ? values.swapAmount.toString() : '0',
           6
         )
       ),
@@ -208,7 +208,7 @@ export const Mint: FC<MintProps> = ({
     setFieldValue('swapAmount', 0);
     addTransaction({
       type: 'mint',
-      amount: utils.parseUnits(values.swapAmount.toFixed(18), 6),
+      amount: utils.parseUnits(values.swapAmount.toString(), 6),
       vault: token,
       success: success.success,
       hash: success.hash,
