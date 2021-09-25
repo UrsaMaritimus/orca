@@ -22,7 +22,7 @@ export const routes = {
     TWITTER: 'https://twitter.com/OrcaDAO',
     GITHUB: 'https://github.com/UrsaMaritimus/orca',
     DOCS: 'https://docs.avai.finance/',
-    DISCORD: 'https://discord.gg/qbA9ZvrmVS',
+    DISCORD: 'https://discord.gg/KZHbxZvCsU',
     SITE:
       process.env.NODE_ENV === 'development'
         ? 'http://localhost:4200/vaults'
