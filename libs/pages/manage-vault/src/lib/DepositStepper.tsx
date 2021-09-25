@@ -32,8 +32,10 @@ import { Web3Provider } from '@ethersproject/providers';
 import { utils } from 'ethers';
 import { useFormik, Form, FormikProvider } from 'formik';
 
+import useSWR from 'swr';
+
 import { Loader } from '@orca/components/loader';
-import { useAVAXBalance } from '@orca/hooks';
+import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 import { colorScale, fCurrency, fNumber, fPercent } from '@orca/util';
 import { depositCollateral } from '@orca/shared/funcs';
 
@@ -45,6 +47,15 @@ const InputTextField = styled(TextField)(({ theme }) => ({
     borderRadius: theme.shape.borderRadiusSm,
   },
 }));
+
+const getAVAXBalance = (library: Web3Provider) => {
+  return async (_: string, address: string) => {
+    return library
+      .getBalance(address)
+      .then((balance) => Number(utils.formatEther(balance)));
+  };
+};
+
 // ----------------------------------------------------------------------
 
 export const DepositStepper: FC<StepperProps> = ({
@@ -61,7 +72,12 @@ export const DepositStepper: FC<StepperProps> = ({
 
   // web3 init info
   const { account, library, chainId } = useWeb3React<Web3Provider>();
-  const { data: AVAXBalance } = useAVAXBalance(account as string);
+  const shouldFetch = !!library;
+  const { data: AVAXBalance, mutate } = useSWR(
+    shouldFetch ? ['AVAXBalance', account, chainId] : null,
+    getAVAXBalance(library)
+  );
+  useKeepSWRDataLiveAsBlocksArrive(mutate);
   const addTransaction = useAddTransaction();
 
   const [activeStep, setActiveStep] = useState(0);
