@@ -23,7 +23,7 @@ import backSpace from '@iconify/icons-eva/backspace-outline';
 // Ethers and web3 stuff
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
-import { utils } from 'ethers';
+import { BigNumber, utils } from 'ethers';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { Loader } from '@orca/components/loader';
 import { fPercent, fNumber, colorScale } from '@orca/util';

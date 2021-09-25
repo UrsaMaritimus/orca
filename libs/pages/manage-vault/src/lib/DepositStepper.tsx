@@ -29,7 +29,7 @@ import {
 // Ethers and web3 stuff
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
-import { utils } from 'ethers';
+import { BigNumber, utils } from 'ethers';
 import { useFormik, Form, FormikProvider } from 'formik';
 
 import useSWR from 'swr';
@@ -74,9 +74,10 @@ export const DepositStepper: FC<StepperProps> = ({
   const { account, library, chainId } = useWeb3React<Web3Provider>();
   const shouldFetch = !!library;
   const { data: AVAXBalance, mutate } = useSWR(
-    shouldFetch ? ['AVAXBalance', account, chainId] : null,
+    shouldFetch ? ['DepositAVAXBalance', account, chainId] : null,
     getAVAXBalance(library)
   );
+
   useKeepSWRDataLiveAsBlocksArrive(mutate);
   const addTransaction = useAddTransaction();
 
@@ -198,7 +199,7 @@ export const DepositStepper: FC<StepperProps> = ({
                       color="inherit"
                     />
                     <Typography variant="h6" textAlign="center">
-                      {token === 'AVAX' && `${AVAXBalance} AVAX`}
+                      {token === 'AVAX' && `${fNumber(AVAXBalance, 4)} AVAX`}
                     </Typography>
                   </Stack>
                 </Grid>

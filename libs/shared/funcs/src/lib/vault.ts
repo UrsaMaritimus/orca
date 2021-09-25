@@ -1,5 +1,5 @@
 import { Web3Provider } from '@ethersproject/providers';
-import { utils } from 'ethers';
+import { BigNumber, utils } from 'ethers';
 
 import { getVault } from './getVault';
 import { getGateway } from './gateway';
@@ -192,11 +192,17 @@ export const depositCollateral = (
   if (vaultType === 'wavax') {
     const gateway = getGateway(library, chainId, true);
     const overrides = {
-      value: utils.parseEther(amount.toString()),
+      value: utils.parseEther(
+        typeof amount === 'number' ? amount.toFixed(18) : amount
+      ),
     };
     return gateway.depositAVAX(vault.address, vaultID, overrides);
   }
-  return vault.depositCollateral(vaultID, utils.parseEther(amount.toString()));
+
+  return vault.depositCollateral(
+    vaultID,
+    utils.parseEther(typeof amount === 'number' ? amount.toFixed(18) : amount)
+  );
 };
 // callable
 export const withdrawCollateral = (
@@ -212,10 +218,13 @@ export const withdrawCollateral = (
     return gateway.withdrawAVAX(
       vault.address,
       vaultID,
-      utils.parseEther(amount.toString())
+      utils.parseEther(typeof amount === 'number' ? amount.toFixed(18) : amount)
     );
   }
-  return vault.withdrawCollateral(vaultID, utils.parseEther(amount.toString()));
+  return vault.withdrawCollateral(
+    vaultID,
+    utils.parseEther(typeof amount === 'number' ? amount.toFixed(18) : amount)
+  );
 };
 // callable
 export const borrowToken = (
@@ -226,7 +235,10 @@ export const borrowToken = (
   chainId: number
 ) => {
   const vault = getVault(vaultType, library, chainId, true);
-  return vault.borrowToken(vaultID, utils.parseEther(amount.toString()));
+  return vault.borrowToken(
+    vaultID,
+    utils.parseEther(typeof amount === 'number' ? amount.toFixed(18) : amount)
+  );
 };
 // callable
 export const payBackToken = (
@@ -239,6 +251,6 @@ export const payBackToken = (
   const vault = getVault(vaultType, library, chainId, true);
   return vault.payBackToken(
     vaultID,
-    utils.parseEther(Number(amount).toString())
+    utils.parseEther(typeof amount === 'number' ? amount.toFixed(18) : amount)
   );
 };
