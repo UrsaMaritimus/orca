@@ -2,14 +2,7 @@ import { FC } from 'react';
 
 import { styled } from '@mui/material/styles';
 
-import {
-  Typography,
-  Box,
-  Card,
-  CardContent,
-  Container,
-  Button,
-} from '@mui/material';
+import { Typography, Box, Card, CardContent, Button } from '@mui/material';
 
 // Ethers and web3 stuff
 import { useWeb3React } from '@web3-react/core';
@@ -36,8 +29,7 @@ const RootStyle = styled(Card)(({ theme }) => ({
 
 const Welcome: FC = () => {
   // web3 init info
-  const { account, library, chainId } = useWeb3React<Web3Provider>();
-  const shouldFetch = !!library;
+  const { account, library } = useWeb3React<Web3Provider>();
   return (
     <RootStyle>
       <CardContent

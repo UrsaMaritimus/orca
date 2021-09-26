@@ -89,7 +89,7 @@ export const Deposit: FC<DepositProps> = ({
           account,
           chainId,
           farm,
-          farmBalance ? Number(utils.formatEther(farmBalance)) : 1e10,
+          utils.formatEther(farmBalance ? farmBalance : 1e10),
         ]
       : null,
     tokenApproved()
@@ -114,12 +114,16 @@ export const Deposit: FC<DepositProps> = ({
     onSubmit: async (values, { resetForm, setSubmitting }) => {
       try {
         setDepositing(true);
+        console.log(values.depositAmount);
         await handleTransaction({
           transaction: depositFarm(
             library,
             chainId,
             Number(pid),
-            values.depositAmount
+            values.depositAmount ===
+              Number(utils.formatEther(farmBalance ? farmBalance : 0))
+              ? utils.formatEther(farmBalance ? farmBalance : 0)
+              : values.depositAmount
           ),
           messages: {
             loading: `Depositing ${name}...`,

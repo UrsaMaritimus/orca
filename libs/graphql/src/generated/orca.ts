@@ -1542,7 +1542,7 @@ export type GeneralYieldInfoSubscriptionVariables = Exact<{
 }>;
 
 
-export type GeneralYieldInfoSubscription = { __typename?: 'Subscription', pools: Array<{ __typename?: 'Pool', id: string, pair: any, allocPoint: any, totalStaked: any, depositFee: any, leader: { __typename?: 'PodLeader', orcaPerSec: any, totalAllocPoints: any } }> };
+export type GeneralYieldInfoSubscription = { __typename?: 'Subscription', pools: Array<{ __typename?: 'Pool', id: string, pair: any, allocPoint: any, totalStaked: any, depositFee: any, treasuryAmount: any, leader: { __typename?: 'PodLeader', orcaPerSec: any, totalAllocPoints: any } }> };
 
 export type UserStakedSubscriptionVariables = Exact<{
   id: Scalars['ID'];
@@ -1760,6 +1760,7 @@ export const GeneralYieldInfoDocument = gql`
     allocPoint
     totalStaked
     depositFee
+    treasuryAmount
     leader {
       orcaPerSec
       totalAllocPoints

@@ -6,7 +6,7 @@ import {
   AVAI__factory,
 } from '@orca/shared/contracts';
 import contractAddresses from '@orca/shared/deployments';
-import { erc20Tokens } from '@orca/shared/base';
+import { tokenInfo } from '@orca/shared/base';
 import { BigNumber } from 'ethers';
 
 export const getUSDCExchange = (
@@ -37,9 +37,9 @@ export const usdApprovedExchange = () => {
   ) => {
     const usd = ERC20Upgradeable__factory.connect(
       chainId === 43113
-        ? erc20Tokens[usdType].fuji.address
+        ? tokenInfo[usdType].address.fuji
         : chainId === 43114
-        ? erc20Tokens[usdType].mainnet.address
+        ? tokenInfo[usdType].address.mainnet
         : null,
       library
     );
@@ -87,9 +87,9 @@ export const usdBalance = () => {
   ) => {
     const usd = ERC20Upgradeable__factory.connect(
       chainId === 43113
-        ? erc20Tokens[usdType].fuji.address
+        ? tokenInfo[usdType].address.fuji
         : chainId === 43114
-        ? erc20Tokens[usdType].mainnet.address
+        ? tokenInfo[usdType].address.mainnet
         : null,
       library.getSigner()
     );
@@ -128,9 +128,9 @@ export const approveUsdExchange = async (
 ) => {
   const usd = ERC20Upgradeable__factory.connect(
     chainId === 43113
-      ? erc20Tokens[usdType].fuji.address
+      ? tokenInfo[usdType].address.fuji
       : chainId === 43114
-      ? erc20Tokens[usdType].mainnet.address
+      ? tokenInfo[usdType].address.mainnet
       : null,
     library.getSigner()
   );
@@ -185,9 +185,9 @@ export const mintFakeUSDC = async (
 ) => {
   const usd = FakeUSDC__factory.connect(
     chainId === 43113
-      ? erc20Tokens[usdType].fuji.address
+      ? tokenInfo[usdType].address.fuji
       : chainId === 43114
-      ? erc20Tokens[usdType].mainnet.address
+      ? tokenInfo[usdType].address.mainnet
       : null,
     library.getSigner()
   );

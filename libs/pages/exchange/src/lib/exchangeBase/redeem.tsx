@@ -35,7 +35,7 @@ import {
   redeemFromExchange,
 } from '@orca/shared/funcs';
 import { fCurrency, fNumber, fPercent } from '@orca/util';
-import { erc20Tokens, tokenInfo } from '@orca/shared/base';
+import { tokenInfo } from '@orca/shared/base';
 
 // ------------------------------------------------------
 
@@ -220,7 +220,7 @@ export const Redeem: FC<MintProps> = ({
             avatar={
               <Box
                 component="img"
-                src={tokenInfo.AVAI.icon}
+                src={tokenInfo['AVAI'].icon}
                 sx={{ width: 40, height: 40 }}
                 color="inherit"
               />
@@ -269,7 +269,7 @@ export const Redeem: FC<MintProps> = ({
                           <InputAdornment position="start">
                             <Box
                               component="img"
-                              src={tokenInfo.AVAI.icon}
+                              src={tokenInfo['AVAI'].icon}
                               sx={{
                                 width: 25,
 
@@ -325,6 +325,7 @@ export const Redeem: FC<MintProps> = ({
                 </Grid>
                 {/* In textfield which has font changed */}
                 <Grid
+                  item
                   xs={12}
                   display="flex"
                   justifyContent="flex-start"
@@ -343,7 +344,7 @@ export const Redeem: FC<MintProps> = ({
                           <InputAdornment position="start">
                             <Box
                               component="img"
-                              src={erc20Tokens[token].icon}
+                              src={tokenInfo[token].icon}
                               sx={{
                                 width: 25,
 

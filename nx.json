@@ -33,6 +33,9 @@
     "components-account": {
       "tags": []
     },
+    "components-add-token": {
+      "tags": []
+    },
     "components-animate": {
       "tags": []
     },

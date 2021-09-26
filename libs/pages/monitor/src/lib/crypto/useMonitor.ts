@@ -8,17 +8,21 @@ import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 import { getContract, bankPrice } from '@orca/shared/funcs';
 import { useMonitorVaultsSubscription } from '@orca/graphql';
 
-export const useMonitorVaults = (library: Web3Provider, chainId: number) => {
+export const useMonitorVaults = (
+  library: Web3Provider,
+  chainId: number,
+  token: string
+) => {
   const shouldFetch = !!library;
   const { data: vaultData } = useMonitorVaultsSubscription({
     variables: {
-      bankID: getContract(chainId, 'wavax').toLowerCase(),
+      bankID: getContract(chainId, token).toLowerCase(),
     },
   });
 
   // Grab bank prices
   const { data: price, mutate: priceMutate } = useSwr(
-    shouldFetch ? ['getAvaxPrice', library, 'wavax', chainId] : null,
+    shouldFetch ? ['getAvaxPrice', library, token, chainId] : null,
     bankPrice()
   );
   useKeepSWRDataLiveAsBlocksArrive(priceMutate);

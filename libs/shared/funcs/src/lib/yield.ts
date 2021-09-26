@@ -76,12 +76,12 @@ export const tokenApproved = () => {
     account: string,
     chainId: number,
     address: string,
-    amount: number
+    amount: string
   ) => {
     const token = ERC20__factory.connect(address, library.getSigner());
     const leader = getPodLeader(library, chainId);
     const allowance = await token.allowance(account, leader.address);
-    return allowance.gte(utils.parseEther(amount.toFixed(18)));
+    return allowance.gte(utils.parseEther(amount));
   };
 };
 
@@ -89,30 +89,39 @@ export const approveToken = (
   library: Web3Provider,
   chainId: number,
   address: string,
-  amount: number
+  amount: number | string
 ) => {
   const token = ERC20__factory.connect(address, library.getSigner());
   const leader = getPodLeader(library, chainId);
 
-  return token.approve(leader.address, utils.parseEther(amount.toFixed(18)));
+  return token.approve(
+    leader.address,
+    utils.parseEther(typeof amount === 'number' ? amount.toFixed(18) : amount)
+  );
 };
 
 export const depositFarm = (
   library: Web3Provider,
   chainId: number,
   pid: number,
-  amount: number
+  amount: number | string
 ) => {
   const leader = getPodLeader(library, chainId, true);
-  return leader.deposit(pid, utils.parseEther(amount.toFixed(18)));
+  return leader.deposit(
+    pid,
+    utils.parseEther(typeof amount === 'number' ? amount.toFixed(18) : amount)
+  );
 };
 
 export const withdrawFarm = (
   library: Web3Provider,
   chainId: number,
   pid: number,
-  amount: number
+  amount: number | string
 ) => {
   const leader = getPodLeader(library, chainId, true);
-  return leader.withdraw(pid, utils.parseEther(amount.toFixed(18)));
+  return leader.withdraw(
+    pid,
+    utils.parseEther(typeof amount === 'number' ? amount.toFixed(18) : amount)
+  );
 };

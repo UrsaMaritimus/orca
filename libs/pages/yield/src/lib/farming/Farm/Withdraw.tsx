@@ -43,7 +43,7 @@ type WithdrawProps = {
   link: string;
   pid: string;
   chainId: number;
-  totalStaked: number;
+  totalStaked: string;
   totalStakedUSD: number;
 };
 
@@ -53,7 +53,6 @@ export const Withdraw: FC<WithdrawProps> = ({
   img,
   name,
   library,
-  link,
   pid,
   chainId,
   totalStakedUSD,
@@ -69,7 +68,7 @@ export const Withdraw: FC<WithdrawProps> = ({
       .required('Deposit amount required')
       .moreThan(0, 'Must be larger than zero.')
       .positive('Must be positive')
-      .max(totalStaked ? totalStaked : 0),
+      .max(totalStaked ? Number(totalStaked) : 0),
   });
 
   const formik = useFormik({
@@ -85,7 +84,9 @@ export const Withdraw: FC<WithdrawProps> = ({
             library,
             chainId,
             Number(pid),
-            values.withdrawAmount
+            values.withdrawAmount === Number(totalStaked)
+              ? totalStaked
+              : values.withdrawAmount
           ),
           messages: {
             loading: `Withdrawing ${name}...`,
@@ -190,10 +191,11 @@ export const Withdraw: FC<WithdrawProps> = ({
         </Box>
         <Grid container>
           <Grid item xs={12} display="flex" justifyContent="center">
+            {console.log(totalStaked)}
             <LoadingButton
               variant="contained"
               size="large"
-              disabled={!shouldFetch || totalStaked === 0}
+              disabled={!shouldFetch || Number(totalStaked) === 0}
               loading={withdrawing}
               type="submit"
             >

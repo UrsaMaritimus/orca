@@ -1,7 +1,7 @@
 import { Web3Provider } from '@ethersproject/providers';
 import { BigNumber } from 'ethers';
 import { AVAI__factory } from '@orca/shared/contracts';
-import contractAddresses from '@orca/shared/deployments';
+import { tokenInfo } from '@orca/shared/base';
 import { getVault } from './getVault';
 
 // swr function
@@ -16,10 +16,10 @@ export const avaiApproved = () => {
   ) => {
     const avai = AVAI__factory.connect(
       chainId === 43113
-        ? contractAddresses.fuji.AVAI.address
+        ? tokenInfo['AVAI'].address.fuji
         : chainId === 43114
         ? // TODO: Update
-          contractAddresses.fuji.AVAI.address
+          tokenInfo['AVAI'].address.mainnet
         : null,
       library
     );
@@ -40,10 +40,10 @@ export const avaiBalance = () => {
   ) => {
     const avai = AVAI__factory.connect(
       chainId === 43113
-        ? contractAddresses.fuji.AVAI.address
+        ? tokenInfo['AVAI'].address.fuji
         : chainId === 43114
         ? // TODO: Update
-          contractAddresses.fuji.AVAI.address
+          tokenInfo['AVAI'].address.mainnet
         : null,
       library.getSigner()
     );
@@ -60,10 +60,10 @@ export const approveAvai = async (
 ) => {
   const avai = AVAI__factory.connect(
     chainId === 43113
-      ? contractAddresses.fuji.AVAI.address
+      ? tokenInfo['AVAI'].address.fuji
       : chainId === 43114
       ? // TODO: Update
-        contractAddresses.fuji.AVAI.address
+        tokenInfo['AVAI'].address.mainnet
       : null,
     library.getSigner()
   );

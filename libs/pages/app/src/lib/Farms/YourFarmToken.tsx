@@ -18,7 +18,7 @@ import { BigNumber, utils } from 'ethers';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { handleTransaction } from '@orca/components/transaction';
 import { getTotalRewardBalance, depositFarm } from '@orca/shared/funcs';
-import { farmConstants } from '@orca/shared/base';
+import { tokenInfo } from '@orca/shared/base';
 import {
   injected,
   AVALANCHE_MAINNET_PARAMS,
@@ -113,7 +113,7 @@ export const YourFarmInfo: FC = () => {
         <Grid item xs={12} display="flex" justifyContent="center">
           <Box
             component="img"
-            src={farmConstants.reward.img}
+            src={tokenInfo['ORCA'].icon}
             sx={{ width: 60, height: 60 }}
             color="inherit"
           />

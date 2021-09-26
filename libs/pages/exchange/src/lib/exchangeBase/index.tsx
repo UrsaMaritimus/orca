@@ -52,7 +52,6 @@ export const ExchangeBase: FC<ExchangeProps> = ({ token }) => {
     shouldFetch ? [`avaiBalanceMint${token}`, library, chainId, account] : null,
     avaiBalance()
   );
-
   // Get usdc balance
   const { data: userUSDBalance, mutate: usdcBalanceMutate } = useSWR(
     shouldFetch
@@ -60,7 +59,6 @@ export const ExchangeBase: FC<ExchangeProps> = ({ token }) => {
       : null,
     usdBalance()
   );
-
   // Get usdc balance of exchange
   const { data: usdcExchangeInfo, mutate: usdcExchangeInfoMutate } = useSWR(
     shouldFetch ? [`usdExchangeInfo${token}`, library, chainId] : null,

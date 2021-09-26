@@ -1,6 +1,6 @@
 import { Web3Provider } from '@ethersproject/providers';
 import { ORCA__factory } from '@orca/shared/contracts';
-import contracts from '@orca/shared/deployments';
+import { tokenInfo } from '@orca/shared/base';
 
 // swr function
 export const orcaBalance = () => {
@@ -12,10 +12,10 @@ export const orcaBalance = () => {
   ) => {
     const orca = ORCA__factory.connect(
       chainId === 43113
-        ? contracts.fuji.ORCA.address
+        ? tokenInfo['ORCA'].address.fuji
         : chainId === 43114
         ? // TODO: Update
-          contracts.fuji.ORCA.address
+          tokenInfo['ORCA'].address.mainnet
         : null,
       library.getSigner()
     );

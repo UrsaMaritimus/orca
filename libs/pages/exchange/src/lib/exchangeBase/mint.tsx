@@ -31,7 +31,7 @@ import {
   mintFromExchange,
 } from '@orca/shared/funcs';
 import { fCurrency, fNumber, fPercent } from '@orca/util';
-import { erc20Tokens, tokenInfo } from '@orca/shared/base';
+import { tokenInfo } from '@orca/shared/base';
 import {
   handleTransaction,
   useAddTransaction,
@@ -228,7 +228,7 @@ export const Mint: FC<MintProps> = ({
             avatar={
               <Box
                 component="img"
-                src={erc20Tokens[token].icon}
+                src={tokenInfo[token].icon}
                 sx={{ width: 40, height: 40 }}
                 color="inherit"
               />
@@ -277,7 +277,7 @@ export const Mint: FC<MintProps> = ({
                           <InputAdornment position="start">
                             <Box
                               component="img"
-                              src={erc20Tokens[token].icon}
+                              src={tokenInfo[token].icon}
                               sx={{
                                 width: 25,
 
@@ -333,6 +333,7 @@ export const Mint: FC<MintProps> = ({
                 </Grid>
                 {/* In textfield which has font changed */}
                 <Grid
+                  item
                   xs={12}
                   display="flex"
                   justifyContent="flex-start"

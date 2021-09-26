@@ -72,6 +72,29 @@
         }
       }
     },
+    "components-add-token": {
+      "root": "libs/components/add-token",
+      "sourceRoot": "libs/components/add-token/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/components/add-token/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/components/add-token"],
+          "options": {
+            "jestConfig": "libs/components/add-token/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "components-animate": {
       "root": "libs/components/animate",
       "sourceRoot": "libs/components/animate/src",

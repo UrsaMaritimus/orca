@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { Farm } from '../Farm';
 import { useMonitorFarmAvai } from '../../YieldData/getYieldData';
-import { routes, farmConstants } from '@orca/shared/base';
+import { routes, tokenInfo } from '@orca/shared/base';
 
 type AvaiProps = {
   account: string;
@@ -18,7 +18,8 @@ export const AvaiFarm: FC<AvaiProps> = ({
   expanded,
 }) => {
   const { loading, data } = useMonitorFarmAvai(
-    farmConstants.avai.address.toLowerCase(),
+    // TODO: Change to main net
+    tokenInfo['AVAI'].address.fuji.toLowerCase(),
     account
   );
 
@@ -27,9 +28,9 @@ export const AvaiFarm: FC<AvaiProps> = ({
       handleChange={handleChange}
       expanded={expanded}
       reward="ORCA"
-      rewardImg={farmConstants.reward.img}
+      rewardImg={tokenInfo['ORCA'].icon}
       rewardPerDay={data?.rewardPerDay}
-      img={farmConstants.avai.img}
+      img={tokenInfo['AVAI'].icon}
       name="AVAI"
       tvl={data?.tvl}
       apr={data?.apr}
@@ -39,7 +40,8 @@ export const AvaiFarm: FC<AvaiProps> = ({
       pid={data?.id}
       color2={'#2BB673'}
       color1={'#158364'}
-      farm={'0x41f8511b889d2e32a889dad14a9eed9c2c737385'}
+      // TODO: main net
+      farm={tokenInfo['AVAI'].address.fuji.toLowerCase()}
       link={routes.APP.VAULTS.USER}
     />
   );

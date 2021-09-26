@@ -1,5 +1,7 @@
 import { BigNumber, utils } from 'ethers';
 
+import { tokenInfo } from '@orca/shared/base';
+
 import {
   useGeneralYieldInfoSubscription,
   useGetTokenDataSubscription,
@@ -67,8 +69,8 @@ export const useMonitorFarms = (farm: string, account: string) => {
         apr: apr,
         userStaked: account
           ? userStaked
-            ? Number(utils.formatEther(userStaked))
-            : 0
+            ? utils.formatEther(userStaked)
+            : '0'
           : null,
         userStakedUSD: account ? (userStakedUSD ? userStakedUSD : 0) : null,
       },
@@ -125,8 +127,8 @@ export const useMonitorFarmAvai = (farm: string, account: string) => {
         apr: apr,
         userStaked: account
           ? userStaked
-            ? Number(utils.formatEther(userStaked))
-            : 0
+            ? utils.formatEther(userStaked)
+            : '0'
           : null,
         userStakedUSD: account
           ? userStakedUSD

@@ -40,7 +40,7 @@ type FarmProps = {
   tvl: number;
   apr: number;
   loading: boolean;
-  totalStaked: number;
+  totalStaked: string;
   totalStakedUSD: number;
   color1: string;
   color2: string;
@@ -52,7 +52,6 @@ type FarmProps = {
 export const Farm: FC<FarmProps> = ({
   img,
   name,
-  rewardPerDay,
   reward,
   rewardImg,
   tvl,

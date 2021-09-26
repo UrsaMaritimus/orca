@@ -1,24 +1,27 @@
 import { FC } from 'react';
-import { utils } from 'ethers';
 
 import {
   Grid,
   Card,
   Box,
-  Stack,
   Typography,
   CardHeader,
   CardContent,
 } from '@mui/material';
 
+import { useWeb3React } from '@web3-react/core';
+import { Web3Provider } from '@ethersproject/providers';
+
 import { fCurrency, fNumber } from '@orca/util';
 import { Loader } from '@orca/components/loader';
-import { farmConstants } from '@orca/shared/base';
+import { AddToken } from '@orca/components/add-token';
+import { tokenInfo } from '@orca/shared/base';
 import { useFrontPageStats } from '../graph/useFrontPageStats';
 
 export const Stats: FC = () => {
   const { loading: statsLoading, data: stats } = useFrontPageStats();
-
+  // web3 init info
+  const { chainId } = useWeb3React<Web3Provider>();
   return (
     <Card
       sx={{
@@ -34,7 +37,7 @@ export const Stats: FC = () => {
         avatar={
           <Box
             component="img"
-            src={farmConstants.reward.img}
+            src={tokenInfo['ORCA'].icon}
             sx={{ width: 40, height: 40 }}
             color="inherit"
           />
@@ -119,6 +122,34 @@ export const Stats: FC = () => {
               <Typography variant="subtitle1">
                 {fNumber(stats.maxSupply, 0, true)}
               </Typography>
+            </Grid>
+            <Grid item xs={6} display="flex" justifyContent="center">
+              <AddToken
+                tokenAddress={
+                  chainId === 43113
+                    ? tokenInfo['ORCA'].address.fuji
+                    : chainId === 43114
+                    ? tokenInfo['ORCA'].address.mainnet
+                    : null
+                }
+                tokenSymbol="ORCA"
+                tokenDecimals={18}
+                tokenImage={tokenInfo['ORCA'].icon}
+              />
+            </Grid>
+            <Grid item xs={6} display="flex" justifyContent="center">
+              <AddToken
+                tokenAddress={
+                  chainId === 43113
+                    ? tokenInfo['AVAI'].address.fuji
+                    : chainId === 43114
+                    ? tokenInfo['AVAI'].address.mainnet
+                    : null
+                }
+                tokenSymbol="AVAI"
+                tokenDecimals={18}
+                tokenImage={tokenInfo['AVAI'].icon}
+              />
             </Grid>
           </Grid>
         )}

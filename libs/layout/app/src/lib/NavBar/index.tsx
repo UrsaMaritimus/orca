@@ -14,8 +14,6 @@ import {
   Box,
 } from '@mui/material';
 
-import { useWeb3React } from '@web3-react/core';
-
 import { NextLink } from '@orca/components/links';
 import { MHidden } from '@orca/components/material-extend/hidden';
 import { routes } from '@orca/shared/base';
@@ -38,14 +36,6 @@ const RootStyle = styled('div')(({ theme }) => ({
       duration: theme.transitions.duration.complex,
     }),
   },
-}));
-
-const AccountStyle = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: theme.spacing(2, 2.5),
-  borderRadius: theme.shape.borderRadiusSm,
-  backgroundColor: theme.palette.grey[500_12],
 }));
 
 const DocStyle = styled('div')(({ theme }) => ({
@@ -116,7 +106,6 @@ const IconCollapse: FC<IconCollapseProps> = ({
 
 const NavBar: FC<Props> = ({ isOpenNav, onCloseNav }) => {
   const { pathname } = useRouter();
-  const { account, library } = useWeb3React();
 
   const {
     isCollapse,

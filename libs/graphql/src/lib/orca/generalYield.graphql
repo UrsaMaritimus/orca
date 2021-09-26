@@ -11,6 +11,7 @@ subscription GeneralYieldInfo($pair: Bytes!) @api(name: orca) {
     allocPoint
     totalStaked
     depositFee
+    treasuryAmount
     leader {
       orcaPerSec
       totalAllocPoints

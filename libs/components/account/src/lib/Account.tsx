@@ -6,16 +6,22 @@ import { useSetRecoilState } from 'recoil';
 import { toast } from 'react-hot-toast';
 
 import { Box, Button, Stack, Typography } from '@mui/material';
+import { Jazzicon } from '@ukstv/jazzicon-react';
+import { styled } from '@mui/material/styles';
 
 import { useEagerConnect } from '@orca/hooks';
 import {
-  formatEtherscanLink,
   shortenHex,
   injected,
   AVALANCHE_MAINNET_PARAMS,
   AVALANCHE_TESTNET_PARAMS,
 } from '@orca/util';
 import { seeAccount } from './atom';
+
+const ModifiedJazzicon = styled(Jazzicon)({
+  width: 30,
+  height: 30,
+});
 
 const Account: FC = () => {
   const setSeeAccount = useSetRecoilState(seeAccount);
@@ -176,13 +182,7 @@ const Account: FC = () => {
     >
       <Stack direction="row" alignItems={'center'} spacing={1}>
         <Typography variant="button">{`${shortenHex(account, 4)}`}</Typography>
-        <Box
-          component="img"
-          src="/static/icons/ic_metamask.svg"
-          color="inherit"
-          width={30}
-          height={30}
-        />
+        <ModifiedJazzicon address={account} />
       </Stack>
     </Button>
   );

@@ -1,19 +1,15 @@
 import { BigNumber, utils } from 'ethers';
-import { farmConstants } from '@orca/shared/base';
-import {
-  useOrcaStatsSubscription,
-  useBankInfoFrontPageSubscription,
-  useExchangeInfoFrontPageSubscription,
-  useOrcaPerSecQuery,
-  useGeneralYieldInfoSubscription,
-} from '@orca/graphql';
+import { tokenInfo } from '@orca/shared/base';
+import { useOrcaStatsSubscription, useOrcaPerSecQuery } from '@orca/graphql';
+
 import { useFrontPageYieldInfo } from './useFrontPageYieldFarm';
 import { useFrontPageInfo } from './useFrontPageAnalytics';
 
 export const useFrontPageStats = () => {
   const { loading, data } = useOrcaStatsSubscription({
     variables: {
-      id: farmConstants.reward.address,
+      // #TODO: Change to main net
+      id: tokenInfo['ORCA'].address.fuji.toLowerCase(),
     },
   });
 
@@ -23,10 +19,12 @@ export const useFrontPageStats = () => {
 
   // Do this manually. Tedious tbh...
   const { loading: avaiLoading, data: avaiFarm } = useFrontPageYieldInfo(
-    farmConstants.avai.address
+    // #TODO: Change to main net
+    tokenInfo['AVAI'].address.fuji.toLowerCase()
   );
   const { loading: usdcLoading, data: usdcFarm } = useFrontPageYieldInfo(
-    farmConstants.usdcAvai.address
+    // #TODO: Change to main net
+    tokenInfo['USDC-AVAI'].address.fuji.toLowerCase()
   );
 
   if (
@@ -57,7 +55,9 @@ export const useFrontPageStats = () => {
         marketcap: 0.2 * circulatingSupply,
         totalRevenue:
           Number(utils.formatUnits(bankData.exchangeTreasury, 6)) +
-          Number(utils.formatEther(bankData.bankTreasury)),
+          Number(utils.formatEther(bankData.bankTreasury)) +
+          avaiFarm.treasury +
+          usdcFarm.treasury,
         orcaPerDay: orcaPerSecond * 60 * 60 * 24,
         orcaPerMonth: orcaPerSecond * 60 * 60 * 24 * 30,
         TVL,

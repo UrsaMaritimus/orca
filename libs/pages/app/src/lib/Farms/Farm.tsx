@@ -1,14 +1,6 @@
 import { FC } from 'react';
 
-import {
-  Grid,
-  Card,
-  Box,
-  Typography,
-  Divider,
-  Paper,
-  CardContent,
-} from '@mui/material';
+import { Grid, Box, Typography, Divider, Paper } from '@mui/material';
 
 import { LoadingDots } from '@orca/components/loader';
 

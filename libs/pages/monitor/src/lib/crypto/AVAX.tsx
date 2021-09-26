@@ -1,13 +1,9 @@
-import { FC, useEffect } from 'react';
-import useSwr from 'swr';
+import { FC } from 'react';
 
-import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 
 import { Card, CardHeader, Box, Typography } from '@mui/material';
 
-import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
-import { monitorBadVaults, getVault, liquidateVault } from '@orca/shared/funcs';
 import { Loader } from '@orca/components/loader';
 
 import Table from '../table';
@@ -26,7 +22,12 @@ export const AvaxVaults: FC<PagesVaultsProps> = ({
   chainId,
   account,
 }) => {
-  const { loading, rows: badVaults } = useMonitorVaults(library, chainId);
+  const { loading, rows: badVaults } = useMonitorVaults(
+    library,
+    chainId,
+    'wavax'
+  );
+
   if (typeof account === 'string' && badVaults && !loading) {
     return (
       <div>

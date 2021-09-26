@@ -1,5 +1,7 @@
 import { BigNumber, utils } from 'ethers';
 
+import { tokenInfo } from '@orca/shared/base';
+
 import {
   useGeneralYieldInfoSubscription,
   useGetTokenDataSubscription,
@@ -34,7 +36,8 @@ export const useFrontPageYieldInfo = (farm: string) => {
     const rewardPerDay = (poolAlloc / totalAllocPoints) * orcaPerSec * 86400;
 
     const TVL =
-      farm === '0x41f8511b889D2e32A889DAD14a9EeD9c2c737385'
+      // TODO: main net
+      farm === tokenInfo['AVAI'].address.fuji.toLowerCase()
         ? totalStaked
         : (totalStaked / tokenData.pairs[0].totalSupply) *
           tokenData.pairs[0].reserveUSD;
@@ -49,6 +52,13 @@ export const useFrontPageYieldInfo = (farm: string) => {
         rewardPerDay: rewardPerDay,
         tvl: TVL,
         apr: apr,
+        treasury:
+          Number(
+            utils.formatEther(BigNumber.from(yieldData.pools[0].treasuryAmount))
+          ) *
+          (farm === tokenInfo['AVAI'].address.fuji.toLowerCase()
+            ? 1
+            : tokenData.pairs[0].reserveUSD / tokenData.pairs[0].totalSupply),
       },
     };
   } else {

@@ -18,6 +18,7 @@
     "baseUrl": ".",
     "paths": {
       "@orca/components/account": ["libs/components/account/src/index.ts"],
+      "@orca/components/add-token": ["libs/components/add-token/src/index.ts"],
       "@orca/components/animate": ["libs/components/animate/src/index.ts"],
       "@orca/components/balance": ["libs/components/balance/src/index.ts"],
       "@orca/components/carousel": ["libs/components/carousel/src/index.ts"],

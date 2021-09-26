@@ -18,7 +18,6 @@ import {
 //
 import {
   CarouselControlsPaging1,
-  CarouselControlsArrowsBasic1,
   CarouselControlsArrowsBasic2,
 } from '@orca/components/carousel';
 
@@ -124,7 +123,7 @@ export const BankInfo: FC<BankInfoProps> = ({ data }) => {
   const settings = {
     speed: 1000,
     autoplaySpeed: 5000,
-    dots: true,
+    dots: false,
     arrows: false,
     autoplay: false,
     slidesToShow: matches ? 1 : 2,
@@ -134,7 +133,6 @@ export const BankInfo: FC<BankInfoProps> = ({ data }) => {
     ...CarouselControlsPaging1({
       color: 'secondary.main',
       sx: {
-        top: theme.spacing(43),
         bottom: 'auto',
         right: 'auto',
       },

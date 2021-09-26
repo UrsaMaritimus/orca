@@ -1,23 +1,15 @@
 import { FC } from 'react';
-import {
-  Grid,
-  Card,
-  useTheme,
-  useMediaQuery,
-  CardHeader,
-  Box,
-} from '@mui/material';
-import { Loader } from '@orca/components/loader';
-import { useFrontPageInfo } from '../graph/useFrontPageAnalytics';
+import { Grid, Card, useTheme, CardHeader, Box } from '@mui/material';
 
-import { ProtocolRevenue } from './revenue';
+import { Loader } from '@orca/components/loader';
+
+import { useFrontPageInfo } from '../graph/useFrontPageAnalytics';
 import BankInfo from './BankInfo';
 import { Infomatic } from './Infomatic';
 import { Stats } from './Stats';
 
 export const BanksAnalytics: FC = () => {
   const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down('md'));
   const { loading, data } = useFrontPageInfo();
 
   return (
