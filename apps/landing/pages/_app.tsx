@@ -15,6 +15,10 @@ import { ThemeProvider as NextThemeProvider } from 'next-themes';
 import 'simplebar-react/dist/simplebar.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 
+// slick-carousel
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
 // NProgress
 import Router from 'next/router';
 import NProgress from 'nprogress';

@@ -1,17 +1,9 @@
-import { useEffect, useLayoutEffect, useRef, FC, useState } from 'react';
+import { useLayoutEffect, useRef, FC, useState } from 'react';
 import MetaMaskOnboarding from '@metamask/onboarding';
 import { useWeb3React, UnsupportedChainIdError } from '@web3-react/core';
 import { UserRejectedRequestError } from '@web3-react/injected-connector';
 import useSWR from 'swr';
-import {
-  Grid,
-  Paper,
-  Box,
-  Typography,
-  Divider,
-  Button,
-  Stack,
-} from '@mui/material';
+import { Grid, Paper, Box, Typography, Divider, Stack } from '@mui/material';
 import { toast } from 'react-hot-toast';
 
 import { BigNumber, utils } from 'ethers';
@@ -28,8 +20,7 @@ import {
 
 export const YourFarmInfo: FC = () => {
   const [depositing, setDepositing] = useState<boolean>(false);
-  const { active, error, activate, chainId, account, setError, library } =
-    useWeb3React();
+  const { activate, chainId, account, setError, library } = useWeb3React();
 
   // initialize metamask onboarding
   const onboarding = useRef<MetaMaskOnboarding>();

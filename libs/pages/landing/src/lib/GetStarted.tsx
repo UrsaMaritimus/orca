@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { styled } from '@mui/material/styles';
 
 import { Box, Typography, Container, Button, Link } from '@mui/material';
+import { motion } from 'framer-motion';
 
 import {
   varFadeInDown,
@@ -31,27 +32,32 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 const SignUp: FC = () => {
   return (
-    <Container maxWidth="lg" sx={{ mt: 4 }}>
+    <Container maxWidth="lg" sx={{ pt: 15 }}>
       <ContentStyle>
         <MotionInView variants={varFadeInUp} sx={{ mb: { xs: 3, md: 0 } }}>
-          <Box
-            component="img"
-            alt="rocket"
-            src={'/static/illustrations/rocket.svg'}
-            srcSet={`${'/static/illustrations/rocket.svg'} 600w, ${'/static/illustrations/rocket.svg'} 960w`}
-            sx={{
-              zIndex: 9,
-              width: '100%',
-              height: '100%',
-              marginRight: '200px',
-              marginLeft: '50px',
-              maxWidth: 460,
-              transform: {
-                xs: 'translateX(-10%)',
-                md: 'translateX(0)',
-              },
-            }}
-          />
+          <motion.div
+            animate={{ y: [-20, 0, -20] }}
+            transition={{ duration: 4, repeat: Infinity }}
+          >
+            <Box
+              component="img"
+              alt="rocket"
+              src={'/static/illustrations/rocket.svg'}
+              srcSet={`${'/static/illustrations/rocket.svg'} 600w, ${'/static/illustrations/rocket.svg'} 960w`}
+              sx={{
+                zIndex: 9,
+                width: '90%',
+                height: '90%',
+                marginRight: '200px',
+                marginLeft: '50px',
+                maxWidth: 460,
+                transform: {
+                  xs: 'translateX(-10%)',
+                  md: 'translateX(0)',
+                },
+              }}
+            />
+          </motion.div>
         </MotionInView>
 
         <Box

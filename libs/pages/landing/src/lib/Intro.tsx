@@ -45,10 +45,7 @@ const shadowIcon = (color) => `drop-shadow(2px 2px 2px ${alpha(color, 0.48)})`;
 
 const RootStyle = styled('div')(({ theme }) => ({
   zIndex: 99,
-  paddingTop: theme.spacing(15),
-  [theme.breakpoints.up('md')]: {
-    paddingBottom: theme.spacing(15),
-  },
+  padding: theme.spacing(15, 0),
 }));
 
 const CardStyle = styled(Card)(({ theme }) => {

@@ -37,7 +37,8 @@ const DotStyle = styled('span')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 type Props = {
-  color: string;
+  color?: string;
+  sx?: any;
 };
 
 export const CarouselControlsPaging2 = ({ color, ...other }: Props) => {

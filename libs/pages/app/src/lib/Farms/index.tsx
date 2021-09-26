@@ -1,20 +1,9 @@
-import { useState, useRef, FC } from 'react';
+import { useRef, FC } from 'react';
 
 import Slider from 'react-slick';
-import { filter } from 'lodash';
 
 // material
-import { useTheme } from '@mui/material/styles';
-import {
-  CardContent,
-  Box,
-  Card,
-  Typography,
-  Grid,
-  CardHeader,
-  useMediaQuery,
-  Stack,
-} from '@mui/material';
+import { Box, Grid, CardHeader } from '@mui/material';
 import { CarouselControlsArrowsBasic2 } from '@orca/components/carousel';
 
 import { farms } from '@orca/shared/base';
@@ -22,12 +11,8 @@ import { YieldFarm } from './Farm';
 import { YourFarmInfo } from './YourFarmToken';
 
 export const YieldFarmInfo: FC = () => {
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const carouselRef = useRef<Slider>();
-  const [currentIndex, setCurrentIndex] = useState(
-    theme.direction === 'rtl' ? farms.length - 1 : 0
-  );
+
   const settings = {
     speed: 1000,
     autoplaySpeed: 10000,
