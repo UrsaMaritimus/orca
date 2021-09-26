@@ -1,6 +1,6 @@
 import { FC, useRef } from 'react';
 // material
-import { styled } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import {
   Box,
   Grid,
@@ -9,8 +9,9 @@ import {
   Paper,
   Divider,
   Link,
+  useMediaQuery,
 } from '@mui/material';
-import Image from 'next/image';
+
 import Slider from 'react-slick';
 
 import {
@@ -105,8 +106,14 @@ const NFP: FC<NFPProps> = ({ name, image, description, url }) => {
         }}
       >
         <Grid container p={3}>
-          <Grid item xs={12}>
-            <Image src={image} height={200} width={200} />
+          <Grid item xs={12} display="flex" justifyContent="center">
+            <Box
+              component="img"
+              alt={name}
+              src={image}
+              height={200}
+              width={200}
+            />
           </Grid>
           <Grid item xs={12}>
             <Typography variant="h6" color="grey.700">
@@ -128,13 +135,15 @@ const NFP: FC<NFPProps> = ({ name, image, description, url }) => {
 };
 
 export const SeaFund: FC = () => {
+  const theme = useTheme();
+  const matched = useMediaQuery(theme.breakpoints.down('md'));
   const carouselRef = useRef<Slider>();
 
   const settings = {
     dots: true,
     arrows: false,
-    slidesToShow: 3,
-    slidesToScroll: 3,
+    slidesToShow: matched ? 1 : 3,
+    slidesToScroll: matched ? 1 : 3,
     autoplay: true,
     speed: 1000,
     pauseOnHover: true,
