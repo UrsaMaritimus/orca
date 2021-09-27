@@ -4,7 +4,7 @@ import { ethers } from 'hardhat';
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 import { ORCA, ORCA__factory } from '../libs/shared/contracts/src';
 
-describe('Avax Vault Test with Gateway', function () {
+describe('Orca tests', function () {
   let accounts: SignerWithAddress[];
   let orca: ORCA;
   let OrcaFac: ORCA__factory;

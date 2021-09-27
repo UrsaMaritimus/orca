@@ -197,6 +197,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.USDCExchange__factory>;
     getContractFactory(
+      name: "OrcaTeamVesting",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.OrcaTeamVesting__factory>;
+    getContractFactory(
       name: "WAVAXGateway",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.WAVAXGateway__factory>;
