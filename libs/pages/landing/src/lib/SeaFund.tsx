@@ -202,28 +202,29 @@ export const SeaFund: FC = () => {
             }}
           >
             A portion of Orca DAO revenue is distributed to non-for-profit
-            initiaves focused on restoration, cleanup, or improvement of marine
-            and ocean ecosystems
+            initiatives focused on restoration, cleanup, or improvement of
+            marine and ocean ecosystems
           </Typography>
         </MotionInView>
-
-        <Box sx={{ position: 'relative' }}>
-          <Slider ref={carouselRef} {...settings}>
-            {nfps.map((nfp) => (
-              <NFP
-                key={nfp.key}
-                name={nfp.name}
-                image={nfp.image}
-                description={nfp.description}
-                url={nfp.url}
-              />
-            ))}
-          </Slider>
-          <CarouselControlsArrowsBasic2
-            onNext={handleNext}
-            onPrevious={handlePrevious}
-          />
-        </Box>
+        <MotionInView variants={varFadeInUp}>
+          <Box sx={{ position: 'relative' }}>
+            <Slider ref={carouselRef} {...settings}>
+              {nfps.map((nfp) => (
+                <NFP
+                  key={nfp.key}
+                  name={nfp.name}
+                  image={nfp.image}
+                  description={nfp.description}
+                  url={nfp.url}
+                />
+              ))}
+            </Slider>
+            <CarouselControlsArrowsBasic2
+              onNext={handleNext}
+              onPrevious={handlePrevious}
+            />
+          </Box>
+        </MotionInView>
       </Container>
     </RootStyle>
   );
