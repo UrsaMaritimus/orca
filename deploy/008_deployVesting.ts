@@ -9,7 +9,6 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   const orca = await deployments.get('ORCA');
 
-  const { timestamp } = await ethers.provider.getBlock('latest');
   const duration = 60 * 60 * 24 * 365 * 2;
 
   const teamPay = await deploy('TeamPayment', {
@@ -21,13 +20,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   await deploy('VestingWallet', {
     from: deployer,
     log: true,
-    args: [
-      orca.address,
-      teamPay.address,
-      timestamp, // TODO: Update for mainnet
-      duration,
-      true,
-    ],
+    args: [orca.address, teamPay.address, 1633046400, duration, true],
   });
 };
 export default func;

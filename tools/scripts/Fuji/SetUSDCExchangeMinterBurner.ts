@@ -5,9 +5,9 @@ import {
   Bank__factory,
   USDCExchange__factory,
   WAVAXGateway__factory,
-} from '../../libs/shared/contracts/src';
+} from '../../../libs/shared/contracts/src';
 
-import contracts from '../../libs/shared/deployments/src';
+import contracts from '../../../libs/shared/deployments/src';
 
 // Test net constants
 const minimumCollateralPercentage = 150;

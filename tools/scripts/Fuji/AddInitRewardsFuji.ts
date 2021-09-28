@@ -4,9 +4,9 @@ import {
   ORCA__factory,
   PodLeader__factory,
   AVAI__factory,
-} from '../../libs/shared/contracts/src';
+} from '../../../libs/shared/contracts/src';
 
-import contracts from '../../libs/shared/deployments/src';
+import contracts from '../../../libs/shared/deployments/src';
 
 const addInitRewards = async () => {
   // Test net constants

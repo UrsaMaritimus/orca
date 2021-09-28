@@ -167,6 +167,7 @@ describe('USDC Swap Test', function () {
       initUSDCBalanceTreasury.add(tradeFee)
     );
   });
+
   it('allows redeeming of USDC for AVAI, starting with 10 usdc', async () => {
     // Try with zero, should revert
     await expect(exchange.connect(accounts[1]).redeem(0)).to.be.revertedWith(

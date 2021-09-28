@@ -4,11 +4,11 @@ import {
   AVAI__factory,
   Bank__factory,
   WAVAXGateway__factory,
-} from '../../libs/shared/contracts/src';
+} from '../../../libs/shared/contracts/src';
 
-import contracts from '../../libs/shared/deployments/src';
+import contracts from '../../../libs/shared/deployments/src';
 
-const test = async () => {
+const updateWavaxGateway = async () => {
   const accounts = await ethers.getSigners();
   console.log(contracts.fuji.AVAI.address);
   const avai = AVAI__factory.connect(contracts.fuji.AVAI.address, accounts[0]);
@@ -26,14 +26,14 @@ const test = async () => {
     contracts.fuji.WAVAXGateway.address,
     accounts[0]
   );
-  console.log(avai.address);
-  console.log(await wavaxVault.token());
-  await gateway.depositAVAX(wavaxVault.address, 6, {
-    value: ethers.utils.parseEther('2'),
-  });
+  console.log('Connected to gateway');
+  await gateway.authorizeVault(wavaxVault.address);
+  console.log('Authorized gateway');
+  await avai.setGateway(0, gateway.address);
+  console.log('Set new gateway on wavax vault.');
 };
 
-test()
+updateWavaxGateway()
   .then(() => process.exit(0))
   .catch((error) => {
     console.error(error);

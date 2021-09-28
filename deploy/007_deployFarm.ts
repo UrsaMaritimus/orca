@@ -9,15 +9,14 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   const orca = await deployments.get('ORCA');
 
-  const { timestamp } = await ethers.provider.getBlock('latest');
-
   await deploy('PodLeader', {
     from: deployer,
     log: true,
+    // Initial rate
     args: [
       orca.address,
-      timestamp + 10,
-      ethers.utils.parseEther('1'),
+      1633046400,
+      ethers.utils.parseEther('1.96204337899543'),
       deployer,
     ],
   });

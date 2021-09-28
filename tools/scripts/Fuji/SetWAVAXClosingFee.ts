@@ -1,8 +1,11 @@
 import { ethers, deployments } from 'hardhat';
 
-import { AVAI__factory, Bank__factory } from '../../libs/shared/contracts/src';
+import {
+  AVAI__factory,
+  Bank__factory,
+} from '../../../libs/shared/contracts/src';
 
-import contracts from '../../libs/shared/deployments/src';
+import contracts from '../../../libs/shared/deployments/src';
 
 const adjustWavaxClosingFee = async () => {
   // Test net constants

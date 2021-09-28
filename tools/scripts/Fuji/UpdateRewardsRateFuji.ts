@@ -3,9 +3,9 @@ import { ethers } from 'hardhat';
 import {
   ORCA__factory,
   PodLeader__factory,
-} from '../../libs/shared/contracts/src';
+} from '../../../libs/shared/contracts/src';
 
-import contracts from '../../libs/shared/deployments/src';
+import contracts from '../../../libs/shared/deployments/src';
 
 // For first two months
 const REWARDS_PER_SECOND = ethers.utils.parseEther('1.96204337899543');

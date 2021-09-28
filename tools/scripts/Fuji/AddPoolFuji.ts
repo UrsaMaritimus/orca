@@ -3,9 +3,9 @@ import { ethers } from 'hardhat';
 import {
   ORCA__factory,
   PodLeader__factory,
-} from '../../libs/shared/contracts/src';
+} from '../../../libs/shared/contracts/src';
 
-import contracts from '../../libs/shared/deployments/src';
+import contracts from '../../../libs/shared/deployments/src';
 
 // Test net constants
 const initialRewardsBalance = ethers.utils.parseEther('13406250');
@@ -21,12 +21,6 @@ const addAVAIPool = async () => {
     contracts.fuji.PodLeader.address,
     accounts[0]
   );
-
-  // Prepare for sending
-  const balance = await orca.balanceOf(accounts[0].address);
-  console.log(`Balance of orca: ${ethers.utils.formatEther(balance)}`);
-  await orca.increaseAllowance(podLeader.address, balance);
-  console.log('Allowance increased');
 
   // Add AVAI
   await podLeader.add(
