@@ -8,6 +8,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await getNamedAccounts();
 
   const avai = await deployments.get('AVAI');
+  // TODO: Update for main net
   const usdc = await deployments.get('FakeUSDC');
 
   await deploy('USDCExchange', {
