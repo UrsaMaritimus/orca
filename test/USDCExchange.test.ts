@@ -115,12 +115,15 @@ describe('USDC Swap Test', function () {
     await exchange.changeTreasury(accounts[1].address);
 
     expect(await exchange.treasury()).to.equal(accounts[1].address);
-    // Now ORIGINAL should be reverted
-    await expect(exchange.setUSDCRate(10050)).to.be.reverted;
-    await expect(exchange.changeTreasury(accounts[0].address)).to.be.reverted;
+    // Accounts[0] still owner
+    await expect(exchange.connect(accounts[1]).setUSDCRate(10050)).to.be
+      .reverted;
+    await expect(
+      exchange.connect(accounts[1]).changeTreasury(accounts[0].address)
+    ).to.be.reverted;
 
     // And now should be able to change things
-    await exchange.connect(accounts[1]).setUSDCRate(10050);
+    await exchange.connect(accounts[0]).setUSDCRate(10050);
     expect(await exchange.usdcRate()).to.equal(10050);
   });
 

@@ -42,7 +42,6 @@ contract USDCExchange is
    * @dev Transfers ownership (and treasury) to new treasury address
    */
   function changeTreasury(address newTreasury) public onlyOwner {
-    transferOwnership(newTreasury);
     treasury = newTreasury;
   }
 

@@ -156,8 +156,7 @@ contract PodLeader is Ownable, ReentrancyGuard {
   /**
    * @notice Sets the treasury where fees will go to
    */
-  function setTreasury(address _treasury) public {
-    require(msg.sender == treasury, 'PodLeader::setTreasury: FORBIDDEN');
+  function setTreasury(address _treasury) public onlyOwner {
     address oldTreasury = treasury;
     treasury = _treasury;
     emit ChangedTreasury(oldTreasury, _treasury);

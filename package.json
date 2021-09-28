@@ -30,7 +30,8 @@
     "pretest": "yarn compile",
     "test-contracts": "npx hardhat test",
     "deploy-fuji": "hardhat deploy --network fuji --export-all libs/shared/deployments/src/deployments.json",
-    "gql:generate": "graphql-codegen --config ./libs/graphql/codegen.js -r dotenv/config"
+    "gql:generate": "graphql-codegen --config ./libs/graphql/codegen.js -r dotenv/config",
+    "prepare": "husky install"
   },
   "private": true,
   "dependencies": {
