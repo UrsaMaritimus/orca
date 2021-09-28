@@ -15,3 +15,4 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 export default func;
 func.id = 'usdc';
 func.tags = ['FakeUSDC'];
+func.skip = async (env) => (await env.network.name) === 'mainnet';

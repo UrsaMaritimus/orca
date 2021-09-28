@@ -7,13 +7,9 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   const { deployer } = await getNamedAccounts();
 
-  const minimumCollateralPercentage = 150;
-  const priceSource_ = '0x5498BB86BC934c8D34FDA08E81D444153d0D06aD';
-  const symbol = 'avaxAVLT';
-  const name = 'avaxAVLT';
   // For Mainnet: 0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7
   // For Fuji Testnet: 0xd00ae08403B9bbb9124bB305C09058E32C39A48c
-  const token = '0xd00ae08403B9bbb9124bB305C09058E32C39A48c';
+  const token = '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7';
 
   await deploy('WAVAXGateway', {
     from: deployer,
