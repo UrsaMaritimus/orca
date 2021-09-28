@@ -2,14 +2,17 @@ import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import { DeployFunction } from 'hardhat-deploy/types';
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
-  const { deployments, getNamedAccounts } = hre;
+  const { deployments, getNamedAccounts, network } = hre;
   const { deploy } = deployments;
 
   const { deployer } = await getNamedAccounts();
 
   const avai = await deployments.get('AVAI');
-  // TODO: Update for main net
-  const usdc = await deployments.get('FakeUSDC');
+
+  const usdc =
+    network.name === 'fuji'
+      ? (await deployments.get('FakeUSDC')).address
+      : '0xa7d7079b0fead91f3e65f86e8915cb59c1a4c664';
 
   await deploy('USDCExchange', {
     from: deployer,
@@ -20,7 +23,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
       execute: {
         init: {
           methodName: 'initialize',
-          args: [usdc.address, avai.address],
+          args: [usdc, avai.address],
         },
       },
     },
