@@ -44,10 +44,12 @@ export type { UpgradeableBeacon } from "./UpgradeableBeacon";
 export type { WAVAX } from "./WAVAX";
 export type { PodLeader } from "./PodLeader";
 export type { AVAI } from "./AVAI";
+export type { TeamPayment } from "./TeamPayment";
 export type { PriceSource } from "./PriceSource";
 export type { FakeUSDC } from "./FakeUSDC";
 export type { USDCExchange } from "./USDCExchange";
 export type { OrcaTeamVesting } from "./OrcaTeamVesting";
+export type { VestingWallet } from "./VestingWallet";
 export type { WAVAXGateway } from "./WAVAXGateway";
 
 export { AggregatorV3Interface__factory } from "./factories/AggregatorV3Interface__factory";
@@ -93,8 +95,10 @@ export { UpgradeableBeacon__factory } from "./factories/UpgradeableBeacon__facto
 export { WAVAX__factory } from "./factories/WAVAX__factory";
 export { PodLeader__factory } from "./factories/PodLeader__factory";
 export { AVAI__factory } from "./factories/AVAI__factory";
+export { TeamPayment__factory } from "./factories/TeamPayment__factory";
 export { PriceSource__factory } from "./factories/PriceSource__factory";
 export { FakeUSDC__factory } from "./factories/FakeUSDC__factory";
 export { USDCExchange__factory } from "./factories/USDCExchange__factory";
 export { OrcaTeamVesting__factory } from "./factories/OrcaTeamVesting__factory";
+export { VestingWallet__factory } from "./factories/VestingWallet__factory";
 export { WAVAXGateway__factory } from "./factories/WAVAXGateway__factory";

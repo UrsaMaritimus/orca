@@ -185,6 +185,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.AVAI__factory>;
     getContractFactory(
+      name: "TeamPayment",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.TeamPayment__factory>;
+    getContractFactory(
       name: "PriceSource",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.PriceSource__factory>;
@@ -200,6 +204,10 @@ declare module "hardhat/types/runtime" {
       name: "OrcaTeamVesting",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.OrcaTeamVesting__factory>;
+    getContractFactory(
+      name: "VestingWallet",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.VestingWallet__factory>;
     getContractFactory(
       name: "WAVAXGateway",
       signerOrOptions?: ethers.Signer | FactoryOptions
