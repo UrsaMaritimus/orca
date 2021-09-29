@@ -23,8 +23,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
   },
   AVAI: {
     address: {
-      mainnet: '',
-      // TODO: Main net
+      mainnet: contracts.main.AVAI.address.toLowerCase(),
       fuji: contracts.fuji.AVAI.address.toLowerCase(),
     },
     icon: '/static/cryptos/ic_avai.svg',
@@ -51,7 +50,10 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
   },
   ORCA: {
     // TODO: Main net
-    address: { mainnet: '', fuji: contracts.fuji.ORCA.address.toLowerCase() },
+    address: {
+      mainnet: contracts.main.ORCA.address.toLowerCase(),
+      fuji: contracts.fuji.ORCA.address.toLowerCase(),
+    },
     icon: '/static/cryptos/ic_orca.svg',
     erc20: 'orca',
     display: 'ORCA',
@@ -67,29 +69,36 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
   },
   'USDC-AVAI': {
     address: {
-      mainnet: '',
+      mainnet: '0xeD7a2B4054757Cfdb632Af15Ad528624F0fFf3B0'.toLowerCase(),
       fuji: '0x045c6cd1b7a6f1d6cf66e2d45a9ba8e2b58cc217'.toLowerCase(),
     },
     icon: '/static/farm/ic_usdc_avai.svg',
     erc20: 'USDC-AVAI',
     display: 'USDC.e-AVAI',
   },
+  'AVAI-ORCA': {
+    address: {
+      mainnet: '0x1a9bd67c82c0e8e47c3ad2fa772fcb9b7a831a37'.toLowerCase(),
+      fuji: '0x045c6cd1b7a6f1d6cf66e2d45a9ba8e2b58cc217'.toLowerCase(),
+    },
+    icon: '/static/farm/ic_avai_orca.svg',
+    erc20: 'AVAI-ORCA',
+    display: 'AVAI-ORCA',
+  },
 };
 
 export const farms = [
   {
-    name: 'AVAI',
-    img: tokenInfo['AVAI'].icon,
-    // TODO: Main net
-    address: tokenInfo['AVAI'].address.fuji,
+    name: 'AVAI-ORCA',
+    img: tokenInfo['AVAI-ORCA'].icon,
+    address: tokenInfo['AVAI-ORCA'].address.mainnet,
     reward: 'ORCA',
     rewardImg: tokenInfo['ORCA'].icon,
   },
   {
     name: 'USDC-AVAI',
     img: tokenInfo['USDC-AVAI'].icon,
-    // TODO: Main net
-    address: tokenInfo['USDC-AVAI'].address.fuji,
+    address: tokenInfo['USDC-AVAI'].address.mainnet,
     reward: 'ORCA',
     rewardImg: tokenInfo['ORCA'].icon,
   },

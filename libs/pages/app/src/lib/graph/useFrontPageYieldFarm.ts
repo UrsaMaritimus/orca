@@ -10,16 +10,13 @@ import {
 export const useFrontPageYieldInfo = (farm: string) => {
   const { data: yieldData } = useGeneralYieldInfoSubscription({
     variables: {
-      pair: farm,
+      pair: farm.toLowerCase(),
     },
   });
 
   const { data: tokenData } = useGetTokenDataSubscription({
     variables: {
-      id:
-        farm === '0x045c6cd1b7a6f1d6cf66e2d45a9ba8e2b58cc217'
-          ? '0xe28984e1ee8d431346d32bec9ec800efb643eef4'
-          : farm, // For testnet
+      id: farm.toLowerCase(),
     },
   });
 

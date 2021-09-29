@@ -9,7 +9,7 @@ export const useFrontPageStats = () => {
   const { loading, data } = useOrcaStatsSubscription({
     variables: {
       // #TODO: Change to main net
-      id: tokenInfo['ORCA'].address.fuji.toLowerCase(),
+      id: tokenInfo['ORCA'].address.mainnet.toLowerCase(),
     },
   });
 
@@ -18,13 +18,11 @@ export const useFrontPageStats = () => {
   const { data: orcaPerSec, loading: orcaPerLoading } = useOrcaPerSecQuery();
 
   // Do this manually. Tedious tbh...
-  const { loading: avaiLoading, data: avaiFarm } = useFrontPageYieldInfo(
-    // #TODO: Change to main net
-    tokenInfo['AVAI'].address.fuji.toLowerCase()
+  const { loading: orcaLoading, data: orcaFarm } = useFrontPageYieldInfo(
+    tokenInfo['AVAI-ORCA'].address.mainnet.toLowerCase()
   );
   const { loading: usdcLoading, data: usdcFarm } = useFrontPageYieldInfo(
-    // #TODO: Change to main net
-    tokenInfo['USDC-AVAI'].address.fuji.toLowerCase()
+    tokenInfo['USDC-AVAI'].address.mainnet.toLowerCase()
   );
 
   if (
@@ -32,7 +30,7 @@ export const useFrontPageStats = () => {
     !bankLoading &&
     !orcaPerLoading &&
     !usdcLoading &&
-    !avaiLoading
+    !orcaLoading
   ) {
     const circulatingSupply = Number(
       utils.formatEther(BigNumber.from(data.orca.circulatingSupply))
@@ -44,7 +42,7 @@ export const useFrontPageStats = () => {
       utils.formatEther(BigNumber.from(orcaPerSec.podLeaders[0].orcaPerSec))
     );
     const bankTVL = Number(utils.formatEther(bankData.totalCollateral));
-    const TVL = avaiFarm.tvl + usdcFarm.tvl + bankTVL;
+    const TVL = orcaFarm.tvl + usdcFarm.tvl + bankTVL;
 
     return {
       loading: false,
@@ -56,7 +54,7 @@ export const useFrontPageStats = () => {
         totalRevenue:
           Number(utils.formatUnits(bankData.exchangeTreasury, 6)) +
           Number(utils.formatEther(bankData.bankTreasury)) +
-          avaiFarm.treasury +
+          orcaFarm.treasury +
           usdcFarm.treasury,
         orcaPerDay: orcaPerSecond * 60 * 60 * 24,
         orcaPerMonth: orcaPerSecond * 60 * 60 * 24 * 30,
