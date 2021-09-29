@@ -51,11 +51,7 @@ const Account: FC = () => {
           provider
             .request({
               method: 'wallet_addEthereumChain',
-              params: [
-                process.env.NODE_ENV === 'development'
-                  ? AVALANCHE_TESTNET_PARAMS
-                  : AVALANCHE_MAINNET_PARAMS,
-              ],
+              params: [AVALANCHE_MAINNET_PARAMS],
             })
             .then(() => {
               activate(

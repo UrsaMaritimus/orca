@@ -14,8 +14,7 @@ export const orcaBalance = () => {
       chainId === 43113
         ? tokenInfo['ORCA'].address.fuji
         : chainId === 43114
-        ? // TODO: Update
-          tokenInfo['ORCA'].address.mainnet
+        ? tokenInfo['ORCA'].address.mainnet
         : null,
       library.getSigner()
     );

@@ -18,8 +18,7 @@ export const AvaiUsdcFarm: FC<AvaiProps> = ({
   expanded,
 }) => {
   const { loading, data } = useMonitorFarms(
-    // TODO: main net
-    tokenInfo['USDC-AVAI'].address.fuji.toLowerCase(),
+    tokenInfo['USDC-AVAI'].address.mainnet.toLowerCase(),
     account
   );
   return (
@@ -39,10 +38,9 @@ export const AvaiUsdcFarm: FC<AvaiProps> = ({
       pid={data?.id}
       color1={'#2876c9'}
       color2={'#689fd9'}
-      // TODO: Main net
-      farm={tokenInfo['USDC-AVAI'].address.fuji}
+      farm={tokenInfo['USDC-AVAI'].address.mainnet}
       link={
-        'https://app.pangolin.exchange/#/add/0x41f8511b889D2e32A889DAD14a9EeD9c2c737385/0xC1517ac40949643188efF133E2d4d6954eb23378'
+        'https://app.pangolin.exchange/#/add/0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664/0x346A59146b9b4a77100D369a3d18E8007A9F46a6'
       }
     />
   );

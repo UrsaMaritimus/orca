@@ -8,7 +8,6 @@ import { useFrontPageInfo } from './useFrontPageAnalytics';
 export const useFrontPageStats = () => {
   const { loading, data } = useOrcaStatsSubscription({
     variables: {
-      // #TODO: Change to main net
       id: tokenInfo['ORCA'].address.mainnet.toLowerCase(),
     },
   });

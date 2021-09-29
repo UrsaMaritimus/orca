@@ -33,13 +33,11 @@ export const useFrontPageYieldInfo = (farm: string) => {
     const rewardPerDay = (poolAlloc / totalAllocPoints) * orcaPerSec * 86400;
 
     const TVL =
-      // TODO: main net
-      farm === tokenInfo['AVAI'].address.fuji.toLowerCase()
-        ? totalStaked
-        : (totalStaked / tokenData.pairs[0].totalSupply) *
-          tokenData.pairs[0].reserveUSD;
+      (totalStaked / tokenData.pairs[0].totalSupply) *
+      tokenData.pairs[0].reserveUSD;
 
     // Temp price for now for Orca, get from pangolin come launch
+    // #TODO
     const apr = (((rewardPerDay * 36500) / TVL) * 20) / 100;
 
     return {

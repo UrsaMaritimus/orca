@@ -9,7 +9,7 @@ import { Box, Typography, Stack, Container, Button } from '@mui/material';
 
 import { Page } from '@orca/components/page';
 
-import { AVALANCHE_TESTNET_PARAMS } from '@orca/util';
+import { Loader } from '@orca/components/loader';
 
 //--------------------------------------------------------------------------
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -26,7 +26,10 @@ type ConnectProps = {
 //---------------------------------------------------------------------------
 export const Connect: FC<ConnectProps> = ({ children, title }) => {
   const { account, library, chainId } = useWeb3React<Web3Provider>();
-  if (chainId !== 43113) {
+  if (!chainId) {
+    return <Loader />;
+  }
+  if (chainId !== 43113 && chainId !== 43114) {
     return (
       <RootStyle title={`${title} | ${process.env.NEXT_PUBLIC_TITLE}`}>
         <Container maxWidth="lg">
@@ -36,34 +39,9 @@ export const Connect: FC<ConnectProps> = ({ children, title }) => {
                 variant="h1"
                 sx={{ textAlign: 'center', mt: 2, mb: 2 }}
               >
-                {`${
-                  account
-                    ? 'Main Net not deployed yet.'
-                    : 'Only available on Avalanche.'
-                }`}{' '}
-                <br />
-                {`${
-                  account
-                    ? 'Please switch to Fuji by clicking below.'
-                    : 'Please connect to Fuji by clicking connect.'
-                }`}
+                {`${'Only available on Avalanche.'}`} <br />
+                Please connect to Avalanche by clicking connect.
               </Typography>
-
-              {library && (
-                <Button
-                  sx={{ m: 'auto' }}
-                  size="large"
-                  variant="contained"
-                  onClick={() => {
-                    library.provider.request({
-                      method: 'wallet_addEthereumChain',
-                      params: [AVALANCHE_TESTNET_PARAMS],
-                    });
-                  }}
-                >
-                  Add FUJI Network
-                </Button>
-              )}
             </Stack>
           </Box>
         </Container>

@@ -49,7 +49,6 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     display: 'WBTC.e',
   },
   ORCA: {
-    // TODO: Main net
     address: {
       mainnet: contracts.main.ORCA.address.toLowerCase(),
       fuji: contracts.fuji.ORCA.address.toLowerCase(),

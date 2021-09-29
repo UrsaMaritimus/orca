@@ -18,8 +18,7 @@ export const avaiApproved = () => {
       chainId === 43113
         ? tokenInfo['AVAI'].address.fuji
         : chainId === 43114
-        ? // TODO: Update
-          tokenInfo['AVAI'].address.mainnet
+        ? tokenInfo['AVAI'].address.mainnet
         : null,
       library
     );
@@ -42,8 +41,7 @@ export const avaiBalance = () => {
       chainId === 43113
         ? tokenInfo['AVAI'].address.fuji
         : chainId === 43114
-        ? // TODO: Update
-          tokenInfo['AVAI'].address.mainnet
+        ? tokenInfo['AVAI'].address.mainnet
         : null,
       library.getSigner()
     );
@@ -62,8 +60,7 @@ export const approveAvai = async (
     chainId === 43113
       ? tokenInfo['AVAI'].address.fuji
       : chainId === 43114
-      ? // TODO: Update
-        tokenInfo['AVAI'].address.mainnet
+      ? tokenInfo['AVAI'].address.mainnet
       : null,
     library.getSigner()
   );

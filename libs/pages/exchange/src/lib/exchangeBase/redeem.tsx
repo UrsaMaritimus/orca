@@ -148,17 +148,6 @@ export const Redeem: FC<MintProps> = ({
     );
   }, [values, setFieldValue, mintingFee]);
 
-  if (chainId === 43114) {
-    return (
-      <Card>
-        <Typography variant="h1" sx={{ textAlign: 'center', mt: 2, mb: 2 }}>
-          {' '}
-          Main Net not deployed yet. Please switch to Fuji.
-        </Typography>
-      </Card>
-    );
-  }
-
   // For approving AVAI
   const handleApproveAVAI = async () => {
     setApproving(true);

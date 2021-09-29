@@ -18,8 +18,7 @@ export const getUSDCExchange = (
     chainId === 43113
       ? contractAddresses.fuji.USDCExchange.address
       : chainId === 43114
-      ? // TODO: Update
-        contractAddresses.fuji.USDCExchange.address
+      ? contractAddresses.main.USDCExchange.address
       : null,
     signer ? library.getSigner() : library
   );
@@ -63,8 +62,7 @@ export const avaiApprovedExchange = () => {
       chainId === 43113
         ? contractAddresses.fuji.AVAI.address
         : chainId === 43114
-        ? // TODO: Update
-          contractAddresses.fuji.AVAI.address
+        ? contractAddresses.main.AVAI.address
         : null,
       library
     );
@@ -148,8 +146,7 @@ export const approveAvaiExchange = async (
     chainId === 43113
       ? contractAddresses.fuji.AVAI.address
       : chainId === 43114
-      ? // TODO: Update
-        contractAddresses.fuji.AVAI.address
+      ? contractAddresses.main.AVAI.address
       : null,
     library.getSigner()
   );

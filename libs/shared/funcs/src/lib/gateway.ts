@@ -11,8 +11,7 @@ export const getGateway = (
     chainId === 43113
       ? contractAddresses.fuji.WAVAXGateway.address
       : chainId === 43114
-      ? // TODO: Update
-        contractAddresses.fuji.WAVAXGateway.address
+      ? contractAddresses.main.WAVAXGateway.address
       : null,
     signer ? library.getSigner() : library
   );

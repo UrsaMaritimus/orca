@@ -11,8 +11,7 @@ export const getVault = (
     chainId === 43113
       ? VaultContracts.fuji[vaultType]
       : chainId === 43114
-      ? // TODO: Update
-        VaultContracts.mainnet[vaultType]
+      ? VaultContracts.mainnet[vaultType]
       : null,
     signer ? library.getSigner() : library
   );

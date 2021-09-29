@@ -37,8 +37,7 @@ const OrcaBalance: FC = () => {
       chainId === 43113
         ? contractAddresses.fuji.ORCA.address
         : chainId === 43114
-        ? // TODO: Update
-          contractAddresses.fuji.ORCA.address
+        ? contractAddresses.main.ORCA.address
         : null,
       library
     );

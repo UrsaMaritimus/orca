@@ -5,16 +5,7 @@ import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 
 import { styled } from '@mui/material/styles';
-import {
-  Card,
-  CardHeader,
-  Container,
-  Typography,
-  Stack,
-  Box,
-  Button,
-  Grid,
-} from '@mui/material';
+import { Card, CardHeader, Container, Typography, Grid } from '@mui/material';
 
 import { mintFakeUSDC } from '@orca/shared/funcs';
 import { BigNumber, utils } from 'ethers';

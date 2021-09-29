@@ -6,7 +6,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import { Card, CardHeader, Container, Box, Typography } from '@mui/material';
 import { Page } from '@orca/components/page';
 
-import { AvaiFarm } from './AVAI';
+import { AvaiOrcaFarm } from './AVAI-ORCA';
 import { AvaiUsdcFarm } from './AVAI-USDC';
 
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -39,7 +39,7 @@ export const Farming: FC = () => {
             subheader={'Stake your tokens and earn rewards!'}
           />
         </Card>
-        <AvaiFarm
+        <AvaiOrcaFarm
           account={account}
           expanded={expanded}
           handleChange={handleChange}

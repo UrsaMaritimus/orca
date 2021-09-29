@@ -3,7 +3,7 @@ module.exports = {
   generates: {
     './libs/graphql/src/generated/orca.ts': {
       documents: ['./libs/graphql/src/lib/orca/**/*.graphql'],
-      schema: 'https://api.thegraph.com/subgraphs/name/ursamaritimus/orcadao',
+      schema: 'https://api.thegraph.com/subgraphs/name/ursamaritimus/orca-dao',
       plugins: [
         'typescript',
         'typescript-operations',

@@ -68,8 +68,7 @@ export const RepayStepper: FC<StepperProps> = ({
       chainId === 43113
         ? contractAddresses.fuji.AVAI.address
         : chainId === 43114
-        ? // TODO: Update
-          contractAddresses.fuji.AVAI.address
+        ? contractAddresses.main.AVAI.address
         : null,
       library
     );

@@ -15,8 +15,7 @@ export const getPodLeader = (
     chainId === 43113
       ? contracts.fuji.PodLeader.address
       : chainId === 43114
-      ? // TODO: Update
-        contracts.fuji.PodLeader.address
+      ? contracts.main.PodLeader.address
       : null,
     signer ? library.getSigner() : library
   );
