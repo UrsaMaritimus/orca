@@ -5,7 +5,7 @@ import { Grid, Box, Typography, Divider, Paper } from '@mui/material';
 import { LoadingDots } from '@orca/components/loader';
 
 import { useFrontPageYieldInfo } from '../graph/useFrontPageYieldFarm';
-import { fCurrency, fPercent } from '@orca/util';
+import { fCurrency, fNumber, fPercent } from '@orca/util';
 
 export type YieldFarmProps = {
   name: string;
@@ -54,7 +54,7 @@ export const YieldFarm: FC<YieldFarmProps> = ({ name, img, address }) => {
         </Grid>
         <Grid item xs={6} display="flex" justifyContent="flex-end">
           <Typography variant="h6">
-            {loading ? <LoadingDots /> : fPercent(data.apr)}
+            {loading ? <LoadingDots /> : `${fNumber(data.apr, 2, true)}%`}
           </Typography>
         </Grid>
         <Grid item xs={6} display="flex" justifyContent="flex-start">

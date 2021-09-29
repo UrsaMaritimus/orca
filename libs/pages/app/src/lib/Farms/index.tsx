@@ -3,7 +3,7 @@ import { useRef, FC } from 'react';
 import Slider from 'react-slick';
 
 // material
-import { Box, Grid, CardHeader } from '@mui/material';
+import { Box, Grid, CardHeader, useTheme, useMediaQuery } from '@mui/material';
 import { CarouselControlsArrowsBasic2 } from '@orca/components/carousel';
 
 import { farms } from '@orca/shared/base';
@@ -12,6 +12,8 @@ import { YourFarmInfo } from './YourFarmToken';
 
 export const YieldFarmInfo: FC = () => {
   const carouselRef = useRef<Slider>();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('sm'));
 
   const settings = {
     speed: 1000,
@@ -19,8 +21,8 @@ export const YieldFarmInfo: FC = () => {
     dots: false,
     arrows: false,
     autoplay: true,
-    slidesToShow: 2,
-    slidesToScroll: 2,
+    slidesToShow: matches ? 1 : 2,
+    slidesToScroll: matches ? 1 : 2,
     pauseOnHover: true,
   };
 

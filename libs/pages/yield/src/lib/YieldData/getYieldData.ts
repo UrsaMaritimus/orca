@@ -56,7 +56,6 @@ export const useMonitorFarms = (farm: string, account: string) => {
     const avaxUSDPrice = Number(avaxPrice.bundle?.ethPrice);
     const orcaUSDPrice = Number(orcaPrice.token?.derivedETH) * avaxUSDPrice;
 
-    // Temp price for now for Orca, get from pangolin come launch
     const apr = ((rewardPerDay * 36500) / TVL) * orcaUSDPrice;
 
     const userStaked = account
