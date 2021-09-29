@@ -65,7 +65,7 @@ const SortingSelectingHead: FC<SortingSelectionHeadProps> = ({
             <Typography variant="inherit">Vault ID</Typography>
 
             {orderBy === 'num' ? (
-              <Box component="span" sx={{ ...visuallyHidden }}>
+              <Box component="span" style={{ ...visuallyHidden }}>
                 {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
               </Box>
             ) : null}
@@ -92,7 +92,7 @@ const SortingSelectingHead: FC<SortingSelectionHeadProps> = ({
             </IconButton>
 
             {orderBy === 'cp' ? (
-              <Box component="span" sx={{ ...visuallyHidden }}>
+              <Box component="span" style={visuallyHidden}>
                 {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
               </Box>
             ) : null}
@@ -113,7 +113,7 @@ const SortingSelectingHead: FC<SortingSelectionHeadProps> = ({
             <br />
             (USD)
             {orderBy === 'collateral' ? (
-              <Box component="span" sx={{ ...visuallyHidden }}>
+              <Box component="span" style={{ ...visuallyHidden }}>
                 {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
               </Box>
             ) : null}
