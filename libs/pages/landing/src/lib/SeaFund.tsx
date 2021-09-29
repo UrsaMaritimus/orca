@@ -111,8 +111,9 @@ const NFP: FC<NFPProps> = ({ name, image, description, url }) => {
               component="img"
               alt={name}
               src={image}
-              height={200}
-              width={200}
+              height={225}
+              width={225}
+              sx={{ objectFit: 'contain' }}
             />
           </Grid>
           <Grid item xs={12}>
