@@ -1,0 +1,14 @@
+subscription GetTokenPrice($id: ID!) @api(name: png) {
+  token(id: $id) {
+    id
+    derivedETH
+    totalSupply
+  }
+}
+
+subscription AvaxPrice @api(name: png) {
+  bundle(id: "1") {
+    id
+    ethPrice
+  }
+}

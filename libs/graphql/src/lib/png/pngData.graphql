@@ -5,9 +5,3 @@ subscription GetTokenData($id: ID!) @api(name: png) {
     totalSupply
   }
 }
-
-subscription UsdcPrice @api(name: png) {
-  token(id: "0xa7d7079b0fead91f3e65f86e8915cb59c1a4c664") {
-    derivedETH
-  }
-}

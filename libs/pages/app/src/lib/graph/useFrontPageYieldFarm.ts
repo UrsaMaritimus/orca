@@ -5,6 +5,8 @@ import { tokenInfo } from '@orca/shared/base';
 import {
   useGeneralYieldInfoSubscription,
   useGetTokenDataSubscription,
+  useAvaxPriceSubscription,
+  useGetTokenPriceSubscription,
 } from '@orca/graphql';
 
 export const useFrontPageYieldInfo = (farm: string) => {
@@ -20,7 +22,15 @@ export const useFrontPageYieldInfo = (farm: string) => {
     },
   });
 
-  if (yieldData && tokenData) {
+  const { data: orcaPrice } = useGetTokenPriceSubscription({
+    variables: {
+      id: tokenInfo['ORCA'].address.mainnet.toLowerCase(),
+    },
+  });
+
+  const { data: avaxPrice } = useAvaxPriceSubscription();
+
+  if (yieldData && tokenData && orcaPrice && avaxPrice) {
     const poolAlloc = Number(yieldData.pools[0].allocPoint);
     const totalAllocPoints = Number(yieldData.pools[0].leader.totalAllocPoints);
     const orcaPerSec = Number(
@@ -36,9 +46,9 @@ export const useFrontPageYieldInfo = (farm: string) => {
       (totalStaked / tokenData.pairs[0].totalSupply) *
       tokenData.pairs[0].reserveUSD;
 
-    // Temp price for now for Orca, get from pangolin come launch
-    // #TODO
-    const apr = (((rewardPerDay * 36500) / TVL) * 20) / 100;
+    const avaxUSDPrice = Number(avaxPrice.bundle?.ethPrice);
+    const orcaUSDPrice = Number(orcaPrice.token?.derivedETH) * avaxUSDPrice;
+    const apr = ((rewardPerDay * 36500) / TVL) * orcaUSDPrice;
 
     return {
       loading: false,

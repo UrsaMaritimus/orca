@@ -2499,6 +2499,18 @@ export enum _SubgraphErrorPolicy_ {
   Deny = 'deny'
 }
 
+export type GetTokenPriceSubscriptionVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetTokenPriceSubscription = { __typename?: 'Subscription', token?: Maybe<{ __typename?: 'Token', id: string, derivedETH?: Maybe<any>, totalSupply: any }> };
+
+export type AvaxPriceSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AvaxPriceSubscription = { __typename?: 'Subscription', bundle?: Maybe<{ __typename?: 'Bundle', id: string, ethPrice: any }> };
+
 export type GetTokenDataSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -2506,12 +2518,69 @@ export type GetTokenDataSubscriptionVariables = Exact<{
 
 export type GetTokenDataSubscription = { __typename?: 'Subscription', pairs: Array<{ __typename?: 'Pair', id: string, reserveUSD: any, totalSupply: any }> };
 
-export type UsdcPriceSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
+export const GetTokenPriceDocument = gql`
+    subscription GetTokenPrice($id: ID!) @api(name: png) {
+  token(id: $id) {
+    id
+    derivedETH
+    totalSupply
+  }
+}
+    `;
 
-export type UsdcPriceSubscription = { __typename?: 'Subscription', token?: Maybe<{ __typename?: 'Token', derivedETH?: Maybe<any> }> };
+/**
+ * __useGetTokenPriceSubscription__
+ *
+ * To run a query within a React component, call `useGetTokenPriceSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useGetTokenPriceSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTokenPriceSubscription({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetTokenPriceSubscription(baseOptions: ApolloReactHooks.SubscriptionHookOptions<GetTokenPriceSubscription, GetTokenPriceSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useSubscription<GetTokenPriceSubscription, GetTokenPriceSubscriptionVariables>(GetTokenPriceDocument, options);
+      }
+export type GetTokenPriceSubscriptionHookResult = ReturnType<typeof useGetTokenPriceSubscription>;
+export type GetTokenPriceSubscriptionResult = Apollo.SubscriptionResult<GetTokenPriceSubscription>;
+export const AvaxPriceDocument = gql`
+    subscription AvaxPrice @api(name: png) {
+  bundle(id: "1") {
+    id
+    ethPrice
+  }
+}
+    `;
 
-
+/**
+ * __useAvaxPriceSubscription__
+ *
+ * To run a query within a React component, call `useAvaxPriceSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useAvaxPriceSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAvaxPriceSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAvaxPriceSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<AvaxPriceSubscription, AvaxPriceSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useSubscription<AvaxPriceSubscription, AvaxPriceSubscriptionVariables>(AvaxPriceDocument, options);
+      }
+export type AvaxPriceSubscriptionHookResult = ReturnType<typeof useAvaxPriceSubscription>;
+export type AvaxPriceSubscriptionResult = Apollo.SubscriptionResult<AvaxPriceSubscription>;
 export const GetTokenDataDocument = gql`
     subscription GetTokenData($id: ID!) @api(name: png) {
   pairs(first: 5, where: {id: $id}) {
@@ -2544,32 +2613,3 @@ export function useGetTokenDataSubscription(baseOptions: ApolloReactHooks.Subscr
       }
 export type GetTokenDataSubscriptionHookResult = ReturnType<typeof useGetTokenDataSubscription>;
 export type GetTokenDataSubscriptionResult = Apollo.SubscriptionResult<GetTokenDataSubscription>;
-export const UsdcPriceDocument = gql`
-    subscription UsdcPrice @api(name: png) {
-  token(id: "0xa7d7079b0fead91f3e65f86e8915cb59c1a4c664") {
-    derivedETH
-  }
-}
-    `;
-
-/**
- * __useUsdcPriceSubscription__
- *
- * To run a query within a React component, call `useUsdcPriceSubscription` and pass it any options that fit your needs.
- * When your component renders, `useUsdcPriceSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useUsdcPriceSubscription({
- *   variables: {
- *   },
- * });
- */
-export function useUsdcPriceSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<UsdcPriceSubscription, UsdcPriceSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<UsdcPriceSubscription, UsdcPriceSubscriptionVariables>(UsdcPriceDocument, options);
-      }
-export type UsdcPriceSubscriptionHookResult = ReturnType<typeof useUsdcPriceSubscription>;
-export type UsdcPriceSubscriptionResult = Apollo.SubscriptionResult<UsdcPriceSubscription>;

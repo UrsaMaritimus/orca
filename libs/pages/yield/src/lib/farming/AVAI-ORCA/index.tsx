@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { Farm } from '../Farm';
-import { useMonitorFarmAvai } from '../../YieldData/getYieldData';
+import { useMonitorFarms } from '../../YieldData/getYieldData';
 import { routes, tokenInfo } from '@orca/shared/base';
 
 type AvaiProps = {
@@ -17,7 +17,7 @@ export const AvaiOrcaFarm: FC<AvaiProps> = ({
   handleChange,
   expanded,
 }) => {
-  const { loading, data } = useMonitorFarmAvai(
+  const { loading, data } = useMonitorFarms(
     tokenInfo['AVAI-ORCA'].address.mainnet.toLowerCase(),
     account
   );

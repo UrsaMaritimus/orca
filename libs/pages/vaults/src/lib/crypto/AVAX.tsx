@@ -121,14 +121,15 @@ export const AvaxVaults: FC<PagesVaultsProps> = ({
             <Stack direction="row" alignItems="center" justifyContent="center">
               <Typography variant="h5" textAlign="center" color="grey.600">
                 Available to mint:{' '}
-                {fShortenNumber(
-                  utils.formatEther(
-                    BigNumber.from(bankData.bank.debtCeiling).sub(
-                      BigNumber.from(bankData.bank.totalDebt)
-                    )
-                  ),
-                  4
-                )}{' '}
+                {bankData.bank &&
+                  fShortenNumber(
+                    utils.formatEther(
+                      BigNumber.from(bankData.bank.debtCeiling).sub(
+                        BigNumber.from(bankData.bank.totalDebt)
+                      )
+                    ),
+                    4
+                  )}{' '}
                 AVAI
               </Typography>
               <IconButton
