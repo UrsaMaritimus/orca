@@ -3,9 +3,9 @@ import { useEffect, FC } from 'react';
 import type { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
 import useSWR from 'swr';
-import { Typography, Stack, Box, Grid } from '@mui/material';
+import { Typography, Box, Grid, Button } from '@mui/material';
 import { parseBalance } from '@orca/util';
-
+import { useSetRecoilState } from 'recoil';
 import { styled } from '@mui/material/styles';
 
 import contractAddresses from '@orca/shared/deployments';
@@ -13,7 +13,9 @@ import { AVAI__factory } from '@orca/shared/contracts';
 import { avaiBalance } from '@orca/shared/funcs';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
-const BalanceStyle = styled('div')(({ theme }) => ({
+import { seeAVAI } from './atom';
+
+const BalanceStyle = styled(Button)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(1, 1.5),
@@ -24,6 +26,7 @@ const BalanceStyle = styled('div')(({ theme }) => ({
 }));
 
 const AvaiBalance: FC = () => {
+  const setSeeAVAI = useSetRecoilState(seeAVAI);
   const { account, library, chainId } = useWeb3React<Web3Provider>();
   const shouldFetch = typeof account === 'string' && !!library;
   const { data: balance, mutate: avaiMutate } = useSWR(
@@ -54,8 +57,14 @@ const AvaiBalance: FC = () => {
     };
   }, [library, account, avaiMutate, chainId]);
 
+  const changeSeeAVAI = () => {
+    setSeeAVAI((seeAVAI) => {
+      return seeAVAI ? false : true;
+    });
+  };
+
   return (
-    <BalanceStyle>
+    <BalanceStyle onClick={changeSeeAVAI}>
       <Grid container alignItems="center">
         <Grid item xs={3} display="flex" justifyContent="center">
           <Box

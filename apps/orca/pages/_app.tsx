@@ -34,6 +34,7 @@ import { CollapseDrawerProvider } from '@orca/hooks';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import createEmotionCache from '../emotion';
 import { AccountInfo } from '@orca/components/account';
+import { BalanceInfoAVAI, BalanceInfoOrca } from '@orca/components/balance';
 
 //apollo
 import { ApolloProvider } from '@apollo/client';
@@ -76,6 +77,8 @@ export default function NextWeb3App(props: MyAppProps) {
                   </Head>
                   <Settings />
                   <AccountInfo />
+                  <BalanceInfoAVAI />
+                  <BalanceInfoOrca />
                   <Component {...pageProps} />
                   <CustomToaster />
                 </CollapseDrawerProvider>

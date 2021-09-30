@@ -47,7 +47,11 @@ export const AccountDialog: FC<StepperProps> = ({
       const accountInfo = account[token].filter(
         (val) => val.vaultID === vaultID
       )[0];
-      if (accountInfo) {
+      if (
+        accountInfo &&
+        accountInfo.collateral &&
+        !BigNumber.from(accountInfo.collateral).isZero()
+      ) {
         const closingFee = BigNumber.from(accountInfo.debt)
           .mul(vaultInfo.closingFee)
           .mul(vaultInfo.peg)

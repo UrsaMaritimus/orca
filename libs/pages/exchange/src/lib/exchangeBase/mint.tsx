@@ -4,6 +4,7 @@ import { Web3Provider } from '@ethersproject/providers';
 
 import { Icon } from '@iconify/react';
 import arrowheadDownOutline from '@iconify/icons-eva/arrowhead-down-outline';
+import externalLinkOutline from '@iconify/icons-eva/external-link-outline';
 
 import {
   Card,
@@ -24,6 +25,7 @@ import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { BigNumber, utils } from 'ethers';
 
+import { NextLink } from '@orca/components/links';
 import { Loader } from '@orca/components/loader';
 import {
   usdApprovedExchange,
@@ -31,7 +33,7 @@ import {
   mintFromExchange,
 } from '@orca/shared/funcs';
 import { fCurrency, fNumber, fPercent } from '@orca/util';
-import { tokenInfo } from '@orca/shared/base';
+import { tokenInfo, routes } from '@orca/shared/base';
 import {
   handleTransaction,
   useAddTransaction,
@@ -221,6 +223,21 @@ export const Mint: FC<MintProps> = ({
                 sx={{ width: 40, height: 40 }}
                 color="inherit"
               />
+            }
+            action={
+              <NextLink
+                href={routes.APP.CRYPTOS.USDC}
+                underline="hover"
+                variant="subtitle2"
+                color="secondary.dark"
+                alignItems="center"
+                display="flex"
+                rel="noreferrer"
+                target="_blank"
+              >
+                Get USDC
+                <Icon icon={externalLinkOutline} width={20} height={20} />
+              </NextLink>
             }
           />
 

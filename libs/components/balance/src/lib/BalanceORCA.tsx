@@ -3,17 +3,18 @@ import { useEffect, FC } from 'react';
 import type { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
 import useSWR from 'swr';
-import { Typography, Stack, Box, Grid } from '@mui/material';
+import { Typography, Box, Grid, Button } from '@mui/material';
 import { parseBalance } from '@orca/util';
-
+import { useSetRecoilState } from 'recoil';
 import { styled } from '@mui/material/styles';
 
 import contractAddresses from '@orca/shared/deployments';
 import { ORCA__factory } from '@orca/shared/contracts';
 import { orcaBalance } from '@orca/shared/funcs';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
+import { seeORCA } from './atom';
 
-const BalanceStyle = styled('div')(({ theme }) => ({
+const BalanceStyle = styled(Button)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(1, 1.5),
@@ -24,6 +25,7 @@ const BalanceStyle = styled('div')(({ theme }) => ({
 }));
 
 const OrcaBalance: FC = () => {
+  const setSeeORCA = useSetRecoilState(seeORCA);
   const { account, library, chainId } = useWeb3React<Web3Provider>();
   const shouldFetch = typeof account === 'string' && !!library;
   const { data: balance, mutate: orcaMutate } = useSWR(
@@ -54,8 +56,14 @@ const OrcaBalance: FC = () => {
     };
   }, [library, account, orcaMutate, chainId]);
 
+  const changeSeeORCA = () => {
+    setSeeORCA((seeORCA) => {
+      return seeORCA ? false : true;
+    });
+  };
+
   return (
-    <BalanceStyle>
+    <BalanceStyle onClick={changeSeeORCA}>
       <Grid container alignItems="center">
         <Grid item xs={3} display="flex" justifyContent="center">
           <Box

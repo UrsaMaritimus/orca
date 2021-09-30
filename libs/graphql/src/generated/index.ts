@@ -12,6 +12,7 @@ export {
   useUserStakedSubscription,
   useOrcaStatsSubscription,
   useOrcaPerSecQuery,
+  useAvaiStatsSubscription,
 } from './orca';
 export {
   useGetTokenDataSubscription,

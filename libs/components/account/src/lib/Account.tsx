@@ -10,12 +10,7 @@ import { Jazzicon } from '@ukstv/jazzicon-react';
 import { styled } from '@mui/material/styles';
 
 import { useEagerConnect } from '@orca/hooks';
-import {
-  shortenHex,
-  injected,
-  AVALANCHE_MAINNET_PARAMS,
-  AVALANCHE_TESTNET_PARAMS,
-} from '@orca/util';
+import { shortenHex, injected, AVALANCHE_MAINNET_PARAMS } from '@orca/util';
 import { seeAccount } from './atom';
 
 const ModifiedJazzicon = styled(Jazzicon)({

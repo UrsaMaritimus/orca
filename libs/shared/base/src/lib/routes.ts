@@ -1,5 +1,10 @@
 export const routes = {
   APP: {
+    CRYPTOS: {
+      AVAI: 'https://app.pangolin.exchange/#/swap?outputCurrency=0x346A59146b9b4a77100D369a3d18E8007A9F46a6',
+      ORCA: 'https://app.pangolin.exchange/#/swap?outputCurrency=0x8B1d98A91F853218ddbb066F20b8c63E782e2430',
+      USDC: 'https://app.pangolin.exchange/#/swap?outputCurrency=0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664',
+    },
     ROOT: '/',
     VAULTS: {
       USER: '/vaults',

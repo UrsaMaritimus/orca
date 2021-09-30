@@ -1510,6 +1510,11 @@ export enum _SubgraphErrorPolicy_ {
   Deny = 'deny'
 }
 
+export type AvaiStatsSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AvaiStatsSubscription = { __typename?: 'Subscription', stablecoin?: Maybe<{ __typename?: 'Stablecoin', id: string, totalSupply: any }> };
+
 export type BankInfoSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -1588,6 +1593,36 @@ export type VaultInfoSubscriptionVariables = Exact<{
 export type VaultInfoSubscription = { __typename?: 'Subscription', vault?: Maybe<{ __typename?: 'Vault', id: string, collateral: any, debt: any, bank: { __typename?: 'Bank', id: string, minimumCollateralPercentage: any, closingFee: any, openingFee: any, tokenPeg: any }, user: { __typename?: 'User', id: string } }> };
 
 
+export const AvaiStatsDocument = gql`
+    subscription AvaiStats @api(name: orca) {
+  stablecoin(id: "0x346A59146b9b4a77100D369a3d18E8007A9F46a6") {
+    id
+    totalSupply
+  }
+}
+    `;
+
+/**
+ * __useAvaiStatsSubscription__
+ *
+ * To run a query within a React component, call `useAvaiStatsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useAvaiStatsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAvaiStatsSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAvaiStatsSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<AvaiStatsSubscription, AvaiStatsSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useSubscription<AvaiStatsSubscription, AvaiStatsSubscriptionVariables>(AvaiStatsDocument, options);
+      }
+export type AvaiStatsSubscriptionHookResult = ReturnType<typeof useAvaiStatsSubscription>;
+export type AvaiStatsSubscriptionResult = Apollo.SubscriptionResult<AvaiStatsSubscription>;
 export const BankInfoDocument = gql`
     subscription BankInfo($id: ID!) @api(name: orca) {
   bank(id: $id) {

@@ -89,7 +89,7 @@ const CarouselItem: FC<CarouselItemProps> = ({ item, isActive }) => {
             <Grid item xs={6}>
               <Stack alignItems="center">
                 <Typography variant="h6">Debt</Typography>
-                <Typography variant="body2" color="warning.light">
+                <Typography variant="body2" color="error.light">
                   {fCurrency(Number(utils.formatEther(debt)))}
                 </Typography>
               </Stack>

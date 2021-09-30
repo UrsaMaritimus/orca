@@ -81,7 +81,7 @@ export const Infomatic: FC = () => {
               <Grid item xs={12} sm={8} display="flex" justifyContent="center">
                 <Stack alignItems="center">
                   <Typography variant="h6">Total Debt</Typography>
-                  <Typography variant="h4" color="warning.light">
+                  <Typography variant="h4" color="error.light">
                     {fCurrency(Number(utils.formatEther(data.totalDebt)))}
                   </Typography>
                 </Stack>
