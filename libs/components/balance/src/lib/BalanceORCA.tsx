@@ -74,7 +74,7 @@ const OrcaBalance: FC = () => {
             variant="button"
             sx={{
               color: (theme) =>
-                theme.palette.mode === 'light' ? 'grey.600' : 'grey.200',
+                theme.palette.mode === 'light' ? 'grey.800' : 'grey.200',
             }}
             textAlign="center"
           >

@@ -1,6 +1,11 @@
 import { BigNumber, utils } from 'ethers';
 import { tokenInfo } from '@orca/shared/base';
-import { useOrcaStatsSubscription, useOrcaPerSecQuery } from '@orca/graphql';
+import {
+  useOrcaStatsSubscription,
+  useOrcaPerSecQuery,
+  useGetTokenPriceSubscription,
+  useAvaxPriceSubscription,
+} from '@orca/graphql';
 
 import { useFrontPageYieldInfo } from './useFrontPageYieldFarm';
 import { useFrontPageInfo } from './useFrontPageAnalytics';
@@ -24,12 +29,22 @@ export const useFrontPageStats = () => {
     tokenInfo['USDC-AVAI'].address.mainnet.toLowerCase()
   );
 
+  const { data: orcaPrice } = useGetTokenPriceSubscription({
+    variables: {
+      id: tokenInfo['ORCA'].address.mainnet.toLowerCase(),
+    },
+  });
+
+  const { data: avaxPrice } = useAvaxPriceSubscription();
+
   if (
     !loading &&
     !bankLoading &&
     !orcaPerLoading &&
     !usdcLoading &&
-    !orcaLoading
+    !orcaLoading &&
+    orcaPrice &&
+    avaxPrice
   ) {
     const circulatingSupply = Number(
       utils.formatEther(BigNumber.from(data.orca.circulatingSupply))
@@ -43,13 +58,15 @@ export const useFrontPageStats = () => {
     const bankTVL = Number(utils.formatEther(bankData.totalCollateral));
     const TVL = orcaFarm.tvl + usdcFarm.tvl + bankTVL;
 
+    const avaxUSDPrice = Number(avaxPrice.bundle?.ethPrice);
+    const orcaUSDPrice = Number(orcaPrice.token?.derivedETH) * avaxUSDPrice;
+
     return {
       loading: false,
       data: {
         maxSupply,
         circulatingSupply,
-        //TODO: Adjust for actual price
-        marketcap: 0.2 * circulatingSupply,
+        marketcap: orcaUSDPrice * circulatingSupply,
         totalRevenue:
           Number(utils.formatUnits(bankData.exchangeTreasury, 6)) +
           Number(utils.formatEther(bankData.bankTreasury)) +

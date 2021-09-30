@@ -166,10 +166,10 @@ export const Deposit: FC<DepositProps> = ({
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Grid container>
-          <Grid item xs={4}>
+          <Grid item xs={3}>
             <Typography variant="subtitle1">Wallet:</Typography>
           </Grid>
-          <Grid item xs={8} display="flex" justifyContent="flex-end">
+          <Grid item xs={9} display="flex" justifyContent="flex-end">
             <Stack direction="row" alignItems="center" spacing={1}>
               <Box
                 component="img"

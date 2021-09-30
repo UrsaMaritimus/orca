@@ -37,7 +37,7 @@ const AvaxBalance = () => {
         />
         <Typography
           variant="button"
-          sx={{ color: theme === 'light' ? 'grey.600' : 'grey.200' }}
+          sx={{ color: theme === 'light' ? 'grey.800' : 'grey.200' }}
         >
           {data} AVAX
         </Typography>

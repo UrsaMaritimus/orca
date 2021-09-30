@@ -148,7 +148,7 @@ const NavBar: FC<Props> = ({ isOpenNav, onCloseNav }) => {
         }}
       >
         <Box sx={{ display: 'inline-flex' }}>
-          <NextLink href={routes.APP.VAULTS.USER}>
+          <NextLink href={routes.APP.ROOT}>
             <Logo />
           </NextLink>
         </Box>

@@ -58,8 +58,7 @@ export const Farming: FC = () => {
             mt: 3,
             mb: 3,
             borderRadius: 1,
-            bgcolor: (theme) =>
-              theme.palette.mode === 'light' ? 'grey.400' : 'warning.light',
+            bgcolor: 'warning.light',
           }}
         >
           <Typography variant="h6" textAlign="center" color="grey.600">
