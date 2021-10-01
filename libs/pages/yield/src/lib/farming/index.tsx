@@ -8,6 +8,7 @@ import { Page } from '@orca/components/page';
 
 import { AvaiOrcaFarm } from './AVAI-ORCA';
 import { AvaiUsdcFarm } from './AVAI-USDC';
+import { AvaxOrcaFarm } from './AVAX-ORCA';
 
 const RootStyle = styled(Page)(({ theme }) => ({
   paddingTop: theme.spacing(3),
@@ -45,6 +46,11 @@ export const Farming: FC = () => {
           handleChange={handleChange}
         />
         <AvaiUsdcFarm
+          account={account}
+          expanded={expanded}
+          handleChange={handleChange}
+        />
+        <AvaxOrcaFarm
           account={account}
           expanded={expanded}
           handleChange={handleChange}

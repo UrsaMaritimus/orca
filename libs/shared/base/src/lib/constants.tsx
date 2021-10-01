@@ -84,6 +84,15 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     erc20: 'AVAI-ORCA',
     display: 'AVAI-ORCA',
   },
+  'AVAX-ORCA': {
+    address: {
+      mainnet: '0x73e6CB72a79dEa7ed75EF5eD6f8cFf86C9128eF5'.toLowerCase(),
+      fuji: '',
+    },
+    icon: '/static/farm/ic_avax_orca.svg',
+    erc20: 'AVAX-ORCA',
+    display: 'AVAI-ORCA',
+  },
 };
 
 export const farms = [
@@ -98,6 +107,13 @@ export const farms = [
     name: 'USDC-AVAI',
     img: tokenInfo['USDC-AVAI'].icon,
     address: tokenInfo['USDC-AVAI'].address.mainnet,
+    reward: 'ORCA',
+    rewardImg: tokenInfo['ORCA'].icon,
+  },
+  {
+    name: 'AVAX-ORCA',
+    img: tokenInfo['AVAX-ORCA'].icon,
+    address: tokenInfo['AVAX-ORCA'].address.mainnet,
     reward: 'ORCA',
     rewardImg: tokenInfo['ORCA'].icon,
   },
