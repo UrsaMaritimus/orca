@@ -5,7 +5,7 @@ import '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
 import '@openzeppelin/contracts/security/ReentrancyGuard.sol';
 import '@openzeppelin/contracts/access/Ownable.sol';
 
-// Altered from PodLeader for single staking, no fee, and returns ERC20 for voting rights with snapshot
+// Altered from PodLeader for single staking and no fee
 contract OrcaStaking is Ownable, ReentrancyGuard {
   using SafeERC20 for IERC20;
 
@@ -33,7 +33,6 @@ contract OrcaStaking is Ownable, ReentrancyGuard {
     uint256 lastRewardTimestamp; // Last timestamp where reward tokens were distributed.
     uint256 accRewardsPerShare; // Accumulated reward tokens per share, times 1e12. See below.
     uint256 totalStaked; // Total amount of token staked via Rewards Manager
-    uint16 depositFeeBP; // Deposit fee in basis points
   }
 
   IERC20 public orca;
@@ -60,12 +59,7 @@ contract OrcaStaking is Ownable, ReentrancyGuard {
   uint256 public endTimestamp;
 
   /// @notice Event emitted when a user deposits funds in the rewards manager
-  event Deposit(
-    address indexed user,
-    uint256 indexed pid,
-    uint256 amount,
-    uint256 fee
-  );
+  event Deposit(address indexed user, uint256 indexed pid, uint256 amount);
 
   /// @notice Event emitted when a user withdraws their original funds + rewards from the rewards manager
   event Withdraw(address indexed user, uint256 indexed pid, uint256 amount);
@@ -83,8 +77,7 @@ contract OrcaStaking is Ownable, ReentrancyGuard {
     address indexed token,
     uint256 allocPoints,
     uint256 totalAllocPoints,
-    uint256 rewardStartTimestamp,
-    uint16 depositFeeBP
+    uint256 rewardStartTimestamp
   );
 
   /// @notice Event emitted when pool allocation points are updated
@@ -123,9 +116,6 @@ contract OrcaStaking is Ownable, ReentrancyGuard {
     address indexed newAddress
   );
 
-  /// @notice Event emitted when deposit fee is updated
-  event DepositFeeUpdated(uint256 indexed pid, uint16 oldFee, uint16 newFee);
-
   /**
    * @notice Create a new Rewards Manager contract
    * @param _startTimestamp timestamp when rewards will start
@@ -148,6 +138,17 @@ contract OrcaStaking is Ownable, ReentrancyGuard {
 
     treasury = _treasury;
     emit ChangedTreasury(address(0), _treasury);
+  }
+
+  /**
+   * @dev Only relayer or owner can add to this
+   */
+  modifier onlyRelayerOrOwner() {
+    require(
+      owner() == msg.sender || msg.sender == treasury,
+      'Cannot do this, not owner or treasury.'
+    );
+    _;
   }
 
   receive() external payable {}
@@ -173,8 +174,7 @@ contract OrcaStaking is Ownable, ReentrancyGuard {
    * @notice Add rewards to contract
    * @dev Can only be called by the owner
    */
-  function addRewardsBalance(uint256 amount) external onlyOwner {
-    orca.safeTransferFrom(msg.sender, address(this), amount);
+  function addRewardsBalance() external payable onlyRelayerOrOwner {
     _setRewardsEndTimestamp();
   }
 
@@ -184,13 +184,11 @@ contract OrcaStaking is Ownable, ReentrancyGuard {
    * @param allocPoint Number of allocation points to allot to this token/pool
    * @param token The token that will be staked for rewards
    * @param withUpdate if specified, update all pools before adding new pool
-   * @param _depositFeeBp If true, users get voting power for deposits
    */
   function add(
     uint256 allocPoint,
     address token,
-    bool withUpdate,
-    uint16 _depositFeeBp
+    bool withUpdate
   ) external onlyOwner {
     if (withUpdate) {
       massUpdatePools();
@@ -208,8 +206,7 @@ contract OrcaStaking is Ownable, ReentrancyGuard {
         allocPoint: allocPoint,
         lastRewardTimestamp: rewardStartTimestamp,
         accRewardsPerShare: 0,
-        totalStaked: 0,
-        depositFeeBP: _depositFeeBp
+        totalStaked: 0
       })
     );
     emit PoolAdded(
@@ -217,8 +214,7 @@ contract OrcaStaking is Ownable, ReentrancyGuard {
       token,
       allocPoint,
       totalAllocPoint,
-      rewardStartTimestamp,
-      _depositFeeBp
+      rewardStartTimestamp
     );
   }
 
@@ -245,26 +241,6 @@ contract OrcaStaking is Ownable, ReentrancyGuard {
       totalAllocPoint
     );
     poolInfo[pid].allocPoint = allocPoint;
-  }
-
-  /**
-   * @notice Update the given pool's deposit fee
-   * @dev Can only be called by the owner
-   * @param pid The RewardManager pool id
-   * @param depositFee New deposit fee for the pool, in basis points
-   * @param withUpdate if specified, update all pools before updated deposit fee
-   */
-  function updateDepositFee(
-    uint256 pid,
-    uint16 depositFee,
-    bool withUpdate
-  ) external onlyOwner {
-    if (withUpdate) {
-      massUpdatePools();
-    }
-
-    emit DepositFeeUpdated(pid, poolInfo[pid].depositFeeBP, depositFee);
-    poolInfo[pid].depositFeeBP = depositFee;
   }
 
   /**
@@ -442,25 +418,18 @@ contract OrcaStaking is Ownable, ReentrancyGuard {
         user.rewardTokenDebt;
 
       if (pendingRewardAmount > 0) {
-        _safeRewardsTransfer(msg.sender, pendingRewardAmount);
+        _safeRewardsTransfer(payable(msg.sender), pendingRewardAmount);
       }
     }
 
     pool.token.safeTransferFrom(msg.sender, address(this), amount);
 
-    uint256 depositFee = (amount * pool.depositFeeBP) / 10000;
-    if (depositFee > 0) {
-      pool.token.safeTransfer(treasury, depositFee);
-      pool.totalStaked = pool.totalStaked + amount - depositFee;
-      user.amount = user.amount + amount - depositFee;
-    } else {
-      pool.totalStaked = pool.totalStaked + amount;
-      user.amount = user.amount + amount;
-    }
+    pool.totalStaked = pool.totalStaked + amount;
+    user.amount = user.amount + amount;
 
     user.rewardTokenDebt = (user.amount * pool.accRewardsPerShare) / 1e12;
 
-    emit Deposit(msg.sender, pid, amount, depositFee);
+    emit Deposit(msg.sender, pid, amount);
   }
 
   /**
@@ -490,7 +459,7 @@ contract OrcaStaking is Ownable, ReentrancyGuard {
     user.rewardTokenDebt = (user.amount * pool.accRewardsPerShare) / 1e12;
 
     if (pendingRewardAmount > 0) {
-      _safeRewardsTransfer(msg.sender, pendingRewardAmount);
+      _safeRewardsTransfer(payable(msg.sender), pendingRewardAmount);
     }
 
     pool.totalStaked = pool.totalStaked - amount;
@@ -504,12 +473,12 @@ contract OrcaStaking is Ownable, ReentrancyGuard {
    * @param to account that is receiving rewards
    * @param amount amount of rewards to send
    */
-  function _safeRewardsTransfer(address to, uint256 amount) internal {
-    uint256 rewardTokenBalance = orca.balanceOf(address(this));
+  function _safeRewardsTransfer(address payable to, uint256 amount) internal {
+    uint256 rewardTokenBalance = address(this).balance;
     if (amount > rewardTokenBalance) {
-      orca.safeTransfer(to, rewardTokenBalance);
+      to.transfer(rewardTokenBalance);
     } else {
-      orca.safeTransfer(to, amount);
+      to.transfer(amount);
     }
   }
 
@@ -522,7 +491,7 @@ contract OrcaStaking is Ownable, ReentrancyGuard {
         ? block.timestamp
         : startTimestamp;
       uint256 newEndTimestamp = rewardFromTimestamp +
-        (orca.balanceOf(address(this)) / rewardsPerSecond);
+        (address(this).balance / rewardsPerSecond);
       if (
         newEndTimestamp > rewardFromTimestamp && newEndTimestamp != endTimestamp
       ) {
