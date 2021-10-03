@@ -112,7 +112,7 @@ export const WithdrawStepper: FC<StepperProps> = ({
         library,
         vaultID,
         values.withdrawAmount,
-        tokenInfo[token as string].erc20,
+        tokenInfo[token].erc20,
         chainId
       ),
       messages: {
@@ -173,7 +173,7 @@ export const WithdrawStepper: FC<StepperProps> = ({
                   <Stack direction="row" alignItems="center" spacing={1}>
                     <Box
                       component="img"
-                      src={tokenInfo[token as string].icon}
+                      src={tokenInfo[token].icon}
                       sx={{
                         width: 15,
 
@@ -184,7 +184,7 @@ export const WithdrawStepper: FC<StepperProps> = ({
                     <Typography variant="h6" textAlign="center">
                       {`${fNumber(
                         Number(utils.formatEther(vaultInfo.availableWithdraw))
-                      )} ${token}`}
+                      )} ${tokenInfo[token].display}`}
                     </Typography>
                   </Stack>
                 </Grid>
@@ -201,7 +201,7 @@ export const WithdrawStepper: FC<StepperProps> = ({
                       <InputAdornment position="start">
                         <Box
                           component="img"
-                          src={tokenInfo[token as string].icon}
+                          src={tokenInfo[token].icon}
                           sx={{
                             width: 25,
 
@@ -296,7 +296,7 @@ export const WithdrawStepper: FC<StepperProps> = ({
                     <Stack direction="row" spacing={0.5} alignItems={'center'}>
                       <Box
                         component="img"
-                        src={tokenInfo[token as string].icon}
+                        src={tokenInfo[token].icon}
                         sx={{
                           width: 15,
 
@@ -308,7 +308,7 @@ export const WithdrawStepper: FC<StepperProps> = ({
                         {values.withdrawAmount}
                       </Typography>
                       <Typography sx={{ ml: 0.5 }} variant="caption">
-                        {token}
+                        {tokenInfo[token].display}
                       </Typography>
                     </Stack>
                     <Typography

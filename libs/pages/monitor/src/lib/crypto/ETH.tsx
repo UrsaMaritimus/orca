@@ -17,7 +17,7 @@ export interface PagesVaultsProps {
   account: string;
 }
 
-export const AvaxVaults: FC<PagesVaultsProps> = ({
+export const EthVaults: FC<PagesVaultsProps> = ({
   library,
   chainId,
   account,
@@ -25,7 +25,7 @@ export const AvaxVaults: FC<PagesVaultsProps> = ({
   const { loading, rows: badVaults } = useMonitorVaults(
     library,
     chainId,
-    'wavax'
+    'weth'
   );
 
   if (typeof account === 'string' && badVaults && !loading) {
@@ -38,19 +38,19 @@ export const AvaxVaults: FC<PagesVaultsProps> = ({
           }}
         >
           <CardHeader
-            title={'AVAX Vault Monitor'}
-            subheader={'Vaults close to liquidation (above 50%)'}
+            title={'WETH.e Vault Monitor'}
+            subheader={'Vaults close to liquidation (above 57.5%)'}
             avatar={
               <Box
                 component="img"
-                src="/static/cryptos/ic_avax.svg"
+                src="/static/cryptos/ic_eth.svg"
                 sx={{ width: 40, height: 40 }}
                 color="inherit"
               />
             }
           />
           {badVaults.length > 0 && badVaults[0] ? (
-            <Table rows={badVaults} collateralType={'AVAX'} />
+            <Table rows={badVaults} collateralType={'ETH'} />
           ) : (
             <Typography
               variant="h4"
@@ -61,7 +61,7 @@ export const AvaxVaults: FC<PagesVaultsProps> = ({
             </Typography>
           )}
         </Card>
-        <VaultReward token="AVAX" />
+        <VaultReward token="ETH" />
       </div>
     );
   }

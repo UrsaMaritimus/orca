@@ -139,7 +139,7 @@ export const RepayStepper: FC<StepperProps> = ({
         library,
         vaultID,
         values.repayAmount,
-        tokenInfo[token as string].erc20,
+        tokenInfo[token].erc20,
         chainId
       ),
       messages: {
@@ -340,7 +340,7 @@ export const RepayStepper: FC<StepperProps> = ({
                         values.repayAmount /
                           Number(utils.formatUnits(vaultInfo.tokenPrice, 8))
                       )}{' '}
-                      {token}
+                      {tokenInfo[token].display}
                     </Typography>
                   </Stack>
                 </Grid>

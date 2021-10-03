@@ -13,6 +13,7 @@ export {
   useOrcaStatsSubscription,
   useOrcaPerSecQuery,
   useAvaiStatsSubscription,
+  useBankMcpSubscription,
 } from './orca';
 export {
   useGetTokenDataSubscription,

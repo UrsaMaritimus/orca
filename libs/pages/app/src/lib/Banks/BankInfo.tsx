@@ -58,11 +58,25 @@ const CarouselItem: FC<CarouselItemProps> = ({ item, isActive }) => {
       }}
     >
       <CardHeader
-        title={filter(tokenInfo, (info) => info.erc20 === name)[0].display}
+        title={
+          filter(
+            tokenInfo,
+            (info) =>
+              info.erc20 === name ||
+              info.display.toLowerCase() === name.toLowerCase()
+          )[0].display
+        }
         avatar={
           <Box
             component="img"
-            src={filter(tokenInfo, (info) => info.erc20 === name)[0].icon}
+            src={
+              filter(
+                tokenInfo,
+                (info) =>
+                  info.erc20 === name ||
+                  info.display.toLowerCase() === name.toLowerCase()
+              )[0].icon
+            }
             sx={{ width: 40, height: 40 }}
             color="inherit"
           />

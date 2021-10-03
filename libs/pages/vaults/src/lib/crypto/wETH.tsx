@@ -33,20 +33,20 @@ export interface PagesVaultsProps {
   chainId: number;
 }
 
-export const AvaxVaults: FC<PagesVaultsProps> = ({
+export const EthVaults: FC<PagesVaultsProps> = ({
   account,
   library,
   chainId,
 }) => {
-  const { loading, rows } = useGetVaults(library, chainId, account, 'wavax');
+  const { loading, rows } = useGetVaults(library, chainId, account, 'weth');
   const { data: bankData } = useBankInfoSubscription({
-    variables: { id: getContract(chainId, 'wavax').toLowerCase() },
+    variables: { id: getContract(chainId, 'weth').toLowerCase() },
   });
 
   // For creating a vault
   const createVault = async () => {
     await handleTransaction({
-      transaction: makeVault(library, 'wavax', chainId),
+      transaction: makeVault(library, 'weth', chainId),
       messages: {
         loading: 'Creating vault...',
         success: 'Vault created!',
@@ -71,11 +71,11 @@ export const AvaxVaults: FC<PagesVaultsProps> = ({
       <div>
         <Card>
           <CardHeader
-            title={'AVAX Vaults'}
+            title={'wETH.e Vaults'}
             avatar={
               <Box
                 component="img"
-                src="/static/cryptos/ic_avax.svg"
+                src="/static/cryptos/ic_eth.svg"
                 sx={{ width: 35, height: 35 }}
                 color="inherit"
               />
@@ -93,7 +93,7 @@ export const AvaxVaults: FC<PagesVaultsProps> = ({
             }
           />
           {rows.length > 0 ? (
-            <MainTable rows={rows} collateralType={'AVAX'} debtType={'AVAI'} />
+            <MainTable rows={rows} collateralType={'ETH'} debtType={'AVAI'} />
           ) : (
             <Typography
               variant="h4"

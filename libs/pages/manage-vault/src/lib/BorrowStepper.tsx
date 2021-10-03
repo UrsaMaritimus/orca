@@ -114,7 +114,7 @@ export const BorrowStepper: FC<StepperProps> = ({
         library,
         vaultID,
         values.borrowAmount,
-        tokenInfo[token as string].erc20,
+        tokenInfo[token].erc20,
         chainId
       ),
       messages: {
@@ -327,7 +327,7 @@ export const BorrowStepper: FC<StepperProps> = ({
                         values.borrowAmount /
                           Number(utils.formatUnits(vaultInfo.tokenPrice, 8))
                       )}{' '}
-                      {token}
+                      {tokenInfo[token].display}
                     </Typography>
                   </Stack>
                 </Grid>

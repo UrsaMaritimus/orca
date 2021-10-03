@@ -33,10 +33,10 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
   ETH: {
     address: {
       mainnet: '0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB'.toLowerCase(),
-      fuji: '',
+      fuji: contracts.fuji.ORCA.address.toLowerCase(), // Easier for testing, use same token
     },
     icon: '/static/cryptos/ic_eth.svg',
-    erc20: 'weth.e',
+    erc20: 'weth',
     display: 'WETH.e',
   },
   BTC: {
@@ -87,7 +87,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
   'AVAX-ORCA': {
     address: {
       mainnet: '0x73e6CB72a79dEa7ed75EF5eD6f8cFf86C9128eF5'.toLowerCase(),
-      fuji: '',
+      fuji: '0x12C97f42bc55Ee0aC369A3ED683179114a9Edd75'.toLowerCase(),
     },
     icon: '/static/farm/ic_avax_orca.svg',
     erc20: 'AVAX-ORCA',

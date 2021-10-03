@@ -33,6 +33,7 @@ export const getTokenBalance = () => {
     return token.balanceOf(account);
   };
 };
+
 // swr function
 export const getRewardBalance = () => {
   return async (

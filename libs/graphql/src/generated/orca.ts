@@ -1412,6 +1412,7 @@ export type Vault = {
   collateral: Scalars['BigInt'];
   debt: Scalars['BigInt'];
   id: Scalars['ID'];
+  number: Scalars['Int'];
   user: User;
 };
 
@@ -1454,6 +1455,14 @@ export type Vault_Filter = {
   id_lte?: Maybe<Scalars['ID']>;
   id_not?: Maybe<Scalars['ID']>;
   id_not_in?: Maybe<Array<Scalars['ID']>>;
+  number?: Maybe<Scalars['Int']>;
+  number_gt?: Maybe<Scalars['Int']>;
+  number_gte?: Maybe<Scalars['Int']>;
+  number_in?: Maybe<Array<Scalars['Int']>>;
+  number_lt?: Maybe<Scalars['Int']>;
+  number_lte?: Maybe<Scalars['Int']>;
+  number_not?: Maybe<Scalars['Int']>;
+  number_not_in?: Maybe<Array<Scalars['Int']>>;
   user?: Maybe<Scalars['String']>;
   user_contains?: Maybe<Scalars['String']>;
   user_ends_with?: Maybe<Scalars['String']>;
@@ -1475,6 +1484,7 @@ export enum Vault_OrderBy {
   Collateral = 'collateral',
   Debt = 'debt',
   Id = 'id',
+  Number = 'number',
   User = 'user'
 }
 
@@ -1557,11 +1567,18 @@ export type UserStakedSubscriptionVariables = Exact<{
 export type UserStakedSubscription = { __typename?: 'Subscription', user?: Maybe<{ __typename?: 'User', pools?: Maybe<Array<{ __typename?: 'PoolUser', staked: any, pool: { __typename?: 'Pool', pair: any } }>> }> };
 
 export type MonitorVaultsSubscriptionVariables = Exact<{
-  bankID?: Maybe<Scalars['String']>;
+  bankID: Scalars['String'];
 }>;
 
 
-export type MonitorVaultsSubscription = { __typename?: 'Subscription', vaults: Array<{ __typename?: 'Vault', collateral: any, debt: any, id: string }> };
+export type MonitorVaultsSubscription = { __typename?: 'Subscription', vaults: Array<{ __typename?: 'Vault', number: number, collateral: any, debt: any, id: string }> };
+
+export type BankMcpSubscriptionVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type BankMcpSubscription = { __typename?: 'Subscription', bank?: Maybe<{ __typename?: 'Bank', minimumCollateralPercentage: any }> };
 
 export type OrcaStatsSubscriptionVariables = Exact<{
   id: Scalars['ID'];
@@ -1575,7 +1592,7 @@ export type GetUserVaultsQueryVariables = Exact<{
 }>;
 
 
-export type GetUserVaultsQuery = { __typename?: 'Query', user?: Maybe<{ __typename?: 'User', vaults?: Maybe<Array<{ __typename?: 'Vault', id: string, debt: any, collateral: any, bank: { __typename?: 'Bank', treasury: any } }>> }> };
+export type GetUserVaultsQuery = { __typename?: 'Query', user?: Maybe<{ __typename?: 'User', vaults?: Maybe<Array<{ __typename?: 'Vault', id: string, number: number, debt: any, collateral: any, bank: { __typename?: 'Bank', treasury: any } }>> }> };
 
 export type UserVaultsSubscriptionVariables = Exact<{
   user: Scalars['String'];
@@ -1583,14 +1600,14 @@ export type UserVaultsSubscriptionVariables = Exact<{
 }>;
 
 
-export type UserVaultsSubscription = { __typename?: 'Subscription', vaults: Array<{ __typename?: 'Vault', id: string, collateral: any, debt: any, bank: { __typename?: 'Bank', treasury: any } }> };
+export type UserVaultsSubscription = { __typename?: 'Subscription', vaults: Array<{ __typename?: 'Vault', id: string, collateral: any, number: number, debt: any, bank: { __typename?: 'Bank', treasury: any } }> };
 
 export type VaultInfoSubscriptionVariables = Exact<{
   vaultID: Scalars['ID'];
 }>;
 
 
-export type VaultInfoSubscription = { __typename?: 'Subscription', vault?: Maybe<{ __typename?: 'Vault', id: string, collateral: any, debt: any, bank: { __typename?: 'Bank', id: string, minimumCollateralPercentage: any, closingFee: any, openingFee: any, tokenPeg: any }, user: { __typename?: 'User', id: string } }> };
+export type VaultInfoSubscription = { __typename?: 'Subscription', vault?: Maybe<{ __typename?: 'Vault', id: string, collateral: any, number: number, debt: any, bank: { __typename?: 'Bank', id: string, minimumCollateralPercentage: any, closingFee: any, openingFee: any, tokenPeg: any }, user: { __typename?: 'User', id: string } }> };
 
 
 export const AvaiStatsDocument = gql`
@@ -1862,8 +1879,9 @@ export function useUserStakedSubscription(baseOptions: ApolloReactHooks.Subscrip
 export type UserStakedSubscriptionHookResult = ReturnType<typeof useUserStakedSubscription>;
 export type UserStakedSubscriptionResult = Apollo.SubscriptionResult<UserStakedSubscription>;
 export const MonitorVaultsDocument = gql`
-    subscription MonitorVaults($bankID: String) @api(name: orca) {
+    subscription MonitorVaults($bankID: String!) @api(name: orca) {
   vaults(where: {bank: $bankID, debt_gt: 0}) {
+    number
     collateral
     debt
     id
@@ -1887,12 +1905,42 @@ export const MonitorVaultsDocument = gql`
  *   },
  * });
  */
-export function useMonitorVaultsSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<MonitorVaultsSubscription, MonitorVaultsSubscriptionVariables>) {
+export function useMonitorVaultsSubscription(baseOptions: ApolloReactHooks.SubscriptionHookOptions<MonitorVaultsSubscription, MonitorVaultsSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return ApolloReactHooks.useSubscription<MonitorVaultsSubscription, MonitorVaultsSubscriptionVariables>(MonitorVaultsDocument, options);
       }
 export type MonitorVaultsSubscriptionHookResult = ReturnType<typeof useMonitorVaultsSubscription>;
 export type MonitorVaultsSubscriptionResult = Apollo.SubscriptionResult<MonitorVaultsSubscription>;
+export const BankMcpDocument = gql`
+    subscription BankMCP($id: ID!) @api(name: orca) {
+  bank(id: $id) {
+    minimumCollateralPercentage
+  }
+}
+    `;
+
+/**
+ * __useBankMcpSubscription__
+ *
+ * To run a query within a React component, call `useBankMcpSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useBankMcpSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBankMcpSubscription({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useBankMcpSubscription(baseOptions: ApolloReactHooks.SubscriptionHookOptions<BankMcpSubscription, BankMcpSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useSubscription<BankMcpSubscription, BankMcpSubscriptionVariables>(BankMcpDocument, options);
+      }
+export type BankMcpSubscriptionHookResult = ReturnType<typeof useBankMcpSubscription>;
+export type BankMcpSubscriptionResult = Apollo.SubscriptionResult<BankMcpSubscription>;
 export const OrcaStatsDocument = gql`
     subscription OrcaStats($id: ID!) @api(name: orca) {
   orca(id: $id) {
@@ -1930,6 +1978,7 @@ export const GetUserVaultsDocument = gql`
   user(id: $id) {
     vaults {
       id
+      number
       debt
       collateral
       bank {
@@ -1972,6 +2021,7 @@ export const UserVaultsDocument = gql`
   vaults(where: {user: $user, bank: $bank}) {
     id
     collateral
+    number
     debt
     bank {
       treasury
@@ -2008,6 +2058,7 @@ export const VaultInfoDocument = gql`
   vault(id: $vaultID) {
     id
     collateral
+    number
     debt
     bank {
       id

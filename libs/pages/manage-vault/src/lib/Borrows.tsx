@@ -106,7 +106,7 @@ export const Borrows: FC<ActionProps> = ({
                     ),
                     2
                   )}{' '}
-                  {token}
+                  {tokenInfo[token].display}
                 </Typography>
               </Grid>
             </Grid>
@@ -154,7 +154,7 @@ export const Borrows: FC<ActionProps> = ({
                       )
                     )
                   )}{' '}
-                  {token}
+                  {tokenInfo[token].display}
                 </Typography>
               </Grid>
             </Grid>
@@ -311,10 +311,10 @@ export const Borrows: FC<ActionProps> = ({
             Loan to Value Ratio
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>
-            The loan to value ratio signifies how much of your {token}{' '}
-            collateral can be used to borrow against. For example, given $100
-            USD worth of {token}, you can borrow {fCurrency(vaultInfo.maxLTV)}{' '}
-            USD worth.
+            The loan to value ratio signifies how much of your{' '}
+            {tokenInfo[token].display} collateral can be used to borrow against.
+            For example, given $100 USD worth of {tokenInfo[token].display}, you
+            can borrow {fCurrency(vaultInfo.maxLTV)} USD worth.
           </Typography>
           <ColorBar />
           <Grid container>

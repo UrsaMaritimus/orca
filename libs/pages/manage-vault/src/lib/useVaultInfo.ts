@@ -5,25 +5,33 @@ import { Web3Provider } from '@ethersproject/providers';
 import useSwr from 'swr';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
-import { getContract, bankPrice } from '@orca/shared/funcs';
+import { bankPrice } from '@orca/shared/funcs';
 import { useVaultInfoSubscription } from '@orca/graphql';
+import { VaultContracts } from '@orca/shared/contracts';
 
 export const useGetVaultInfo = (
   library: Web3Provider,
   chainId: number,
   vaultID: string,
-  account: string
+  account: string,
+  vaultType: string
 ) => {
   const shouldFetch = !!library;
   const { data: vaultData, loading } = useVaultInfoSubscription({
     variables: {
-      vaultID: '0x' + Number(vaultID).toString(16),
+      vaultID:
+        '0x' +
+        Number(vaultID).toString(16) +
+        '-' +
+        (chainId === 43114
+          ? VaultContracts.mainnet[vaultType]
+          : VaultContracts.fuji[vaultType]),
     },
   });
 
   // Grab bank prices
   const { data: price, mutate: priceMutate } = useSwr(
-    shouldFetch ? ['getAvaxPrice', library, 'wavax', chainId] : null,
+    shouldFetch ? [`get${vaultType}Price`, library, vaultType, chainId] : null,
     bankPrice()
   );
   useKeepSWRDataLiveAsBlocksArrive(priceMutate);

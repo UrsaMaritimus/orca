@@ -20,6 +20,7 @@ import { Page } from '@orca/components/page';
 import { Connect } from '@orca/components/connect';
 
 import { AvaxVaults } from './crypto/AVAX';
+import { EthVaults } from './crypto/ETH';
 
 const RootStyle = styled(Page)(({ theme }) => ({
   paddingTop: theme.spacing(3),
@@ -46,10 +47,12 @@ const collaterals = (
     title: 'AVAX',
   },
   {
-    disabled: true,
+    disabled: false,
     icon: '/static/cryptos/ic_eth.svg',
     value: '2',
-    component: <> </>,
+    component: (
+      <EthVaults library={library} account={account} chainId={chainId} />
+    ),
     title: 'ETH',
   },
   {

@@ -11,19 +11,20 @@ import { useUserVaultsSubscription } from '@orca/graphql';
 export const useGetVaults = (
   library: Web3Provider,
   chainId: number,
-  account: string
+  account: string,
+  vaultType: string
 ) => {
   const shouldFetch = !!library;
   const { data: vaultData } = useUserVaultsSubscription({
     variables: {
       user: account.toLowerCase(),
-      bank: getContract(chainId, 'wavax').toLowerCase(),
+      bank: getContract(chainId, vaultType).toLowerCase(),
     },
   });
 
   // Grab bank prices
   const { data: price, mutate: priceMutate } = useSwr(
-    shouldFetch ? ['getAvaxPrice', library, 'wavax', chainId] : null,
+    shouldFetch ? ['getAvaxPrice', library, vaultType, chainId] : null,
     bankPrice()
   );
   useKeepSWRDataLiveAsBlocksArrive(priceMutate);
@@ -43,7 +44,7 @@ export const useGetVaults = (
                   .div(collateral.mul(price.price))
                   .toNumber() / 100;
             return {
-              vaultID: BigNumber.from(vault.id).toNumber().toString(),
+              vaultID: BigNumber.from(vault.number).toNumber().toString(),
               collateral:
                 vault.id === '0x1'
                   ? utils.formatEther(vault.bank.treasury)

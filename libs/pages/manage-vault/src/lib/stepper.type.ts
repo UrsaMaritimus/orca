@@ -19,7 +19,7 @@ export type VaultInfo = {
 };
 
 export type StepperProps = {
-  token: 'AVAX';
+  token: 'AVAX' | 'ETH';
   approved?: boolean;
   vaultID: number;
   vaultInfo: {

@@ -37,7 +37,12 @@ import useSWR from 'swr';
 import { Loader } from '@orca/components/loader';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 import { colorScale, fCurrency, fNumber, fPercent } from '@orca/util';
-import { depositCollateral } from '@orca/shared/funcs';
+import {
+  depositCollateral,
+  getTokenBalance,
+  tokenApproved,
+  approveToken,
+} from '@orca/shared/funcs';
 
 import { tokenInfo } from '@orca/shared/base';
 import { StepperProps } from './stepper.type';
@@ -60,25 +65,42 @@ const getAVAXBalance = (library: Web3Provider) => {
 
 export const DepositStepper: FC<StepperProps> = ({
   token,
-  approved,
   vaultInfo,
   vaultID,
 }) => {
+  const [approving, setApproving] = useState<boolean>(false);
   // Set steps
-  let steps: string[];
-  approved
-    ? (steps = ['How much to deposit', 'Deposit'])
-    : (steps = ['How much to deposit', 'Approve Token', 'Deposit']);
-
+  const steps = ['How much to deposit', 'Deposit'];
   // web3 init info
   const { account, library, chainId } = useWeb3React<Web3Provider>();
   const shouldFetch = !!library;
+
+  // If AVAX
   const { data: AVAXBalance, mutate } = useSWR(
-    shouldFetch ? ['DepositAVAXBalance', account, chainId] : null,
+    shouldFetch && token === 'AVAX'
+      ? ['DepositAVAXBalance', account, chainId]
+      : null,
     getAVAXBalance(library)
   );
 
+  // IF NOT AVAX. sorry, ugly code here
+  const { data: TokenBalance, mutate: tokenMutate } = useSWR(
+    shouldFetch && token !== 'AVAX'
+      ? [
+          'DepositTokenBalance',
+          library,
+          account,
+          chainId === 43114
+            ? tokenInfo[token].address.mainnet
+            : tokenInfo[token].address.fuji,
+        ]
+      : null,
+    getTokenBalance()
+  );
+
   useKeepSWRDataLiveAsBlocksArrive(mutate);
+  useKeepSWRDataLiveAsBlocksArrive(tokenMutate);
+
   const addTransaction = useAddTransaction();
 
   const [activeStep, setActiveStep] = useState(0);
@@ -101,7 +123,15 @@ export const DepositStepper: FC<StepperProps> = ({
       .required('Deposit amount required')
       .moreThan(0, 'Must be larger than zero.')
       .positive('Must be positive')
-      .max(Number(AVAXBalance)),
+      .max(
+        Number(
+          token === 'AVAX'
+            ? AVAXBalance
+            : TokenBalance
+            ? utils.formatEther(TokenBalance)
+            : 0
+        )
+      ),
   });
   const formik = useFormik({
     initialValues: {
@@ -123,6 +153,26 @@ export const DepositStepper: FC<StepperProps> = ({
   const { errors, touched, values, handleSubmit, getFieldProps, resetForm } =
     formik;
 
+  const { data: TokenApproved, mutate: tokenApprovedMutate } = useSWR(
+    shouldFetch && token !== 'AVAX'
+      ? [
+          `${token}ApprovedDepositBank'`,
+          library,
+          account,
+          token,
+          chainId,
+          values.depositAmount && values.depositAmount > 0
+            ? Number(values.depositAmount)
+            : TokenBalance
+            ? Number(utils.formatEther(TokenBalance))
+            : 100000,
+          tokenInfo[token].erc20,
+        ]
+      : null,
+    tokenApproved()
+  );
+  useKeepSWRDataLiveAsBlocksArrive(tokenApprovedMutate);
+
   const handleDeposit = async () => {
     handleNext();
     const success = await handleTransaction({
@@ -130,7 +180,7 @@ export const DepositStepper: FC<StepperProps> = ({
         library,
         vaultID,
         values.depositAmount,
-        tokenInfo[token as string].erc20,
+        tokenInfo[token].erc20,
         chainId
       ),
       messages: {
@@ -138,6 +188,7 @@ export const DepositStepper: FC<StepperProps> = ({
         success: 'Collateral deposited!',
         error: 'Failed to deposit collateral.',
       },
+      mutates: [mutate, tokenMutate],
       chainId,
     });
     addTransaction({
@@ -150,6 +201,29 @@ export const DepositStepper: FC<StepperProps> = ({
     resetForm();
     handleReset();
   };
+
+  // For approving token
+  const handleApproveToken = async () => {
+    setApproving(true);
+    await handleTransaction({
+      transaction: approveToken(
+        library,
+        chainId,
+        utils.parseEther('1000000000000'),
+        tokenInfo[token].erc20,
+        token
+      ),
+      messages: {
+        loading: `Approving ${tokenInfo[token].display}...`,
+        success: 'Succesfully approved!',
+        error: `Failed to approve ${tokenInfo[token].display}.`,
+      },
+      mutates: [tokenApprovedMutate],
+      chainId,
+    });
+    setApproving(false);
+  };
+
   return (
     <>
       <Backdrop
@@ -190,7 +264,7 @@ export const DepositStepper: FC<StepperProps> = ({
                   <Stack direction="row" alignItems="center" spacing={1}>
                     <Box
                       component="img"
-                      src={tokenInfo[token as string].icon}
+                      src={tokenInfo[token].icon}
                       sx={{
                         width: 15,
 
@@ -199,7 +273,17 @@ export const DepositStepper: FC<StepperProps> = ({
                       color="inherit"
                     />
                     <Typography variant="h6" textAlign="center">
-                      {token === 'AVAX' && `${fNumber(AVAXBalance, 4)} AVAX`}
+                      {
+                        //TO DO: add token balance thing
+                      }
+                      {`${fNumber(
+                        token === 'AVAX'
+                          ? AVAXBalance
+                          : TokenBalance
+                          ? Number(utils.formatEther(TokenBalance))
+                          : 0,
+                        4
+                      )} ${tokenInfo[token].display}`}
                     </Typography>
                   </Stack>
                 </Grid>
@@ -216,7 +300,7 @@ export const DepositStepper: FC<StepperProps> = ({
                       <InputAdornment position="start">
                         <Box
                           component="img"
-                          src={tokenInfo[token as string].icon}
+                          src={tokenInfo[token].icon}
                           sx={{
                             width: 25,
 
@@ -257,8 +341,7 @@ export const DepositStepper: FC<StepperProps> = ({
             </Form>
           </FormikProvider>
         )}
-        {activeStep === 1 && !approved && <div>To be implemented</div>}
-        {activeStep >= 1 && approved && (
+        {activeStep >= 1 && (
           <>
             <Box
               p={2}
@@ -293,7 +376,7 @@ export const DepositStepper: FC<StepperProps> = ({
                     <Stack direction="row" spacing={1} alignItems={'center'}>
                       <Box
                         component="img"
-                        src={tokenInfo[token as string].icon}
+                        src={tokenInfo[token].icon}
                         sx={{
                           width: 15,
 
@@ -305,7 +388,7 @@ export const DepositStepper: FC<StepperProps> = ({
                         {values.depositAmount && values.depositAmount}
                       </Typography>
                       <Typography sx={{ ml: 0.5 }} variant="caption">
-                        {token}
+                        {tokenInfo[token].display}
                       </Typography>
                     </Stack>
                     <Typography
@@ -424,15 +507,27 @@ export const DepositStepper: FC<StepperProps> = ({
                 </LoadingButton>
               </Grid>
               <Grid item xs={6} display="flex" justifyContent="center">
-                <LoadingButton
-                  endIcon={<Icon icon={arrowRight} width={25} height={25} />}
-                  variant="contained"
-                  onClick={handleDeposit}
-                  loading={activeStep === steps.length}
-                  loadingPosition="end"
-                >
-                  Submit
-                </LoadingButton>
+                {(token === 'AVAX' || TokenApproved) && (
+                  <LoadingButton
+                    endIcon={<Icon icon={arrowRight} width={25} height={25} />}
+                    variant="contained"
+                    onClick={handleDeposit}
+                    loading={activeStep === steps.length}
+                    loadingPosition="end"
+                  >
+                    Submit
+                  </LoadingButton>
+                )}
+                {token !== 'AVAX' && !TokenApproved && (
+                  <LoadingButton
+                    variant="contained"
+                    onClick={handleApproveToken}
+                    loading={activeStep === steps.length}
+                    loadingPosition="end"
+                  >
+                    Approve
+                  </LoadingButton>
+                )}
               </Grid>
             </Grid>
           </>

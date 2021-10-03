@@ -14,34 +14,13 @@ import {
   Popover,
 } from '@mui/material';
 
-import { BigNumber, utils } from 'ethers';
-import { fCurrency, fNumber, fPercent } from '@orca/util';
+import { utils } from 'ethers';
+import { fNumber } from '@orca/util';
 
 import { tokenInfo } from '@orca/shared/base';
-import { LiquidateVault } from './liquidate';
+import { LiquidateVault, LiquidateProps } from './liquidate';
 
 //-----------------------------------------
-
-type LiquidateProps = {
-  token: 'AVAX';
-  isOwner: boolean;
-  vaultID: number;
-  vaultInfo: {
-    collateral: BigNumber;
-    debt: BigNumber;
-    LTV: BigNumber;
-    maxLTV: number;
-    maxLTVUSD: BigNumber;
-    borrowingPowerAvailable: BigNumber;
-    borrowingPowerAvailableUSD: BigNumber;
-    borrowingPowerUsed: BigNumber;
-    borrowingPowerUsedUSD: BigNumber;
-    tokenPrice: BigNumber;
-    availableWithdraw: BigNumber;
-    peg: BigNumber;
-    mcp: BigNumber;
-  };
-};
 
 export const Liquidate: FC<LiquidateProps> = ({
   token,
@@ -77,7 +56,7 @@ export const Liquidate: FC<LiquidateProps> = ({
             <Stack alignItems="center" direction="row" spacing={1}>
               <Box
                 component="img"
-                src={tokenInfo[token as string].icon}
+                src={tokenInfo[token].icon}
                 sx={{
                   width: 30,
 
@@ -86,7 +65,7 @@ export const Liquidate: FC<LiquidateProps> = ({
                 color="inherit"
               />
               <Typography variant="h4" sx={{ color: 'grey.500' }}>
-                {token}
+                {tokenInfo[token].display}
               </Typography>
             </Stack>
           </Stack>
@@ -165,8 +144,8 @@ export const Liquidate: FC<LiquidateProps> = ({
               Liquidation Price
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              The liquidation price for this vault is reached when {token}{' '}
-              reaches this USD value.
+              The liquidation price for this vault is reached when{' '}
+              {tokenInfo[token].display} reaches this USD value.
             </Typography>
           </Box>
         </Popover>

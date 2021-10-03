@@ -20,6 +20,7 @@ import {
 // components
 import { ScrollBar } from '@orca/components/scroll-bar';
 import { ColorBar } from '@orca/components/colorbar';
+import { tokenInfo } from '@orca/shared/base';
 import RowTable, { Row } from './TableRow';
 
 // ----------------------------------------------------------------------
@@ -69,7 +70,7 @@ const MainTable: FC<MainTableProps> = ({ rows, collateralType, debtType }) => {
                     Vault ID
                   </TableCell>
                   <TableCell align="center" sx={{ px: 0.5, maxWidth: '250px' }}>
-                    Collateral <br />({collateralType})
+                    Collateral <br />({tokenInfo[collateralType].display})
                   </TableCell>
                   <TableCell align="center" sx={{ px: 0.5, maxWidth: '250px' }}>
                     Debt <br />({debtType})

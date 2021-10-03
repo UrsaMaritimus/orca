@@ -9,13 +9,15 @@ import {
 export const useOrcaPrice = () => {
   const { loading, data } = useOrcaStatsSubscription({
     variables: {
-      id: tokenInfo['ORCA'].address.mainnet.toLowerCase(),
+      // TODO main
+      id: tokenInfo['ORCA'].address.fuji.toLowerCase(),
     },
   });
 
   const { data: orcaPrice } = useGetTokenPriceSubscription({
     variables: {
-      id: tokenInfo['ORCA'].address.mainnet.toLowerCase(),
+      // TODO main
+      id: tokenInfo['ORCA'].address.fuji.toLowerCase(),
     },
   });
 

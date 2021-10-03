@@ -28,9 +28,10 @@ import { Loader } from '@orca/components/loader';
 
 // ----------------------------------------------------------------------
 
-type LiquidateProps = {
-  token: 'AVAX';
+export type LiquidateProps = {
+  token: 'AVAX' | 'ETH';
   vaultID: number;
+  isOwner?: boolean;
   vaultInfo: {
     collateral: BigNumber;
     debt: BigNumber;
@@ -71,7 +72,7 @@ export const LiquidateVault: FC<LiquidateProps> = ({
           account,
           chainId,
           vaultInfo.debt,
-          tokenInfo[token as string].erc20,
+          tokenInfo[token].erc20,
         ]
       : null,
     avaiApproved()
@@ -93,7 +94,7 @@ export const LiquidateVault: FC<LiquidateProps> = ({
         library,
         chainId,
         utils.parseEther('100000000'),
-        tokenInfo[token as string].erc20
+        tokenInfo[token].erc20
       ),
       messages: {
         loading: 'Approving AVAI...',
@@ -112,7 +113,7 @@ export const LiquidateVault: FC<LiquidateProps> = ({
       transaction: liquidateVault(
         library,
         chainId,
-        tokenInfo[token as string].erc20,
+        tokenInfo[token].erc20,
         vaultID
       ),
       messages: {
@@ -160,14 +161,14 @@ export const LiquidateVault: FC<LiquidateProps> = ({
                 )
               )
             )}{' '}
-            {token}
+            {tokenInfo[token].display}
           </Typography>
         </Stack>
       </Grid>
       <Grid item xs={12} sm={6}>
         <Stack alignItems="center">
           <Typography variant="h6" textAlign="center">
-            AVAX Reward from Liquidating
+            {`${tokenInfo[token].display} Reward from Liquidating`}
           </Typography>
           <Typography variant="inherit">
             {fNumber(
@@ -180,7 +181,7 @@ export const LiquidateVault: FC<LiquidateProps> = ({
                 )
               )
             )}{' '}
-            {token}
+            {tokenInfo[token].display}
           </Typography>
           <Typography variant="caption" sx={{ color: 'grey.500' }}>
             {fCurrency(

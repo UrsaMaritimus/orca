@@ -2,6 +2,7 @@ query getUserVaults($id: ID!) @api(name: orca) {
   user(id: $id) {
     vaults {
       id
+      number
       debt
       collateral
       bank {
@@ -15,6 +16,7 @@ subscription UserVaults($user: String!, $bank: String!) @api(name: orca) {
   vaults(where: { user: $user, bank: $bank }) {
     id
     collateral
+    number
     debt
     bank {
       treasury
@@ -26,6 +28,7 @@ subscription VaultInfo($vaultID: ID!) @api(name: orca) {
   vault(id: $vaultID) {
     id
     collateral
+    number
     debt
     bank {
       id

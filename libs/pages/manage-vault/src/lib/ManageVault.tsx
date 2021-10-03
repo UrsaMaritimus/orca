@@ -45,7 +45,6 @@ import { Borrows } from './Borrows';
 import { Liquidate } from './Liquidate';
 import { AccountDialog } from './AccountCheck';
 import { useGetVaultInfo } from './useVaultInfo';
-import { VaultInfo } from './stepper.type';
 
 const RootStyle = styled(Page)(({ theme }) => ({
   paddingTop: theme.spacing(3),
@@ -60,7 +59,10 @@ export function ManageVault() {
 
   // Get the url unfo
   const router = useRouter();
-  const { vaultID, token } = router.query;
+  const { vaultID, token } = router.query as {
+    vaultID: string;
+    token: 'ETH' | 'AVAX';
+  };
 
   // Handles which tab
   const [value, setValue] = useState('1');
@@ -93,7 +95,7 @@ export function ManageVault() {
       transaction: deleteVault(
         library,
         Number(vaultID),
-        tokenInfo[token as string].erc20,
+        tokenInfo[token].erc20,
         chainId
       ),
       messages: {
@@ -112,7 +114,8 @@ export function ManageVault() {
     library,
     chainId,
     vaultID as string,
-    account
+    account,
+    token ? tokenInfo[token].erc20 : ''
   );
   if (loading) {
     return (
@@ -130,7 +133,7 @@ export function ManageVault() {
           <Container maxWidth="sm">
             <Card>
               <CardHeader
-                title={`${token} Vault #${vaultID}`}
+                title={`${tokenInfo[token].display} Vault #${vaultID}`}
                 subheader={'Vault information '}
                 avatar={
                   <IconButton
@@ -194,7 +197,7 @@ export function ManageVault() {
               <>
                 <TabPanel key="Deposit" value={String(1)}>
                   <Deposit
-                    token={token as 'AVAX'}
+                    token={token}
                     vaultInfo={vaultInfo}
                     isOwner={vaultInfo.isOwner}
                     vaultID={Number(vaultID)}
@@ -205,7 +208,7 @@ export function ManageVault() {
                     vaultInfo={vaultInfo}
                     vaultID={Number(vaultID)}
                     isOwner={vaultInfo.isOwner}
-                    token={token as 'AVAX'}
+                    token={token}
                   />
                 </TabPanel>
               </>
@@ -226,7 +229,7 @@ export function ManageVault() {
                 vaultInfo={vaultInfo}
                 vaultID={Number(vaultID)}
                 isOwner={vaultInfo.isOwner}
-                token={token as 'AVAX'}
+                token={token}
               />
             )}
           </Container>
@@ -283,7 +286,7 @@ export function ManageVault() {
           <AccountDialog
             vaultID={Number(vaultID)}
             vaultInfo={vaultInfo}
-            token={token as 'AVAX'}
+            token={token}
           />
         )}
       </RootStyle>

@@ -19,6 +19,7 @@ import { TabList, TabPanel, TabContext } from '@mui/lab';
 import { Page } from '@orca/components/page';
 import { Connect } from '@orca/components/connect';
 import { AvaxVaults } from './crypto/AVAX';
+import { EthVaults } from './crypto/wETH';
 import { ScrollBar } from '@orca/components/scroll-bar';
 import { Loader } from '@orca/components/loader';
 
@@ -50,10 +51,12 @@ const collaterals = (
     title: 'AVAX',
   },
   {
-    disabled: true,
+    disabled: false,
     icon: '/static/cryptos/ic_eth.svg',
     value: '2',
-    component: <> </>,
+    component: (
+      <EthVaults account={account} library={library} chainId={chainId} />
+    ),
     title: 'ETH',
   },
   {

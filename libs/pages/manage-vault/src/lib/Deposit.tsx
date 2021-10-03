@@ -65,7 +65,7 @@ export const Deposit: FC<ActionProps> = ({
               <Stack alignItems="center" direction="row" spacing={1}>
                 <Box
                   component="img"
-                  src={tokenInfo[token as string].icon}
+                  src={tokenInfo[token].icon}
                   sx={{
                     width: 30,
 
@@ -74,7 +74,7 @@ export const Deposit: FC<ActionProps> = ({
                   color="inherit"
                 />
                 <Typography variant="h4" sx={{ color: 'grey.500' }}>
-                  {token}
+                  {tokenInfo[token].display}
                 </Typography>
               </Stack>
             </Stack>
@@ -100,7 +100,7 @@ export const Deposit: FC<ActionProps> = ({
                 >
                   <Typography variant="inherit">
                     {fNumber(Number(utils.formatEther(vaultInfo.collateral)))}{' '}
-                    {token}
+                    {tokenInfo[token].display}
                   </Typography>
                 </Grid>
                 <Grid item xs={7} sm={false}></Grid>
@@ -373,10 +373,10 @@ export const Deposit: FC<ActionProps> = ({
             Loan to Value Ratio
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>
-            The loan to value ratio signifies how much of your {token}{' '}
-            collateral can be used to borrow against. For example, given $100
-            USD worth of {token}, you can borrow {fCurrency(vaultInfo.maxLTV)}{' '}
-            USD worth.
+            The loan to value ratio signifies how much of your{' '}
+            {tokenInfo[token].display} collateral can be used to borrow against.
+            For example, given $100 USD worth of {tokenInfo[token].display}, you
+            can borrow {fCurrency(vaultInfo.maxLTV)} USD worth.
           </Typography>
           <ColorBar />
           <Grid container>

@@ -191,7 +191,6 @@ export const Withdraw: FC<WithdrawProps> = ({
         </Box>
         <Grid container>
           <Grid item xs={12} display="flex" justifyContent="center">
-            {console.log(totalStaked)}
             <LoadingButton
               variant="contained"
               size="large"

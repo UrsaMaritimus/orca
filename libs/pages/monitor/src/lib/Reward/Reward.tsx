@@ -69,8 +69,8 @@ export const VaultReward: FC<VaultRewardProps> = ({ token }) => {
               color="inherit"
               sx={{ mt: 5, mb: 2, textAlign: 'center' }}
             >
-              Earned {fNumber(Number(utils.formatEther(reward.reward)))} {token}
-              !
+              Earned {fNumber(Number(utils.formatEther(reward.reward)))}{' '}
+              {tokenInfo[token].display}!
             </Typography>
             <Box>
               <LoadingButton

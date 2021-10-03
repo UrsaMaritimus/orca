@@ -57,6 +57,7 @@ type Row = {
   num: number;
   debt: BigNumber;
   cp: BigNumber;
+  mcp: BigNumber;
   collateral: BigNumber;
 };
 
@@ -128,7 +129,7 @@ const SortingSelecting: FC<RowProps> = ({ rows, collateralType }) => {
                                 )
                               ),
                               50,
-                              65
+                              (100 / row.mcp.toNumber()) * 100
                             ),
                             fontWeight: 'bold',
                           }}
@@ -153,7 +154,7 @@ const SortingSelecting: FC<RowProps> = ({ rows, collateralType }) => {
                             LinkComponent={NextLink}
                             href={`${routes.APP.VAULTS.USER}/${collateralType}/${row.num}`}
                             startIcon={<Icon icon={dropletOutline} />}
-                            disabled={row.cp.gte(150)}
+                            disabled={row.cp.gte(row.mcp)}
                           >
                             Liquidate
                           </Button>

@@ -1,8 +1,61 @@
 import { Web3Provider } from '@ethersproject/providers';
-import { utils } from 'ethers';
+import { utils, BigNumber } from 'ethers';
+
+import { ERC20__factory } from '@orca/shared/contracts';
+import { tokenInfo } from '@orca/shared/base';
 
 import { getVault } from './getVault';
 import { getGateway } from './gateway';
+
+export const getToken = (
+  tokenName: string,
+  library: Web3Provider,
+  chainId: number,
+  signer = false
+) => {
+  return ERC20__factory.connect(
+    chainId === 43113
+      ? tokenInfo[tokenName].address.fuji
+      : chainId === 43114
+      ? tokenInfo[tokenName].address.mainnet
+      : null,
+    signer ? library.getSigner() : library
+  );
+};
+
+// swr function
+export const tokenApproved = () => {
+  return async (
+    _: string,
+    library: Web3Provider,
+    address: string,
+    tokenName: string,
+    chainId: number,
+    amount: number,
+    vaultType: string
+  ) => {
+    const vault = getVault(vaultType, library, chainId);
+    const token = getToken(tokenName, library, chainId);
+    const allowance = await token.allowance(address, vault.address);
+
+    return allowance.gte(
+      utils.parseEther(typeof amount === 'number' ? amount.toFixed(18) : amount)
+    );
+  };
+};
+
+// callable function
+export const approveToken = async (
+  library: Web3Provider,
+  chainId: number,
+  amount: BigNumber,
+  vaultType: string,
+  tokenName: string
+) => {
+  const vault = getVault(vaultType, library, chainId);
+  const token = getToken(tokenName, library, chainId, true);
+  return token.approve(vault.address, amount);
+};
 
 // callable
 export const deleteVault = (

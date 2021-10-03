@@ -24,7 +24,7 @@ export const useUpdateAccount = () => {
   const setAccount = useSetRecoilState(accountState);
 
   // Add a transaction to this list
-  const updateAccount = (bankID: 'AVAX', account: Account) => {
+  const updateAccount = (bankID: 'AVAX' | 'ETH', account: Account) => {
     setAccount((BankInfo) => {
       const temp = { ...BankInfo };
       // Make key for bank ID if not exist

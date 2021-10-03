@@ -12,7 +12,6 @@ export default async function handler(
       `https://api.covalenthq.com/v1/${slug[0]}/address/${slug[1]}/balances_v2/?key=${apiKey}`
     )
     .then(({ data }) => {
-      console.log(data.data.items);
       res.status(200).json({
         balance: data.data.items.filter(
           (item) => item.contract_ticker_symbol === 'AVAX'

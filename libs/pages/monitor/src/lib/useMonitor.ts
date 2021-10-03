@@ -6,7 +6,10 @@ import useSwr from 'swr';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
 import { getContract, bankPrice } from '@orca/shared/funcs';
-import { useMonitorVaultsSubscription } from '@orca/graphql';
+import {
+  useMonitorVaultsSubscription,
+  useBankMcpSubscription,
+} from '@orca/graphql';
 
 export const useMonitorVaults = (
   library: Web3Provider,
@@ -20,17 +23,23 @@ export const useMonitorVaults = (
     },
   });
 
+  const { data: bankData } = useBankMcpSubscription({
+    variables: {
+      id: getContract(chainId, token).toLowerCase(),
+    },
+  });
+
   // Grab bank prices
   const { data: price, mutate: priceMutate } = useSwr(
-    shouldFetch ? ['getAvaxPrice', library, token, chainId] : null,
+    shouldFetch ? [`get${token}Price`, library, token, chainId] : null,
     bankPrice()
   );
   useKeepSWRDataLiveAsBlocksArrive(priceMutate);
 
   return {
-    loading: price && vaultData ? false : true,
+    loading: price && vaultData && bankData ? false : true,
     rows:
-      price && vaultData
+      price && vaultData && bankData
         ? vaultData.vaults
             .map((vault) => {
               const collateral = BigNumber.from(vault.collateral);
@@ -40,13 +49,14 @@ export const useMonitorVaults = (
                 .mul(price.price)
                 .div(debt.mul(price.peg));
               return {
-                num: BigNumber.from(vault.id).toNumber(),
+                num: BigNumber.from(vault.number).toNumber(),
                 collateral: collateral.mul(price.price).div(price.peg),
                 debt: debt,
                 cp,
+                mcp: BigNumber.from(bankData.bank?.minimumCollateralPercentage),
               };
             })
-            .filter((vault) => vault.cp.lte(200))
+            .filter((vault) => vault.cp.lte(vault.mcp.add(50)))
         : null,
   };
 };
