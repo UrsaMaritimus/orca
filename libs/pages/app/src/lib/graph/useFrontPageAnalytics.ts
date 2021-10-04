@@ -52,6 +52,10 @@ export const useFrontPageInfo = () => {
       BigNumber.from(0)
     );
 
+    const exchangeTVL = exchangeInfoFrontPage.exchanges.reduce((prev, next) => {
+      return prev.add(BigNumber.from(next.usdHeld));
+    }, BigNumber.from(0));
+
     const indivBanks = bankInfoFrontPage.banks.map((bank) => {
       const name = bank.token.symbol.toLowerCase();
       const debt = BigNumber.from(bank.totalDebt);
@@ -84,6 +88,7 @@ export const useFrontPageInfo = () => {
         bankTreasury,
         exchangeTreasury,
         indivBanks,
+        exchangeTVL,
       },
     };
   } else {

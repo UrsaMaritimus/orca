@@ -56,7 +56,11 @@ export const useFrontPageStats = () => {
       utils.formatEther(BigNumber.from(orcaPerSec.podLeaders[0].orcaPerSec))
     );
     const bankTVL = Number(utils.formatEther(bankData.totalCollateral));
-    const TVL = orcaFarm.tvl + usdcFarm.tvl + bankTVL;
+    const TVL =
+      orcaFarm.tvl +
+      usdcFarm.tvl +
+      bankTVL +
+      Number(utils.formatUnits(bankData.exchangeTVL, 6));
 
     const avaxUSDPrice = Number(avaxPrice.bundle?.ethPrice);
     const orcaUSDPrice = Number(orcaPrice.token?.derivedETH) * avaxUSDPrice;
