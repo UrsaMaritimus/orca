@@ -15,7 +15,7 @@ import { MultiAPILink } from '@habx/apollo-multi-endpoint-link';
 export const httpLink = (ctx?: NextPageContext): MultiAPILink => {
   return new MultiAPILink({
     endpoints: {
-      orca: 'https://api.thegraph.com/subgraphs/name/ursamaritimus/orcadao',
+      orca: 'https://api.thegraph.com/subgraphs/name/ursamaritimus/orca-staging',
       png: 'https://api.thegraph.com/subgraphs/name/pangolindex/exchange',
     },
     createHttpLink: () => createHttpLink(),
@@ -29,7 +29,7 @@ export const wsLink = (): MultiAPILink => {
   // Return out link with the headers
   return new MultiAPILink({
     endpoints: {
-      orca: 'wss://api.thegraph.com/subgraphs/name/ursamaritimus/orcadao',
+      orca: 'wss://api.thegraph.com/subgraphs/name/ursamaritimus/orca-staging',
       png: 'wss://api.thegraph.com/subgraphs/name/pangolindex/exchange',
     },
     createHttpLink: () => createHttpLink(),

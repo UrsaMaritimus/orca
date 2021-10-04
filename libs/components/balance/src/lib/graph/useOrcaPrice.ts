@@ -10,14 +10,14 @@ export const useOrcaPrice = () => {
   const { loading, data } = useOrcaStatsSubscription({
     variables: {
       // TODO main
-      id: tokenInfo['ORCA'].address.fuji.toLowerCase(),
+      id: tokenInfo['ORCA'].address.mainnet.toLowerCase(),
     },
   });
 
   const { data: orcaPrice } = useGetTokenPriceSubscription({
     variables: {
       // TODO main
-      id: tokenInfo['ORCA'].address.fuji.toLowerCase(),
+      id: tokenInfo['ORCA'].address.mainnet.toLowerCase(),
     },
   });
 

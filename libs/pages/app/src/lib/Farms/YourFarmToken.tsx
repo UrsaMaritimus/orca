@@ -73,18 +73,20 @@ export const YourFarmInfo: FC = () => {
   const handleClaim = async () => {
     if (rewardTokenPending) {
       rewardTokenPending.forEach(async (val) => {
-        setDepositing(true);
-        await handleTransaction({
-          transaction: depositFarm(library, chainId, Number(val.pid), 0),
-          messages: {
-            loading: `Claiming reward...`,
-            success: 'Succesfully claimed!',
-            error: `Failed to claim.`,
-          },
-          mutates: [mutateRewardTokenPending],
-          chainId,
-        });
-        setDepositing(false);
+        if (!val.pending.isZero()) {
+          setDepositing(true);
+          await handleTransaction({
+            transaction: depositFarm(library, chainId, Number(val.pid), 0),
+            messages: {
+              loading: `Claiming reward...`,
+              success: 'Succesfully claimed!',
+              error: `Failed to claim.`,
+            },
+            mutates: [mutateRewardTokenPending],
+            chainId,
+          });
+          setDepositing(false);
+        }
       });
     }
   };
