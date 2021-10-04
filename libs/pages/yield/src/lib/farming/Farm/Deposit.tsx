@@ -13,7 +13,6 @@ import {
   InputAdornment,
   Stack,
   Grid,
-  Link,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -23,15 +22,12 @@ import { Web3Provider } from '@ethersproject/providers';
 import { utils } from 'ethers';
 import { useFormik, Form, FormikProvider } from 'formik';
 
-import {
-  handleTransaction,
-  useAddTransaction,
-} from '@orca/components/transaction';
+import { handleTransaction } from '@orca/components/transaction';
 import { NextLink } from '@orca/components/links';
 import {
-  approveToken,
+  approveTokenFarm,
   getTokenBalance,
-  tokenApproved,
+  tokenApprovedFarm,
   depositFarm,
 } from '@orca/shared/funcs';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
@@ -92,7 +88,7 @@ export const Deposit: FC<DepositProps> = ({
           utils.formatEther(farmBalance ? farmBalance : 1e10),
         ]
       : null,
-    tokenApproved()
+    tokenApprovedFarm()
   );
   useKeepSWRDataLiveAsBlocksArrive(mutateFarmBalance);
   useKeepSWRDataLiveAsBlocksArrive(mutateTokenApproved);
@@ -150,7 +146,7 @@ export const Deposit: FC<DepositProps> = ({
   const handleApprove = async () => {
     setApproving(true);
     await handleTransaction({
-      transaction: approveToken(library, chainId, farm, 1e10),
+      transaction: approveTokenFarm(library, chainId, farm, 1e10),
       messages: {
         loading: `Approving ${name}...`,
         success: 'Succesfully approved!',

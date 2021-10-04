@@ -69,7 +69,7 @@ export const getTotalRewardBalance = () => {
 };
 
 // swr function
-export const tokenApproved = () => {
+export const tokenApprovedFarm = () => {
   return async (
     _: string,
     library: Web3Provider,
@@ -85,7 +85,7 @@ export const tokenApproved = () => {
   };
 };
 
-export const approveToken = (
+export const approveTokenFarm = (
   library: Web3Provider,
   chainId: number,
   address: string,
