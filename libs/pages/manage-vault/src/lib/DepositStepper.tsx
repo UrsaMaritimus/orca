@@ -522,7 +522,7 @@ export const DepositStepper: FC<StepperProps> = ({
                   <LoadingButton
                     variant="contained"
                     onClick={handleApproveToken}
-                    loading={activeStep === steps.length}
+                    loading={approving}
                     loadingPosition="end"
                   >
                     Approve

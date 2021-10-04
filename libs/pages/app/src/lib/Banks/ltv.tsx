@@ -32,7 +32,6 @@ type LTVProps = {
 };
 
 export const LTVWidget: FC<LTVProps> = ({ ltv, maxLtv }) => {
-  const theme = useTheme();
   const color = colorScale(ltv, 30, maxLtv);
 
   const [hover, setHover] = useState(null);
