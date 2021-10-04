@@ -5,6 +5,6 @@ export const VaultContracts = {
   },
   mainnet: {
     wavax: '0xC029713E92383426C9b387b124C0BF6271d08b80',
-    weth: '',
+    weth: '0x4805D6563B36a02C5012c11d6e15552f50066d58',
   },
 };
