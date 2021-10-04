@@ -158,7 +158,7 @@ export const YourFarmInfo: FC = () => {
                 .isZero()
             }
           >
-            {!shouldFetch ? 'Connect' : 'Claim'}
+            {!shouldFetch ? 'Connect' : 'Claim (All Farms)'}
           </LoadingButton>
         </Grid>
       </Grid>

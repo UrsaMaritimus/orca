@@ -189,13 +189,12 @@ export const BankInfo: FC<BankInfoProps> = ({ data }) => {
         subheader="Use your crypto as collateral to borrow AVAI"
       />
       <Slider ref={carouselRef} {...settings}>
-        {data.map((app, index) => (
-          <CarouselItem
-            key={app.id}
-            item={app}
-            isActive={index === currentIndex}
-          />
-        ))}
+        <CarouselItem
+          key={data && data[0]?.id}
+          item={data[0]}
+          isActive={true}
+        />
+
         {data.length === 1 &&
           extra.map((app, index) => (
             <CarouselItem
