@@ -12,6 +12,7 @@ import {
   BaseContract,
   ContractTransaction,
   Overrides,
+  PayableOverrides,
   CallOverrides,
 } from "ethers";
 import { BytesLike } from "@ethersproject/bytes";
@@ -21,8 +22,8 @@ import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface OrcaStakingInterface extends ethers.utils.Interface {
   functions: {
-    "add(uint256,address,bool,uint16)": FunctionFragment;
-    "addRewardsBalance(uint256)": FunctionFragment;
+    "add(uint256,address,bool)": FunctionFragment;
+    "addRewardsBalance()": FunctionFragment;
     "deposit(uint256,uint256)": FunctionFragment;
     "emergencyWithdraw(uint256)": FunctionFragment;
     "endTimestamp()": FunctionFragment;
@@ -43,7 +44,6 @@ interface OrcaStakingInterface extends ethers.utils.Interface {
     "totalAllocPoint()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "treasury()": FunctionFragment;
-    "updateDepositFee(uint256,uint16,bool)": FunctionFragment;
     "updatePool(uint256)": FunctionFragment;
     "userInfo(uint256,address)": FunctionFragment;
     "withdraw(uint256,uint256)": FunctionFragment;
@@ -51,11 +51,11 @@ interface OrcaStakingInterface extends ethers.utils.Interface {
 
   encodeFunctionData(
     functionFragment: "add",
-    values: [BigNumberish, string, boolean, BigNumberish]
+    values: [BigNumberish, string, boolean]
   ): string;
   encodeFunctionData(
     functionFragment: "addRewardsBalance",
-    values: [BigNumberish]
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "deposit",
@@ -125,10 +125,6 @@ interface OrcaStakingInterface extends ethers.utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(functionFragment: "treasury", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "updateDepositFee",
-    values: [BigNumberish, BigNumberish, boolean]
-  ): string;
   encodeFunctionData(
     functionFragment: "updatePool",
     values: [BigNumberish]
@@ -206,10 +202,6 @@ interface OrcaStakingInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "treasury", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "updateDepositFee",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "updatePool", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "userInfo", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
@@ -219,11 +211,10 @@ interface OrcaStakingInterface extends ethers.utils.Interface {
     "ChangedRewardsEndTimestamp(uint256,uint256)": EventFragment;
     "ChangedRewardsPerSecond(uint256,uint256)": EventFragment;
     "ChangedTreasury(address,address)": EventFragment;
-    "Deposit(address,uint256,uint256,uint256)": EventFragment;
-    "DepositFeeUpdated(uint256,uint16,uint16)": EventFragment;
+    "Deposit(address,uint256,uint256)": EventFragment;
     "EmergencyWithdraw(address,uint256,uint256)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
-    "PoolAdded(uint256,address,uint256,uint256,uint256,uint16)": EventFragment;
+    "PoolAdded(uint256,address,uint256,uint256,uint256)": EventFragment;
     "PoolUpdated(uint256,uint256,uint256,uint256)": EventFragment;
     "SetRewardsStartTimestamp(uint256)": EventFragment;
     "Withdraw(address,uint256,uint256)": EventFragment;
@@ -234,7 +225,6 @@ interface OrcaStakingInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "ChangedRewardsPerSecond"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ChangedTreasury"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Deposit"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "DepositFeeUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "EmergencyWithdraw"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "PoolAdded"): EventFragment;
@@ -291,13 +281,11 @@ export class OrcaStaking extends BaseContract {
       allocPoint: BigNumberish,
       token: string,
       withUpdate: boolean,
-      _depositFeeBp: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     addRewardsBalance(
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     deposit(
@@ -337,13 +325,12 @@ export class OrcaStaking extends BaseContract {
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<
-      [string, BigNumber, BigNumber, BigNumber, BigNumber, number] & {
+      [string, BigNumber, BigNumber, BigNumber, BigNumber] & {
         token: string;
         allocPoint: BigNumber;
         lastRewardTimestamp: BigNumber;
         accRewardsPerShare: BigNumber;
         totalStaked: BigNumber;
-        depositFeeBP: number;
       }
     >;
 
@@ -385,13 +372,6 @@ export class OrcaStaking extends BaseContract {
 
     treasury(overrides?: CallOverrides): Promise<[string]>;
 
-    updateDepositFee(
-      pid: BigNumberish,
-      depositFee: BigNumberish,
-      withUpdate: boolean,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     updatePool(
       pid: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -416,13 +396,11 @@ export class OrcaStaking extends BaseContract {
     allocPoint: BigNumberish,
     token: string,
     withUpdate: boolean,
-    _depositFeeBp: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   addRewardsBalance(
-    amount: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   deposit(
@@ -462,13 +440,12 @@ export class OrcaStaking extends BaseContract {
     arg0: BigNumberish,
     overrides?: CallOverrides
   ): Promise<
-    [string, BigNumber, BigNumber, BigNumber, BigNumber, number] & {
+    [string, BigNumber, BigNumber, BigNumber, BigNumber] & {
       token: string;
       allocPoint: BigNumber;
       lastRewardTimestamp: BigNumber;
       accRewardsPerShare: BigNumber;
       totalStaked: BigNumber;
-      depositFeeBP: number;
     }
   >;
 
@@ -510,13 +487,6 @@ export class OrcaStaking extends BaseContract {
 
   treasury(overrides?: CallOverrides): Promise<string>;
 
-  updateDepositFee(
-    pid: BigNumberish,
-    depositFee: BigNumberish,
-    withUpdate: boolean,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   updatePool(
     pid: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -541,14 +511,10 @@ export class OrcaStaking extends BaseContract {
       allocPoint: BigNumberish,
       token: string,
       withUpdate: boolean,
-      _depositFeeBp: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    addRewardsBalance(
-      amount: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    addRewardsBalance(overrides?: CallOverrides): Promise<void>;
 
     deposit(
       pid: BigNumberish,
@@ -585,13 +551,12 @@ export class OrcaStaking extends BaseContract {
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<
-      [string, BigNumber, BigNumber, BigNumber, BigNumber, number] & {
+      [string, BigNumber, BigNumber, BigNumber, BigNumber] & {
         token: string;
         allocPoint: BigNumber;
         lastRewardTimestamp: BigNumber;
         accRewardsPerShare: BigNumber;
         totalStaked: BigNumber;
-        depositFeeBP: number;
       }
     >;
 
@@ -627,13 +592,6 @@ export class OrcaStaking extends BaseContract {
     ): Promise<void>;
 
     treasury(overrides?: CallOverrides): Promise<string>;
-
-    updateDepositFee(
-      pid: BigNumberish,
-      depositFee: BigNumberish,
-      withUpdate: boolean,
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     updatePool(pid: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
@@ -689,20 +647,10 @@ export class OrcaStaking extends BaseContract {
     Deposit(
       user?: string | null,
       pid?: BigNumberish | null,
-      amount?: null,
-      fee?: null
+      amount?: null
     ): TypedEventFilter<
-      [string, BigNumber, BigNumber, BigNumber],
-      { user: string; pid: BigNumber; amount: BigNumber; fee: BigNumber }
-    >;
-
-    DepositFeeUpdated(
-      pid?: BigNumberish | null,
-      oldFee?: null,
-      newFee?: null
-    ): TypedEventFilter<
-      [BigNumber, number, number],
-      { pid: BigNumber; oldFee: number; newFee: number }
+      [string, BigNumber, BigNumber],
+      { user: string; pid: BigNumber; amount: BigNumber }
     >;
 
     EmergencyWithdraw(
@@ -727,17 +675,15 @@ export class OrcaStaking extends BaseContract {
       token?: string | null,
       allocPoints?: null,
       totalAllocPoints?: null,
-      rewardStartTimestamp?: null,
-      depositFeeBP?: null
+      rewardStartTimestamp?: null
     ): TypedEventFilter<
-      [BigNumber, string, BigNumber, BigNumber, BigNumber, number],
+      [BigNumber, string, BigNumber, BigNumber, BigNumber],
       {
         pid: BigNumber;
         token: string;
         allocPoints: BigNumber;
         totalAllocPoints: BigNumber;
         rewardStartTimestamp: BigNumber;
-        depositFeeBP: number;
       }
     >;
 
@@ -775,13 +721,11 @@ export class OrcaStaking extends BaseContract {
       allocPoint: BigNumberish,
       token: string,
       withUpdate: boolean,
-      _depositFeeBp: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     addRewardsBalance(
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     deposit(
@@ -857,13 +801,6 @@ export class OrcaStaking extends BaseContract {
 
     treasury(overrides?: CallOverrides): Promise<BigNumber>;
 
-    updateDepositFee(
-      pid: BigNumberish,
-      depositFee: BigNumberish,
-      withUpdate: boolean,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     updatePool(
       pid: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -887,13 +824,11 @@ export class OrcaStaking extends BaseContract {
       allocPoint: BigNumberish,
       token: string,
       withUpdate: boolean,
-      _depositFeeBp: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     addRewardsBalance(
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     deposit(
@@ -971,13 +906,6 @@ export class OrcaStaking extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     treasury(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    updateDepositFee(
-      pid: BigNumberish,
-      depositFee: BigNumberish,
-      withUpdate: boolean,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
 
     updatePool(
       pid: BigNumberish,
