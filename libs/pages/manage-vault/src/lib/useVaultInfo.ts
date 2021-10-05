@@ -23,7 +23,7 @@ export const useGetVaultInfo = (
         '0x' +
         Number(vaultID).toString(16) +
         '-' +
-        (chainId === 43114
+        (chainId === 43114 || !chainId
           ? VaultContracts.mainnet[vaultType]?.toLowerCase()
           : VaultContracts.fuji[vaultType]?.toLowerCase()),
     },

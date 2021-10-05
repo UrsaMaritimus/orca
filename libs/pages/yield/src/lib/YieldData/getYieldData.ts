@@ -39,7 +39,7 @@ export const useMonitorFarms = (
   const { data: orcaPrice } = useGetTokenPriceSubscription({
     variables: {
       id:
-        chainId === 43114
+        chainId === 43114 || !chainId
           ? tokenInfo['ORCA'].address.mainnet.toLowerCase()
           : tokenInfo['ORCA'].address.fuji.toLowerCase(),
     },
@@ -49,7 +49,9 @@ export const useMonitorFarms = (
 
   if (yieldData && userData && tokenData && orcaPrice && avaxPrice) {
     const poolAlloc = Number(yieldData.pools[0].allocPoint);
-    const totalAllocPoints = Number(yieldData.pools[0].leader.totalAllocPoints);
+    const totalAllocPoints = Number(
+      yieldData.pools[0]?.leader?.totalAllocPoints
+    );
     const orcaPerSec = Number(
       utils.formatEther(BigNumber.from(yieldData.pools[0].leader.orcaPerSec))
     );
@@ -60,32 +62,32 @@ export const useMonitorFarms = (
     const rewardPerDay = (poolAlloc / totalAllocPoints) * orcaPerSec * 86400;
 
     const TVL =
-      (totalStaked / tokenData.pairs[0].totalSupply) *
-      tokenData.pairs[0].reserveUSD;
+      (totalStaked / tokenData.pairs[0]?.totalSupply) *
+      tokenData.pairs[0]?.reserveUSD;
 
     const avaxUSDPrice = Number(avaxPrice.bundle?.ethPrice);
     const orcaUSDPrice = Number(orcaPrice.token?.derivedETH) * avaxUSDPrice;
 
     const apr =
-      chainId === 43114
+      chainId === 43114 || !chainId
         ? ((rewardPerDay * 36500) / TVL) * orcaUSDPrice
         : ((rewardPerDay * 36500) / TVL) * 0.2;
 
     const userStaked = account
-      ? userData.user?.pools?.filter((pool) => pool.pool.pair === farm)[0]
+      ? userData.user?.pools?.filter((pool) => pool.pool?.pair === farm)[0]
           ?.staked
       : null;
 
     const userStakedUSD = userStaked
       ? (Number(utils.formatEther(BigNumber.from(userStaked))) /
-          tokenData.pairs[0].totalSupply) *
-        tokenData.pairs[0].reserveUSD
+          tokenData.pairs[0]?.totalSupply) *
+        tokenData.pairs[0]?.reserveUSD
       : null;
 
     return {
       loading: false,
       data: {
-        id: utils.formatUnits(yieldData.pools[0].id, 0),
+        id: utils.formatUnits(yieldData.pools[0]?.id, 0),
         rewardPerDay: rewardPerDay,
         tvl: TVL,
         apr: apr,

@@ -15,7 +15,7 @@ export const useOrcaPrice = () => {
   const { data } = useOrcaStatsSubscription({
     variables: {
       id:
-        chainId === 43114
+        chainId === 43114 || !chainId
           ? tokenInfo['ORCA'].address.mainnet.toLowerCase()
           : tokenInfo['ORCA'].address.fuji.toLowerCase(),
     },
@@ -24,7 +24,7 @@ export const useOrcaPrice = () => {
   const { data: orcaPrice } = useGetTokenPriceSubscription({
     variables: {
       id:
-        chainId === 43114
+        chainId === 43114 || !chainId
           ? tokenInfo['ORCA'].address.mainnet.toLowerCase()
           : tokenInfo['ORCA'].address.fuji.toLowerCase(),
     },
@@ -33,10 +33,12 @@ export const useOrcaPrice = () => {
   const { data: avaxPrice } = useAvaxPriceSubscription();
   if (library && data && orcaPrice && avaxPrice) {
     const circulatingSupply = Number(
-      utils.formatEther(BigNumber.from(data.orca?.circulatingSupply))
+      utils.formatEther(
+        BigNumber.from(data.orca ? data.orca?.circulatingSupply : 0)
+      )
     );
     const maxSupply = Number(
-      utils.formatEther(BigNumber.from(data.orca?.maxSupply))
+      utils.formatEther(BigNumber.from(data.orca ? data.orca.maxSupply : 0))
     );
     const avaxUSDPrice = Number(avaxPrice.bundle?.ethPrice);
     const orcaUSDPrice = Number(orcaPrice.token?.derivedETH) * avaxUSDPrice;

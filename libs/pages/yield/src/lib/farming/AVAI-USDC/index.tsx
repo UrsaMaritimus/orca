@@ -20,7 +20,7 @@ export const AvaiUsdcFarm: FC<AvaiProps> = ({
   chainId,
 }) => {
   const { loading, data } = useMonitorFarms(
-    chainId === 43114
+    chainId === 43114 || !chainId
       ? tokenInfo['USDC-AVAI'].address.mainnet.toLowerCase()
       : tokenInfo['USDC-AVAI'].address.fuji.toLowerCase(),
     account,

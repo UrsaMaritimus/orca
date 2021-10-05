@@ -40,7 +40,7 @@ export const Farming: FC = () => {
             subheader={'Stake your tokens and earn rewards!'}
           />
         </Card>
-        {chainId && chainId === 43114 && (
+        {(chainId === 43114 || !chainId) && (
           <AvaiOrcaFarm
             account={account}
             expanded={expanded}
@@ -54,7 +54,7 @@ export const Farming: FC = () => {
           handleChange={handleChange}
           chainId={chainId}
         />
-        {chainId && chainId === 43114 && (
+        {(chainId === 43114 || !chainId) && (
           <AvaxOrcaFarm
             account={account}
             expanded={expanded}
