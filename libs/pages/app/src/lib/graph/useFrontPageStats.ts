@@ -29,6 +29,10 @@ export const useFrontPageStats = () => {
     tokenInfo['USDC-AVAI'].address.mainnet.toLowerCase()
   );
 
+  const { loading: avaxLoading, data: avaxFarm } = useFrontPageYieldInfo(
+    tokenInfo['AVAX-ORCA'].address.mainnet.toLowerCase()
+  );
+
   const { data: orcaPrice } = useGetTokenPriceSubscription({
     variables: {
       id: tokenInfo['ORCA'].address.mainnet.toLowerCase(),
@@ -43,6 +47,7 @@ export const useFrontPageStats = () => {
     !orcaPerLoading &&
     !usdcLoading &&
     !orcaLoading &&
+    !avaxLoading &&
     orcaPrice &&
     avaxPrice
   ) {
@@ -59,6 +64,7 @@ export const useFrontPageStats = () => {
     const TVL =
       orcaFarm.tvl +
       usdcFarm.tvl +
+      avaxFarm.tvl +
       bankTVL +
       Number(utils.formatUnits(bankData.exchangeTVL, 6));
 
@@ -75,7 +81,8 @@ export const useFrontPageStats = () => {
           Number(utils.formatUnits(bankData.exchangeTreasury, 6)) +
           Number(utils.formatEther(bankData.bankTreasury)) +
           orcaFarm.treasury +
-          usdcFarm.treasury,
+          usdcFarm.treasury +
+          avaxFarm.treasury,
         orcaPerDay: orcaPerSecond * 60 * 60 * 24,
         orcaPerMonth: orcaPerSecond * 60 * 60 * 24 * 30,
         TVL,

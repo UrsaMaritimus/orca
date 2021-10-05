@@ -6,29 +6,37 @@ import {
   useAvaxPriceSubscription,
 } from '@orca/graphql';
 
+import { useWeb3React } from '@web3-react/core';
+import { Web3Provider } from '@ethersproject/providers';
+
 export const useOrcaPrice = () => {
-  const { loading, data } = useOrcaStatsSubscription({
+  //web3
+  const { chainId, library } = useWeb3React<Web3Provider>();
+  const { data } = useOrcaStatsSubscription({
     variables: {
-      // TODO main
-      id: tokenInfo['ORCA'].address.mainnet.toLowerCase(),
+      id:
+        chainId === 43114
+          ? tokenInfo['ORCA'].address.mainnet.toLowerCase()
+          : tokenInfo['ORCA'].address.fuji.toLowerCase(),
     },
   });
 
   const { data: orcaPrice } = useGetTokenPriceSubscription({
     variables: {
-      // TODO main
-      id: tokenInfo['ORCA'].address.mainnet.toLowerCase(),
+      id:
+        chainId === 43114
+          ? tokenInfo['ORCA'].address.mainnet.toLowerCase()
+          : tokenInfo['ORCA'].address.fuji.toLowerCase(),
     },
   });
 
   const { data: avaxPrice } = useAvaxPriceSubscription();
-
-  if (!loading && orcaPrice && avaxPrice) {
+  if (library && data && orcaPrice && avaxPrice) {
     const circulatingSupply = Number(
-      utils.formatEther(BigNumber.from(data.orca.circulatingSupply))
+      utils.formatEther(BigNumber.from(data.orca?.circulatingSupply))
     );
     const maxSupply = Number(
-      utils.formatEther(BigNumber.from(data.orca.maxSupply))
+      utils.formatEther(BigNumber.from(data.orca?.maxSupply))
     );
     const avaxUSDPrice = Number(avaxPrice.bundle?.ethPrice);
     const orcaUSDPrice = Number(orcaPrice.token?.derivedETH) * avaxUSDPrice;

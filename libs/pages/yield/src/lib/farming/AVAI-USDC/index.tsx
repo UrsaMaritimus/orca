@@ -10,16 +10,21 @@ type AvaiProps = {
     panel: string
   ) => (event: React.SyntheticEvent, isExpanded: boolean) => void;
   expanded: string | false;
+  chainId: number;
 };
 
 export const AvaiUsdcFarm: FC<AvaiProps> = ({
   account,
   handleChange,
   expanded,
+  chainId,
 }) => {
   const { loading, data } = useMonitorFarms(
-    tokenInfo['USDC-AVAI'].address.mainnet.toLowerCase(),
-    account
+    chainId === 43114
+      ? tokenInfo['USDC-AVAI'].address.mainnet.toLowerCase()
+      : tokenInfo['USDC-AVAI'].address.fuji.toLowerCase(),
+    account,
+    chainId
   );
   return (
     <Farm

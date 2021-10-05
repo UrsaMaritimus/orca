@@ -16,7 +16,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
 }));
 
 export const Farming: FC = () => {
-  const { account } = useWeb3React<Web3Provider>();
+  const { account, chainId } = useWeb3React<Web3Provider>();
 
   const [expanded, setExpanded] = useState<string | false>(false);
 
@@ -40,21 +40,26 @@ export const Farming: FC = () => {
             subheader={'Stake your tokens and earn rewards!'}
           />
         </Card>
-        <AvaiOrcaFarm
-          account={account}
-          expanded={expanded}
-          handleChange={handleChange}
-        />
+        {chainId && chainId === 43114 && (
+          <AvaiOrcaFarm
+            account={account}
+            expanded={expanded}
+            handleChange={handleChange}
+          />
+        )}
         <AvaiUsdcFarm
           account={account}
           expanded={expanded}
           handleChange={handleChange}
+          chainId={chainId}
         />
-        <AvaxOrcaFarm
-          account={account}
-          expanded={expanded}
-          handleChange={handleChange}
-        />
+        {chainId && chainId === 43114 && (
+          <AvaxOrcaFarm
+            account={account}
+            expanded={expanded}
+            handleChange={handleChange}
+          />
+        )}
         <Box
           sx={{
             pt: 2,

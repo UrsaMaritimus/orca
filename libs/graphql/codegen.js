@@ -3,8 +3,7 @@ module.exports = {
   generates: {
     './libs/graphql/src/generated/orca.ts': {
       documents: ['./libs/graphql/src/lib/orca/**/*.graphql'],
-      schema:
-        'https://api.thegraph.com/subgraphs/name/ursamaritimus/orca-staging',
+      schema: `${process.env.NEXT_PUBLIC_GRAPH_HTTP}`,
       plugins: [
         'typescript',
         'typescript-operations',

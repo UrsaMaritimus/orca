@@ -388,10 +388,13 @@ contract OrcaStaking is Ownable, ReentrancyGuard {
 
   /**
    * @notice Set new rewards per second
-   * @dev Can only be called by the owner
+   * @dev Can only be called by the owner or relayer, for autotasks
    * @param newRewardsPerSecond new amount of rewards to reward each second
    */
-  function setRewardsPerSecond(uint256 newRewardsPerSecond) external onlyOwner {
+  function setRewardsPerSecond(uint256 newRewardsPerSecond)
+    external
+    onlyRelayerOrOwner
+  {
     emit ChangedRewardsPerSecond(rewardsPerSecond, newRewardsPerSecond);
     rewardsPerSecond = newRewardsPerSecond;
     _setRewardsEndTimestamp();
