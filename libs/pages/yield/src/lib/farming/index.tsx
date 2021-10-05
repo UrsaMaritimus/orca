@@ -45,6 +45,7 @@ export const Farming: FC = () => {
             account={account}
             expanded={expanded}
             handleChange={handleChange}
+            chainId={chainId}
           />
         )}
         <AvaiUsdcFarm
@@ -58,6 +59,7 @@ export const Farming: FC = () => {
             account={account}
             expanded={expanded}
             handleChange={handleChange}
+            chainId={chainId}
           />
         )}
         <Box

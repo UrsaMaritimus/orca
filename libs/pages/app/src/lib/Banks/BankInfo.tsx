@@ -45,7 +45,6 @@ type CarouselItemProps = {
 
 const CarouselItem: FC<CarouselItemProps> = ({ item, isActive }) => {
   const { collateral, debt, ltv, name, message, maxLtv } = item;
-  console.log(collateral, debt);
   return (
     <Paper
       sx={{

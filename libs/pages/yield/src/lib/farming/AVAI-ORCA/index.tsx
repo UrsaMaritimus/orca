@@ -10,16 +10,19 @@ type AvaiProps = {
     panel: string
   ) => (event: React.SyntheticEvent, isExpanded: boolean) => void;
   expanded: string | false;
+  chainId: number;
 };
 
 export const AvaiOrcaFarm: FC<AvaiProps> = ({
   account,
   handleChange,
   expanded,
+  chainId,
 }) => {
   const { loading, data } = useMonitorFarms(
     tokenInfo['AVAI-ORCA'].address.mainnet.toLowerCase(),
-    account
+    account,
+    chainId
   );
 
   return (

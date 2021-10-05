@@ -60,7 +60,7 @@ export const Stats: FC = () => {
 
             <Grid item xs={8}>
               <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
-                Total Value Locked
+                TVL
               </Typography>
             </Grid>
             <Grid item xs={4} display="flex" justifyContent="flex-end">
@@ -71,7 +71,7 @@ export const Stats: FC = () => {
 
             <Grid item xs={8}>
               <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
-                Orca DAO Revenue
+                Total Revenue
               </Typography>
             </Grid>
             <Grid item xs={4} display="flex" justifyContent="flex-end">

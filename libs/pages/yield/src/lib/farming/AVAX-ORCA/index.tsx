@@ -10,16 +10,19 @@ type AvaxProps = {
     panel: string
   ) => (event: React.SyntheticEvent, isExpanded: boolean) => void;
   expanded: string | false;
+  chainId: number;
 };
 
 export const AvaxOrcaFarm: FC<AvaxProps> = ({
   account,
   handleChange,
   expanded,
+  chainId,
 }) => {
   const { loading, data } = useMonitorFarms(
     tokenInfo['AVAX-ORCA'].address.mainnet.toLowerCase(),
-    account
+    account,
+    chainId
   );
 
   return (
