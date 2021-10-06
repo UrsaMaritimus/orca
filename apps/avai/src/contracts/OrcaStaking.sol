@@ -35,8 +35,6 @@ contract OrcaStaking is Ownable, ReentrancyGuard {
     uint256 totalStaked; // Total amount of token staked via Rewards Manager
   }
 
-  IERC20 public orca;
-
   /// @notice Rewards rewarded per second
   uint256 public rewardsPerSecond;
 
@@ -122,7 +120,6 @@ contract OrcaStaking is Ownable, ReentrancyGuard {
    * @param _rewardsPerSecond initial amount of reward tokens to be distributed per second
    */
   constructor(
-    IERC20 _orca,
     uint256 _startTimestamp,
     uint256 _rewardsPerSecond,
     address _treasury
@@ -132,9 +129,6 @@ contract OrcaStaking is Ownable, ReentrancyGuard {
 
     rewardsPerSecond = _rewardsPerSecond;
     emit ChangedRewardsPerSecond(0, _rewardsPerSecond);
-
-    // Set orca token address
-    orca = _orca;
 
     treasury = _treasury;
     emit ChangedTreasury(address(0), _treasury);

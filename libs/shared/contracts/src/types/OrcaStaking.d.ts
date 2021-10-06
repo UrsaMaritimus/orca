@@ -29,7 +29,6 @@ interface OrcaStakingInterface extends ethers.utils.Interface {
     "endTimestamp()": FunctionFragment;
     "getMultiplier(uint256,uint256)": FunctionFragment;
     "massUpdatePools()": FunctionFragment;
-    "orca()": FunctionFragment;
     "owner()": FunctionFragment;
     "pendingRewards(uint256,address)": FunctionFragment;
     "poolInfo(uint256)": FunctionFragment;
@@ -77,7 +76,6 @@ interface OrcaStakingInterface extends ethers.utils.Interface {
     functionFragment: "massUpdatePools",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "orca", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "pendingRewards",
@@ -160,7 +158,6 @@ interface OrcaStakingInterface extends ethers.utils.Interface {
     functionFragment: "massUpdatePools",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "orca", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "pendingRewards",
@@ -311,8 +308,6 @@ export class OrcaStaking extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    orca(overrides?: CallOverrides): Promise<[string]>;
-
     owner(overrides?: CallOverrides): Promise<[string]>;
 
     pendingRewards(
@@ -426,8 +421,6 @@ export class OrcaStaking extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  orca(overrides?: CallOverrides): Promise<string>;
-
   owner(overrides?: CallOverrides): Promise<string>;
 
   pendingRewards(
@@ -536,8 +529,6 @@ export class OrcaStaking extends BaseContract {
     ): Promise<BigNumber>;
 
     massUpdatePools(overrides?: CallOverrides): Promise<void>;
-
-    orca(overrides?: CallOverrides): Promise<string>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
@@ -751,8 +742,6 @@ export class OrcaStaking extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    orca(overrides?: CallOverrides): Promise<BigNumber>;
-
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     pendingRewards(
@@ -853,8 +842,6 @@ export class OrcaStaking extends BaseContract {
     massUpdatePools(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
-
-    orca(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

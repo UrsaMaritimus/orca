@@ -5,19 +5,20 @@ import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 import {
   ORCA,
   ORCA__factory,
-  PodLeader__factory,
-  PodLeader,
+  OrcaStaking,
+  OrcaStaking__factory,
 } from '../libs/shared/contracts/src';
+import { over } from 'lodash';
 
-describe('Pod Leader test', function () {
+describe('Orca Staking test', function () {
   let accounts: SignerWithAddress[];
   let orca: ORCA;
   let OrcaFac: ORCA__factory;
-  let podLeader: PodLeader;
-  let PodLeaderFac: PodLeader__factory;
+  let staking: OrcaStaking;
+  let StakingFac: OrcaStaking__factory;
   let startTime: number;
   let rewardsPerSecond = ethers.utils.parseEther('1');
-  let initialRewardsBalance = ethers.utils.parseEther('13406250');
+  let initialRewardsBalance = ethers.utils.parseEther('500');
 
   before(async () => {
     accounts = await ethers.getSigners();
@@ -25,87 +26,84 @@ describe('Pod Leader test', function () {
       'ORCA',
       accounts[0]
     )) as ORCA__factory;
-    PodLeaderFac = (await ethers.getContractFactory(
-      'PodLeader',
+    StakingFac = (await ethers.getContractFactory(
+      'OrcaStaking',
       accounts[0]
-    )) as PodLeader__factory;
+    )) as OrcaStaking__factory;
   });
 
   beforeEach(async function () {
     orca = await OrcaFac.deploy();
     await orca.deployed();
     expect(orca.address).to.be.properAddress;
-
     // Get block number
     const { timestamp } = await ethers.provider.getBlock('latest');
     startTime = timestamp - 5;
-    podLeader = await PodLeaderFac.deploy(
-      orca.address,
+    staking = await StakingFac.deploy(
       startTime,
       rewardsPerSecond,
       accounts[0].address
     );
-    expect(podLeader.address).to.be.properAddress;
-    await orca.increaseAllowance(podLeader.address, await orca.totalSupply());
+    expect(staking.address).to.be.properAddress;
   });
 
   it('should not give out rewards if not active', async () => {
     const { timestamp } = await ethers.provider.getBlock('latest');
     expect(timestamp).to.gte(startTime);
-    expect(await podLeader.rewardsActive()).to.eq(false);
+    expect(await staking.rewardsActive()).to.eq(false);
   });
 
   it('Should if theres a pool and rewards added! withUpdate=true', async () => {
-    expect(await podLeader.rewardsActive()).to.eq(false);
+    expect(await staking.rewardsActive()).to.eq(false);
     const { timestamp } = await ethers.provider.getBlock('latest');
     const ALLOC_POINTS = '10';
-    const DEPOSIT_FEE = 75;
-
-    await podLeader.addRewardsBalance(ethers.utils.parseEther('1'));
-    await podLeader.add(ALLOC_POINTS, orca.address, true, DEPOSIT_FEE);
+    const overrides = {
+      value: ethers.utils.parseEther('1'),
+    };
+    await staking.addRewardsBalance(overrides);
+    await staking.add(ALLOC_POINTS, orca.address, true);
     expect(timestamp).to.gte(startTime);
-    expect(await podLeader.rewardsActive()).to.eq(true);
+    expect(await staking.rewardsActive()).to.eq(true);
   });
 
   it('Should if theres a pool and rewards added! withUpdate=false', async () => {
-    expect(await podLeader.rewardsActive()).to.eq(false);
+    expect(await staking.rewardsActive()).to.eq(false);
     const { timestamp } = await ethers.provider.getBlock('latest');
     const ALLOC_POINTS = '10';
-    const DEPOSIT_FEE = 75;
-
-    await podLeader.addRewardsBalance(ethers.utils.parseEther('1'));
-    await podLeader.add(ALLOC_POINTS, orca.address, false, DEPOSIT_FEE);
+    const overrides = {
+      value: ethers.utils.parseEther('1'),
+    };
+    await staking.addRewardsBalance(overrides);
+    await staking.add(ALLOC_POINTS, orca.address, false);
     expect(timestamp).to.gte(startTime);
-    expect(await podLeader.rewardsActive()).to.eq(true);
+    expect(await staking.rewardsActive()).to.eq(true);
   });
 
   it('updates end time stamp when rewards are added', async () => {
-    let endTimestamp = await podLeader.endTimestamp();
+    let endTimestamp = await staking.endTimestamp();
     expect(endTimestamp).to.eq(0);
-    expect(await podLeader.rewardsPerSecond()).to.eq(rewardsPerSecond);
-
-    let addRewardsBalanceTx = await podLeader.addRewardsBalance(
-      initialRewardsBalance.div(2)
-    );
+    expect(await staking.rewardsPerSecond()).to.eq(rewardsPerSecond);
+    const overrides = {
+      value: initialRewardsBalance.div(2),
+    };
+    let addRewardsBalanceTx = await staking.addRewardsBalance(overrides);
     let addRewardsBalanceTxReceipt = await addRewardsBalanceTx.wait(0);
     let addRewardsBalanceTxBlock = await ethers.provider.getBlock(
       addRewardsBalanceTxReceipt.blockNumber
     );
-    endTimestamp = await podLeader.endTimestamp();
+    endTimestamp = await staking.endTimestamp();
     expect(endTimestamp).to.eq(
       ethers.BigNumber.from(addRewardsBalanceTxBlock.timestamp).add(
         initialRewardsBalance.div('2').div(rewardsPerSecond)
       )
     );
 
-    addRewardsBalanceTx = await podLeader.addRewardsBalance(
-      initialRewardsBalance.div(2)
-    );
+    addRewardsBalanceTx = await staking.addRewardsBalance(overrides);
     addRewardsBalanceTxReceipt = await addRewardsBalanceTx.wait(0);
     addRewardsBalanceTxBlock = await ethers.provider.getBlock(
       addRewardsBalanceTxReceipt.blockNumber
     );
-    endTimestamp = await podLeader.endTimestamp();
+    endTimestamp = await staking.endTimestamp();
     expect(endTimestamp).to.eq(
       ethers.BigNumber.from(addRewardsBalanceTxBlock.timestamp).add(
         initialRewardsBalance.div(rewardsPerSecond)
@@ -115,45 +113,42 @@ describe('Pod Leader test', function () {
 
   context('add', async () => {
     beforeEach(async () => {
-      await podLeader.addRewardsBalance(initialRewardsBalance);
-      expect(await orca.balanceOf(podLeader.address)).to.equal(
+      const overrides = {
+        value: initialRewardsBalance,
+      };
+      await staking.addRewardsBalance(overrides);
+      expect(await ethers.provider.getBalance(staking.address)).to.equal(
         initialRewardsBalance
       );
     });
 
     it('succesfully adds ORCA single staking pool', async () => {
       const ALLOC_POINTS = '10';
-      const DEPOSIT_FEE = 75;
-      const initNumPools = await podLeader.poolLength();
-      const initTotalAllocPoints = await podLeader.totalAllocPoint();
-      await podLeader.add(ALLOC_POINTS, orca.address, false, DEPOSIT_FEE);
-      expect(await podLeader.poolLength()).to.equal(initNumPools.add(1));
-      expect(await podLeader.totalAllocPoint()).to.equal(
+      const initNumPools = await staking.poolLength();
+      const initTotalAllocPoints = await staking.totalAllocPoint();
+      await staking.add(ALLOC_POINTS, orca.address, false);
+      expect(await staking.poolLength()).to.equal(initNumPools.add(1));
+      expect(await staking.totalAllocPoint()).to.equal(
         initTotalAllocPoints.add(ALLOC_POINTS)
       );
 
-      const newPool = await podLeader.poolInfo(initNumPools);
+      const newPool = await staking.poolInfo(initNumPools);
       expect(newPool.token).to.equal(orca.address);
       expect(newPool.allocPoint).to.equal(ALLOC_POINTS);
-      expect(newPool.depositFeeBP).to.equal(DEPOSIT_FEE);
     });
 
     it('successfully adds a second and third pool', async () => {
-      const DEPOSIT_FEE = 75;
-      await podLeader.add('10', orca.address, false, DEPOSIT_FEE);
-      await podLeader.add('20', orca.address, false, DEPOSIT_FEE);
-      await podLeader.add('0', orca.address, false, DEPOSIT_FEE);
-      expect(await podLeader.poolLength()).to.eq(3);
-      expect(await podLeader.totalAllocPoint()).to.eq(30);
+      await staking.add('10', orca.address, false);
+      await staking.add('20', orca.address, false);
+      await staking.add('0', orca.address, false);
+      expect(await staking.poolLength()).to.eq(3);
+      expect(await staking.totalAllocPoint()).to.eq(30);
     });
 
     it('does not allow non-owner to add pool', async () => {
       const ALLOC_POINTS = '10';
-      const DEPOSIT_FEE = 75;
       await expect(
-        podLeader
-          .connect(accounts[1])
-          .add(ALLOC_POINTS, podLeader.address, false, DEPOSIT_FEE)
+        staking.connect(accounts[1]).add(ALLOC_POINTS, staking.address, false)
       ).to.be.reverted;
     });
   });
@@ -161,53 +156,39 @@ describe('Pod Leader test', function () {
   context('set', async () => {
     beforeEach(async () => {
       const ALLOC_POINTS = '10';
-      const DEPOSIT_FEE = 75;
-      await podLeader.addRewardsBalance(initialRewardsBalance);
-      await podLeader.add(ALLOC_POINTS, orca.address, false, DEPOSIT_FEE);
+      const overrides = {
+        value: initialRewardsBalance,
+      };
+      await staking.addRewardsBalance(overrides);
+      await staking.add(ALLOC_POINTS, orca.address, false);
     });
 
     it('allows owner to set alloc points for pool', async () => {
       const ALLOC_POINTS = '20';
-      const numPools = await podLeader.poolLength();
+      const numPools = await staking.poolLength();
       const pid = numPools.sub(1);
-      await podLeader.set(pid, ALLOC_POINTS, true);
-      const pool = await podLeader.poolInfo(pid);
+      await staking.set(pid, ALLOC_POINTS, true);
+      const pool = await staking.poolInfo(pid);
       expect(pool.allocPoint).to.eq(ALLOC_POINTS);
     });
 
     it('does not allow non-owner to set alloc points for pool', async () => {
       const ALLOC_POINTS = '20';
-      const numPools = await podLeader.poolLength();
+      const numPools = await staking.poolLength();
       const pid = numPools.sub(1);
-      await expect(podLeader.connect(accounts[1]).set(pid, ALLOC_POINTS, true))
-        .to.be.reverted;
-    });
-
-    it('allows owner to set deposit fee for pool', async () => {
-      const DEPOSIT_FEE = 50;
-      const numPools = await podLeader.poolLength();
-      const pid = numPools.sub(1);
-      await podLeader.updateDepositFee(pid, DEPOSIT_FEE, true);
-      const pool = await podLeader.poolInfo(pid);
-      expect(pool.depositFeeBP).to.eq(DEPOSIT_FEE);
-    });
-
-    it('does not allow non-owner to set deposit for pool', async () => {
-      const DEPOSIT_FEE = '50';
-      const numPools = await podLeader.poolLength();
-      const pid = numPools.sub(1);
-      await expect(
-        podLeader.connect(accounts[1]).updateDepositFee(pid, DEPOSIT_FEE, true)
-      ).to.be.reverted;
+      await expect(staking.connect(accounts[1]).set(pid, ALLOC_POINTS, true)).to
+        .be.reverted;
     });
   });
 
   context('deposit', async () => {
     beforeEach(async () => {
+      const overrides = {
+        value: initialRewardsBalance,
+      };
       const ALLOC_POINTS = '10';
-      const DEPOSIT_FEE = 75;
-      await podLeader.addRewardsBalance(initialRewardsBalance);
-      await podLeader.add(ALLOC_POINTS, orca.address, false, DEPOSIT_FEE);
+      await staking.addRewardsBalance(overrides);
+      await staking.add(ALLOC_POINTS, orca.address, false);
 
       // Send to account[1]
       await accounts[0].sendTransaction({
@@ -220,49 +201,44 @@ describe('Pod Leader test', function () {
     });
 
     it('allows a user to deposit', async () => {
-      const DEPOSIT_FEE = 75;
-      const numPools = await podLeader.poolLength();
+      const numPools = await staking.poolLength();
       const poolIndex = numPools.sub(1);
       const orcaBalance = await orca.balanceOf(accounts[1].address);
-      const treasury = await podLeader.treasury();
+      const treasury = await staking.treasury();
       const orcaBalanceTreasury = await orca.balanceOf(treasury);
 
       await orca
         .connect(accounts[1])
-        .increaseAllowance(podLeader.address, orcaBalance);
+        .increaseAllowance(staking.address, orcaBalance);
 
-      await podLeader.connect(accounts[1]).deposit(poolIndex, orcaBalance);
+      await staking.connect(accounts[1]).deposit(poolIndex, orcaBalance);
 
-      const userInfo = await podLeader.userInfo(poolIndex, accounts[1].address);
-      const poolInfo = await podLeader.poolInfo(poolIndex);
+      const userInfo = await staking.userInfo(poolIndex, accounts[1].address);
+      const poolInfo = await staking.poolInfo(poolIndex);
 
-      expect(userInfo.amount).to.equal(
-        orcaBalance.sub(orcaBalance.mul(DEPOSIT_FEE).div(10000))
-      );
+      expect(userInfo.amount).to.equal(orcaBalance.sub(orcaBalance));
 
       expect(userInfo.rewardTokenDebt).to.equal(0);
-      expect(poolInfo.totalStaked).to.equal(
-        orcaBalance.sub(orcaBalance.mul(DEPOSIT_FEE).div(10000))
-      );
+      expect(poolInfo.totalStaked).to.equal(orcaBalance.sub(orcaBalance));
 
       expect(await orca.balanceOf(accounts[1].address)).to.equal(0);
       expect(await orca.balanceOf(treasury)).to.equal(
-        orcaBalanceTreasury.add(orcaBalance.mul(DEPOSIT_FEE).div(10000))
+        orcaBalanceTreasury.add(orcaBalance)
       );
     });
 
     it('allows harvest with zero deposit', async () => {
-      const DEPOSIT_FEE = 75;
-      const numPools = await podLeader.poolLength();
+      const numPools = await staking.poolLength();
       const poolIndex = numPools.sub(1);
       const orcaBalance = await orca.balanceOf(accounts[1].address);
-      const treasury = await podLeader.treasury();
+      const treasury = await staking.treasury();
       const orcaBalanceTreasury = await orca.balanceOf(treasury);
 
       await orca
         .connect(accounts[1])
-        .increaseAllowance(podLeader.address, orcaBalance);
-      await podLeader.connect(accounts[1]).deposit(poolIndex, orcaBalance);
+        .increaseAllowance(staking.address, orcaBalance);
+
+      await staking.connect(accounts[1]).deposit(poolIndex, orcaBalance);
 
       const DURATION = 1 * 24 * 60 * 60;
       await ethers.provider.send('evm_setNextBlockTimestamp', [
@@ -270,7 +246,7 @@ describe('Pod Leader test', function () {
       ]);
       await ethers.provider.send('evm_mine', []);
 
-      const amountToClaim = await podLeader.pendingRewards(
+      const amountToClaim = await staking.pendingRewards(
         poolIndex,
         accounts[1].address
       );
@@ -278,17 +254,13 @@ describe('Pod Leader test', function () {
       const afterDepositOrcaBalance = await orca.balanceOf(accounts[1].address);
 
       // Should update things
-      await podLeader.connect(accounts[1]).deposit(poolIndex, 0);
+      await staking.connect(accounts[1]).deposit(poolIndex, 0);
 
-      const poolInfo = await podLeader.poolInfo(poolIndex);
-      const userInfo = await podLeader.userInfo(poolIndex, accounts[1].address);
+      const poolInfo = await staking.poolInfo(poolIndex);
+      const userInfo = await staking.userInfo(poolIndex, accounts[1].address);
 
-      expect(userInfo.amount).to.equal(
-        orcaBalance.sub(orcaBalance.mul(DEPOSIT_FEE).div(10000))
-      );
-      expect(poolInfo.totalStaked).to.equal(
-        orcaBalance.sub(orcaBalance.mul(DEPOSIT_FEE).div(10000))
-      );
+      expect(userInfo.amount).to.equal(orcaBalance.sub(orcaBalance));
+      expect(poolInfo.totalStaked).to.equal(orcaBalance.sub(orcaBalance));
 
       // @ts-expect-error bignumber instead of number
       expect(userInfo.rewardTokenDebt).to.be.closeTo(
@@ -297,7 +269,7 @@ describe('Pod Leader test', function () {
       );
 
       expect(await orca.balanceOf(treasury)).to.equal(
-        orcaBalanceTreasury.add(orcaBalance.mul(DEPOSIT_FEE).div(10000))
+        orcaBalanceTreasury.add(orcaBalance)
       );
 
       // @ts-expect-error bignumber instead of number
@@ -311,9 +283,11 @@ describe('Pod Leader test', function () {
   context('withdraw', async () => {
     beforeEach(async () => {
       const ALLOC_POINTS = '10';
-      const DEPOSIT_FEE = 75;
-      await podLeader.addRewardsBalance(initialRewardsBalance);
-      await podLeader.add(ALLOC_POINTS, orca.address, true, DEPOSIT_FEE);
+      const overrides = {
+        value: initialRewardsBalance,
+      };
+      await staking.addRewardsBalance(overrides);
+      await staking.add(ALLOC_POINTS, orca.address, true);
 
       // Send to account[1]
       await accounts[0].sendTransaction({
@@ -326,20 +300,17 @@ describe('Pod Leader test', function () {
     });
 
     it('allows user top withdraw from pool', async () => {
-      const DEPOSIT_FEE = 75;
-      const numPools = await podLeader.poolLength();
+      const numPools = await staking.poolLength();
       const poolIndex = numPools.sub(1);
       const orcaBalance = await orca.balanceOf(accounts[1].address);
-      const withdrawOrcaBalance = orcaBalance.sub(
-        orcaBalance.mul(DEPOSIT_FEE).div(10000)
-      );
-      const treasury = await podLeader.treasury();
+      const withdrawOrcaBalance = orcaBalance.sub(orcaBalance);
+      const treasury = await staking.treasury();
       const orcaBalanceTreasury = await orca.balanceOf(treasury);
 
       await orca
         .connect(accounts[1])
-        .increaseAllowance(podLeader.address, orcaBalance);
-      await podLeader.connect(accounts[1]).deposit(poolIndex, orcaBalance);
+        .increaseAllowance(staking.address, orcaBalance);
+      await staking.connect(accounts[1]).deposit(poolIndex, orcaBalance);
       expect(await orca.balanceOf(accounts[1].address)).to.equal(0);
 
       const DURATION = 1 * 24 * 60 * 60;
@@ -348,17 +319,17 @@ describe('Pod Leader test', function () {
       ]);
       await ethers.provider.send('evm_mine', []);
 
-      const amountToClaim = await podLeader.pendingRewards(
+      const amountToClaim = await staking.pendingRewards(
         poolIndex,
         accounts[1].address
       );
 
-      await podLeader
+      await staking
         .connect(accounts[1])
         .withdraw(poolIndex, withdrawOrcaBalance);
 
-      const poolInfo = await podLeader.poolInfo(poolIndex);
-      const userInfo = await podLeader.userInfo(poolIndex, accounts[1].address);
+      const poolInfo = await staking.poolInfo(poolIndex);
+      const userInfo = await staking.userInfo(poolIndex, accounts[1].address);
 
       expect(poolInfo.totalStaked).to.equal(0);
       expect(userInfo.amount).to.equal(0);
@@ -371,20 +342,19 @@ describe('Pod Leader test', function () {
       );
 
       expect(await orca.balanceOf(treasury)).to.equal(
-        orcaBalanceTreasury.add(orcaBalance.mul(DEPOSIT_FEE).div(10000))
+        orcaBalanceTreasury.add(orcaBalance)
       );
     });
 
     it('does not allow a 0 withdraw', async () => {
-      const DEPOSIT_FEE = 75;
-      const numPools = await podLeader.poolLength();
+      const numPools = await staking.poolLength();
       const poolIndex = numPools.sub(1);
       const orcaBalance = await orca.balanceOf(accounts[1].address);
 
       await orca
         .connect(accounts[1])
-        .increaseAllowance(podLeader.address, orcaBalance);
-      await podLeader.connect(accounts[1]).deposit(poolIndex, orcaBalance);
+        .increaseAllowance(staking.address, orcaBalance);
+      await staking.connect(accounts[1]).deposit(poolIndex, orcaBalance);
       expect(await orca.balanceOf(accounts[1].address)).to.equal(0);
 
       const DURATION = 1 * 24 * 60 * 60;
@@ -393,49 +363,46 @@ describe('Pod Leader test', function () {
       ]);
       await ethers.provider.send('evm_mine', []);
 
-      await expect(podLeader.withdraw(poolIndex, 0)).to.be.revertedWith(
-        'PodLeader::withdraw: amount must be > 0'
+      await expect(staking.withdraw(poolIndex, 0)).to.be.revertedWith(
+        'staking::withdraw: amount must be > 0'
       );
 
       expect(await orca.balanceOf(accounts[1].address)).to.equal(0);
     });
 
     it('allows withdraw after reward period is over', async () => {
-      const DEPOSIT_FEE = 75;
-      const numPools = await podLeader.poolLength();
+      const numPools = await staking.poolLength();
       const poolIndex = numPools.sub(1);
       const orcaBalance = await orca.balanceOf(accounts[1].address);
-      const withdrawOrcaBalance = orcaBalance.sub(
-        orcaBalance.mul(DEPOSIT_FEE).div(10000)
-      );
+      const withdrawOrcaBalance = orcaBalance.sub(orcaBalance);
 
       await orca
         .connect(accounts[1])
-        .increaseAllowance(podLeader.address, orcaBalance);
-      await podLeader.connect(accounts[1]).deposit(poolIndex, orcaBalance);
+        .increaseAllowance(staking.address, orcaBalance);
+      await staking.connect(accounts[1]).deposit(poolIndex, orcaBalance);
       expect(await orca.balanceOf(accounts[1].address)).to.equal(0);
 
       // Speed ahead to end
-      const endTimestamp = await podLeader.endTimestamp();
+      const endTimestamp = await staking.endTimestamp();
 
-      expect(await podLeader.rewardsActive()).to.equal(true);
+      expect(await staking.rewardsActive()).to.equal(true);
       await ethers.provider.send('evm_setNextBlockTimestamp', [
         endTimestamp.toNumber() + 1,
       ]);
       await ethers.provider.send('evm_mine', []);
-      expect(await podLeader.rewardsActive()).to.equal(false);
+      expect(await staking.rewardsActive()).to.equal(false);
 
-      const amountToClaim = await podLeader.pendingRewards(
+      const amountToClaim = await staking.pendingRewards(
         poolIndex,
         accounts[1].address
       );
 
-      await podLeader
+      await staking
         .connect(accounts[1])
         .withdraw(poolIndex, withdrawOrcaBalance);
 
-      const poolInfo = await podLeader.poolInfo(poolIndex);
-      const userInfo = await podLeader.userInfo(poolIndex, accounts[1].address);
+      const poolInfo = await staking.poolInfo(poolIndex);
+      const userInfo = await staking.userInfo(poolIndex, accounts[1].address);
 
       expect(poolInfo.totalStaked).to.equal(0);
       expect(userInfo.amount).to.equal(0);
@@ -447,7 +414,7 @@ describe('Pod Leader test', function () {
       );
 
       //@ts-expect-error bignumber not number
-      expect(await orca.balanceOf(podLeader.address)).to.be.closeTo(
+      expect(await orca.balanceOf(staking.address)).to.be.closeTo(
         ethers.utils.parseUnits('0'),
         amountToClaim.div(100)
       );
@@ -457,8 +424,8 @@ describe('Pod Leader test', function () {
   context('set rewards per second', async () => {
     beforeEach(async () => {
       const ALLOC_POINTS = '10';
-      const DEPOSIT_FEE = 75;
-      await podLeader.add(ALLOC_POINTS, orca.address, false, DEPOSIT_FEE);
+
+      await staking.add(ALLOC_POINTS, orca.address, false);
 
       // Send to account[1]
       await accounts[0].sendTransaction({
@@ -471,25 +438,22 @@ describe('Pod Leader test', function () {
     });
 
     it('allows user to deposit BEFORE rewards are added', async () => {
-      const DEPOSIT_FEE = 75;
-      const numPools = await podLeader.poolLength();
+      const numPools = await staking.poolLength();
       const poolIndex = numPools.sub(1);
       const orcaBalance = await orca.balanceOf(accounts[1].address);
-      const treasury = await podLeader.treasury();
+      const treasury = await staking.treasury();
       const orcaBalanceTreasury = await orca.balanceOf(treasury);
-      const withdrawOrcaBalance = orcaBalance.sub(
-        orcaBalance.mul(DEPOSIT_FEE).div(10000)
-      );
+      const withdrawOrcaBalance = orcaBalance.sub(orcaBalance);
 
       await orca
         .connect(accounts[1])
-        .increaseAllowance(podLeader.address, orcaBalance);
-      await podLeader.connect(accounts[1]).deposit(poolIndex, orcaBalance);
+        .increaseAllowance(staking.address, orcaBalance);
+      await staking.connect(accounts[1]).deposit(poolIndex, orcaBalance);
 
       const { timestamp } = await ethers.provider.getBlock('latest');
 
-      let poolInfo = await podLeader.poolInfo(poolIndex);
-      const userInfo = await podLeader.userInfo(poolIndex, accounts[1].address);
+      let poolInfo = await staking.poolInfo(poolIndex);
+      const userInfo = await staking.userInfo(poolIndex, accounts[1].address);
 
       expect(userInfo.amount).to.eq(withdrawOrcaBalance);
       expect(userInfo.rewardTokenDebt).to.eq(0);
@@ -508,36 +472,40 @@ describe('Pod Leader test', function () {
       ]);
       await ethers.provider.send('evm_mine', []);
 
-      poolInfo = await podLeader.poolInfo(poolIndex);
+      poolInfo = await staking.poolInfo(poolIndex);
       expect(poolInfo.lastRewardTimestamp).to.eq(timestamp);
       expect(poolInfo.accRewardsPerShare).to.eq(0);
       expect(
-        await podLeader.pendingRewards(poolIndex, accounts[1].address)
+        await staking.pendingRewards(poolIndex, accounts[1].address)
       ).to.eq(0);
     });
 
     it('accumulates proper rewards AFTER rewards are added', async () => {
-      const numPools = await podLeader.poolLength();
+      const numPools = await staking.poolLength();
       const poolIndex = numPools.sub(1);
       const orcaBalance = await orca.balanceOf(accounts[1].address);
 
       await orca
         .connect(accounts[1])
-        .increaseAllowance(podLeader.address, orcaBalance);
-      await podLeader.connect(accounts[1]).deposit(poolIndex, orcaBalance);
+        .increaseAllowance(staking.address, orcaBalance);
+      await staking.connect(accounts[1]).deposit(poolIndex, orcaBalance);
 
       const { timestamp } = await ethers.provider.getBlock('latest');
 
-      let poolInfo = await podLeader.poolInfo(poolIndex);
+      let poolInfo = await staking.poolInfo(poolIndex);
 
       const DURATION = 1 * 24 * 60 * 60;
       await ethers.provider.send('evm_setNextBlockTimestamp', [
         poolInfo.lastRewardTimestamp.toNumber() + DURATION,
       ]);
-      await podLeader.updatePool(poolIndex);
-      await podLeader.addRewardsBalance(initialRewardsBalance);
+      await staking.updatePool(poolIndex);
 
-      poolInfo = await podLeader.poolInfo(poolIndex);
+      const overrides = {
+        value: initialRewardsBalance,
+      };
+      await staking.addRewardsBalance(overrides);
+
+      poolInfo = await staking.poolInfo(poolIndex);
       expect(poolInfo.lastRewardTimestamp).to.eq(timestamp + DURATION);
 
       await ethers.provider.send('evm_setNextBlockTimestamp', [
@@ -545,52 +513,54 @@ describe('Pod Leader test', function () {
       ]);
       await ethers.provider.send('evm_mine', []);
 
-      poolInfo = await podLeader.poolInfo(poolIndex);
+      poolInfo = await staking.poolInfo(poolIndex);
       expect(poolInfo.accRewardsPerShare).to.eq(0);
       const expectedRewardsAmount = rewardsPerSecond.mul(DURATION);
 
       // @ts-expect-error bignumber not number
       expect(
-        await podLeader.pendingRewards(poolIndex, accounts[1].address)
+        await staking.pendingRewards(poolIndex, accounts[1].address)
       ).to.be.closeTo(expectedRewardsAmount, expectedRewardsAmount.div(100));
     });
 
     it('accumlates proper rewards after rewards/per sec changed', async () => {
-      const numPools = await podLeader.poolLength();
+      const numPools = await staking.poolLength();
       const poolIndex = numPools.sub(1);
       const orcaBalance = await orca.balanceOf(accounts[1].address);
-
-      await podLeader.addRewardsBalance(initialRewardsBalance);
+      const overrides = {
+        value: initialRewardsBalance,
+      };
+      await staking.addRewardsBalance(overrides);
 
       // Send in
       await orca
         .connect(accounts[1])
-        .increaseAllowance(podLeader.address, orcaBalance);
-      await podLeader.connect(accounts[1]).deposit(poolIndex, orcaBalance);
+        .increaseAllowance(staking.address, orcaBalance);
+      await staking.connect(accounts[1]).deposit(poolIndex, orcaBalance);
 
       const { timestamp } = await ethers.provider.getBlock('latest');
 
-      let poolInfo = await podLeader.poolInfo(poolIndex);
+      let poolInfo = await staking.poolInfo(poolIndex);
       let newRewardsPerSecond = rewardsPerSecond;
 
       const DURATION = 1 * 24 * 60 * 60;
       await ethers.provider.send('evm_setNextBlockTimestamp', [
         poolInfo.lastRewardTimestamp.toNumber() + DURATION,
       ]);
-      await podLeader.updatePool(poolIndex);
+      await staking.updatePool(poolIndex);
 
       let expectedRewardsAmount = rewardsPerSecond.mul(DURATION);
       // @ts-expect-error bignumber is not number
       expect(
-        await podLeader.pendingRewards(poolIndex, accounts[1].address)
+        await staking.pendingRewards(poolIndex, accounts[1].address)
       ).to.be.closeTo(expectedRewardsAmount, expectedRewardsAmount.div(10));
 
       // Lets update now
-      await podLeader.setRewardsPerSecond(newRewardsPerSecond);
-      expect(await podLeader.rewardsPerSecond()).to.eq(newRewardsPerSecond);
+      await staking.setRewardsPerSecond(newRewardsPerSecond);
+      expect(await staking.rewardsPerSecond()).to.eq(newRewardsPerSecond);
 
       // Lets look ahead
-      poolInfo = await podLeader.poolInfo(poolIndex);
+      poolInfo = await staking.poolInfo(poolIndex);
       expect(poolInfo.lastRewardTimestamp).to.eq(timestamp + DURATION);
       await ethers.provider.send('evm_setNextBlockTimestamp', [
         poolInfo.lastRewardTimestamp.toNumber() + DURATION,
@@ -604,7 +574,7 @@ describe('Pod Leader test', function () {
 
       // @ts-expect-error big number not number
       expect(
-        await podLeader.pendingRewards(poolIndex, accounts[1].address)
+        await staking.pendingRewards(poolIndex, accounts[1].address)
       ).to.be.closeTo(expectedRewardsAmount, expectedRewardsAmount.div('100'));
     });
   });
@@ -612,9 +582,11 @@ describe('Pod Leader test', function () {
   context('emergency withdraw works', async () => {
     beforeEach(async () => {
       const ALLOC_POINTS = '10';
-      const DEPOSIT_FEE = 75;
-      await podLeader.add(ALLOC_POINTS, orca.address, false, DEPOSIT_FEE);
-      await podLeader.addRewardsBalance(initialRewardsBalance);
+      const overrides = {
+        value: initialRewardsBalance,
+      };
+      await staking.add(ALLOC_POINTS, orca.address, false);
+      await staking.addRewardsBalance(overrides);
 
       // Send to account[1]
       await accounts[0].sendTransaction({
@@ -627,23 +599,20 @@ describe('Pod Leader test', function () {
     });
 
     it('allows emergency withdraw', async () => {
-      const DEPOSIT_FEE = 75;
-      const numPools = await podLeader.poolLength();
+      const numPools = await staking.poolLength();
       const poolIndex = numPools.sub(1);
       const orcaBalance = await orca.balanceOf(accounts[1].address);
-      const withdrawOrcaBalance = orcaBalance.sub(
-        orcaBalance.mul(DEPOSIT_FEE).div(10000)
-      );
+      const withdrawOrcaBalance = orcaBalance.sub(orcaBalance);
 
       // Send in
       await orca
         .connect(accounts[1])
-        .increaseAllowance(podLeader.address, orcaBalance);
-      await podLeader.connect(accounts[1]).deposit(poolIndex, orcaBalance);
+        .increaseAllowance(staking.address, orcaBalance);
+      await staking.connect(accounts[1]).deposit(poolIndex, orcaBalance);
 
       expect(await orca.balanceOf(accounts[1].address)).to.equal(0);
 
-      expect(await podLeader.rewardsActive()).to.eq(true);
+      expect(await staking.rewardsActive()).to.eq(true);
       const DURATION = 1 * 24 * 60 * 60;
       await ethers.provider.send('evm_setNextBlockTimestamp', [
         startTime + DURATION,
@@ -651,10 +620,10 @@ describe('Pod Leader test', function () {
       await ethers.provider.send('evm_mine', []);
 
       // emergency withdraw! Should reset most things for the user, but doesn't get rewards
-      await podLeader.connect(accounts[1]).emergencyWithdraw(poolIndex);
+      await staking.connect(accounts[1]).emergencyWithdraw(poolIndex);
 
-      const poolInfo = await podLeader.poolInfo(poolIndex);
-      const userInfo = await podLeader.userInfo(poolIndex, accounts[1].address);
+      const poolInfo = await staking.poolInfo(poolIndex);
+      const userInfo = await staking.userInfo(poolIndex, accounts[1].address);
 
       expect(poolInfo.totalStaked).to.eq(0);
       expect(userInfo.amount).to.eq(0);
@@ -664,41 +633,38 @@ describe('Pod Leader test', function () {
         withdrawOrcaBalance
       );
 
-      expect(await orca.balanceOf(podLeader.address)).to.equal(
+      expect(await orca.balanceOf(staking.address)).to.equal(
         initialRewardsBalance
       );
     });
 
     it('allows emergency withdraw after rewards period', async () => {
-      const DEPOSIT_FEE = 75;
-      const numPools = await podLeader.poolLength();
+      const numPools = await staking.poolLength();
       const poolIndex = numPools.sub(1);
       const orcaBalance = await orca.balanceOf(accounts[1].address);
-      const withdrawOrcaBalance = orcaBalance.sub(
-        orcaBalance.mul(DEPOSIT_FEE).div(10000)
-      );
+      const withdrawOrcaBalance = orcaBalance.sub(orcaBalance);
 
       // Send in
       await orca
         .connect(accounts[1])
-        .increaseAllowance(podLeader.address, orcaBalance);
-      await podLeader.connect(accounts[1]).deposit(poolIndex, orcaBalance);
+        .increaseAllowance(staking.address, orcaBalance);
+      await staking.connect(accounts[1]).deposit(poolIndex, orcaBalance);
 
       expect(await orca.balanceOf(accounts[1].address)).to.equal(0);
 
-      expect(await podLeader.rewardsActive()).to.eq(true);
-      const endTimestamp = await podLeader.endTimestamp();
+      expect(await staking.rewardsActive()).to.eq(true);
+      const endTimestamp = await staking.endTimestamp();
       await ethers.provider.send('evm_setNextBlockTimestamp', [
         endTimestamp.add(1).toNumber(),
       ]);
       await ethers.provider.send('evm_mine', []);
-      expect(await podLeader.rewardsActive()).to.eq(false);
+      expect(await staking.rewardsActive()).to.eq(false);
 
       // emergency withdraw! Should reset most things for the user, but doesn't get rewards
-      await podLeader.connect(accounts[1]).emergencyWithdraw(poolIndex);
+      await staking.connect(accounts[1]).emergencyWithdraw(poolIndex);
 
-      const poolInfo = await podLeader.poolInfo(poolIndex);
-      const userInfo = await podLeader.userInfo(poolIndex, accounts[1].address);
+      const poolInfo = await staking.poolInfo(poolIndex);
+      const userInfo = await staking.userInfo(poolIndex, accounts[1].address);
 
       expect(poolInfo.totalStaked).to.eq(0);
       expect(userInfo.amount).to.eq(0);
@@ -706,7 +672,7 @@ describe('Pod Leader test', function () {
       expect(await orca.balanceOf(accounts[1].address)).to.equal(
         withdrawOrcaBalance
       );
-      expect(await orca.balanceOf(podLeader.address)).to.equal(
+      expect(await orca.balanceOf(staking.address)).to.equal(
         initialRewardsBalance
       );
     });
