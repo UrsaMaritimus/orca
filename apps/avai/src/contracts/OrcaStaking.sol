@@ -137,7 +137,7 @@ contract OrcaStaking is Ownable, ReentrancyGuard {
   /**
    * @dev Only relayer or owner can add to this
    */
-  modifier onlyRelayerOrOwner() {
+  modifier onlyTreasuryOrOwner() {
     require(
       owner() == msg.sender || msg.sender == treasury,
       'Cannot do this, not owner or treasury.'
@@ -168,7 +168,7 @@ contract OrcaStaking is Ownable, ReentrancyGuard {
    * @notice Add rewards to contract
    * @dev Can only be called by the owner
    */
-  function addRewardsBalance() external payable onlyRelayerOrOwner {
+  function addRewardsBalance() external payable onlyTreasuryOrOwner {
     _setRewardsEndTimestamp();
   }
 
@@ -339,7 +339,7 @@ contract OrcaStaking is Ownable, ReentrancyGuard {
   }
 
   /**
-   * @notice Deposit tokens to PodLeader for rewards allocation.
+   * @notice Deposit tokens to Staking for rewards allocation.
    * @param pid pool id
    * @param amount number of tokens to deposit
    */
@@ -350,12 +350,12 @@ contract OrcaStaking is Ownable, ReentrancyGuard {
   }
 
   /**
-   * @notice Withdraw tokens from PodLeader, claiming rewards.
+   * @notice Withdraw tokens from Staking, claiming rewards.
    * @param pid pool id
    * @param amount number of tokens to withdraw
    */
   function withdraw(uint256 pid, uint256 amount) external nonReentrant {
-    require(amount > 0, 'PodLeader::withdraw: amount must be > 0');
+    require(amount > 0, 'Staking::withdraw: amount must be > 0');
     PoolInfo storage pool = poolInfo[pid];
     UserInfo storage user = userInfo[pid][msg.sender];
     _withdraw(pid, amount, pool, user);
@@ -387,7 +387,7 @@ contract OrcaStaking is Ownable, ReentrancyGuard {
    */
   function setRewardsPerSecond(uint256 newRewardsPerSecond)
     external
-    onlyRelayerOrOwner
+    onlyTreasuryOrOwner
   {
     emit ChangedRewardsPerSecond(rewardsPerSecond, newRewardsPerSecond);
     rewardsPerSecond = newRewardsPerSecond;
@@ -442,10 +442,7 @@ contract OrcaStaking is Ownable, ReentrancyGuard {
     PoolInfo storage pool,
     UserInfo storage user
   ) internal {
-    require(
-      user.amount >= amount,
-      'PodLeader::_withdraw: amount > user balance'
-    );
+    require(user.amount >= amount, 'Staking::_withdraw: amount > user balance');
 
     updatePool(pid);
 

@@ -8,7 +8,6 @@ import {
   OrcaStaking,
   OrcaStaking__factory,
 } from '../libs/shared/contracts/src';
-import { over } from 'lodash';
 
 describe('Orca Staking test', function () {
   let accounts: SignerWithAddress[];
@@ -17,7 +16,7 @@ describe('Orca Staking test', function () {
   let staking: OrcaStaking;
   let StakingFac: OrcaStaking__factory;
   let startTime: number;
-  let rewardsPerSecond = ethers.utils.parseEther('1');
+  let rewardsPerSecond = ethers.utils.parseEther('0.001');
   let initialRewardsBalance = ethers.utils.parseEther('500');
 
   before(async () => {
@@ -42,7 +41,7 @@ describe('Orca Staking test', function () {
     staking = await StakingFac.deploy(
       startTime,
       rewardsPerSecond,
-      accounts[0].address
+      accounts[2].address
     );
     expect(staking.address).to.be.properAddress;
   });
@@ -111,6 +110,68 @@ describe('Orca Staking test', function () {
     );
   });
 
+  it('allows treasury to add rewards', async () => {
+    const overrides = {
+      value: initialRewardsBalance,
+    };
+    await staking.connect(accounts[2]).addRewardsBalance(overrides);
+    expect(await ethers.provider.getBalance(staking.address)).to.equal(
+      initialRewardsBalance
+    );
+
+    await expect(
+      staking.connect(accounts[1]).addRewardsBalance(overrides)
+    ).to.be.revertedWith('Cannot do this, not owner or treasury.');
+  });
+
+  it('allows treasury to change rewards rate', async () => {
+    let endTimestamp = await staking.endTimestamp();
+    expect(endTimestamp).to.eq(0);
+    expect(await staking.rewardsPerSecond()).to.eq(rewardsPerSecond);
+    const overrides = {
+      value: initialRewardsBalance.div(2),
+    };
+    let addRewardsBalanceTx = await staking
+      .connect(accounts[2])
+      .addRewardsBalance(overrides);
+    let addRewardsBalanceTxReceipt = await addRewardsBalanceTx.wait(0);
+    let addRewardsBalanceTxBlock = await ethers.provider.getBlock(
+      addRewardsBalanceTxReceipt.blockNumber
+    );
+    endTimestamp = await staking.endTimestamp();
+    expect(endTimestamp).to.eq(
+      ethers.BigNumber.from(addRewardsBalanceTxBlock.timestamp).add(
+        initialRewardsBalance.div('2').div(rewardsPerSecond)
+      )
+    );
+
+    addRewardsBalanceTx = await staking.addRewardsBalance(overrides);
+    addRewardsBalanceTxReceipt = await addRewardsBalanceTx.wait(0);
+    addRewardsBalanceTxBlock = await ethers.provider.getBlock(
+      addRewardsBalanceTxReceipt.blockNumber
+    );
+    endTimestamp = await staking.endTimestamp();
+    expect(endTimestamp).to.eq(
+      ethers.BigNumber.from(addRewardsBalanceTxBlock.timestamp).add(
+        initialRewardsBalance.div(rewardsPerSecond)
+      )
+    );
+
+    let changeRewardsRateTx = await staking
+      .connect(accounts[2])
+      .setRewardsPerSecond(ethers.utils.parseEther('0.0001'));
+    let changeRewardsTxReceipt = await changeRewardsRateTx.wait(0);
+    let changeRewardsTxBlock = await ethers.provider.getBlock(
+      changeRewardsTxReceipt.blockNumber
+    );
+    endTimestamp = await staking.endTimestamp();
+    expect(endTimestamp).to.eq(
+      ethers.BigNumber.from(changeRewardsTxBlock.timestamp).add(
+        initialRewardsBalance.div(ethers.utils.parseEther('0.0001'))
+      )
+    );
+  });
+
   context('add', async () => {
     beforeEach(async () => {
       const overrides = {
@@ -148,7 +209,7 @@ describe('Orca Staking test', function () {
     it('does not allow non-owner to add pool', async () => {
       const ALLOC_POINTS = '10';
       await expect(
-        staking.connect(accounts[1]).add(ALLOC_POINTS, staking.address, false)
+        staking.connect(accounts[2]).add(ALLOC_POINTS, staking.address, false)
       ).to.be.reverted;
     });
   });
@@ -204,8 +265,6 @@ describe('Orca Staking test', function () {
       const numPools = await staking.poolLength();
       const poolIndex = numPools.sub(1);
       const orcaBalance = await orca.balanceOf(accounts[1].address);
-      const treasury = await staking.treasury();
-      const orcaBalanceTreasury = await orca.balanceOf(treasury);
 
       await orca
         .connect(accounts[1])
@@ -215,24 +274,18 @@ describe('Orca Staking test', function () {
 
       const userInfo = await staking.userInfo(poolIndex, accounts[1].address);
       const poolInfo = await staking.poolInfo(poolIndex);
-
-      expect(userInfo.amount).to.equal(orcaBalance.sub(orcaBalance));
+      expect(userInfo.amount).to.equal(orcaBalance);
 
       expect(userInfo.rewardTokenDebt).to.equal(0);
-      expect(poolInfo.totalStaked).to.equal(orcaBalance.sub(orcaBalance));
+      expect(poolInfo.totalStaked).to.equal(orcaBalance);
 
       expect(await orca.balanceOf(accounts[1].address)).to.equal(0);
-      expect(await orca.balanceOf(treasury)).to.equal(
-        orcaBalanceTreasury.add(orcaBalance)
-      );
     });
 
     it('allows harvest with zero deposit', async () => {
       const numPools = await staking.poolLength();
       const poolIndex = numPools.sub(1);
       const orcaBalance = await orca.balanceOf(accounts[1].address);
-      const treasury = await staking.treasury();
-      const orcaBalanceTreasury = await orca.balanceOf(treasury);
 
       await orca
         .connect(accounts[1])
@@ -251,16 +304,21 @@ describe('Orca Staking test', function () {
         accounts[1].address
       );
 
-      const afterDepositOrcaBalance = await orca.balanceOf(accounts[1].address);
-
+      const afterDepositAvaxBalance = await ethers.provider.getBalance(
+        accounts[1].address
+      );
       // Should update things
-      await staking.connect(accounts[1]).deposit(poolIndex, 0);
+      let tx = await staking.connect(accounts[1]).deposit(poolIndex, 0);
+      let txReceipt = await tx.wait(0);
+      let gasSpent = ethers.BigNumber.from('0').add(
+        txReceipt.gasUsed.mul(tx.gasPrice)
+      );
 
       const poolInfo = await staking.poolInfo(poolIndex);
       const userInfo = await staking.userInfo(poolIndex, accounts[1].address);
 
-      expect(userInfo.amount).to.equal(orcaBalance.sub(orcaBalance));
-      expect(poolInfo.totalStaked).to.equal(orcaBalance.sub(orcaBalance));
+      expect(userInfo.amount).to.equal(orcaBalance);
+      expect(poolInfo.totalStaked).to.equal(orcaBalance);
 
       // @ts-expect-error bignumber instead of number
       expect(userInfo.rewardTokenDebt).to.be.closeTo(
@@ -268,13 +326,11 @@ describe('Orca Staking test', function () {
         amountToClaim.div(100)
       );
 
-      expect(await orca.balanceOf(treasury)).to.equal(
-        orcaBalanceTreasury.add(orcaBalance)
-      );
-
       // @ts-expect-error bignumber instead of number
-      expect(await orca.balanceOf(accounts[1].address)).to.be.closeTo(
-        afterDepositOrcaBalance.add(amountToClaim),
+      expect(
+        await ethers.provider.getBalance(accounts[1].address)
+      ).to.be.closeTo(
+        afterDepositAvaxBalance.add(amountToClaim).sub(gasSpent),
         amountToClaim.div(100)
       );
     });
@@ -299,18 +355,18 @@ describe('Orca Staking test', function () {
       await orca.transfer(accounts[1].address, ethers.utils.parseEther('1000'));
     });
 
-    it('allows user top withdraw from pool', async () => {
+    it('allows user to withdraw from pool', async () => {
       const numPools = await staking.poolLength();
       const poolIndex = numPools.sub(1);
       const orcaBalance = await orca.balanceOf(accounts[1].address);
-      const withdrawOrcaBalance = orcaBalance.sub(orcaBalance);
-      const treasury = await staking.treasury();
-      const orcaBalanceTreasury = await orca.balanceOf(treasury);
+      const withdrawOrcaBalance = orcaBalance;
 
       await orca
         .connect(accounts[1])
         .increaseAllowance(staking.address, orcaBalance);
+
       await staking.connect(accounts[1]).deposit(poolIndex, orcaBalance);
+
       expect(await orca.balanceOf(accounts[1].address)).to.equal(0);
 
       const DURATION = 1 * 24 * 60 * 60;
@@ -324,9 +380,17 @@ describe('Orca Staking test', function () {
         accounts[1].address
       );
 
-      await staking
+      const afterDepositAvaxBalance = await ethers.provider.getBalance(
+        accounts[1].address
+      );
+      let tx = await staking
         .connect(accounts[1])
         .withdraw(poolIndex, withdrawOrcaBalance);
+
+      let txReceipt = await tx.wait(0);
+      let gasSpent = ethers.BigNumber.from('0').add(
+        txReceipt.gasUsed.mul(tx.gasPrice)
+      );
 
       const poolInfo = await staking.poolInfo(poolIndex);
       const userInfo = await staking.userInfo(poolIndex, accounts[1].address);
@@ -335,14 +399,16 @@ describe('Orca Staking test', function () {
       expect(userInfo.amount).to.equal(0);
       expect(userInfo.rewardTokenDebt).to.equal(0);
 
-      // @ts-expect-error bignumber is not number, duh
-      expect(await orca.balanceOf(accounts[1].address)).to.be.closeTo(
-        withdrawOrcaBalance.add(amountToClaim),
-        amountToClaim.div(100)
+      expect(await orca.balanceOf(accounts[1].address)).to.eq(
+        withdrawOrcaBalance
       );
 
-      expect(await orca.balanceOf(treasury)).to.equal(
-        orcaBalanceTreasury.add(orcaBalance)
+      // @ts-expect-error bignumber instead of number
+      expect(
+        await ethers.provider.getBalance(accounts[1].address)
+      ).to.be.closeTo(
+        afterDepositAvaxBalance.add(amountToClaim).sub(gasSpent),
+        amountToClaim.div(100)
       );
     });
 
@@ -354,7 +420,9 @@ describe('Orca Staking test', function () {
       await orca
         .connect(accounts[1])
         .increaseAllowance(staking.address, orcaBalance);
+
       await staking.connect(accounts[1]).deposit(poolIndex, orcaBalance);
+
       expect(await orca.balanceOf(accounts[1].address)).to.equal(0);
 
       const DURATION = 1 * 24 * 60 * 60;
@@ -364,7 +432,7 @@ describe('Orca Staking test', function () {
       await ethers.provider.send('evm_mine', []);
 
       await expect(staking.withdraw(poolIndex, 0)).to.be.revertedWith(
-        'staking::withdraw: amount must be > 0'
+        'Staking::withdraw: amount must be > 0'
       );
 
       expect(await orca.balanceOf(accounts[1].address)).to.equal(0);
@@ -374,12 +442,13 @@ describe('Orca Staking test', function () {
       const numPools = await staking.poolLength();
       const poolIndex = numPools.sub(1);
       const orcaBalance = await orca.balanceOf(accounts[1].address);
-      const withdrawOrcaBalance = orcaBalance.sub(orcaBalance);
+      const withdrawOrcaBalance = orcaBalance;
 
       await orca
         .connect(accounts[1])
         .increaseAllowance(staking.address, orcaBalance);
       await staking.connect(accounts[1]).deposit(poolIndex, orcaBalance);
+
       expect(await orca.balanceOf(accounts[1].address)).to.equal(0);
 
       // Speed ahead to end
@@ -397,25 +466,37 @@ describe('Orca Staking test', function () {
         accounts[1].address
       );
 
-      await staking
+      const afterDepositAvaxBalance = await ethers.provider.getBalance(
+        accounts[1].address
+      );
+      let tx = await staking
         .connect(accounts[1])
         .withdraw(poolIndex, withdrawOrcaBalance);
+
+      let txReceipt = await tx.wait(0);
+      let gasSpent = ethers.BigNumber.from('0').add(
+        txReceipt.gasUsed.mul(tx.gasPrice)
+      );
 
       const poolInfo = await staking.poolInfo(poolIndex);
       const userInfo = await staking.userInfo(poolIndex, accounts[1].address);
 
       expect(poolInfo.totalStaked).to.equal(0);
       expect(userInfo.amount).to.equal(0);
-
-      //@ts-expect-error bignumber not number
-      expect(await orca.balanceOf(accounts[1].address)).to.be.closeTo(
-        withdrawOrcaBalance.add(amountToClaim),
+      expect(await orca.balanceOf(accounts[1].address)).to.equal(
+        withdrawOrcaBalance
+      );
+      // @ts-expect-error bignumber instead of number
+      expect(
+        await ethers.provider.getBalance(accounts[1].address)
+      ).to.be.closeTo(
+        afterDepositAvaxBalance.add(amountToClaim).sub(gasSpent),
         amountToClaim.div(100)
       );
 
       //@ts-expect-error bignumber not number
-      expect(await orca.balanceOf(staking.address)).to.be.closeTo(
-        ethers.utils.parseUnits('0'),
+      expect(await ethers.provider.getBalance(staking.address)).to.be.closeTo(
+        ethers.utils.parseEther('0'),
         amountToClaim.div(100)
       );
     });
@@ -441,9 +522,7 @@ describe('Orca Staking test', function () {
       const numPools = await staking.poolLength();
       const poolIndex = numPools.sub(1);
       const orcaBalance = await orca.balanceOf(accounts[1].address);
-      const treasury = await staking.treasury();
-      const orcaBalanceTreasury = await orca.balanceOf(treasury);
-      const withdrawOrcaBalance = orcaBalance.sub(orcaBalance);
+      const withdrawOrcaBalance = orcaBalance;
 
       await orca
         .connect(accounts[1])
@@ -462,9 +541,6 @@ describe('Orca Staking test', function () {
       expect(poolInfo.lastRewardTimestamp).to.eq(timestamp);
       expect(poolInfo.accRewardsPerShare).to.eq(0);
       expect(poolInfo.totalStaked).to.eq(withdrawOrcaBalance);
-      expect(await orca.balanceOf(treasury)).to.eq(
-        orcaBalanceTreasury.add(orcaBalance.sub(withdrawOrcaBalance))
-      );
 
       const DURATION = 1 * 24 * 60 * 60;
       await ethers.provider.send('evm_setNextBlockTimestamp', [
@@ -503,6 +579,7 @@ describe('Orca Staking test', function () {
       const overrides = {
         value: initialRewardsBalance,
       };
+
       await staking.addRewardsBalance(overrides);
 
       poolInfo = await staking.poolInfo(poolIndex);
@@ -602,7 +679,7 @@ describe('Orca Staking test', function () {
       const numPools = await staking.poolLength();
       const poolIndex = numPools.sub(1);
       const orcaBalance = await orca.balanceOf(accounts[1].address);
-      const withdrawOrcaBalance = orcaBalance.sub(orcaBalance);
+      const withdrawOrcaBalance = orcaBalance;
 
       // Send in
       await orca
@@ -633,7 +710,7 @@ describe('Orca Staking test', function () {
         withdrawOrcaBalance
       );
 
-      expect(await orca.balanceOf(staking.address)).to.equal(
+      expect(await ethers.provider.getBalance(staking.address)).to.equal(
         initialRewardsBalance
       );
     });
@@ -642,7 +719,7 @@ describe('Orca Staking test', function () {
       const numPools = await staking.poolLength();
       const poolIndex = numPools.sub(1);
       const orcaBalance = await orca.balanceOf(accounts[1].address);
-      const withdrawOrcaBalance = orcaBalance.sub(orcaBalance);
+      const withdrawOrcaBalance = orcaBalance;
 
       // Send in
       await orca
@@ -672,7 +749,7 @@ describe('Orca Staking test', function () {
       expect(await orca.balanceOf(accounts[1].address)).to.equal(
         withdrawOrcaBalance
       );
-      expect(await orca.balanceOf(staking.address)).to.equal(
+      expect(await ethers.provider.getBalance(staking.address)).to.equal(
         initialRewardsBalance
       );
     });

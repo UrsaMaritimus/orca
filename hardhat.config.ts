@@ -82,7 +82,7 @@ export default {
     },
   },
   paths: {
-    sources: `./apps/${contract_dir}/src/contracts`,
+    sources: `./apps/avai/src/contracts`,
     tests: `./test`,
     cache: './libs/shared/contracts/src/cache',
     artifacts: './libs/shared/contracts/src/artifacts',
