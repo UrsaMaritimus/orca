@@ -32,7 +32,13 @@
     "deploy-fuji": "hardhat deploy --network fuji --export-all libs/shared/deployments/src/deployments.json",
     "deploy": "hardhat deploy --network mainnet --export-all libs/shared/deployments/src/mainnet-deployments.json",
     "gql:generate": "graphql-codegen --config ./libs/graphql/codegen.js -r dotenv/config",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "approveTokens": "yarn hardhat run --network mainnet tools/scripts/Mainnet/Relayer/ApproveTokens.ts",
+    "convertLPtoUSDC": "yarn hardhat run --network mainnet tools/scripts/Mainnet/Relayer/RelayConvertLPToUSDCAVAI.ts",
+    "convertAVAItoUSDC": "yarn hardhat run --network mainnet tools/scripts/Mainnet/Relayer/RelayConvertAVAIToUSDC.ts",
+    "getBankCollateral": "yarn hardhat run --network mainnet tools/scripts/Mainnet/Relayer/RelayGetBankCollateral.ts",
+    "convertEthToAvax": "yarn hardhat run --network mainnet tools/scripts/Mainnet/Relayer/RelayConvertETHToAVAX.ts",
+    "distribute": "yarn hardhat run --network mainnet tools/scripts/Mainnet/Relayer/Distribute.ts"
   },
   "private": true,
   "dependencies": {
@@ -55,6 +61,7 @@
     "@mui/system": "^5.0.1",
     "@mui/utils": "^5.0.1",
     "@nrwl/next": "12.6.2",
+    "@pangolindex/sdk": "^1.1.0",
     "@ukstv/jazzicon-react": "^1.0.0",
     "@web3-react/core": "^6.1.9",
     "@web3-react/injected-connector": "^6.0.7",
@@ -69,6 +76,7 @@
     "formik": "^2.2.9",
     "framer-motion": "^4.1.17",
     "graphql": "^15.5.3",
+    "graphql-request": "^3.5.0",
     "lodash": "^4.17.21",
     "next": "11.0.1",
     "next-themes": "^0.0.15",
@@ -127,6 +135,7 @@
     "@openzeppelin/contracts": "^4.2.0",
     "@openzeppelin/contracts-upgradeable": "^4.3.1",
     "@openzeppelin/hardhat-upgrades": "^1.10.0",
+    "@pangolindex/exchange-contracts": "^1.0.2",
     "@testing-library/react": "11.2.6",
     "@typechain/ethers-v5": "^7.0.1",
     "@typechain/hardhat": "^2.3.0",
