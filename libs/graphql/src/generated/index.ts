@@ -14,6 +14,8 @@ export {
   useOrcaPerSecQuery,
   useAvaiStatsSubscription,
   useBankMcpSubscription,
+  useUserStakingInfoSubscription,
+  useGeneralStakingInfoSubscription,
 } from './orca';
 export {
   useGetTokenDataSubscription,

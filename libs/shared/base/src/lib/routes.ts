@@ -15,6 +15,7 @@ export const routes = {
     },
     YIELD: {
       FARM: '/yield/farming',
+      STAKE: '/yield/staking',
     },
   },
   MEDIUM: {

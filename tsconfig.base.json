@@ -67,6 +67,7 @@
       "@orca/pages/landing": ["libs/pages/landing/src/index.ts"],
       "@orca/pages/manage-vault": ["libs/pages/manage-vault/src/index.ts"],
       "@orca/pages/monitor": ["libs/pages/monitor/src/index.ts"],
+      "@orca/pages/stake": ["libs/pages/stake/src/index.ts"],
       "@orca/pages/vaults": ["libs/pages/vaults/src/index.ts"],
       "@orca/pages/yield": ["libs/pages/yield/src/index.ts"],
       "@orca/shared/base": ["libs/shared/base/src/index.ts"],

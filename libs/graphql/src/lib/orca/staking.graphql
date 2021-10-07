@@ -1,0 +1,15 @@
+subscription GeneralStakingInfo @api(name: orca) {
+  stakings(first: 1) {
+    totalStaked
+    avaxPerSec
+    totalAllocPoints
+  }
+}
+
+subscription UserStakingInfo($id: ID!) @api(name: orca) {
+  user(id: $id) {
+    staking {
+      staked
+    }
+  }
+}
