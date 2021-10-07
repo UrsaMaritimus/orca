@@ -38,7 +38,7 @@ export const useMonitorFarms = (account: string, chainId: number) => {
     );
 
     const rewardPerDay = avaxPerSec * 86400;
-    console.log(rewardPerDay);
+
     const avaxUSDPrice = Number(avaxPrice.bundle?.ethPrice);
     const orcaUSDPrice = Number(orcaPrice.token?.derivedETH) * avaxUSDPrice;
 
@@ -49,7 +49,7 @@ export const useMonitorFarms = (account: string, chainId: number) => {
 
     const apr = ((rewardPerDay * 36500) / TVL) * avaxUSDPrice;
 
-    const userStaked = account ? userData.user?.staking[0].staked : null;
+    const userStaked = account ? userData.user?.staking[0]?.staked : null;
 
     const userStakedUSD = userStaked
       ? chainId === 43114 || !chainId
