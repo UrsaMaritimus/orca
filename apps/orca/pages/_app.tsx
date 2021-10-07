@@ -77,7 +77,7 @@ export default function NextWeb3App(props: MyAppProps) {
                   </Head>
                   <Settings />
                   <AccountInfo />
-                  <BalanceInfoAVAI />
+                  {/*<BalanceInfoAVAI />*/}
                   <BalanceInfoOrca />
                   <Component {...pageProps} />
                   <CustomToaster />
