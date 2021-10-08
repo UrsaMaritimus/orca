@@ -81,7 +81,7 @@ export const Stats: FC = () => {
             </Grid>
             <Grid item xs={8}>
               <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
-                SeaFun
+                SeaFund
               </Typography>
             </Grid>
             <Grid item xs={4} display="flex" justifyContent="flex-end">

@@ -273,9 +273,7 @@ export const DepositStepper: FC<StepperProps> = ({
                       color="inherit"
                     />
                     <Typography variant="h6" textAlign="center">
-                      {
-                        //TO DO: add token balance thing
-                      }
+
                       {`${fNumber(
                         token === 'AVAX'
                           ? AVAXBalance

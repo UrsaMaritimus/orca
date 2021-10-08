@@ -13,8 +13,7 @@ export const getStaking = (
     chainId === 43113
       ? contracts.fuji.OrcaStaking.address
       : chainId === 43114
-      ? // TO DO: Main net
-        contracts.main.ORCA.address
+      ? contracts.main.OrcaStaking.address
       : null,
     signer ? library.getSigner() : library
   );
