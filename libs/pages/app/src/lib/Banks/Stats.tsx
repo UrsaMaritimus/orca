@@ -79,7 +79,16 @@ export const Stats: FC = () => {
                 {fCurrency(stats.totalRevenue)}
               </Typography>
             </Grid>
-
+            <Grid item xs={8}>
+              <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
+                SeaFund
+              </Typography>
+            </Grid>
+            <Grid item xs={4} display="flex" justifyContent="flex-end">
+              <Typography variant="subtitle1">
+                {fCurrency(stats.totalRevenue * 0.15)}
+              </Typography>
+            </Grid>
             <Grid item xs={8}>
               <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
                 Circulating ORCA Supply

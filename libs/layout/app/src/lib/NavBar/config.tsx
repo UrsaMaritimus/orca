@@ -47,6 +47,7 @@ const ICONS = {
   monitor: getIcon('ic_monitor'),
   usdc: getUSDIcon('ic_usdc'),
   home: getIcon('ic_home'),
+  orca: getUSDIcon('ic_orca'),
 };
 
 const navConfig = [
@@ -82,6 +83,7 @@ const navConfig = [
     subheader: 'Yield',
     items: [
       { title: 'Farming', icon: ICONS.farm, href: routes.APP.YIELD.FARM },
+      { title: 'Stake', icon: ICONS.orca, href: routes.APP.YIELD.STAKE },
     ],
   },
 ];

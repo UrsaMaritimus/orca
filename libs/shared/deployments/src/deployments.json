@@ -4929,7 +4929,7 @@
           ]
         },
         "PodLeader": {
-          "address": "0x2BA5B51742125Ca75BcfA22E32456BdE1488977E",
+          "address": "0x2cD766a722622395E74daD1647aae3AAAc097930",
           "abi": [
             {
               "inputs": [
@@ -5698,7 +5698,7 @@
           ]
         },
         "TeamPayment": {
-          "address": "0x5a9877D9751c7cCb80f513900F5690B1e7786bbe",
+          "address": "0x327E60E06b6B7999A341d6aB4c90A305A540D7EB",
           "abi": [
             {
               "inputs": [
@@ -6314,7 +6314,7 @@
           ]
         },
         "USDCExchange_Implementation": {
-          "address": "0x75792a0B05dbaf778c8a247DC7FdCD8DE5C8F48b",
+          "address": "0xa728c215fE370F13c22d3643A0037f167484Fe01",
           "abi": [
             {
               "anonymous": false,
@@ -6686,7 +6686,7 @@
           ]
         },
         "VestingWallet": {
-          "address": "0x6884ede2E0F2cc531B84481b5BcEaf8781f162c9",
+          "address": "0x7bd04f4785073AA95ac327B8E3F4F27f395e034A",
           "abi": [
             {
               "inputs": [
@@ -6929,7 +6929,7 @@
           ]
         },
         "WAVAXGateway": {
-          "address": "0x0dA39Ed638A475D13e59Ab983E44B4B0234ed7d9",
+          "address": "0x9383EfA379028f223A0f047962C892fc55E71AD6",
           "abi": [
             {
               "inputs": [
@@ -7086,7 +7086,7 @@
           ]
         },
         "OrcaStaking": {
-          "address": "0xD6Dd95C483bEfe87bf8cf9CE74438b057C93510E",
+          "address": "0x72d62b0f3a0CEAdcD771b90537151774BD746FEA",
           "abi": [
             {
               "inputs": [

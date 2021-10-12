@@ -15,7 +15,7 @@ import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
 import { seeAVAI } from './atom';
 
-const BalanceStyle = styled(Button)(({ theme }) => ({
+const BalanceStyle = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(1, 1.5),

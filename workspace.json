@@ -943,6 +943,27 @@
         }
       }
     },
+    "pages-stake": {
+      "root": "libs/pages/stake",
+      "sourceRoot": "libs/pages/stake/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/pages/stake/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/pages/stake"],
+          "options": {
+            "jestConfig": "libs/pages/stake/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "pages-vaults": {
       "root": "libs/pages/vaults",
       "sourceRoot": "libs/pages/vaults/src",

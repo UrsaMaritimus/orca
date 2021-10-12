@@ -31,8 +31,7 @@ const SEAFUND_ADDRESS = '0xcb660A14A6612E0627A4516c3DCdB3838b1190e9';
 
 const TREASURY_ADDRESS = '0x10131d4f3193a59A46d3ab57D765f2604e77B4E3';
 
-// TODO
-const ORCA_STAKING_ADDRESS = '';
+const ORCA_STAKING_ADDRESS = '0xA3654801Ba6FB21d5A984F9a857441395dDeccFb';
 
 const DEV_WALLET = '0x274280b26debd319c52f611b59926f8f00373907';
 
@@ -91,7 +90,6 @@ const DistributeToCorrectLocations = async () => {
   const usdUSDC = Number(
     ethers.utils.formatUnits(await USDC.balanceOf(await signer.getAddress()), 6)
   );
-
   // Get AVAI-ORCA LP price
   const AVAI_ORCA_DATA = await client.request(TokenData, { id: AVAI_ORCA });
   const aoPair = Pair__factory.connect(AVAI_ORCA, signer);
@@ -147,46 +145,37 @@ const DistributeToCorrectLocations = async () => {
     new TokenAmount(avax, avaxBalance.toString()),
     new TokenAmount(usdc_token, usdcBalance.toString()),
     chainId
-  );
-
+  ); /*
   const usdcTrade = Trade.bestTradeExactIn(
     [usdc_avax_pair],
-    new TokenAmount(
-      usdc_token,
-      ethers.utils.parseUnits(convertAvaxUSD.toString(), 6).toString()
-    ),
+    new TokenAmount(usdc_token, (convertAvaxUSD * 1e6).toFixed(0)),
     avax
   );
 
+  
   const { args } = Router.swapCallParameters(usdcTrade[0], {
     feeOnTransfer: false,
     allowedSlippage: new Percent(JSBI.BigInt(50), JSBI.BigInt(10000)),
     deadline: currentTimestamp.toNumber(),
     recipient: await signer.getAddress(),
   });
-
   await router.swapExactTokensForAVAX(
     ethers.BigNumber.from(args[0]),
     ethers.BigNumber.from(args[1]),
     args[2] as string[],
     args[3] as string,
     currentTimestamp.toHexString()
-  );
-
+  );*/
   // Now we have enough AVAX, send AVAX to OrcaStaking contract, and rest to multisigs!
 
   // Send to seafund
-  await USDC.transfer(
-    SEAFUND_ADDRESS,
-    ethers.utils.parseUnits(seafund.toString(), 6)
-  );
 
   // Send to treasury
-
+  /*
   // USDC amount
   await USDC.transfer(
     TREASURY_ADDRESS,
-    ethers.utils.parseUnits(treasuryFromOther.toString(), 6)
+    ethers.utils.parseUnits(treasuryFromOther.toFixed(6), 6)
   );
 
   // AVAI_ORCA
@@ -199,15 +188,7 @@ const DistributeToCorrectLocations = async () => {
   await avoPair.transfer(
     TREASURY_ADDRESS,
     await avoPair.balanceOf(await signer.getAddress())
-  );
-
-  // Send to OrcaStaking, adjust rewards per second
-  signer.sendTransaction({
-    to: ORCA_STAKING_ADDRESS,
-    value: (await signer.getBalance()).sub(ethers.utils.parseEther('10')),
-  });
-
-  // TO DO: adust rewards per second
+  );*/
 
   // Send rest of usdc to dev fund
   await USDC.transfer(

@@ -5,6 +5,7 @@ import {
   useOrcaPerSecQuery,
   useGetTokenPriceSubscription,
   useAvaxPriceSubscription,
+  useGeneralStakingInfoSubscription,
 } from '@orca/graphql';
 
 import { useFrontPageYieldInfo } from './useFrontPageYieldFarm';
@@ -33,6 +34,8 @@ export const useFrontPageStats = () => {
     tokenInfo['AVAX-ORCA'].address.mainnet.toLowerCase()
   );
 
+  const { data: yieldData } = useGeneralStakingInfoSubscription();
+
   const { data: orcaPrice } = useGetTokenPriceSubscription({
     variables: {
       id: tokenInfo['ORCA'].address.mainnet.toLowerCase(),
@@ -49,7 +52,8 @@ export const useFrontPageStats = () => {
     !orcaLoading &&
     !avaxLoading &&
     orcaPrice &&
-    avaxPrice
+    avaxPrice &&
+    yieldData
   ) {
     const circulatingSupply = Number(
       utils.formatEther(BigNumber.from(data.orca.circulatingSupply))
@@ -61,15 +65,20 @@ export const useFrontPageStats = () => {
       utils.formatEther(BigNumber.from(orcaPerSec.podLeaders[0].orcaPerSec))
     );
     const bankTVL = Number(utils.formatEther(bankData.totalCollateral));
+    const avaxUSDPrice = Number(avaxPrice.bundle?.ethPrice);
+    const orcaUSDPrice = Number(orcaPrice.token?.derivedETH) * avaxUSDPrice;
+
+    const stakingTvl = Number(
+      utils.formatEther(BigNumber.from(yieldData.stakings[0].totalStaked))
+    );
+
     const TVL =
       orcaFarm.tvl +
       usdcFarm.tvl +
       avaxFarm.tvl +
       bankTVL +
-      Number(utils.formatUnits(bankData.exchangeTVL, 6));
-
-    const avaxUSDPrice = Number(avaxPrice.bundle?.ethPrice);
-    const orcaUSDPrice = Number(orcaPrice.token?.derivedETH) * avaxUSDPrice;
+      Number(utils.formatUnits(bankData.exchangeTVL, 6)) +
+      stakingTvl;
 
     return {
       loading: false,

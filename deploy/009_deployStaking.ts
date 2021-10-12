@@ -7,19 +7,15 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   const { deployer } = await getNamedAccounts();
 
-  // TODO mainnet
-  // Get block number
-  const { timestamp } = await ethers.provider.getBlock('latest');
-  const treasury = '0xd19bf8951b0db2cebaadfc9dcfbf2a73f22c42ea';
-  const rate = ethers.utils.parseEther('0.00073853615');
+  const treasury = '0x08eaea50d8f5d423f6904246c7b5f05f9bdb3957';
 
   await deploy('OrcaStaking', {
     from: deployer,
     log: true,
     // Initial rate
-    args: [timestamp + 120, rate, treasury],
+    args: [1633719600, ethers.utils.parseEther('0.00028935185'), treasury],
   });
 };
 export default func;
-func.id = 'Staking';
-func.tags = ['Staking'];
+func.id = 'OrcaStaking';
+func.tags = ['OrcaStaking'];

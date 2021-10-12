@@ -691,6 +691,10 @@ export type Query = {
   pools: Array<Pool>;
   stablecoin?: Maybe<Stablecoin>;
   stablecoins: Array<Stablecoin>;
+  staking?: Maybe<Staking>;
+  stakingUser?: Maybe<StakingUser>;
+  stakingUsers: Array<StakingUser>;
+  stakings: Array<Staking>;
   token?: Maybe<Token>;
   tokenPrice?: Maybe<TokenPrice>;
   tokenPrices: Array<TokenPrice>;
@@ -832,6 +836,38 @@ export type QueryStablecoinsArgs = {
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
   where?: Maybe<Stablecoin_Filter>;
+};
+
+
+export type QueryStakingArgs = {
+  block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+};
+
+
+export type QueryStakingUserArgs = {
+  block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+};
+
+
+export type QueryStakingUsersArgs = {
+  block?: Maybe<Block_Height>;
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<StakingUser_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<StakingUser_Filter>;
+};
+
+
+export type QueryStakingsArgs = {
+  block?: Maybe<Block_Height>;
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Staking_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<Staking_Filter>;
 };
 
 
@@ -997,6 +1033,149 @@ export enum Stablecoin_OrderBy {
   TotalSupply = 'totalSupply'
 }
 
+export type Staking = {
+  __typename?: 'Staking';
+  avaxPerSec: Scalars['BigInt'];
+  endTimestamp: Scalars['BigInt'];
+  id: Scalars['ID'];
+  startTimestamp: Scalars['BigInt'];
+  totalAllocPoints: Scalars['BigInt'];
+  totalStaked: Scalars['BigInt'];
+  users: Array<StakingUser>;
+};
+
+
+export type StakingUsersArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<StakingUser_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<StakingUser_Filter>;
+};
+
+export type StakingUser = {
+  __typename?: 'StakingUser';
+  id: Scalars['ID'];
+  staked: Scalars['BigInt'];
+  staking: Staking;
+  user: User;
+};
+
+export type StakingUser_Filter = {
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
+  staked?: Maybe<Scalars['BigInt']>;
+  staked_gt?: Maybe<Scalars['BigInt']>;
+  staked_gte?: Maybe<Scalars['BigInt']>;
+  staked_in?: Maybe<Array<Scalars['BigInt']>>;
+  staked_lt?: Maybe<Scalars['BigInt']>;
+  staked_lte?: Maybe<Scalars['BigInt']>;
+  staked_not?: Maybe<Scalars['BigInt']>;
+  staked_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  staking?: Maybe<Scalars['String']>;
+  staking_contains?: Maybe<Scalars['String']>;
+  staking_ends_with?: Maybe<Scalars['String']>;
+  staking_gt?: Maybe<Scalars['String']>;
+  staking_gte?: Maybe<Scalars['String']>;
+  staking_in?: Maybe<Array<Scalars['String']>>;
+  staking_lt?: Maybe<Scalars['String']>;
+  staking_lte?: Maybe<Scalars['String']>;
+  staking_not?: Maybe<Scalars['String']>;
+  staking_not_contains?: Maybe<Scalars['String']>;
+  staking_not_ends_with?: Maybe<Scalars['String']>;
+  staking_not_in?: Maybe<Array<Scalars['String']>>;
+  staking_not_starts_with?: Maybe<Scalars['String']>;
+  staking_starts_with?: Maybe<Scalars['String']>;
+  user?: Maybe<Scalars['String']>;
+  user_contains?: Maybe<Scalars['String']>;
+  user_ends_with?: Maybe<Scalars['String']>;
+  user_gt?: Maybe<Scalars['String']>;
+  user_gte?: Maybe<Scalars['String']>;
+  user_in?: Maybe<Array<Scalars['String']>>;
+  user_lt?: Maybe<Scalars['String']>;
+  user_lte?: Maybe<Scalars['String']>;
+  user_not?: Maybe<Scalars['String']>;
+  user_not_contains?: Maybe<Scalars['String']>;
+  user_not_ends_with?: Maybe<Scalars['String']>;
+  user_not_in?: Maybe<Array<Scalars['String']>>;
+  user_not_starts_with?: Maybe<Scalars['String']>;
+  user_starts_with?: Maybe<Scalars['String']>;
+};
+
+export enum StakingUser_OrderBy {
+  Id = 'id',
+  Staked = 'staked',
+  Staking = 'staking',
+  User = 'user'
+}
+
+export type Staking_Filter = {
+  avaxPerSec?: Maybe<Scalars['BigInt']>;
+  avaxPerSec_gt?: Maybe<Scalars['BigInt']>;
+  avaxPerSec_gte?: Maybe<Scalars['BigInt']>;
+  avaxPerSec_in?: Maybe<Array<Scalars['BigInt']>>;
+  avaxPerSec_lt?: Maybe<Scalars['BigInt']>;
+  avaxPerSec_lte?: Maybe<Scalars['BigInt']>;
+  avaxPerSec_not?: Maybe<Scalars['BigInt']>;
+  avaxPerSec_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  endTimestamp?: Maybe<Scalars['BigInt']>;
+  endTimestamp_gt?: Maybe<Scalars['BigInt']>;
+  endTimestamp_gte?: Maybe<Scalars['BigInt']>;
+  endTimestamp_in?: Maybe<Array<Scalars['BigInt']>>;
+  endTimestamp_lt?: Maybe<Scalars['BigInt']>;
+  endTimestamp_lte?: Maybe<Scalars['BigInt']>;
+  endTimestamp_not?: Maybe<Scalars['BigInt']>;
+  endTimestamp_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
+  startTimestamp?: Maybe<Scalars['BigInt']>;
+  startTimestamp_gt?: Maybe<Scalars['BigInt']>;
+  startTimestamp_gte?: Maybe<Scalars['BigInt']>;
+  startTimestamp_in?: Maybe<Array<Scalars['BigInt']>>;
+  startTimestamp_lt?: Maybe<Scalars['BigInt']>;
+  startTimestamp_lte?: Maybe<Scalars['BigInt']>;
+  startTimestamp_not?: Maybe<Scalars['BigInt']>;
+  startTimestamp_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalAllocPoints?: Maybe<Scalars['BigInt']>;
+  totalAllocPoints_gt?: Maybe<Scalars['BigInt']>;
+  totalAllocPoints_gte?: Maybe<Scalars['BigInt']>;
+  totalAllocPoints_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalAllocPoints_lt?: Maybe<Scalars['BigInt']>;
+  totalAllocPoints_lte?: Maybe<Scalars['BigInt']>;
+  totalAllocPoints_not?: Maybe<Scalars['BigInt']>;
+  totalAllocPoints_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalStaked?: Maybe<Scalars['BigInt']>;
+  totalStaked_gt?: Maybe<Scalars['BigInt']>;
+  totalStaked_gte?: Maybe<Scalars['BigInt']>;
+  totalStaked_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalStaked_lt?: Maybe<Scalars['BigInt']>;
+  totalStaked_lte?: Maybe<Scalars['BigInt']>;
+  totalStaked_not?: Maybe<Scalars['BigInt']>;
+  totalStaked_not_in?: Maybe<Array<Scalars['BigInt']>>;
+};
+
+export enum Staking_OrderBy {
+  AvaxPerSec = 'avaxPerSec',
+  EndTimestamp = 'endTimestamp',
+  Id = 'id',
+  StartTimestamp = 'startTimestamp',
+  TotalAllocPoints = 'totalAllocPoints',
+  TotalStaked = 'totalStaked',
+  Users = 'users'
+}
+
 export type Subscription = {
   __typename?: 'Subscription';
   /** Access to subgraph metadata */
@@ -1017,6 +1196,10 @@ export type Subscription = {
   pools: Array<Pool>;
   stablecoin?: Maybe<Stablecoin>;
   stablecoins: Array<Stablecoin>;
+  staking?: Maybe<Staking>;
+  stakingUser?: Maybe<StakingUser>;
+  stakingUsers: Array<StakingUser>;
+  stakings: Array<Staking>;
   token?: Maybe<Token>;
   tokenPrice?: Maybe<TokenPrice>;
   tokenPrices: Array<TokenPrice>;
@@ -1158,6 +1341,38 @@ export type SubscriptionStablecoinsArgs = {
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
   where?: Maybe<Stablecoin_Filter>;
+};
+
+
+export type SubscriptionStakingArgs = {
+  block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+};
+
+
+export type SubscriptionStakingUserArgs = {
+  block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+};
+
+
+export type SubscriptionStakingUsersArgs = {
+  block?: Maybe<Block_Height>;
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<StakingUser_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<StakingUser_Filter>;
+};
+
+
+export type SubscriptionStakingsArgs = {
+  block?: Maybe<Block_Height>;
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Staking_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<Staking_Filter>;
 };
 
 
@@ -1349,6 +1564,7 @@ export type User = {
   id: Scalars['ID'];
   liquidations?: Maybe<Array<Liquidation>>;
   pools?: Maybe<Array<PoolUser>>;
+  staking?: Maybe<Array<StakingUser>>;
   vaults?: Maybe<Array<Vault>>;
 };
 
@@ -1368,6 +1584,15 @@ export type UserPoolsArgs = {
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
   where?: Maybe<PoolUser_Filter>;
+};
+
+
+export type UserStakingArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<StakingUser_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<StakingUser_Filter>;
 };
 
 
@@ -1403,6 +1628,7 @@ export enum User_OrderBy {
   Id = 'id',
   Liquidations = 'liquidations',
   Pools = 'pools',
+  Staking = 'staking',
   Vaults = 'vaults'
 }
 
@@ -1586,6 +1812,18 @@ export type OrcaStatsSubscriptionVariables = Exact<{
 
 
 export type OrcaStatsSubscription = { __typename?: 'Subscription', orca?: Maybe<{ __typename?: 'Orca', id: string, circulatingSupply: any, maxSupply: any }> };
+
+export type GeneralStakingInfoSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GeneralStakingInfoSubscription = { __typename?: 'Subscription', stakings: Array<{ __typename?: 'Staking', totalStaked: any, avaxPerSec: any, totalAllocPoints: any }> };
+
+export type UserStakingInfoSubscriptionVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type UserStakingInfoSubscription = { __typename?: 'Subscription', user?: Maybe<{ __typename?: 'User', staking?: Maybe<Array<{ __typename?: 'StakingUser', staked: any }>> }> };
 
 export type GetUserVaultsQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -1973,6 +2211,69 @@ export function useOrcaStatsSubscription(baseOptions: ApolloReactHooks.Subscript
       }
 export type OrcaStatsSubscriptionHookResult = ReturnType<typeof useOrcaStatsSubscription>;
 export type OrcaStatsSubscriptionResult = Apollo.SubscriptionResult<OrcaStatsSubscription>;
+export const GeneralStakingInfoDocument = gql`
+    subscription GeneralStakingInfo @api(name: orca) {
+  stakings(first: 1) {
+    totalStaked
+    avaxPerSec
+    totalAllocPoints
+  }
+}
+    `;
+
+/**
+ * __useGeneralStakingInfoSubscription__
+ *
+ * To run a query within a React component, call `useGeneralStakingInfoSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useGeneralStakingInfoSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGeneralStakingInfoSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGeneralStakingInfoSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<GeneralStakingInfoSubscription, GeneralStakingInfoSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useSubscription<GeneralStakingInfoSubscription, GeneralStakingInfoSubscriptionVariables>(GeneralStakingInfoDocument, options);
+      }
+export type GeneralStakingInfoSubscriptionHookResult = ReturnType<typeof useGeneralStakingInfoSubscription>;
+export type GeneralStakingInfoSubscriptionResult = Apollo.SubscriptionResult<GeneralStakingInfoSubscription>;
+export const UserStakingInfoDocument = gql`
+    subscription UserStakingInfo($id: ID!) @api(name: orca) {
+  user(id: $id) {
+    staking {
+      staked
+    }
+  }
+}
+    `;
+
+/**
+ * __useUserStakingInfoSubscription__
+ *
+ * To run a query within a React component, call `useUserStakingInfoSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useUserStakingInfoSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserStakingInfoSubscription({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useUserStakingInfoSubscription(baseOptions: ApolloReactHooks.SubscriptionHookOptions<UserStakingInfoSubscription, UserStakingInfoSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useSubscription<UserStakingInfoSubscription, UserStakingInfoSubscriptionVariables>(UserStakingInfoDocument, options);
+      }
+export type UserStakingInfoSubscriptionHookResult = ReturnType<typeof useUserStakingInfoSubscription>;
+export type UserStakingInfoSubscriptionResult = Apollo.SubscriptionResult<UserStakingInfoSubscription>;
 export const GetUserVaultsDocument = gql`
     query getUserVaults($id: ID!) @api(name: orca) {
   user(id: $id) {

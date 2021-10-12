@@ -34,6 +34,13 @@ const banners = [
     image: '/static/images/SeaFundBanner.svg',
     link: routes.MEDIUM.SEAFUND,
   },
+  {
+    id: 2,
+    title: 'OrcaDAO Launch',
+    description: 'Welcome to the OrcaDAO',
+    image: '/static/images/IntroBanner.png',
+    link: routes.MEDIUM.LAUNCH,
+  },
 ];
 
 const CarouselImgStyle = styled('img')(({ theme }) => ({

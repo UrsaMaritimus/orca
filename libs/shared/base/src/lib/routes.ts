@@ -15,12 +15,14 @@ export const routes = {
     },
     YIELD: {
       FARM: '/yield/farming',
+      STAKE: '/yield/staking',
     },
   },
   MEDIUM: {
     INTRODUCTION:
       'https://medium.com/@OrcaDAO/introducing-orcadao-avalanches-native-stablecoin-protocol-2461a25b854d',
     SEAFUND: 'https://medium.com/@OrcaDAO/the-orcadao-seafund-dc2ee5b58a4d',
+    LAUNCH: 'https://medium.com/@OrcaDAO/orcadao-protocol-is-live-2276b31eb398',
   },
   LANDING: {
     MEDIUM: 'https://medium.com/@OrcaDAO',
