@@ -209,6 +209,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.AVAIv2__factory>;
     getContractFactory(
+      name: "USDCExchangev2",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.USDCExchangev2__factory>;
+    getContractFactory(
       name: "USDCExchange",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.USDCExchange__factory>;

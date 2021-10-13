@@ -11,6 +11,8 @@ import {
   USDCExchange__factory,
   Bank,
   Bank__factory,
+  USDCExchangev2,
+  USDCExchangev2__factory,
 } from '../libs/shared/contracts/src';
 import { add } from 'lodash';
 
@@ -69,6 +71,185 @@ describe('USDC Swap Test', function () {
     expect(
       await avai.hasRole(await avai.BURNER_ROLE(), exchange.address)
     ).to.equal(true);
+  });
+
+  context('Upgrade exchange', async () => {
+    let v2: USDCExchangev2;
+    beforeEach(async () => {
+      let v2Fac = (await ethers.getContractFactory(
+        'USDCExchangev2',
+        accounts[0]
+      )) as USDCExchangev2__factory;
+
+      v2 = (await upgrades.upgradeProxy(
+        exchange.address,
+        v2Fac
+      )) as USDCExchangev2;
+    });
+
+    it('usdc rate to be set correctly', async () => {
+      expect(await v2.usdcRate()).to.equal(10075);
+    });
+
+    it('avai rate to be set correctly', async () => {
+      expect(await v2.avaiRate()).to.equal(9925);
+    });
+
+    it('sets tokens correcly', async () => {
+      expect(await v2.usdc()).to.equal(usdc.address);
+      expect(await v2.avai()).to.equal(avai.address);
+    });
+
+    it('sets treasury correctly', async () => {
+      expect(await v2.treasury()).to.equal(accounts[0].address);
+    });
+
+    it('allows owner to change rates', async () => {
+      await expect(v2.connect(accounts[1]).setUSDCRate(10050)).to.be.reverted;
+      await expect(v2.connect(accounts[1]).setAVAIRate(9950)).to.be.reverted;
+
+      await v2.setUSDCRate(10050);
+      expect(await v2.usdcRate()).to.equal(10050);
+
+      await v2.setAVAIRate(9950);
+      expect(await v2.avaiRate()).to.equal(9950);
+    });
+
+    it('allows change of treasury and owner', async () => {
+      // Check it reverts first
+      await expect(v2.connect(accounts[1]).setUSDCRate(10050)).to.be.reverted;
+      await expect(v2.connect(accounts[1]).changeTreasury(accounts[1].address))
+        .to.be.reverted;
+
+      // change owner ship
+      await v2.changeTreasury(accounts[1].address);
+
+      expect(await v2.treasury()).to.equal(accounts[1].address);
+      // Accounts[0] still owner
+      await expect(v2.connect(accounts[1]).setUSDCRate(10050)).to.be.reverted;
+      await expect(v2.connect(accounts[1]).changeTreasury(accounts[0].address))
+        .to.be.reverted;
+
+      // And now should be able to change things
+      await v2.connect(accounts[0]).setUSDCRate(10050);
+      expect(await v2.usdcRate()).to.equal(10050);
+    });
+
+    it('has correct initial usd reserves', async () => {
+      //init 0
+      expect(await v2.usdReserves()).to.equal(0);
+    });
+
+    it('allows minting with usdc', async () => {
+      // Try with zero, should revert
+      await expect(v2.mint(0)).to.be.revertedWith('Cannot mint 0 AVAI');
+      // Trade 10 USDC
+      const tradeUSDC = ethers.utils.parseUnits('10', 6);
+      // Get in return
+      const returnAVAI = ethers.utils.parseEther('10').mul(1e4).div(10075);
+      // Fee
+      const tradeFee = tradeUSDC.sub(tradeUSDC.mul(1e4).div(10075));
+      //Send usdc to account[1]
+      usdc.transfer(accounts[1].address, tradeUSDC);
+
+      // Second account should have usdc
+      const initUSDCBalanceTreasury = await usdc.balanceOf(accounts[0].address);
+      const initUSDCBalanceExchange = await usdc.balanceOf(v2.address);
+      const initAVAIBalance = await avai.balanceOf(accounts[1].address);
+
+      // Approve USDC spend first
+      await usdc.connect(accounts[1]).increaseAllowance(v2.address, tradeUSDC);
+
+      // Increase per hour limit
+      await v2.setHourlyLimit(5000);
+
+      await v2.connect(accounts[1]).mint(tradeUSDC);
+
+      expect(await avai.balanceOf(accounts[1].address)).to.equal(
+        initAVAIBalance.add(returnAVAI)
+      );
+      expect(await usdc.balanceOf(v2.address)).to.equal(
+        initUSDCBalanceExchange.add(tradeUSDC.sub(tradeFee))
+      );
+
+      expect(await usdc.balanceOf(accounts[0].address)).to.equal(
+        initUSDCBalanceTreasury.add(tradeFee)
+      );
+    });
+
+    it('allows redeeming of USDC for AVAI, starting with 10 usdc', async () => {
+      // Try with zero, should revert
+      await expect(v2.connect(accounts[1]).redeem(0)).to.be.revertedWith(
+        'Cannot redeem 0 USDC'
+      );
+      // Put some USDC in first
+      // Trade 10 USDC
+      const tradeUSDC = ethers.utils.parseUnits('10', 6);
+      // Get in return
+      const returnAVAI = ethers.utils.parseEther('10').mul(1e4).div(10075);
+      //Send usdc to account[1]
+      usdc.transfer(accounts[1].address, tradeUSDC);
+      // Approve USDC spend first
+      await usdc.connect(accounts[1]).increaseAllowance(v2.address, tradeUSDC);
+
+      await expect(v2.connect(accounts[1]).redeem(0)).to.be.revertedWith(
+        'Cannot redeem 0 USDC'
+      );
+
+      // Increase per hour limit
+      await v2.setHourlyLimit(5000);
+
+      await v2.connect(accounts[1]).mint(tradeUSDC);
+
+      // Redeem the AVAI we got
+      await v2.connect(accounts[1]).redeem(returnAVAI);
+    });
+
+    it('allows redeeming of USDC for AVAI, starting with 52 usdc', async () => {
+      // Try with zero, should revert
+      await expect(v2.connect(accounts[1]).redeem(0)).to.be.revertedWith(
+        'Cannot redeem 0 USDC'
+      );
+      // Put some USDC in first
+      // Trade 10 USDC
+      const tradeUSDC = ethers.utils.parseUnits('52', 6);
+      // Get in return
+      const returnAVAI = ethers.utils.parseEther('52').mul(1e4).div(10075);
+      //Send usdc to account[1]
+      usdc.transfer(accounts[1].address, tradeUSDC);
+      // Approve USDC spend first
+      await usdc.connect(accounts[1]).increaseAllowance(v2.address, tradeUSDC);
+
+      await expect(v2.connect(accounts[1]).redeem(0)).to.be.revertedWith(
+        'Cannot redeem 0 USDC'
+      );
+      // Increase per hour limit
+      await v2.setHourlyLimit(5000);
+      await v2.connect(accounts[1]).mint(tradeUSDC);
+
+      // Check balances
+      const treasuryInitUSDC = await usdc.balanceOf(accounts[0].address);
+      const usdcReceieved = returnAVAI
+        .mul(9925)
+        .div(ethers.utils.parseUnits('1', 16));
+      const fee = returnAVAI
+        .div(ethers.utils.parseUnits('1', 12))
+        .sub(usdcReceieved);
+
+      // Redeem the AVAI we got
+      await v2.connect(accounts[1]).redeem(returnAVAI);
+      // Check balances of USDC
+      // AVAI should be zero everywhere as well
+      expect(await usdc.balanceOf(v2.address)).to.equal(0);
+      expect(await usdc.balanceOf(accounts[0].address)).to.equal(
+        treasuryInitUSDC.add(fee)
+      );
+      expect(await usdc.balanceOf(accounts[1].address)).to.equal(usdcReceieved);
+
+      expect(await v2.usdReserves()).to.equal(0);
+      expect(await avai.balanceOf(v2.address)).to.equal(0);
+      expect(await avai.balanceOf(accounts[1].address)).to.equal(0);
+    });
   });
 
   it('usdc rate to be set correctly', async () => {
@@ -152,9 +333,6 @@ describe('USDC Swap Test', function () {
       .connect(accounts[1])
       .increaseAllowance(exchange.address, tradeUSDC);
 
-    // Increase per hour limit
-    await exchange.setHourlyLimit(5000);
-
     await exchange.connect(accounts[1]).mint(tradeUSDC);
 
     expect(await avai.balanceOf(accounts[1].address)).to.equal(
@@ -190,10 +368,12 @@ describe('USDC Swap Test', function () {
       'Cannot redeem 0 USDC'
     );
 
-    // Increase per hour limit
-    await exchange.setHourlyLimit(5000);
-
     await exchange.connect(accounts[1]).mint(tradeUSDC);
+
+    // Approve AVAI spend first
+    await avai
+      .connect(accounts[1])
+      .increaseAllowance(exchange.address, returnAVAI);
 
     // Redeem the AVAI we got
     await exchange.connect(accounts[1]).redeem(returnAVAI);
@@ -220,8 +400,11 @@ describe('USDC Swap Test', function () {
       'Cannot redeem 0 USDC'
     );
     // Increase per hour limit
-    await exchange.setHourlyLimit(5000);
     await exchange.connect(accounts[1]).mint(tradeUSDC);
+    // Approve AVAI spend first
+    await avai
+      .connect(accounts[1])
+      .increaseAllowance(exchange.address, returnAVAI);
 
     // Check balances
     const treasuryInitUSDC = await usdc.balanceOf(accounts[0].address);
