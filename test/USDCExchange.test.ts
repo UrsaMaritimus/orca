@@ -25,8 +25,6 @@ describe('USDC Swap Test', function () {
   let Vault: Bank__factory;
   let vault: Bank;
 
-  const avaiAddress = '0x939142641c3736bfdf1107f884de4ff69dc73c3f';
-
   before(async () => {
     accounts = await ethers.getSigners();
     Exchange = (await ethers.getContractFactory(
@@ -93,14 +91,14 @@ describe('USDC Swap Test', function () {
   it('allows owner to change rates', async () => {
     await expect(exchange.connect(accounts[1]).setUSDCRate(10050)).to.be
       .reverted;
-    await expect(exchange.connect(accounts[1]).setAVAIRate(10050)).to.be
+    await expect(exchange.connect(accounts[1]).setAVAIRate(9950)).to.be
       .reverted;
 
     await exchange.setUSDCRate(10050);
     expect(await exchange.usdcRate()).to.equal(10050);
 
-    await exchange.setAVAIRate(10050);
-    expect(await exchange.avaiRate()).to.equal(10050);
+    await exchange.setAVAIRate(9950);
+    expect(await exchange.avaiRate()).to.equal(9950);
   });
 
   it('allows change of treasury and owner', async () => {
@@ -154,6 +152,9 @@ describe('USDC Swap Test', function () {
       .connect(accounts[1])
       .increaseAllowance(exchange.address, tradeUSDC);
 
+    // Increase per hour limit
+    await exchange.setHourlyLimit(5000);
+
     await exchange.connect(accounts[1]).mint(tradeUSDC);
 
     expect(await avai.balanceOf(accounts[1].address)).to.equal(
@@ -189,12 +190,10 @@ describe('USDC Swap Test', function () {
       'Cannot redeem 0 USDC'
     );
 
-    await exchange.connect(accounts[1]).mint(tradeUSDC);
+    // Increase per hour limit
+    await exchange.setHourlyLimit(5000);
 
-    // Approve AVAI spend first
-    await avai
-      .connect(accounts[1])
-      .increaseAllowance(exchange.address, returnAVAI);
+    await exchange.connect(accounts[1]).mint(tradeUSDC);
 
     // Redeem the AVAI we got
     await exchange.connect(accounts[1]).redeem(returnAVAI);
@@ -220,13 +219,9 @@ describe('USDC Swap Test', function () {
     await expect(exchange.connect(accounts[1]).redeem(0)).to.be.revertedWith(
       'Cannot redeem 0 USDC'
     );
-
+    // Increase per hour limit
+    await exchange.setHourlyLimit(5000);
     await exchange.connect(accounts[1]).mint(tradeUSDC);
-
-    // Approve AVAI spend first
-    await avai
-      .connect(accounts[1])
-      .increaseAllowance(exchange.address, returnAVAI);
 
     // Check balances
     const treasuryInitUSDC = await usdc.balanceOf(accounts[0].address);

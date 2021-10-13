@@ -23,8 +23,15 @@ contract USDCExchange is
   uint256 public avaiRate;
   address public treasury;
 
+  uint256 hourlyLimit;
+  mapping(uint256 => uint256) accumulatedAVAI;
+
   event Mint(address minter, uint256 amount, uint256 fee);
   event Redeem(address redeemer, uint256 amount, uint256 fee);
+  event ChangeTreasury(address newTreasury);
+  event ChangeHourlyLimit(uint256 newHourlyLimit);
+  event ChangeUSDCRate(uint256 newUSDCRate);
+  event ChangeAVAIRate(uint256 newAVAIRate);
 
   function initialize(address usdc_, address avai_) public initializer {
     __Context_init_unchained();
@@ -42,21 +49,35 @@ contract USDCExchange is
    * @dev Transfers ownership (and treasury) to new treasury address
    */
   function changeTreasury(address newTreasury) public onlyOwner {
+    require(newTreasury != address(0), 'Treasury can not be zero address');
     treasury = newTreasury;
+    emit ChangeTreasury(newTreasury);
   }
 
   /**
    * @dev Set the rate that USDC is traded for AVAI
    */
   function setUSDCRate(uint256 _rate) public onlyOwner {
+    require(_rate <= 10100 && _rate >= 10000, 'Must be 0-1% fee');
     usdcRate = _rate;
+    emit ChangeUSDCRate(_rate);
   }
 
   /**
    * @dev Set the rate that AVAI is traded for USDC
    */
   function setAVAIRate(uint256 _rate) public onlyOwner {
+    require(_rate <= 10000 && _rate >= 9900, 'Must be 0-1% fee');
     avaiRate = _rate;
+    emit ChangeAVAIRate(_rate);
+  }
+
+  /**
+   * @dev Set the rate that AVAI is traded for USDC
+   */
+  function setHourlyLimit(uint256 _limit) public onlyOwner {
+    hourlyLimit = _limit;
+    emit ChangeHourlyLimit(_limit);
   }
 
   /**
@@ -76,12 +97,23 @@ contract USDCExchange is
     // This is because USDC has 6 decimal points, and avai has 18. USDC has 4. 18-6+4=16
     uint256 fee = amount - (amount * 1e4) / usdcRate;
     uint256 amountToSend = (amount * 1e16) / usdcRate;
+
+    if (avai.totalSupply() > 1000000e18) {
+      uint256 period = block.timestamp / (60 * 60); // 1 hour period
+      require(
+        accumulatedAVAI[period] + amountToSend <=
+          (avai.totalSupply() * hourlyLimit) / 10000,
+        'Too much AVAI minted this hour'
+      );
+      accumulatedAVAI[period] += amountToSend;
+    }
+
     // Transfer USDC to contract
     usdc.safeTransferFrom(msg.sender, address(this), amount);
 
     // Transfer USDC fee to treasury
     usdc.safeTransfer(treasury, fee);
-    // Transfer miMatic to sender
+    // Transfer AVAI to sender
     avai.mint(msg.sender, amountToSend);
     emit Mint(msg.sender, amountToSend, fee);
   }
@@ -100,10 +132,8 @@ contract USDCExchange is
     uint256 amountToSend = (amount * avaiRate) / (1e16);
     uint256 fee = amount / 1e12 - amountToSend;
 
-    // Tranfer tokens from sender to this contract
-    avai.safeTransferFrom(msg.sender, address(this), amount);
     // Burn excess, keep fee
-    avai.burn(address(this), amount);
+    avai.burn(msg.sender, amount);
     // Transfer amount minus fees to sender
     usdc.safeTransfer(msg.sender, amountToSend);
     // Transfer USDC fee to treasury

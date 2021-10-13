@@ -30,6 +30,7 @@ interface USDCExchangeInterface extends ethers.utils.Interface {
     "redeem(uint256)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "setAVAIRate(uint256)": FunctionFragment;
+    "setHourlyLimit(uint256)": FunctionFragment;
     "setUSDCRate(uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "treasury()": FunctionFragment;
@@ -60,6 +61,10 @@ interface USDCExchangeInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "setAVAIRate",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setHourlyLimit",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -97,6 +102,10 @@ interface USDCExchangeInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "setHourlyLimit",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "setUSDCRate",
     data: BytesLike
   ): Result;
@@ -113,11 +122,19 @@ interface USDCExchangeInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "usdcRate", data: BytesLike): Result;
 
   events: {
+    "ChangeAVAIRate(uint256)": EventFragment;
+    "ChangeHourlyLimit(uint256)": EventFragment;
+    "ChangeTreasury(address)": EventFragment;
+    "ChangeUSDCRate(uint256)": EventFragment;
     "Mint(address,uint256,uint256)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Redeem(address,uint256,uint256)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "ChangeAVAIRate"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ChangeHourlyLimit"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ChangeTreasury"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ChangeUSDCRate"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Mint"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Redeem"): EventFragment;
@@ -203,6 +220,11 @@ export class USDCExchange extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setHourlyLimit(
+      _limit: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     setUSDCRate(
       _rate: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -258,6 +280,11 @@ export class USDCExchange extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setHourlyLimit(
+    _limit: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   setUSDCRate(
     _rate: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -302,6 +329,11 @@ export class USDCExchange extends BaseContract {
 
     setAVAIRate(_rate: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
+    setHourlyLimit(
+      _limit: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setUSDCRate(_rate: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
     transferOwnership(
@@ -319,6 +351,22 @@ export class USDCExchange extends BaseContract {
   };
 
   filters: {
+    ChangeAVAIRate(
+      newAVAIRate?: null
+    ): TypedEventFilter<[BigNumber], { newAVAIRate: BigNumber }>;
+
+    ChangeHourlyLimit(
+      newHourlyLimit?: null
+    ): TypedEventFilter<[BigNumber], { newHourlyLimit: BigNumber }>;
+
+    ChangeTreasury(
+      newTreasury?: null
+    ): TypedEventFilter<[string], { newTreasury: string }>;
+
+    ChangeUSDCRate(
+      newUSDCRate?: null
+    ): TypedEventFilter<[BigNumber], { newUSDCRate: BigNumber }>;
+
     Mint(
       minter?: null,
       amount?: null,
@@ -383,6 +431,11 @@ export class USDCExchange extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setHourlyLimit(
+      _limit: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     setUSDCRate(
       _rate: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -436,6 +489,11 @@ export class USDCExchange extends BaseContract {
 
     setAVAIRate(
       _rate: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setHourlyLimit(
+      _limit: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

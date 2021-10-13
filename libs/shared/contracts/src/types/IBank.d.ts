@@ -38,6 +38,7 @@ interface IBankInterface extends ethers.utils.Interface {
     "setDebtRatio(uint256)": FunctionFragment;
     "setGainRatio(uint256)": FunctionFragment;
     "setGateway(address)": FunctionFragment;
+    "setMinimumDebt(uint256)": FunctionFragment;
     "setOpeningFee(uint256)": FunctionFragment;
     "setPriceSource(address)": FunctionFragment;
     "setStabilityPool(address)": FunctionFragment;
@@ -109,6 +110,10 @@ interface IBankInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "setGateway", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "setMinimumDebt",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "setOpeningFee",
     values: [BigNumberish]
@@ -200,6 +205,10 @@ interface IBankInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setGateway", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setMinimumDebt",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "setOpeningFee",
     data: BytesLike
@@ -400,6 +409,11 @@ export class IBank extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setMinimumDebt(
+      minimumDebt_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     setOpeningFee(
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -553,6 +567,11 @@ export class IBank extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setMinimumDebt(
+    minimumDebt_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   setOpeningFee(
     amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -696,6 +715,11 @@ export class IBank extends BaseContract {
     ): Promise<void>;
 
     setGateway(gateway_: string, overrides?: CallOverrides): Promise<void>;
+
+    setMinimumDebt(
+      minimumDebt_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     setOpeningFee(
       amount: BigNumberish,
@@ -883,6 +907,11 @@ export class IBank extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setMinimumDebt(
+      minimumDebt_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     setOpeningFee(
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1040,6 +1069,11 @@ export class IBank extends BaseContract {
 
     setGateway(
       gateway_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setMinimumDebt(
+      minimumDebt_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

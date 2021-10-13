@@ -3,7 +3,7 @@ import { DeployFunction } from 'hardhat-deploy/types';
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployments, getNamedAccounts, network } = hre;
-  const { deploy } = deployments;
+  const { deploy, catchUnknownSigner } = deployments;
 
   const { deployer } = await getNamedAccounts();
 
@@ -14,20 +14,22 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
       ? (await deployments.get('FakeUSDC')).address
       : '0xa7d7079b0fead91f3e65f86e8915cb59c1a4c664';
 
-  await deploy('USDCExchange', {
-    from: deployer,
-    log: true,
-    proxy: {
-      owner: deployer,
-      proxyContract: 'OptimizedTransparentProxy',
-      execute: {
-        init: {
-          methodName: 'initialize',
-          args: [usdc, avai.address],
+  await catchUnknownSigner(
+    deploy('USDCExchange', {
+      from: deployer,
+      log: true,
+      proxy: {
+        owner: deployer,
+        proxyContract: 'OptimizedTransparentProxy',
+        execute: {
+          init: {
+            methodName: 'initialize',
+            args: [usdc, avai.address],
+          },
         },
       },
-    },
-  });
+    })
+  );
 };
 export default func;
 func.id = 'USDCExchange';

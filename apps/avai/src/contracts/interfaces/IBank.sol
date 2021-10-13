@@ -38,6 +38,8 @@ interface IBank is IERC721 {
 
   function setTreasury(uint256 treasury_) external;
 
+  function setMinimumDebt(uint256 minimumDebt_) external;
+
   function initialize(
     uint256 minimumCollateralPercentage_,
     address priceSource_,
