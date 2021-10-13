@@ -164,8 +164,11 @@ describe('Bank', function () {
   });
 
   it('correctly changes stability pool', async () => {
-    await avai.setStabilityPool(0, accounts[1].address);
-    expect(await wVault.stabilityPool()).to.equal(accounts[1].address);
+    await expect(
+      avai.setStabilityPool(0, accounts[1].address)
+    ).to.be.revertedWith('Must be a contract to be the stability pool.');
+    await avai.setStabilityPool(0, wVault.address); // Workis now that it is a contract
+    expect(await wVault.stabilityPool()).to.equal(wVault.address);
   });
 
   it("doesn't allow stability pool to be zero address", async () => {
@@ -262,37 +265,5 @@ describe('Bank', function () {
         false
       );
     });
-  });
-
-  it('Should allow transfering of treasury role', async () => {
-    const TREASURY_ROLE = await wVault.TREASURY_ROLE();
-    // Check avai
-    expect(await wVault.hasRole(TREASURY_ROLE, avai.address)).to.equal(true);
-    // Check second account
-    expect(await wVault.hasRole(TREASURY_ROLE, accounts[1].address)).to.equal(
-      false
-    );
-
-    // Now transfer
-    await avai.changeTreasury(0, accounts[1].address);
-    // Recheck
-    // Check first account
-    expect(await wVault.hasRole(TREASURY_ROLE, avai.address)).to.equal(false);
-    // Check second account
-    expect(await wVault.hasRole(TREASURY_ROLE, accounts[1].address)).to.equal(
-      true
-    );
-
-    // Make sure nothing else has role
-    accounts.slice(2).forEach(async (account) => {
-      expect(await wVault.hasRole(TREASURY_ROLE, account.address)).to.equal(
-        false
-      );
-    });
-
-    // Check stablecoin as well
-    expect(await wVault.hasRole(TREASURY_ROLE, accounts[0].address)).to.equal(
-      false
-    );
   });
 });

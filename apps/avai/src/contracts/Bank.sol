@@ -10,9 +10,11 @@ import '@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.
 
 import '@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol';
 import '@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol';
+import '@openzeppelin/contracts/utils/Address.sol';
 
 import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 import '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
+
 import './interfaces/IStablecoin.sol';
 
 contract Bank is
@@ -60,6 +62,9 @@ contract Bank is
   mapping(uint256 => uint256) public vaultCollateral;
   mapping(uint256 => uint256) public vaultDebt;
 
+  // Minimum debt
+  uint256 public minimumDebt;
+
   // Events for general vault operations
   event CreateVault(uint256 vaultID, address creator);
   event DestroyVault(uint256 vaultID);
@@ -91,6 +96,11 @@ contract Bank is
   event NewDebtCeiling(uint256 newDebtCeiling);
   event NewClosingFee(uint256 newClosingFee);
   event NewOpeningFee(uint256 newOpeningFee);
+  event NewMinimumDebt(uint256 newMinimumDebt);
+  event NewGateway(address newGateway);
+  event NewStabilityPools(address newStabilityPool);
+  event NewPriceSource(address newPriceSource);
+  event NewTreasury(uint256 newTreasury);
 
   // Lets begin!
   function initialize(
@@ -108,9 +118,9 @@ contract Bank is
     __ReentrancyGuard_init_unchained();
     __AccessControl_init_unchained();
     assert(priceSource_ != address(0));
-    assert(minimumCollateralPercentage_ != 0);
+    assert(minimumCollateralPercentage_ >= 100);
     //Initial settings!
-    debtCeiling = 10e18; // 10 dollas
+    debtCeiling = 10e18; // 10 dollars
     closingFee = 75; // 0.75%
     openingFee = 0; // 0.0%
     tokenPeg = 1e8; // $1
@@ -172,17 +182,12 @@ contract Bank is
   }
 
   /**
-   * @dev changes the Treasury. Can only every be one treasury!
-   */
-  function changeTreasury(address to) external onlyRole(TREASURY_ROLE) {
-    _setupRole(TREASURY_ROLE, to);
-    revokeRole(TREASURY_ROLE, msg.sender);
-  }
-
-  /**
    * @dev sets the gain ratio
    */
   function setGainRatio(uint256 gainRatio_) external onlyRole(TREASURY_ROLE) {
+    require(
+      ((1000 * gainRatio_) / debtRatio) * (10000 + closingFee) < 10000**2
+    );
     gainRatio = gainRatio_;
     emit ChangeGainRatio(gainRatio_);
   }
@@ -191,8 +196,27 @@ contract Bank is
    * @dev sets the debt ratio
    */
   function setDebtRatio(uint256 debtRatio_) external onlyRole(TREASURY_ROLE) {
+    require(
+      ((1000 * gainRatio) / debtRatio_) * (10000 + closingFee) < 10000**2
+    );
     debtRatio = debtRatio_;
     emit ChangeDebtRatio(debtRatio_);
+  }
+
+  /**
+   * @dev sets the minimum debt
+   */
+  function setMinimumDebt(uint256 minimumDebt_)
+    external
+    onlyRole(TREASURY_ROLE)
+  {
+    require(minimumDebt_ > 0, 'Minimum debt cannot be zero');
+    require(
+      minimumDebt < debtCeiling,
+      'Minimum debt cannot be greater than debt ceiling'
+    );
+    minimumDebt = minimumDebt_;
+    emit NewMinimumDebt(minimumDebt);
   }
 
   /**
@@ -219,10 +243,11 @@ contract Bank is
   {
     require(priceSource_ != address(0), 'Price source cannot be zero address');
     priceSource = AggregatorV3Interface(priceSource_);
+    emit NewPriceSource(priceSource_);
   }
 
   /**
-   * @dev Set the price source for this vault
+   * @dev Set the token peg for this vault
    */
   function setTokenPeg(uint256 tokenPeg_) external onlyRole(TREASURY_ROLE) {
     require(tokenPeg_ > 0, 'Peg cannot be zero');
@@ -241,7 +266,12 @@ contract Bank is
       stabilityPool_ != address(0),
       'Stability pool cannot be zero address'
     );
+    require(
+      Address.isContract(stabilityPool_),
+      'Must be a contract to be the stability pool.'
+    );
     stabilityPool = stabilityPool_;
+    emit NewStabilityPools(stabilityPool_);
   }
 
   /**
@@ -249,13 +279,20 @@ contract Bank is
    */
   function setGateway(address gateway_) external onlyRole(TREASURY_ROLE) {
     require(gateway_ != address(0), 'Gateway cannot be zero address');
+    require(
+      Address.isContract(gateway_),
+      'Must be a contract to be the gateway.'
+    );
     gateway = gateway_;
+    emit NewGateway(gateway_);
   }
 
   /**
    * @dev Set the closing fee for this vault
    */
   function setClosingFee(uint256 amount) external onlyRole(TREASURY_ROLE) {
+    require(amount <= 250, 'Closing fee cannot be above 1%');
+    require(((1000 * gainRatio) / debtRatio) * (10000 + amount) < 10000**2);
     closingFee = amount;
     emit NewClosingFee(amount);
   }
@@ -269,7 +306,7 @@ contract Bank is
   }
 
   /**
-   * @dev Set the treasury vault for this vault
+   * @dev Set the treasury vault for this vault (vault that gets all the fees)
    */
   function setTreasury(uint256 treasury_) external onlyRole(TREASURY_ROLE) {
     require(vaultExistence[treasury_], 'Vault does not exist');
@@ -277,16 +314,18 @@ contract Bank is
   }
 
   /**
-    @dev returns the base token's address
+    @dev returns the chainlink pricefeed price
   */
   function getPriceSource() public view returns (uint256) {
     // And get the latest round data
     (, int256 price, , , ) = priceSource.latestRoundData();
+    require(price >= 0, 'Chainlink returned a negative price');
+
     return uint256(price);
   }
 
   /**
-    @dev returns the base token's address
+    @dev returns the peg 
   */
   function getPricePeg() public view returns (uint256) {
     return tokenPeg;
@@ -305,20 +344,17 @@ contract Bank is
     view
     returns (uint256, uint256)
   {
-    assert(getPriceSource() != 0);
-    assert(getPricePeg() != 0);
+    require(getPriceSource() != 0, 'Price must be above 0');
+    require(getPricePeg() != 0, 'Peg must be above 0');
 
     // Value of collateral on avalanche network
     uint256 collateralValue = collateral * getPriceSource();
-    assert(collateralValue >= collateral);
 
     // Get the current debt in our token (i.e. usdc)
     uint256 debtValue = debt * getPricePeg();
-    assert(debtValue >= debt);
 
     // Multiple collateral by 100
     uint256 collateralValueTimes100 = collateralValue * 100;
-    assert(collateralValueTimes100 > collateralValue);
 
     return (collateralValueTimes100, debtValue);
   }
@@ -336,6 +372,7 @@ contract Bank is
       uint256 debtValue
     ) = calculateCollateralProperties(collateral, debt);
 
+    require(debtValue > 0, 'Debt must be greater than zero');
     // Get current ratio of debt
     uint256 collateralPercentage = collateralValueTimes100 / debtValue;
 
@@ -382,15 +419,16 @@ contract Bank is
   {
     require(vaultDebt[vaultID] == 0, 'Vault as outstanding debt');
 
-    if (vaultCollateral[vaultID] != 0) {
-      token.safeTransfer(msg.sender, vaultCollateral[vaultID]);
-    }
+    uint256 collateral = vaultCollateral[vaultID];
 
     _burn(vaultID);
-
     delete vaultExistence[vaultID];
     delete vaultCollateral[vaultID];
     delete vaultDebt[vaultID];
+
+    if (collateral != 0) {
+      token.safeTransfer(msg.sender, collateral);
+    }
 
     emit DestroyVault(vaultID);
   }
@@ -462,6 +500,11 @@ contract Bank is
     require(
       isValidCollateral(vaultCollateral[vaultID], newDebt),
       'Borrow would put vault below minimum collateral percentage'
+    );
+
+    require(
+      newDebt > minimumDebt,
+      'Borrow needs to be larger than the minimum debt'
     );
 
     // Mint stable coin for the user
@@ -561,7 +604,7 @@ contract Bank is
   /**
    * @dev checks if the vault can be liquidated
    */
-  function checkLiquidation(uint256 vaultId_) public view {
+  function checkLiquidation(uint256 vaultId_) external view returns (bool) {
     require(vaultExistence[vaultId_], 'Vault must exist');
     (
       uint256 collateralValueTimes100,
@@ -571,12 +614,14 @@ contract Bank is
         vaultDebt[vaultId_]
       );
 
+    require(debtValue > 0, 'Cannot have zero debt');
+
     uint256 collateralPercentage = collateralValueTimes100 / debtValue;
 
-    require(
-      collateralPercentage < minimumCollateralPercentage,
-      'Vault is not below minimum collateral percentage'
-    );
+    if (collateralPercentage < minimumCollateralPercentage) {
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -634,6 +679,9 @@ contract Bank is
         vaultDebt[vaultID_]
       );
 
+    // Make sure user has debt
+    require(debtValue > 0, 'Vault has no debt');
+
     uint256 collateralPercentage = collateralValueTimes100 / debtValue;
 
     require(
@@ -648,7 +696,7 @@ contract Bank is
       'Token balance too low to pay off outstanding debt'
     );
 
-    stablecoin.safeTransferFrom(msg.sender, address(this), halfDebt);
+    stablecoin.burn(msg.sender, halfDebt);
 
     vaultDebt[vaultID_] -= halfDebt;
 
@@ -659,7 +707,6 @@ contract Bank is
     vaultCollateral[treasury] += _closingFee;
 
     tokenDebt[msg.sender] += tokenExtract;
-    stablecoin.burn(address(this), halfDebt);
 
     _subFromTotalDebt(halfDebt);
 

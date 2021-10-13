@@ -149,9 +149,9 @@ describe('Liquidator Test', function () {
       wVault.connect(accounts[1]).liquidateVault(2)
     ).to.be.revertedWith('Vault is not below minimum collateral percentage');
     // Seperate check
-    await expect(
-      wVault.connect(accounts[1]).checkLiquidation(2)
-    ).to.be.revertedWith('Vault is not below minimum collateral percentage');
+    expect(await wVault.connect(accounts[1]).checkLiquidation(2)).to.equal(
+      false
+    );
   });
 
   it('should not revert following lowering of price', async () => {
@@ -220,16 +220,6 @@ describe('Liquidator Test', function () {
     // Let the user have minter role
     await avai.grantRole(await avai.MINTER_ROLE(), accounts[1].address);
     await avai.connect(accounts[1]).mint(accounts[1].address, mintVal.add(10)); // 1000 AVAI
-
-    // Should revert because not approved
-    await expect(
-      wVault.connect(accounts[1]).liquidateVault(2)
-    ).to.be.revertedWith('ERC20: transfer amount exceeds allowance');
-
-    // Allow liquidator to transfer AVAI
-    await avai
-      .connect(accounts[1])
-      .increaseAllowance(wVault.address, ethers.utils.parseEther('1000.0'));
 
     // Some calcs for compare
     const halfDebt = (await wVault.vaultDebt(2)).div(await wVault.debtRatio());

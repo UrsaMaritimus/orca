@@ -30,12 +30,14 @@ interface AVAIInterface extends ethers.utils.Interface {
     "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
+    "bankCount()": FunctionFragment;
     "banks(uint256)": FunctionFragment;
     "burn(address,uint256)": FunctionFragment;
-    "changeTreasury(uint256,address)": FunctionFragment;
     "decimals()": FunctionFragment;
     "decreaseAllowance(address,uint256)": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
+    "getRoleMember(bytes32,uint256)": FunctionFragment;
+    "getRoleMemberCount(bytes32)": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
     "implementation()": FunctionFragment;
@@ -56,6 +58,7 @@ interface AVAIInterface extends ethers.utils.Interface {
     "setDebtRatio(uint256,uint256)": FunctionFragment;
     "setGainRatio(uint256,uint256)": FunctionFragment;
     "setGateway(uint256,address)": FunctionFragment;
+    "setMinimumDebt(uint256,uint256)": FunctionFragment;
     "setOpeningFee(uint256,uint256)": FunctionFragment;
     "setPriceSource(uint256,address)": FunctionFragment;
     "setStabilityPool(uint256,address)": FunctionFragment;
@@ -69,7 +72,6 @@ interface AVAIInterface extends ethers.utils.Interface {
     "transferOwnership(address)": FunctionFragment;
     "unpause()": FunctionFragment;
     "upgradeToNewBank(address)": FunctionFragment;
-    "vaultCount()": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -105,14 +107,11 @@ interface AVAIInterface extends ethers.utils.Interface {
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
+  encodeFunctionData(functionFragment: "bankCount", values?: undefined): string;
   encodeFunctionData(functionFragment: "banks", values: [BigNumberish]): string;
   encodeFunctionData(
     functionFragment: "burn",
     values: [string, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "changeTreasury",
-    values: [BigNumberish, string]
   ): string;
   encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
   encodeFunctionData(
@@ -121,6 +120,14 @@ interface AVAIInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getRoleAdmin",
+    values: [BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getRoleMember",
+    values: [BytesLike, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getRoleMemberCount",
     values: [BytesLike]
   ): string;
   encodeFunctionData(
@@ -197,6 +204,10 @@ interface AVAIInterface extends ethers.utils.Interface {
     values: [BigNumberish, string]
   ): string;
   encodeFunctionData(
+    functionFragment: "setMinimumDebt",
+    values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setOpeningFee",
     values: [BigNumberish, BigNumberish]
   ): string;
@@ -242,10 +253,6 @@ interface AVAIInterface extends ethers.utils.Interface {
     functionFragment: "upgradeToNewBank",
     values: [string]
   ): string;
-  encodeFunctionData(
-    functionFragment: "vaultCount",
-    values?: undefined
-  ): string;
 
   decodeFunctionResult(
     functionFragment: "BURNER_ROLE",
@@ -271,12 +278,9 @@ interface AVAIInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "bankCount", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "banks", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "changeTreasury",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "decreaseAllowance",
@@ -284,6 +288,14 @@ interface AVAIInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getRoleAdmin",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getRoleMember",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getRoleMemberCount",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
@@ -331,6 +343,10 @@ interface AVAIInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "setGateway", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "setMinimumDebt",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "setOpeningFee",
     data: BytesLike
   ): Result;
@@ -373,7 +389,6 @@ interface AVAIInterface extends ethers.utils.Interface {
     functionFragment: "upgradeToNewBank",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "vaultCount", data: BytesLike): Result;
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
@@ -477,17 +492,13 @@ export class AVAI extends BaseContract {
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
+    bankCount(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     banks(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
 
     burn(
       from: string,
       amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    changeTreasury(
-      bankID: BigNumberish,
-      to: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -500,6 +511,17 @@ export class AVAI extends BaseContract {
     ): Promise<ContractTransaction>;
 
     getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<[string]>;
+
+    getRoleMember(
+      role: BytesLike,
+      index: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    getRoleMemberCount(
+      role: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
     grantRole(
       role: BytesLike,
@@ -602,6 +624,12 @@ export class AVAI extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setMinimumDebt(
+      bankID: BigNumberish,
+      minimumDebt_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     setOpeningFee(
       bankID: BigNumberish,
       amount: BigNumberish,
@@ -667,8 +695,6 @@ export class AVAI extends BaseContract {
       newImplementation: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
-
-    vaultCount(overrides?: CallOverrides): Promise<[BigNumber]>;
   };
 
   BURNER_ROLE(overrides?: CallOverrides): Promise<string>;
@@ -704,17 +730,13 @@ export class AVAI extends BaseContract {
 
   balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 
+  bankCount(overrides?: CallOverrides): Promise<BigNumber>;
+
   banks(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   burn(
     from: string,
     amount: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  changeTreasury(
-    bankID: BigNumberish,
-    to: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -727,6 +749,17 @@ export class AVAI extends BaseContract {
   ): Promise<ContractTransaction>;
 
   getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>;
+
+  getRoleMember(
+    role: BytesLike,
+    index: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
+  getRoleMemberCount(
+    role: BytesLike,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   grantRole(
     role: BytesLike,
@@ -829,6 +862,12 @@ export class AVAI extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setMinimumDebt(
+    bankID: BigNumberish,
+    minimumDebt_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   setOpeningFee(
     bankID: BigNumberish,
     amount: BigNumberish,
@@ -895,8 +934,6 @@ export class AVAI extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  vaultCount(overrides?: CallOverrides): Promise<BigNumber>;
-
   callStatic: {
     BURNER_ROLE(overrides?: CallOverrides): Promise<string>;
 
@@ -931,17 +968,13 @@ export class AVAI extends BaseContract {
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 
+    bankCount(overrides?: CallOverrides): Promise<BigNumber>;
+
     banks(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
     burn(
       from: string,
       amount: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    changeTreasury(
-      bankID: BigNumberish,
-      to: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -954,6 +987,17 @@ export class AVAI extends BaseContract {
     ): Promise<boolean>;
 
     getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>;
+
+    getRoleMember(
+      role: BytesLike,
+      index: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    getRoleMemberCount(
+      role: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     grantRole(
       role: BytesLike,
@@ -1052,6 +1096,12 @@ export class AVAI extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setMinimumDebt(
+      bankID: BigNumberish,
+      minimumDebt_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setOpeningFee(
       bankID: BigNumberish,
       amount: BigNumberish,
@@ -1115,8 +1165,6 @@ export class AVAI extends BaseContract {
       newImplementation: string,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    vaultCount(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   filters: {
@@ -1233,17 +1281,13 @@ export class AVAI extends BaseContract {
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 
+    bankCount(overrides?: CallOverrides): Promise<BigNumber>;
+
     banks(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
     burn(
       from: string,
       amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    changeTreasury(
-      bankID: BigNumberish,
-      to: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1256,6 +1300,17 @@ export class AVAI extends BaseContract {
     ): Promise<BigNumber>;
 
     getRoleAdmin(
+      role: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getRoleMember(
+      role: BytesLike,
+      index: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getRoleMemberCount(
       role: BytesLike,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -1361,6 +1416,12 @@ export class AVAI extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setMinimumDebt(
+      bankID: BigNumberish,
+      minimumDebt_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     setOpeningFee(
       bankID: BigNumberish,
       amount: BigNumberish,
@@ -1426,8 +1487,6 @@ export class AVAI extends BaseContract {
       newImplementation: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
-
-    vaultCount(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -1469,6 +1528,8 @@ export class AVAI extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    bankCount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     banks(
       arg0: BigNumberish,
       overrides?: CallOverrides
@@ -1477,12 +1538,6 @@ export class AVAI extends BaseContract {
     burn(
       from: string,
       amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    changeTreasury(
-      bankID: BigNumberish,
-      to: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1495,6 +1550,17 @@ export class AVAI extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getRoleAdmin(
+      role: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getRoleMember(
+      role: BytesLike,
+      index: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getRoleMemberCount(
       role: BytesLike,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -1603,6 +1669,12 @@ export class AVAI extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    setMinimumDebt(
+      bankID: BigNumberish,
+      minimumDebt_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     setOpeningFee(
       bankID: BigNumberish,
       amount: BigNumberish,
@@ -1668,7 +1740,5 @@ export class AVAI extends BaseContract {
       newImplementation: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
-
-    vaultCount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

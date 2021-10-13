@@ -26,7 +26,6 @@ interface BankInterface extends ethers.utils.Interface {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "borrowToken(uint256,uint256)": FunctionFragment;
-    "changeTreasury(address)": FunctionFragment;
     "checkCost(uint256)": FunctionFragment;
     "checkExtract(uint256)": FunctionFragment;
     "checkLiquidation(uint256)": FunctionFragment;
@@ -49,6 +48,7 @@ interface BankInterface extends ethers.utils.Interface {
     "isApprovedForAll(address,address)": FunctionFragment;
     "liquidateVault(uint256)": FunctionFragment;
     "minimumCollateralPercentage()": FunctionFragment;
+    "minimumDebt()": FunctionFragment;
     "name()": FunctionFragment;
     "openingFee()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
@@ -63,6 +63,7 @@ interface BankInterface extends ethers.utils.Interface {
     "setDebtRatio(uint256)": FunctionFragment;
     "setGainRatio(uint256)": FunctionFragment;
     "setGateway(address)": FunctionFragment;
+    "setMinimumDebt(uint256)": FunctionFragment;
     "setOpeningFee(uint256)": FunctionFragment;
     "setPriceSource(address)": FunctionFragment;
     "setStabilityPool(address)": FunctionFragment;
@@ -105,10 +106,6 @@ interface BankInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "borrowToken",
     values: [BigNumberish, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "changeTreasury",
-    values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "checkCost",
@@ -186,6 +183,10 @@ interface BankInterface extends ethers.utils.Interface {
     functionFragment: "minimumCollateralPercentage",
     values?: undefined
   ): string;
+  encodeFunctionData(
+    functionFragment: "minimumDebt",
+    values?: undefined
+  ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "openingFee",
@@ -236,6 +237,10 @@ interface BankInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "setGateway", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "setMinimumDebt",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "setOpeningFee",
     values: [BigNumberish]
@@ -329,10 +334,6 @@ interface BankInterface extends ethers.utils.Interface {
     functionFragment: "borrowToken",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "changeTreasury",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "checkCost", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "checkExtract",
@@ -394,6 +395,10 @@ interface BankInterface extends ethers.utils.Interface {
     functionFragment: "minimumCollateralPercentage",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "minimumDebt",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "openingFee", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
@@ -435,6 +440,10 @@ interface BankInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setGateway", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setMinimumDebt",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "setOpeningFee",
     data: BytesLike
@@ -521,8 +530,13 @@ interface BankInterface extends ethers.utils.Interface {
     "LiquidateVault(uint256,address,address,uint256,uint256,uint256)": EventFragment;
     "NewClosingFee(uint256)": EventFragment;
     "NewDebtCeiling(uint256)": EventFragment;
+    "NewGateway(address)": EventFragment;
+    "NewMinimumDebt(uint256)": EventFragment;
     "NewOpeningFee(uint256)": EventFragment;
     "NewPeg(uint256)": EventFragment;
+    "NewPriceSource(address)": EventFragment;
+    "NewStabilityPools(address)": EventFragment;
+    "NewTreasury(uint256)": EventFragment;
     "PayBackToken(uint256,uint256,uint256)": EventFragment;
     "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
     "RoleGranted(bytes32,address,address)": EventFragment;
@@ -544,8 +558,13 @@ interface BankInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "LiquidateVault"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "NewClosingFee"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "NewDebtCeiling"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewGateway"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewMinimumDebt"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "NewOpeningFee"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "NewPeg"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewPriceSource"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewStabilityPools"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewTreasury"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "PayBackToken"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
@@ -617,11 +636,6 @@ export class Bank extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    changeTreasury(
-      to: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     checkCost(
       vaultId_: BigNumberish,
       overrides?: CallOverrides
@@ -635,7 +649,7 @@ export class Bank extends BaseContract {
     checkLiquidation(
       vaultId_: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<[void]>;
+    ): Promise<[boolean]>;
 
     closingFee(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -714,6 +728,8 @@ export class Bank extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
+    minimumDebt(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     name(overrides?: CallOverrides): Promise<[string]>;
 
     openingFee(overrides?: CallOverrides): Promise<[BigNumber]>;
@@ -786,6 +802,11 @@ export class Bank extends BaseContract {
 
     setGateway(
       gateway_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setMinimumDebt(
+      minimumDebt_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -906,11 +927,6 @@ export class Bank extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  changeTreasury(
-    to: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   checkCost(
     vaultId_: BigNumberish,
     overrides?: CallOverrides
@@ -924,7 +940,7 @@ export class Bank extends BaseContract {
   checkLiquidation(
     vaultId_: BigNumberish,
     overrides?: CallOverrides
-  ): Promise<void>;
+  ): Promise<boolean>;
 
   closingFee(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1001,6 +1017,8 @@ export class Bank extends BaseContract {
 
   minimumCollateralPercentage(overrides?: CallOverrides): Promise<BigNumber>;
 
+  minimumDebt(overrides?: CallOverrides): Promise<BigNumber>;
+
   name(overrides?: CallOverrides): Promise<string>;
 
   openingFee(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1070,6 +1088,11 @@ export class Bank extends BaseContract {
 
   setGateway(
     gateway_: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setMinimumDebt(
+    minimumDebt_: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -1184,8 +1207,6 @@ export class Bank extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    changeTreasury(to: string, overrides?: CallOverrides): Promise<void>;
-
     checkCost(
       vaultId_: BigNumberish,
       overrides?: CallOverrides
@@ -1199,7 +1220,7 @@ export class Bank extends BaseContract {
     checkLiquidation(
       vaultId_: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<boolean>;
 
     closingFee(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1271,6 +1292,8 @@ export class Bank extends BaseContract {
 
     minimumCollateralPercentage(overrides?: CallOverrides): Promise<BigNumber>;
 
+    minimumDebt(overrides?: CallOverrides): Promise<BigNumber>;
+
     name(overrides?: CallOverrides): Promise<string>;
 
     openingFee(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1339,6 +1362,11 @@ export class Bank extends BaseContract {
     ): Promise<void>;
 
     setGateway(gateway_: string, overrides?: CallOverrides): Promise<void>;
+
+    setMinimumDebt(
+      minimumDebt_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     setOpeningFee(
       amount: BigNumberish,
@@ -1526,11 +1554,31 @@ export class Bank extends BaseContract {
       newDebtCeiling?: null
     ): TypedEventFilter<[BigNumber], { newDebtCeiling: BigNumber }>;
 
+    NewGateway(
+      newGateway?: null
+    ): TypedEventFilter<[string], { newGateway: string }>;
+
+    NewMinimumDebt(
+      newMinimumDebt?: null
+    ): TypedEventFilter<[BigNumber], { newMinimumDebt: BigNumber }>;
+
     NewOpeningFee(
       newOpeningFee?: null
     ): TypedEventFilter<[BigNumber], { newOpeningFee: BigNumber }>;
 
     NewPeg(newPew?: null): TypedEventFilter<[BigNumber], { newPew: BigNumber }>;
+
+    NewPriceSource(
+      newPriceSource?: null
+    ): TypedEventFilter<[string], { newPriceSource: string }>;
+
+    NewStabilityPools(
+      newStabilityPool?: null
+    ): TypedEventFilter<[string], { newStabilityPool: string }>;
+
+    NewTreasury(
+      newTreasury?: null
+    ): TypedEventFilter<[BigNumber], { newTreasury: BigNumber }>;
 
     PayBackToken(
       vaultID?: null,
@@ -1611,11 +1659,6 @@ export class Bank extends BaseContract {
     borrowToken(
       vaultID: BigNumberish,
       amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    changeTreasury(
-      to: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1712,6 +1755,8 @@ export class Bank extends BaseContract {
 
     minimumCollateralPercentage(overrides?: CallOverrides): Promise<BigNumber>;
 
+    minimumDebt(overrides?: CallOverrides): Promise<BigNumber>;
+
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
     openingFee(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1784,6 +1829,11 @@ export class Bank extends BaseContract {
 
     setGateway(
       gateway_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setMinimumDebt(
+      minimumDebt_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1910,11 +1960,6 @@ export class Bank extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    changeTreasury(
-      to: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     checkCost(
       vaultId_: BigNumberish,
       overrides?: CallOverrides
@@ -2010,6 +2055,8 @@ export class Bank extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    minimumDebt(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     openingFee(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -2082,6 +2129,11 @@ export class Bank extends BaseContract {
 
     setGateway(
       gateway_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setMinimumDebt(
+      minimumDebt_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
