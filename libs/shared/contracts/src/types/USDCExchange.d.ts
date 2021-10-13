@@ -24,6 +24,7 @@ interface USDCExchangeInterface extends ethers.utils.Interface {
     "avai()": FunctionFragment;
     "avaiRate()": FunctionFragment;
     "changeTreasury(address)": FunctionFragment;
+    "hourlyLimit()": FunctionFragment;
     "initialize(address,address)": FunctionFragment;
     "mint(uint256)": FunctionFragment;
     "owner()": FunctionFragment;
@@ -44,6 +45,10 @@ interface USDCExchangeInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "changeTreasury",
     values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "hourlyLimit",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "initialize",
@@ -87,6 +92,10 @@ interface USDCExchangeInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "avaiRate", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "changeTreasury",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "hourlyLimit",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
@@ -193,6 +202,8 @@ export class USDCExchange extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    hourlyLimit(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     initialize(
       usdc_: string,
       avai_: string,
@@ -253,6 +264,8 @@ export class USDCExchange extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  hourlyLimit(overrides?: CallOverrides): Promise<BigNumber>;
+
   initialize(
     usdc_: string,
     avai_: string,
@@ -312,6 +325,8 @@ export class USDCExchange extends BaseContract {
       newTreasury: string,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    hourlyLimit(overrides?: CallOverrides): Promise<BigNumber>;
 
     initialize(
       usdc_: string,
@@ -404,6 +419,8 @@ export class USDCExchange extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    hourlyLimit(overrides?: CallOverrides): Promise<BigNumber>;
+
     initialize(
       usdc_: string,
       avai_: string,
@@ -464,6 +481,8 @@ export class USDCExchange extends BaseContract {
       newTreasury: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    hourlyLimit(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     initialize(
       usdc_: string,

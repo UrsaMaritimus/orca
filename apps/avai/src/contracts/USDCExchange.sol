@@ -23,7 +23,7 @@ contract USDCExchange is
   uint256 public avaiRate;
   address public treasury;
 
-  uint256 hourlyLimit;
+  uint256 public hourlyLimit;
   mapping(uint256 => uint256) accumulatedAVAI;
 
   event Mint(address minter, uint256 amount, uint256 fee);
