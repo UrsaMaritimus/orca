@@ -54,7 +54,6 @@ export const LiquidateVault: FC<LiquidateProps> = ({
   vaultInfo,
   vaultID,
 }) => {
-  const [approving, setApproving] = useState<boolean>(false);
   const [liquidating, setLiquidating] = useState<boolean>(false);
   const router = useRouter();
   const addTransaction = useAddTransaction();
@@ -63,20 +62,6 @@ export const LiquidateVault: FC<LiquidateProps> = ({
   const shouldFetch =
     typeof account === 'string' && !!library && vaultInfo.debt;
 
-  //Avai is approved
-  const { data: approved, mutate: avaiMutate } = useSWR(
-    shouldFetch
-      ? [
-          'avaiApproved',
-          library,
-          account,
-          chainId,
-          vaultInfo.debt,
-          tokenInfo[token].erc20,
-        ]
-      : null,
-    avaiApproved()
-  );
   // Get avai balance
   const { data: userAvaiBalance, mutate: avaiBalanceMutate } = useSWR(
     shouldFetch ? ['avaiBalanceLiquidate', library, chainId, account] : null,
@@ -84,28 +69,7 @@ export const LiquidateVault: FC<LiquidateProps> = ({
   );
 
   // mutates
-  useKeepSWRDataLiveAsBlocksArrive(avaiMutate);
   useKeepSWRDataLiveAsBlocksArrive(avaiBalanceMutate);
-
-  const handleApproveAvai = async () => {
-    setApproving(true);
-    await handleTransaction({
-      transaction: approveAvai(
-        library,
-        chainId,
-        utils.parseEther('100000000'),
-        tokenInfo[token].erc20
-      ),
-      messages: {
-        loading: 'Approving AVAI...',
-        success: 'Succesfully approved!',
-        error: 'Failed to approve AVAI.',
-      },
-      mutates: [avaiMutate],
-      chainId,
-    });
-    setApproving(false);
-  };
 
   const handleLiquidate = async () => {
     setLiquidating(true);
@@ -121,7 +85,7 @@ export const LiquidateVault: FC<LiquidateProps> = ({
         success: 'Succesfully liquidated!',
         error: 'Failed to liquidate vault.',
       },
-      mutates: [avaiMutate, avaiBalanceMutate],
+      mutates: [avaiBalanceMutate],
       chainId,
     });
     addTransaction({
@@ -137,10 +101,7 @@ export const LiquidateVault: FC<LiquidateProps> = ({
 
   return (
     <Grid container>
-      <Backdrop
-        sx={{ position: 'absolute', zIndex: 99 }}
-        open={liquidating || approving}
-      >
+      <Backdrop sx={{ position: 'absolute', zIndex: 99 }} open={liquidating}>
         <Loader />
       </Backdrop>
       <Grid item xs={12} sm={6} sx={{ mb: 2 }}>
@@ -197,18 +158,6 @@ export const LiquidateVault: FC<LiquidateProps> = ({
               color="primary"
               variant="contained"
               size="large"
-              sx={{ mr: 1 }}
-              disabled={approved || userAvaiBalance.isZero()}
-              onClick={handleApproveAvai}
-              loading={approving}
-            >
-              Approve AVAI
-            </LoadingButton>
-            <LoadingButton
-              color="primary"
-              variant="contained"
-              size="large"
-              disabled={!approved}
               onClick={handleLiquidate}
               loading={liquidating}
             >

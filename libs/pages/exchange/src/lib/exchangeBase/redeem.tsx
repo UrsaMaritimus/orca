@@ -79,17 +79,10 @@ export const Redeem: FC<MintProps> = ({
   mintingFee,
   mutates,
 }) => {
-  const [approving, setApproving] = useState<boolean>(false);
   const [redeeming, setRedeeming] = useState<boolean>(false);
   const addTransaction = useAddTransaction();
   const shouldFetch = !!library;
-  // Get usdc approved
-  const { data: userAVAIApproved, mutate: avaiApprovedMutate } = useSWR(
-    shouldFetch
-      ? [`avauApproveMint${token}`, library, account, chainId, avaiBalance]
-      : null,
-    avaiApprovedExchange()
-  );
+
   // Form
   const ValueSchema = Yup.object().shape({
     swapAmount: Yup.number()
@@ -147,26 +140,6 @@ export const Redeem: FC<MintProps> = ({
           )
     );
   }, [values, setFieldValue, mintingFee]);
-
-  // For approving AVAI
-  const handleApproveAVAI = async () => {
-    setApproving(true);
-    await handleTransaction({
-      transaction: approveAvaiExchange(
-        library,
-        chainId,
-        utils.parseEther('1000000000000')
-      ),
-      messages: {
-        loading: 'Approving AVAI...',
-        success: 'Succesfully approved!',
-        error: 'Failed to approve AVAI.',
-      },
-      mutates: [avaiApprovedMutate],
-      chainId,
-    });
-    setApproving(false);
-  };
 
   // For redeeming USDC for AVAI
   const handleMintAVAI = async () => {
@@ -349,31 +322,19 @@ export const Redeem: FC<MintProps> = ({
                   </Box>
                 </Grid>
                 {/* Lets handle everything now! */}
+
                 <Grid
                   item
-                  xs={6}
-                  mb={2}
+                  xs={12}
                   display="flex"
-                  justifyContent="flex-end"
+                  justifyContent="center"
+                  mb={1}
                 >
                   <LoadingButton
                     color="primary"
                     variant="contained"
                     size="large"
-                    sx={{ mr: 1 }}
-                    disabled={userAVAIApproved}
-                    onClick={handleApproveAVAI}
-                    loading={approving}
-                  >
-                    Approve AVAI
-                  </LoadingButton>
-                </Grid>
-                <Grid item xs={6} display="flex" justifyContent="flex-start">
-                  <LoadingButton
-                    color="primary"
-                    variant="contained"
-                    size="large"
-                    disabled={!userAVAIApproved || avaiBalance.isZero()}
+                    disabled={avaiBalance.isZero()}
                     sx={{ px: 4 }}
                     loading={redeeming}
                     type="submit"

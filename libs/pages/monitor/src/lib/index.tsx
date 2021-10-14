@@ -120,7 +120,8 @@ export const Vaults: FC = () => {
                           <Typography
                             variant="h6"
                             sx={{
-                              color: data.disabled ? 'grey.700' : 'grey.400',
+                              color: data.disabled ? 'disabled' : 'inherit',
+                              ml: 0.5,
                             }}
                           >
                             {data.title}
