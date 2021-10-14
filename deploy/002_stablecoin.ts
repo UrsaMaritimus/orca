@@ -5,7 +5,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployments, getNamedAccounts } = hre;
   const { deploy, catchUnknownSigner } = deployments;
 
-  const { deployer } = await getNamedAccounts();
+  const { deployer, owner } = await getNamedAccounts();
 
   const base = await deployments.get('Bank');
 
@@ -14,7 +14,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
       from: deployer,
       log: true,
       proxy: {
-        owner: deployer,
+        owner: owner,
         proxyContract: 'OptimizedTransparentProxy',
         execute: {
           init: {
