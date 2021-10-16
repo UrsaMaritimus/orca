@@ -42,10 +42,10 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
   BTC: {
     address: {
       mainnet: '0x50b7545627a5162F82A992c33b87aDc75187B218'.toLowerCase(),
-      fuji: '',
+      fuji: contracts.fuji.ORCA.address.toLowerCase(), // Easier for testing, use same token,
     },
     icon: '/static/cryptos/ic_wbtc.svg',
-    erc20: 'wbtc.e',
+    erc20: 'wbtc',
     display: 'WBTC.e',
   },
   ORCA: {

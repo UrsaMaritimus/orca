@@ -31,13 +31,17 @@ export const useFrontPageYieldInfo = (farm: string) => {
   const { data: avaxPrice } = useAvaxPriceSubscription();
 
   if (yieldData && tokenData && orcaPrice && avaxPrice) {
-    const poolAlloc = Number(yieldData.pools[0].allocPoint);
-    const totalAllocPoints = Number(yieldData.pools[0].leader.totalAllocPoints);
+    const poolAlloc = Number(yieldData.pools[0]?.allocPoint);
+    const totalAllocPoints = Number(
+      yieldData.pools[0]?.leader.totalAllocPoints
+    );
     const orcaPerSec = Number(
-      utils.formatEther(BigNumber.from(yieldData.pools[0].leader.orcaPerSec))
+      utils.formatEther(
+        BigNumber.from(yieldData.pools[0]?.leader.orcaPerSec || 0)
+      )
     );
     const totalStaked = Number(
-      utils.formatEther(BigNumber.from(yieldData.pools[0].totalStaked))
+      utils.formatEther(BigNumber.from(yieldData.pools[0]?.totalStaked || 0))
     );
 
     const rewardPerDay = (poolAlloc / totalAllocPoints) * orcaPerSec * 86400;
@@ -53,13 +57,15 @@ export const useFrontPageYieldInfo = (farm: string) => {
     return {
       loading: false,
       data: {
-        id: utils.formatUnits(yieldData.pools[0].id, 0),
+        id: utils.formatUnits(yieldData.pools[0]?.id || 0, 0),
         rewardPerDay: rewardPerDay,
         tvl: TVL,
         apr: apr,
         treasury:
           Number(
-            utils.formatEther(BigNumber.from(yieldData.pools[0].treasuryAmount))
+            utils.formatEther(
+              BigNumber.from(yieldData.pools[0]?.treasuryAmount || 0)
+            )
           ) *
           (farm === tokenInfo['AVAI'].address.fuji.toLowerCase()
             ? 1
