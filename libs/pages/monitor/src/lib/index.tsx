@@ -21,6 +21,7 @@ import { Connect } from '@orca/components/connect';
 
 import { AvaxVaults } from './crypto/AVAX';
 import { EthVaults } from './crypto/ETH';
+import { BtcVaults } from './crypto/BTC';
 
 const RootStyle = styled(Page)(({ theme }) => ({
   paddingTop: theme.spacing(3),
@@ -56,10 +57,12 @@ const collaterals = (
     title: 'ETH',
   },
   {
-    disabled: true,
+    disabled: false,
     icon: '/static/cryptos/ic_wbtc.svg',
     value: '3',
-    component: <> </>,
+    component: (
+      <BtcVaults library={library} account={account} chainId={chainId} />
+    ),
     title: 'BTC',
   },
 ];

@@ -33,20 +33,20 @@ export interface PagesVaultsProps {
   chainId: number;
 }
 
-export const EthVaults: FC<PagesVaultsProps> = ({
+export const BtcVaults: FC<PagesVaultsProps> = ({
   account,
   library,
   chainId,
 }) => {
-  const { loading, rows } = useGetVaults(library, chainId, account, 'weth');
+  const { loading, rows } = useGetVaults(library, chainId, account, 'wbtc');
   const { data: bankData } = useBankInfoSubscription({
-    variables: { id: getContract(chainId, 'weth').toLowerCase() },
+    variables: { id: getContract(chainId, 'wbtc').toLowerCase() },
   });
 
   // For creating a vault
   const createVault = async () => {
     await handleTransaction({
-      transaction: makeVault(library, 'weth', chainId),
+      transaction: makeVault(library, 'wbtc', chainId),
       messages: {
         loading: 'Creating vault...',
         success: 'Vault created!',
@@ -71,11 +71,11 @@ export const EthVaults: FC<PagesVaultsProps> = ({
       <div>
         <Card>
           <CardHeader
-            title={'WETH.e Vaults'}
+            title={'WBTC.e Vaults'}
             avatar={
               <Box
                 component="img"
-                src="/static/cryptos/ic_eth.svg"
+                src="/static/cryptos/ic_wbtc.svg"
                 sx={{ width: 35, height: 35 }}
                 color="inherit"
               />
@@ -93,7 +93,7 @@ export const EthVaults: FC<PagesVaultsProps> = ({
             }
           />
           {rows.length > 0 ? (
-            <MainTable rows={rows} collateralType={'ETH'} debtType={'AVAI'} />
+            <MainTable rows={rows} collateralType={'BTC'} debtType={'AVAI'} />
           ) : (
             <Typography
               variant="h4"
