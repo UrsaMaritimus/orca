@@ -123,7 +123,7 @@ export const Deposit: FC<DepositProps> = ({
           ),
           messages: {
             loading: `Depositing ${name}...`,
-            success: 'Succesfully deposited!',
+            success: 'Successfully deposited!',
             error: `Failed to deposit ${name}.`,
           },
           mutates: [mutateFarmBalance],
