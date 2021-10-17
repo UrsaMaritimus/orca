@@ -150,8 +150,15 @@ export const DepositStepper: FC<StepperProps> = ({
     },
   });
 
-  const { errors, touched, values, handleSubmit, getFieldProps, resetForm } =
-    formik;
+  const {
+    errors,
+    touched,
+    values,
+    handleSubmit,
+    getFieldProps,
+    resetForm,
+    setFieldValue,
+  } = formik;
 
   const { data: TokenApproved, mutate: tokenApprovedMutate } = useSWR(
     shouldFetch && token !== 'AVAX'
@@ -194,7 +201,12 @@ export const DepositStepper: FC<StepperProps> = ({
     });
     addTransaction({
       type: 'deposit',
-      amount: utils.parseEther(values.depositAmount.toFixed(18)),
+      amount: utils.parseUnits(
+        typeof values.depositAmount === 'number'
+          ? values.depositAmount.toFixed(tokenInfo[token].decimals)
+          : values.depositAmount,
+        tokenInfo[token].decimals
+      ),
       vault: token,
       success: success.success,
       hash: success.hash,
@@ -311,6 +323,24 @@ export const DepositStepper: FC<StepperProps> = ({
                           }}
                           color="inherit"
                         />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="start">
+                        <Button
+                          onClick={() =>
+                            setFieldValue(
+                              'depositAmount',
+                              utils.formatUnits(
+                                TokenBalance,
+                                tokenInfo[token].decimals
+                              )
+                            )
+                          }
+                          variant="text"
+                        >
+                          MAX
+                        </Button>
                       </InputAdornment>
                     ),
                     disableUnderline: true,
@@ -441,15 +471,21 @@ export const DepositStepper: FC<StepperProps> = ({
                         colorScale(
                           (100 * Number(utils.formatEther(vaultInfo.debt))) /
                             Number(
-                              utils.formatEther(
+                              utils.formatUnits(
                                 vaultInfo.collateral
                                   .add(
-                                    utils.parseEther(
-                                      values.depositAmount.toFixed(18)
+                                    utils.parseUnits(
+                                      typeof values.depositAmount === 'number'
+                                        ? values.depositAmount.toFixed(
+                                            tokenInfo[token].decimals
+                                          )
+                                        : values.depositAmount,
+                                      tokenInfo[token].decimals
                                     )
                                   )
                                   .mul(vaultInfo.tokenPrice)
-                                  .div(vaultInfo.peg)
+                                  .div(vaultInfo.peg),
+                                tokenInfo[token].decimals
                               )
                             ),
                           40,
@@ -461,15 +497,21 @@ export const DepositStepper: FC<StepperProps> = ({
                         fPercent(
                           (100 * Number(utils.formatEther(vaultInfo.debt))) /
                             Number(
-                              utils.formatEther(
+                              utils.formatUnits(
                                 vaultInfo.collateral
                                   .add(
-                                    utils.parseEther(
-                                      values.depositAmount.toFixed(18)
+                                    utils.parseUnits(
+                                      typeof values.depositAmount === 'number'
+                                        ? values.depositAmount.toFixed(
+                                            tokenInfo[token].decimals
+                                          )
+                                        : values.depositAmount,
+                                      tokenInfo[token].decimals
                                     )
                                   )
                                   .mul(vaultInfo.tokenPrice)
-                                  .div(vaultInfo.peg)
+                                  .div(vaultInfo.peg),
+                                tokenInfo[token].decimals
                               )
                             )
                         )}
