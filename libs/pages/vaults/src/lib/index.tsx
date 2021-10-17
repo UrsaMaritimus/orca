@@ -13,6 +13,7 @@ import {
   Stack,
   Tab,
   Container,
+  fabClasses,
 } from '@mui/material';
 import { TabList, TabPanel, TabContext } from '@mui/lab';
 
@@ -20,6 +21,7 @@ import { Page } from '@orca/components/page';
 import { Connect } from '@orca/components/connect';
 import { AvaxVaults } from './crypto/AVAX';
 import { EthVaults } from './crypto/wETH';
+import { BtcVaults } from './crypto/wBTC';
 import { ScrollBar } from '@orca/components/scroll-bar';
 import { Loader } from '@orca/components/loader';
 
@@ -60,10 +62,12 @@ const collaterals = (
     title: 'ETH',
   },
   {
-    disabled: true,
+    disabled: false,
     icon: '/static/cryptos/ic_wbtc.svg',
     value: '3',
-    component: <> </>,
+    component: (
+      <BtcVaults account={account} library={library} chainId={chainId} />
+    ),
     title: 'BTC',
   },
 ];

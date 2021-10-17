@@ -91,7 +91,11 @@ export const Liquidate: FC<LiquidateProps> = ({
                           vaultInfo.debt
                             .mul(vaultInfo.peg)
                             .mul(vaultInfo.mcp)
-                            .div(vaultInfo.collateral.mul(100)),
+                            .div(
+                              vaultInfo.collateral
+                                .mul(100)
+                                .mul(10 ** (18 - tokenInfo[token].decimals))
+                            ),
                           8
                         )
                       )

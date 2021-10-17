@@ -20,10 +20,10 @@ describe('Bank', function () {
   let wVault: Bank;
 
   const minimumCollateralPercentage = 150;
-  const priceSource_ = '0x5498BB86BC934c8D34FDA08E81D444153d0D06aD';
-  const symbol = 'avAVAX';
-  const name = 'avAVAX';
-  const token = '0xd00ae08403B9bbb9124bB305C09058E32C39A48c';
+  const priceSource_ = '0x31CF013A08c6Ac228C94551d535d5BAfE19c602a';
+  const symbol = 'btcAVAX';
+  const name = 'btcAVAX';
+  const token = '0xc4a8272248A5233aC3359D4BC100bC671EBdE4Cd';
 
   before(async () => {
     accounts = await ethers.getSigners();
@@ -232,7 +232,7 @@ describe('Bank', function () {
       accounts[0]
     );
 
-    expect(await tokenAddress.name()).to.equal('Wrapped AVAX');
+    expect(await tokenAddress.name()).to.equal('Wrapped BTC');
   });
 
   it('Should set min collateral percentage correctly', async () => {

@@ -25,7 +25,8 @@ export const AvaxVaults: FC<PagesVaultsProps> = ({
   const { loading, rows: badVaults } = useMonitorVaults(
     library,
     chainId,
-    'wavax'
+    'wavax',
+    'AVAX'
   );
 
   if (typeof account === 'string' && badVaults && !loading) {

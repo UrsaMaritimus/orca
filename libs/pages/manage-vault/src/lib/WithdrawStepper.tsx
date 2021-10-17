@@ -76,7 +76,14 @@ export const WithdrawStepper: FC<StepperProps> = ({
       .required('Withdraw amount required')
       .moreThan(0, 'Must be larger than zero.')
       .positive('Must be positive')
-      .max(Number(utils.formatEther(vaultInfo.availableWithdraw))),
+      .max(
+        Number(
+          utils.formatUnits(
+            vaultInfo.availableWithdraw,
+            tokenInfo[token].decimals
+          )
+        )
+      ),
   });
   const formik = useFormik({
     initialValues: {
@@ -113,6 +120,7 @@ export const WithdrawStepper: FC<StepperProps> = ({
         vaultID,
         values.withdrawAmount,
         tokenInfo[token].erc20,
+        tokenInfo[token].decimals,
         chainId
       ),
       messages: {
@@ -124,7 +132,10 @@ export const WithdrawStepper: FC<StepperProps> = ({
     });
     addTransaction({
       type: 'withdraw',
-      amount: utils.parseEther(values.withdrawAmount.toString()),
+      amount: utils.parseUnits(
+        values.withdrawAmount.toString(),
+        tokenInfo[token].decimals
+      ),
       vault: token,
       success: success.success,
       hash: success.hash,
@@ -183,7 +194,12 @@ export const WithdrawStepper: FC<StepperProps> = ({
                     />
                     <Typography variant="h6" textAlign="center">
                       {`${fNumber(
-                        Number(utils.formatEther(vaultInfo.availableWithdraw))
+                        Number(
+                          utils.formatUnits(
+                            vaultInfo.availableWithdraw,
+                            tokenInfo[token].decimals
+                          )
+                        )
                       )} ${tokenInfo[token].display}`}
                     </Typography>
                   </Stack>
@@ -217,7 +233,10 @@ export const WithdrawStepper: FC<StepperProps> = ({
                           onClick={() =>
                             setFieldValue(
                               'withdrawAmount',
-                              utils.formatEther(vaultInfo.availableWithdraw)
+                              utils.formatUnits(
+                                vaultInfo.availableWithdraw,
+                                tokenInfo[token].decimals
+                              )
                             )
                           }
                           variant="text"
@@ -357,15 +376,17 @@ export const WithdrawStepper: FC<StepperProps> = ({
                         colorScale(
                           (100 * Number(utils.formatEther(vaultInfo.debt))) /
                             Number(
-                              utils.formatEther(
+                              utils.formatUnits(
                                 vaultInfo.collateral
                                   .sub(
-                                    utils.parseEther(
-                                      values.withdrawAmount.toString()
+                                    utils.parseUnits(
+                                      values.withdrawAmount.toString(),
+                                      tokenInfo[token].decimals
                                     )
                                   )
                                   .mul(vaultInfo.tokenPrice)
-                                  .div(vaultInfo.peg)
+                                  .div(vaultInfo.peg),
+                                tokenInfo[token].decimals
                               )
                             ),
                           40,
@@ -377,15 +398,17 @@ export const WithdrawStepper: FC<StepperProps> = ({
                         fPercent(
                           (100 * Number(utils.formatEther(vaultInfo.debt))) /
                             Number(
-                              utils.formatEther(
+                              utils.formatUnits(
                                 vaultInfo.collateral
                                   .sub(
-                                    utils.parseEther(
-                                      values.withdrawAmount.toString()
+                                    utils.parseUnits(
+                                      values.withdrawAmount.toString(),
+                                      tokenInfo[token].decimals
                                     )
                                   )
                                   .mul(vaultInfo.tokenPrice)
-                                  .div(vaultInfo.peg)
+                                  .div(vaultInfo.peg),
+                                tokenInfo[token].decimals
                               )
                             )
                         )}
@@ -401,7 +424,12 @@ export const WithdrawStepper: FC<StepperProps> = ({
                       }}
                     >
                       {fCurrency(
-                        (Number(utils.formatEther(vaultInfo.collateral)) -
+                        (Number(
+                          utils.formatUnits(
+                            vaultInfo.collateral,
+                            tokenInfo[token].decimals
+                          )
+                        ) -
                           values.withdrawAmount) *
                           Number(utils.formatUnits(vaultInfo.tokenPrice, 8)) *
                           (vaultInfo.maxLTV / 100) -

@@ -29,7 +29,7 @@ import { Loader } from '@orca/components/loader';
 // ----------------------------------------------------------------------
 
 export type LiquidateProps = {
-  token: 'AVAX' | 'ETH';
+  token: 'AVAX' | 'ETH' | 'BTC';
   vaultID: number;
   isOwner?: boolean;
   vaultInfo: {

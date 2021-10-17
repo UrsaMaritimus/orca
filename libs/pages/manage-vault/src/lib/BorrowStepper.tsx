@@ -360,10 +360,11 @@ export const BorrowStepper: FC<StepperProps> = ({
                           (Number(utils.formatEther(vaultInfo.debt)) +
                             values.borrowAmount)) /
                           Number(
-                            utils.formatEther(
+                            utils.formatUnits(
                               vaultInfo.collateral
                                 .mul(vaultInfo.tokenPrice)
-                                .div(vaultInfo.peg)
+                                .div(vaultInfo.peg),
+                              tokenInfo[token].decimals
                             )
                           ),
                         40,
@@ -375,10 +376,11 @@ export const BorrowStepper: FC<StepperProps> = ({
                           (Number(utils.formatEther(vaultInfo.debt)) +
                             values.borrowAmount)) /
                           Number(
-                            utils.formatEther(
+                            utils.formatUnits(
                               vaultInfo.collateral
                                 .mul(vaultInfo.tokenPrice)
-                                .div(vaultInfo.peg)
+                                .div(vaultInfo.peg),
+                              tokenInfo[token].decimals
                             )
                           )
                       )}

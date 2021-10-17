@@ -56,10 +56,10 @@ export const useFrontPageStats = () => {
     yieldData
   ) {
     const circulatingSupply = Number(
-      utils.formatEther(BigNumber.from(data.orca.circulatingSupply))
+      utils.formatEther(BigNumber.from(data.orca?.circulatingSupply || 0))
     );
     const maxSupply = Number(
-      utils.formatEther(BigNumber.from(data.orca.maxSupply))
+      utils.formatEther(BigNumber.from(data.orca?.maxSupply || 0))
     );
     const orcaPerSecond = Number(
       utils.formatEther(BigNumber.from(orcaPerSec.podLeaders[0].orcaPerSec))

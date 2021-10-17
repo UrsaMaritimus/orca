@@ -16,6 +16,7 @@ import { Page } from '@orca/components/page';
 import { AvaiOrcaFarm } from './AVAI-ORCA';
 import { AvaiUsdcFarm } from './AVAI-USDC';
 import { AvaxOrcaFarm } from './AVAX-ORCA';
+import { SingularFarm } from './partner/singular';
 
 const RootStyle = styled(Page)(({ theme }) => ({
   paddingTop: theme.spacing(3),
@@ -45,6 +46,26 @@ export const Farming: FC = () => {
           <CardHeader
             title={'Yield Farming'}
             subheader={'Stake your tokens and earn rewards!'}
+            action={
+              <Box
+                maxWidth="sm"
+                sx={{
+                  pt: 2,
+                  pb: 2,
+                  borderRadius: 1,
+                  bgcolor: 'warning.light',
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  textAlign="center"
+                  color="grey.600"
+                  sx={{ mx: 2 }}
+                >
+                  Note: There is a Deposit fee in these farms of 0.75%
+                </Typography>
+              </Box>
+            }
           />
         </Card>
         {(chainId === 43114 || !chainId) && (
@@ -69,29 +90,22 @@ export const Farming: FC = () => {
             chainId={chainId}
           />
         )}
-        <Grid container justifyContent="center">
-          <Box
-            maxWidth="sm"
-            sx={{
-              pt: 2,
-              pb: 2,
-              mx: 1,
-              mt: 3,
-              mb: 3,
-              borderRadius: 1,
-              bgcolor: 'warning.light',
-            }}
-          >
-            <Typography
-              variant="h6"
-              textAlign="center"
-              color="grey.600"
-              sx={{ mx: 2 }}
-            >
-              Note: There is a Deposit fee in these farms of 0.75%
-            </Typography>
-          </Box>
-        </Grid>
+
+        <Card
+          sx={{
+            mt: 6,
+            mb: 3,
+            height: 100,
+            position: 'relative',
+          }}
+        >
+          <CardHeader
+            title={'Partner Farms'}
+            subheader={'Utilize AVAI and ORCA'}
+          />
+        </Card>
+
+        <SingularFarm />
       </Container>
     </RootStyle>
   );

@@ -2,10 +2,14 @@ import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 import * as ApolloReactHooks from '@apollo/client';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions =  {}
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]: Maybe<T[SubKey]> };
+const defaultOptions = {};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -36,7 +40,6 @@ export type Bank = {
   vaultCount: Scalars['Int'];
   vaults: Array<Vault>;
 };
-
 
 export type BankVaultsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -188,7 +191,7 @@ export enum Bank_OrderBy {
   TotalDebt = 'totalDebt',
   Treasury = 'treasury',
   VaultCount = 'vaultCount',
-  Vaults = 'vaults'
+  Vaults = 'vaults',
 }
 
 export type Block_Height = {
@@ -253,7 +256,7 @@ export enum Exchange_OrderBy {
   MintingFee = 'mintingFee',
   RedeemingFee = 'redeemingFee',
   Treasury = 'treasury',
-  UsdHeld = 'usdHeld'
+  UsdHeld = 'usdHeld',
 }
 
 export type Liquidation = {
@@ -315,7 +318,7 @@ export enum Liquidation_OrderBy {
   Id = 'id',
   Owed = 'owed',
   Token = 'token',
-  User = 'user'
+  User = 'user',
 }
 
 export type Orca = {
@@ -379,12 +382,12 @@ export enum Orca_OrderBy {
   Leader = 'leader',
   MaxSupply = 'maxSupply',
   Team = 'team',
-  Treasury = 'treasury'
+  Treasury = 'treasury',
 }
 
 export enum OrderDirection {
   Asc = 'asc',
-  Desc = 'desc'
+  Desc = 'desc',
 }
 
 export type PodLeader = {
@@ -399,7 +402,6 @@ export type PodLeader = {
   totalAllocPoints: Scalars['BigInt'];
   treasury: Scalars['Bytes'];
 };
-
 
 export type PodLeaderPoolsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -481,7 +483,7 @@ export enum PodLeader_OrderBy {
   Pools = 'pools',
   StartTimestamp = 'startTimestamp',
   TotalAllocPoints = 'totalAllocPoints',
-  Treasury = 'treasury'
+  Treasury = 'treasury',
 }
 
 export type Pool = {
@@ -497,7 +499,6 @@ export type Pool = {
   userCount: Scalars['BigInt'];
   users: Array<PoolUser>;
 };
-
 
 export type PoolUsersArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -576,7 +577,7 @@ export enum PoolUser_OrderBy {
   LastTimestamp = 'lastTimestamp',
   Pool = 'pool',
   Staked = 'staked',
-  User = 'user'
+  User = 'user',
 }
 
 export type Pool_Filter = {
@@ -668,7 +669,7 @@ export enum Pool_OrderBy {
   TotalStaked = 'totalStaked',
   TreasuryAmount = 'treasuryAmount',
   UserCount = 'userCount',
-  Users = 'users'
+  Users = 'users',
 }
 
 export type Query = {
@@ -705,17 +706,14 @@ export type Query = {
   vaults: Array<Vault>;
 };
 
-
 export type Query_MetaArgs = {
   block?: Maybe<Block_Height>;
 };
-
 
 export type QueryBankArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
-
 
 export type QueryBanksArgs = {
   block?: Maybe<Block_Height>;
@@ -726,12 +724,10 @@ export type QueryBanksArgs = {
   where?: Maybe<Bank_Filter>;
 };
 
-
 export type QueryExchangeArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
-
 
 export type QueryExchangesArgs = {
   block?: Maybe<Block_Height>;
@@ -742,12 +738,10 @@ export type QueryExchangesArgs = {
   where?: Maybe<Exchange_Filter>;
 };
 
-
 export type QueryLiquidationArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
-
 
 export type QueryLiquidationsArgs = {
   block?: Maybe<Block_Height>;
@@ -758,12 +752,10 @@ export type QueryLiquidationsArgs = {
   where?: Maybe<Liquidation_Filter>;
 };
 
-
 export type QueryOrcaArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
-
 
 export type QueryOrcasArgs = {
   block?: Maybe<Block_Height>;
@@ -774,12 +766,10 @@ export type QueryOrcasArgs = {
   where?: Maybe<Orca_Filter>;
 };
 
-
 export type QueryPodLeaderArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
-
 
 export type QueryPodLeadersArgs = {
   block?: Maybe<Block_Height>;
@@ -790,18 +780,15 @@ export type QueryPodLeadersArgs = {
   where?: Maybe<PodLeader_Filter>;
 };
 
-
 export type QueryPoolArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
 
-
 export type QueryPoolUserArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
-
 
 export type QueryPoolUsersArgs = {
   block?: Maybe<Block_Height>;
@@ -812,7 +799,6 @@ export type QueryPoolUsersArgs = {
   where?: Maybe<PoolUser_Filter>;
 };
 
-
 export type QueryPoolsArgs = {
   block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
@@ -822,12 +808,10 @@ export type QueryPoolsArgs = {
   where?: Maybe<Pool_Filter>;
 };
 
-
 export type QueryStablecoinArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
-
 
 export type QueryStablecoinsArgs = {
   block?: Maybe<Block_Height>;
@@ -838,18 +822,15 @@ export type QueryStablecoinsArgs = {
   where?: Maybe<Stablecoin_Filter>;
 };
 
-
 export type QueryStakingArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
 
-
 export type QueryStakingUserArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
-
 
 export type QueryStakingUsersArgs = {
   block?: Maybe<Block_Height>;
@@ -860,7 +841,6 @@ export type QueryStakingUsersArgs = {
   where?: Maybe<StakingUser_Filter>;
 };
 
-
 export type QueryStakingsArgs = {
   block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
@@ -870,18 +850,15 @@ export type QueryStakingsArgs = {
   where?: Maybe<Staking_Filter>;
 };
 
-
 export type QueryTokenArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
 
-
 export type QueryTokenPriceArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
-
 
 export type QueryTokenPricesArgs = {
   block?: Maybe<Block_Height>;
@@ -892,7 +869,6 @@ export type QueryTokenPricesArgs = {
   where?: Maybe<TokenPrice_Filter>;
 };
 
-
 export type QueryTokensArgs = {
   block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
@@ -902,12 +878,10 @@ export type QueryTokensArgs = {
   where?: Maybe<Token_Filter>;
 };
 
-
 export type QueryUserArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
-
 
 export type QueryUsersArgs = {
   block?: Maybe<Block_Height>;
@@ -918,12 +892,10 @@ export type QueryUsersArgs = {
   where?: Maybe<User_Filter>;
 };
 
-
 export type QueryVaultArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
-
 
 export type QueryVaultsArgs = {
   block?: Maybe<Block_Height>;
@@ -945,7 +917,6 @@ export type Stablecoin = {
   symbol: Scalars['String'];
   totalSupply: Scalars['BigInt'];
 };
-
 
 export type StablecoinBanksArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -1030,7 +1001,7 @@ export enum Stablecoin_OrderBy {
   Name = 'name',
   Paused = 'paused',
   Symbol = 'symbol',
-  TotalSupply = 'totalSupply'
+  TotalSupply = 'totalSupply',
 }
 
 export type Staking = {
@@ -1044,7 +1015,6 @@ export type Staking = {
   userCount: Scalars['BigInt'];
   users: Array<StakingUser>;
 };
-
 
 export type StakingUsersArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -1113,7 +1083,7 @@ export enum StakingUser_OrderBy {
   Id = 'id',
   Staked = 'staked',
   Staking = 'staking',
-  User = 'user'
+  User = 'user',
 }
 
 export type Staking_Filter = {
@@ -1183,7 +1153,7 @@ export enum Staking_OrderBy {
   TotalAllocPoints = 'totalAllocPoints',
   TotalStaked = 'totalStaked',
   UserCount = 'userCount',
-  Users = 'users'
+  Users = 'users',
 }
 
 export type Subscription = {
@@ -1220,17 +1190,14 @@ export type Subscription = {
   vaults: Array<Vault>;
 };
 
-
 export type Subscription_MetaArgs = {
   block?: Maybe<Block_Height>;
 };
-
 
 export type SubscriptionBankArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
-
 
 export type SubscriptionBanksArgs = {
   block?: Maybe<Block_Height>;
@@ -1241,12 +1208,10 @@ export type SubscriptionBanksArgs = {
   where?: Maybe<Bank_Filter>;
 };
 
-
 export type SubscriptionExchangeArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
-
 
 export type SubscriptionExchangesArgs = {
   block?: Maybe<Block_Height>;
@@ -1257,12 +1222,10 @@ export type SubscriptionExchangesArgs = {
   where?: Maybe<Exchange_Filter>;
 };
 
-
 export type SubscriptionLiquidationArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
-
 
 export type SubscriptionLiquidationsArgs = {
   block?: Maybe<Block_Height>;
@@ -1273,12 +1236,10 @@ export type SubscriptionLiquidationsArgs = {
   where?: Maybe<Liquidation_Filter>;
 };
 
-
 export type SubscriptionOrcaArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
-
 
 export type SubscriptionOrcasArgs = {
   block?: Maybe<Block_Height>;
@@ -1289,12 +1250,10 @@ export type SubscriptionOrcasArgs = {
   where?: Maybe<Orca_Filter>;
 };
 
-
 export type SubscriptionPodLeaderArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
-
 
 export type SubscriptionPodLeadersArgs = {
   block?: Maybe<Block_Height>;
@@ -1305,18 +1264,15 @@ export type SubscriptionPodLeadersArgs = {
   where?: Maybe<PodLeader_Filter>;
 };
 
-
 export type SubscriptionPoolArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
 
-
 export type SubscriptionPoolUserArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
-
 
 export type SubscriptionPoolUsersArgs = {
   block?: Maybe<Block_Height>;
@@ -1327,7 +1283,6 @@ export type SubscriptionPoolUsersArgs = {
   where?: Maybe<PoolUser_Filter>;
 };
 
-
 export type SubscriptionPoolsArgs = {
   block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
@@ -1337,12 +1292,10 @@ export type SubscriptionPoolsArgs = {
   where?: Maybe<Pool_Filter>;
 };
 
-
 export type SubscriptionStablecoinArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
-
 
 export type SubscriptionStablecoinsArgs = {
   block?: Maybe<Block_Height>;
@@ -1353,18 +1306,15 @@ export type SubscriptionStablecoinsArgs = {
   where?: Maybe<Stablecoin_Filter>;
 };
 
-
 export type SubscriptionStakingArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
 
-
 export type SubscriptionStakingUserArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
-
 
 export type SubscriptionStakingUsersArgs = {
   block?: Maybe<Block_Height>;
@@ -1375,7 +1325,6 @@ export type SubscriptionStakingUsersArgs = {
   where?: Maybe<StakingUser_Filter>;
 };
 
-
 export type SubscriptionStakingsArgs = {
   block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
@@ -1385,18 +1334,15 @@ export type SubscriptionStakingsArgs = {
   where?: Maybe<Staking_Filter>;
 };
 
-
 export type SubscriptionTokenArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
 
-
 export type SubscriptionTokenPriceArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
-
 
 export type SubscriptionTokenPricesArgs = {
   block?: Maybe<Block_Height>;
@@ -1407,7 +1353,6 @@ export type SubscriptionTokenPricesArgs = {
   where?: Maybe<TokenPrice_Filter>;
 };
 
-
 export type SubscriptionTokensArgs = {
   block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
@@ -1417,12 +1362,10 @@ export type SubscriptionTokensArgs = {
   where?: Maybe<Token_Filter>;
 };
 
-
 export type SubscriptionUserArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
-
 
 export type SubscriptionUsersArgs = {
   block?: Maybe<Block_Height>;
@@ -1433,12 +1376,10 @@ export type SubscriptionUsersArgs = {
   where?: Maybe<User_Filter>;
 };
 
-
 export type SubscriptionVaultArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
 };
-
 
 export type SubscriptionVaultsArgs = {
   block?: Maybe<Block_Height>;
@@ -1458,7 +1399,6 @@ export type Token = {
   price: TokenPrice;
   symbol: Scalars['String'];
 };
-
 
 export type TokenBanksArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -1495,7 +1435,7 @@ export type TokenPrice_Filter = {
 
 export enum TokenPrice_OrderBy {
   Id = 'id',
-  PriceUsd = 'priceUSD'
+  PriceUsd = 'priceUSD',
 }
 
 export type Token_Filter = {
@@ -1565,7 +1505,7 @@ export enum Token_OrderBy {
   Id = 'id',
   Name = 'name',
   Price = 'price',
-  Symbol = 'symbol'
+  Symbol = 'symbol',
 }
 
 export type User = {
@@ -1578,7 +1518,6 @@ export type User = {
   vaults?: Maybe<Array<Vault>>;
 };
 
-
 export type UserLiquidationsArgs = {
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Liquidation_OrderBy>;
@@ -1586,7 +1525,6 @@ export type UserLiquidationsArgs = {
   skip?: Maybe<Scalars['Int']>;
   where?: Maybe<Liquidation_Filter>;
 };
-
 
 export type UserPoolsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -1596,7 +1534,6 @@ export type UserPoolsArgs = {
   where?: Maybe<PoolUser_Filter>;
 };
 
-
 export type UserStakingArgs = {
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<StakingUser_OrderBy>;
@@ -1604,7 +1541,6 @@ export type UserStakingArgs = {
   skip?: Maybe<Scalars['Int']>;
   where?: Maybe<StakingUser_Filter>;
 };
-
 
 export type UserVaultsArgs = {
   first?: Maybe<Scalars['Int']>;
@@ -1639,7 +1575,7 @@ export enum User_OrderBy {
   Liquidations = 'liquidations',
   Pools = 'pools',
   Staking = 'staking',
-  Vaults = 'vaults'
+  Vaults = 'vaults',
 }
 
 export type Vault = {
@@ -1721,7 +1657,7 @@ export enum Vault_OrderBy {
   Debt = 'debt',
   Id = 'id',
   Number = 'number',
-  User = 'user'
+  User = 'user',
 }
 
 export type _Block_ = {
@@ -1753,119 +1689,251 @@ export enum _SubgraphErrorPolicy_ {
   /** Data will be returned even if the subgraph has indexing errors */
   Allow = 'allow',
   /** If the subgraph has indexing errors, data will be omitted. The default. */
-  Deny = 'deny'
+  Deny = 'deny',
 }
 
-export type AvaiStatsSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type AvaiStatsSubscriptionVariables = Exact<{ [key: string]: never }>;
 
-
-export type AvaiStatsSubscription = { __typename?: 'Subscription', stablecoin?: Maybe<{ __typename?: 'Stablecoin', id: string, totalSupply: any }> };
+export type AvaiStatsSubscription = {
+  __typename?: 'Subscription';
+  stablecoin?: Maybe<{
+    __typename?: 'Stablecoin';
+    id: string;
+    totalSupply: any;
+  }>;
+};
 
 export type BankInfoSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
+export type BankInfoSubscription = {
+  __typename?: 'Subscription';
+  bank?: Maybe<{ __typename?: 'Bank'; debtCeiling: any; totalDebt: any }>;
+};
 
-export type BankInfoSubscription = { __typename?: 'Subscription', bank?: Maybe<{ __typename?: 'Bank', debtCeiling: any, totalDebt: any }> };
+export type TotalSupplyFrontPageSubscriptionVariables = Exact<{
+  [key: string]: never;
+}>;
 
-export type TotalSupplyFrontPageSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type TotalSupplyFrontPageSubscription = {
+  __typename?: 'Subscription';
+  stablecoins: Array<{ __typename?: 'Stablecoin'; totalSupply: any }>;
+};
 
+export type BankInfoFrontPageSubscriptionVariables = Exact<{
+  [key: string]: never;
+}>;
 
-export type TotalSupplyFrontPageSubscription = { __typename?: 'Subscription', stablecoins: Array<{ __typename?: 'Stablecoin', totalSupply: any }> };
+export type BankInfoFrontPageSubscription = {
+  __typename?: 'Subscription';
+  banks: Array<{
+    __typename?: 'Bank';
+    id: string;
+    treasury: any;
+    totalDebt: any;
+    totalCollateral: any;
+    tokenPeg: any;
+    minimumCollateralPercentage: any;
+    token: {
+      __typename?: 'Token';
+      symbol: string;
+      decimals: any;
+      price: { __typename?: 'TokenPrice'; priceUSD: any };
+    };
+  }>;
+};
 
-export type BankInfoFrontPageSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type ExchangeInfoFrontPageSubscriptionVariables = Exact<{
+  [key: string]: never;
+}>;
 
+export type ExchangeInfoFrontPageSubscription = {
+  __typename?: 'Subscription';
+  exchanges: Array<{ __typename?: 'Exchange'; treasury: any; usdHeld: any }>;
+};
 
-export type BankInfoFrontPageSubscription = { __typename?: 'Subscription', banks: Array<{ __typename?: 'Bank', id: string, treasury: any, totalDebt: any, totalCollateral: any, tokenPeg: any, minimumCollateralPercentage: any, token: { __typename?: 'Token', symbol: string, decimals: any, price: { __typename?: 'TokenPrice', priceUSD: any } } }> };
+export type OrcaPerSecQueryVariables = Exact<{ [key: string]: never }>;
 
-export type ExchangeInfoFrontPageSubscriptionVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ExchangeInfoFrontPageSubscription = { __typename?: 'Subscription', exchanges: Array<{ __typename?: 'Exchange', treasury: any, usdHeld: any }> };
-
-export type OrcaPerSecQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type OrcaPerSecQuery = { __typename?: 'Query', podLeaders: Array<{ __typename?: 'PodLeader', orcaPerSec: any }> };
+export type OrcaPerSecQuery = {
+  __typename?: 'Query';
+  podLeaders: Array<{ __typename?: 'PodLeader'; orcaPerSec: any }>;
+};
 
 export type GeneralYieldInfoSubscriptionVariables = Exact<{
   pair: Scalars['Bytes'];
 }>;
 
-
-export type GeneralYieldInfoSubscription = { __typename?: 'Subscription', pools: Array<{ __typename?: 'Pool', id: string, pair: any, allocPoint: any, totalStaked: any, depositFee: any, treasuryAmount: any, leader: { __typename?: 'PodLeader', orcaPerSec: any, totalAllocPoints: any } }> };
+export type GeneralYieldInfoSubscription = {
+  __typename?: 'Subscription';
+  pools: Array<{
+    __typename?: 'Pool';
+    id: string;
+    pair: any;
+    allocPoint: any;
+    totalStaked: any;
+    depositFee: any;
+    treasuryAmount: any;
+    leader: {
+      __typename?: 'PodLeader';
+      orcaPerSec: any;
+      totalAllocPoints: any;
+    };
+  }>;
+};
 
 export type UserStakedSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-
-export type UserStakedSubscription = { __typename?: 'Subscription', user?: Maybe<{ __typename?: 'User', pools?: Maybe<Array<{ __typename?: 'PoolUser', staked: any, pool: { __typename?: 'Pool', pair: any } }>> }> };
+export type UserStakedSubscription = {
+  __typename?: 'Subscription';
+  user?: Maybe<{
+    __typename?: 'User';
+    pools?: Maybe<
+      Array<{
+        __typename?: 'PoolUser';
+        staked: any;
+        pool: { __typename?: 'Pool'; pair: any };
+      }>
+    >;
+  }>;
+};
 
 export type MonitorVaultsSubscriptionVariables = Exact<{
   bankID: Scalars['String'];
 }>;
 
-
-export type MonitorVaultsSubscription = { __typename?: 'Subscription', vaults: Array<{ __typename?: 'Vault', number: number, collateral: any, debt: any, id: string }> };
+export type MonitorVaultsSubscription = {
+  __typename?: 'Subscription';
+  vaults: Array<{
+    __typename?: 'Vault';
+    number: number;
+    collateral: any;
+    debt: any;
+    id: string;
+  }>;
+};
 
 export type BankMcpSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-
-export type BankMcpSubscription = { __typename?: 'Subscription', bank?: Maybe<{ __typename?: 'Bank', minimumCollateralPercentage: any }> };
+export type BankMcpSubscription = {
+  __typename?: 'Subscription';
+  bank?: Maybe<{ __typename?: 'Bank'; minimumCollateralPercentage: any }>;
+};
 
 export type OrcaStatsSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
+export type OrcaStatsSubscription = {
+  __typename?: 'Subscription';
+  orca?: Maybe<{
+    __typename?: 'Orca';
+    id: string;
+    circulatingSupply: any;
+    maxSupply: any;
+  }>;
+};
 
-export type OrcaStatsSubscription = { __typename?: 'Subscription', orca?: Maybe<{ __typename?: 'Orca', id: string, circulatingSupply: any, maxSupply: any }> };
+export type GeneralStakingInfoSubscriptionVariables = Exact<{
+  [key: string]: never;
+}>;
 
-export type GeneralStakingInfoSubscriptionVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GeneralStakingInfoSubscription = { __typename?: 'Subscription', stakings: Array<{ __typename?: 'Staking', totalStaked: any, avaxPerSec: any, totalAllocPoints: any }> };
+export type GeneralStakingInfoSubscription = {
+  __typename?: 'Subscription';
+  stakings: Array<{
+    __typename?: 'Staking';
+    totalStaked: any;
+    avaxPerSec: any;
+    totalAllocPoints: any;
+  }>;
+};
 
 export type UserStakingInfoSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-
-export type UserStakingInfoSubscription = { __typename?: 'Subscription', user?: Maybe<{ __typename?: 'User', staking?: Maybe<Array<{ __typename?: 'StakingUser', staked: any }>> }> };
+export type UserStakingInfoSubscription = {
+  __typename?: 'Subscription';
+  user?: Maybe<{
+    __typename?: 'User';
+    staking?: Maybe<Array<{ __typename?: 'StakingUser'; staked: any }>>;
+  }>;
+};
 
 export type GetUserVaultsQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-
-export type GetUserVaultsQuery = { __typename?: 'Query', user?: Maybe<{ __typename?: 'User', vaults?: Maybe<Array<{ __typename?: 'Vault', id: string, number: number, debt: any, collateral: any, bank: { __typename?: 'Bank', treasury: any } }>> }> };
+export type GetUserVaultsQuery = {
+  __typename?: 'Query';
+  user?: Maybe<{
+    __typename?: 'User';
+    vaults?: Maybe<
+      Array<{
+        __typename?: 'Vault';
+        id: string;
+        number: number;
+        debt: any;
+        collateral: any;
+        bank: { __typename?: 'Bank'; treasury: any };
+      }>
+    >;
+  }>;
+};
 
 export type UserVaultsSubscriptionVariables = Exact<{
   user: Scalars['String'];
   bank: Scalars['String'];
 }>;
 
-
-export type UserVaultsSubscription = { __typename?: 'Subscription', vaults: Array<{ __typename?: 'Vault', id: string, collateral: any, number: number, debt: any, bank: { __typename?: 'Bank', treasury: any } }> };
+export type UserVaultsSubscription = {
+  __typename?: 'Subscription';
+  vaults: Array<{
+    __typename?: 'Vault';
+    id: string;
+    collateral: any;
+    number: number;
+    debt: any;
+    bank: { __typename?: 'Bank'; treasury: any };
+  }>;
+};
 
 export type VaultInfoSubscriptionVariables = Exact<{
   vaultID: Scalars['ID'];
 }>;
 
-
-export type VaultInfoSubscription = { __typename?: 'Subscription', vault?: Maybe<{ __typename?: 'Vault', id: string, collateral: any, number: number, debt: any, bank: { __typename?: 'Bank', id: string, minimumCollateralPercentage: any, closingFee: any, openingFee: any, tokenPeg: any }, user: { __typename?: 'User', id: string } }> };
-
+export type VaultInfoSubscription = {
+  __typename?: 'Subscription';
+  vault?: Maybe<{
+    __typename?: 'Vault';
+    id: string;
+    collateral: any;
+    number: number;
+    debt: any;
+    bank: {
+      __typename?: 'Bank';
+      id: string;
+      minimumCollateralPercentage: any;
+      closingFee: any;
+      openingFee: any;
+      tokenPeg: any;
+    };
+    user: { __typename?: 'User'; id: string };
+  }>;
+};
 
 export const AvaiStatsDocument = gql`
-    subscription AvaiStats @api(name: orca) {
-  stablecoin(id: "0x346A59146b9b4a77100D369a3d18E8007A9F46a6") {
-    id
-    totalSupply
+  subscription AvaiStats @api(name: orca) {
+    stablecoin(id: "0x346A59146b9b4a77100D369a3d18E8007A9F46a6") {
+      id
+      totalSupply
+    }
   }
-}
-    `;
+`;
 
 /**
  * __useAvaiStatsSubscription__
@@ -1882,20 +1950,31 @@ export const AvaiStatsDocument = gql`
  *   },
  * });
  */
-export function useAvaiStatsSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<AvaiStatsSubscription, AvaiStatsSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<AvaiStatsSubscription, AvaiStatsSubscriptionVariables>(AvaiStatsDocument, options);
-      }
-export type AvaiStatsSubscriptionHookResult = ReturnType<typeof useAvaiStatsSubscription>;
-export type AvaiStatsSubscriptionResult = Apollo.SubscriptionResult<AvaiStatsSubscription>;
-export const BankInfoDocument = gql`
-    subscription BankInfo($id: ID!) @api(name: orca) {
-  bank(id: $id) {
-    debtCeiling
-    totalDebt
-  }
+export function useAvaiStatsSubscription(
+  baseOptions?: ApolloReactHooks.SubscriptionHookOptions<
+    AvaiStatsSubscription,
+    AvaiStatsSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useSubscription<
+    AvaiStatsSubscription,
+    AvaiStatsSubscriptionVariables
+  >(AvaiStatsDocument, options);
 }
-    `;
+export type AvaiStatsSubscriptionHookResult = ReturnType<
+  typeof useAvaiStatsSubscription
+>;
+export type AvaiStatsSubscriptionResult =
+  Apollo.SubscriptionResult<AvaiStatsSubscription>;
+export const BankInfoDocument = gql`
+  subscription BankInfo($id: ID!) @api(name: orca) {
+    bank(id: $id) {
+      debtCeiling
+      totalDebt
+    }
+  }
+`;
 
 /**
  * __useBankInfoSubscription__
@@ -1913,19 +1992,30 @@ export const BankInfoDocument = gql`
  *   },
  * });
  */
-export function useBankInfoSubscription(baseOptions: ApolloReactHooks.SubscriptionHookOptions<BankInfoSubscription, BankInfoSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<BankInfoSubscription, BankInfoSubscriptionVariables>(BankInfoDocument, options);
-      }
-export type BankInfoSubscriptionHookResult = ReturnType<typeof useBankInfoSubscription>;
-export type BankInfoSubscriptionResult = Apollo.SubscriptionResult<BankInfoSubscription>;
-export const TotalSupplyFrontPageDocument = gql`
-    subscription TotalSupplyFrontPage @api(name: orca) {
-  stablecoins(first: 1) {
-    totalSupply
-  }
+export function useBankInfoSubscription(
+  baseOptions: ApolloReactHooks.SubscriptionHookOptions<
+    BankInfoSubscription,
+    BankInfoSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useSubscription<
+    BankInfoSubscription,
+    BankInfoSubscriptionVariables
+  >(BankInfoDocument, options);
 }
-    `;
+export type BankInfoSubscriptionHookResult = ReturnType<
+  typeof useBankInfoSubscription
+>;
+export type BankInfoSubscriptionResult =
+  Apollo.SubscriptionResult<BankInfoSubscription>;
+export const TotalSupplyFrontPageDocument = gql`
+  subscription TotalSupplyFrontPage @api(name: orca) {
+    stablecoins(first: 1) {
+      totalSupply
+    }
+  }
+`;
 
 /**
  * __useTotalSupplyFrontPageSubscription__
@@ -1942,31 +2032,42 @@ export const TotalSupplyFrontPageDocument = gql`
  *   },
  * });
  */
-export function useTotalSupplyFrontPageSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<TotalSupplyFrontPageSubscription, TotalSupplyFrontPageSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<TotalSupplyFrontPageSubscription, TotalSupplyFrontPageSubscriptionVariables>(TotalSupplyFrontPageDocument, options);
-      }
-export type TotalSupplyFrontPageSubscriptionHookResult = ReturnType<typeof useTotalSupplyFrontPageSubscription>;
-export type TotalSupplyFrontPageSubscriptionResult = Apollo.SubscriptionResult<TotalSupplyFrontPageSubscription>;
+export function useTotalSupplyFrontPageSubscription(
+  baseOptions?: ApolloReactHooks.SubscriptionHookOptions<
+    TotalSupplyFrontPageSubscription,
+    TotalSupplyFrontPageSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useSubscription<
+    TotalSupplyFrontPageSubscription,
+    TotalSupplyFrontPageSubscriptionVariables
+  >(TotalSupplyFrontPageDocument, options);
+}
+export type TotalSupplyFrontPageSubscriptionHookResult = ReturnType<
+  typeof useTotalSupplyFrontPageSubscription
+>;
+export type TotalSupplyFrontPageSubscriptionResult =
+  Apollo.SubscriptionResult<TotalSupplyFrontPageSubscription>;
 export const BankInfoFrontPageDocument = gql`
-    subscription BankInfoFrontPage @api(name: orca) {
-  banks(first: 4) {
-    id
-    treasury
-    totalDebt
-    totalCollateral
-    tokenPeg
-    minimumCollateralPercentage
-    token {
-      symbol
-      decimals
-      price {
-        priceUSD
+  subscription BankInfoFrontPage @api(name: orca) {
+    banks(first: 3) {
+      id
+      treasury
+      totalDebt
+      totalCollateral
+      tokenPeg
+      minimumCollateralPercentage
+      token {
+        symbol
+        decimals
+        price {
+          priceUSD
+        }
       }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useBankInfoFrontPageSubscription__
@@ -1983,20 +2084,31 @@ export const BankInfoFrontPageDocument = gql`
  *   },
  * });
  */
-export function useBankInfoFrontPageSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<BankInfoFrontPageSubscription, BankInfoFrontPageSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<BankInfoFrontPageSubscription, BankInfoFrontPageSubscriptionVariables>(BankInfoFrontPageDocument, options);
-      }
-export type BankInfoFrontPageSubscriptionHookResult = ReturnType<typeof useBankInfoFrontPageSubscription>;
-export type BankInfoFrontPageSubscriptionResult = Apollo.SubscriptionResult<BankInfoFrontPageSubscription>;
-export const ExchangeInfoFrontPageDocument = gql`
-    subscription ExchangeInfoFrontPage @api(name: orca) {
-  exchanges(first: 2) {
-    treasury
-    usdHeld
-  }
+export function useBankInfoFrontPageSubscription(
+  baseOptions?: ApolloReactHooks.SubscriptionHookOptions<
+    BankInfoFrontPageSubscription,
+    BankInfoFrontPageSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useSubscription<
+    BankInfoFrontPageSubscription,
+    BankInfoFrontPageSubscriptionVariables
+  >(BankInfoFrontPageDocument, options);
 }
-    `;
+export type BankInfoFrontPageSubscriptionHookResult = ReturnType<
+  typeof useBankInfoFrontPageSubscription
+>;
+export type BankInfoFrontPageSubscriptionResult =
+  Apollo.SubscriptionResult<BankInfoFrontPageSubscription>;
+export const ExchangeInfoFrontPageDocument = gql`
+  subscription ExchangeInfoFrontPage @api(name: orca) {
+    exchanges(first: 2) {
+      treasury
+      usdHeld
+    }
+  }
+`;
 
 /**
  * __useExchangeInfoFrontPageSubscription__
@@ -2013,19 +2125,30 @@ export const ExchangeInfoFrontPageDocument = gql`
  *   },
  * });
  */
-export function useExchangeInfoFrontPageSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<ExchangeInfoFrontPageSubscription, ExchangeInfoFrontPageSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<ExchangeInfoFrontPageSubscription, ExchangeInfoFrontPageSubscriptionVariables>(ExchangeInfoFrontPageDocument, options);
-      }
-export type ExchangeInfoFrontPageSubscriptionHookResult = ReturnType<typeof useExchangeInfoFrontPageSubscription>;
-export type ExchangeInfoFrontPageSubscriptionResult = Apollo.SubscriptionResult<ExchangeInfoFrontPageSubscription>;
-export const OrcaPerSecDocument = gql`
-    query OrcaPerSec @api(name: orca) {
-  podLeaders(first: 1) {
-    orcaPerSec
-  }
+export function useExchangeInfoFrontPageSubscription(
+  baseOptions?: ApolloReactHooks.SubscriptionHookOptions<
+    ExchangeInfoFrontPageSubscription,
+    ExchangeInfoFrontPageSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useSubscription<
+    ExchangeInfoFrontPageSubscription,
+    ExchangeInfoFrontPageSubscriptionVariables
+  >(ExchangeInfoFrontPageDocument, options);
 }
-    `;
+export type ExchangeInfoFrontPageSubscriptionHookResult = ReturnType<
+  typeof useExchangeInfoFrontPageSubscription
+>;
+export type ExchangeInfoFrontPageSubscriptionResult =
+  Apollo.SubscriptionResult<ExchangeInfoFrontPageSubscription>;
+export const OrcaPerSecDocument = gql`
+  query OrcaPerSec @api(name: orca) {
+    podLeaders(first: 1) {
+      orcaPerSec
+    }
+  }
+`;
 
 /**
  * __useOrcaPerSecQuery__
@@ -2042,33 +2165,54 @@ export const OrcaPerSecDocument = gql`
  *   },
  * });
  */
-export function useOrcaPerSecQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<OrcaPerSecQuery, OrcaPerSecQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useQuery<OrcaPerSecQuery, OrcaPerSecQueryVariables>(OrcaPerSecDocument, options);
-      }
-export function useOrcaPerSecLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<OrcaPerSecQuery, OrcaPerSecQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return ApolloReactHooks.useLazyQuery<OrcaPerSecQuery, OrcaPerSecQueryVariables>(OrcaPerSecDocument, options);
-        }
+export function useOrcaPerSecQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    OrcaPerSecQuery,
+    OrcaPerSecQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useQuery<OrcaPerSecQuery, OrcaPerSecQueryVariables>(
+    OrcaPerSecDocument,
+    options
+  );
+}
+export function useOrcaPerSecLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    OrcaPerSecQuery,
+    OrcaPerSecQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useLazyQuery<
+    OrcaPerSecQuery,
+    OrcaPerSecQueryVariables
+  >(OrcaPerSecDocument, options);
+}
 export type OrcaPerSecQueryHookResult = ReturnType<typeof useOrcaPerSecQuery>;
-export type OrcaPerSecLazyQueryHookResult = ReturnType<typeof useOrcaPerSecLazyQuery>;
-export type OrcaPerSecQueryResult = Apollo.QueryResult<OrcaPerSecQuery, OrcaPerSecQueryVariables>;
+export type OrcaPerSecLazyQueryHookResult = ReturnType<
+  typeof useOrcaPerSecLazyQuery
+>;
+export type OrcaPerSecQueryResult = Apollo.QueryResult<
+  OrcaPerSecQuery,
+  OrcaPerSecQueryVariables
+>;
 export const GeneralYieldInfoDocument = gql`
-    subscription GeneralYieldInfo($pair: Bytes!) @api(name: orca) {
-  pools(where: {pair: $pair}) {
-    id
-    pair
-    allocPoint
-    totalStaked
-    depositFee
-    treasuryAmount
-    leader {
-      orcaPerSec
-      totalAllocPoints
+  subscription GeneralYieldInfo($pair: Bytes!) @api(name: orca) {
+    pools(where: { pair: $pair }) {
+      id
+      pair
+      allocPoint
+      totalStaked
+      depositFee
+      treasuryAmount
+      leader {
+        orcaPerSec
+        totalAllocPoints
+      }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useGeneralYieldInfoSubscription__
@@ -2086,24 +2230,35 @@ export const GeneralYieldInfoDocument = gql`
  *   },
  * });
  */
-export function useGeneralYieldInfoSubscription(baseOptions: ApolloReactHooks.SubscriptionHookOptions<GeneralYieldInfoSubscription, GeneralYieldInfoSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<GeneralYieldInfoSubscription, GeneralYieldInfoSubscriptionVariables>(GeneralYieldInfoDocument, options);
-      }
-export type GeneralYieldInfoSubscriptionHookResult = ReturnType<typeof useGeneralYieldInfoSubscription>;
-export type GeneralYieldInfoSubscriptionResult = Apollo.SubscriptionResult<GeneralYieldInfoSubscription>;
+export function useGeneralYieldInfoSubscription(
+  baseOptions: ApolloReactHooks.SubscriptionHookOptions<
+    GeneralYieldInfoSubscription,
+    GeneralYieldInfoSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useSubscription<
+    GeneralYieldInfoSubscription,
+    GeneralYieldInfoSubscriptionVariables
+  >(GeneralYieldInfoDocument, options);
+}
+export type GeneralYieldInfoSubscriptionHookResult = ReturnType<
+  typeof useGeneralYieldInfoSubscription
+>;
+export type GeneralYieldInfoSubscriptionResult =
+  Apollo.SubscriptionResult<GeneralYieldInfoSubscription>;
 export const UserStakedDocument = gql`
-    subscription UserStaked($id: ID!) @api(name: orca) {
-  user(id: $id) {
-    pools {
-      staked
-      pool {
-        pair
+  subscription UserStaked($id: ID!) @api(name: orca) {
+    user(id: $id) {
+      pools {
+        staked
+        pool {
+          pair
+        }
       }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useUserStakedSubscription__
@@ -2121,22 +2276,33 @@ export const UserStakedDocument = gql`
  *   },
  * });
  */
-export function useUserStakedSubscription(baseOptions: ApolloReactHooks.SubscriptionHookOptions<UserStakedSubscription, UserStakedSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<UserStakedSubscription, UserStakedSubscriptionVariables>(UserStakedDocument, options);
-      }
-export type UserStakedSubscriptionHookResult = ReturnType<typeof useUserStakedSubscription>;
-export type UserStakedSubscriptionResult = Apollo.SubscriptionResult<UserStakedSubscription>;
-export const MonitorVaultsDocument = gql`
-    subscription MonitorVaults($bankID: String!) @api(name: orca) {
-  vaults(where: {bank: $bankID, debt_gt: 0}) {
-    number
-    collateral
-    debt
-    id
-  }
+export function useUserStakedSubscription(
+  baseOptions: ApolloReactHooks.SubscriptionHookOptions<
+    UserStakedSubscription,
+    UserStakedSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useSubscription<
+    UserStakedSubscription,
+    UserStakedSubscriptionVariables
+  >(UserStakedDocument, options);
 }
-    `;
+export type UserStakedSubscriptionHookResult = ReturnType<
+  typeof useUserStakedSubscription
+>;
+export type UserStakedSubscriptionResult =
+  Apollo.SubscriptionResult<UserStakedSubscription>;
+export const MonitorVaultsDocument = gql`
+  subscription MonitorVaults($bankID: String!) @api(name: orca) {
+    vaults(where: { bank: $bankID, debt_gt: 0 }) {
+      number
+      collateral
+      debt
+      id
+    }
+  }
+`;
 
 /**
  * __useMonitorVaultsSubscription__
@@ -2154,19 +2320,30 @@ export const MonitorVaultsDocument = gql`
  *   },
  * });
  */
-export function useMonitorVaultsSubscription(baseOptions: ApolloReactHooks.SubscriptionHookOptions<MonitorVaultsSubscription, MonitorVaultsSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<MonitorVaultsSubscription, MonitorVaultsSubscriptionVariables>(MonitorVaultsDocument, options);
-      }
-export type MonitorVaultsSubscriptionHookResult = ReturnType<typeof useMonitorVaultsSubscription>;
-export type MonitorVaultsSubscriptionResult = Apollo.SubscriptionResult<MonitorVaultsSubscription>;
-export const BankMcpDocument = gql`
-    subscription BankMCP($id: ID!) @api(name: orca) {
-  bank(id: $id) {
-    minimumCollateralPercentage
-  }
+export function useMonitorVaultsSubscription(
+  baseOptions: ApolloReactHooks.SubscriptionHookOptions<
+    MonitorVaultsSubscription,
+    MonitorVaultsSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useSubscription<
+    MonitorVaultsSubscription,
+    MonitorVaultsSubscriptionVariables
+  >(MonitorVaultsDocument, options);
 }
-    `;
+export type MonitorVaultsSubscriptionHookResult = ReturnType<
+  typeof useMonitorVaultsSubscription
+>;
+export type MonitorVaultsSubscriptionResult =
+  Apollo.SubscriptionResult<MonitorVaultsSubscription>;
+export const BankMcpDocument = gql`
+  subscription BankMCP($id: ID!) @api(name: orca) {
+    bank(id: $id) {
+      minimumCollateralPercentage
+    }
+  }
+`;
 
 /**
  * __useBankMcpSubscription__
@@ -2184,21 +2361,32 @@ export const BankMcpDocument = gql`
  *   },
  * });
  */
-export function useBankMcpSubscription(baseOptions: ApolloReactHooks.SubscriptionHookOptions<BankMcpSubscription, BankMcpSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<BankMcpSubscription, BankMcpSubscriptionVariables>(BankMcpDocument, options);
-      }
-export type BankMcpSubscriptionHookResult = ReturnType<typeof useBankMcpSubscription>;
-export type BankMcpSubscriptionResult = Apollo.SubscriptionResult<BankMcpSubscription>;
-export const OrcaStatsDocument = gql`
-    subscription OrcaStats($id: ID!) @api(name: orca) {
-  orca(id: $id) {
-    id
-    circulatingSupply
-    maxSupply
-  }
+export function useBankMcpSubscription(
+  baseOptions: ApolloReactHooks.SubscriptionHookOptions<
+    BankMcpSubscription,
+    BankMcpSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useSubscription<
+    BankMcpSubscription,
+    BankMcpSubscriptionVariables
+  >(BankMcpDocument, options);
 }
-    `;
+export type BankMcpSubscriptionHookResult = ReturnType<
+  typeof useBankMcpSubscription
+>;
+export type BankMcpSubscriptionResult =
+  Apollo.SubscriptionResult<BankMcpSubscription>;
+export const OrcaStatsDocument = gql`
+  subscription OrcaStats($id: ID!) @api(name: orca) {
+    orca(id: $id) {
+      id
+      circulatingSupply
+      maxSupply
+    }
+  }
+`;
 
 /**
  * __useOrcaStatsSubscription__
@@ -2216,21 +2404,32 @@ export const OrcaStatsDocument = gql`
  *   },
  * });
  */
-export function useOrcaStatsSubscription(baseOptions: ApolloReactHooks.SubscriptionHookOptions<OrcaStatsSubscription, OrcaStatsSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<OrcaStatsSubscription, OrcaStatsSubscriptionVariables>(OrcaStatsDocument, options);
-      }
-export type OrcaStatsSubscriptionHookResult = ReturnType<typeof useOrcaStatsSubscription>;
-export type OrcaStatsSubscriptionResult = Apollo.SubscriptionResult<OrcaStatsSubscription>;
-export const GeneralStakingInfoDocument = gql`
-    subscription GeneralStakingInfo @api(name: orca) {
-  stakings(first: 1) {
-    totalStaked
-    avaxPerSec
-    totalAllocPoints
-  }
+export function useOrcaStatsSubscription(
+  baseOptions: ApolloReactHooks.SubscriptionHookOptions<
+    OrcaStatsSubscription,
+    OrcaStatsSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useSubscription<
+    OrcaStatsSubscription,
+    OrcaStatsSubscriptionVariables
+  >(OrcaStatsDocument, options);
 }
-    `;
+export type OrcaStatsSubscriptionHookResult = ReturnType<
+  typeof useOrcaStatsSubscription
+>;
+export type OrcaStatsSubscriptionResult =
+  Apollo.SubscriptionResult<OrcaStatsSubscription>;
+export const GeneralStakingInfoDocument = gql`
+  subscription GeneralStakingInfo @api(name: orca) {
+    stakings(first: 1) {
+      totalStaked
+      avaxPerSec
+      totalAllocPoints
+    }
+  }
+`;
 
 /**
  * __useGeneralStakingInfoSubscription__
@@ -2247,21 +2446,32 @@ export const GeneralStakingInfoDocument = gql`
  *   },
  * });
  */
-export function useGeneralStakingInfoSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<GeneralStakingInfoSubscription, GeneralStakingInfoSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<GeneralStakingInfoSubscription, GeneralStakingInfoSubscriptionVariables>(GeneralStakingInfoDocument, options);
-      }
-export type GeneralStakingInfoSubscriptionHookResult = ReturnType<typeof useGeneralStakingInfoSubscription>;
-export type GeneralStakingInfoSubscriptionResult = Apollo.SubscriptionResult<GeneralStakingInfoSubscription>;
+export function useGeneralStakingInfoSubscription(
+  baseOptions?: ApolloReactHooks.SubscriptionHookOptions<
+    GeneralStakingInfoSubscription,
+    GeneralStakingInfoSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useSubscription<
+    GeneralStakingInfoSubscription,
+    GeneralStakingInfoSubscriptionVariables
+  >(GeneralStakingInfoDocument, options);
+}
+export type GeneralStakingInfoSubscriptionHookResult = ReturnType<
+  typeof useGeneralStakingInfoSubscription
+>;
+export type GeneralStakingInfoSubscriptionResult =
+  Apollo.SubscriptionResult<GeneralStakingInfoSubscription>;
 export const UserStakingInfoDocument = gql`
-    subscription UserStakingInfo($id: ID!) @api(name: orca) {
-  user(id: $id) {
-    staking {
-      staked
+  subscription UserStakingInfo($id: ID!) @api(name: orca) {
+    user(id: $id) {
+      staking {
+        staked
+      }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useUserStakingInfoSubscription__
@@ -2279,27 +2489,38 @@ export const UserStakingInfoDocument = gql`
  *   },
  * });
  */
-export function useUserStakingInfoSubscription(baseOptions: ApolloReactHooks.SubscriptionHookOptions<UserStakingInfoSubscription, UserStakingInfoSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<UserStakingInfoSubscription, UserStakingInfoSubscriptionVariables>(UserStakingInfoDocument, options);
-      }
-export type UserStakingInfoSubscriptionHookResult = ReturnType<typeof useUserStakingInfoSubscription>;
-export type UserStakingInfoSubscriptionResult = Apollo.SubscriptionResult<UserStakingInfoSubscription>;
+export function useUserStakingInfoSubscription(
+  baseOptions: ApolloReactHooks.SubscriptionHookOptions<
+    UserStakingInfoSubscription,
+    UserStakingInfoSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useSubscription<
+    UserStakingInfoSubscription,
+    UserStakingInfoSubscriptionVariables
+  >(UserStakingInfoDocument, options);
+}
+export type UserStakingInfoSubscriptionHookResult = ReturnType<
+  typeof useUserStakingInfoSubscription
+>;
+export type UserStakingInfoSubscriptionResult =
+  Apollo.SubscriptionResult<UserStakingInfoSubscription>;
 export const GetUserVaultsDocument = gql`
-    query getUserVaults($id: ID!) @api(name: orca) {
-  user(id: $id) {
-    vaults {
-      id
-      number
-      debt
-      collateral
-      bank {
-        treasury
+  query getUserVaults($id: ID!) @api(name: orca) {
+    user(id: $id) {
+      vaults {
+        id
+        number
+        debt
+        collateral
+        bank {
+          treasury
+        }
       }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useGetUserVaultsQuery__
@@ -2317,30 +2538,53 @@ export const GetUserVaultsDocument = gql`
  *   },
  * });
  */
-export function useGetUserVaultsQuery(baseOptions: ApolloReactHooks.QueryHookOptions<GetUserVaultsQuery, GetUserVaultsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useQuery<GetUserVaultsQuery, GetUserVaultsQueryVariables>(GetUserVaultsDocument, options);
-      }
-export function useGetUserVaultsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetUserVaultsQuery, GetUserVaultsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return ApolloReactHooks.useLazyQuery<GetUserVaultsQuery, GetUserVaultsQueryVariables>(GetUserVaultsDocument, options);
-        }
-export type GetUserVaultsQueryHookResult = ReturnType<typeof useGetUserVaultsQuery>;
-export type GetUserVaultsLazyQueryHookResult = ReturnType<typeof useGetUserVaultsLazyQuery>;
-export type GetUserVaultsQueryResult = Apollo.QueryResult<GetUserVaultsQuery, GetUserVaultsQueryVariables>;
+export function useGetUserVaultsQuery(
+  baseOptions: ApolloReactHooks.QueryHookOptions<
+    GetUserVaultsQuery,
+    GetUserVaultsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useQuery<
+    GetUserVaultsQuery,
+    GetUserVaultsQueryVariables
+  >(GetUserVaultsDocument, options);
+}
+export function useGetUserVaultsLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    GetUserVaultsQuery,
+    GetUserVaultsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useLazyQuery<
+    GetUserVaultsQuery,
+    GetUserVaultsQueryVariables
+  >(GetUserVaultsDocument, options);
+}
+export type GetUserVaultsQueryHookResult = ReturnType<
+  typeof useGetUserVaultsQuery
+>;
+export type GetUserVaultsLazyQueryHookResult = ReturnType<
+  typeof useGetUserVaultsLazyQuery
+>;
+export type GetUserVaultsQueryResult = Apollo.QueryResult<
+  GetUserVaultsQuery,
+  GetUserVaultsQueryVariables
+>;
 export const UserVaultsDocument = gql`
-    subscription UserVaults($user: String!, $bank: String!) @api(name: orca) {
-  vaults(where: {user: $user, bank: $bank}) {
-    id
-    collateral
-    number
-    debt
-    bank {
-      treasury
+  subscription UserVaults($user: String!, $bank: String!) @api(name: orca) {
+    vaults(where: { user: $user, bank: $bank }) {
+      id
+      collateral
+      number
+      debt
+      bank {
+        treasury
+      }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useUserVaultsSubscription__
@@ -2359,32 +2603,43 @@ export const UserVaultsDocument = gql`
  *   },
  * });
  */
-export function useUserVaultsSubscription(baseOptions: ApolloReactHooks.SubscriptionHookOptions<UserVaultsSubscription, UserVaultsSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<UserVaultsSubscription, UserVaultsSubscriptionVariables>(UserVaultsDocument, options);
-      }
-export type UserVaultsSubscriptionHookResult = ReturnType<typeof useUserVaultsSubscription>;
-export type UserVaultsSubscriptionResult = Apollo.SubscriptionResult<UserVaultsSubscription>;
+export function useUserVaultsSubscription(
+  baseOptions: ApolloReactHooks.SubscriptionHookOptions<
+    UserVaultsSubscription,
+    UserVaultsSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useSubscription<
+    UserVaultsSubscription,
+    UserVaultsSubscriptionVariables
+  >(UserVaultsDocument, options);
+}
+export type UserVaultsSubscriptionHookResult = ReturnType<
+  typeof useUserVaultsSubscription
+>;
+export type UserVaultsSubscriptionResult =
+  Apollo.SubscriptionResult<UserVaultsSubscription>;
 export const VaultInfoDocument = gql`
-    subscription VaultInfo($vaultID: ID!) @api(name: orca) {
-  vault(id: $vaultID) {
-    id
-    collateral
-    number
-    debt
-    bank {
+  subscription VaultInfo($vaultID: ID!) @api(name: orca) {
+    vault(id: $vaultID) {
       id
-      minimumCollateralPercentage
-      closingFee
-      openingFee
-      tokenPeg
-    }
-    user {
-      id
+      collateral
+      number
+      debt
+      bank {
+        id
+        minimumCollateralPercentage
+        closingFee
+        openingFee
+        tokenPeg
+      }
+      user {
+        id
+      }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useVaultInfoSubscription__
@@ -2402,9 +2657,20 @@ export const VaultInfoDocument = gql`
  *   },
  * });
  */
-export function useVaultInfoSubscription(baseOptions: ApolloReactHooks.SubscriptionHookOptions<VaultInfoSubscription, VaultInfoSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<VaultInfoSubscription, VaultInfoSubscriptionVariables>(VaultInfoDocument, options);
-      }
-export type VaultInfoSubscriptionHookResult = ReturnType<typeof useVaultInfoSubscription>;
-export type VaultInfoSubscriptionResult = Apollo.SubscriptionResult<VaultInfoSubscription>;
+export function useVaultInfoSubscription(
+  baseOptions: ApolloReactHooks.SubscriptionHookOptions<
+    VaultInfoSubscription,
+    VaultInfoSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useSubscription<
+    VaultInfoSubscription,
+    VaultInfoSubscriptionVariables
+  >(VaultInfoDocument, options);
+}
+export type VaultInfoSubscriptionHookResult = ReturnType<
+  typeof useVaultInfoSubscription
+>;
+export type VaultInfoSubscriptionResult =
+  Apollo.SubscriptionResult<VaultInfoSubscription>;

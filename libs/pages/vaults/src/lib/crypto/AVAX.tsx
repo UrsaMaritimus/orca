@@ -38,7 +38,13 @@ export const AvaxVaults: FC<PagesVaultsProps> = ({
   library,
   chainId,
 }) => {
-  const { loading, rows } = useGetVaults(library, chainId, account, 'wavax');
+  const { loading, rows } = useGetVaults(
+    library,
+    chainId,
+    account,
+    'wavax',
+    'AVAX'
+  );
   const { data: bankData } = useBankInfoSubscription({
     variables: { id: getContract(chainId, 'wavax').toLowerCase() },
   });

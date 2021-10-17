@@ -12,6 +12,7 @@ export const bankPrice = () => {
     const vault = getVault(vaultType, library, chainId);
     const price = await vault.getPriceSource();
     const peg = await vault.getPricePeg();
+
     return { price, peg };
   };
 };

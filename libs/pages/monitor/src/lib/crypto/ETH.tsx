@@ -25,7 +25,8 @@ export const EthVaults: FC<PagesVaultsProps> = ({
   const { loading, rows: badVaults } = useMonitorVaults(
     library,
     chainId,
-    'weth'
+    'weth',
+    'ETH'
   );
 
   if (typeof account === 'string' && badVaults && !loading) {

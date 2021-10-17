@@ -40,6 +40,7 @@ export const useFrontPageInfo = () => {
     const bankTreasury = bankInfoFrontPage.banks.reduce((prev, next) => {
       return prev.add(
         BigNumber.from(next.treasury)
+          .mul(10 ** (18 - next.token.decimals))
           .mul(BigNumber.from(next.token.price.priceUSD))
           .div(BigNumber.from(next.tokenPeg))
       );
@@ -60,6 +61,7 @@ export const useFrontPageInfo = () => {
       const name = bank.token.symbol.toLowerCase();
       const debt = BigNumber.from(bank.totalDebt);
       const collateral = BigNumber.from(bank.totalCollateral)
+        .mul(10 ** (18 - bank.token.decimals))
         .mul(BigNumber.from(bank.token.price.priceUSD))
         .div(BigNumber.from(bank.tokenPeg));
 
