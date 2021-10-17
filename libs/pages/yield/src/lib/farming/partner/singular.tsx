@@ -76,7 +76,7 @@ export const SingularFarm: FC = () => {
             </Stack>
           </Stack>
         </Grid>
-        <Grid item xs={4} md={2} display="flex" justifyContent="center">
+        <Grid item xs={6} md={2} display="flex" justifyContent="center">
           <Stack alignItems="center">
             <Stack direction="row" alignItems="center" spacing={1}>
               <Box
@@ -95,10 +95,10 @@ export const SingularFarm: FC = () => {
           </Stack>
         </Grid>
 
-        <Grid item xs={4} display="flex" justifyContent="center">
+        <Grid item xs={6} md={4} display="flex" justifyContent="center">
           <Stack alignItems="center">
             <NextLink
-              href={'https://singular.farm/farm/16'}
+              href={'https://singular.farm/farm/17'}
               underline="hover"
               rel="noreferrer"
               variant="subtitle2"

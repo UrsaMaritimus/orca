@@ -101,12 +101,11 @@ export const Farming: FC = () => {
         >
           <CardHeader
             title={'Partner Farms'}
-            subheader={'Utilize AVAI and ORCA, coming soon!'}
+            subheader={'Utilize AVAI and ORCA'}
           />
         </Card>
-        {
-          //<SingularFarm />
-        }
+
+        <SingularFarm />
       </Container>
     </RootStyle>
   );
