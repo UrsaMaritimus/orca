@@ -14,7 +14,8 @@ export const useGetVaultInfo = (
   chainId: number,
   vaultID: string,
   account: string,
-  vaultType: string
+  vaultType: string,
+  decimals: number
 ) => {
   const shouldFetch = !!library;
   const { data: vaultData, loading } = useVaultInfoSubscription({
@@ -46,11 +47,19 @@ export const useGetVaultInfo = (
     const peg = BigNumber.from(price.peg);
     // Calc values
     const maxLTV = 10000 / mcp.toNumber(); // 66.666%
-    const maxLTVUSD = collateral.mul(tokenPrice).mul(100).div(peg).div(mcp);
+    const maxLTVUSD = collateral
+      .mul(tokenPrice)
+      .mul(100)
+      .div(peg)
+      .div(mcp)
+      .mul(10 ** (18 - decimals));
     // Current LTV in the vault
     const LTV = collateral.isZero()
       ? utils.parseUnits('0', 0)
-      : debt.mul(1e8).mul(peg).div(collateral.mul(tokenPrice)); // Loan to value ratio
+      : debt
+          .mul(1e8)
+          .mul(peg)
+          .div(collateral.mul(tokenPrice).mul(10 ** (18 - decimals))); // Loan to value ratio
 
     // Borrow power
     const borrowingPowerUsed = LTV.mul(mcp).div(100);
@@ -62,7 +71,12 @@ export const useGetVaultInfo = (
     const borrowingPowerAvailableUSD = maxLTVUSD.sub(debt);
 
     const availableWithdraw = collateral.sub(
-      debt.mul(peg).div(tokenPrice).mul(mcp).div(100)
+      debt
+        .mul(peg)
+        .div(tokenPrice)
+        .mul(mcp)
+        .div(100)
+        .div(10 ** (18 - decimals))
     );
     return {
       loading: false,

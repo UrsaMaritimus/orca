@@ -38,7 +38,13 @@ export const EthVaults: FC<PagesVaultsProps> = ({
   library,
   chainId,
 }) => {
-  const { loading, rows } = useGetVaults(library, chainId, account, 'weth');
+  const { loading, rows } = useGetVaults(
+    library,
+    chainId,
+    account,
+    'weth',
+    'ETH'
+  );
   const { data: bankData } = useBankInfoSubscription({
     variables: { id: getContract(chainId, 'weth').toLowerCase() },
   });

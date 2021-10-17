@@ -20,7 +20,7 @@ import { ScrollBar } from '@orca/components/scroll-bar';
 import SortingSelectingHead from './SortingSelectingHead';
 import { BigNumber, utils } from 'ethers';
 import { fPercent, fCurrency, colorScale } from '@orca/util';
-import { routes } from '@orca/shared/base';
+import { routes, tokenInfo } from '@orca/shared/base';
 import { NextLink } from '@orca/components/links';
 
 // ----------------------------------------------------------------------
@@ -144,7 +144,14 @@ const SortingSelecting: FC<RowProps> = ({ rows, collateralType }) => {
                           )}{' '}
                         </TableCell>
                         <TableCell align="center">
-                          {fCurrency(Number(utils.formatEther(row.collateral)))}
+                          {fCurrency(
+                            Number(
+                              utils.formatUnits(
+                                row.collateral,
+                                tokenInfo[collateralType].decimals
+                              )
+                            )
+                          )}
                         </TableCell>
                         <TableCell align="center">
                           <Button

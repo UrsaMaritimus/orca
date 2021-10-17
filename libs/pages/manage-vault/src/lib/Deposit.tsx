@@ -99,7 +99,14 @@ export const Deposit: FC<ActionProps> = ({
                   justifyContent="center"
                 >
                   <Typography variant="inherit">
-                    {fNumber(Number(utils.formatEther(vaultInfo.collateral)))}{' '}
+                    {fNumber(
+                      Number(
+                        utils.formatUnits(
+                          vaultInfo.collateral,
+                          tokenInfo[token].decimals
+                        )
+                      )
+                    )}{' '}
                     {tokenInfo[token].display}
                   </Typography>
                 </Grid>
@@ -122,10 +129,11 @@ export const Deposit: FC<ActionProps> = ({
                   >
                     {fCurrency(
                       Number(
-                        utils.formatEther(
+                        utils.formatUnits(
                           vaultInfo.collateral
                             .mul(vaultInfo.tokenPrice)
-                            .div(vaultInfo.peg)
+                            .div(vaultInfo.peg),
+                          tokenInfo[token].decimals
                         )
                       )
                     )}{' '}

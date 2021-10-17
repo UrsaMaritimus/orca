@@ -373,10 +373,11 @@ export const RepayStepper: FC<StepperProps> = ({
                           (Number(utils.formatEther(vaultInfo.debt)) -
                             values.repayAmount)) /
                           Number(
-                            utils.formatEther(
+                            utils.formatUnits(
                               vaultInfo.collateral
                                 .mul(vaultInfo.tokenPrice)
-                                .div(vaultInfo.peg)
+                                .div(vaultInfo.peg),
+                              tokenInfo[token].decimals
                             )
                           ),
                         40,
@@ -388,10 +389,11 @@ export const RepayStepper: FC<StepperProps> = ({
                           (Number(utils.formatEther(vaultInfo.debt)) -
                             values.repayAmount)) /
                           Number(
-                            utils.formatEther(
+                            utils.formatUnits(
                               vaultInfo.collateral
                                 .mul(vaultInfo.tokenPrice)
-                                .div(vaultInfo.peg)
+                                .div(vaultInfo.peg),
+                              tokenInfo[token].decimals
                             )
                           )
                       )}

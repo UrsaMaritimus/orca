@@ -7,12 +7,14 @@ import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
 import { getContract, bankPrice } from '@orca/shared/funcs';
 import { useUserVaultsSubscription } from '@orca/graphql';
+import { tokenInfo } from '@orca/shared/base';
 
 export const useGetVaults = (
   library: Web3Provider,
   chainId: number,
   account: string,
-  vaultType: string
+  vaultType: string,
+  token: string
 ) => {
   const shouldFetch = !!library;
   const { data: vaultData } = useUserVaultsSubscription({
@@ -21,10 +23,9 @@ export const useGetVaults = (
       bank: getContract(chainId, vaultType).toLowerCase(),
     },
   });
-
   // Grab bank prices
   const { data: price, mutate: priceMutate } = useSwr(
-    shouldFetch ? ['getAvaxPrice', library, vaultType, chainId] : null,
+    shouldFetch ? [`get${vaultType}Price`, library, vaultType, chainId] : null,
     bankPrice()
   );
   useKeepSWRDataLiveAsBlocksArrive(priceMutate);
@@ -41,14 +42,18 @@ export const useGetVaults = (
               : debt
                   .mul(price.peg)
                   .mul(10000)
-                  .div(collateral.mul(price.price))
+                  .div(
+                    collateral
+                      .mul(price.price)
+                      .mul(10 ** (18 - tokenInfo[token].decimals))
+                  )
                   .toNumber() / 100;
             return {
               vaultID: BigNumber.from(vault.number).toNumber().toString(),
               collateral:
                 vault.id === '0x1'
                   ? utils.formatEther(vault.bank.treasury)
-                  : utils.formatEther(collateral),
+                  : utils.formatUnits(collateral, tokenInfo[token].decimals),
               debt: utils.formatEther(debt),
               ratio: ratio.toString(),
             };

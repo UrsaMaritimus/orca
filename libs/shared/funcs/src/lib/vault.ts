@@ -87,14 +87,16 @@ export const depositCollateral = (
   vaultID: number,
   amount: number,
   vaultType: string,
+  decimals: number,
   chainId: number
 ) => {
   const vault = getVault(vaultType, library, chainId, true);
   if (vaultType === 'wavax') {
     const gateway = getGateway(library, chainId, true);
     const overrides = {
-      value: utils.parseEther(
-        typeof amount === 'number' ? amount.toFixed(18) : amount
+      value: utils.parseUnits(
+        typeof amount === 'number' ? amount.toFixed(decimals) : amount,
+        decimals
       ),
     };
     return gateway.depositAVAX(vault.address, vaultID, overrides);
@@ -102,7 +104,10 @@ export const depositCollateral = (
 
   return vault.depositCollateral(
     vaultID,
-    utils.parseEther(typeof amount === 'number' ? amount.toFixed(18) : amount)
+    utils.parseUnits(
+      typeof amount === 'number' ? amount.toFixed(decimals) : amount,
+      decimals
+    )
   );
 };
 // callable
@@ -111,6 +116,7 @@ export const withdrawCollateral = (
   vaultID: number,
   amount: number,
   vaultType: string,
+  decimals: number,
   chainId: number
 ) => {
   const vault = getVault(vaultType, library, chainId, true);
@@ -124,7 +130,10 @@ export const withdrawCollateral = (
   }
   return vault.withdrawCollateral(
     vaultID,
-    utils.parseEther(typeof amount === 'number' ? amount.toFixed(18) : amount)
+    utils.parseUnits(
+      typeof amount === 'number' ? amount.toFixed(decimals) : amount,
+      decimals
+    )
   );
 };
 // callable

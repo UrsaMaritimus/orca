@@ -10,28 +10,30 @@ import {
   useMonitorVaultsSubscription,
   useBankMcpSubscription,
 } from '@orca/graphql';
+import { tokenInfo } from '@orca/shared/base';
 
 export const useMonitorVaults = (
   library: Web3Provider,
   chainId: number,
+  vaultType: string,
   token: string
 ) => {
   const shouldFetch = !!library;
   const { data: vaultData } = useMonitorVaultsSubscription({
     variables: {
-      bankID: getContract(chainId, token).toLowerCase(),
+      bankID: getContract(chainId, vaultType).toLowerCase(),
     },
   });
 
   const { data: bankData } = useBankMcpSubscription({
     variables: {
-      id: getContract(chainId, token).toLowerCase(),
+      id: getContract(chainId, vaultType).toLowerCase(),
     },
   });
 
   // Grab bank prices
   const { data: price, mutate: priceMutate } = useSwr(
-    shouldFetch ? [`get${token}Price`, library, token, chainId] : null,
+    shouldFetch ? [`get${vaultType}Price`, library, vaultType, chainId] : null,
     bankPrice()
   );
   useKeepSWRDataLiveAsBlocksArrive(priceMutate);
@@ -45,6 +47,7 @@ export const useMonitorVaults = (
               const collateral = BigNumber.from(vault.collateral);
               const debt = BigNumber.from(vault.debt);
               const cp = collateral
+                .mul(10 ** (18 - tokenInfo[token].decimals))
                 .mul(100)
                 .mul(price.price)
                 .div(debt.mul(price.peg));

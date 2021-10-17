@@ -1041,6 +1041,7 @@ export type Staking = {
   startTimestamp: Scalars['BigInt'];
   totalAllocPoints: Scalars['BigInt'];
   totalStaked: Scalars['BigInt'];
+  userCount: Scalars['BigInt'];
   users: Array<StakingUser>;
 };
 
@@ -1164,6 +1165,14 @@ export type Staking_Filter = {
   totalStaked_lte?: Maybe<Scalars['BigInt']>;
   totalStaked_not?: Maybe<Scalars['BigInt']>;
   totalStaked_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  userCount?: Maybe<Scalars['BigInt']>;
+  userCount_gt?: Maybe<Scalars['BigInt']>;
+  userCount_gte?: Maybe<Scalars['BigInt']>;
+  userCount_in?: Maybe<Array<Scalars['BigInt']>>;
+  userCount_lt?: Maybe<Scalars['BigInt']>;
+  userCount_lte?: Maybe<Scalars['BigInt']>;
+  userCount_not?: Maybe<Scalars['BigInt']>;
+  userCount_not_in?: Maybe<Array<Scalars['BigInt']>>;
 };
 
 export enum Staking_OrderBy {
@@ -1173,6 +1182,7 @@ export enum Staking_OrderBy {
   StartTimestamp = 'startTimestamp',
   TotalAllocPoints = 'totalAllocPoints',
   TotalStaked = 'totalStaked',
+  UserCount = 'userCount',
   Users = 'users'
 }
 
@@ -1940,7 +1950,7 @@ export type TotalSupplyFrontPageSubscriptionHookResult = ReturnType<typeof useTo
 export type TotalSupplyFrontPageSubscriptionResult = Apollo.SubscriptionResult<TotalSupplyFrontPageSubscription>;
 export const BankInfoFrontPageDocument = gql`
     subscription BankInfoFrontPage @api(name: orca) {
-  banks(first: 2) {
+  banks(first: 3) {
     id
     treasury
     totalDebt

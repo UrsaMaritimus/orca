@@ -193,6 +193,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.TeamPayment__factory>;
     getContractFactory(
+      name: "FakeBTC",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.FakeBTC__factory>;
+    getContractFactory(
       name: "PriceSource",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.PriceSource__factory>;

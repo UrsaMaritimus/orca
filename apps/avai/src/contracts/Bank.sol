@@ -12,7 +12,7 @@ import '@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol';
 import '@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol';
 import '@openzeppelin/contracts/utils/Address.sol';
 
-import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+import '@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol';
 import '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
 
 import './interfaces/IStablecoin.sol';
@@ -25,7 +25,7 @@ contract Bank is
   AccessControlUpgradeable
 {
   bytes32 public constant TREASURY_ROLE = keccak256('TREASURY_ROLE');
-  using SafeERC20 for IERC20;
+  using SafeERC20 for IERC20Metadata;
   using SafeERC20 for IStablecoin;
   using CountersUpgradeable for CountersUpgradeable.Counter;
   CountersUpgradeable.Counter private _userVaultIds;
@@ -46,7 +46,7 @@ contract Bank is
   // Chainlink price source
   AggregatorV3Interface public priceSource;
   // Token used as collateral
-  IERC20 public token;
+  IERC20Metadata public token;
   // Token used as debt
   IStablecoin internal stablecoin;
 
@@ -131,7 +131,7 @@ contract Bank is
     gateway = address(0);
     priceSource = AggregatorV3Interface(priceSource_);
 
-    token = IERC20(token_);
+    token = IERC20Metadata(token_);
     stablecoin = IStablecoin(msg.sender);
     _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
     _setupRole(TREASURY_ROLE, msg.sender);
@@ -372,10 +372,11 @@ contract Bank is
       uint256 debtValue
     ) = calculateCollateralProperties(collateral, debt);
 
-    require(debtValue > 0, 'Debt must be greater than zero');
-    // Get current ratio of debt
-    uint256 collateralPercentage = collateralValueTimes100 / debtValue;
+    require(debtValue >= 0, 'Debt must be greater than zero');
 
+    // Get current ratio of debt
+    uint256 collateralPercentage = (collateralValueTimes100 *
+      (10**(18 - token.decimals()))) / debtValue;
     // and check if it's above 150%
     return collateralPercentage >= minimumCollateralPercentage;
   }
@@ -495,7 +496,6 @@ contract Bank is
     );
 
     uint256 newDebt = vaultDebt[vaultID] + amount;
-    assert(newDebt > vaultDebt[vaultID]);
 
     require(
       isValidCollateral(vaultCollateral[vaultID], newDebt),
@@ -503,7 +503,7 @@ contract Bank is
     );
 
     require(
-      newDebt > minimumDebt,
+      newDebt >= minimumDebt,
       'Borrow needs to be larger than the minimum debt'
     );
 
@@ -572,7 +572,8 @@ contract Bank is
 
     // Closing fee calculation
     uint256 _closingFee = ((amount * closingFee) * getPricePeg()) /
-      (getPriceSource() * 10000);
+      (getPriceSource() * 10000) /
+      (10**(18 - token.decimals()));
 
     _subVaultDebt(vaultID, amount);
     _subVaultCollateral(vaultID, _closingFee);
@@ -616,7 +617,8 @@ contract Bank is
 
     require(debtValue > 0, 'Cannot have zero debt');
 
-    uint256 collateralPercentage = collateralValueTimes100 / debtValue;
+    uint256 collateralPercentage = (collateralValueTimes100 *
+      (10**(18 - token.decimals()))) / debtValue;
 
     if (collateralPercentage < minimumCollateralPercentage) {
       return true;
@@ -633,7 +635,6 @@ contract Bank is
       vaultCollateral[vaultId_],
       vaultDebt[vaultId_]
     );
-
     debtValue = debtValue / tokenPeg;
 
     return debtValue / debtRatio;
@@ -650,7 +651,8 @@ contract Bank is
     );
 
     uint256 tokenExtract = (debtValue * gainRatio) /
-      (10 * getPriceSource() * debtRatio);
+      (10 * getPriceSource() * debtRatio) /
+      (10**(18 - token.decimals()));
 
     return tokenExtract;
   }
@@ -682,7 +684,8 @@ contract Bank is
     // Make sure user has debt
     require(debtValue > 0, 'Vault has no debt');
 
-    uint256 collateralPercentage = collateralValueTimes100 / debtValue;
+    uint256 collateralPercentage = (collateralValueTimes100 *
+      (10**(18 - token.decimals()))) / debtValue;
 
     require(
       collateralPercentage < minimumCollateralPercentage,
@@ -701,7 +704,8 @@ contract Bank is
     vaultDebt[vaultID_] -= halfDebt;
 
     uint256 _closingFee = (halfDebt * closingFee * getPricePeg()) /
-      (getPriceSource() * 10000);
+      (getPriceSource() * 10000) /
+      (10**(18 - token.decimals()));
 
     vaultCollateral[vaultID_] -= (_closingFee + tokenExtract);
     vaultCollateral[treasury] += _closingFee;

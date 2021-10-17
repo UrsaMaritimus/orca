@@ -25,7 +25,8 @@ export const BtcVaults: FC<PagesVaultsProps> = ({
   const { loading, rows: badVaults } = useMonitorVaults(
     library,
     chainId,
-    'wbtc'
+    'wbtc',
+    'BTC'
   );
 
   if (typeof account === 'string' && badVaults && !loading) {
@@ -39,7 +40,7 @@ export const BtcVaults: FC<PagesVaultsProps> = ({
         >
           <CardHeader
             title={'WBTC.e Vault Monitor'}
-            subheader={'Vaults close to liquidation (above 57.5%)'}
+            subheader={'Vaults close to liquidation (above 59%)'}
             avatar={
               <Box
                 component="img"

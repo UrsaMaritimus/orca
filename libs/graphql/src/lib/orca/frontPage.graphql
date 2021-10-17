@@ -5,7 +5,7 @@ subscription TotalSupplyFrontPage @api(name: orca) {
 }
 
 subscription BankInfoFrontPage @api(name: orca) {
-  banks(first: 2) {
+  banks(first: 3) {
     id
     treasury
     totalDebt

@@ -160,27 +160,6 @@ export const BankInfo: FC<BankInfoProps> = ({ data }) => {
     carouselRef.current.slickNext();
   };
 
-  const extra = [
-    {
-      name: 'wbtc.e',
-      debt: BigNumber.from(0),
-      collateral: BigNumber.from(0),
-      ltv: BigNumber.from(0),
-      maxLtv: 0,
-      id: 'wbtc.e',
-      message: 'Coming soon!',
-    },
-    {
-      name: 'weth.e',
-      debt: BigNumber.from(0),
-      collateral: BigNumber.from(0),
-      ltv: BigNumber.from(0),
-      maxLtv: 0,
-      id: 'weth.e',
-      message: 'Coming soon!',
-    },
-  ];
-
   return (
     <Box sx={{ position: 'relative' }}>
       <CardHeader
@@ -195,15 +174,6 @@ export const BankInfo: FC<BankInfoProps> = ({ data }) => {
             isActive={index === currentIndex}
           />
         ))}
-
-        {data.length === 1 &&
-          extra.map((app, index) => (
-            <CarouselItem
-              key={app.id}
-              item={app}
-              isActive={index === currentIndex}
-            />
-          ))}
       </Slider>
       <CarouselControlsArrowsBasic2
         onNext={handleNext}

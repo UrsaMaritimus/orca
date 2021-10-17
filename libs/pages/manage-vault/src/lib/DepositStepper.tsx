@@ -128,7 +128,7 @@ export const DepositStepper: FC<StepperProps> = ({
           token === 'AVAX'
             ? AVAXBalance
             : TokenBalance
-            ? utils.formatEther(TokenBalance)
+            ? utils.formatUnits(TokenBalance, tokenInfo[token].decimals)
             : 0
         )
       ),
@@ -164,7 +164,7 @@ export const DepositStepper: FC<StepperProps> = ({
           values.depositAmount && values.depositAmount > 0
             ? Number(values.depositAmount)
             : TokenBalance
-            ? Number(utils.formatEther(TokenBalance))
+            ? Number(utils.formatUnits(TokenBalance, tokenInfo[token].decimals))
             : 100000,
           tokenInfo[token].erc20,
         ]
@@ -181,6 +181,7 @@ export const DepositStepper: FC<StepperProps> = ({
         vaultID,
         values.depositAmount,
         tokenInfo[token].erc20,
+        tokenInfo[token].decimals,
         chainId
       ),
       messages: {
@@ -273,12 +274,16 @@ export const DepositStepper: FC<StepperProps> = ({
                       color="inherit"
                     />
                     <Typography variant="h6" textAlign="center">
-
                       {`${fNumber(
                         token === 'AVAX'
                           ? AVAXBalance
                           : TokenBalance
-                          ? Number(utils.formatEther(TokenBalance))
+                          ? Number(
+                              utils.formatUnits(
+                                TokenBalance,
+                                tokenInfo[token].decimals
+                              )
+                            )
                           : 0,
                         4
                       )} ${tokenInfo[token].display}`}

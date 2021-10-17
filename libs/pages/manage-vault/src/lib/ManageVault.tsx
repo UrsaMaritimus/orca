@@ -61,7 +61,7 @@ export function ManageVault() {
   const router = useRouter();
   const { vaultID, token } = router.query as {
     vaultID: string;
-    token: 'ETH' | 'AVAX';
+    token: 'ETH' | 'AVAX' | 'BTC';
   };
 
   // Handles which tab
@@ -115,7 +115,8 @@ export function ManageVault() {
     chainId,
     vaultID as string,
     account,
-    token ? tokenInfo[token].erc20 : ''
+    token ? tokenInfo[token].erc20 : '',
+    token ? tokenInfo[token].decimals : 18
   );
   if (loading) {
     return (

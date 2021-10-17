@@ -38,7 +38,13 @@ export const BtcVaults: FC<PagesVaultsProps> = ({
   library,
   chainId,
 }) => {
-  const { loading, rows } = useGetVaults(library, chainId, account, 'wbtc');
+  const { loading, rows } = useGetVaults(
+    library,
+    chainId,
+    account,
+    'wbtc',
+    'BTC'
+  );
   const { data: bankData } = useBankInfoSubscription({
     variables: { id: getContract(chainId, 'wbtc').toLowerCase() },
   });
