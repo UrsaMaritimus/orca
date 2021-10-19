@@ -185,6 +185,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.TimelockController__factory>;
     getContractFactory(
+      name: "OracleBridge",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.OracleBridge__factory>;
+    getContractFactory(
       name: "ORCA",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ORCA__factory>;
@@ -200,6 +204,10 @@ declare module "hardhat/types/runtime" {
       name: "WAVAX",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.WAVAX__factory>;
+    getContractFactory(
+      name: "PodLeader",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.PodLeader__factory>;
     getContractFactory(
       name: "PodLeader",
       signerOrOptions?: ethers.Signer | FactoryOptions

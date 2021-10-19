@@ -39,6 +39,7 @@ interface IBankInterface extends ethers.utils.Interface {
     "setGainRatio(uint256)": FunctionFragment;
     "setGateway(address)": FunctionFragment;
     "setMinimumDebt(uint256)": FunctionFragment;
+    "setMintingPaused(bool)": FunctionFragment;
     "setOpeningFee(uint256)": FunctionFragment;
     "setPriceSource(address)": FunctionFragment;
     "setStabilityPool(address)": FunctionFragment;
@@ -113,6 +114,10 @@ interface IBankInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "setMinimumDebt",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setMintingPaused",
+    values: [boolean]
   ): string;
   encodeFunctionData(
     functionFragment: "setOpeningFee",
@@ -207,6 +212,10 @@ interface IBankInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "setGateway", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setMinimumDebt",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setMintingPaused",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -414,6 +423,11 @@ export class IBank extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setMintingPaused(
+      paused_: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     setOpeningFee(
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -572,6 +586,11 @@ export class IBank extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setMintingPaused(
+    paused_: boolean,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   setOpeningFee(
     amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -718,6 +737,11 @@ export class IBank extends BaseContract {
 
     setMinimumDebt(
       minimumDebt_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setMintingPaused(
+      paused_: boolean,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -912,6 +936,11 @@ export class IBank extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setMintingPaused(
+      paused_: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     setOpeningFee(
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1074,6 +1103,11 @@ export class IBank extends BaseContract {
 
     setMinimumDebt(
       minimumDebt_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setMintingPaused(
+      paused_: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

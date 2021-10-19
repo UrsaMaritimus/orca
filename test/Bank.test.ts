@@ -266,4 +266,17 @@ describe('Bank', function () {
       );
     });
   });
+
+  it('should not be paused initially but can be set by avai only', async () => {
+    expect(await wVault.mintingPaused()).to.be.false;
+
+    await expect(wVault.setMintingPaused(true)).to.be.reverted;
+
+    await expect(avai.setMintingPaused(0, false)).to.be.revertedWith(
+      'Minting paused already set to this value.'
+    );
+
+    avai.setMintingPaused(0, true);
+    expect(await wVault.mintingPaused()).to.be.true;
+  });
 });

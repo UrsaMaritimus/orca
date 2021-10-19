@@ -332,6 +332,52 @@ describe('ERC20 Vault Test', function () {
     ).to.changeTokenBalance(avai, accounts[0], ethers.utils.parseEther('1.0'));
   });
 
+  it('should not allow new debt after being paused', async () => {
+    // Set up
+
+    await wVault.createVault();
+    await wVault.depositCollateral(2, ethers.utils.parseEther('10.0'));
+
+    // Should borrow and emit BorrowToken!
+    await expect(wVault.borrowToken(2, ethers.utils.parseEther('5.0')))
+      .to.emit(wVault, 'BorrowToken')
+      .withArgs(2, ethers.utils.parseEther('5.0'));
+
+    //Pause now
+
+    await avai.setMintingPaused(0, true);
+
+    // Should borrow and emit BorrowToken!
+    await expect(
+      wVault.borrowToken(2, ethers.utils.parseEther('5.0'))
+    ).to.be.revertedWith(
+      'Minting for this bank is paused. Deposits, payments, and withdrawals are all still functional'
+    );
+
+    // Can still pay back
+    // Calc closing fee
+    const initAmount = ethers.utils.parseEther('5.0');
+    const closingFee = await wVault.closingFee();
+    const tokenPeg = await wVault.getPricePeg();
+    const priceSource = await wVault.getPriceSource();
+
+    const _closingFee = initAmount
+      .mul(closingFee)
+      .mul(tokenPeg)
+      .div(priceSource.mul(10000));
+
+    await expect(wVault.payBackToken(2, initAmount))
+      .to.emit(wVault, 'PayBackToken')
+      .withArgs(2, initAmount, _closingFee);
+
+    // Can still withdraw
+    const withdrawAmount = ethers.utils.parseEther('5.0').mul(9950).div(10000);
+    // Because waffles doesn't work
+    await expect(wVault.withdrawCollateral(2, withdrawAmount))
+      .to.emit(wVault, 'WithdrawCollateral')
+      .withArgs(2, withdrawAmount);
+  });
+
   it('Should put below minimum collateral percentage and revert', async () => {
     // Set up
 

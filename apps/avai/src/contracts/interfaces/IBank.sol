@@ -40,6 +40,8 @@ interface IBank is IERC721 {
 
   function setMinimumDebt(uint256 minimumDebt_) external;
 
+  function setMintingPaused(bool paused_) external;
+
   function initialize(
     uint256 minimumCollateralPercentage_,
     address priceSource_,
