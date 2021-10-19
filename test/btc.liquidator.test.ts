@@ -280,13 +280,5 @@ describe('BTC Liquidator Test', function () {
     expect(await btc.balanceOf(accounts[1].address)).to.equal(
       initBalanceUser.add(tokenExtract)
     );
-    /*
-    await expect(() =>
-      wVault.connect(accounts[1]).getPaid()
-    ).to.changeTokenBalances(
-      wavax,
-      [wVault, accounts[1]],
-      [tokenExtract.mul(-1), tokenExtract]
-    );*/
   });
 });

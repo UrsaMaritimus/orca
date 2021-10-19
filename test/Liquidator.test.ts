@@ -5,6 +5,10 @@ import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 import {
   AVAI__factory,
   AVAI,
+  AVAIv2,
+  AVAIv2__factory,
+  Bankv2,
+  Bankv2__factory,
   Bank,
   Bank__factory,
   WAVAXGateway,
@@ -246,8 +250,6 @@ describe('Liquidator Test', function () {
     // Initial tokenDebt held by liquidator
     const initialTokenDebt = await wVault.tokenDebt(accounts[1].address);
 
-    // Initial WAVAX held by liquidator
-    const initialWAVAX = await wavax.balanceOf(wVault.address);
     /**
      * LETS LIQUIDATE
      */
@@ -304,13 +306,321 @@ describe('Liquidator Test', function () {
     expect(await wavax.balanceOf(accounts[1].address)).to.equal(
       initBalanceUser.add(tokenExtract)
     );
-    /*
-    await expect(() =>
-      wVault.connect(accounts[1]).getPaid()
-    ).to.changeTokenBalances(
-      wavax,
-      [wVault, accounts[1]],
-      [tokenExtract.mul(-1), tokenExtract]
-    );*/
+  });
+
+  context('Works after upgrade', async () => {
+    let avaiV2: AVAIv2;
+    let wVaultV2: Bankv2;
+    beforeEach(async () => {
+      const avaiV2Fac = (await ethers.getContractFactory(
+        'AVAIv2',
+        accounts[0]
+      )) as AVAIv2__factory;
+
+      avaiV2 = (await upgrades.upgradeProxy(avai.address, avaiV2Fac)) as AVAIv2;
+
+      const bankv2Fac = (await ethers.getContractFactory(
+        'Bankv2'
+      )) as Bankv2__factory;
+      const newBank = await bankv2Fac.deploy();
+      await newBank.deployed();
+
+      avaiV2.upgradeToNewBank(newBank.address);
+
+      wVaultV2 = Bankv2__factory.connect(await avai.banks(0), accounts[0]);
+    });
+
+    it('should set correct variables and allow changes to gain/debt ratio', async () => {
+      expect(await wVaultV2.debtRatio()).to.equal(2);
+      expect(await wVaultV2.gainRatio()).to.equal(11);
+
+      //gain debt
+      // Only owner!
+      await expect(wVaultV2.setGainRatio(15)).to.be.reverted;
+      await avaiV2.setGainRatio(0, 12);
+      expect(await wVaultV2.gainRatio()).to.equal(12);
+
+      await expect(wVaultV2.setDebtRatio(4)).to.be.reverted;
+      await avaiV2.setDebtRatio(0, 3);
+      expect(await wVaultV2.debtRatio()).to.equal(3);
+    });
+
+    it('should revert due to vault not existing and not being below MCP', async () => {
+      // Should revert, vault doesn't exist
+      await expect(
+        wVaultV2.connect(accounts[1]).liquidateVault(3)
+      ).to.be.revertedWith('Vault does not exist');
+
+      // Obviously MCP is till good
+      await expect(
+        wVaultV2.connect(accounts[1]).liquidateVault(2)
+      ).to.be.revertedWith('Vault is not below minimum collateral percentage');
+      // Seperate check
+      expect(await wVaultV2.connect(accounts[1]).checkLiquidation(2)).to.equal(
+        false
+      );
+    });
+
+    it('should not revert following lowering of price', async () => {
+      // But what if we change the price source? dun dun dun
+      fakePrice = await FakePrice.deploy(
+        (await wVaultV2.getPriceSource()).sub(ethers.utils.parseUnits('1.0', 8))
+      );
+      await fakePrice.deployed();
+      await avaiV2.setPriceSource(0, fakePrice.address);
+
+      // Won't revert anymore!
+      await wVaultV2.connect(accounts[1]).checkLiquidation(2);
+    });
+
+    it('should revert if not enough avaiV2 balance', async () => {
+      // But what if we change the price source? dun dun dun
+      fakePrice = await FakePrice.deploy(
+        (await wVaultV2.getPriceSource()).sub(ethers.utils.parseUnits('1.0', 8))
+      );
+      await fakePrice.deployed();
+      await avaiV2.setPriceSource(0, fakePrice.address);
+
+      // Won't revert anymore!
+      await wVaultV2.connect(accounts[1]).checkLiquidation(2);
+      // Accounts[1] needs some avaiV2, lets mint it for test
+      await expect(
+        wVaultV2.connect(accounts[1]).liquidateVault(2)
+      ).to.be.revertedWith('Token balance too low to pay off outstanding debt');
+    });
+
+    it('should calculate correct token extract', async () => {
+      // Calculate what new vault collateral should be
+      const tokenExtract = await wVaultV2.checkExtract(2);
+      const newPrice = await wVaultV2.getPriceSource();
+      const debtValue = (await wVaultV2.vaultDebt(2)).mul(
+        await wVaultV2.getPricePeg()
+      );
+      const gainRatio = await wVaultV2.gainRatio();
+      const debtRatio = await wVaultV2.debtRatio();
+
+      // Make sure extract is correct
+      const extractCalc = debtValue
+        .mul(gainRatio)
+        .div(newPrice.mul(10).mul(debtRatio));
+
+      expect(tokenExtract).to.equal(extractCalc);
+    });
+
+    // Check liquidation! Long test, this one
+    it('Should allow liquidation', async () => {
+      // But what if we change the price source? dun dun dun
+      fakePrice = await FakePrice.deploy(
+        (await wVaultV2.getPriceSource()).sub(ethers.utils.parseUnits('1.0', 8))
+      );
+      await fakePrice.deployed();
+      await avaiV2.setPriceSource(0, fakePrice.address);
+
+      // Won't revert anymore!
+      await wVaultV2.connect(accounts[1]).checkLiquidation(2);
+
+      // Accounts[1] needs some avaiV2, lets mint it for test
+      await expect(
+        wVaultV2.connect(accounts[1]).liquidateVault(2)
+      ).to.be.revertedWith('Token balance too low to pay off outstanding debt');
+      const mintVal = await wVaultV2.checkCost(2);
+      // Let the user have minter role
+      await avaiV2.grantRole(await avaiV2.MINTER_ROLE(), accounts[1].address);
+      await avaiV2
+        .connect(accounts[1])
+        .mint(accounts[1].address, mintVal.add(10)); // 1000 avaiV2
+
+      // Some calcs for compare
+      const halfDebt = (await wVaultV2.vaultDebt(2)).div(
+        await wVaultV2.debtRatio()
+      );
+
+      // From liquidation of debt
+      const closingFee = halfDebt
+        .mul(await wVaultV2.closingFee())
+        .mul(await wVaultV2.getPricePeg())
+        .div((await wVaultV2.getPriceSource()).mul(10000));
+
+      // Calculate what new total debt should be
+      const initTotalDebt = await wVaultV2.totalDebt();
+      const newTotalDebt = initTotalDebt.sub(halfDebt);
+
+      // Calculate what the new vault debt should be
+      const newVaultV2Debt = (await wVaultV2.vaultDebt(2)).sub(halfDebt);
+
+      // Calculate what new vault collateral should be
+      const tokenExtract = await wVaultV2.checkExtract(2);
+      const newVaultV2Collateral = (await wVaultV2.vaultCollateral(2)).sub(
+        closingFee.add(tokenExtract)
+      );
+
+      // Initial tokenDebt held by liquidator
+      const initialTokenDebt = await wVaultV2.tokenDebt(accounts[1].address);
+
+      /**
+       * LETS LIQUIDATE
+       */
+      // Should go through
+      await expect(wVaultV2.connect(accounts[1]).liquidateVault(2))
+        .to.emit(wVaultV2, 'LiquidateVault')
+        .withArgs(
+          2,
+          accounts[0].address,
+          accounts[1].address,
+          halfDebt,
+          tokenExtract,
+          closingFee
+        );
+
+      // Should still be same owner
+      expect(await wVaultV2.ownerOf(2)).to.equal(accounts[0].address);
+
+      // closing fee should be added to collateral (in treasury)
+      expect(closingFee).to.equal(await wVaultV2.vaultCollateral(1));
+
+      // Total debt should decrease
+      expect(await wVaultV2.totalDebt()).to.equal(newTotalDebt);
+
+      // Should decrease vaults debt
+      expect(await wVaultV2.vaultDebt(2)).to.equal(newVaultV2Debt);
+
+      // Should decrease collateral
+      expect(await wVaultV2.vaultCollateral(2)).to.equal(newVaultV2Collateral);
+
+      // Liquidator should be holding the token for acceptance by the user
+      expect(await wVaultV2.tokenDebt(accounts[1].address)).to.equal(
+        initialTokenDebt.add(tokenExtract)
+      );
+
+      // Should revert, this account has nothing
+      await expect(wVaultV2.getPaid(accounts[0].address)).to.be.revertedWith(
+        'No liquidations associated with account.'
+      );
+
+      // Should revert, not owned by account
+      await expect(wVaultV2.getPaid(accounts[1].address)).to.be.revertedWith(
+        'Cannot get paid if not yours'
+      );
+
+      // Because waffles doesn't work
+      const initBalanceVault = await wavax.balanceOf(wVaultV2.address);
+      const initBalanceUser = await wavax.balanceOf(accounts[1].address);
+      await wVaultV2.connect(accounts[1]).getPaid(accounts[1].address);
+
+      expect(await wavax.balanceOf(wVaultV2.address)).to.equal(
+        initBalanceVault.sub(tokenExtract)
+      );
+      expect(await wavax.balanceOf(accounts[1].address)).to.equal(
+        initBalanceUser.add(tokenExtract)
+      );
+    });
+
+    it('Should allow liquidation after pausing', async () => {
+      await avaiV2.setMintingPaused(0, true);
+      // But what if we change the price source? dun dun dun
+      fakePrice = await FakePrice.deploy(
+        (await wVaultV2.getPriceSource()).sub(ethers.utils.parseUnits('1.0', 8))
+      );
+      await fakePrice.deployed();
+      await avaiV2.setPriceSource(0, fakePrice.address);
+
+      // Won't revert anymore!
+      await wVaultV2.connect(accounts[1]).checkLiquidation(2);
+
+      // Accounts[1] needs some avaiV2, lets mint it for test
+      await expect(
+        wVaultV2.connect(accounts[1]).liquidateVault(2)
+      ).to.be.revertedWith('Token balance too low to pay off outstanding debt');
+      const mintVal = await wVaultV2.checkCost(2);
+      // Let the user have minter role
+      await avaiV2.grantRole(await avaiV2.MINTER_ROLE(), accounts[1].address);
+      await avaiV2
+        .connect(accounts[1])
+        .mint(accounts[1].address, mintVal.add(10)); // 1000 avaiV2
+
+      // Some calcs for compare
+      const halfDebt = (await wVaultV2.vaultDebt(2)).div(
+        await wVaultV2.debtRatio()
+      );
+
+      // From liquidation of debt
+      const closingFee = halfDebt
+        .mul(await wVaultV2.closingFee())
+        .mul(await wVaultV2.getPricePeg())
+        .div((await wVaultV2.getPriceSource()).mul(10000));
+
+      // Calculate what new total debt should be
+      const initTotalDebt = await wVaultV2.totalDebt();
+      const newTotalDebt = initTotalDebt.sub(halfDebt);
+
+      // Calculate what the new vault debt should be
+      const newVaultV2Debt = (await wVaultV2.vaultDebt(2)).sub(halfDebt);
+
+      // Calculate what new vault collateral should be
+      const tokenExtract = await wVaultV2.checkExtract(2);
+      const newVaultV2Collateral = (await wVaultV2.vaultCollateral(2)).sub(
+        closingFee.add(tokenExtract)
+      );
+
+      // Initial tokenDebt held by liquidator
+      const initialTokenDebt = await wVaultV2.tokenDebt(accounts[1].address);
+
+      /**
+       * LETS LIQUIDATE
+       */
+      // Should go through
+      await expect(wVaultV2.connect(accounts[1]).liquidateVault(2))
+        .to.emit(wVaultV2, 'LiquidateVault')
+        .withArgs(
+          2,
+          accounts[0].address,
+          accounts[1].address,
+          halfDebt,
+          tokenExtract,
+          closingFee
+        );
+
+      // Should still be same owner
+      expect(await wVaultV2.ownerOf(2)).to.equal(accounts[0].address);
+
+      // closing fee should be added to collateral (in treasury)
+      expect(closingFee).to.equal(await wVaultV2.vaultCollateral(1));
+
+      // Total debt should decrease
+      expect(await wVaultV2.totalDebt()).to.equal(newTotalDebt);
+
+      // Should decrease vaults debt
+      expect(await wVaultV2.vaultDebt(2)).to.equal(newVaultV2Debt);
+
+      // Should decrease collateral
+      expect(await wVaultV2.vaultCollateral(2)).to.equal(newVaultV2Collateral);
+
+      // Liquidator should be holding the token for acceptance by the user
+      expect(await wVaultV2.tokenDebt(accounts[1].address)).to.equal(
+        initialTokenDebt.add(tokenExtract)
+      );
+
+      // Should revert, this account has nothing
+      await expect(wVaultV2.getPaid(accounts[0].address)).to.be.revertedWith(
+        'No liquidations associated with account.'
+      );
+
+      // Should revert, not owned by account
+      await expect(wVaultV2.getPaid(accounts[1].address)).to.be.revertedWith(
+        'Cannot get paid if not yours'
+      );
+
+      // Because waffles doesn't work
+      const initBalanceVault = await wavax.balanceOf(wVaultV2.address);
+      const initBalanceUser = await wavax.balanceOf(accounts[1].address);
+      await wVaultV2.connect(accounts[1]).getPaid(accounts[1].address);
+
+      expect(await wavax.balanceOf(wVaultV2.address)).to.equal(
+        initBalanceVault.sub(tokenExtract)
+      );
+      expect(await wavax.balanceOf(accounts[1].address)).to.equal(
+        initBalanceUser.add(tokenExtract)
+      );
+    });
   });
 });
