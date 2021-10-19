@@ -59,6 +59,7 @@ interface AVAIv2Interface extends ethers.utils.Interface {
     "setGainRatio(uint256,uint256)": FunctionFragment;
     "setGateway(uint256,address)": FunctionFragment;
     "setMinimumDebt(uint256,uint256)": FunctionFragment;
+    "setMintingPaused(uint256,bool)": FunctionFragment;
     "setOpeningFee(uint256,uint256)": FunctionFragment;
     "setPriceSource(uint256,address)": FunctionFragment;
     "setStabilityPool(uint256,address)": FunctionFragment;
@@ -208,6 +209,10 @@ interface AVAIv2Interface extends ethers.utils.Interface {
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "setMintingPaused",
+    values: [BigNumberish, boolean]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setOpeningFee",
     values: [BigNumberish, BigNumberish]
   ): string;
@@ -344,6 +349,10 @@ interface AVAIv2Interface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "setGateway", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setMinimumDebt",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setMintingPaused",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -630,6 +639,12 @@ export class AVAIv2 extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setMintingPaused(
+      bankID: BigNumberish,
+      paused_: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     setOpeningFee(
       bankID: BigNumberish,
       amount: BigNumberish,
@@ -868,6 +883,12 @@ export class AVAIv2 extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setMintingPaused(
+    bankID: BigNumberish,
+    paused_: boolean,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   setOpeningFee(
     bankID: BigNumberish,
     amount: BigNumberish,
@@ -1099,6 +1120,12 @@ export class AVAIv2 extends BaseContract {
     setMinimumDebt(
       bankID: BigNumberish,
       minimumDebt_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setMintingPaused(
+      bankID: BigNumberish,
+      paused_: boolean,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1422,6 +1449,12 @@ export class AVAIv2 extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setMintingPaused(
+      bankID: BigNumberish,
+      paused_: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     setOpeningFee(
       bankID: BigNumberish,
       amount: BigNumberish,
@@ -1672,6 +1705,12 @@ export class AVAIv2 extends BaseContract {
     setMinimumDebt(
       bankID: BigNumberish,
       minimumDebt_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setMintingPaused(
+      bankID: BigNumberish,
+      paused_: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

@@ -269,6 +269,16 @@ contract AVAIv2 is
     IBank(banks[bankID]).setTreasury(treasury_);
   }
 
+  /**
+   * @dev Pauses minting for a bank if exploit or if deprecated
+   */
+  function setMintingPaused(uint256 bankID, bool paused_)
+    external
+    onlyRole(DEFAULT_ADMIN_ROLE)
+  {
+    IBank(banks[bankID]).setMintingPaused(paused_);
+  }
+
   function getRoleMember(bytes32 role, uint256 index)
     public
     view

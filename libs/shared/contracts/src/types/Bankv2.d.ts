@@ -49,6 +49,7 @@ interface Bankv2Interface extends ethers.utils.Interface {
     "liquidateVault(uint256)": FunctionFragment;
     "minimumCollateralPercentage()": FunctionFragment;
     "minimumDebt()": FunctionFragment;
+    "mintingPaused()": FunctionFragment;
     "name()": FunctionFragment;
     "openingFee()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
@@ -64,6 +65,7 @@ interface Bankv2Interface extends ethers.utils.Interface {
     "setGainRatio(uint256)": FunctionFragment;
     "setGateway(address)": FunctionFragment;
     "setMinimumDebt(uint256)": FunctionFragment;
+    "setMintingPaused(bool)": FunctionFragment;
     "setOpeningFee(uint256)": FunctionFragment;
     "setPriceSource(address)": FunctionFragment;
     "setStabilityPool(address)": FunctionFragment;
@@ -187,6 +189,10 @@ interface Bankv2Interface extends ethers.utils.Interface {
     functionFragment: "minimumDebt",
     values?: undefined
   ): string;
+  encodeFunctionData(
+    functionFragment: "mintingPaused",
+    values?: undefined
+  ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "openingFee",
@@ -240,6 +246,10 @@ interface Bankv2Interface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "setMinimumDebt",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setMintingPaused",
+    values: [boolean]
   ): string;
   encodeFunctionData(
     functionFragment: "setOpeningFee",
@@ -399,6 +409,10 @@ interface Bankv2Interface extends ethers.utils.Interface {
     functionFragment: "minimumDebt",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "mintingPaused",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "openingFee", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
@@ -442,6 +456,10 @@ interface Bankv2Interface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "setGateway", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setMinimumDebt",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setMintingPaused",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -520,6 +538,7 @@ interface Bankv2Interface extends ethers.utils.Interface {
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
+    "BankPaused(bool)": EventFragment;
     "BorrowToken(uint256,uint256)": EventFragment;
     "ChangeDebtRatio(uint256)": EventFragment;
     "ChangeGainRatio(uint256)": EventFragment;
@@ -548,6 +567,7 @@ interface Bankv2Interface extends ethers.utils.Interface {
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "BankPaused"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "BorrowToken"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ChangeDebtRatio"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ChangeGainRatio"): EventFragment;
@@ -730,6 +750,8 @@ export class Bankv2 extends BaseContract {
 
     minimumDebt(overrides?: CallOverrides): Promise<[BigNumber]>;
 
+    mintingPaused(overrides?: CallOverrides): Promise<[boolean]>;
+
     name(overrides?: CallOverrides): Promise<[string]>;
 
     openingFee(overrides?: CallOverrides): Promise<[BigNumber]>;
@@ -807,6 +829,11 @@ export class Bankv2 extends BaseContract {
 
     setMinimumDebt(
       minimumDebt_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setMintingPaused(
+      paused_: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -1019,6 +1046,8 @@ export class Bankv2 extends BaseContract {
 
   minimumDebt(overrides?: CallOverrides): Promise<BigNumber>;
 
+  mintingPaused(overrides?: CallOverrides): Promise<boolean>;
+
   name(overrides?: CallOverrides): Promise<string>;
 
   openingFee(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1093,6 +1122,11 @@ export class Bankv2 extends BaseContract {
 
   setMinimumDebt(
     minimumDebt_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setMintingPaused(
+    paused_: boolean,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -1294,6 +1328,8 @@ export class Bankv2 extends BaseContract {
 
     minimumDebt(overrides?: CallOverrides): Promise<BigNumber>;
 
+    mintingPaused(overrides?: CallOverrides): Promise<boolean>;
+
     name(overrides?: CallOverrides): Promise<string>;
 
     openingFee(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1365,6 +1401,11 @@ export class Bankv2 extends BaseContract {
 
     setMinimumDebt(
       minimumDebt_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setMintingPaused(
+      paused_: boolean,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1482,6 +1523,10 @@ export class Bankv2 extends BaseContract {
       [string, string, boolean],
       { owner: string; operator: string; approved: boolean }
     >;
+
+    BankPaused(
+      mintingPaused?: null
+    ): TypedEventFilter<[boolean], { mintingPaused: boolean }>;
 
     BorrowToken(
       vaultID?: null,
@@ -1757,6 +1802,8 @@ export class Bankv2 extends BaseContract {
 
     minimumDebt(overrides?: CallOverrides): Promise<BigNumber>;
 
+    mintingPaused(overrides?: CallOverrides): Promise<BigNumber>;
+
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
     openingFee(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1834,6 +1881,11 @@ export class Bankv2 extends BaseContract {
 
     setMinimumDebt(
       minimumDebt_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setMintingPaused(
+      paused_: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -2057,6 +2109,8 @@ export class Bankv2 extends BaseContract {
 
     minimumDebt(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    mintingPaused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     openingFee(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -2134,6 +2188,11 @@ export class Bankv2 extends BaseContract {
 
     setMinimumDebt(
       minimumDebt_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setMintingPaused(
+      paused_: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

@@ -65,9 +65,6 @@ contract Bank is
   // Minimum debt
   uint256 public minimumDebt;
 
-  // Pausing minting AVAI for a bank if (for example) exploits occur or for deprecation purposes
-  bool public mintingPaused;
-
   // Events for general vault operations
   event CreateVault(uint256 vaultID, address creator);
   event DestroyVault(uint256 vaultID);
@@ -104,7 +101,6 @@ contract Bank is
   event NewStabilityPools(address newStabilityPool);
   event NewPriceSource(address newPriceSource);
   event NewTreasury(uint256 newTreasury);
-  event BankPaused(bool mintingPaused);
 
   // Lets begin!
   function initialize(
@@ -174,17 +170,6 @@ contract Bank is
     require(
       msg.sender == user || msg.sender == gateway,
       'Cannot get paid if not yours'
-    );
-    _;
-  }
-
-  /**
-   * @dev For borrowing only
-   */
-  modifier mintingNotPaused() {
-    require(
-      !mintingPaused,
-      'Minting for this bank is paused. Deposits, payments, and withdrawals are all still functional'
     );
     _;
   }
@@ -326,17 +311,6 @@ contract Bank is
   function setTreasury(uint256 treasury_) external onlyRole(TREASURY_ROLE) {
     require(vaultExistence[treasury_], 'Vault does not exist');
     treasury = treasury_;
-  }
-
-  /**
-   * @dev Pauses the bank minting capabalities.
-   */
-  function setMintingPaused(bool paused_) external onlyRole(TREASURY_ROLE) {
-    require(
-      paused_ == !mintingPaused,
-      'Minting paused already set to this value.'
-    );
-    mintingPaused = paused_;
   }
 
   /**
@@ -514,7 +488,6 @@ contract Bank is
     external
     onlyVaultOwner(vaultID)
     nonReentrant
-    mintingNotPaused
   {
     require(amount > 0, 'Must borrow non-zero amount');
     require(

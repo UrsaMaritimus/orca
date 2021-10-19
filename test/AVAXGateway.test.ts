@@ -124,15 +124,6 @@ describe('Avax Vault Test with Gateway', function () {
     expect(await wavax.balanceOf(wVault.address)).to.equal(
       initBalance.add(overrides.value)
     );
-
-    /** waffles not working right now
-    await expect(() =>
-      gateway.depositAVAX(wVault.address, 2, overrides)
-    ).to.changeTokenBalance(
-      ERC20Upgradeable__factory.connect(token, accounts[0]),
-      wVault,
-      ethers.utils.parseEther('10.0')
-    );*/
   });
 
   it('Should only allow vault owner to deposit as long as vault exists with gateway', async () => {
@@ -183,15 +174,6 @@ describe('Avax Vault Test with Gateway', function () {
     expect(await wavax.balanceOf(wVault.address)).to.equal(
       initBalance.sub(overrides.value)
     );
-    /*
-    await expect(() =>
-      gateway.withdrawAVAX(wVault.address, 2, overrides.value)
-    ).to.changeTokenBalance(
-      ERC20Upgradeable__factory.connect(token, accounts[0]),
-      wVault,
-      overrides.value.mul(-1)
-    );
-    */
 
     expect(await wVault.vaultCollateral(2)).to.equal(
       secondCollat.sub(overrides.value)
@@ -220,15 +202,6 @@ describe('Avax Vault Test with Gateway', function () {
     expect(await wavax.balanceOf(wVault.address)).to.equal(
       initBalance.sub(ethers.utils.parseEther('5.0'))
     );
-    /*
-    // Lets try withdrawing
-    await expect(() =>
-      gateway.withdrawAVAX(wVault.address, 2, ethers.utils.parseEther('5.0'))
-    ).to.changeTokenBalance(
-      ERC20Upgradeable__factory.connect(token, accounts[0]),
-      wVault,
-      ethers.utils.parseEther('5.0').mul(-1)
-    );*/
   });
 
   it('should emit withdraw collateral', async () => {
@@ -341,5 +314,312 @@ describe('Avax Vault Test with Gateway', function () {
     await expect(() =>
       gateway.connect(accounts[1]).getPaid(wVault.address)
     ).to.changeEtherBalance(accounts[1], tokenExtract);
+  });
+
+  context('Upgrading bank and avai', async () => {
+    let avaiV2: AVAIv2;
+    let wVaultV2: Bankv2;
+    beforeEach(async () => {
+      const avaiV2Fac = (await ethers.getContractFactory(
+        'AVAIv2',
+        accounts[0]
+      )) as AVAIv2__factory;
+
+      avaiV2 = (await upgrades.upgradeProxy(avai.address, avaiV2Fac)) as AVAIv2;
+
+      const bankv2Fac = (await ethers.getContractFactory(
+        'Bankv2'
+      )) as Bankv2__factory;
+      const newBank = await bankv2Fac.deploy();
+      await newBank.deployed();
+
+      avaiV2.upgradeToNewBank(newBank.address);
+
+      wVaultV2 = Bankv2__factory.connect(await avai.banks(0), accounts[0]);
+    });
+
+    it('Should deposit collateral with gateway', async () => {
+      await wVaultV2.createVault();
+
+      // initial collateral
+      const initCollat = await wVaultV2.vaultCollateral(2);
+
+      const overrides = {
+        value: ethers.utils.parseEther('10.0'),
+      };
+
+      await expect(gateway.depositAVAX(wVaultV2.address, 2, overrides))
+        .to.emit(wVaultV2, 'DepositCollateral')
+        .withArgs(2, ethers.utils.parseEther('10.0'));
+
+      expect(await wVaultV2.vaultCollateral(2)).to.equal(
+        initCollat.add(ethers.utils.parseEther('10.0'))
+      );
+
+      // Check balances according to blockchain
+      await expect(() =>
+        gateway.depositAVAX(wVaultV2.address, 2, overrides)
+      ).to.changeEtherBalance(accounts[0], ethers.utils.parseEther('-10.0'));
+
+      const initBalance = await wavax.balanceOf(wVaultV2.address);
+      await gateway.depositAVAX(wVaultV2.address, 2, overrides);
+      expect(await wavax.balanceOf(wVaultV2.address)).to.equal(
+        initBalance.add(overrides.value)
+      );
+    });
+
+    it('Should only allow vault owner to deposit as long as vault exists with gateway', async () => {
+      const overrides = {
+        value: ethers.utils.parseEther('10.0'),
+      };
+
+      await expect(
+        gateway.depositAVAX(wVaultV2.address, 2, overrides)
+      ).to.be.revertedWith('Vault does not exist');
+
+      await wVaultV2.createVault();
+
+      await expect(
+        gateway.connect(accounts[1]).depositAVAX(wVaultV2.address, 2, overrides)
+      ).to.be.revertedWith('Vault is not owned by you');
+    });
+
+    it('Should allow withdrawal all with gateway', async () => {
+      // Set up
+      const overrides = {
+        value: ethers.utils.parseEther('10.0'),
+      };
+      await wVaultV2.createVault();
+      // Check AVAX
+      await gateway.depositAVAX(wVaultV2.address, 2, overrides);
+
+      // initial collateral
+      const initCollat = await wVaultV2.vaultCollateral(2);
+
+      // Lets try withdrawing
+      await expect(() =>
+        gateway.withdrawAVAX(wVaultV2.address, 2, overrides.value)
+      ).to.changeEtherBalance(accounts[0], overrides.value);
+
+      expect(await wVaultV2.vaultCollateral(2)).to.equal(
+        initCollat.sub(overrides.value)
+      );
+
+      // Check ERC20
+      await gateway.depositAVAX(wVaultV2.address, 2, overrides);
+
+      // initial collateral
+      const secondCollat = await wVaultV2.vaultCollateral(2);
+
+      const initBalance = await wavax.balanceOf(wVaultV2.address);
+      await gateway.withdrawAVAX(wVaultV2.address, 2, overrides.value);
+      expect(await wavax.balanceOf(wVaultV2.address)).to.equal(
+        initBalance.sub(overrides.value)
+      );
+
+      expect(await wVaultV2.vaultCollateral(2)).to.equal(
+        secondCollat.sub(overrides.value)
+      );
+    });
+
+    it('Should allow withdrawal partial amounts', async () => {
+      // Set up
+      const overrides = {
+        value: ethers.utils.parseEther('10.0'),
+      };
+      await wVaultV2.createVault();
+      await gateway.depositAVAX(wVaultV2.address, 2, overrides);
+
+      // Lets try withdrawing
+      await expect(() =>
+        gateway.withdrawAVAX(
+          wVaultV2.address,
+          2,
+          ethers.utils.parseEther('5.0')
+        )
+      ).to.changeEtherBalance(accounts[0], ethers.utils.parseEther('5.0'));
+
+      const initBalance = await wavax.balanceOf(wVaultV2.address);
+      await gateway.withdrawAVAX(
+        wVaultV2.address,
+        2,
+        ethers.utils.parseEther('5.0')
+      );
+      expect(await wavax.balanceOf(wVaultV2.address)).to.equal(
+        initBalance.sub(ethers.utils.parseEther('5.0'))
+      );
+    });
+
+    it('should emit withdraw collateral', async () => {
+      // Set up
+      const overrides = {
+        value: ethers.utils.parseEther('10.0'),
+      };
+
+      await wVaultV2.createVault();
+      await gateway.depositAVAX(wVaultV2.address, 2, overrides);
+
+      // Lets try withdrawing
+      await expect(
+        gateway.withdrawAVAX(
+          wVaultV2.address,
+          2,
+          ethers.utils.parseEther('5.0')
+        )
+      )
+        .to.emit(wVaultV2, 'WithdrawCollateral')
+        .withArgs(2, ethers.utils.parseEther('5.0'));
+    });
+
+    it('should destroy vault', async () => {
+      // Set up
+      const overrides = {
+        value: ethers.utils.parseEther('10.0'),
+      };
+
+      await wVaultV2.createVault();
+      await gateway.depositAVAX(wVaultV2.address, 2, overrides);
+
+      // Lets try destroying
+      await expect(gateway.destroyVault(wVaultV2.address, 2))
+        .to.emit(wVaultV2, 'DestroyVault')
+        .withArgs(2);
+    });
+
+    it('should transfer WAVAX upon destroy vault', async () => {
+      // Set up
+      const overrides = {
+        value: ethers.utils.parseEther('10.0'),
+      };
+
+      await wVaultV2.createVault();
+      await gateway.depositAVAX(wVaultV2.address, 2, overrides);
+
+      // Lets try destroying
+      await expect(() =>
+        gateway.destroyVault(wVaultV2.address, 2)
+      ).to.changeEtherBalance(accounts[0], overrides.value);
+
+      expect(await wavax.balanceOf(wVaultV2.address)).to.equal(0);
+    });
+
+    it('should only let user delete vault', async () => {
+      // Set up
+      const overrides = {
+        value: ethers.utils.parseEther('10.0'),
+      };
+
+      await wVaultV2.createVault();
+      await gateway.depositAVAX(wVaultV2.address, 2, overrides);
+
+      await expect(
+        gateway.connect(accounts[1]).destroyVault(wVaultV2.address, 2)
+      ).to.be.reverted;
+    });
+
+    it('should let user get paid after liquidation', async () => {
+      // Get WAVAX
+      const overrides = {
+        value: ethers.utils.parseEther('100.0'),
+      };
+
+      await wVaultV2.createVault();
+      await gateway.depositAVAX(wVaultV2.address, 2, overrides);
+      await avaiV2.setDebtCeiling(0, ethers.utils.parseEther('1000000.0'));
+
+      const collat = await wVaultV2.vaultCollateral(2);
+      const price = await wVaultV2.getPriceSource();
+      const collateralAsDebt = collat
+        .mul(price)
+        .mul(100)
+        .div(150)
+        .div('100000000');
+
+      // Borrow max avaiV2
+      await wVaultV2.borrowToken(2, collateralAsDebt);
+
+      // But what if we change the price source? dun dun dun
+      fakePrice = await FakePrice.deploy(
+        (await wVaultV2.getPriceSource()).sub(ethers.utils.parseUnits('1.0', 8))
+      );
+      await fakePrice.deployed();
+      await avaiV2.setPriceSource(0, fakePrice.address);
+
+      const mintVal = await wVaultV2.checkCost(2);
+      // Let the user have minter role
+      await avaiV2.grantRole(await avaiV2.MINTER_ROLE(), accounts[1].address);
+      await avaiV2
+        .connect(accounts[1])
+        .mint(accounts[1].address, mintVal.add(10)); // 1000 avaiV2
+
+      const tokenExtract = await wVaultV2.checkExtract(2);
+      await expect(wVaultV2.connect(accounts[1]).liquidateVault(2)).to.emit(
+        wVaultV2,
+        'LiquidateVault'
+      );
+
+      // Try getting paid
+      // Should revert, this account has nothing
+      await expect(gateway.getPaid(wVaultV2.address)).to.be.revertedWith(
+        'No liquidations associated with account.'
+      );
+      // Lets try getting paid
+      await expect(() =>
+        gateway.connect(accounts[1]).getPaid(wVaultV2.address)
+      ).to.changeEtherBalance(accounts[1], tokenExtract);
+    });
+
+    it('should not allow new debt after being paused', async () => {
+      // Set up
+      // Get WAVAX
+      const overrides = {
+        value: ethers.utils.parseEther('100.0'),
+      };
+
+      await wVaultV2.createVault();
+      await gateway.depositAVAX(wVaultV2.address, 2, overrides);
+
+      // Should borrow and emit BorrowToken!
+      await expect(wVaultV2.borrowToken(2, ethers.utils.parseEther('5.0')))
+        .to.emit(wVaultV2, 'BorrowToken')
+        .withArgs(2, ethers.utils.parseEther('5.0'));
+
+      //Pause now
+
+      await avaiV2.setMintingPaused(0, true);
+
+      // Should borrow and emit BorrowToken!
+      await expect(
+        wVaultV2.borrowToken(2, ethers.utils.parseEther('5.0'))
+      ).to.be.revertedWith(
+        'Minting for this bank is paused. Deposits, payments, and withdrawals are all still functional'
+      );
+
+      // Can still pay back
+      // Calc closing fee
+      const initAmount = ethers.utils.parseEther('5.0');
+      const closingFee = await wVaultV2.closingFee();
+      const tokenPeg = await wVaultV2.getPricePeg();
+      const priceSource = await wVaultV2.getPriceSource();
+
+      const _closingFee = initAmount
+        .mul(closingFee)
+        .mul(tokenPeg)
+        .div(priceSource.mul(10000));
+
+      await expect(wVaultV2.payBackToken(2, initAmount))
+        .to.emit(wVaultV2, 'PayBackToken')
+        .withArgs(2, initAmount, _closingFee);
+
+      // Can still withdraw
+      const withdrawAmount = ethers.utils
+        .parseEther('5.0')
+        .mul(9950)
+        .div(10000);
+      // Because waffles doesn't work
+      await expect(gateway.withdrawAVAX(wVaultV2.address, 2, withdrawAmount))
+        .to.emit(wVaultV2, 'WithdrawCollateral')
+        .withArgs(2, withdrawAmount);
+    });
   });
 });
