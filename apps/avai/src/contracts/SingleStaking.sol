@@ -9,7 +9,7 @@ import 'hardhat/console.sol';
 
 // Built off Yak's MasterYak, with alterations to allow for transfers of ERC20 instead of AVAX.
 // Good luck and have fun
-contract PodLeader is Ownable, ReentrancyGuard {
+contract SingleStaking is Ownable, ReentrancyGuard {
   using SafeERC20 for IERC20;
 
   /// @notice Info of each user.

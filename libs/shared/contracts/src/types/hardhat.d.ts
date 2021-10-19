@@ -213,6 +213,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.PodLeader__factory>;
     getContractFactory(
+      name: "SingleStaking",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SingleStaking__factory>;
+    getContractFactory(
       name: "AVAI",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.AVAI__factory>;
