@@ -147,15 +147,7 @@ export class OracleBridge extends BaseContract {
 
     latestRoundData(
       overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
-        roundId: BigNumber;
-        answer: BigNumber;
-        startedAt: BigNumber;
-        updatedAt: BigNumber;
-        answeredInRound: BigNumber;
-      }
-    >;
+    ): Promise<[BigNumber, BigNumber, BigNumber, BigNumber, BigNumber]>;
 
     priceSource(overrides?: CallOverrides): Promise<[string]>;
 
@@ -185,15 +177,7 @@ export class OracleBridge extends BaseContract {
 
   latestRoundData(
     overrides?: CallOverrides
-  ): Promise<
-    [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
-      roundId: BigNumber;
-      answer: BigNumber;
-      startedAt: BigNumber;
-      updatedAt: BigNumber;
-      answeredInRound: BigNumber;
-    }
-  >;
+  ): Promise<[BigNumber, BigNumber, BigNumber, BigNumber, BigNumber]>;
 
   priceSource(overrides?: CallOverrides): Promise<string>;
 
@@ -223,15 +207,7 @@ export class OracleBridge extends BaseContract {
 
     latestRoundData(
       overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
-        roundId: BigNumber;
-        answer: BigNumber;
-        startedAt: BigNumber;
-        updatedAt: BigNumber;
-        answeredInRound: BigNumber;
-      }
-    >;
+    ): Promise<[BigNumber, BigNumber, BigNumber, BigNumber, BigNumber]>;
 
     priceSource(overrides?: CallOverrides): Promise<string>;
 

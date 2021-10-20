@@ -165,6 +165,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IWAVAX__factory>;
     getContractFactory(
+      name: "IYakStrategy",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IYakStrategy__factory>;
+    getContractFactory(
       name: "AccessControl",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.AccessControl__factory>;
@@ -204,10 +208,6 @@ declare module "hardhat/types/runtime" {
       name: "WAVAX",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.WAVAX__factory>;
-    getContractFactory(
-      name: "PodLeader",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.PodLeader__factory>;
     getContractFactory(
       name: "PodLeader",
       signerOrOptions?: ethers.Signer | FactoryOptions
