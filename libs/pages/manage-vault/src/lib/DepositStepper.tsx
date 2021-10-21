@@ -228,7 +228,7 @@ export const DepositStepper: FC<StepperProps> = ({
       ),
       messages: {
         loading: `Approving ${tokenInfo[token].display}...`,
-        success: 'Succesfully approved!',
+        success: 'successfully approved!',
         error: `Failed to approve ${tokenInfo[token].display}.`,
       },
       mutates: [tokenApprovedMutate],

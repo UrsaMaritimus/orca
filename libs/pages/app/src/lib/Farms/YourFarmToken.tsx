@@ -79,7 +79,7 @@ export const YourFarmInfo: FC = () => {
             transaction: depositFarm(library, chainId, Number(val.pid), 0),
             messages: {
               loading: `Claiming reward...`,
-              success: 'Succesfully claimed!',
+              success: 'Successfully claimed!',
               error: `Failed to claim.`,
             },
             mutates: [mutateRewardTokenPending],
