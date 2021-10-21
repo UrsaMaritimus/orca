@@ -41,7 +41,7 @@ export const FakeUSDCFaucet: FC<ExchangeProps> = ({ token, usdBalance }) => {
       ),
       messages: {
         loading: 'Minting USDC...',
-        success: 'Succesfully minted!',
+        success: 'successfully minted!',
         error: 'Failed to mint USDC.',
       },
       chainId,

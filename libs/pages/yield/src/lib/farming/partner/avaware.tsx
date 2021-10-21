@@ -14,7 +14,7 @@ import { useTheme } from '@mui/material/styles';
 
 import { NextLink } from '@orca/components/links';
 
-export const SingularFarm: FC = () => {
+export const AvawareFarm: FC = () => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -24,7 +24,7 @@ export const SingularFarm: FC = () => {
         py: 2,
         px: 1,
         mb: 2,
-        background: `linear-gradient(135deg, #5c5c5c 0%, #999999 10%, ${theme.palette.primary.lighter} 100%)`,
+        background: `linear-gradient(135deg, #b01647 0%, #a969a9 10%, ${theme.palette.primary.lighter} 100%)`,
       }}
     >
       <Grid container alignItems="center" spacing={1}>
@@ -38,13 +38,13 @@ export const SingularFarm: FC = () => {
           <Stack alignItems="center" direction="row" spacing={1}>
             <Box
               component="img"
-              src={'/static/farm/ic_usdc_avai.svg'}
+              src={'/static/farm/ic_avaware_orca.png'}
               sx={{ width: 44, height: 44 }}
               color="grey.700"
             />
             <Stack alignItems={matches ? 'center' : 'flex-start'}>
               <Typography sx={{ color: 'grey.800' }} variant="h6">
-                USDC-AVAI
+                AVE-ORCA
               </Typography>
               <Typography sx={{ color: 'grey.700' }} variant="caption">
                 Asset
@@ -63,13 +63,13 @@ export const SingularFarm: FC = () => {
           <Stack alignItems="center" direction="row" spacing={1}>
             <Box
               component="img"
-              src={'/static/cryptos/ic_sing.svg'}
+              src={'/static/cryptos/ic_avaware.png'}
               sx={{ width: 44, height: 44 }}
               color="grey.700"
             />
             <Stack alignItems="center">
               <Typography sx={{ color: 'grey.800' }} variant="h6">
-                SING
+                AVE
               </Typography>
               <Typography sx={{ color: 'grey.700' }} variant="caption">
                 Reward
@@ -82,12 +82,12 @@ export const SingularFarm: FC = () => {
             <Stack direction="row" alignItems="center" spacing={1}>
               <Box
                 component="img"
-                src={'/static/cryptos/ic_sing.svg'}
+                src={'/static/cryptos/ic_avaware.png'}
                 sx={{ width: 25, height: 25 }}
                 color="grey.700"
               />
               <Typography sx={{ color: 'grey.800' }} variant="h6">
-                Singular
+                AVAWARE
               </Typography>
             </Stack>
             <Typography sx={{ color: 'grey.700' }} variant="caption">
@@ -99,7 +99,7 @@ export const SingularFarm: FC = () => {
         <Grid item xs={6} md={4} display="flex" justifyContent="center">
           <Stack alignItems="center">
             <NextLink
-              href={'https://singular.farm/farm/17'}
+              href={'https://avaware.network/farms'}
               underline="hover"
               rel="noreferrer"
               variant="subtitle2"

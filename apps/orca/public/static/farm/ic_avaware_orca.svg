@@ -3,16 +3,11 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 254 254" style="enable-background:new 0 0 254 254;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill-rule:evenodd;clip-rule:evenodd;fill:#E84142;}
+	.st0{fill:url(#SVGID_1_);}
 	.st1{fill:#FFFFFF;}
-	.st2{fill:url(#SVGID_1_);}
 </style>
-<g>
-	<circle class="st0" cx="85.6" cy="85.6" r="85.6"/>
-	<path class="st1" d="M115.8,87.9c3-5.1,7.8-5.1,10.7,0l18.5,32.4c3,5.1,0.5,9.3-5.4,9.3h-37.2c-5.9,0-8.3-4.2-5.4-9.3L115.8,87.9z
-		 M80.1,25.4c3-5.1,7.7-5.1,10.7,0l4.1,7.4l9.7,17.1c2.4,4.9,2.4,10.6,0,15.4L72,121.8c-3,4.6-7.9,7.5-13.3,7.8h-27
-		c-5.9,0-8.4-4.1-5.4-9.3L80.1,25.4z"/>
-</g>
+<image style="overflow:visible;" width="512" height="512" xlink:href="C:\Users\Kyle\Downloads\avaware.png"  transform="matrix(0.3519 0 0 0.3519 0 0)">
+</image>
 <g id="Layer_2_00000058582987011823929040000016561715692950224273_">
 	<g id="Icon_Name">
 		
@@ -23,7 +18,7 @@
 			<stop  offset="0.7258" style="stop-color:#239DAC"/>
 			<stop  offset="0.8571" style="stop-color:#2196BC"/>
 		</linearGradient>
-		<circle class="st2" cx="166.6" cy="166.3" r="87.7"/>
+		<circle class="st0" cx="166.6" cy="166.3" r="87.7"/>
 		<path class="st1" d="M113,225.1c4.6-4.2,8.6-9,12-14.2c2.9-5.5,5.2-11.3,6.7-17.4c3-12.4,4.6-24.4,7.8-37.2
 			c5.8-27,27.2-47.8,54.3-53.1c6.9-0.8,14-0.2,20.7,1.9c1.9,0.6,3.8,1.4,5.5,2.5c1.5,0.9,2.6,2.3,3.3,4c0.6,1.6,0.4,3.4-0.4,4.9
 			c-0.5,0.8-1.1,1.5-1.7,2c-2.3,1.8-4.4,3.9-6.2,6.2c-6.6,9.9-10.7,21.2-12.1,33c-2.2,11.9-2,24.1,0.4,36c1.9,12.1,7.9,23.3,17,31.5

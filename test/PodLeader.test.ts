@@ -122,7 +122,7 @@ describe('Pod Leader test', function () {
       );
     });
 
-    it('succesfully adds ORCA single staking pool', async () => {
+    it('successfully adds ORCA single staking pool', async () => {
       const ALLOC_POINTS = '10';
       const DEPOSIT_FEE = 75;
       const initNumPools = await podLeader.poolLength();

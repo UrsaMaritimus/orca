@@ -22,10 +22,10 @@ import { routes } from '@orca/shared/base';
 const banners = [
   {
     id: 0,
-    title: 'OrcaDAO Introduction',
-    description: 'Learn about the OrcaDAO',
-    image: '/static/images/LaunchBanner.svg',
-    link: routes.MEDIUM.INTRODUCTION,
+    title: 'Lydia Partnership',
+    description: 'Orca teams up with Lydia',
+    image: '/static/images/Lydia Partnership.png',
+    link: routes.MEDIUM.LYDIA,
   },
   {
     id: 1,
@@ -36,10 +36,10 @@ const banners = [
   },
   {
     id: 2,
-    title: 'OrcaDAO Launch',
-    description: 'Welcome to the OrcaDAO',
-    image: '/static/images/IntroBanner.png',
-    link: routes.MEDIUM.LAUNCH,
+    title: 'AVAWARE Partnership',
+    description: 'Orca teams up with AVAWARE',
+    image: '/static/images/Avaware Partnership.png',
+    link: routes.MEDIUM.AVAWARE,
   },
 ];
 

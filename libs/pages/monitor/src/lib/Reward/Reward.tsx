@@ -39,7 +39,7 @@ export const VaultReward: FC<VaultRewardProps> = ({ token }) => {
       transaction: getReward(library, chainId, tokenInfo[token].erc20, account),
       messages: {
         loading: 'Getting reward...',
-        success: 'Succesfully claimed reward!',
+        success: 'successfully claimed reward!',
         error: 'Failed to claim reward.',
       },
       chainId,

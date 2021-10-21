@@ -183,7 +183,7 @@ describe('Orca Staking test', function () {
       );
     });
 
-    it('succesfully adds ORCA single staking pool', async () => {
+    it('successfully adds ORCA single staking pool', async () => {
       const ALLOC_POINTS = '10';
       const initNumPools = await staking.poolLength();
       const initTotalAllocPoints = await staking.totalAllocPoint();

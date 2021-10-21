@@ -17,6 +17,8 @@ import { AvaiOrcaFarm } from './AVAI-ORCA';
 import { AvaiUsdcFarm } from './AVAI-USDC';
 import { AvaxOrcaFarm } from './AVAX-ORCA';
 import { SingularFarm } from './partner/singular';
+import { AvawareFarm } from './partner/avaware';
+import { LydiaFarm } from './partner/lydia';
 
 const RootStyle = styled(Page)(({ theme }) => ({
   paddingTop: theme.spacing(3),
@@ -106,6 +108,10 @@ export const Farming: FC = () => {
         </Card>
 
         <SingularFarm />
+        <AvawareFarm />
+        {
+          //<LydiaFarm />
+        }
       </Container>
     </RootStyle>
   );

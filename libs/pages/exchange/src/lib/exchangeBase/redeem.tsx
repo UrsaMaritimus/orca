@@ -152,7 +152,7 @@ export const Redeem: FC<MintProps> = ({
       ),
       messages: {
         loading: 'Redeeming USDC...',
-        success: 'Succesfully redeemed!',
+        success: 'successfully redeemed!',
         error: 'Failed to redeem usdc.',
       },
       mutates,

@@ -166,7 +166,7 @@ export const Mint: FC<MintProps> = ({
       ),
       messages: {
         loading: 'Approving USDC...',
-        success: 'Succesfully approved!',
+        success: 'successfully approved!',
         error: 'Failed to approve USDC.',
       },
       mutates: [usdcApprovedMutate],
@@ -189,7 +189,7 @@ export const Mint: FC<MintProps> = ({
       ),
       messages: {
         loading: 'Minting AVAI...',
-        success: 'Succesfully minted!',
+        success: 'Successfully minted!',
         error: 'Failed to mint AVAI.',
       },
       mutates,

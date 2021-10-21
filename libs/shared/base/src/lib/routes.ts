@@ -23,6 +23,10 @@ export const routes = {
       'https://medium.com/@OrcaDAO/introducing-orcadao-avalanches-native-stablecoin-protocol-2461a25b854d',
     SEAFUND: 'https://medium.com/@OrcaDAO/the-orcadao-seafund-dc2ee5b58a4d',
     LAUNCH: 'https://medium.com/@OrcaDAO/orcadao-protocol-is-live-2276b31eb398',
+    LYDIA:
+      'https://medium.com/@OrcaDAO/lydia-orcadao-partnership-announcement-cdeab9cf4668',
+    AVAWARE:
+      'https://medium.com/@OrcaDAO/avaware-orcadao-partnership-b2d8620744cd',
   },
   LANDING: {
     MEDIUM: 'https://medium.com/@OrcaDAO',

@@ -199,7 +199,7 @@ describe('Stablecoin', async function () {
     ).to.changeTokenBalance(avai, accounts[1], -50000);
   });
 
-  it('Succesfully adds vaults', async () => {
+  it('successfully adds vaults', async () => {
     await expect(
       avai.addBank(
         150,
