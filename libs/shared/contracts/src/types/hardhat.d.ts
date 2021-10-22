@@ -209,6 +209,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.WAVAX__factory>;
     getContractFactory(
+      name: "StormSingleStaking",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.StormSingleStaking__factory>;
+    getContractFactory(
       name: "PodLeader",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.PodLeader__factory>;

@@ -1,5 +1,13 @@
 subscription GeneralStakingInfo @api(name: orca) {
-  stakings(first: 1) {
+  staking(id: "0xA3654801Ba6FB21d5A984F9a857441395dDeccFb") {
+    totalStaked
+    avaxPerSec
+    totalAllocPoints
+  }
+}
+
+subscription PartnerStakingInfo($id: ID!) @api(name: orca) {
+  staking(id: $id) {
     totalStaked
     avaxPerSec
     totalAllocPoints
@@ -10,6 +18,9 @@ subscription UserStakingInfo($id: ID!) @api(name: orca) {
   user(id: $id) {
     staking {
       staked
+      staking {
+        id
+      }
     }
   }
 }

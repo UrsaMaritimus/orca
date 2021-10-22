@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { styled } from '@mui/material/styles';
 
 import { useWeb3React } from '@web3-react/core';
@@ -18,14 +18,27 @@ import { OrcaStaking } from './Staking';
 import { useMonitorFarms } from './StakeData/getYieldData';
 import { tokenInfo } from '@orca/shared/base';
 import { fNumber } from '@orca/util';
+import { StormStaking } from './Partner/Storm';
+import exp from 'constants';
+
+// -------------------------------------------------------
 const RootStyle = styled(Page)(({ theme }) => ({
   paddingTop: theme.spacing(3),
   paddingBottom: theme.spacing(15),
 }));
 
+// -------------------------------------------------------
+
 export const Staking: FC = () => {
   const { account, chainId } = useWeb3React<Web3Provider>();
   const { loading, data } = useMonitorFarms(account, chainId);
+
+  const [expanded, setExpanded] = useState<string | false>(false);
+
+  const handleChange =
+    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : false);
+    };
   // Default return
   return (
     <RootStyle title={`Staking | ${process.env.NEXT_PUBLIC_TITLE}`}>
@@ -87,6 +100,26 @@ export const Staking: FC = () => {
         </Card>
 
         <OrcaStaking account={account} chainId={chainId} />
+
+        <Card
+          sx={{
+            my: 3,
+            height: 115,
+            position: 'relative',
+          }}
+        >
+          <CardHeader
+            title={'Partner Staking'}
+            subheader={'Stake your ORCA and earn partner tokens!'}
+          />
+        </Card>
+
+        <StormStaking
+          account={account}
+          chainId={chainId}
+          handleChange={handleChange}
+          expanded={expanded}
+        />
       </Container>
     </RootStyle>
   );

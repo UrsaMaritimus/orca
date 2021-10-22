@@ -16,6 +16,7 @@ export {
   useBankMcpSubscription,
   useUserStakingInfoSubscription,
   useGeneralStakingInfoSubscription,
+  usePartnerStakingInfoSubscription,
 } from './orca';
 export {
   useGetTokenDataSubscription,

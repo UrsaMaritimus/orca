@@ -73,6 +73,16 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     display: 'USDC.e',
     decimals: 18,
   },
+  STORM: {
+    address: {
+      mainnet: '0x6AFD5A1ea4b793CC1526d6Dc7e99A608b356eF7b'.toLowerCase(),
+      fuji: contracts.fuji.ORCA.address.toLowerCase(),
+    },
+    icon: '/static/cryptos/ic_storm.svg',
+    erc20: 'storm',
+    display: 'STORM',
+    decimals: 18,
+  },
   'USDC-AVAI': {
     address: {
       mainnet: '0xeD7a2B4054757Cfdb632Af15Ad528624F0fFf3B0'.toLowerCase(),

@@ -5,8 +5,6 @@ import '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
 import '@openzeppelin/contracts/security/ReentrancyGuard.sol';
 import '@openzeppelin/contracts/access/Ownable.sol';
 
-import 'hardhat/console.sol';
-
 // Built off Yak's MasterYak, with alterations to allow for transfers of ERC20 instead of AVAX.
 // Good luck and have fun
 contract SingleStaking is Ownable, ReentrancyGuard {
