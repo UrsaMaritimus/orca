@@ -13,17 +13,20 @@ import {
   Stack,
   Tab,
   Container,
-  fabClasses,
+  TablePagination,
+  Button,
+  Grid,
+  Paper,
 } from '@mui/material';
-import { TabList, TabPanel, TabContext } from '@mui/lab';
 
 import { Page } from '@orca/components/page';
 import { Connect } from '@orca/components/connect';
-import { AvaxVaults } from './crypto/AVAX';
-import { EthVaults } from './crypto/wETH';
-import { BtcVaults } from './crypto/wBTC';
-import { ScrollBar } from '@orca/components/scroll-bar';
 import { Loader } from '@orca/components/loader';
+import { NextLink } from '@orca/components/links';
+
+import { useGetVaults } from './useVault';
+import { VaultCard } from './VaultCard';
+import { routes } from '@orca/shared/base';
 
 //--------------------------------------------------------------------------
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -31,135 +34,103 @@ const RootStyle = styled(Page)(({ theme }) => ({
   paddingBottom: theme.spacing(15),
 }));
 
-const CollateralStyle = styled(Container)(({ theme }) => ({
-  paddingTop: theme.spacing(2),
-  paddingBottom: theme.spacing(2),
-}));
-
 //--------------------------------------------------------------------------
 
-const collaterals = (
-  account: string,
-  library: Web3Provider,
-  chainId: number
-) => [
-  {
-    disabled: false,
-    icon: '/static/cryptos/ic_avax.svg',
-    value: '1',
-    component: (
-      <AvaxVaults account={account} library={library} chainId={chainId} />
-    ),
-    title: 'AVAX',
-  },
-  {
-    disabled: false,
-    icon: '/static/cryptos/ic_eth.svg',
-    value: '2',
-    component: (
-      <EthVaults account={account} library={library} chainId={chainId} />
-    ),
-    title: 'ETH',
-  },
-  {
-    disabled: false,
-    icon: '/static/cryptos/ic_wbtc.svg',
-    value: '3',
-    component: (
-      <BtcVaults account={account} library={library} chainId={chainId} />
-    ),
-    title: 'BTC',
-  },
-];
-
 export function Vaults(props) {
-  const [value, setValue] = useState('1');
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
   };
 
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
   const { account, library, chainId } = useWeb3React<Web3Provider>();
 
-  const shouldFetch = !!library;
-
+  const { loading, rows } = useGetVaults(library, chainId, account);
   // Default return
   return (
     <Connect title={'Vaults'}>
       <RootStyle title={`Vaults | ${process.env.NEXT_PUBLIC_TITLE}`}>
-        <TabContext value={value}>
-          <Container maxWidth="sm">
-            <Card
-              sx={{
-                mb: 3,
-                height: 180,
-                position: 'relative',
-              }}
-            >
-              <CardHeader
-                title={'Choose your vault type'}
-                subheader={'This will be used as collateral'}
-              />
-              <ScrollBar>
-                <CollateralStyle>
-                  <TabList
-                    onChange={handleChange}
-                    scrollButtons="auto"
-                    variant="scrollable"
-                    allowScrollButtonsMobile
-                  >
-                    {collaterals(account, library, chainId).map((data) => (
-                      <Tab
-                        icon={
-                          <Stack
-                            alignItems="center"
-                            justifyContent="center"
-                            direction="row"
-                          >
-                            <Box
-                              component="img"
-                              src={data.icon}
-                              sx={{
-                                width: 30,
-                                height: 30,
-                                opacity: data.disabled ? 0.1 : 1,
-                              }}
-                              color="inherit"
-                            />
-                            <Typography
-                              variant="h6"
-                              sx={{
-                                color: data.disabled ? 'disabled' : 'inherit',
-                                ml: 0.5,
-                              }}
-                            >
-                              {data.title}
-                            </Typography>
-                          </Stack>
-                        }
-                        key={data.value}
-                        value={data.value}
-                        disabled={data.disabled}
-                      />
-                    ))}
-                  </TabList>
-                </CollateralStyle>
-              </ScrollBar>
-            </Card>
+        <Container maxWidth="md">
+          <Card
+            sx={{
+              mb: 3,
+              pb: 3,
+              position: 'relative',
+            }}
+          >
+            <CardHeader
+              title={'Your vaults'}
+              subheader={'Manage your borrowing here'}
+              action={
+                <Button
+                  href={routes.APP.VAULTS.CREATE}
+                  LinkComponent={NextLink}
+                  sx={{ mt: 2, mb: 2, textAlign: 'center' }}
+                  variant="contained"
+                  size="large"
+                  color="primary"
+                >
+                  <Typography>Create Vault</Typography>
+                </Button>
+              }
+            />
+          </Card>
 
-            {shouldFetch ? (
-              collaterals(account, library, chainId).map((data) => (
-                <TabPanel key={data.value} value={data.value}>
-                  {data.component}
-                </TabPanel>
-              ))
+          {!loading ? (
+            rows ? (
+              <Grid container>
+                <Grid item xs={12}>
+                  {rows
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((data) => (
+                      <VaultCard row={data} />
+                    ))}
+                </Grid>
+                <Grid item xs={12}>
+                  <TablePagination
+                    component="div"
+                    page={page}
+                    count={rows.length}
+                    rowsPerPage={rowsPerPage}
+                    onPageChange={handleChangePage}
+                    rowsPerPageOptions={[5, 10, 25]}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                  />
+                </Grid>
+              </Grid>
             ) : (
-              <Card>
-                <Loader />
-              </Card>
-            )}
-          </Container>
-        </TabContext>
+              <Stack alignItems="center">
+                <Typography
+                  variant="h1"
+                  color="inherit"
+                  sx={{ mt: 2, mb: 2, textAlign: 'center' }}
+                >
+                  No vaults created yet.
+                </Typography>
+
+                <Button
+                  href={routes.APP.VAULTS.CREATE}
+                  LinkComponent={NextLink}
+                  sx={{ mt: 2, mb: 2, textAlign: 'center' }}
+                  variant="contained"
+                  size="large"
+                  color="primary"
+                >
+                  <Typography>Create a vault to start!</Typography>
+                </Button>
+              </Stack>
+            )
+          ) : (
+            <Card>
+              <Loader />
+            </Card>
+          )}
+        </Container>
       </RootStyle>
     </Connect>
   );

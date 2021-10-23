@@ -1,4 +1,5 @@
 import contracts from '@orca/shared/deployments';
+
 //-----------------------------------------
 
 type TokenInfo = {
@@ -6,6 +7,7 @@ type TokenInfo = {
   erc20: string;
   display: string;
   decimals: number;
+  symbol: string;
   address: {
     mainnet: string;
     fuji: string;
@@ -21,6 +23,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     icon: '/static/cryptos/ic_avax.svg',
     erc20: 'wavax',
     display: 'AVAX',
+    symbol: 'WAVAX',
     decimals: 18,
   },
   AVAI: {
@@ -31,6 +34,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     icon: '/static/cryptos/ic_avai.svg',
     erc20: 'avai',
     display: 'AVAI',
+    symbol: 'AVAI',
     decimals: 18,
   },
   ETH: {
@@ -41,6 +45,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     icon: '/static/cryptos/ic_eth.svg',
     erc20: 'weth',
     display: 'WETH.e',
+    symbol: 'WETH.e',
     decimals: 18,
   },
   BTC: {
@@ -51,6 +56,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     icon: '/static/cryptos/ic_wbtc.svg',
     erc20: 'wbtc',
     display: 'WBTC.e',
+    symbol: 'WBTC.e',
     decimals: 8,
   },
   ORCA: {
@@ -61,6 +67,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     icon: '/static/cryptos/ic_orca.svg',
     erc20: 'orca',
     display: 'ORCA',
+    symbol: 'ORCA',
     decimals: 18,
   },
   USDC: {
@@ -71,6 +78,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     icon: '/static/cryptos/ic_usdc.svg',
     erc20: 'usdc.e',
     display: 'USDC.e',
+    symbol: 'USDC.e',
     decimals: 18,
   },
   STORM: {
@@ -81,6 +89,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     icon: '/static/cryptos/ic_storm.svg',
     erc20: 'storm',
     display: 'STORM',
+    symbol: 'STORM',
     decimals: 18,
   },
   'USDC-AVAI': {
@@ -91,6 +100,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     icon: '/static/farm/ic_usdc_avai.svg',
     erc20: 'USDC-AVAI',
     display: 'USDC.e-AVAI',
+    symbol: 'USDC.e-AVAI',
     decimals: 18,
   },
   'AVAI-ORCA': {
@@ -101,6 +111,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     icon: '/static/farm/ic_avai_orca.svg',
     erc20: 'AVAI-ORCA',
     display: 'AVAI-ORCA',
+    symbol: 'AVAI-ORCA',
     decimals: 18,
   },
   'AVAX-ORCA': {
@@ -110,7 +121,8 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     },
     icon: '/static/farm/ic_avax_orca.svg',
     erc20: 'AVAX-ORCA',
-    display: 'AVAI-ORCA',
+    display: 'AVAX-ORCA',
+    symbol: 'AVAX-ORCA',
     decimals: 18,
   },
 };

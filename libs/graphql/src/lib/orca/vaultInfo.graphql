@@ -19,7 +19,25 @@ subscription UserVaults($user: String!, $bank: String!) @api(name: orca) {
     number
     debt
     bank {
+      id
       treasury
+    }
+  }
+}
+
+subscription NewUserVaults($user: String!) @api(name: orca) {
+  vaults(where: { user: $user }) {
+    id
+    collateral
+    number
+    debt
+    bank {
+      id
+      treasury
+      token {
+        symbol
+        decimals
+      }
     }
   }
 }

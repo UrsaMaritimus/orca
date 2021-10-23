@@ -10,3 +10,9 @@ export const VaultContracts = {
     wbtc: '0x1eA60d781376C06693dFB21d7e5951cAEc13F7E4',
   },
 };
+
+export const VaultTypes = [
+  { name: 'wavax', symbol: 'WAVAX' },
+  { name: 'weth', symbol: 'WETH.e' },
+  { name: 'wbtc', symbol: 'WBTC.e' },
+];

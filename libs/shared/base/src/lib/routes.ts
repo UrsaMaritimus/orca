@@ -9,6 +9,7 @@ export const routes = {
     VAULTS: {
       USER: '/vaults',
       MONITOR: '/monitor',
+      CREATE: '/vaults/create',
     },
     EXCHANGE: {
       USDC: '/exchange/usdc',

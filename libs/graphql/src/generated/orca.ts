@@ -1911,7 +1911,14 @@ export type UserVaultsSubscriptionVariables = Exact<{
 }>;
 
 
-export type UserVaultsSubscription = { __typename?: 'Subscription', vaults: Array<{ __typename?: 'Vault', id: string, collateral: any, number: number, debt: any, bank: { __typename?: 'Bank', treasury: any } }> };
+export type UserVaultsSubscription = { __typename?: 'Subscription', vaults: Array<{ __typename?: 'Vault', id: string, collateral: any, number: number, debt: any, bank: { __typename?: 'Bank', id: string, treasury: any } }> };
+
+export type NewUserVaultsSubscriptionVariables = Exact<{
+  user: Scalars['String'];
+}>;
+
+
+export type NewUserVaultsSubscription = { __typename?: 'Subscription', vaults: Array<{ __typename?: 'Vault', id: string, collateral: any, number: number, debt: any, bank: { __typename?: 'Bank', id: string, treasury: any, token: { __typename?: 'Token', symbol: string, decimals: any } } }> };
 
 export type VaultInfoSubscriptionVariables = Exact<{
   vaultID: Scalars['ID'];
@@ -2434,6 +2441,7 @@ export const UserVaultsDocument = gql`
     number
     debt
     bank {
+      id
       treasury
     }
   }
@@ -2463,6 +2471,47 @@ export function useUserVaultsSubscription(baseOptions: ApolloReactHooks.Subscrip
       }
 export type UserVaultsSubscriptionHookResult = ReturnType<typeof useUserVaultsSubscription>;
 export type UserVaultsSubscriptionResult = Apollo.SubscriptionResult<UserVaultsSubscription>;
+export const NewUserVaultsDocument = gql`
+    subscription NewUserVaults($user: String!) @api(name: orca) {
+  vaults(where: {user: $user}) {
+    id
+    collateral
+    number
+    debt
+    bank {
+      id
+      treasury
+      token {
+        symbol
+        decimals
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useNewUserVaultsSubscription__
+ *
+ * To run a query within a React component, call `useNewUserVaultsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useNewUserVaultsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useNewUserVaultsSubscription({
+ *   variables: {
+ *      user: // value for 'user'
+ *   },
+ * });
+ */
+export function useNewUserVaultsSubscription(baseOptions: ApolloReactHooks.SubscriptionHookOptions<NewUserVaultsSubscription, NewUserVaultsSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useSubscription<NewUserVaultsSubscription, NewUserVaultsSubscriptionVariables>(NewUserVaultsDocument, options);
+      }
+export type NewUserVaultsSubscriptionHookResult = ReturnType<typeof useNewUserVaultsSubscription>;
+export type NewUserVaultsSubscriptionResult = Apollo.SubscriptionResult<NewUserVaultsSubscription>;
 export const VaultInfoDocument = gql`
     subscription VaultInfo($vaultID: ID!) @api(name: orca) {
   vault(id: $vaultID) {

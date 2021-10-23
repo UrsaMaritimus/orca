@@ -51,7 +51,7 @@ export const useGetVaults = (
             return {
               vaultID: BigNumber.from(vault.number).toNumber().toString(),
               collateral:
-                vault.id === '0x1'
+                vault.id === '0x1-' + vault.bank.id
                   ? utils.formatEther(vault.bank.treasury)
                   : utils.formatUnits(collateral, tokenInfo[token].decimals),
               debt: utils.formatEther(debt),
