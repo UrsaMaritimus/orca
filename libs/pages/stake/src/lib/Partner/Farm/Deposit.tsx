@@ -32,6 +32,7 @@ import {
 } from '@orca/shared/funcs';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 import { fNumber } from '@orca/util';
+import { tokenInfo } from '@orca/shared/base';
 
 const ReturnTextField = styled(TextField)(({ theme }) => ({
   '& .MuiInputBase-input': {
@@ -74,7 +75,16 @@ export const Deposit: FC<DepositProps> = ({
   const shouldFetch = !!library;
 
   const { data: farmBalance, mutate: mutateFarmBalance } = useSWR(
-    shouldFetch ? [`tokenBalance${name}`, library, account, farm] : null,
+    shouldFetch
+      ? [
+          `tokenBalance${name}`,
+          library,
+          account,
+          chainId === 43114
+            ? tokenInfo['ORCA'].address.mainnet
+            : tokenInfo['ORCA'].address.fuji,
+        ]
+      : null,
     getTokenBalancePartner()
   );
   const { data: tokenIsApproved, mutate: mutateTokenApproved } = useSWR(

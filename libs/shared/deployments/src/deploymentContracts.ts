@@ -7468,6 +7468,639 @@ export default {
             },
           ],
         },
+        StormSingleStaking: {
+          address: '0xDda3603B5162D73782665883a82aef86cEEFfaaf',
+          abi: [
+            {
+              inputs: [
+                {
+                  internalType: 'contract IERC20',
+                  name: '_rewardToken',
+                  type: 'address',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '_startTimestamp',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '_rewardsPerSecond',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'nonpayable',
+              type: 'constructor',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: 'uint256',
+                  name: 'oldEndTimestamp',
+                  type: 'uint256',
+                },
+                {
+                  indexed: true,
+                  internalType: 'uint256',
+                  name: 'newEndTimestamp',
+                  type: 'uint256',
+                },
+              ],
+              name: 'ChangedRewardsEndTimestamp',
+              type: 'event',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: 'uint256',
+                  name: 'oldRewardsPerSecond',
+                  type: 'uint256',
+                },
+                {
+                  indexed: true,
+                  internalType: 'uint256',
+                  name: 'newRewardsPerSecond',
+                  type: 'uint256',
+                },
+              ],
+              name: 'ChangedRewardsPerSecond',
+              type: 'event',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: 'address',
+                  name: 'user',
+                  type: 'address',
+                },
+                {
+                  indexed: true,
+                  internalType: 'uint256',
+                  name: 'pid',
+                  type: 'uint256',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'Deposit',
+              type: 'event',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: 'address',
+                  name: 'user',
+                  type: 'address',
+                },
+                {
+                  indexed: true,
+                  internalType: 'uint256',
+                  name: 'pid',
+                  type: 'uint256',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'EmergencyWithdraw',
+              type: 'event',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: 'address',
+                  name: 'previousOwner',
+                  type: 'address',
+                },
+                {
+                  indexed: true,
+                  internalType: 'address',
+                  name: 'newOwner',
+                  type: 'address',
+                },
+              ],
+              name: 'OwnershipTransferred',
+              type: 'event',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: 'uint256',
+                  name: 'pid',
+                  type: 'uint256',
+                },
+                {
+                  indexed: true,
+                  internalType: 'address',
+                  name: 'token',
+                  type: 'address',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'allocPoints',
+                  type: 'uint256',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'totalAllocPoints',
+                  type: 'uint256',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'rewardStartTimestamp',
+                  type: 'uint256',
+                },
+              ],
+              name: 'PoolAdded',
+              type: 'event',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: 'uint256',
+                  name: 'pid',
+                  type: 'uint256',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'oldAllocPoints',
+                  type: 'uint256',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'newAllocPoints',
+                  type: 'uint256',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'newTotalAllocPoints',
+                  type: 'uint256',
+                },
+              ],
+              name: 'PoolUpdated',
+              type: 'event',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: 'uint256',
+                  name: 'startTimestamp',
+                  type: 'uint256',
+                },
+              ],
+              name: 'SetRewardsStartTimestamp',
+              type: 'event',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: 'address',
+                  name: 'user',
+                  type: 'address',
+                },
+                {
+                  indexed: true,
+                  internalType: 'uint256',
+                  name: 'pid',
+                  type: 'uint256',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'Withdraw',
+              type: 'event',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'allocPoint',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'address',
+                  name: 'token',
+                  type: 'address',
+                },
+                {
+                  internalType: 'bool',
+                  name: 'withUpdate',
+                  type: 'bool',
+                },
+              ],
+              name: 'add',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'addRewardsBalance',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'addedRemainingBalance',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'pid',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'deposit',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'pid',
+                  type: 'uint256',
+                },
+              ],
+              name: 'emergencyWithdraw',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'endTimestamp',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'from',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'to',
+                  type: 'uint256',
+                },
+              ],
+              name: 'getMultiplier',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'massUpdatePools',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'owner',
+              outputs: [
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'pid',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'address',
+                  name: 'account',
+                  type: 'address',
+                },
+              ],
+              name: 'pendingRewards',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              name: 'poolInfo',
+              outputs: [
+                {
+                  internalType: 'contract IERC20',
+                  name: 'token',
+                  type: 'address',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'allocPoint',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'lastRewardTimestamp',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'accRewardsPerShare',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'totalStaked',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'poolLength',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'renounceOwnership',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'rewardToken',
+              outputs: [
+                {
+                  internalType: 'contract IERC20',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'rewardsActive',
+              outputs: [
+                {
+                  internalType: 'bool',
+                  name: '',
+                  type: 'bool',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'rewardsPerSecond',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'pid',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'allocPoint',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'bool',
+                  name: 'withUpdate',
+                  type: 'bool',
+                },
+              ],
+              name: 'set',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'newRewardsPerSecond',
+                  type: 'uint256',
+                },
+              ],
+              name: 'setRewardsPerSecond',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'startTimestamp',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'totalAllocPoint',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'newOwner',
+                  type: 'address',
+                },
+              ],
+              name: 'transferOwnership',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'pid',
+                  type: 'uint256',
+                },
+              ],
+              name: 'updatePool',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              name: 'userInfo',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'amount',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'rewardTokenDebt',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'pid',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'withdraw',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+          ],
+        },
         TeamPayment: {
           address: '0x327E60E06b6B7999A341d6aB4c90A305A540D7EB',
           abi: [
@@ -9754,639 +10387,6 @@ export default {
             {
               stateMutability: 'payable',
               type: 'receive',
-            },
-          ],
-        },
-        StormSingleStaking: {
-          address: '0xDda3603B5162D73782665883a82aef86cEEFfaaf',
-          abi: [
-            {
-              inputs: [
-                {
-                  internalType: 'contract IERC20',
-                  name: '_rewardToken',
-                  type: 'address',
-                },
-                {
-                  internalType: 'uint256',
-                  name: '_startTimestamp',
-                  type: 'uint256',
-                },
-                {
-                  internalType: 'uint256',
-                  name: '_rewardsPerSecond',
-                  type: 'uint256',
-                },
-              ],
-              stateMutability: 'nonpayable',
-              type: 'constructor',
-            },
-            {
-              anonymous: false,
-              inputs: [
-                {
-                  indexed: true,
-                  internalType: 'uint256',
-                  name: 'oldEndTimestamp',
-                  type: 'uint256',
-                },
-                {
-                  indexed: true,
-                  internalType: 'uint256',
-                  name: 'newEndTimestamp',
-                  type: 'uint256',
-                },
-              ],
-              name: 'ChangedRewardsEndTimestamp',
-              type: 'event',
-            },
-            {
-              anonymous: false,
-              inputs: [
-                {
-                  indexed: true,
-                  internalType: 'uint256',
-                  name: 'oldRewardsPerSecond',
-                  type: 'uint256',
-                },
-                {
-                  indexed: true,
-                  internalType: 'uint256',
-                  name: 'newRewardsPerSecond',
-                  type: 'uint256',
-                },
-              ],
-              name: 'ChangedRewardsPerSecond',
-              type: 'event',
-            },
-            {
-              anonymous: false,
-              inputs: [
-                {
-                  indexed: true,
-                  internalType: 'address',
-                  name: 'user',
-                  type: 'address',
-                },
-                {
-                  indexed: true,
-                  internalType: 'uint256',
-                  name: 'pid',
-                  type: 'uint256',
-                },
-                {
-                  indexed: false,
-                  internalType: 'uint256',
-                  name: 'amount',
-                  type: 'uint256',
-                },
-              ],
-              name: 'Deposit',
-              type: 'event',
-            },
-            {
-              anonymous: false,
-              inputs: [
-                {
-                  indexed: true,
-                  internalType: 'address',
-                  name: 'user',
-                  type: 'address',
-                },
-                {
-                  indexed: true,
-                  internalType: 'uint256',
-                  name: 'pid',
-                  type: 'uint256',
-                },
-                {
-                  indexed: false,
-                  internalType: 'uint256',
-                  name: 'amount',
-                  type: 'uint256',
-                },
-              ],
-              name: 'EmergencyWithdraw',
-              type: 'event',
-            },
-            {
-              anonymous: false,
-              inputs: [
-                {
-                  indexed: true,
-                  internalType: 'address',
-                  name: 'previousOwner',
-                  type: 'address',
-                },
-                {
-                  indexed: true,
-                  internalType: 'address',
-                  name: 'newOwner',
-                  type: 'address',
-                },
-              ],
-              name: 'OwnershipTransferred',
-              type: 'event',
-            },
-            {
-              anonymous: false,
-              inputs: [
-                {
-                  indexed: true,
-                  internalType: 'uint256',
-                  name: 'pid',
-                  type: 'uint256',
-                },
-                {
-                  indexed: true,
-                  internalType: 'address',
-                  name: 'token',
-                  type: 'address',
-                },
-                {
-                  indexed: false,
-                  internalType: 'uint256',
-                  name: 'allocPoints',
-                  type: 'uint256',
-                },
-                {
-                  indexed: false,
-                  internalType: 'uint256',
-                  name: 'totalAllocPoints',
-                  type: 'uint256',
-                },
-                {
-                  indexed: false,
-                  internalType: 'uint256',
-                  name: 'rewardStartTimestamp',
-                  type: 'uint256',
-                },
-              ],
-              name: 'PoolAdded',
-              type: 'event',
-            },
-            {
-              anonymous: false,
-              inputs: [
-                {
-                  indexed: true,
-                  internalType: 'uint256',
-                  name: 'pid',
-                  type: 'uint256',
-                },
-                {
-                  indexed: false,
-                  internalType: 'uint256',
-                  name: 'oldAllocPoints',
-                  type: 'uint256',
-                },
-                {
-                  indexed: false,
-                  internalType: 'uint256',
-                  name: 'newAllocPoints',
-                  type: 'uint256',
-                },
-                {
-                  indexed: false,
-                  internalType: 'uint256',
-                  name: 'newTotalAllocPoints',
-                  type: 'uint256',
-                },
-              ],
-              name: 'PoolUpdated',
-              type: 'event',
-            },
-            {
-              anonymous: false,
-              inputs: [
-                {
-                  indexed: true,
-                  internalType: 'uint256',
-                  name: 'startTimestamp',
-                  type: 'uint256',
-                },
-              ],
-              name: 'SetRewardsStartTimestamp',
-              type: 'event',
-            },
-            {
-              anonymous: false,
-              inputs: [
-                {
-                  indexed: true,
-                  internalType: 'address',
-                  name: 'user',
-                  type: 'address',
-                },
-                {
-                  indexed: true,
-                  internalType: 'uint256',
-                  name: 'pid',
-                  type: 'uint256',
-                },
-                {
-                  indexed: false,
-                  internalType: 'uint256',
-                  name: 'amount',
-                  type: 'uint256',
-                },
-              ],
-              name: 'Withdraw',
-              type: 'event',
-            },
-            {
-              inputs: [
-                {
-                  internalType: 'uint256',
-                  name: 'allocPoint',
-                  type: 'uint256',
-                },
-                {
-                  internalType: 'address',
-                  name: 'token',
-                  type: 'address',
-                },
-                {
-                  internalType: 'bool',
-                  name: 'withUpdate',
-                  type: 'bool',
-                },
-              ],
-              name: 'add',
-              outputs: [],
-              stateMutability: 'nonpayable',
-              type: 'function',
-            },
-            {
-              inputs: [
-                {
-                  internalType: 'uint256',
-                  name: 'amount',
-                  type: 'uint256',
-                },
-              ],
-              name: 'addRewardsBalance',
-              outputs: [],
-              stateMutability: 'nonpayable',
-              type: 'function',
-            },
-            {
-              inputs: [],
-              name: 'addedRemainingBalance',
-              outputs: [
-                {
-                  internalType: 'uint256',
-                  name: '',
-                  type: 'uint256',
-                },
-              ],
-              stateMutability: 'view',
-              type: 'function',
-            },
-            {
-              inputs: [
-                {
-                  internalType: 'uint256',
-                  name: 'pid',
-                  type: 'uint256',
-                },
-                {
-                  internalType: 'uint256',
-                  name: 'amount',
-                  type: 'uint256',
-                },
-              ],
-              name: 'deposit',
-              outputs: [],
-              stateMutability: 'nonpayable',
-              type: 'function',
-            },
-            {
-              inputs: [
-                {
-                  internalType: 'uint256',
-                  name: 'pid',
-                  type: 'uint256',
-                },
-              ],
-              name: 'emergencyWithdraw',
-              outputs: [],
-              stateMutability: 'nonpayable',
-              type: 'function',
-            },
-            {
-              inputs: [],
-              name: 'endTimestamp',
-              outputs: [
-                {
-                  internalType: 'uint256',
-                  name: '',
-                  type: 'uint256',
-                },
-              ],
-              stateMutability: 'view',
-              type: 'function',
-            },
-            {
-              inputs: [
-                {
-                  internalType: 'uint256',
-                  name: 'from',
-                  type: 'uint256',
-                },
-                {
-                  internalType: 'uint256',
-                  name: 'to',
-                  type: 'uint256',
-                },
-              ],
-              name: 'getMultiplier',
-              outputs: [
-                {
-                  internalType: 'uint256',
-                  name: '',
-                  type: 'uint256',
-                },
-              ],
-              stateMutability: 'view',
-              type: 'function',
-            },
-            {
-              inputs: [],
-              name: 'massUpdatePools',
-              outputs: [],
-              stateMutability: 'nonpayable',
-              type: 'function',
-            },
-            {
-              inputs: [],
-              name: 'owner',
-              outputs: [
-                {
-                  internalType: 'address',
-                  name: '',
-                  type: 'address',
-                },
-              ],
-              stateMutability: 'view',
-              type: 'function',
-            },
-            {
-              inputs: [
-                {
-                  internalType: 'uint256',
-                  name: 'pid',
-                  type: 'uint256',
-                },
-                {
-                  internalType: 'address',
-                  name: 'account',
-                  type: 'address',
-                },
-              ],
-              name: 'pendingRewards',
-              outputs: [
-                {
-                  internalType: 'uint256',
-                  name: '',
-                  type: 'uint256',
-                },
-              ],
-              stateMutability: 'view',
-              type: 'function',
-            },
-            {
-              inputs: [
-                {
-                  internalType: 'uint256',
-                  name: '',
-                  type: 'uint256',
-                },
-              ],
-              name: 'poolInfo',
-              outputs: [
-                {
-                  internalType: 'contract IERC20',
-                  name: 'token',
-                  type: 'address',
-                },
-                {
-                  internalType: 'uint256',
-                  name: 'allocPoint',
-                  type: 'uint256',
-                },
-                {
-                  internalType: 'uint256',
-                  name: 'lastRewardTimestamp',
-                  type: 'uint256',
-                },
-                {
-                  internalType: 'uint256',
-                  name: 'accRewardsPerShare',
-                  type: 'uint256',
-                },
-                {
-                  internalType: 'uint256',
-                  name: 'totalStaked',
-                  type: 'uint256',
-                },
-              ],
-              stateMutability: 'view',
-              type: 'function',
-            },
-            {
-              inputs: [],
-              name: 'poolLength',
-              outputs: [
-                {
-                  internalType: 'uint256',
-                  name: '',
-                  type: 'uint256',
-                },
-              ],
-              stateMutability: 'view',
-              type: 'function',
-            },
-            {
-              inputs: [],
-              name: 'renounceOwnership',
-              outputs: [],
-              stateMutability: 'nonpayable',
-              type: 'function',
-            },
-            {
-              inputs: [],
-              name: 'rewardToken',
-              outputs: [
-                {
-                  internalType: 'contract IERC20',
-                  name: '',
-                  type: 'address',
-                },
-              ],
-              stateMutability: 'view',
-              type: 'function',
-            },
-            {
-              inputs: [],
-              name: 'rewardsActive',
-              outputs: [
-                {
-                  internalType: 'bool',
-                  name: '',
-                  type: 'bool',
-                },
-              ],
-              stateMutability: 'view',
-              type: 'function',
-            },
-            {
-              inputs: [],
-              name: 'rewardsPerSecond',
-              outputs: [
-                {
-                  internalType: 'uint256',
-                  name: '',
-                  type: 'uint256',
-                },
-              ],
-              stateMutability: 'view',
-              type: 'function',
-            },
-            {
-              inputs: [
-                {
-                  internalType: 'uint256',
-                  name: 'pid',
-                  type: 'uint256',
-                },
-                {
-                  internalType: 'uint256',
-                  name: 'allocPoint',
-                  type: 'uint256',
-                },
-                {
-                  internalType: 'bool',
-                  name: 'withUpdate',
-                  type: 'bool',
-                },
-              ],
-              name: 'set',
-              outputs: [],
-              stateMutability: 'nonpayable',
-              type: 'function',
-            },
-            {
-              inputs: [
-                {
-                  internalType: 'uint256',
-                  name: 'newRewardsPerSecond',
-                  type: 'uint256',
-                },
-              ],
-              name: 'setRewardsPerSecond',
-              outputs: [],
-              stateMutability: 'nonpayable',
-              type: 'function',
-            },
-            {
-              inputs: [],
-              name: 'startTimestamp',
-              outputs: [
-                {
-                  internalType: 'uint256',
-                  name: '',
-                  type: 'uint256',
-                },
-              ],
-              stateMutability: 'view',
-              type: 'function',
-            },
-            {
-              inputs: [],
-              name: 'totalAllocPoint',
-              outputs: [
-                {
-                  internalType: 'uint256',
-                  name: '',
-                  type: 'uint256',
-                },
-              ],
-              stateMutability: 'view',
-              type: 'function',
-            },
-            {
-              inputs: [
-                {
-                  internalType: 'address',
-                  name: 'newOwner',
-                  type: 'address',
-                },
-              ],
-              name: 'transferOwnership',
-              outputs: [],
-              stateMutability: 'nonpayable',
-              type: 'function',
-            },
-            {
-              inputs: [
-                {
-                  internalType: 'uint256',
-                  name: 'pid',
-                  type: 'uint256',
-                },
-              ],
-              name: 'updatePool',
-              outputs: [],
-              stateMutability: 'nonpayable',
-              type: 'function',
-            },
-            {
-              inputs: [
-                {
-                  internalType: 'uint256',
-                  name: '',
-                  type: 'uint256',
-                },
-                {
-                  internalType: 'address',
-                  name: '',
-                  type: 'address',
-                },
-              ],
-              name: 'userInfo',
-              outputs: [
-                {
-                  internalType: 'uint256',
-                  name: 'amount',
-                  type: 'uint256',
-                },
-                {
-                  internalType: 'uint256',
-                  name: 'rewardTokenDebt',
-                  type: 'uint256',
-                },
-              ],
-              stateMutability: 'view',
-              type: 'function',
-            },
-            {
-              inputs: [
-                {
-                  internalType: 'uint256',
-                  name: 'pid',
-                  type: 'uint256',
-                },
-                {
-                  internalType: 'uint256',
-                  name: 'amount',
-                  type: 'uint256',
-                },
-              ],
-              name: 'withdraw',
-              outputs: [],
-              stateMutability: 'nonpayable',
-              type: 'function',
             },
           ],
         },
@@ -16640,6 +16640,626 @@ export default {
             {
               stateMutability: 'payable',
               type: 'receive',
+            },
+          ],
+        },
+        StormSingleStaking: {
+          address: '0xDcc614ee35e03e742C08779F40481dB81Cf8C0a8',
+          abi: [
+            {
+              inputs: [
+                {
+                  internalType: 'contract IERC20',
+                  name: '_rewardToken',
+                  type: 'address',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '_startTimestamp',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '_rewardsPerSecond',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'nonpayable',
+              type: 'constructor',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: 'uint256',
+                  name: 'oldEndTimestamp',
+                  type: 'uint256',
+                },
+                {
+                  indexed: true,
+                  internalType: 'uint256',
+                  name: 'newEndTimestamp',
+                  type: 'uint256',
+                },
+              ],
+              name: 'ChangedRewardsEndTimestamp',
+              type: 'event',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: 'uint256',
+                  name: 'oldRewardsPerSecond',
+                  type: 'uint256',
+                },
+                {
+                  indexed: true,
+                  internalType: 'uint256',
+                  name: 'newRewardsPerSecond',
+                  type: 'uint256',
+                },
+              ],
+              name: 'ChangedRewardsPerSecond',
+              type: 'event',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: 'address',
+                  name: 'user',
+                  type: 'address',
+                },
+                {
+                  indexed: true,
+                  internalType: 'uint256',
+                  name: 'pid',
+                  type: 'uint256',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'Deposit',
+              type: 'event',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: 'address',
+                  name: 'user',
+                  type: 'address',
+                },
+                {
+                  indexed: true,
+                  internalType: 'uint256',
+                  name: 'pid',
+                  type: 'uint256',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'EmergencyWithdraw',
+              type: 'event',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: 'address',
+                  name: 'previousOwner',
+                  type: 'address',
+                },
+                {
+                  indexed: true,
+                  internalType: 'address',
+                  name: 'newOwner',
+                  type: 'address',
+                },
+              ],
+              name: 'OwnershipTransferred',
+              type: 'event',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: 'uint256',
+                  name: 'pid',
+                  type: 'uint256',
+                },
+                {
+                  indexed: true,
+                  internalType: 'address',
+                  name: 'token',
+                  type: 'address',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'allocPoints',
+                  type: 'uint256',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'totalAllocPoints',
+                  type: 'uint256',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'rewardStartTimestamp',
+                  type: 'uint256',
+                },
+              ],
+              name: 'PoolAdded',
+              type: 'event',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: 'uint256',
+                  name: 'pid',
+                  type: 'uint256',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'oldAllocPoints',
+                  type: 'uint256',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'newAllocPoints',
+                  type: 'uint256',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'newTotalAllocPoints',
+                  type: 'uint256',
+                },
+              ],
+              name: 'PoolUpdated',
+              type: 'event',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: 'uint256',
+                  name: 'startTimestamp',
+                  type: 'uint256',
+                },
+              ],
+              name: 'SetRewardsStartTimestamp',
+              type: 'event',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: 'address',
+                  name: 'user',
+                  type: 'address',
+                },
+                {
+                  indexed: true,
+                  internalType: 'uint256',
+                  name: 'pid',
+                  type: 'uint256',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'Withdraw',
+              type: 'event',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'allocPoint',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'address',
+                  name: 'token',
+                  type: 'address',
+                },
+                {
+                  internalType: 'bool',
+                  name: 'withUpdate',
+                  type: 'bool',
+                },
+              ],
+              name: 'add',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'addRewardsBalance',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'pid',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'deposit',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'pid',
+                  type: 'uint256',
+                },
+              ],
+              name: 'emergencyWithdraw',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'endTimestamp',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'from',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'to',
+                  type: 'uint256',
+                },
+              ],
+              name: 'getMultiplier',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'massUpdatePools',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'owner',
+              outputs: [
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'pid',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'address',
+                  name: 'account',
+                  type: 'address',
+                },
+              ],
+              name: 'pendingRewards',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              name: 'poolInfo',
+              outputs: [
+                {
+                  internalType: 'contract IERC20',
+                  name: 'token',
+                  type: 'address',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'allocPoint',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'lastRewardTimestamp',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'accRewardsPerShare',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'totalStaked',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'poolLength',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'renounceOwnership',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'rewardToken',
+              outputs: [
+                {
+                  internalType: 'contract IERC20',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'rewardsActive',
+              outputs: [
+                {
+                  internalType: 'bool',
+                  name: '',
+                  type: 'bool',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'rewardsPerSecond',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'pid',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'allocPoint',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'bool',
+                  name: 'withUpdate',
+                  type: 'bool',
+                },
+              ],
+              name: 'set',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'newRewardsPerSecond',
+                  type: 'uint256',
+                },
+              ],
+              name: 'setRewardsPerSecond',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'startTimestamp',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'totalAllocPoint',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'newOwner',
+                  type: 'address',
+                },
+              ],
+              name: 'transferOwnership',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'pid',
+                  type: 'uint256',
+                },
+              ],
+              name: 'updatePool',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              name: 'userInfo',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'amount',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'rewardTokenDebt',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'pid',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'withdraw',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
             },
           ],
         },

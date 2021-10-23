@@ -16,7 +16,7 @@ export const getStaker = (
     chainId === 43113
       ? contracts.fuji[type].address
       : chainId === 43114
-      ? contracts.main[type].SingleStaking.address
+      ? contracts.main[type].address
       : null,
     signer ? library.getSigner() : library
   );

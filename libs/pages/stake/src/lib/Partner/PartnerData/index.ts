@@ -43,7 +43,7 @@ export const useMonitorFarms = (
 
   const { data: avaxPrice } = useAvaxPriceSubscription();
 
-  if (yieldData && userData && partnerPrice && avaxPrice) {
+  if (yieldData && userData && partnerPrice && avaxPrice && orcaPrice) {
     const avaxPerSec = Number(
       utils.formatEther(BigNumber.from(yieldData.staking.avaxPerSec))
     );

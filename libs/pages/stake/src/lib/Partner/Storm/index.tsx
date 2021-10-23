@@ -41,8 +41,11 @@ export const StormStaking: FC<AvaiProps> = ({
       contractName={'StormSingleStaking'}
       color2={'#6fa3ff'}
       color1={'#054dcc'}
-      //TODO Main net
-      farm={tokenInfo['STORM'].address.fuji.toLowerCase()}
+      farm={
+        chainId === 43114
+          ? tokenInfo['ORCA'].address.mainnet.toLowerCase()
+          : tokenInfo['STORM'].address.fuji.toLowerCase()
+      }
       link={
         'https://app.pangolin.exchange/#/add/0x8B1d98A91F853218ddbb066F20b8c63E782e2430/0x346A59146b9b4a77100D369a3d18E8007A9F46a6'
       }

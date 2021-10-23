@@ -7,7 +7,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   const { deployer } = await getNamedAccounts();
 
-  const storm = (await deployments.get('ORCA')).address;
+  const storm = '0x6AFD5A1ea4b793CC1526d6Dc7e99A608b356eF7b';
   const amount = 24500;
   // Get block number
   const { timestamp } = await ethers.provider.getBlock('latest');
@@ -16,7 +16,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     from: deployer,
     log: true,
     // Initial rate
-    args: [storm, timestamp + 600, ethers.utils.parseEther('0.01')],
+    args: [storm, timestamp + 7200, ethers.utils.parseEther('0.009176573')],
   });
 };
 export default func;

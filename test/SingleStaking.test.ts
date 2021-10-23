@@ -517,7 +517,7 @@ describe('Single staking test', function () {
       const { timestamp } = await ethers.provider.getBlock('latest');
 
       let poolInfo = await podLeader.poolInfo(poolIndex);
-      let newRewardsPerSecond = rewardsPerSecond;
+      let newRewardsPerSecond = rewardsPerSecond.div(2);
 
       const DURATION = 1 * 24 * 60 * 60;
       await ethers.provider.send('evm_setNextBlockTimestamp', [
@@ -530,21 +530,14 @@ describe('Single staking test', function () {
       expect(
         await podLeader.pendingRewards(poolIndex, accounts[1].address)
       ).to.be.closeTo(expectedRewardsAmount, expectedRewardsAmount.div(10));
-      const initAddedBalance = await podLeader.addedRemainingBalance();
-      // Harvest
-      await podLeader.connect(accounts[1]).deposit(poolIndex, 0);
-      // @ts-expect-error bignumber is not number
-      expect(await podLeader.addedRemainingBalance()).to.be.closeTo(
-        initAddedBalance.sub(expectedRewardsAmount),
-        expectedRewardsAmount.div(10)
-      );
+
       // Lets update now
       await podLeader.setRewardsPerSecond(newRewardsPerSecond);
       expect(await podLeader.rewardsPerSecond()).to.eq(newRewardsPerSecond);
 
       // Lets look ahead
       poolInfo = await podLeader.poolInfo(poolIndex);
-      expect(poolInfo.lastRewardTimestamp).to.eq(timestamp + DURATION + 2);
+      expect(poolInfo.lastRewardTimestamp).to.eq(timestamp + DURATION + 1);
       await ethers.provider.send('evm_setNextBlockTimestamp', [
         poolInfo.lastRewardTimestamp.toNumber() + DURATION,
       ]);
@@ -554,7 +547,7 @@ describe('Single staking test', function () {
       expect(
         await podLeader.pendingRewards(poolIndex, accounts[1].address)
       ).to.be.closeTo(
-        newRewardsPerSecond.mul(DURATION),
+        expectedRewardsAmount.add(newRewardsPerSecond.mul(DURATION)),
         newRewardsPerSecond.mul(DURATION).div('100')
       );
     });

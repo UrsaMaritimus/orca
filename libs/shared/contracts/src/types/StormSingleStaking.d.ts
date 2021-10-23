@@ -23,7 +23,6 @@ interface StormSingleStakingInterface extends ethers.utils.Interface {
   functions: {
     "add(uint256,address,bool)": FunctionFragment;
     "addRewardsBalance(uint256)": FunctionFragment;
-    "addedRemainingBalance()": FunctionFragment;
     "deposit(uint256,uint256)": FunctionFragment;
     "emergencyWithdraw(uint256)": FunctionFragment;
     "endTimestamp()": FunctionFragment;
@@ -54,10 +53,6 @@ interface StormSingleStakingInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "addRewardsBalance",
     values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "addedRemainingBalance",
-    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "deposit",
@@ -144,10 +139,6 @@ interface StormSingleStakingInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "add", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "addRewardsBalance",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "addedRemainingBalance",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "deposit", data: BytesLike): Result;
@@ -290,8 +281,6 @@ export class StormSingleStaking extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    addedRemainingBalance(overrides?: CallOverrides): Promise<[BigNumber]>;
-
     deposit(
       pid: BigNumberish,
       amount: BigNumberish,
@@ -401,8 +390,6 @@ export class StormSingleStaking extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  addedRemainingBalance(overrides?: CallOverrides): Promise<BigNumber>;
-
   deposit(
     pid: BigNumberish,
     amount: BigNumberish,
@@ -511,8 +498,6 @@ export class StormSingleStaking extends BaseContract {
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    addedRemainingBalance(overrides?: CallOverrides): Promise<BigNumber>;
 
     deposit(
       pid: BigNumberish,
@@ -706,8 +691,6 @@ export class StormSingleStaking extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    addedRemainingBalance(overrides?: CallOverrides): Promise<BigNumber>;
-
     deposit(
       pid: BigNumberish,
       amount: BigNumberish,
@@ -803,10 +786,6 @@ export class StormSingleStaking extends BaseContract {
     addRewardsBalance(
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    addedRemainingBalance(
-      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     deposit(

@@ -41,9 +41,6 @@ contract SingleStaking is Ownable, ReentrancyGuard {
   /// @notice Rewards rewarded per second
   uint256 public rewardsPerSecond;
 
-  /// @notice Added token balance remaining
-  uint256 public addedRemainingBalance;
-
   /// @notice Info of each pool.
   PoolInfo[] public poolInfo;
 
@@ -139,7 +136,6 @@ contract SingleStaking is Ownable, ReentrancyGuard {
   function addRewardsBalance(uint256 amount) external onlyOwner {
     massUpdatePools();
     rewardToken.safeTransferFrom(msg.sender, address(this), amount);
-    addedRemainingBalance += amount;
     _setRewardsEndTimestamp();
   }
 
@@ -388,7 +384,6 @@ contract SingleStaking is Ownable, ReentrancyGuard {
         user.rewardTokenDebt;
 
       if (pendingRewardAmount > 0) {
-        addedRemainingBalance -= pendingRewardAmount;
         _safeRewardsTransfer(msg.sender, pendingRewardAmount);
       }
     }
@@ -430,7 +425,6 @@ contract SingleStaking is Ownable, ReentrancyGuard {
     user.rewardTokenDebt = (user.amount * pool.accRewardsPerShare) / 1e12;
 
     if (pendingRewardAmount > 0) {
-      addedRemainingBalance -= pendingRewardAmount;
       _safeRewardsTransfer(msg.sender, pendingRewardAmount);
     }
 
@@ -463,19 +457,8 @@ contract SingleStaking is Ownable, ReentrancyGuard {
         ? block.timestamp
         : startTimestamp;
 
-      uint256 totalPendingRewards = 0;
-      for (uint256 pid = 0; pid < poolInfo.length; ++pid) {
-        uint256 multiplier = getMultiplier(
-          poolInfo[pid].lastRewardTimestamp,
-          block.timestamp
-        );
-        totalPendingRewards +=
-          (multiplier * rewardsPerSecond * poolInfo[pid].allocPoint) /
-          (totalAllocPoint);
-      }
-
       uint256 newEndTimestamp = rewardFromTimestamp +
-        (rewardToken.balanceOf(address(this)) - totalPendingRewards) /
+        (rewardToken.balanceOf(address(this))) /
         rewardsPerSecond;
 
       if (
