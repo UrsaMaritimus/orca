@@ -11,9 +11,9 @@ import { routes } from '@orca/shared/base';
 type VaultCardProps = {
   row: {
     vaultID: string;
-    collateral: string;
-    debt: string;
-    ratio: string;
+    collateral: number;
+    debt: number;
+    ratio: number;
     symbol: string;
     icon: string;
     type: string;
@@ -59,7 +59,7 @@ export const VaultCard: FC<VaultCardProps> = ({ row }) => {
             </Grid>
             <Grid item xs={6} md={2} display="flex" justifyContent="center">
               <Typography variant="subtitle1">
-                {fCurrency(Number(row.collateral))}
+                {fCurrency(row.collateral)}
               </Typography>
             </Grid>
             <Grid item xs={6} sx={{ display: { xs: 'block', md: 'none' } }}>
@@ -68,9 +68,7 @@ export const VaultCard: FC<VaultCardProps> = ({ row }) => {
               </Typography>
             </Grid>
             <Grid item xs={6} md={2} display="flex" justifyContent="center">
-              <Typography variant="subtitle1">
-                {fCurrency(Number(row.debt))}
-              </Typography>
+              <Typography variant="subtitle1">{fCurrency(row.debt)}</Typography>
             </Grid>
             <Grid item xs={6} sx={{ display: { xs: 'block', md: 'none' } }}>
               <Typography variant="h6" color="text.secondary">
@@ -81,13 +79,11 @@ export const VaultCard: FC<VaultCardProps> = ({ row }) => {
               item
               xs={6}
               md={2}
-              sx={{ color: colorScale(Number(row.ratio)) }}
+              sx={{ color: colorScale(row.ratio) }}
               display="flex"
               justifyContent="center"
             >
-              <Typography variant="subtitle1">
-                {fPercent(Number(row.ratio))}
-              </Typography>
+              <Typography variant="subtitle1">{fPercent(row.ratio)}</Typography>
             </Grid>
             <Grid
               item

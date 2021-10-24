@@ -69,7 +69,7 @@ export const useGetVaults = (
 
                   return {
                     vaultID: BigNumber.from(vault.number).toNumber().toString(),
-                    collateral:
+                    collateral: Number(
                       vault.id === '0x1-' + vault.bank.id
                         ? utils.formatUnits(
                             BigNumber.from(vault.bank.treasury)
@@ -82,9 +82,10 @@ export const useGetVaults = (
                               .mul(price.price)
                               .div(price.peg),
                             Number(vault.bank.token.decimals)
-                          ),
-                    debt: utils.formatEther(debt),
-                    ratio: ratio.toString(),
+                          )
+                    ),
+                    debt: Number(utils.formatEther(debt)),
+                    ratio: Number(ratio.toString()),
                     symbol: filter(tokenInfo, { erc20: name })[0].display,
                     icon: filter(tokenInfo, { erc20: name })[0].icon,
                     type: Object.keys(tokenInfo).find(
