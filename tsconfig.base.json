@@ -62,6 +62,7 @@
       "@orca/layout/app": ["libs/layout/app/src/index.ts"],
       "@orca/layout/landing": ["libs/layout/landing/src/index.ts"],
       "@orca/pages/app": ["libs/pages/app/src/index.ts"],
+      "@orca/pages/create-vault": ["libs/pages/create-vault/src/index.ts"],
       "@orca/pages/error": ["libs/pages/error/src/index.ts"],
       "@orca/pages/exchange": ["libs/pages/exchange/src/index.ts"],
       "@orca/pages/landing": ["libs/pages/landing/src/index.ts"],

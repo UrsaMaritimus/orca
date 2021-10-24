@@ -60,3 +60,12 @@ subscription VaultInfo($vaultID: ID!) @api(name: orca) {
     }
   }
 }
+
+subscription AllBankInfo @api(name: orca) {
+  banks {
+    id
+    debtCeiling
+    totalDebt
+    minimumCollateralPercentage
+  }
+}

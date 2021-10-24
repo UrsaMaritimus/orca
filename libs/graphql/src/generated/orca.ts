@@ -1927,6 +1927,11 @@ export type VaultInfoSubscriptionVariables = Exact<{
 
 export type VaultInfoSubscription = { __typename?: 'Subscription', vault?: Maybe<{ __typename?: 'Vault', id: string, collateral: any, number: number, debt: any, bank: { __typename?: 'Bank', id: string, minimumCollateralPercentage: any, closingFee: any, openingFee: any, tokenPeg: any }, user: { __typename?: 'User', id: string } }> };
 
+export type AllBankInfoSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllBankInfoSubscription = { __typename?: 'Subscription', banks: Array<{ __typename?: 'Bank', id: string, debtCeiling: any, totalDebt: any, minimumCollateralPercentage: any }> };
+
 
 export const AvaiStatsDocument = gql`
     subscription AvaiStats @api(name: orca) {
@@ -2555,3 +2560,35 @@ export function useVaultInfoSubscription(baseOptions: ApolloReactHooks.Subscript
       }
 export type VaultInfoSubscriptionHookResult = ReturnType<typeof useVaultInfoSubscription>;
 export type VaultInfoSubscriptionResult = Apollo.SubscriptionResult<VaultInfoSubscription>;
+export const AllBankInfoDocument = gql`
+    subscription AllBankInfo @api(name: orca) {
+  banks {
+    id
+    debtCeiling
+    totalDebt
+    minimumCollateralPercentage
+  }
+}
+    `;
+
+/**
+ * __useAllBankInfoSubscription__
+ *
+ * To run a query within a React component, call `useAllBankInfoSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useAllBankInfoSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllBankInfoSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAllBankInfoSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<AllBankInfoSubscription, AllBankInfoSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useSubscription<AllBankInfoSubscription, AllBankInfoSubscriptionVariables>(AllBankInfoDocument, options);
+      }
+export type AllBankInfoSubscriptionHookResult = ReturnType<typeof useAllBankInfoSubscription>;
+export type AllBankInfoSubscriptionResult = Apollo.SubscriptionResult<AllBankInfoSubscription>;

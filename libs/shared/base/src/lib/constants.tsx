@@ -2,12 +2,13 @@ import contracts from '@orca/shared/deployments';
 
 //-----------------------------------------
 
-type TokenInfo = {
+export type TokenInfo = {
   icon: string;
   erc20: string;
   display: string;
   decimals: number;
   symbol: string;
+  collateral: boolean;
   address: {
     mainnet: string;
     fuji: string;
@@ -25,6 +26,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     display: 'AVAX',
     symbol: 'WAVAX',
     decimals: 18,
+    collateral: true,
   },
   AVAI: {
     address: {
@@ -36,6 +38,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     display: 'AVAI',
     symbol: 'AVAI',
     decimals: 18,
+    collateral: false,
   },
   ETH: {
     address: {
@@ -47,6 +50,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     display: 'WETH.e',
     symbol: 'WETH.e',
     decimals: 18,
+    collateral: true,
   },
   BTC: {
     address: {
@@ -58,6 +62,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     display: 'WBTC.e',
     symbol: 'WBTC.e',
     decimals: 8,
+    collateral: true,
   },
   ORCA: {
     address: {
@@ -69,6 +74,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     display: 'ORCA',
     symbol: 'ORCA',
     decimals: 18,
+    collateral: false,
   },
   USDC: {
     address: {
@@ -80,6 +86,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     display: 'USDC.e',
     symbol: 'USDC.e',
     decimals: 18,
+    collateral: false,
   },
   STORM: {
     address: {
@@ -91,6 +98,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     display: 'STORM',
     symbol: 'STORM',
     decimals: 18,
+    collateral: false,
   },
   'USDC-AVAI': {
     address: {
@@ -102,6 +110,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     display: 'USDC.e-AVAI',
     symbol: 'USDC.e-AVAI',
     decimals: 18,
+    collateral: false,
   },
   'AVAI-ORCA': {
     address: {
@@ -113,6 +122,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     display: 'AVAI-ORCA',
     symbol: 'AVAI-ORCA',
     decimals: 18,
+    collateral: false,
   },
   'AVAX-ORCA': {
     address: {
@@ -124,6 +134,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     display: 'AVAX-ORCA',
     symbol: 'AVAX-ORCA',
     decimals: 18,
+    collateral: false,
   },
 };
 
@@ -150,3 +161,6 @@ export const farms = [
     rewardImg: tokenInfo['ORCA'].icon,
   },
 ];
+
+export const baseCollateral = ['AVAX', 'WBTC.e', 'WETH.e'];
+export const ibtknCollateral = [''];

@@ -838,6 +838,27 @@
         }
       }
     },
+    "pages-create-vault": {
+      "root": "libs/pages/create-vault",
+      "sourceRoot": "libs/pages/create-vault/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/pages/create-vault/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/pages/create-vault"],
+          "options": {
+            "jestConfig": "libs/pages/create-vault/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "pages-error": {
       "root": "libs/pages/error",
       "sourceRoot": "libs/pages/error/src",

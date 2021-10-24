@@ -131,6 +131,9 @@
     "pages-app": {
       "tags": []
     },
+    "pages-create-vault": {
+      "tags": []
+    },
     "pages-error": {
       "tags": []
     },

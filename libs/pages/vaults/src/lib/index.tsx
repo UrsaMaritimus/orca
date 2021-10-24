@@ -23,10 +23,9 @@ import { NextLink } from '@orca/components/links';
 
 import { useGetVaults } from './useVault';
 import { VaultCard } from './VaultCard';
-import { routes } from '@orca/shared/base';
+import { routes, baseCollateral, ibtknCollateral } from '@orca/shared/base';
 import SortingSelectingHead from './SortingHeader';
 import { ItemChooser } from './ItemChooser';
-import { base, ibtkn } from './constants';
 
 //--------------------------------------------------------------------------
 
@@ -154,8 +153,8 @@ export function Vaults(props) {
                     rows
                       .filter((row) =>
                         assets === 'all' || assets === 'base'
-                          ? base.includes(row.symbol)
-                          : ibtkn.includes(row.symbol)
+                          ? baseCollateral.includes(row.symbol)
+                          : ibtknCollateral.includes(row.symbol)
                       )
                       .filter((row) =>
                         row.symbol.toLowerCase().includes(searchText)
@@ -171,7 +170,20 @@ export function Vaults(props) {
                   <TablePagination
                     component="div"
                     page={page}
-                    count={rows.length}
+                    count={
+                      stableSort(
+                        rows
+                          .filter((row) =>
+                            assets === 'all' || assets === 'base'
+                              ? baseCollateral.includes(row.symbol)
+                              : ibtknCollateral.includes(row.symbol)
+                          )
+                          .filter((row) =>
+                            row.symbol.toLowerCase().includes(searchText)
+                          ),
+                        getComparator(order, orderBy)
+                      ).length
+                    }
                     rowsPerPage={rowsPerPage}
                     onPageChange={handleChangePage}
                     rowsPerPageOptions={[5, 10, 25]}
