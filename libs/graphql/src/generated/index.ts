@@ -19,6 +19,7 @@ export {
   usePartnerStakingInfoSubscription,
   useNewUserVaultsSubscription,
   useAllBankInfoSubscription,
+  useNewMonitorVaultsSubscription,
 } from './orca';
 export {
   useGetTokenDataSubscription,

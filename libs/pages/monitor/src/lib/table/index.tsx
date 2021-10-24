@@ -10,6 +10,8 @@ import {
   TableContainer,
   TablePagination,
   Grid,
+  Typography,
+  Stack,
 } from '@mui/material';
 
 import { Icon } from '@iconify/react';
@@ -20,7 +22,7 @@ import { ScrollBar } from '@orca/components/scroll-bar';
 import SortingSelectingHead from './SortingSelectingHead';
 import { BigNumber, utils } from 'ethers';
 import { fPercent, fCurrency, colorScale } from '@orca/util';
-import { routes, tokenInfo } from '@orca/shared/base';
+import { routes, tokenInfo, TokenInfo } from '@orca/shared/base';
 import { NextLink } from '@orca/components/links';
 
 // ----------------------------------------------------------------------
@@ -55,22 +57,23 @@ function stableSort(array, comparator) {
 
 type Row = {
   num: number;
-  debt: BigNumber;
-  cp: BigNumber;
-  mcp: BigNumber;
-  collateral: BigNumber;
+  collateral: number;
+  debt: number;
+  cp: number;
+  mcp: number;
+  ratio: number;
+  collatInfo: TokenInfo;
 };
 
 type RowProps = {
   rows: Row[];
-  collateralType: string;
 };
 
-const SortingSelecting: FC<RowProps> = ({ rows, collateralType }) => {
-  const [order, setOrder] = useState<'asc' | 'desc'>('asc');
-  const [orderBy, setOrderBy] = useState('cp');
+const SortingSelecting: FC<RowProps> = ({ rows }) => {
+  const [order, setOrder] = useState<'asc' | 'desc'>('desc');
+  const [orderBy, setOrderBy] = useState('ratio');
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -109,49 +112,48 @@ const SortingSelecting: FC<RowProps> = ({ rows, collateralType }) => {
                     const labelId = `enhanced-table-checkbox-${index}`;
 
                     return (
-                      <TableRow hover tabIndex={-1} key={row.num}>
+                      <TableRow
+                        hover
+                        tabIndex={-1}
+                        key={`${row.collatInfo.erc20}${row.num}`}
+                      >
                         <TableCell
                           component="th"
                           id={labelId}
                           scope="row"
                           align="center"
                         >
-                          {row.num}
+                          <Stack
+                            direction="row"
+                            alignItems="center"
+                            spacing={1}
+                          >
+                            <Box
+                              component="img"
+                              src={row.collatInfo.icon}
+                              sx={{ width: 30, height: 30 }}
+                              color="inherit"
+                            />
+                            <Typography variant="subtitle1">
+                              {row.collatInfo.symbol}
+                            </Typography>
+                            <Typography variant="subtitle1">
+                              #{row.num}
+                            </Typography>
+                          </Stack>
+                        </TableCell>
+
+                        <TableCell align="center">
+                          {fCurrency(row.collateral)}
                         </TableCell>
                         <TableCell
                           align="center"
                           sx={{
-                            color: colorScale(
-                              Number(
-                                utils.formatUnits(
-                                  BigNumber.from(1e8).div(row.cp),
-                                  4
-                                )
-                              ),
-                              50,
-                              (100 / row.mcp.toNumber()) * 100
-                            ),
+                            color: colorScale(row.ratio, 0.75, 1),
                             fontWeight: 'bold',
                           }}
                         >
-                          {fPercent(
-                            Number(
-                              utils.formatUnits(
-                                BigNumber.from(1e8).div(row.cp),
-                                4
-                              )
-                            )
-                          )}{' '}
-                        </TableCell>
-                        <TableCell align="center">
-                          {fCurrency(
-                            Number(
-                              utils.formatUnits(
-                                row.collateral,
-                                tokenInfo[collateralType].decimals
-                              )
-                            )
-                          )}
+                          {fPercent(row.ratio * 100)}{' '}
                         </TableCell>
                         <TableCell align="center">
                           <Button
@@ -159,9 +161,13 @@ const SortingSelecting: FC<RowProps> = ({ rows, collateralType }) => {
                             size="medium"
                             color="primary"
                             LinkComponent={NextLink}
-                            href={`${routes.APP.VAULTS.USER}/${collateralType}/${row.num}`}
+                            href={`${routes.APP.VAULTS.USER}/${
+                              row.collatInfo.url
+                                ? row.collatInfo.url
+                                : row.collatInfo.display
+                            }/${row.num}`}
                             startIcon={<Icon icon={dropletOutline} />}
-                            disabled={row.cp.gte(row.mcp)}
+                            disabled={row.cp >= row.mcp}
                           >
                             Liquidate
                           </Button>

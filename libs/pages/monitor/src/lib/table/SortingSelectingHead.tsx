@@ -72,33 +72,6 @@ const SortingSelectingHead: FC<SortingSelectionHeadProps> = ({
           </TableSortLabel>
         </TableCell>
         <TableCell
-          key={'cp'}
-          align={'center'}
-          sortDirection={orderBy === 'cp' ? order : false}
-          sx={{ px: 0.5, maxWidth: '250px' }}
-        >
-          <TableSortLabel
-            active={orderBy === 'cp'}
-            direction={orderBy === 'cp' ? order : 'asc'}
-            onClick={createSortHandler('cp')}
-          >
-            <Typography variant="inherit">LTV</Typography>
-            <IconButton
-              onMouseEnter={handleHoverOpen}
-              onMouseLeave={handleHoverClose}
-              color="secondary"
-            >
-              <Icon icon={infoOutline} width={20} height={20} />
-            </IconButton>
-
-            {orderBy === 'cp' ? (
-              <Box component="span" style={visuallyHidden}>
-                {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-              </Box>
-            ) : null}
-          </TableSortLabel>
-        </TableCell>
-        <TableCell
           key={'collateral'}
           align={'center'}
           sortDirection={orderBy === 'collateral' ? order : false}
@@ -110,10 +83,35 @@ const SortingSelectingHead: FC<SortingSelectionHeadProps> = ({
             onClick={createSortHandler('collateral')}
           >
             Collateral
-            <br />
-            (USD)
             {orderBy === 'collateral' ? (
               <Box component="span" style={{ ...visuallyHidden }}>
+                {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+              </Box>
+            ) : null}
+          </TableSortLabel>
+        </TableCell>
+        <TableCell
+          key={'ratio'}
+          align={'center'}
+          sortDirection={orderBy === 'ratio' ? order : false}
+          sx={{ px: 0.5, maxWidth: '250px' }}
+        >
+          <TableSortLabel
+            active={orderBy === 'ratio'}
+            direction={orderBy === 'ratio' ? order : 'asc'}
+            onClick={createSortHandler('ratio')}
+          >
+            <Typography variant="inherit">Borrowed</Typography>
+            <IconButton
+              onMouseEnter={handleHoverOpen}
+              onMouseLeave={handleHoverClose}
+              color="secondary"
+            >
+              <Icon icon={infoOutline} width={20} height={20} />
+            </IconButton>
+
+            {orderBy === 'ratio' ? (
+              <Box component="span" style={visuallyHidden}>
                 {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
               </Box>
             ) : null}
@@ -142,12 +140,13 @@ const SortingSelectingHead: FC<SortingSelectionHeadProps> = ({
       >
         <Box sx={{ p: 2, maxWidth: 280 }}>
           <Typography variant="subtitle1" gutterBottom>
-            Loan to Value Ratio
+            Borrowed Amount
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>
             The loan to value (LTV) ratio signifies how much collateral has been
             used to borrow against. The max LTV signifies the maximum amount of
             collateral that can be loaned against before risking liquidation.
+            The amount borrowed is the ratio of the LTV to the max LTV.
           </Typography>
           <ColorBar />
           <Grid container>

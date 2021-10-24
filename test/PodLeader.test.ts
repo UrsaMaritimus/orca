@@ -122,7 +122,7 @@ describe('Pod Leader test', function () {
       );
     });
 
-    it('successfully adds ORCA single staking pool', async () => {
+    it('Successfully adds ORCA single staking pool', async () => {
       const ALLOC_POINTS = '10';
       const DEPOSIT_FEE = 75;
       const initNumPools = await podLeader.poolLength();
@@ -139,7 +139,7 @@ describe('Pod Leader test', function () {
       expect(newPool.depositFeeBP).to.equal(DEPOSIT_FEE);
     });
 
-    it('successfully adds a second and third pool', async () => {
+    it('Successfully adds a second and third pool', async () => {
       const DEPOSIT_FEE = 75;
       await podLeader.add('10', orca.address, false, DEPOSIT_FEE);
       await podLeader.add('20', orca.address, false, DEPOSIT_FEE);

@@ -57,7 +57,7 @@ export const Claim: FC<ClaimProps> = ({
       transaction: depositFarmPartner(library, chainId, 0, contractName),
       messages: {
         loading: `Claiming reward...`,
-        success: 'successfully claimed!',
+        success: 'Successfully claimed!',
         error: `Failed to claim.`,
       },
       mutates: [mutateRewardTokenPending],

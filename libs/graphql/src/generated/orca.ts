@@ -1872,6 +1872,11 @@ export type BankMcpSubscriptionVariables = Exact<{
 
 export type BankMcpSubscription = { __typename?: 'Subscription', bank?: Maybe<{ __typename?: 'Bank', minimumCollateralPercentage: any }> };
 
+export type NewMonitorVaultsSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type NewMonitorVaultsSubscription = { __typename?: 'Subscription', vaults: Array<{ __typename?: 'Vault', number: number, collateral: any, debt: any, id: string, bank: { __typename?: 'Bank', id: string, minimumCollateralPercentage: any } }> };
+
 export type OrcaStatsSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -2265,6 +2270,42 @@ export function useBankMcpSubscription(baseOptions: ApolloReactHooks.Subscriptio
       }
 export type BankMcpSubscriptionHookResult = ReturnType<typeof useBankMcpSubscription>;
 export type BankMcpSubscriptionResult = Apollo.SubscriptionResult<BankMcpSubscription>;
+export const NewMonitorVaultsDocument = gql`
+    subscription NewMonitorVaults @api(name: orca) {
+  vaults(where: {debt_gt: 0}) {
+    number
+    collateral
+    debt
+    id
+    bank {
+      id
+      minimumCollateralPercentage
+    }
+  }
+}
+    `;
+
+/**
+ * __useNewMonitorVaultsSubscription__
+ *
+ * To run a query within a React component, call `useNewMonitorVaultsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useNewMonitorVaultsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useNewMonitorVaultsSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useNewMonitorVaultsSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<NewMonitorVaultsSubscription, NewMonitorVaultsSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useSubscription<NewMonitorVaultsSubscription, NewMonitorVaultsSubscriptionVariables>(NewMonitorVaultsDocument, options);
+      }
+export type NewMonitorVaultsSubscriptionHookResult = ReturnType<typeof useNewMonitorVaultsSubscription>;
+export type NewMonitorVaultsSubscriptionResult = Apollo.SubscriptionResult<NewMonitorVaultsSubscription>;
 export const OrcaStatsDocument = gql`
     subscription OrcaStats($id: ID!) @api(name: orca) {
   orca(id: $id) {

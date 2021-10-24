@@ -12,3 +12,16 @@ subscription BankMCP($id: ID!) @api(name: orca) {
     minimumCollateralPercentage
   }
 }
+
+subscription NewMonitorVaults @api(name: orca) {
+  vaults(where: { debt_gt: 0 }) {
+    number
+    collateral
+    debt
+    id
+    bank {
+      id
+      minimumCollateralPercentage
+    }
+  }
+}

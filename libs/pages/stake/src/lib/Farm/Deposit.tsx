@@ -149,7 +149,7 @@ export const Deposit: FC<DepositProps> = ({
       transaction: approveTokenStaking(library, chainId, farm, 1e10),
       messages: {
         loading: `Approving ${name}...`,
-        success: 'successfully approved!',
+        success: 'Successfully approved!',
         error: `Failed to approve ${name}.`,
       },
       mutates: [mutateTokenApproved],

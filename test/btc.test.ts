@@ -78,7 +78,7 @@ describe('BTC Vault Test', function () {
   });
 
   // Lets do some actual vault stuff!
-  it('Should successfully emit create vault event and increase vault count upon create vault', async () => {
+  it('Should Successfully emit create vault event and increase vault count upon create vault', async () => {
     const initialVaultCount = await wVault.totalSupply();
     await expect(wVault.createVault())
       .to.emit(wVault, 'CreateVault')
@@ -86,7 +86,7 @@ describe('BTC Vault Test', function () {
     expect(await wVault.totalSupply()).to.equal(initialVaultCount.add(1));
   });
 
-  it('Should successfully emit erc721 token upon create wVault', async () => {
+  it('Should Successfully emit erc721 token upon create wVault', async () => {
     const initialVaultCount = await wVault.totalSupply();
     // FIrst owner makers wVault
     await wVault.connect(accounts[2]).createVault();
@@ -610,7 +610,7 @@ describe('BTC Vault Test', function () {
       wVaultV2 = Bankv2__factory.connect(await avai.banks(0), accounts[0]);
     });
 
-    it('Should successfully emit create vault event and increase vault count upon create vault', async () => {
+    it('Should Successfully emit create vault event and increase vault count upon create vault', async () => {
       const initialVaultCount = await wVaultV2.totalSupply();
       await expect(wVaultV2.createVault())
         .to.emit(wVaultV2, 'CreateVault')
@@ -618,7 +618,7 @@ describe('BTC Vault Test', function () {
       expect(await wVaultV2.totalSupply()).to.equal(initialVaultCount.add(1));
     });
 
-    it('Should successfully emit erc721 token upon create wVaultV2', async () => {
+    it('Should Successfully emit erc721 token upon create wVaultV2', async () => {
       const initialVaultCount = await wVaultV2.totalSupply();
       // FIrst owner makers wVaultV2
       await wVaultV2.connect(accounts[2]).createVault();

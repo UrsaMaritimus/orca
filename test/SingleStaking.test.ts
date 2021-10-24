@@ -139,7 +139,7 @@ describe('Single staking test', function () {
       expect(newPool.allocPoint).to.equal(ALLOC_POINTS);
     });
 
-    it('successfully adds a second and third pool', async () => {
+    it('Successfully adds a second and third pool', async () => {
       await podLeader.add('10', orca.address, false);
       await podLeader.add('20', orca.address, false);
       await podLeader.add('0', orca.address, false);

@@ -183,7 +183,7 @@ describe('Orca Staking test', function () {
       );
     });
 
-    it('successfully adds ORCA single staking pool', async () => {
+    it('Successfully adds ORCA single staking pool', async () => {
       const ALLOC_POINTS = '10';
       const initNumPools = await staking.poolLength();
       const initTotalAllocPoints = await staking.totalAllocPoint();
@@ -198,7 +198,7 @@ describe('Orca Staking test', function () {
       expect(newPool.allocPoint).to.equal(ALLOC_POINTS);
     });
 
-    it('successfully adds a second and third pool', async () => {
+    it('Successfully adds a second and third pool', async () => {
       await staking.add('10', orca.address, false);
       await staking.add('20', orca.address, false);
       await staking.add('0', orca.address, false);

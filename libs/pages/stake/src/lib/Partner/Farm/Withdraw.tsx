@@ -90,7 +90,7 @@ export const Withdraw: FC<WithdrawProps> = ({
           ),
           messages: {
             loading: `Withdrawing ${name}...`,
-            success: 'successfully withdrawn!',
+            success: 'Successfully withdrawn!',
             error: `Failed to withdraw ${name}.`,
           },
           chainId,

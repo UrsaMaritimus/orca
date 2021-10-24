@@ -5,61 +5,78 @@ import { Web3Provider } from '@ethersproject/providers';
 import useSwr from 'swr';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
-import { getContract, bankPrice } from '@orca/shared/funcs';
-import {
-  useMonitorVaultsSubscription,
-  useBankMcpSubscription,
-} from '@orca/graphql';
+import { allBankPrices } from '@orca/shared/funcs';
+import { useNewMonitorVaultsSubscription } from '@orca/graphql';
 import { tokenInfo } from '@orca/shared/base';
+import { VaultContracts } from '@orca/shared/contracts';
+import { filter } from 'lodash';
 
-export const useMonitorVaults = (
-  library: Web3Provider,
-  chainId: number,
-  vaultType: string,
-  token: string
-) => {
+export const useMonitorVaults = (library: Web3Provider, chainId: number) => {
   const shouldFetch = !!library;
-  const { data: vaultData } = useMonitorVaultsSubscription({
-    variables: {
-      bankID: getContract(chainId, vaultType).toLowerCase(),
-    },
-  });
-
-  const { data: bankData } = useBankMcpSubscription({
-    variables: {
-      id: getContract(chainId, vaultType).toLowerCase(),
-    },
-  });
+  const { data: vaultData } = useNewMonitorVaultsSubscription();
 
   // Grab bank prices
-  const { data: price, mutate: priceMutate } = useSwr(
-    shouldFetch ? [`get${vaultType}Price`, library, vaultType, chainId] : null,
-    bankPrice()
+  const { data: prices, mutate: priceMutate } = useSwr(
+    shouldFetch ? [`getAllPrices`, library, chainId] : null,
+    allBankPrices()
   );
+
   useKeepSWRDataLiveAsBlocksArrive(priceMutate);
 
   return {
-    loading: price && vaultData && bankData ? false : true,
+    loading: prices && vaultData ? false : true,
     rows:
-      price && vaultData && bankData
+      prices && vaultData
         ? vaultData.vaults
             .map((vault) => {
-              const collateral = BigNumber.from(vault.collateral);
-              const debt = BigNumber.from(vault.debt);
-              const cp = collateral
-                .mul(10 ** (18 - tokenInfo[token].decimals))
-                .mul(100)
-                .mul(price.price)
-                .div(debt.mul(price.peg));
-              return {
-                num: BigNumber.from(vault.number).toNumber(),
-                collateral: collateral.mul(price.price).div(price.peg),
-                debt: debt,
-                cp,
-                mcp: BigNumber.from(bankData.bank?.minimumCollateralPercentage),
-              };
+              // Correct bank
+              const name =
+                chainId === 43114
+                  ? Object.keys(VaultContracts.mainnet).find(
+                      (key) =>
+                        VaultContracts.mainnet[key].toLowerCase() ===
+                        vault.bank.id.toLowerCase()
+                    )
+                  : Object.keys(VaultContracts.fuji).find(
+                      (key) =>
+                        VaultContracts.fuji[key].toLowerCase() ===
+                        vault.bank.id.toLowerCase()
+                    );
+              const price = prices.filter((temp) => temp.name === name)[0];
+
+              if (price) {
+                const collateral = BigNumber.from(vault.collateral);
+                const debt = BigNumber.from(vault.debt);
+                const cp = collateral
+                  .mul(
+                    10 ** (18 - filter(tokenInfo, { erc20: name })[0].decimals)
+                  )
+                  .mul(1000)
+                  .mul(price.price)
+                  .div(debt.mul(price.peg));
+
+                const mcp = BigNumber.from(
+                  vault.bank.minimumCollateralPercentage
+                );
+                if (cp.lte(mcp.mul(10).add(500)))
+                  return {
+                    num: BigNumber.from(vault.number).toNumber(),
+                    collateral: Number(
+                      utils.formatUnits(
+                        collateral.mul(price.price).div(price.peg),
+                        filter(tokenInfo, { erc20: name })[0].decimals
+                      )
+                    ),
+                    debt: Number(utils.formatEther(debt)),
+                    cp: cp.toNumber() / 10,
+                    mcp: mcp.toNumber(),
+                    ratio: mcp.toNumber() / (cp.toNumber() / 10),
+                    collatInfo: filter(tokenInfo, { erc20: name })[0],
+                  };
+              }
             })
-            .filter((vault) => vault.cp.lte(vault.mcp.add(50)))
+            .filter((n) => n) // Gets rid of undefined
+            .filter((row) => row.ratio > 0.8)
         : null,
   };
 };

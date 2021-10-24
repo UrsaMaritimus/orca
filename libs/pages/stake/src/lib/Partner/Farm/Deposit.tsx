@@ -166,7 +166,7 @@ export const Deposit: FC<DepositProps> = ({
       ),
       messages: {
         loading: `Approving ${name}...`,
-        success: 'successfully approved!',
+        success: 'Successfully approved!',
         error: `Failed to approve ${name}.`,
       },
       mutates: [mutateTokenApproved],

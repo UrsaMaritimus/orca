@@ -1,19 +1,27 @@
 import { Web3Provider } from '@ethersproject/providers';
-
+import { VaultTypes } from '@orca/shared/contracts';
 import { getVault } from './getVault';
 import { getGateway } from './gateway';
 
-export const monitorRewards = () => {
+export const monitorAllRewards = () => {
   return async (
     _: string,
     library: Web3Provider,
     chainId: number,
-    vaultType: string,
     address: string
   ) => {
-    const vault = getVault(vaultType, library, chainId);
-    const tokenDebt = await vault.tokenDebt(address);
-    return { isReward: !tokenDebt.isZero(), reward: tokenDebt };
+    return Promise.all(
+      VaultTypes.map(async (vaultType) => {
+        const vault = getVault(vaultType.name, library, chainId);
+        const tokenDebt = await vault.tokenDebt(address);
+        return {
+          isReward: !tokenDebt.isZero(),
+          reward: tokenDebt,
+          symbol: vaultType.symbol,
+          name: vaultType.name,
+        };
+      })
+    );
   };
 };
 

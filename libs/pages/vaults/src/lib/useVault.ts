@@ -28,6 +28,7 @@ export const useGetVaults = (
     shouldFetch ? [`getAllPrices`, library, chainId] : null,
     allBankPrices()
   );
+
   useKeepSWRDataLiveAsBlocksArrive(priceMutate);
   if (prices && vaultData) {
     return {
@@ -94,7 +95,7 @@ export const useGetVaults = (
                   };
                 }
               })
-              .filter((n) => n)
+              .filter((n) => n) // Gets rid of undefined
           : null,
     };
   }

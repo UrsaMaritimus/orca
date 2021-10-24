@@ -82,7 +82,7 @@ export const LiquidateVault: FC<LiquidateProps> = ({
       ),
       messages: {
         loading: 'Liquidating vault...',
-        success: 'successfully liquidated!',
+        success: 'Successfully liquidated!',
         error: 'Failed to liquidate vault.',
       },
       mutates: [avaiBalanceMutate],
