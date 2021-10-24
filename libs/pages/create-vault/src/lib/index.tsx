@@ -107,7 +107,6 @@ export const CreateVault: FC = () => {
 
   const collateral = filter(tokenInfo, { collateral: true });
   const { loading, rows } = useGetVaults(chainId, collateral);
-
   if (!loading) {
     return (
       <Connect title={'Vaults'}>

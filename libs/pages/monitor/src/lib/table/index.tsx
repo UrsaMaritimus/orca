@@ -135,7 +135,7 @@ const SortingSelecting: FC<RowProps> = ({ rows }) => {
                               color="inherit"
                             />
                             <Typography variant="subtitle1">
-                              {row.collatInfo.symbol}
+                              {row.collatInfo.display}
                             </Typography>
                             <Typography variant="subtitle1">
                               #{row.num}

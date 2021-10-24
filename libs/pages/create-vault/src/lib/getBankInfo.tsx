@@ -1,8 +1,6 @@
 import { utils, BigNumber } from 'ethers';
 
-import { allBankPrices } from '@orca/shared/funcs';
 import { useAllBankInfoSubscription } from '@orca/graphql';
-import { tokenInfo } from '@orca/shared/base';
 import { VaultContracts } from '@orca/shared/contracts';
 import { includes, find } from 'lodash';
 import { TokenInfo } from '@orca/shared/base';
