@@ -1,14 +1,22 @@
 import { FC } from 'react';
-
-import { NextLink } from '@orca/components/links';
-
+import { useRouter } from 'next/router';
 import { Icon } from '@iconify/react';
 import editOutline from '@iconify/icons-eva/edit-outline';
+
+import { Web3Provider } from '@ethersproject/providers';
+
 import { Card, Grid, Typography, Box, Stack, Button } from '@mui/material';
-import { fPercent, fCurrency, colorScale } from '@orca/util';
+
+import { fPercent, fCurrency } from '@orca/util';
 import { routes, TokenInfo } from '@orca/shared/base';
+import { makeVault, getVault } from '@orca/shared/funcs';
+import { handleTransaction } from '@orca/components/transaction';
 
 type VaultCardProps = {
+  handleNewTransaction: (state: boolean) => void;
+  library: Web3Provider;
+  chainId: number;
+  account: string;
   row: {
     maxLTV: number;
     key: string;
@@ -17,7 +25,42 @@ type VaultCardProps = {
   };
 };
 
-export const VaultCard: FC<VaultCardProps> = ({ row }) => {
+export const VaultCard: FC<VaultCardProps> = ({
+  row,
+  library,
+  chainId,
+  handleNewTransaction,
+  account,
+}) => {
+  const router = useRouter();
+  // For creating a vault
+  const createVault = async () => {
+    handleNewTransaction(true);
+    await handleTransaction({
+      transaction: makeVault(library, row.collatInfo.erc20, chainId),
+      messages: {
+        loading: 'Creating vault...',
+        success: 'Vault created!',
+        error: 'Vault failed to be created.',
+      },
+      chainId,
+    });
+    const bank = getVault(row.collatInfo.erc20, library, chainId);
+    const numTokens = await bank.balanceOf(account);
+    const lastToken = await bank.tokenOfOwnerByIndex(
+      account,
+      numTokens.toNumber() - 1
+    );
+    if (router)
+      router.push(
+        `${routes.APP.VAULTS.USER}/${
+          row.collatInfo.url ? row.collatInfo.url : row.collatInfo.display
+        }/${lastToken.toNumber()}`
+      );
+
+    handleNewTransaction(false);
+  };
+
   return (
     <Card
       sx={{
@@ -76,6 +119,7 @@ export const VaultCard: FC<VaultCardProps> = ({ row }) => {
             size="medium"
             color="primary"
             startIcon={<Icon icon={editOutline} />}
+            onClick={createVault}
           >
             Create
           </Button>

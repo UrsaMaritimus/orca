@@ -16,6 +16,7 @@ import {
   styled,
   TablePagination,
   Grid,
+  Backdrop,
 } from '@mui/material';
 
 import { NextLink } from '@orca/components/links';
@@ -75,6 +76,8 @@ export const CreateVault: FC = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchText, setSearchText] = useState<string>('');
   const [assets, setAssets] = useState<'all' | 'base' | 'ibktn'>('all');
+  const [handlingTransaction, setHandlingTransaction] =
+    useState<boolean>(false);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -96,6 +99,10 @@ export const CreateVault: FC = () => {
 
   const handleAssetChange = (newOption: 'all' | 'base' | 'ibktn') => {
     setAssets(newOption);
+  };
+
+  const handleTransaction = (state: boolean) => {
+    setHandlingTransaction(state);
   };
 
   const collateral = filter(tokenInfo, { collateral: true });
@@ -123,6 +130,12 @@ export const CreateVault: FC = () => {
               />
             </Card>
             <Grid container>
+              <Backdrop
+                sx={{ position: 'absolute', zIndex: 99 }}
+                open={handlingTransaction}
+              >
+                <Loader />
+              </Backdrop>
               <Grid item xs={12}>
                 <ItemChooser
                   handleSearchSort={handleSearchSort}
@@ -149,7 +162,13 @@ export const CreateVault: FC = () => {
                     ),
                   getComparator(order, orderBy)
                 ).map((collat) => (
-                  <VaultCard row={collat} />
+                  <VaultCard
+                    row={collat}
+                    library={library}
+                    chainId={chainId}
+                    handleNewTransaction={handleTransaction}
+                    account={account}
+                  />
                 ))}
               </Grid>
               <Grid item xs={12}>

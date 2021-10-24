@@ -9,6 +9,7 @@ export type TokenInfo = {
   decimals: number;
   symbol: string;
   collateral: boolean;
+  url?: string;
   address: {
     mainnet: string;
     fuji: string;
@@ -23,6 +24,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     },
     icon: '/static/cryptos/ic_avax.svg',
     erc20: 'wavax',
+    url: 'AVAX',
     display: 'AVAX',
     symbol: 'WAVAX',
     decimals: 18,
@@ -47,6 +49,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     },
     icon: '/static/cryptos/ic_eth.svg',
     erc20: 'weth',
+    url: 'ETH',
     display: 'WETH.e',
     symbol: 'WETH.e',
     decimals: 18,
@@ -59,6 +62,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     },
     icon: '/static/cryptos/ic_wbtc.svg',
     erc20: 'wbtc',
+    url: 'BTC',
     display: 'WBTC.e',
     symbol: 'WBTC.e',
     decimals: 8,
