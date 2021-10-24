@@ -1,10 +1,13 @@
 import { BigNumber, utils } from 'ethers';
+import { tokenInfo } from '@orca/shared/base';
+import { VaultContracts } from '@orca/shared/contracts';
 
 import {
   useBankInfoFrontPageSubscription,
   useExchangeInfoFrontPageSubscription,
   useTotalSupplyFrontPageSubscription,
 } from '@orca/graphql';
+import { includes } from 'lodash';
 
 export const useFrontPageInfo = () => {
   const { data: supplyFrontPage, loading: supplyLoading } =
@@ -57,28 +60,36 @@ export const useFrontPageInfo = () => {
       return prev.add(BigNumber.from(next.usdHeld));
     }, BigNumber.from(0));
 
-    const indivBanks = bankInfoFrontPage.banks.map((bank) => {
-      const name = bank.token.symbol.toLowerCase();
-      const debt = BigNumber.from(bank.totalDebt);
-      const collateral = BigNumber.from(bank.totalCollateral)
-        .mul(10 ** (18 - bank.token.decimals))
-        .mul(BigNumber.from(bank.token.price.priceUSD))
-        .div(BigNumber.from(bank.tokenPeg));
+    const indivBanks = bankInfoFrontPage.banks
+      .filter(
+        (bank) =>
+          includes(VaultContracts.mainnet, bank.id.toLowerCase()) ||
+          includes(VaultContracts.fuji, bank.id.toLowerCase())
+      )
+      .map((bank) => {
+        const name = bank.token.symbol.toLowerCase();
+        const debt = BigNumber.from(bank.totalDebt);
+        const collateral = BigNumber.from(bank.totalCollateral)
+          .mul(10 ** (18 - bank.token.decimals))
+          .mul(BigNumber.from(bank.token.price.priceUSD))
+          .div(BigNumber.from(bank.tokenPeg));
 
-      const ltv = collateral.isZero()
-        ? BigNumber.from(0)
-        : debt.mul(10000).div(collateral);
-      const maxLtv =
-        10000 / Number(utils.formatUnits(bank.minimumCollateralPercentage, 0));
-      return {
-        name,
-        debt,
-        collateral,
-        ltv,
-        id: name,
-        maxLtv,
-      };
-    });
+        const ltv = collateral.isZero()
+          ? BigNumber.from(0)
+          : debt.mul(10000).div(collateral);
+        const maxLtv =
+          10000 /
+          Number(utils.formatUnits(bank.minimumCollateralPercentage, 0));
+        return {
+          name,
+          debt,
+          collateral,
+          ltv,
+          id: name,
+          maxLtv,
+        };
+      })
+      .filter((n) => n);
 
     return {
       loading: false,
