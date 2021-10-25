@@ -2001,7 +2001,7 @@ export type BankInfoSubscriptionHookResult = ReturnType<typeof useBankInfoSubscr
 export type BankInfoSubscriptionResult = Apollo.SubscriptionResult<BankInfoSubscription>;
 export const TotalSupplyFrontPageDocument = gql`
     subscription TotalSupplyFrontPage @api(name: orca) {
-  stablecoins(first: 1) {
+  stablecoins {
     totalSupply
   }
 }
@@ -2030,7 +2030,7 @@ export type TotalSupplyFrontPageSubscriptionHookResult = ReturnType<typeof useTo
 export type TotalSupplyFrontPageSubscriptionResult = Apollo.SubscriptionResult<TotalSupplyFrontPageSubscription>;
 export const BankInfoFrontPageDocument = gql`
     subscription BankInfoFrontPage @api(name: orca) {
-  banks(first: 4) {
+  banks {
     id
     treasury
     totalDebt
@@ -2071,7 +2071,7 @@ export type BankInfoFrontPageSubscriptionHookResult = ReturnType<typeof useBankI
 export type BankInfoFrontPageSubscriptionResult = Apollo.SubscriptionResult<BankInfoFrontPageSubscription>;
 export const ExchangeInfoFrontPageDocument = gql`
     subscription ExchangeInfoFrontPage @api(name: orca) {
-  exchanges(first: 2) {
+  exchanges {
     treasury
     usdHeld
   }

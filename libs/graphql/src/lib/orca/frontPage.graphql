@@ -1,11 +1,11 @@
 subscription TotalSupplyFrontPage @api(name: orca) {
-  stablecoins(first: 1) {
+  stablecoins {
     totalSupply
   }
 }
 
 subscription BankInfoFrontPage @api(name: orca) {
-  banks(first: 4) {
+  banks {
     id
     treasury
     totalDebt
@@ -23,7 +23,7 @@ subscription BankInfoFrontPage @api(name: orca) {
 }
 
 subscription ExchangeInfoFrontPage @api(name: orca) {
-  exchanges(first: 2) {
+  exchanges {
     treasury
     usdHeld
   }

@@ -61,23 +61,25 @@ export const useFrontPageInfo = () => {
     }, BigNumber.from(0));
 
     const indivBanks = bankInfoFrontPage.banks
-      .filter(
-        (bank) =>
+      .filter((bank) => {
+        return (
           includes(VaultContracts.mainnet, bank.id.toLowerCase()) ||
           includes(VaultContracts.fuji, bank.id.toLowerCase())
-      )
+        );
+      })
       .map((bank) => {
         // Get the correct collateral type
         let collat = Object.keys(VaultContracts.mainnet).filter(
-          (key) => VaultContracts.mainnet[key] === bank.id
+          (key) => VaultContracts.mainnet[key] === bank.id.toLowerCase()
         );
 
         collat =
           collat.length > 0
             ? collat
             : Object.keys(VaultContracts.fuji).filter(
-                (key) => VaultContracts.fuji[key] === bank.id
+                (key) => VaultContracts.fuji[key] === bank.id.toLowerCase()
               );
+        console.log(collat);
         const name = bank.token.symbol.toLowerCase();
         const debt = BigNumber.from(bank.totalDebt);
         const collateral = BigNumber.from(bank.totalCollateral)
@@ -104,7 +106,6 @@ export const useFrontPageInfo = () => {
         };
       })
       .filter((n) => n);
-
     return {
       loading: false,
       data: {

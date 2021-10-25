@@ -146,7 +146,6 @@ export const BankInfo: FC<BankInfoProps> = ({ data }) => {
   const handleNext = () => {
     carouselRef.current.slickNext();
   };
-
   return (
     <Box sx={{ position: 'relative' }}>
       <CardHeader
@@ -156,7 +155,7 @@ export const BankInfo: FC<BankInfoProps> = ({ data }) => {
       <Slider ref={carouselRef} {...settings}>
         {data.map((app, index) => (
           <CarouselItem
-            key={app.id}
+            key={app.tokenInfo.erc20}
             item={app}
             isActive={index === currentIndex}
           />

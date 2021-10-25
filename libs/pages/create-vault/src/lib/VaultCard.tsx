@@ -47,17 +47,20 @@ export const VaultCard: FC<VaultCardProps> = ({
     });
     const bank = getVault(row.collatInfo.erc20, library, chainId);
     const numTokens = await bank.balanceOf(account);
-    const lastToken = await bank.tokenOfOwnerByIndex(
-      account,
-      numTokens.toNumber() - 1
-    );
-    if (router)
-      router.push(
-        `${routes.APP.VAULTS.USER}/${
-          row.collatInfo.url ? row.collatInfo.url : row.collatInfo.display
-        }/${lastToken.toNumber()}`
+    if (!numTokens.isZero()) {
+      const lastToken = await bank.tokenOfOwnerByIndex(
+        account,
+        numTokens.toNumber() - 1
       );
-
+      if (router)
+        router.push(
+          `${routes.APP.VAULTS.USER}/${
+            row.collatInfo.url ? row.collatInfo.url : row.collatInfo.display
+          }/${lastToken.toNumber()}`
+        );
+    } else {
+      router.push(routes.APP.VAULTS.USER);
+    }
     handleNewTransaction(false);
   };
 

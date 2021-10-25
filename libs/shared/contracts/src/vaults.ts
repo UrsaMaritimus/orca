@@ -4,6 +4,7 @@ export const VaultContracts = {
     weth: '0xdeed4da259b3ec891d15652ea8546e09495d220a'.toLowerCase(),
     wbtc: '0x33944f1c55dc6c99af2bde42ddab8ea1d9e64036'.toLowerCase(),
     yrtAaveAvax: '0x78bb09557fd4d8fd472ee01752d7a7f2091111c9'.toLowerCase(),
+    yrtAaveAvax2: '0x017dfba034707c5dee2b2e6b138f56d016625c2b'.toLowerCase(),
   },
   mainnet: {
     wavax: '0xC029713E92383426C9b387b124C0BF6271d08b80'.toLowerCase(),
@@ -17,4 +18,5 @@ export const VaultTypes = [
   { name: 'weth', symbol: 'WETH.e' },
   { name: 'wbtc', symbol: 'WBTC.e' },
   { name: 'yrtAaveAvax', symbol: 'YRT' },
+  { name: 'yrtAaveAvax2', symbol: 'YRT' },
 ];
