@@ -975,6 +975,24 @@
                   "type": "uint256"
                 },
                 {
+                  "internalType": "bool",
+                  "name": "paused_",
+                  "type": "bool"
+                }
+              ],
+              "name": "setMintingPaused",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "bankID",
+                  "type": "uint256"
+                },
+                {
                   "internalType": "uint256",
                   "name": "amount",
                   "type": "uint256"
@@ -1212,7 +1230,7 @@
           ]
         },
         "AVAI_Implementation": {
-          "address": "0x97410f4756c6E67faaa5969b8ad55bF727eC0Bf3",
+          "address": "0x01C6D365d5Cacc670EdC10Ce442E3DF343420Bbb",
           "abi": [
             {
               "anonymous": false,
@@ -2130,6 +2148,24 @@
                   "type": "uint256"
                 },
                 {
+                  "internalType": "bool",
+                  "name": "paused_",
+                  "type": "bool"
+                }
+              ],
+              "name": "setMintingPaused",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "bankID",
+                  "type": "uint256"
+                },
+                {
                   "internalType": "uint256",
                   "name": "amount",
                   "type": "uint256"
@@ -2450,7 +2486,7 @@
           ]
         },
         "Bank": {
-          "address": "0x3bCb87398fa80562079B89E1dfaf128B9EBD92d2",
+          "address": "0x4Da8Fb266b9259EF915c4360B9AA76d328936909",
           "abi": [
             {
               "anonymous": false,
@@ -2500,6 +2536,19 @@
                 }
               ],
               "name": "ApprovalForAll",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": false,
+                  "internalType": "bool",
+                  "name": "mintingPaused",
+                  "type": "bool"
+                }
+              ],
+              "name": "BankPaused",
               "type": "event"
             },
             {
@@ -3404,6 +3453,19 @@
             },
             {
               "inputs": [],
+              "name": "mintingPaused",
+              "outputs": [
+                {
+                  "internalType": "bool",
+                  "name": "",
+                  "type": "bool"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
               "name": "name",
               "outputs": [
                 {
@@ -3657,6 +3719,19 @@
                 }
               ],
               "name": "setMinimumDebt",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "bool",
+                  "name": "paused_",
+                  "type": "bool"
+                }
+              ],
+              "name": "setMintingPaused",
               "outputs": [],
               "stateMutability": "nonpayable",
               "type": "function"

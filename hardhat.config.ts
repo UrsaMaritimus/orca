@@ -45,7 +45,7 @@ export default {
   namedAccounts: {
     deployer: 0,
     user: 1,
-    owner: '0xe1F392fE139D6B9Dc1220dEcbE0Bd8123fd9fa73',
+    owner: { 43114: '0xe1F392fE139D6B9Dc1220dEcbE0Bd8123fd9fa73', 43113: 0 },
   },
   networks: {
     hardhat: {
