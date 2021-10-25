@@ -104,6 +104,19 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     decimals: 18,
     collateral: false,
   },
+  YRTAAVEAVAX: {
+    address: {
+      mainnet: '0x957Ca4a4aA7CDc866cf430bb140753F04e273bC0'.toLowerCase(),
+      fuji: '0xE1296Be9B7d9C69Ef65B054BD8cE79E326EFA0d7'.toLowerCase(),
+    },
+    icon: '/static/cryptos/ic_yak_avax_aave.png',
+    erc20: 'yrtAaveAvax',
+    display: 'Yak AAVE AVAX',
+    url: 'YRTAAVEAVAX',
+    symbol: 'YRT',
+    decimals: 18,
+    collateral: true,
+  },
   'USDC-AVAI': {
     address: {
       mainnet: '0xeD7a2B4054757Cfdb632Af15Ad528624F0fFf3B0'.toLowerCase(),
@@ -167,4 +180,4 @@ export const farms = [
 ];
 
 export const baseCollateral = ['AVAX', 'WBTC.e', 'WETH.e'];
-export const ibtknCollateral = [''];
+export const ibtknCollateral = ['Yak AAVE AVAX'];

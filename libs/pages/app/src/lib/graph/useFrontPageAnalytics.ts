@@ -7,7 +7,7 @@ import {
   useExchangeInfoFrontPageSubscription,
   useTotalSupplyFrontPageSubscription,
 } from '@orca/graphql';
-import { includes } from 'lodash';
+import { find, includes } from 'lodash';
 
 export const useFrontPageInfo = () => {
   const { data: supplyFrontPage, loading: supplyLoading } =
@@ -67,6 +67,17 @@ export const useFrontPageInfo = () => {
           includes(VaultContracts.fuji, bank.id.toLowerCase())
       )
       .map((bank) => {
+        // Get the correct collateral type
+        let collat = Object.keys(VaultContracts.mainnet).filter(
+          (key) => VaultContracts.mainnet[key] === bank.id
+        );
+
+        collat =
+          collat.length > 0
+            ? collat
+            : Object.keys(VaultContracts.fuji).filter(
+                (key) => VaultContracts.fuji[key] === bank.id
+              );
         const name = bank.token.symbol.toLowerCase();
         const debt = BigNumber.from(bank.totalDebt);
         const collateral = BigNumber.from(bank.totalCollateral)
@@ -80,6 +91,8 @@ export const useFrontPageInfo = () => {
         const maxLtv =
           10000 /
           Number(utils.formatUnits(bank.minimumCollateralPercentage, 0));
+
+        const vault = find(tokenInfo, { erc20: collat[0] });
         return {
           name,
           debt,
@@ -87,6 +100,7 @@ export const useFrontPageInfo = () => {
           ltv,
           id: name,
           maxLtv,
+          tokenInfo: vault,
         };
       })
       .filter((n) => n);

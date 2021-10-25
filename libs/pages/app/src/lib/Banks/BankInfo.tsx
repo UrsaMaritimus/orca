@@ -21,7 +21,7 @@ import {
   CarouselControlsArrowsBasic2,
 } from '@orca/components/carousel';
 
-import { tokenInfo } from '@orca/shared/base';
+import { TokenInfo, tokenInfo } from '@orca/shared/base';
 import { BigNumber, utils } from 'ethers';
 import { fCurrency } from '@orca/util';
 
@@ -36,6 +36,7 @@ type BankInfoItem = {
   name: string;
   id: string;
   message?: string;
+  tokenInfo: TokenInfo;
 };
 
 type CarouselItemProps = {
@@ -44,7 +45,7 @@ type CarouselItemProps = {
 };
 
 const CarouselItem: FC<CarouselItemProps> = ({ item, isActive }) => {
-  const { collateral, debt, ltv, name, message, maxLtv } = item;
+  const { collateral, debt, ltv, name, message, maxLtv, tokenInfo } = item;
   return (
     <Paper
       sx={{
@@ -57,25 +58,11 @@ const CarouselItem: FC<CarouselItemProps> = ({ item, isActive }) => {
       }}
     >
       <CardHeader
-        title={
-          filter(
-            tokenInfo,
-            (info) =>
-              info.erc20 === name ||
-              info.display.toLowerCase() === name.toLowerCase()
-          )[0].display
-        }
+        title={tokenInfo.display}
         avatar={
           <Box
             component="img"
-            src={
-              filter(
-                tokenInfo,
-                (info) =>
-                  info.erc20 === name ||
-                  info.display.toLowerCase() === name.toLowerCase()
-              )[0].icon
-            }
+            src={tokenInfo.icon}
             sx={{ width: 40, height: 40 }}
             color="inherit"
           />

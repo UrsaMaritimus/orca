@@ -303,7 +303,7 @@ export const DepositStepper: FC<StepperProps> = ({
                   </Stack>
                 </Grid>
               </Grid>
-              <Box sx={{ mx: 'auto', my: 2, width: '80%' }}>
+              <Box sx={{ mx: 'auto', my: 2, width: { xs: '80%', md: '50%' } }}>
                 <InputTextField
                   fullWidth
                   type="number"

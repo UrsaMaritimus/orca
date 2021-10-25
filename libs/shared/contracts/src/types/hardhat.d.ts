@@ -193,6 +193,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.OracleBridge__factory>;
     getContractFactory(
+      name: "YakAvaxAAVEOracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.YakAvaxAAVEOracle__factory>;
+    getContractFactory(
       name: "ORCA",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ORCA__factory>;

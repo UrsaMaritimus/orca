@@ -41,9 +41,7 @@ export const ItemChooser: FC<ItemChooserProps> = ({
           <ToggleButton value="all">All Assets</ToggleButton>
 
           <ToggleButton value="base">Base Assets</ToggleButton>
-          <ToggleButton disabled value="ibtkn">
-            Interest Bearing
-          </ToggleButton>
+          <ToggleButton value="ibtkn">Interest Bearing</ToggleButton>
         </ToggleButtonGroup>
       </Grid>
 

@@ -62,9 +62,11 @@ export const Vaults: FC = () => {
       </Connect>
     );
   return (
-    <Card>
-      <Loader />
-    </Card>
+    <Container maxWidth="md">
+      <Card>
+        <Loader />
+      </Card>
+    </Container>
   );
 };
 

@@ -152,7 +152,9 @@ export function Vaults(props) {
                   {stableSort(
                     rows
                       .filter((row) =>
-                        assets === 'all' || assets === 'base'
+                        assets === 'all'
+                          ? true
+                          : assets === 'base'
                           ? baseCollateral.includes(row.symbol)
                           : ibtknCollateral.includes(row.symbol)
                       )
@@ -174,7 +176,9 @@ export function Vaults(props) {
                       stableSort(
                         rows
                           .filter((row) =>
-                            assets === 'all' || assets === 'base'
+                            assets === 'all'
+                              ? row
+                              : assets === 'base'
                               ? baseCollateral.includes(row.symbol)
                               : ibtknCollateral.includes(row.symbol)
                           )

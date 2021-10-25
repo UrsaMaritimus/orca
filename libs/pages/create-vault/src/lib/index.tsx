@@ -152,7 +152,9 @@ export const CreateVault: FC = () => {
                 {stableSort(
                   rows
                     .filter((row) =>
-                      assets === 'all' || assets === 'base'
+                      assets === 'all'
+                        ? row
+                        : assets === 'base'
                         ? baseCollateral.includes(row.collatInfo.display)
                         : ibtknCollateral.includes(row.collatInfo.display)
                     )
@@ -178,7 +180,9 @@ export const CreateVault: FC = () => {
                     stableSort(
                       rows
                         .filter((row) =>
-                          assets === 'all' || assets === 'base'
+                          assets === 'all'
+                            ? row
+                            : assets === 'base'
                             ? baseCollateral.includes(row.collatInfo.display)
                             : ibtknCollateral.includes(row.collatInfo.display)
                         )
