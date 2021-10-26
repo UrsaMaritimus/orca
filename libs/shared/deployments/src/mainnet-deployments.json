@@ -975,6 +975,24 @@
                   "type": "uint256"
                 },
                 {
+                  "internalType": "bool",
+                  "name": "paused_",
+                  "type": "bool"
+                }
+              ],
+              "name": "setMintingPaused",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "bankID",
+                  "type": "uint256"
+                },
+                {
                   "internalType": "uint256",
                   "name": "amount",
                   "type": "uint256"
@@ -1212,7 +1230,7 @@
           ]
         },
         "AVAI_Implementation": {
-          "address": "0x97410f4756c6E67faaa5969b8ad55bF727eC0Bf3",
+          "address": "0x01C6D365d5Cacc670EdC10Ce442E3DF343420Bbb",
           "abi": [
             {
               "anonymous": false,
@@ -2130,6 +2148,24 @@
                   "type": "uint256"
                 },
                 {
+                  "internalType": "bool",
+                  "name": "paused_",
+                  "type": "bool"
+                }
+              ],
+              "name": "setMintingPaused",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "bankID",
+                  "type": "uint256"
+                },
+                {
                   "internalType": "uint256",
                   "name": "amount",
                   "type": "uint256"
@@ -2450,7 +2486,7 @@
           ]
         },
         "Bank": {
-          "address": "0x3bCb87398fa80562079B89E1dfaf128B9EBD92d2",
+          "address": "0x4Da8Fb266b9259EF915c4360B9AA76d328936909",
           "abi": [
             {
               "anonymous": false,
@@ -2500,6 +2536,19 @@
                 }
               ],
               "name": "ApprovalForAll",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": false,
+                  "internalType": "bool",
+                  "name": "mintingPaused",
+                  "type": "bool"
+                }
+              ],
+              "name": "BankPaused",
               "type": "event"
             },
             {
@@ -3404,6 +3453,19 @@
             },
             {
               "inputs": [],
+              "name": "mintingPaused",
+              "outputs": [
+                {
+                  "internalType": "bool",
+                  "name": "",
+                  "type": "bool"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
               "name": "name",
               "outputs": [
                 {
@@ -3657,6 +3719,19 @@
                 }
               ],
               "name": "setMinimumDebt",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "bool",
+                  "name": "paused_",
+                  "type": "bool"
+                }
+              ],
+              "name": "setMintingPaused",
               "outputs": [],
               "stateMutability": "nonpayable",
               "type": "function"
@@ -5387,6 +5462,182 @@
                 }
               ],
               "stateMutability": "nonpayable",
+              "type": "function"
+            }
+          ]
+        },
+        "OracleBridge": {
+          "address": "0x6d6eA50dC769A60b04141adB8588d1B393225688",
+          "abi": [
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "priceSource_",
+                  "type": "address"
+                },
+                {
+                  "internalType": "address",
+                  "name": "underlyingToken_",
+                  "type": "address"
+                },
+                {
+                  "internalType": "address",
+                  "name": "shareToken_",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "nonpayable",
+              "type": "constructor"
+            },
+            {
+              "inputs": [],
+              "name": "decimals",
+              "outputs": [
+                {
+                  "internalType": "uint8",
+                  "name": "",
+                  "type": "uint8"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "description",
+              "outputs": [
+                {
+                  "internalType": "string",
+                  "name": "",
+                  "type": "string"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint80",
+                  "name": "_roundId",
+                  "type": "uint80"
+                }
+              ],
+              "name": "getRoundData",
+              "outputs": [
+                {
+                  "internalType": "uint80",
+                  "name": "roundId",
+                  "type": "uint80"
+                },
+                {
+                  "internalType": "int256",
+                  "name": "answer",
+                  "type": "int256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "startedAt",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "updatedAt",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint80",
+                  "name": "answeredInRound",
+                  "type": "uint80"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "latestRoundData",
+              "outputs": [
+                {
+                  "internalType": "uint80",
+                  "name": "",
+                  "type": "uint80"
+                },
+                {
+                  "internalType": "int256",
+                  "name": "",
+                  "type": "int256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint80",
+                  "name": "",
+                  "type": "uint80"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "priceSource",
+              "outputs": [
+                {
+                  "internalType": "contract AggregatorV3Interface",
+                  "name": "",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "shareToken",
+              "outputs": [
+                {
+                  "internalType": "contract IYakStrategy",
+                  "name": "",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "underlyingToken",
+              "outputs": [
+                {
+                  "internalType": "contract IERC20Metadata",
+                  "name": "",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "version",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
               "type": "function"
             }
           ]
@@ -10389,6 +10640,182 @@
               "type": "receive"
             }
           ]
+        },
+        "YakAvaxAAVEOracle": {
+          "address": "0x690f5099A17198d2d3b08eB86B07Bf7b12187508",
+          "abi": [
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "priceSource_",
+                  "type": "address"
+                },
+                {
+                  "internalType": "address",
+                  "name": "underlyingToken_",
+                  "type": "address"
+                },
+                {
+                  "internalType": "address",
+                  "name": "shareToken_",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "nonpayable",
+              "type": "constructor"
+            },
+            {
+              "inputs": [],
+              "name": "decimals",
+              "outputs": [
+                {
+                  "internalType": "uint8",
+                  "name": "",
+                  "type": "uint8"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "description",
+              "outputs": [
+                {
+                  "internalType": "string",
+                  "name": "",
+                  "type": "string"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint80",
+                  "name": "_roundId",
+                  "type": "uint80"
+                }
+              ],
+              "name": "getRoundData",
+              "outputs": [
+                {
+                  "internalType": "uint80",
+                  "name": "roundId",
+                  "type": "uint80"
+                },
+                {
+                  "internalType": "int256",
+                  "name": "answer",
+                  "type": "int256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "startedAt",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "updatedAt",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint80",
+                  "name": "answeredInRound",
+                  "type": "uint80"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "latestRoundData",
+              "outputs": [
+                {
+                  "internalType": "uint80",
+                  "name": "",
+                  "type": "uint80"
+                },
+                {
+                  "internalType": "int256",
+                  "name": "",
+                  "type": "int256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint80",
+                  "name": "",
+                  "type": "uint80"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "priceSource",
+              "outputs": [
+                {
+                  "internalType": "contract AggregatorV3Interface",
+                  "name": "",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "shareToken",
+              "outputs": [
+                {
+                  "internalType": "contract IYakStrategy",
+                  "name": "",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "underlyingToken",
+              "outputs": [
+                {
+                  "internalType": "contract IERC20Metadata",
+                  "name": "",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "version",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            }
+          ]
         }
       }
     }
@@ -11606,7 +12033,7 @@
           ]
         },
         "AVAI_Implementation": {
-          "address": "0x8504e2Bf94429072a10ACe993E8ea9E31de18406",
+          "address": "0x17DEbF29B98292ABd47Ac18bdD394308FcF74361",
           "abi": [
             {
               "anonymous": false,
@@ -12524,6 +12951,24 @@
                   "type": "uint256"
                 },
                 {
+                  "internalType": "bool",
+                  "name": "paused_",
+                  "type": "bool"
+                }
+              ],
+              "name": "setMintingPaused",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "bankID",
+                  "type": "uint256"
+                },
+                {
                   "internalType": "uint256",
                   "name": "amount",
                   "type": "uint256"
@@ -12844,7 +13289,7 @@
           ]
         },
         "Bank": {
-          "address": "0xE55Cd5fF426FaaD0450B4ADe03f02eCbC4770bb9",
+          "address": "0x599D8908f783df097E390E0F53d5F93B68F1126a",
           "abi": [
             {
               "anonymous": false,
@@ -12894,6 +13339,19 @@
                 }
               ],
               "name": "ApprovalForAll",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": false,
+                  "internalType": "bool",
+                  "name": "mintingPaused",
+                  "type": "bool"
+                }
+              ],
+              "name": "BankPaused",
               "type": "event"
             },
             {
@@ -13798,6 +14256,19 @@
             },
             {
               "inputs": [],
+              "name": "mintingPaused",
+              "outputs": [
+                {
+                  "internalType": "bool",
+                  "name": "",
+                  "type": "bool"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
               "name": "name",
               "outputs": [
                 {
@@ -14051,6 +14522,19 @@
                 }
               ],
               "name": "setMinimumDebt",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "bool",
+                  "name": "paused_",
+                  "type": "bool"
+                }
+              ],
+              "name": "setMintingPaused",
               "outputs": [],
               "stateMutability": "nonpayable",
               "type": "function"
