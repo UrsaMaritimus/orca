@@ -414,6 +414,19 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
+        name: "mcp_",
+        type: "uint256",
+      },
+    ],
+    name: "setMinimumCollateralPercentage",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
         name: "minimumDebt_",
         type: "uint256",
       },

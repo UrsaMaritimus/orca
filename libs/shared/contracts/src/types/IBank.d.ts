@@ -38,6 +38,7 @@ interface IBankInterface extends ethers.utils.Interface {
     "setDebtRatio(uint256)": FunctionFragment;
     "setGainRatio(uint256)": FunctionFragment;
     "setGateway(address)": FunctionFragment;
+    "setMinimumCollateralPercentage(uint256)": FunctionFragment;
     "setMinimumDebt(uint256)": FunctionFragment;
     "setMintingPaused(bool)": FunctionFragment;
     "setOpeningFee(uint256)": FunctionFragment;
@@ -111,6 +112,10 @@ interface IBankInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "setGateway", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "setMinimumCollateralPercentage",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "setMinimumDebt",
     values: [BigNumberish]
@@ -210,6 +215,10 @@ interface IBankInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setGateway", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setMinimumCollateralPercentage",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "setMinimumDebt",
     data: BytesLike
@@ -418,6 +427,11 @@ export class IBank extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setMinimumCollateralPercentage(
+      mcp_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     setMinimumDebt(
       minimumDebt_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -581,6 +595,11 @@ export class IBank extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setMinimumCollateralPercentage(
+    mcp_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   setMinimumDebt(
     minimumDebt_: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -734,6 +753,11 @@ export class IBank extends BaseContract {
     ): Promise<void>;
 
     setGateway(gateway_: string, overrides?: CallOverrides): Promise<void>;
+
+    setMinimumCollateralPercentage(
+      mcp_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     setMinimumDebt(
       minimumDebt_: BigNumberish,
@@ -931,6 +955,11 @@ export class IBank extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setMinimumCollateralPercentage(
+      mcp_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     setMinimumDebt(
       minimumDebt_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1098,6 +1127,11 @@ export class IBank extends BaseContract {
 
     setGateway(
       gateway_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setMinimumCollateralPercentage(
+      mcp_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

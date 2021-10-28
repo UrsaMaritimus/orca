@@ -482,6 +482,22 @@ describe('Bank', function () {
 
     it('Should set min collateral percentage correctly', async () => {
       expect(await wVaultV2.minimumCollateralPercentage()).to.equal(150);
+
+      await expect(
+        avaiV2.setMinimumCollateralPercentage(0, 401)
+      ).to.be.revertedWith(
+        'Minimum collateral percentage must be within range 110-400'
+      );
+
+      await expect(
+        avaiV2.setMinimumCollateralPercentage(0, 109)
+      ).to.be.revertedWith(
+        'Minimum collateral percentage must be within range 110-400'
+      );
+
+      await avaiV2.setMinimumCollateralPercentage(0, 200);
+
+      expect(await wVaultV2.minimumCollateralPercentage()).to.equal(200);
     });
 
     it('should set stablecoin to admin and no other accounts', async () => {

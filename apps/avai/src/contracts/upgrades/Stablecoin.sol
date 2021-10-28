@@ -240,6 +240,16 @@ contract AVAIv2 is
   }
 
   /**
+   * @dev Set the minimum collateral percentage for this bank
+   */
+  function setMinimumCollateralPercentage(uint256 bankID, uint256 mcp_)
+    external
+    onlyRole(DEFAULT_ADMIN_ROLE)
+  {
+    IBank(banks[bankID]).setMinimumCollateralPercentage(mcp_);
+  }
+
+  /**
    * @dev Set the closing fee for this bank
    */
   function setClosingFee(uint256 bankID, uint256 amount)

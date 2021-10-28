@@ -58,6 +58,7 @@ interface AVAIv2Interface extends ethers.utils.Interface {
     "setDebtRatio(uint256,uint256)": FunctionFragment;
     "setGainRatio(uint256,uint256)": FunctionFragment;
     "setGateway(uint256,address)": FunctionFragment;
+    "setMinimumCollateralPercentage(uint256,uint256)": FunctionFragment;
     "setMinimumDebt(uint256,uint256)": FunctionFragment;
     "setMintingPaused(uint256,bool)": FunctionFragment;
     "setOpeningFee(uint256,uint256)": FunctionFragment;
@@ -205,6 +206,10 @@ interface AVAIv2Interface extends ethers.utils.Interface {
     values: [BigNumberish, string]
   ): string;
   encodeFunctionData(
+    functionFragment: "setMinimumCollateralPercentage",
+    values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setMinimumDebt",
     values: [BigNumberish, BigNumberish]
   ): string;
@@ -347,6 +352,10 @@ interface AVAIv2Interface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setGateway", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setMinimumCollateralPercentage",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "setMinimumDebt",
     data: BytesLike
@@ -633,6 +642,12 @@ export class AVAIv2 extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setMinimumCollateralPercentage(
+      bankID: BigNumberish,
+      mcp_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     setMinimumDebt(
       bankID: BigNumberish,
       minimumDebt_: BigNumberish,
@@ -877,6 +892,12 @@ export class AVAIv2 extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setMinimumCollateralPercentage(
+    bankID: BigNumberish,
+    mcp_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   setMinimumDebt(
     bankID: BigNumberish,
     minimumDebt_: BigNumberish,
@@ -1114,6 +1135,12 @@ export class AVAIv2 extends BaseContract {
     setGateway(
       bankID: BigNumberish,
       gateway_: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setMinimumCollateralPercentage(
+      bankID: BigNumberish,
+      mcp_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1443,6 +1470,12 @@ export class AVAIv2 extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setMinimumCollateralPercentage(
+      bankID: BigNumberish,
+      mcp_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     setMinimumDebt(
       bankID: BigNumberish,
       minimumDebt_: BigNumberish,
@@ -1699,6 +1732,12 @@ export class AVAIv2 extends BaseContract {
     setGateway(
       bankID: BigNumberish,
       gateway_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setMinimumCollateralPercentage(
+      bankID: BigNumberish,
+      mcp_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
