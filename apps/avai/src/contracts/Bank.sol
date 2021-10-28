@@ -105,6 +105,7 @@ contract Bank is
   event NewPriceSource(address newPriceSource);
   event NewTreasury(uint256 newTreasury);
   event BankPaused(bool mintingPaused);
+  event NewMinimumCollateralPercentage(uint256 newMinimumCollateralPercentage);
 
   // Lets begin!
   function initialize(
@@ -216,6 +217,20 @@ contract Bank is
     );
     debtRatio = debtRatio_;
     emit ChangeDebtRatio(debtRatio_);
+  }
+
+  /**
+   * @dev sets the minimum collateral percentage
+   */
+  function setMinimumCollateralPercentage(uint256 mcp_)
+    external
+    onlyRole(TREASURY_ROLE)
+  {
+    require(
+      mcp_ >= 110 && mcp_ <= 400,
+      'Minimum collateral percentage must be within range 110-400'
+    );
+    minimumCollateralPercentage = mcp_;
   }
 
   /**

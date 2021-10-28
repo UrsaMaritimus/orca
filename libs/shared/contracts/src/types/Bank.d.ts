@@ -64,6 +64,7 @@ interface BankInterface extends ethers.utils.Interface {
     "setDebtRatio(uint256)": FunctionFragment;
     "setGainRatio(uint256)": FunctionFragment;
     "setGateway(address)": FunctionFragment;
+    "setMinimumCollateralPercentage(uint256)": FunctionFragment;
     "setMinimumDebt(uint256)": FunctionFragment;
     "setMintingPaused(bool)": FunctionFragment;
     "setOpeningFee(uint256)": FunctionFragment;
@@ -243,6 +244,10 @@ interface BankInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "setGateway", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "setMinimumCollateralPercentage",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "setMinimumDebt",
     values: [BigNumberish]
@@ -455,6 +460,10 @@ interface BankInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "setGateway", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "setMinimumCollateralPercentage",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "setMinimumDebt",
     data: BytesLike
   ): Result;
@@ -550,6 +559,7 @@ interface BankInterface extends ethers.utils.Interface {
     "NewClosingFee(uint256)": EventFragment;
     "NewDebtCeiling(uint256)": EventFragment;
     "NewGateway(address)": EventFragment;
+    "NewMinimumCollateralPercentage(uint256)": EventFragment;
     "NewMinimumDebt(uint256)": EventFragment;
     "NewOpeningFee(uint256)": EventFragment;
     "NewPeg(uint256)": EventFragment;
@@ -579,6 +589,9 @@ interface BankInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "NewClosingFee"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "NewDebtCeiling"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "NewGateway"): EventFragment;
+  getEvent(
+    nameOrSignatureOrTopic: "NewMinimumCollateralPercentage"
+  ): EventFragment;
   getEvent(nameOrSignatureOrTopic: "NewMinimumDebt"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "NewOpeningFee"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "NewPeg"): EventFragment;
@@ -824,6 +837,11 @@ export class Bank extends BaseContract {
 
     setGateway(
       gateway_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setMinimumCollateralPercentage(
+      mcp_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -1120,6 +1138,11 @@ export class Bank extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setMinimumCollateralPercentage(
+    mcp_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   setMinimumDebt(
     minimumDebt_: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -1399,6 +1422,11 @@ export class Bank extends BaseContract {
 
     setGateway(gateway_: string, overrides?: CallOverrides): Promise<void>;
 
+    setMinimumCollateralPercentage(
+      mcp_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setMinimumDebt(
       minimumDebt_: BigNumberish,
       overrides?: CallOverrides
@@ -1602,6 +1630,13 @@ export class Bank extends BaseContract {
     NewGateway(
       newGateway?: null
     ): TypedEventFilter<[string], { newGateway: string }>;
+
+    NewMinimumCollateralPercentage(
+      newMinimumCollateralPercentage?: null
+    ): TypedEventFilter<
+      [BigNumber],
+      { newMinimumCollateralPercentage: BigNumber }
+    >;
 
     NewMinimumDebt(
       newMinimumDebt?: null
@@ -1876,6 +1911,11 @@ export class Bank extends BaseContract {
 
     setGateway(
       gateway_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setMinimumCollateralPercentage(
+      mcp_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -2183,6 +2223,11 @@ export class Bank extends BaseContract {
 
     setGateway(
       gateway_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setMinimumCollateralPercentage(
+      mcp_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

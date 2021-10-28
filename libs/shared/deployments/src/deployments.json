@@ -958,6 +958,24 @@
                 },
                 {
                   "internalType": "uint256",
+                  "name": "mcp_",
+                  "type": "uint256"
+                }
+              ],
+              "name": "setMinimumCollateralPercentage",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "bankID",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
                   "name": "minimumDebt_",
                   "type": "uint256"
                 }
@@ -1230,7 +1248,7 @@
           ]
         },
         "AVAI_Implementation": {
-          "address": "0x01C6D365d5Cacc670EdC10Ce442E3DF343420Bbb",
+          "address": "0x03C4Dcfb7512c148C08F773E6F6879D20EC0D7AE",
           "abi": [
             {
               "anonymous": false,
@@ -2131,6 +2149,24 @@
                 },
                 {
                   "internalType": "uint256",
+                  "name": "mcp_",
+                  "type": "uint256"
+                }
+              ],
+              "name": "setMinimumCollateralPercentage",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "bankID",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
                   "name": "minimumDebt_",
                   "type": "uint256"
                 }
@@ -2486,7 +2522,7 @@
           ]
         },
         "Bank": {
-          "address": "0x4Da8Fb266b9259EF915c4360B9AA76d328936909",
+          "address": "0x7f8F0822d0440eE7FfB6058fe42ba9DC98ea7be3",
           "abi": [
             {
               "anonymous": false,
@@ -2746,6 +2782,19 @@
                 }
               ],
               "name": "NewGateway",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": false,
+                  "internalType": "uint256",
+                  "name": "newMinimumCollateralPercentage",
+                  "type": "uint256"
+                }
+              ],
+              "name": "NewMinimumCollateralPercentage",
               "type": "event"
             },
             {
@@ -3706,6 +3755,19 @@
                 }
               ],
               "name": "setGateway",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "mcp_",
+                  "type": "uint256"
+                }
+              ],
+              "name": "setMinimumCollateralPercentage",
               "outputs": [],
               "stateMutability": "nonpayable",
               "type": "function"
@@ -12033,7 +12095,7 @@
           ]
         },
         "AVAI_Implementation": {
-          "address": "0x8504e2Bf94429072a10ACe993E8ea9E31de18406",
+          "address": "0x17DEbF29B98292ABd47Ac18bdD394308FcF74361",
           "abi": [
             {
               "anonymous": false,
@@ -12951,6 +13013,24 @@
                   "type": "uint256"
                 },
                 {
+                  "internalType": "bool",
+                  "name": "paused_",
+                  "type": "bool"
+                }
+              ],
+              "name": "setMintingPaused",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "bankID",
+                  "type": "uint256"
+                },
+                {
                   "internalType": "uint256",
                   "name": "amount",
                   "type": "uint256"
@@ -13271,7 +13351,7 @@
           ]
         },
         "Bank": {
-          "address": "0xE55Cd5fF426FaaD0450B4ADe03f02eCbC4770bb9",
+          "address": "0x599D8908f783df097E390E0F53d5F93B68F1126a",
           "abi": [
             {
               "anonymous": false,
@@ -13321,6 +13401,19 @@
                 }
               ],
               "name": "ApprovalForAll",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": false,
+                  "internalType": "bool",
+                  "name": "mintingPaused",
+                  "type": "bool"
+                }
+              ],
+              "name": "BankPaused",
               "type": "event"
             },
             {
@@ -14225,6 +14318,19 @@
             },
             {
               "inputs": [],
+              "name": "mintingPaused",
+              "outputs": [
+                {
+                  "internalType": "bool",
+                  "name": "",
+                  "type": "bool"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
               "name": "name",
               "outputs": [
                 {
@@ -14478,6 +14584,19 @@
                 }
               ],
               "name": "setMinimumDebt",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "bool",
+                  "name": "paused_",
+                  "type": "bool"
+                }
+              ],
+              "name": "setMintingPaused",
               "outputs": [],
               "stateMutability": "nonpayable",
               "type": "function"
