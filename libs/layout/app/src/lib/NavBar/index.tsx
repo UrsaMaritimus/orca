@@ -1,5 +1,6 @@
 import React, { useEffect, FC } from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 import { alpha, styled } from '@mui/material/styles';
 
@@ -165,9 +166,20 @@ const NavBar: FC<Props> = ({ isOpenNav, onCloseNav }) => {
       <NavSection navConfig={MenuLinks} isShow={!isCollapse} />
 
       <Box sx={{ flexGrow: 1 }} />
-
+      <NextLink
+        href="https://paladinsec.co/projects/orcadao/"
+        target="_blank"
+        rel="noreferrer"
+        sx={{ mx: 'auto', mt: 10 }}
+      >
+        <Image
+          src="https://paladinsec.co/pld/assets/audited-by-paladin-standard.svg"
+          width={250}
+          height={100}
+        />
+      </NextLink>
       {!isCollapse && (
-        <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
+        <Box sx={{ px: 2.5, pb: 3 }}>
           <DocStyle>
             <Box
               component="img"
