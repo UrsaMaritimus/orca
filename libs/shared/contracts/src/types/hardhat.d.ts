@@ -157,6 +157,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ILiquidator__factory>;
     getContractFactory(
+      name: "IPair",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IPair__factory>;
+    getContractFactory(
       name: "IStablecoin",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IStablecoin__factory>;
@@ -201,6 +205,14 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ORCA__factory>;
     getContractFactory(
+      name: "OrcaAdder",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.OrcaAdder__factory>;
+    getContractFactory(
+      name: "OrcaPod",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.OrcaPod__factory>;
+    getContractFactory(
       name: "OrcaStaking",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.OrcaStaking__factory>;
@@ -224,6 +236,10 @@ declare module "hardhat/types/runtime" {
       name: "SingleStaking",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SingleStaking__factory>;
+    getContractFactory(
+      name: "SnapshotBridge",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SnapshotBridge__factory>;
     getContractFactory(
       name: "AVAI",
       signerOrOptions?: ethers.Signer | FactoryOptions

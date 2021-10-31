@@ -19,24 +19,23 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
-interface IYakStrategyInterface extends ethers.utils.Interface {
+interface OrcaPodInterface extends ethers.utils.Interface {
   functions: {
     "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "checkReward()": FunctionFragment;
     "decimals()": FunctionFragment;
-    "estimateDeployedBalance()": FunctionFragment;
-    "estimateReinvestReward()": FunctionFragment;
-    "getDepositTokensForShares(uint256)": FunctionFragment;
-    "getSharesForDepositTokens(uint256)": FunctionFragment;
+    "decreaseAllowance(address,uint256)": FunctionFragment;
+    "enter(uint256)": FunctionFragment;
+    "increaseAllowance(address,uint256)": FunctionFragment;
+    "leave(uint256)": FunctionFragment;
     "name()": FunctionFragment;
+    "orca()": FunctionFragment;
+    "ratio(uint256)": FunctionFragment;
     "symbol()": FunctionFragment;
-    "totalDeposits()": FunctionFragment;
     "totalSupply()": FunctionFragment;
     "transfer(address,uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
-    "withdraw(uint256)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -48,33 +47,21 @@ interface IYakStrategyInterface extends ethers.utils.Interface {
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
-  encodeFunctionData(
-    functionFragment: "checkReward",
-    values?: undefined
-  ): string;
   encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "estimateDeployedBalance",
-    values?: undefined
+    functionFragment: "decreaseAllowance",
+    values: [string, BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "enter", values: [BigNumberish]): string;
   encodeFunctionData(
-    functionFragment: "estimateReinvestReward",
-    values?: undefined
+    functionFragment: "increaseAllowance",
+    values: [string, BigNumberish]
   ): string;
-  encodeFunctionData(
-    functionFragment: "getDepositTokensForShares",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getSharesForDepositTokens",
-    values: [BigNumberish]
-  ): string;
+  encodeFunctionData(functionFragment: "leave", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
+  encodeFunctionData(functionFragment: "orca", values?: undefined): string;
+  encodeFunctionData(functionFragment: "ratio", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "totalDeposits",
-    values?: undefined
-  ): string;
   encodeFunctionData(
     functionFragment: "totalSupply",
     values?: undefined
@@ -87,41 +74,25 @@ interface IYakStrategyInterface extends ethers.utils.Interface {
     functionFragment: "transferFrom",
     values: [string, string, BigNumberish]
   ): string;
-  encodeFunctionData(
-    functionFragment: "withdraw",
-    values: [BigNumberish]
-  ): string;
 
   decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "checkReward",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "estimateDeployedBalance",
+    functionFragment: "decreaseAllowance",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "enter", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "estimateReinvestReward",
+    functionFragment: "increaseAllowance",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "getDepositTokensForShares",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getSharesForDepositTokens",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "leave", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "orca", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "ratio", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "totalDeposits",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(
     functionFragment: "totalSupply",
     data: BytesLike
@@ -131,18 +102,21 @@ interface IYakStrategyInterface extends ethers.utils.Interface {
     functionFragment: "transferFrom",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
+    "Enter(address,uint256,uint256)": EventFragment;
+    "Leave(address,uint256,uint256)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Enter"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Leave"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
-export class IYakStrategy extends BaseContract {
+export class OrcaPod extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -183,7 +157,7 @@ export class IYakStrategy extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: IYakStrategyInterface;
+  interface: OrcaPodInterface;
 
   functions: {
     allowance(
@@ -200,29 +174,40 @@ export class IYakStrategy extends BaseContract {
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    checkReward(overrides?: CallOverrides): Promise<[BigNumber]>;
-
     decimals(overrides?: CallOverrides): Promise<[number]>;
 
-    estimateDeployedBalance(overrides?: CallOverrides): Promise<[BigNumber]>;
+    decreaseAllowance(
+      spender: string,
+      subtractedValue: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
-    estimateReinvestReward(overrides?: CallOverrides): Promise<[BigNumber]>;
+    enter(
+      _amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
-    getDepositTokensForShares(
-      amount: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
+    increaseAllowance(
+      spender: string,
+      addedValue: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
-    getSharesForDepositTokens(
-      amount: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
+    leave(
+      _share: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     name(overrides?: CallOverrides): Promise<[string]>;
 
-    symbol(overrides?: CallOverrides): Promise<[string]>;
+    orca(overrides?: CallOverrides): Promise<[string]>;
 
-    totalDeposits(overrides?: CallOverrides): Promise<[BigNumber]>;
+    ratio(
+      _amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    symbol(overrides?: CallOverrides): Promise<[string]>;
 
     totalSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -235,11 +220,6 @@ export class IYakStrategy extends BaseContract {
     transferFrom(
       sender: string,
       recipient: string,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    withdraw(
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -259,29 +239,37 @@ export class IYakStrategy extends BaseContract {
 
   balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-  checkReward(overrides?: CallOverrides): Promise<BigNumber>;
-
   decimals(overrides?: CallOverrides): Promise<number>;
 
-  estimateDeployedBalance(overrides?: CallOverrides): Promise<BigNumber>;
+  decreaseAllowance(
+    spender: string,
+    subtractedValue: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
-  estimateReinvestReward(overrides?: CallOverrides): Promise<BigNumber>;
+  enter(
+    _amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
-  getDepositTokensForShares(
-    amount: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
+  increaseAllowance(
+    spender: string,
+    addedValue: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
-  getSharesForDepositTokens(
-    amount: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
+  leave(
+    _share: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   name(overrides?: CallOverrides): Promise<string>;
 
-  symbol(overrides?: CallOverrides): Promise<string>;
+  orca(overrides?: CallOverrides): Promise<string>;
 
-  totalDeposits(overrides?: CallOverrides): Promise<BigNumber>;
+  ratio(_amount: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+  symbol(overrides?: CallOverrides): Promise<string>;
 
   totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -294,11 +282,6 @@ export class IYakStrategy extends BaseContract {
   transferFrom(
     sender: string,
     recipient: string,
-    amount: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  withdraw(
     amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -318,29 +301,31 @@ export class IYakStrategy extends BaseContract {
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    checkReward(overrides?: CallOverrides): Promise<BigNumber>;
-
     decimals(overrides?: CallOverrides): Promise<number>;
 
-    estimateDeployedBalance(overrides?: CallOverrides): Promise<BigNumber>;
-
-    estimateReinvestReward(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getDepositTokensForShares(
-      amount: BigNumberish,
+    decreaseAllowance(
+      spender: string,
+      subtractedValue: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ): Promise<boolean>;
 
-    getSharesForDepositTokens(
-      amount: BigNumberish,
+    enter(_amount: BigNumberish, overrides?: CallOverrides): Promise<void>;
+
+    increaseAllowance(
+      spender: string,
+      addedValue: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ): Promise<boolean>;
+
+    leave(_share: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
     name(overrides?: CallOverrides): Promise<string>;
 
-    symbol(overrides?: CallOverrides): Promise<string>;
+    orca(overrides?: CallOverrides): Promise<string>;
 
-    totalDeposits(overrides?: CallOverrides): Promise<BigNumber>;
+    ratio(_amount: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+    symbol(overrides?: CallOverrides): Promise<string>;
 
     totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -356,8 +341,6 @@ export class IYakStrategy extends BaseContract {
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<boolean>;
-
-    withdraw(amount: BigNumberish, overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {
@@ -368,6 +351,24 @@ export class IYakStrategy extends BaseContract {
     ): TypedEventFilter<
       [string, string, BigNumber],
       { owner: string; spender: string; value: BigNumber }
+    >;
+
+    Enter(
+      user?: null,
+      amountIn?: null,
+      amountOut?: null
+    ): TypedEventFilter<
+      [string, BigNumber, BigNumber],
+      { user: string; amountIn: BigNumber; amountOut: BigNumber }
+    >;
+
+    Leave(
+      user?: null,
+      amountIn?: null,
+      amountOut?: null
+    ): TypedEventFilter<
+      [string, BigNumber, BigNumber],
+      { user: string; amountIn: BigNumber; amountOut: BigNumber }
     >;
 
     Transfer(
@@ -395,29 +396,37 @@ export class IYakStrategy extends BaseContract {
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    checkReward(overrides?: CallOverrides): Promise<BigNumber>;
-
     decimals(overrides?: CallOverrides): Promise<BigNumber>;
 
-    estimateDeployedBalance(overrides?: CallOverrides): Promise<BigNumber>;
-
-    estimateReinvestReward(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getDepositTokensForShares(
-      amount: BigNumberish,
-      overrides?: CallOverrides
+    decreaseAllowance(
+      spender: string,
+      subtractedValue: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    getSharesForDepositTokens(
-      amount: BigNumberish,
-      overrides?: CallOverrides
+    enter(
+      _amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    increaseAllowance(
+      spender: string,
+      addedValue: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    leave(
+      _share: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
-    symbol(overrides?: CallOverrides): Promise<BigNumber>;
+    orca(overrides?: CallOverrides): Promise<BigNumber>;
 
-    totalDeposits(overrides?: CallOverrides): Promise<BigNumber>;
+    ratio(_amount: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+    symbol(overrides?: CallOverrides): Promise<BigNumber>;
 
     totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -430,11 +439,6 @@ export class IYakStrategy extends BaseContract {
     transferFrom(
       sender: string,
       recipient: string,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    withdraw(
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -458,33 +462,40 @@ export class IYakStrategy extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    checkReward(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     decimals(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    estimateDeployedBalance(
-      overrides?: CallOverrides
+    decreaseAllowance(
+      spender: string,
+      subtractedValue: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    estimateReinvestReward(
-      overrides?: CallOverrides
+    enter(
+      _amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    getDepositTokensForShares(
-      amount: BigNumberish,
-      overrides?: CallOverrides
+    increaseAllowance(
+      spender: string,
+      addedValue: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    getSharesForDepositTokens(
-      amount: BigNumberish,
-      overrides?: CallOverrides
+    leave(
+      _share: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    orca(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    totalDeposits(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    ratio(
+      _amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     totalSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -497,11 +508,6 @@ export class IYakStrategy extends BaseContract {
     transferFrom(
       sender: string,
       recipient: string,
-      amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    withdraw(
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;

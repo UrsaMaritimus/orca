@@ -20,4 +20,6 @@ interface IYakStrategy is IERC20Metadata {
   function checkReward() external view returns (uint256);
 
   function estimateDeployedBalance() external view returns (uint256);
+
+  function withdraw(uint256 amount) external;
 }
