@@ -9,6 +9,9 @@ import MediumArticles from './Medium';
 import BanksAnalytics from './Banks';
 import { YieldFarmInfo } from './Farms';
 
+import { ethers } from 'ethers';
+import { Bank__factory } from '@orca/shared/contracts';
+
 // ----------------------------------------------------------------------
 const RootStyle = styled(Page)({});
 

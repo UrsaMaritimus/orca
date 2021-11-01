@@ -2,12 +2,17 @@ import { BigNumber, utils } from 'ethers';
 import { tokenInfo } from '@orca/shared/base';
 import { VaultContracts } from '@orca/shared/contracts';
 
+import useSwr from 'swr';
+import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
+
 import {
   useBankInfoFrontPageSubscription,
   useExchangeInfoFrontPageSubscription,
   useTotalSupplyFrontPageSubscription,
 } from '@orca/graphql';
 import { find, includes } from 'lodash';
+
+import { allBankPricesNoWeb3 } from '@orca/shared/funcs';
 
 export const useFrontPageInfo = () => {
   const { data: supplyFrontPage, loading: supplyLoading } =
@@ -17,7 +22,14 @@ export const useFrontPageInfo = () => {
   const { data: bankInfoFrontPage, loading: bankLoading } =
     useBankInfoFrontPageSubscription({});
 
-  if (!supplyLoading && !exchangeLoading && !bankLoading) {
+  // Grab bank prices
+  const { data: prices, mutate: priceMutate } = useSwr(
+    [`getAllPrices`],
+    allBankPricesNoWeb3()
+  );
+  useKeepSWRDataLiveAsBlocksArrive(priceMutate);
+
+  if (!supplyLoading && !exchangeLoading && !bankLoading && prices) {
     const avaiSupply = supplyFrontPage.stablecoins.reduce(
       (prev, next) => prev.add(BigNumber.from(next.totalSupply)),
       BigNumber.from(0)
@@ -28,17 +40,6 @@ export const useFrontPageInfo = () => {
       },
       BigNumber.from(0)
     );
-    const totalDebt = bankInfoFrontPage.banks.reduce((prev, next) => {
-      return prev.add(BigNumber.from(next.totalDebt));
-    }, BigNumber.from(0));
-
-    const totalCollateral = bankInfoFrontPage.banks.reduce((prev, next) => {
-      return prev.add(
-        BigNumber.from(next.totalCollateral)
-          .mul(BigNumber.from(next.token.price.priceUSD))
-          .div(BigNumber.from(next.tokenPeg))
-      );
-    }, BigNumber.from(0));
 
     const bankTreasury = bankInfoFrontPage.banks.reduce((prev, next) => {
       return prev.add(
@@ -79,12 +80,14 @@ export const useFrontPageInfo = () => {
             : Object.keys(VaultContracts.fuji).filter(
                 (key) => VaultContracts.fuji[key] === bank.id.toLowerCase()
               );
-        console.log(collat);
+
+        const price = find(prices, { name: collat[0] });
+
         const name = bank.token.symbol.toLowerCase();
         const debt = BigNumber.from(bank.totalDebt);
         const collateral = BigNumber.from(bank.totalCollateral)
           .mul(10 ** (18 - bank.token.decimals))
-          .mul(BigNumber.from(bank.token.price.priceUSD))
+          .mul(price.price)
           .div(BigNumber.from(bank.tokenPeg));
 
         const ltv = collateral.isZero()
@@ -106,6 +109,15 @@ export const useFrontPageInfo = () => {
         };
       })
       .filter((n) => n);
+
+    const totalCollateral = indivBanks.reduce((prev, next) => {
+      return prev.add(next.collateral);
+    }, BigNumber.from(0));
+
+    const totalDebt = indivBanks.reduce((prev, next) => {
+      return prev.add(next.debt);
+    }, BigNumber.from(0));
+
     return {
       loading: false,
       data: {

@@ -130,6 +130,32 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     decimals: 18,
     collateral: true,
   },
+  YRTJOEAVAX: {
+    address: {
+      mainnet: ''.toLowerCase(),
+      fuji: ''.toLowerCase(),
+    },
+    icon: '/static/cryptos/ic_yak_avax_joe.png',
+    erc20: 'yrtJoeAvax',
+    display: 'Yak Joe AVAX',
+    url: 'YRTJOEAVAX',
+    symbol: 'YRT',
+    decimals: 18,
+    collateral: true,
+  },
+  YRTJOEUSDC: {
+    address: {
+      mainnet: ''.toLowerCase(),
+      fuji: ''.toLowerCase(),
+    },
+    icon: '/static/cryptos/ic_yak_usdc_joe.png',
+    erc20: 'yrtJoeUsdc',
+    display: 'Yak Joe USDC.e',
+    url: 'YRTJOEUSDC',
+    symbol: 'YRT',
+    decimals: 18,
+    collateral: true,
+  },
   'USDC-AVAI': {
     address: {
       mainnet: '0xeD7a2B4054757Cfdb632Af15Ad528624F0fFf3B0'.toLowerCase(),

@@ -28,7 +28,6 @@ export const useGetVaults = (
     shouldFetch ? [`getAllPrices`, library, chainId] : null,
     allBankPrices()
   );
-  console.log(prices, vaultData);
   useKeepSWRDataLiveAsBlocksArrive(priceMutate);
   if (prices && vaultData) {
     return {

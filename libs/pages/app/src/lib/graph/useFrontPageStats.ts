@@ -68,9 +68,9 @@ export const useFrontPageStats = () => {
     const avaxUSDPrice = Number(avaxPrice.bundle?.ethPrice);
     const orcaUSDPrice = Number(orcaPrice.token?.derivedETH) * avaxUSDPrice;
 
-    const stakingTvl = Number(
-      utils.formatEther(BigNumber.from(yieldData.staking.totalStaked))
-    );
+    const stakingTvl =
+      Number(utils.formatEther(BigNumber.from(yieldData.staking.totalStaked))) *
+      orcaUSDPrice;
 
     const TVL =
       orcaFarm.tvl +
@@ -79,7 +79,6 @@ export const useFrontPageStats = () => {
       bankTVL +
       Number(utils.formatUnits(bankData.exchangeTVL, 6)) +
       stakingTvl;
-
     return {
       loading: false,
       data: {
