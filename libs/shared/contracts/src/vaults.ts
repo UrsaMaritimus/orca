@@ -17,6 +17,4 @@ export const VaultTypes = [
   { name: 'wavax', symbol: 'WAVAX' },
   { name: 'weth', symbol: 'WETH.e' },
   { name: 'wbtc', symbol: 'WBTC.e' },
-  { name: 'yrtAaveAvax', symbol: 'YRT' },
-  { name: 'yrtAaveAvax2', symbol: 'YRT' },
 ];
