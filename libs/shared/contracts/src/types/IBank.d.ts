@@ -47,8 +47,12 @@ interface IBankInterface extends ethers.utils.Interface {
     "setTokenPeg(uint256)": FunctionFragment;
     "setTreasury(uint256)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
+    "tokenByIndex(uint256)": FunctionFragment;
+    "tokenOfOwnerByIndex(address,uint256)": FunctionFragment;
+    "totalSupply()": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "transferVault(uint256,address)": FunctionFragment;
+    "vaultCollateral(uint256)": FunctionFragment;
     "vaultExists(uint256)": FunctionFragment;
     "withdrawCollateral(uint256,uint256)": FunctionFragment;
   };
@@ -149,12 +153,28 @@ interface IBankInterface extends ethers.utils.Interface {
     values: [BytesLike]
   ): string;
   encodeFunctionData(
+    functionFragment: "tokenByIndex",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "tokenOfOwnerByIndex",
+    values: [string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "totalSupply",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "transferFrom",
     values: [string, string, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "transferVault",
     values: [BigNumberish, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "vaultCollateral",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "vaultExists",
@@ -252,11 +272,27 @@ interface IBankInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "tokenByIndex",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "tokenOfOwnerByIndex",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "totalSupply",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "transferFrom",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "transferVault",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "vaultCollateral",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -472,6 +508,19 @@ export class IBank extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    tokenByIndex(
+      index: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    tokenOfOwnerByIndex(
+      owner: string,
+      index: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { tokenId: BigNumber }>;
+
+    totalSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     transferFrom(
       from: string,
       to: string,
@@ -484,6 +533,11 @@ export class IBank extends BaseContract {
       to: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    vaultCollateral(
+      vaultID: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
     vaultExists(
       vaultID: BigNumberish,
@@ -640,6 +694,19 @@ export class IBank extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  tokenByIndex(
+    index: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  tokenOfOwnerByIndex(
+    owner: string,
+    index: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
+
   transferFrom(
     from: string,
     to: string,
@@ -652,6 +719,11 @@ export class IBank extends BaseContract {
     to: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  vaultCollateral(
+    vaultID: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   vaultExists(
     vaultID: BigNumberish,
@@ -799,6 +871,19 @@ export class IBank extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    tokenByIndex(
+      index: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    tokenOfOwnerByIndex(
+      owner: string,
+      index: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
+
     transferFrom(
       from: string,
       to: string,
@@ -811,6 +896,11 @@ export class IBank extends BaseContract {
       to: string,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    vaultCollateral(
+      vaultID: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     vaultExists(
       vaultID: BigNumberish,
@@ -1000,6 +1090,19 @@ export class IBank extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    tokenByIndex(
+      index: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    tokenOfOwnerByIndex(
+      owner: string,
+      index: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
+
     transferFrom(
       from: string,
       to: string,
@@ -1011,6 +1114,11 @@ export class IBank extends BaseContract {
       vaultID: BigNumberish,
       to: string,
       overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    vaultCollateral(
+      vaultID: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     vaultExists(
@@ -1175,6 +1283,19 @@ export class IBank extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    tokenByIndex(
+      index: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    tokenOfOwnerByIndex(
+      owner: string,
+      index: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    totalSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     transferFrom(
       from: string,
       to: string,
@@ -1186,6 +1307,11 @@ export class IBank extends BaseContract {
       vaultID: BigNumberish,
       to: string,
       overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    vaultCollateral(
+      vaultID: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     vaultExists(
