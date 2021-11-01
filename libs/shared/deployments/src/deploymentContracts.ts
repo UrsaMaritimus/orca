@@ -958,11 +958,47 @@ export default {
                 },
                 {
                   internalType: 'uint256',
+                  name: 'mcp_',
+                  type: 'uint256',
+                },
+              ],
+              name: 'setMinimumCollateralPercentage',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
                   name: 'minimumDebt_',
                   type: 'uint256',
                 },
               ],
               name: 'setMinimumDebt',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'bool',
+                  name: 'paused_',
+                  type: 'bool',
+                },
+              ],
+              name: 'setMintingPaused',
               outputs: [],
               stateMutability: 'nonpayable',
               type: 'function',
@@ -1212,7 +1248,7 @@ export default {
           ],
         },
         AVAI_Implementation: {
-          address: '0x97410f4756c6E67faaa5969b8ad55bF727eC0Bf3',
+          address: '0x03C4Dcfb7512c148C08F773E6F6879D20EC0D7AE',
           abi: [
             {
               anonymous: false,
@@ -2113,11 +2149,47 @@ export default {
                 },
                 {
                   internalType: 'uint256',
+                  name: 'mcp_',
+                  type: 'uint256',
+                },
+              ],
+              name: 'setMinimumCollateralPercentage',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
                   name: 'minimumDebt_',
                   type: 'uint256',
                 },
               ],
               name: 'setMinimumDebt',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'bool',
+                  name: 'paused_',
+                  type: 'bool',
+                },
+              ],
+              name: 'setMintingPaused',
               outputs: [],
               stateMutability: 'nonpayable',
               type: 'function',
@@ -2450,7 +2522,7 @@ export default {
           ],
         },
         Bank: {
-          address: '0x3bCb87398fa80562079B89E1dfaf128B9EBD92d2',
+          address: '0x7f8F0822d0440eE7FfB6058fe42ba9DC98ea7be3',
           abi: [
             {
               anonymous: false,
@@ -2500,6 +2572,19 @@ export default {
                 },
               ],
               name: 'ApprovalForAll',
+              type: 'event',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: false,
+                  internalType: 'bool',
+                  name: 'mintingPaused',
+                  type: 'bool',
+                },
+              ],
+              name: 'BankPaused',
               type: 'event',
             },
             {
@@ -2697,6 +2782,19 @@ export default {
                 },
               ],
               name: 'NewGateway',
+              type: 'event',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'newMinimumCollateralPercentage',
+                  type: 'uint256',
+                },
+              ],
+              name: 'NewMinimumCollateralPercentage',
               type: 'event',
             },
             {
@@ -3404,6 +3502,19 @@ export default {
             },
             {
               inputs: [],
+              name: 'mintingPaused',
+              outputs: [
+                {
+                  internalType: 'bool',
+                  name: '',
+                  type: 'bool',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
               name: 'name',
               outputs: [
                 {
@@ -3652,11 +3763,37 @@ export default {
               inputs: [
                 {
                   internalType: 'uint256',
+                  name: 'mcp_',
+                  type: 'uint256',
+                },
+              ],
+              name: 'setMinimumCollateralPercentage',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
                   name: 'minimumDebt_',
                   type: 'uint256',
                 },
               ],
               name: 'setMinimumDebt',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'bool',
+                  name: 'paused_',
+                  type: 'bool',
+                },
+              ],
+              name: 'setMintingPaused',
               outputs: [],
               stateMutability: 'nonpayable',
               type: 'function',
@@ -5308,6 +5445,1505 @@ export default {
               name: 'permit',
               outputs: [],
               stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'symbol',
+              outputs: [
+                {
+                  internalType: 'string',
+                  name: '',
+                  type: 'string',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'totalSupply',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'recipient',
+                  type: 'address',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'transfer',
+              outputs: [
+                {
+                  internalType: 'bool',
+                  name: '',
+                  type: 'bool',
+                },
+              ],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'sender',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: 'recipient',
+                  type: 'address',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'transferFrom',
+              outputs: [
+                {
+                  internalType: 'bool',
+                  name: '',
+                  type: 'bool',
+                },
+              ],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+          ],
+        },
+        OracleBridge: {
+          address: '0x6d6eA50dC769A60b04141adB8588d1B393225688',
+          abi: [
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'priceSource_',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: 'underlyingToken_',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: 'shareToken_',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'nonpayable',
+              type: 'constructor',
+            },
+            {
+              inputs: [],
+              name: 'decimals',
+              outputs: [
+                {
+                  internalType: 'uint8',
+                  name: '',
+                  type: 'uint8',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'description',
+              outputs: [
+                {
+                  internalType: 'string',
+                  name: '',
+                  type: 'string',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint80',
+                  name: '_roundId',
+                  type: 'uint80',
+                },
+              ],
+              name: 'getRoundData',
+              outputs: [
+                {
+                  internalType: 'uint80',
+                  name: 'roundId',
+                  type: 'uint80',
+                },
+                {
+                  internalType: 'int256',
+                  name: 'answer',
+                  type: 'int256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'startedAt',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'updatedAt',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint80',
+                  name: 'answeredInRound',
+                  type: 'uint80',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'latestRoundData',
+              outputs: [
+                {
+                  internalType: 'uint80',
+                  name: '',
+                  type: 'uint80',
+                },
+                {
+                  internalType: 'int256',
+                  name: '',
+                  type: 'int256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint80',
+                  name: '',
+                  type: 'uint80',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'priceSource',
+              outputs: [
+                {
+                  internalType: 'contract AggregatorV3Interface',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'shareToken',
+              outputs: [
+                {
+                  internalType: 'contract IYakStrategy',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'underlyingToken',
+              outputs: [
+                {
+                  internalType: 'contract IERC20Metadata',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'version',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+          ],
+        },
+        OrcaAdder: {
+          address: '0xF17673B6B753512B4C1142F05Ec473cd5BE47217',
+          abi: [
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: 'address',
+                  name: 'implementation',
+                  type: 'address',
+                },
+              ],
+              name: 'Upgraded',
+              type: 'event',
+            },
+            {
+              stateMutability: 'payable',
+              type: 'fallback',
+            },
+            {
+              inputs: [],
+              name: 'admin',
+              outputs: [
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'implementation',
+              outputs: [
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'newImplementation',
+                  type: 'address',
+                },
+              ],
+              name: 'upgradeTo',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'newImplementation',
+                  type: 'address',
+                },
+                {
+                  internalType: 'bytes',
+                  name: 'data',
+                  type: 'bytes',
+                },
+              ],
+              name: 'upgradeToAndCall',
+              outputs: [],
+              stateMutability: 'payable',
+              type: 'function',
+            },
+            {
+              stateMutability: 'payable',
+              type: 'receive',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: 'address',
+                  name: 'previousOwner',
+                  type: 'address',
+                },
+                {
+                  indexed: true,
+                  internalType: 'address',
+                  name: 'newOwner',
+                  type: 'address',
+                },
+              ],
+              name: 'OwnershipTransferred',
+              type: 'event',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'bank',
+                  type: 'address',
+                },
+              ],
+              name: 'addBank',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'lp',
+                  type: 'address',
+                },
+              ],
+              name: 'addLPToken',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'token',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: 'lp',
+                  type: 'address',
+                },
+              ],
+              name: 'addSwapLP',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'token',
+                  type: 'address',
+                },
+              ],
+              name: 'addToken',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'yak',
+                  type: 'address',
+                },
+              ],
+              name: 'addYakStrat',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'allocate',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: '_dev',
+                  type: 'address',
+                },
+              ],
+              name: 'changeDev',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: '_seafund',
+                  type: 'address',
+                },
+              ],
+              name: 'changeSeafund',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: '_treasury',
+                  type: 'address',
+                },
+              ],
+              name: 'changeTreasury',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'dev',
+              outputs: [
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'getBankCount',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'getLPTokens',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'getTokens',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'getYakCount',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: '_pod',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: '_orca',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: '_wavax',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: '_usdc',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: '_seafund',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: '_treasury',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: '_dev',
+                  type: 'address',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '_treasuryAmount',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '_devAmount',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '_seafundAmount',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '_podAmount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'initialize',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'owner',
+              outputs: [
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'pod',
+              outputs: [
+                {
+                  internalType: 'contract IERC20',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'renounceOwnership',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'seafund',
+              outputs: [
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bank',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'vault',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'address',
+                  name: 'to',
+                  type: 'address',
+                },
+              ],
+              name: 'transferBankVault',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'newOwner',
+                  type: 'address',
+                },
+              ],
+              name: 'transferOwnership',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'treasury',
+              outputs: [
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'initialLogic',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: 'initialAdmin',
+                  type: 'address',
+                },
+                {
+                  internalType: 'bytes',
+                  name: '_data',
+                  type: 'bytes',
+                },
+              ],
+              stateMutability: 'payable',
+              type: 'constructor',
+            },
+          ],
+        },
+        OrcaAdder_Implementation: {
+          address: '0xAEDb19468d282A7b8CfF28Dd391109eA6c830379',
+          abi: [
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: 'address',
+                  name: 'previousOwner',
+                  type: 'address',
+                },
+                {
+                  indexed: true,
+                  internalType: 'address',
+                  name: 'newOwner',
+                  type: 'address',
+                },
+              ],
+              name: 'OwnershipTransferred',
+              type: 'event',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'bank',
+                  type: 'address',
+                },
+              ],
+              name: 'addBank',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'lp',
+                  type: 'address',
+                },
+              ],
+              name: 'addLPToken',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'token',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: 'lp',
+                  type: 'address',
+                },
+              ],
+              name: 'addSwapLP',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'token',
+                  type: 'address',
+                },
+              ],
+              name: 'addToken',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'yak',
+                  type: 'address',
+                },
+              ],
+              name: 'addYakStrat',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'allocate',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: '_dev',
+                  type: 'address',
+                },
+              ],
+              name: 'changeDev',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: '_seafund',
+                  type: 'address',
+                },
+              ],
+              name: 'changeSeafund',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: '_treasury',
+                  type: 'address',
+                },
+              ],
+              name: 'changeTreasury',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'dev',
+              outputs: [
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'getBankCount',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'getLPTokens',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'getTokens',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'getYakCount',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: '_pod',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: '_orca',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: '_wavax',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: '_usdc',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: '_seafund',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: '_treasury',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: '_dev',
+                  type: 'address',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '_treasuryAmount',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '_devAmount',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '_seafundAmount',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '_podAmount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'initialize',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'owner',
+              outputs: [
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'pod',
+              outputs: [
+                {
+                  internalType: 'contract IERC20',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'renounceOwnership',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'seafund',
+              outputs: [
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bank',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'vault',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'address',
+                  name: 'to',
+                  type: 'address',
+                },
+              ],
+              name: 'transferBankVault',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'newOwner',
+                  type: 'address',
+                },
+              ],
+              name: 'transferOwnership',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'treasury',
+              outputs: [
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+          ],
+        },
+        OrcaAdder_Proxy: {
+          address: '0xF17673B6B753512B4C1142F05Ec473cd5BE47217',
+          abi: [
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'initialLogic',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: 'initialAdmin',
+                  type: 'address',
+                },
+                {
+                  internalType: 'bytes',
+                  name: '_data',
+                  type: 'bytes',
+                },
+              ],
+              stateMutability: 'payable',
+              type: 'constructor',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: 'address',
+                  name: 'implementation',
+                  type: 'address',
+                },
+              ],
+              name: 'Upgraded',
+              type: 'event',
+            },
+            {
+              stateMutability: 'payable',
+              type: 'fallback',
+            },
+            {
+              inputs: [],
+              name: 'admin',
+              outputs: [
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'implementation',
+              outputs: [
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'newImplementation',
+                  type: 'address',
+                },
+              ],
+              name: 'upgradeTo',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'newImplementation',
+                  type: 'address',
+                },
+                {
+                  internalType: 'bytes',
+                  name: 'data',
+                  type: 'bytes',
+                },
+              ],
+              name: 'upgradeToAndCall',
+              outputs: [],
+              stateMutability: 'payable',
+              type: 'function',
+            },
+            {
+              stateMutability: 'payable',
+              type: 'receive',
+            },
+          ],
+        },
+        OrcaPod: {
+          address: '0x69fA005CEe59C3BBd657A38B67E32388910653B4',
+          abi: [
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: '_orca',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'nonpayable',
+              type: 'constructor',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: 'address',
+                  name: 'owner',
+                  type: 'address',
+                },
+                {
+                  indexed: true,
+                  internalType: 'address',
+                  name: 'spender',
+                  type: 'address',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'value',
+                  type: 'uint256',
+                },
+              ],
+              name: 'Approval',
+              type: 'event',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: false,
+                  internalType: 'address',
+                  name: 'user',
+                  type: 'address',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'amountIn',
+                  type: 'uint256',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'amountOut',
+                  type: 'uint256',
+                },
+              ],
+              name: 'Enter',
+              type: 'event',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: false,
+                  internalType: 'address',
+                  name: 'user',
+                  type: 'address',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'amountIn',
+                  type: 'uint256',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'amountOut',
+                  type: 'uint256',
+                },
+              ],
+              name: 'Leave',
+              type: 'event',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: 'address',
+                  name: 'from',
+                  type: 'address',
+                },
+                {
+                  indexed: true,
+                  internalType: 'address',
+                  name: 'to',
+                  type: 'address',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'value',
+                  type: 'uint256',
+                },
+              ],
+              name: 'Transfer',
+              type: 'event',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'owner',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: 'spender',
+                  type: 'address',
+                },
+              ],
+              name: 'allowance',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'spender',
+                  type: 'address',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'approve',
+              outputs: [
+                {
+                  internalType: 'bool',
+                  name: '',
+                  type: 'bool',
+                },
+              ],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'account',
+                  type: 'address',
+                },
+              ],
+              name: 'balanceOf',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'decimals',
+              outputs: [
+                {
+                  internalType: 'uint8',
+                  name: '',
+                  type: 'uint8',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'spender',
+                  type: 'address',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'subtractedValue',
+                  type: 'uint256',
+                },
+              ],
+              name: 'decreaseAllowance',
+              outputs: [
+                {
+                  internalType: 'bool',
+                  name: '',
+                  type: 'bool',
+                },
+              ],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: '_amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'enter',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'spender',
+                  type: 'address',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'addedValue',
+                  type: 'uint256',
+                },
+              ],
+              name: 'increaseAllowance',
+              outputs: [
+                {
+                  internalType: 'bool',
+                  name: '',
+                  type: 'bool',
+                },
+              ],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: '_share',
+                  type: 'uint256',
+                },
+              ],
+              name: 'leave',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'name',
+              outputs: [
+                {
+                  internalType: 'string',
+                  name: '',
+                  type: 'string',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'orca',
+              outputs: [
+                {
+                  internalType: 'contract IERC20',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: '_amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'ratio',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
               type: 'function',
             },
             {
@@ -10390,6 +12026,182 @@ export default {
             },
           ],
         },
+        YakAvaxAAVEOracle: {
+          address: '0x690f5099A17198d2d3b08eB86B07Bf7b12187508',
+          abi: [
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'priceSource_',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: 'underlyingToken_',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: 'shareToken_',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'nonpayable',
+              type: 'constructor',
+            },
+            {
+              inputs: [],
+              name: 'decimals',
+              outputs: [
+                {
+                  internalType: 'uint8',
+                  name: '',
+                  type: 'uint8',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'description',
+              outputs: [
+                {
+                  internalType: 'string',
+                  name: '',
+                  type: 'string',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint80',
+                  name: '_roundId',
+                  type: 'uint80',
+                },
+              ],
+              name: 'getRoundData',
+              outputs: [
+                {
+                  internalType: 'uint80',
+                  name: 'roundId',
+                  type: 'uint80',
+                },
+                {
+                  internalType: 'int256',
+                  name: 'answer',
+                  type: 'int256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'startedAt',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'updatedAt',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint80',
+                  name: 'answeredInRound',
+                  type: 'uint80',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'latestRoundData',
+              outputs: [
+                {
+                  internalType: 'uint80',
+                  name: '',
+                  type: 'uint80',
+                },
+                {
+                  internalType: 'int256',
+                  name: '',
+                  type: 'int256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint80',
+                  name: '',
+                  type: 'uint80',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'priceSource',
+              outputs: [
+                {
+                  internalType: 'contract AggregatorV3Interface',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'shareToken',
+              outputs: [
+                {
+                  internalType: 'contract IYakStrategy',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'underlyingToken',
+              outputs: [
+                {
+                  internalType: 'contract IERC20Metadata',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'version',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+          ],
+        },
       },
     },
   },
@@ -11606,7 +13418,7 @@ export default {
           ],
         },
         AVAI_Implementation: {
-          address: '0x8504e2Bf94429072a10ACe993E8ea9E31de18406',
+          address: '0x2B4920FD26ED338f79fDf1d5C747fD89B23775de',
           abi: [
             {
               anonymous: false,
@@ -12507,11 +14319,47 @@ export default {
                 },
                 {
                   internalType: 'uint256',
+                  name: 'mcp_',
+                  type: 'uint256',
+                },
+              ],
+              name: 'setMinimumCollateralPercentage',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
                   name: 'minimumDebt_',
                   type: 'uint256',
                 },
               ],
               name: 'setMinimumDebt',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'bankID',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'bool',
+                  name: 'paused_',
+                  type: 'bool',
+                },
+              ],
+              name: 'setMintingPaused',
               outputs: [],
               stateMutability: 'nonpayable',
               type: 'function',
@@ -12844,7 +14692,7 @@ export default {
           ],
         },
         Bank: {
-          address: '0xE55Cd5fF426FaaD0450B4ADe03f02eCbC4770bb9',
+          address: '0xF90f50fdcD2314385233571Fc22c699e09B54F0D',
           abi: [
             {
               anonymous: false,
@@ -12894,6 +14742,19 @@ export default {
                 },
               ],
               name: 'ApprovalForAll',
+              type: 'event',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: false,
+                  internalType: 'bool',
+                  name: 'mintingPaused',
+                  type: 'bool',
+                },
+              ],
+              name: 'BankPaused',
               type: 'event',
             },
             {
@@ -13091,6 +14952,19 @@ export default {
                 },
               ],
               name: 'NewGateway',
+              type: 'event',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'newMinimumCollateralPercentage',
+                  type: 'uint256',
+                },
+              ],
+              name: 'NewMinimumCollateralPercentage',
               type: 'event',
             },
             {
@@ -13798,6 +15672,19 @@ export default {
             },
             {
               inputs: [],
+              name: 'mintingPaused',
+              outputs: [
+                {
+                  internalType: 'bool',
+                  name: '',
+                  type: 'bool',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
               name: 'name',
               outputs: [
                 {
@@ -14046,11 +15933,37 @@ export default {
               inputs: [
                 {
                   internalType: 'uint256',
+                  name: 'mcp_',
+                  type: 'uint256',
+                },
+              ],
+              name: 'setMinimumCollateralPercentage',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
                   name: 'minimumDebt_',
                   type: 'uint256',
                 },
               ],
               name: 'setMinimumDebt',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'bool',
+                  name: 'paused_',
+                  type: 'bool',
+                },
+              ],
+              name: 'setMintingPaused',
               outputs: [],
               stateMutability: 'nonpayable',
               type: 'function',
@@ -16640,6 +18553,80 @@ export default {
             {
               stateMutability: 'payable',
               type: 'receive',
+            },
+          ],
+        },
+        SnapshotBridge: {
+          address: '0x58b62B83790B996494a389441244F74EF4286654',
+          abi: [
+            {
+              inputs: [
+                {
+                  internalType: 'address payable',
+                  name: '_staking',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address payable',
+                  name: '_podleader',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: '_orca',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'nonpayable',
+              type: 'constructor',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'pid',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'address',
+                  name: 'user',
+                  type: 'address',
+                },
+              ],
+              name: 'podLeaderVote',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: 'pid',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'address',
+                  name: 'user',
+                  type: 'address',
+                },
+              ],
+              name: 'stakingPoolVote',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
             },
           ],
         },
@@ -19549,6 +21536,358 @@ export default {
             {
               stateMutability: 'payable',
               type: 'receive',
+            },
+          ],
+        },
+        YakAvaxJoeOracle: {
+          address: '0x26B0fd51bf7Ed5BcC8B58aEcCDdaF026954E5094',
+          abi: [
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'priceSource_',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: 'underlyingToken_',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: 'shareToken_',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'nonpayable',
+              type: 'constructor',
+            },
+            {
+              inputs: [],
+              name: 'decimals',
+              outputs: [
+                {
+                  internalType: 'uint8',
+                  name: '',
+                  type: 'uint8',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'description',
+              outputs: [
+                {
+                  internalType: 'string',
+                  name: '',
+                  type: 'string',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint80',
+                  name: '_roundId',
+                  type: 'uint80',
+                },
+              ],
+              name: 'getRoundData',
+              outputs: [
+                {
+                  internalType: 'uint80',
+                  name: 'roundId',
+                  type: 'uint80',
+                },
+                {
+                  internalType: 'int256',
+                  name: 'answer',
+                  type: 'int256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'startedAt',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'updatedAt',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint80',
+                  name: 'answeredInRound',
+                  type: 'uint80',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'latestRoundData',
+              outputs: [
+                {
+                  internalType: 'uint80',
+                  name: '',
+                  type: 'uint80',
+                },
+                {
+                  internalType: 'int256',
+                  name: '',
+                  type: 'int256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint80',
+                  name: '',
+                  type: 'uint80',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'priceSource',
+              outputs: [
+                {
+                  internalType: 'contract AggregatorV3Interface',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'shareToken',
+              outputs: [
+                {
+                  internalType: 'contract IYakStrategy',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'underlyingToken',
+              outputs: [
+                {
+                  internalType: 'contract IERC20Metadata',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'version',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+          ],
+        },
+        YakUsdcJoeOracle: {
+          address: '0xA5235A84d8877398296350ADEC08b5C3098c8372',
+          abi: [
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'priceSource_',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: 'underlyingToken_',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: 'shareToken_',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'nonpayable',
+              type: 'constructor',
+            },
+            {
+              inputs: [],
+              name: 'decimals',
+              outputs: [
+                {
+                  internalType: 'uint8',
+                  name: '',
+                  type: 'uint8',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'description',
+              outputs: [
+                {
+                  internalType: 'string',
+                  name: '',
+                  type: 'string',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint80',
+                  name: '_roundId',
+                  type: 'uint80',
+                },
+              ],
+              name: 'getRoundData',
+              outputs: [
+                {
+                  internalType: 'uint80',
+                  name: 'roundId',
+                  type: 'uint80',
+                },
+                {
+                  internalType: 'int256',
+                  name: 'answer',
+                  type: 'int256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'startedAt',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'updatedAt',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint80',
+                  name: 'answeredInRound',
+                  type: 'uint80',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'latestRoundData',
+              outputs: [
+                {
+                  internalType: 'uint80',
+                  name: '',
+                  type: 'uint80',
+                },
+                {
+                  internalType: 'int256',
+                  name: '',
+                  type: 'int256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint80',
+                  name: '',
+                  type: 'uint80',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'priceSource',
+              outputs: [
+                {
+                  internalType: 'contract AggregatorV3Interface',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'shareToken',
+              outputs: [
+                {
+                  internalType: 'contract IYakStrategy',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'underlyingToken',
+              outputs: [
+                {
+                  internalType: 'contract IERC20Metadata',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'version',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
             },
           ],
         },
