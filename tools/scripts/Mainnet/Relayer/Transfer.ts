@@ -1,16 +1,3 @@
-import {
-  Currency,
-  CurrencyAmount,
-  JSBI,
-  Pair,
-  Percent,
-  TokenAmount,
-  Trade,
-  Token,
-  WAVAX,
-  Router,
-} from '@pangolindex/sdk';
-
 import { ethers } from 'hardhat';
 import {
   DefenderRelaySigner,
@@ -36,15 +23,24 @@ const GetBankCollateral = async () => {
 
   const provider = new DefenderRelayProvider(credentials);
   const signer = new DefenderRelaySigner(credentials, provider);
-  /*
-  const avaxBank = Bank__factory.connect(AVAX_BANK, signer);
-  const avaxCollat = await avaxBank.vaultCollateral(1);
-  const avaxGateway = WAVAXGateway__factory.connect(GATEWAY, signer);
-  await avaxGateway.withdrawAVAX(AVAX_BANK, 1, avaxCollat);*/
 
-  const ethBank = Bank__factory.connect(ETH_BANK, signer);
-  const ethCollat = await ethBank.vaultCollateral(1);
-  await ethBank.withdrawCollateral(1, ethCollat);
+  const avaiOrcaLP = ERC20__factory.connect(
+    '0x1A9Bd67c82C0e8E47C3ad2FA772FCb9B7A831A37',
+    signer
+  );
+  await avaiOrcaLP.transfer(
+    '0x9F8A5B35f5508071cf2304A670EAB0803F3737aa',
+    await avaiOrcaLP.balanceOf(await signer.getAddress())
+  );
+
+  const avaxOrcaLP = ERC20__factory.connect(
+    '0x73e6CB72a79dEa7ed75EF5eD6f8cFf86C9128eF5',
+    signer
+  );
+  await avaxOrcaLP.transfer(
+    '0x9F8A5B35f5508071cf2304A670EAB0803F3737aa',
+    await avaxOrcaLP.balanceOf(await signer.getAddress())
+  );
 };
 
 GetBankCollateral()

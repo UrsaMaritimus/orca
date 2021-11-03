@@ -23,9 +23,6 @@ export const useFrontPageInfo = () => {
   const { data: bankInfoFrontPage, loading: bankLoading } =
     useBankInfoFrontPageSubscription({});
 
-  const { data: vaultInfoFrontPage, loading: vaultLoading } =
-    useVaultInfoFrontPageSubscription();
-
   // Grab bank prices
   const { data: prices, mutate: priceMutate } = useSwr(
     [`getAllPrices`],
@@ -33,13 +30,7 @@ export const useFrontPageInfo = () => {
   );
   useKeepSWRDataLiveAsBlocksArrive(priceMutate);
 
-  if (
-    !supplyLoading &&
-    !exchangeLoading &&
-    !bankLoading &&
-    prices &&
-    !vaultLoading
-  ) {
+  if (!supplyLoading && !exchangeLoading && !bankLoading && prices) {
     const avaiSupply = supplyFrontPage.stablecoins.reduce(
       (prev, next) => prev.add(BigNumber.from(next.totalSupply)),
       BigNumber.from(0)
@@ -100,24 +91,9 @@ export const useFrontPageInfo = () => {
           .mul(price.price)
           .div(BigNumber.from(bank.tokenPeg));
 
-        const tempCollat = vaultInfoFrontPage.vaults.reduce((prev, next) => {
-          if (next.bank.id === bank.id.toLowerCase())
-            if (BigNumber.from(next.collateral).lte(0)) {
-              return prev;
-            } else {
-              return prev.add(
-                BigNumber.from(next.collateral)
-                  .mul(10 ** (18 - bank.token.decimals))
-                  .mul(price.price)
-                  .div(BigNumber.from(bank.tokenPeg))
-              );
-            }
-          return prev;
-        }, BigNumber.from(0));
-
-        const ltv = tempCollat.isZero()
+        const ltv = collateral.isZero()
           ? BigNumber.from(0)
-          : debt.mul(10000).div(tempCollat);
+          : debt.mul(10000).div(collateral);
         const maxLtv =
           10000 /
           Number(utils.formatUnits(bank.minimumCollateralPercentage, 0));
@@ -126,7 +102,7 @@ export const useFrontPageInfo = () => {
         return {
           name,
           debt,
-          collateral: tempCollat,
+          collateral,
           ltv,
           id: name,
           maxLtv,

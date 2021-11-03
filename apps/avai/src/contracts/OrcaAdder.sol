@@ -190,6 +190,43 @@ contract OrcaAdder is Initializable, OwnableUpgradeable {
   }
 
   /**
+   * @notice Changes distribution ratio
+   * @param _treasuryAmount The treasury amount
+   * @param _devAmount The dev amount
+   * @param _seafundAmount The seafund amount
+   * @param _podAmount The pod amount
+   */
+  function changeDistributionRatio(
+    uint256 _treasuryAmount,
+    uint256 _devAmount,
+    uint256 _seafundAmount,
+    uint256 _podAmount
+  ) public onlyOwner {
+    require(
+      _treasuryAmount + _devAmount + _seafundAmount + _podAmount == 10000,
+      'Must add up to 10000'
+    );
+    treasuryAmount = _treasuryAmount;
+    devAmount = _devAmount;
+    seafundAmount = _seafundAmount;
+    podAmount = _podAmount;
+  }
+
+  /**
+   * @notice Safe function to ensure we can emergency remove things
+   * @param _to The address to send it to
+   * @param _token The token to send
+   * @param _amount The amount to send
+   */
+  function transferToken(
+    address _to,
+    address _token,
+    uint256 _amount
+  ) public onlyOwner {
+    IERC20(_token).safeTransfer(_to, _amount);
+  }
+
+  /**
    * @notice for transfering treasury bank vault. Only use if changing contracts.
    * @param bank The bank id
    * @param vault the vault id

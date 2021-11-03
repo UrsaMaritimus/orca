@@ -11,8 +11,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   await deploy('OrcaPod', {
     from: deployer,
     log: true,
-    // Initial rate
-    args: ['0xb3308FD93936e5EFb9A1F2C6a513DEf68175Cb5d'],
+    args: ['0x8B1d98A91F853218ddbb066F20b8c63E782e2430'],
   });
 };
 export default func;

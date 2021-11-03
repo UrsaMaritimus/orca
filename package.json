@@ -36,7 +36,8 @@
     "approveTokens": "yarn hardhat run --network mainnet tools/scripts/Mainnet/Relayer/ApproveTokens.ts",
     "convertLPtoUSDC": "yarn hardhat run --network mainnet tools/scripts/Mainnet/Relayer/RelayConvertLPToUSDCAVAI.ts",
     "convertAVAItoUSDC": "yarn hardhat run --network mainnet tools/scripts/Mainnet/Relayer/RelayConvertAVAIToUSDC.ts",
-    "getBankCollateral": "yarn hardhat run --network mainnet tools/scripts/Mainnet/Relayer/RelayGetBankCollateral.ts",
+    "getAvaxCollateral": "yarn hardhat run --network mainnet tools/scripts/Mainnet/Relayer/RelayGetAvaxCollateral.ts",
+    "getEthCollateral": "yarn hardhat run --network mainnet tools/scripts/Mainnet/Relayer/RelayGetEthCollateral.ts",
     "convertEthToAvax": "yarn hardhat run --network mainnet tools/scripts/Mainnet/Relayer/RelayConvertETHToAVAX.ts",
     "distribute": "yarn hardhat run --network mainnet tools/scripts/Mainnet/Relayer/Distribute.ts"
   },

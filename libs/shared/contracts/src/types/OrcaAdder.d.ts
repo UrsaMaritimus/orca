@@ -28,6 +28,7 @@ interface OrcaAdderInterface extends ethers.utils.Interface {
     "addYakStrat(address)": FunctionFragment;
     "allocate()": FunctionFragment;
     "changeDev(address)": FunctionFragment;
+    "changeDistributionRatio(uint256,uint256,uint256,uint256)": FunctionFragment;
     "changeSeafund(address)": FunctionFragment;
     "changeTreasury(address)": FunctionFragment;
     "dev()": FunctionFragment;
@@ -42,6 +43,7 @@ interface OrcaAdderInterface extends ethers.utils.Interface {
     "seafund()": FunctionFragment;
     "transferBankVault(uint256,uint256,address)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
+    "transferToken(address,address,uint256)": FunctionFragment;
     "treasury()": FunctionFragment;
   };
 
@@ -55,6 +57,10 @@ interface OrcaAdderInterface extends ethers.utils.Interface {
   encodeFunctionData(functionFragment: "addYakStrat", values: [string]): string;
   encodeFunctionData(functionFragment: "allocate", values?: undefined): string;
   encodeFunctionData(functionFragment: "changeDev", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "changeDistributionRatio",
+    values: [BigNumberish, BigNumberish, BigNumberish, BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "changeSeafund",
     values: [string]
@@ -108,6 +114,10 @@ interface OrcaAdderInterface extends ethers.utils.Interface {
     functionFragment: "transferOwnership",
     values: [string]
   ): string;
+  encodeFunctionData(
+    functionFragment: "transferToken",
+    values: [string, string, BigNumberish]
+  ): string;
   encodeFunctionData(functionFragment: "treasury", values?: undefined): string;
 
   decodeFunctionResult(functionFragment: "addBank", data: BytesLike): Result;
@@ -120,6 +130,10 @@ interface OrcaAdderInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "allocate", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "changeDev", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "changeDistributionRatio",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "changeSeafund",
     data: BytesLike
@@ -156,6 +170,10 @@ interface OrcaAdderInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "transferOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "transferToken",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "treasury", data: BytesLike): Result;
@@ -246,6 +264,14 @@ export class OrcaAdder extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    changeDistributionRatio(
+      _treasuryAmount: BigNumberish,
+      _devAmount: BigNumberish,
+      _seafundAmount: BigNumberish,
+      _podAmount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     changeSeafund(
       _seafund: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -303,6 +329,13 @@ export class OrcaAdder extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    transferToken(
+      _to: string,
+      _token: string,
+      _amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     treasury(overrides?: CallOverrides): Promise<[string]>;
   };
 
@@ -338,6 +371,14 @@ export class OrcaAdder extends BaseContract {
 
   changeDev(
     _dev: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  changeDistributionRatio(
+    _treasuryAmount: BigNumberish,
+    _devAmount: BigNumberish,
+    _seafundAmount: BigNumberish,
+    _podAmount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -398,6 +439,13 @@ export class OrcaAdder extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  transferToken(
+    _to: string,
+    _token: string,
+    _amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   treasury(overrides?: CallOverrides): Promise<string>;
 
   callStatic: {
@@ -418,6 +466,14 @@ export class OrcaAdder extends BaseContract {
     allocate(overrides?: CallOverrides): Promise<void>;
 
     changeDev(_dev: string, overrides?: CallOverrides): Promise<void>;
+
+    changeDistributionRatio(
+      _treasuryAmount: BigNumberish,
+      _devAmount: BigNumberish,
+      _seafundAmount: BigNumberish,
+      _podAmount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     changeSeafund(_seafund: string, overrides?: CallOverrides): Promise<void>;
 
@@ -468,6 +524,13 @@ export class OrcaAdder extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    transferToken(
+      _to: string,
+      _token: string,
+      _amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     treasury(overrides?: CallOverrides): Promise<string>;
   };
 
@@ -514,6 +577,14 @@ export class OrcaAdder extends BaseContract {
 
     changeDev(
       _dev: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    changeDistributionRatio(
+      _treasuryAmount: BigNumberish,
+      _devAmount: BigNumberish,
+      _seafundAmount: BigNumberish,
+      _podAmount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -574,6 +645,13 @@ export class OrcaAdder extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    transferToken(
+      _to: string,
+      _token: string,
+      _amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     treasury(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
@@ -610,6 +688,14 @@ export class OrcaAdder extends BaseContract {
 
     changeDev(
       _dev: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    changeDistributionRatio(
+      _treasuryAmount: BigNumberish,
+      _devAmount: BigNumberish,
+      _seafundAmount: BigNumberish,
+      _podAmount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -667,6 +753,13 @@ export class OrcaAdder extends BaseContract {
 
     transferOwnership(
       newOwner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    transferToken(
+      _to: string,
+      _token: string,
+      _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
