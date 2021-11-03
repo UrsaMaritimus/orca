@@ -19,9 +19,22 @@ subscription BankInfoFrontPage @api(name: orca) {
         priceUSD
       }
     }
+    vaults {
+      collateral
+      debt
+    }
   }
 }
 
+subscription VaultInfoFrontPage @api(name: orca) {
+  vaults(where: { collateral_gt: 0 }) {
+    collateral
+    debt
+    bank {
+      id
+    }
+  }
+}
 subscription ExchangeInfoFrontPage @api(name: orca) {
   exchanges {
     treasury

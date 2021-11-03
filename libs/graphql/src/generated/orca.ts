@@ -1832,7 +1832,12 @@ export type TotalSupplyFrontPageSubscription = { __typename?: 'Subscription', st
 export type BankInfoFrontPageSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type BankInfoFrontPageSubscription = { __typename?: 'Subscription', banks: Array<{ __typename?: 'Bank', id: string, treasury: any, totalDebt: any, totalCollateral: any, tokenPeg: any, minimumCollateralPercentage: any, token: { __typename?: 'Token', symbol: string, decimals: any, price: { __typename?: 'TokenPrice', priceUSD: any } } }> };
+export type BankInfoFrontPageSubscription = { __typename?: 'Subscription', banks: Array<{ __typename?: 'Bank', id: string, treasury: any, totalDebt: any, totalCollateral: any, tokenPeg: any, minimumCollateralPercentage: any, token: { __typename?: 'Token', symbol: string, decimals: any, price: { __typename?: 'TokenPrice', priceUSD: any } }, vaults: Array<{ __typename?: 'Vault', collateral: any, debt: any }> }> };
+
+export type VaultInfoFrontPageSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type VaultInfoFrontPageSubscription = { __typename?: 'Subscription', vaults: Array<{ __typename?: 'Vault', collateral: any, debt: any, bank: { __typename?: 'Bank', id: string } }> };
 
 export type ExchangeInfoFrontPageSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -2044,6 +2049,10 @@ export const BankInfoFrontPageDocument = gql`
         priceUSD
       }
     }
+    vaults {
+      collateral
+      debt
+    }
   }
 }
     `;
@@ -2069,6 +2078,39 @@ export function useBankInfoFrontPageSubscription(baseOptions?: ApolloReactHooks.
       }
 export type BankInfoFrontPageSubscriptionHookResult = ReturnType<typeof useBankInfoFrontPageSubscription>;
 export type BankInfoFrontPageSubscriptionResult = Apollo.SubscriptionResult<BankInfoFrontPageSubscription>;
+export const VaultInfoFrontPageDocument = gql`
+    subscription VaultInfoFrontPage @api(name: orca) {
+  vaults(where: {collateral_gt: 0}) {
+    collateral
+    debt
+    bank {
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __useVaultInfoFrontPageSubscription__
+ *
+ * To run a query within a React component, call `useVaultInfoFrontPageSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useVaultInfoFrontPageSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useVaultInfoFrontPageSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useVaultInfoFrontPageSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<VaultInfoFrontPageSubscription, VaultInfoFrontPageSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useSubscription<VaultInfoFrontPageSubscription, VaultInfoFrontPageSubscriptionVariables>(VaultInfoFrontPageDocument, options);
+      }
+export type VaultInfoFrontPageSubscriptionHookResult = ReturnType<typeof useVaultInfoFrontPageSubscription>;
+export type VaultInfoFrontPageSubscriptionResult = Apollo.SubscriptionResult<VaultInfoFrontPageSubscription>;
 export const ExchangeInfoFrontPageDocument = gql`
     subscription ExchangeInfoFrontPage @api(name: orca) {
   exchanges {

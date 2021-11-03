@@ -9,6 +9,7 @@ import {
   useBankInfoFrontPageSubscription,
   useExchangeInfoFrontPageSubscription,
   useTotalSupplyFrontPageSubscription,
+  useVaultInfoFrontPageSubscription,
 } from '@orca/graphql';
 import { find, includes } from 'lodash';
 
@@ -22,6 +23,9 @@ export const useFrontPageInfo = () => {
   const { data: bankInfoFrontPage, loading: bankLoading } =
     useBankInfoFrontPageSubscription({});
 
+  const { data: vaultInfoFrontPage, loading: vaultLoading } =
+    useVaultInfoFrontPageSubscription();
+
   // Grab bank prices
   const { data: prices, mutate: priceMutate } = useSwr(
     [`getAllPrices`],
@@ -29,7 +33,13 @@ export const useFrontPageInfo = () => {
   );
   useKeepSWRDataLiveAsBlocksArrive(priceMutate);
 
-  if (!supplyLoading && !exchangeLoading && !bankLoading && prices) {
+  if (
+    !supplyLoading &&
+    !exchangeLoading &&
+    !bankLoading &&
+    prices &&
+    !vaultLoading
+  ) {
     const avaiSupply = supplyFrontPage.stablecoins.reduce(
       (prev, next) => prev.add(BigNumber.from(next.totalSupply)),
       BigNumber.from(0)
@@ -90,9 +100,24 @@ export const useFrontPageInfo = () => {
           .mul(price.price)
           .div(BigNumber.from(bank.tokenPeg));
 
-        const ltv = collateral.isZero()
+        const tempCollat = vaultInfoFrontPage.vaults.reduce((prev, next) => {
+          if (next.bank.id === bank.id.toLowerCase())
+            if (BigNumber.from(next.collateral).lte(0)) {
+              return prev;
+            } else {
+              return prev.add(
+                BigNumber.from(next.collateral)
+                  .mul(10 ** (18 - bank.token.decimals))
+                  .mul(price.price)
+                  .div(BigNumber.from(bank.tokenPeg))
+              );
+            }
+          return prev;
+        }, BigNumber.from(0));
+
+        const ltv = tempCollat.isZero()
           ? BigNumber.from(0)
-          : debt.mul(10000).div(collateral);
+          : debt.mul(10000).div(tempCollat);
         const maxLtv =
           10000 /
           Number(utils.formatUnits(bank.minimumCollateralPercentage, 0));
@@ -101,7 +126,7 @@ export const useFrontPageInfo = () => {
         return {
           name,
           debt,
-          collateral,
+          collateral: tempCollat,
           ltv,
           id: name,
           maxLtv,

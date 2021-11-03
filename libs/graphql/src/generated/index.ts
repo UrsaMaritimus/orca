@@ -20,6 +20,7 @@ export {
   useNewUserVaultsSubscription,
   useAllBankInfoSubscription,
   useNewMonitorVaultsSubscription,
+  useVaultInfoFrontPageSubscription,
 } from './orca';
 export {
   useGetTokenDataSubscription,
