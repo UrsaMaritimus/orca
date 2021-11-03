@@ -10,18 +10,21 @@ export const monitorAllRewards = () => {
     chainId: number,
     address: string
   ) => {
-    return Promise.all(
+    const results = await Promise.all(
       VaultTypes.map(async (vaultType) => {
         const vault = getVault(vaultType.name, library, chainId);
-        const tokenDebt = await vault.tokenDebt(address);
-        return {
-          isReward: !tokenDebt.isZero(),
-          reward: tokenDebt,
-          symbol: vaultType.symbol,
-          name: vaultType.name,
-        };
+        if (vault) {
+          const tokenDebt = await vault.tokenDebt(address);
+          return {
+            isReward: !tokenDebt.isZero(),
+            reward: tokenDebt,
+            symbol: vaultType.symbol,
+            name: vaultType.name,
+          };
+        }
       })
     );
+    return results.filter((n) => n);
   };
 };
 
