@@ -24,27 +24,35 @@ interface OrcaAdderInterface extends ethers.utils.Interface {
     "addBank(address)": FunctionFragment;
     "addLPToken(address)": FunctionFragment;
     "addSwapLP(address,address)": FunctionFragment;
-    "addToken(address)": FunctionFragment;
     "addYakStrat(address)": FunctionFragment;
     "allocate()": FunctionFragment;
+    "banks(uint256)": FunctionFragment;
     "changeDev(address)": FunctionFragment;
     "changeDistributionRatio(uint256,uint256,uint256,uint256)": FunctionFragment;
     "changeSeafund(address)": FunctionFragment;
     "changeTreasury(address)": FunctionFragment;
     "dev()": FunctionFragment;
+    "devAmount()": FunctionFragment;
     "getBankCount()": FunctionFragment;
     "getLPTokens()": FunctionFragment;
     "getTokens()": FunctionFragment;
     "getYakCount()": FunctionFragment;
-    "initialize(address,address,address,address,address,address,address,uint256,uint256,uint256,uint256)": FunctionFragment;
+    "initialize(address,address,address,address,address,address,address,address,address)": FunctionFragment;
+    "lpTokens(uint256)": FunctionFragment;
     "owner()": FunctionFragment;
     "pod()": FunctionFragment;
+    "podAmount()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "seafund()": FunctionFragment;
+    "seafundAmount()": FunctionFragment;
+    "tokens(uint256)": FunctionFragment;
+    "transferAvax(address,uint256)": FunctionFragment;
     "transferBankVault(uint256,uint256,address)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "transferToken(address,address,uint256)": FunctionFragment;
     "treasury()": FunctionFragment;
+    "treasuryAmount()": FunctionFragment;
+    "yakStrats(uint256)": FunctionFragment;
   };
 
   encodeFunctionData(functionFragment: "addBank", values: [string]): string;
@@ -53,9 +61,9 @@ interface OrcaAdderInterface extends ethers.utils.Interface {
     functionFragment: "addSwapLP",
     values: [string, string]
   ): string;
-  encodeFunctionData(functionFragment: "addToken", values: [string]): string;
   encodeFunctionData(functionFragment: "addYakStrat", values: [string]): string;
   encodeFunctionData(functionFragment: "allocate", values?: undefined): string;
+  encodeFunctionData(functionFragment: "banks", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "changeDev", values: [string]): string;
   encodeFunctionData(
     functionFragment: "changeDistributionRatio",
@@ -70,6 +78,7 @@ interface OrcaAdderInterface extends ethers.utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(functionFragment: "dev", values?: undefined): string;
+  encodeFunctionData(functionFragment: "devAmount", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getBankCount",
     values?: undefined
@@ -93,19 +102,34 @@ interface OrcaAdderInterface extends ethers.utils.Interface {
       string,
       string,
       string,
-      BigNumberish,
-      BigNumberish,
-      BigNumberish,
-      BigNumberish
+      string,
+      string
     ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "lpTokens",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(functionFragment: "pod", values?: undefined): string;
+  encodeFunctionData(functionFragment: "podAmount", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "seafund", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "seafundAmount",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "tokens",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "transferAvax",
+    values: [string, BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "transferBankVault",
     values: [BigNumberish, BigNumberish, string]
@@ -119,16 +143,24 @@ interface OrcaAdderInterface extends ethers.utils.Interface {
     values: [string, string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "treasury", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "treasuryAmount",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "yakStrats",
+    values: [BigNumberish]
+  ): string;
 
   decodeFunctionResult(functionFragment: "addBank", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "addLPToken", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "addSwapLP", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "addToken", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "addYakStrat",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "allocate", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "banks", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "changeDev", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "changeDistributionRatio",
@@ -143,6 +175,7 @@ interface OrcaAdderInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "dev", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "devAmount", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getBankCount",
     data: BytesLike
@@ -157,13 +190,24 @@ interface OrcaAdderInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "lpTokens", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "pod", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "podAmount", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "seafund", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "seafundAmount",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "tokens", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "transferAvax",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "transferBankVault",
     data: BytesLike
@@ -177,6 +221,11 @@ interface OrcaAdderInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "treasury", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "treasuryAmount",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "yakStrats", data: BytesLike): Result;
 
   events: {
     "OwnershipTransferred(address,address)": EventFragment;
@@ -245,11 +294,6 @@ export class OrcaAdder extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    addToken(
-      token: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     addYakStrat(
       yak: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -258,6 +302,8 @@ export class OrcaAdder extends BaseContract {
     allocate(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    banks(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
 
     changeDev(
       _dev: string,
@@ -284,6 +330,8 @@ export class OrcaAdder extends BaseContract {
 
     dev(overrides?: CallOverrides): Promise<[string]>;
 
+    devAmount(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     getBankCount(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     getLPTokens(overrides?: CallOverrides): Promise<[BigNumber]>;
@@ -300,22 +348,34 @@ export class OrcaAdder extends BaseContract {
       _seafund: string,
       _treasury: string,
       _dev: string,
-      _treasuryAmount: BigNumberish,
-      _devAmount: BigNumberish,
-      _seafundAmount: BigNumberish,
-      _podAmount: BigNumberish,
+      _orcaLP: string,
+      _usdcLP: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    lpTokens(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
     pod(overrides?: CallOverrides): Promise<[string]>;
+
+    podAmount(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     seafund(overrides?: CallOverrides): Promise<[string]>;
+
+    seafundAmount(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    tokens(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
+
+    transferAvax(
+      _to: string,
+      _amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     transferBankVault(
       bank: BigNumberish,
@@ -337,6 +397,10 @@ export class OrcaAdder extends BaseContract {
     ): Promise<ContractTransaction>;
 
     treasury(overrides?: CallOverrides): Promise<[string]>;
+
+    treasuryAmount(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    yakStrats(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
   };
 
   addBank(
@@ -355,11 +419,6 @@ export class OrcaAdder extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  addToken(
-    token: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   addYakStrat(
     yak: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -368,6 +427,8 @@ export class OrcaAdder extends BaseContract {
   allocate(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  banks(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   changeDev(
     _dev: string,
@@ -394,6 +455,8 @@ export class OrcaAdder extends BaseContract {
 
   dev(overrides?: CallOverrides): Promise<string>;
 
+  devAmount(overrides?: CallOverrides): Promise<BigNumber>;
+
   getBankCount(overrides?: CallOverrides): Promise<BigNumber>;
 
   getLPTokens(overrides?: CallOverrides): Promise<BigNumber>;
@@ -410,22 +473,34 @@ export class OrcaAdder extends BaseContract {
     _seafund: string,
     _treasury: string,
     _dev: string,
-    _treasuryAmount: BigNumberish,
-    _devAmount: BigNumberish,
-    _seafundAmount: BigNumberish,
-    _podAmount: BigNumberish,
+    _orcaLP: string,
+    _usdcLP: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  lpTokens(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   owner(overrides?: CallOverrides): Promise<string>;
 
   pod(overrides?: CallOverrides): Promise<string>;
+
+  podAmount(overrides?: CallOverrides): Promise<BigNumber>;
 
   renounceOwnership(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   seafund(overrides?: CallOverrides): Promise<string>;
+
+  seafundAmount(overrides?: CallOverrides): Promise<BigNumber>;
+
+  tokens(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+  transferAvax(
+    _to: string,
+    _amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   transferBankVault(
     bank: BigNumberish,
@@ -448,6 +523,10 @@ export class OrcaAdder extends BaseContract {
 
   treasury(overrides?: CallOverrides): Promise<string>;
 
+  treasuryAmount(overrides?: CallOverrides): Promise<BigNumber>;
+
+  yakStrats(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
   callStatic: {
     addBank(bank: string, overrides?: CallOverrides): Promise<void>;
 
@@ -459,11 +538,11 @@ export class OrcaAdder extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    addToken(token: string, overrides?: CallOverrides): Promise<void>;
-
     addYakStrat(yak: string, overrides?: CallOverrides): Promise<void>;
 
     allocate(overrides?: CallOverrides): Promise<void>;
+
+    banks(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
     changeDev(_dev: string, overrides?: CallOverrides): Promise<void>;
 
@@ -481,6 +560,8 @@ export class OrcaAdder extends BaseContract {
 
     dev(overrides?: CallOverrides): Promise<string>;
 
+    devAmount(overrides?: CallOverrides): Promise<BigNumber>;
+
     getBankCount(overrides?: CallOverrides): Promise<BigNumber>;
 
     getLPTokens(overrides?: CallOverrides): Promise<BigNumber>;
@@ -497,20 +578,32 @@ export class OrcaAdder extends BaseContract {
       _seafund: string,
       _treasury: string,
       _dev: string,
-      _treasuryAmount: BigNumberish,
-      _devAmount: BigNumberish,
-      _seafundAmount: BigNumberish,
-      _podAmount: BigNumberish,
+      _orcaLP: string,
+      _usdcLP: string,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    lpTokens(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
     pod(overrides?: CallOverrides): Promise<string>;
 
+    podAmount(overrides?: CallOverrides): Promise<BigNumber>;
+
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
     seafund(overrides?: CallOverrides): Promise<string>;
+
+    seafundAmount(overrides?: CallOverrides): Promise<BigNumber>;
+
+    tokens(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+    transferAvax(
+      _to: string,
+      _amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     transferBankVault(
       bank: BigNumberish,
@@ -532,6 +625,10 @@ export class OrcaAdder extends BaseContract {
     ): Promise<void>;
 
     treasury(overrides?: CallOverrides): Promise<string>;
+
+    treasuryAmount(overrides?: CallOverrides): Promise<BigNumber>;
+
+    yakStrats(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
   };
 
   filters: {
@@ -561,11 +658,6 @@ export class OrcaAdder extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    addToken(
-      token: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     addYakStrat(
       yak: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -574,6 +666,8 @@ export class OrcaAdder extends BaseContract {
     allocate(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    banks(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
     changeDev(
       _dev: string,
@@ -600,6 +694,8 @@ export class OrcaAdder extends BaseContract {
 
     dev(overrides?: CallOverrides): Promise<BigNumber>;
 
+    devAmount(overrides?: CallOverrides): Promise<BigNumber>;
+
     getBankCount(overrides?: CallOverrides): Promise<BigNumber>;
 
     getLPTokens(overrides?: CallOverrides): Promise<BigNumber>;
@@ -616,22 +712,34 @@ export class OrcaAdder extends BaseContract {
       _seafund: string,
       _treasury: string,
       _dev: string,
-      _treasuryAmount: BigNumberish,
-      _devAmount: BigNumberish,
-      _seafundAmount: BigNumberish,
-      _podAmount: BigNumberish,
+      _orcaLP: string,
+      _usdcLP: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    lpTokens(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     pod(overrides?: CallOverrides): Promise<BigNumber>;
+
+    podAmount(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     seafund(overrides?: CallOverrides): Promise<BigNumber>;
+
+    seafundAmount(overrides?: CallOverrides): Promise<BigNumber>;
+
+    tokens(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+    transferAvax(
+      _to: string,
+      _amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
 
     transferBankVault(
       bank: BigNumberish,
@@ -653,6 +761,13 @@ export class OrcaAdder extends BaseContract {
     ): Promise<BigNumber>;
 
     treasury(overrides?: CallOverrides): Promise<BigNumber>;
+
+    treasuryAmount(overrides?: CallOverrides): Promise<BigNumber>;
+
+    yakStrats(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -672,11 +787,6 @@ export class OrcaAdder extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    addToken(
-      token: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     addYakStrat(
       yak: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -684,6 +794,11 @@ export class OrcaAdder extends BaseContract {
 
     allocate(
       overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    banks(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     changeDev(
@@ -711,6 +826,8 @@ export class OrcaAdder extends BaseContract {
 
     dev(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    devAmount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     getBankCount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getLPTokens(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -727,22 +844,40 @@ export class OrcaAdder extends BaseContract {
       _seafund: string,
       _treasury: string,
       _dev: string,
-      _treasuryAmount: BigNumberish,
-      _devAmount: BigNumberish,
-      _seafundAmount: BigNumberish,
-      _podAmount: BigNumberish,
+      _orcaLP: string,
+      _usdcLP: string,
       overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    lpTokens(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     pod(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    podAmount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     seafund(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    seafundAmount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    tokens(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    transferAvax(
+      _to: string,
+      _amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
     transferBankVault(
       bank: BigNumberish,
@@ -764,5 +899,12 @@ export class OrcaAdder extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     treasury(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    treasuryAmount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    yakStrats(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
   };
 }

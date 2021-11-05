@@ -12,6 +12,7 @@ import {
   BaseContract,
   ContractTransaction,
   Overrides,
+  PayableOverrides,
   CallOverrides,
 } from "ethers";
 import { BytesLike } from "@ethersproject/bytes";
@@ -26,6 +27,7 @@ interface IYakStrategyInterface extends ethers.utils.Interface {
     "balanceOf(address)": FunctionFragment;
     "checkReward()": FunctionFragment;
     "decimals()": FunctionFragment;
+    "deposit(uint256)": FunctionFragment;
     "estimateDeployedBalance()": FunctionFragment;
     "estimateReinvestReward()": FunctionFragment;
     "getDepositTokensForShares(uint256)": FunctionFragment;
@@ -53,6 +55,10 @@ interface IYakStrategyInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "deposit",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "estimateDeployedBalance",
     values?: undefined
@@ -100,6 +106,7 @@ interface IYakStrategyInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "deposit", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "estimateDeployedBalance",
     data: BytesLike
@@ -204,6 +211,15 @@ export class IYakStrategy extends BaseContract {
 
     decimals(overrides?: CallOverrides): Promise<[number]>;
 
+    "deposit(uint256)"(
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "deposit()"(
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     estimateDeployedBalance(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     estimateReinvestReward(overrides?: CallOverrides): Promise<[BigNumber]>;
@@ -263,6 +279,15 @@ export class IYakStrategy extends BaseContract {
 
   decimals(overrides?: CallOverrides): Promise<number>;
 
+  "deposit(uint256)"(
+    amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "deposit()"(
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   estimateDeployedBalance(overrides?: CallOverrides): Promise<BigNumber>;
 
   estimateReinvestReward(overrides?: CallOverrides): Promise<BigNumber>;
@@ -321,6 +346,13 @@ export class IYakStrategy extends BaseContract {
     checkReward(overrides?: CallOverrides): Promise<BigNumber>;
 
     decimals(overrides?: CallOverrides): Promise<number>;
+
+    "deposit(uint256)"(
+      amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "deposit()"(overrides?: CallOverrides): Promise<void>;
 
     estimateDeployedBalance(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -399,6 +431,15 @@ export class IYakStrategy extends BaseContract {
 
     decimals(overrides?: CallOverrides): Promise<BigNumber>;
 
+    "deposit(uint256)"(
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "deposit()"(
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     estimateDeployedBalance(overrides?: CallOverrides): Promise<BigNumber>;
 
     estimateReinvestReward(overrides?: CallOverrides): Promise<BigNumber>;
@@ -461,6 +502,15 @@ export class IYakStrategy extends BaseContract {
     checkReward(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     decimals(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "deposit(uint256)"(
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "deposit()"(
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
     estimateDeployedBalance(
       overrides?: CallOverrides

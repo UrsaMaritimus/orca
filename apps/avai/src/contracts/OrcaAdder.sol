@@ -10,30 +10,33 @@ import '@openzeppelin/contracts/utils/structs/EnumerableSet.sol';
 import './interfaces/IBank.sol';
 import './interfaces/IYakStrategy.sol';
 import './interfaces/IPair.sol';
+import './interfaces/IWAVAX.sol';
 import './lib/DexLibrary.sol';
 
 contract OrcaAdder is Initializable, OwnableUpgradeable {
   using SafeERC20 for IERC20;
-  using EnumerableSet for EnumerableSet.AddressSet;
 
   IERC20 public pod;
   IERC20 private orca;
-  IERC20 private wavax;
+  IWAVAX private wavax;
   IERC20 private usdc;
+
+  address private orcaLP;
+  address private usdcLP;
 
   address public seafund;
   address public treasury;
   address public dev;
 
-  uint256 treasuryAmount;
-  uint256 devAmount;
-  uint256 seafundAmount;
-  uint256 podAmount;
+  uint256 public treasuryAmount;
+  uint256 public devAmount;
+  uint256 public seafundAmount;
+  uint256 public podAmount;
 
-  EnumerableSet.AddressSet banks;
-  EnumerableSet.AddressSet yakStrats;
-  EnumerableSet.AddressSet lpTokens;
-  EnumerableSet.AddressSet tokens;
+  address[] public banks;
+  address[] public yakStrats;
+  address[] public lpTokens;
+  address[] public tokens;
   mapping(address => address) swapLPs;
 
   /**
@@ -47,10 +50,8 @@ contract OrcaAdder is Initializable, OwnableUpgradeable {
     address _seafund,
     address _treasury,
     address _dev,
-    uint256 _treasuryAmount,
-    uint256 _devAmount,
-    uint256 _seafundAmount,
-    uint256 _podAmount
+    address _orcaLP,
+    address _usdcLP
   ) public initializer {
     __Context_init_unchained();
     __Ownable_init_unchained();
@@ -62,24 +63,25 @@ contract OrcaAdder is Initializable, OwnableUpgradeable {
     require(_seafund != address(0), 'Seafund cannot be zero address');
     require(_treasury != address(0), 'Treasury cannot be zero address');
     require(_dev != address(0), 'Dev cannot be zero address');
-    require(
-      _treasuryAmount + _devAmount + _seafundAmount + _podAmount == 10000,
-      'Must add up to 100%'
-    );
+    require(_orcaLP != address(0), 'ORCA LP cannot be zero address');
+    require(_usdcLP != address(0), 'USDC LP cannot be zero address');
 
     pod = IERC20(_pod);
     orca = IERC20(_orca);
-    wavax = IERC20(_wavax);
+    wavax = IWAVAX(_wavax);
     usdc = IERC20(_usdc);
 
     seafund = _seafund;
     treasury = _treasury;
     dev = _dev;
 
-    devAmount = _devAmount;
-    seafundAmount = _seafundAmount;
-    treasuryAmount = _treasuryAmount;
-    podAmount = _podAmount;
+    devAmount = 500;
+    seafundAmount = 1500;
+    treasuryAmount = 4000;
+    podAmount = 4000;
+
+    orcaLP = _orcaLP;
+    usdcLP = _usdcLP;
   }
 
   modifier onlyEOA() {
@@ -92,28 +94,28 @@ contract OrcaAdder is Initializable, OwnableUpgradeable {
    * @notice Gets the numbers of banks this account controls
    */
   function getBankCount() public view returns (uint256) {
-    return banks.length();
+    return banks.length;
   }
 
   /**
    * @notice Gets the number of yield yak banks (tokens) this account controls
    */
   function getYakCount() public view returns (uint256) {
-    return yakStrats.length();
+    return yakStrats.length;
   }
 
   /**
    * @notice Gets the number of LP tokens this account controls
    */
   function getLPTokens() public view returns (uint256) {
-    return lpTokens.length();
+    return lpTokens.length;
   }
 
   /**
    * @notice Gets the number of tokens this account controls
    */
   function getTokens() public view returns (uint256) {
-    return tokens.length();
+    return tokens.length;
   }
 
   /**
@@ -122,7 +124,7 @@ contract OrcaAdder is Initializable, OwnableUpgradeable {
    */
   function addBank(address bank) public onlyOwner {
     require(bank != address(0), 'Cannot add a bank with zero address');
-    banks.add(bank);
+    banks.push(bank);
   }
 
   /**
@@ -131,16 +133,7 @@ contract OrcaAdder is Initializable, OwnableUpgradeable {
    */
   function addYakStrat(address yak) public onlyOwner {
     require(yak != address(0), 'Cannot add a yakStrat with zero address');
-    yakStrats.add(yak);
-  }
-
-  /**
-   * @notice Adds a LP token, to allow transfering
-   * @param token The address of the token
-   */
-  function addToken(address token) public onlyOwner {
-    require(token != address(0), 'Cannot add a token with zero address');
-    tokens.add(token);
+    yakStrats.push(yak);
   }
 
   /**
@@ -149,7 +142,7 @@ contract OrcaAdder is Initializable, OwnableUpgradeable {
    */
   function addLPToken(address lp) public onlyOwner {
     require(lp != address(0), 'Cannot add a LP token with zero address');
-    lpTokens.add(lp);
+    lpTokens.push(lp);
   }
 
   /**
@@ -159,7 +152,8 @@ contract OrcaAdder is Initializable, OwnableUpgradeable {
   function addSwapLP(address token, address lp) public onlyOwner {
     require(token != address(0), 'Cannot add a token with zero address');
     require(lp != address(0), 'Cannot add a LP token with zero address');
-    lpTokens.add(lp);
+    tokens.push(token);
+    swapLPs[token] = lp;
   }
 
   /**
@@ -227,6 +221,19 @@ contract OrcaAdder is Initializable, OwnableUpgradeable {
   }
 
   /**
+   * @notice Safe function to ensure we can emergency remove things
+   * @param _to The address to send it to
+   * @param _amount The amount to send
+   */
+  function transferAvax(address payable _to, uint256 _amount)
+    external
+    onlyOwner
+  {
+    (bool sent, ) = _to.call{value: _amount}('');
+    require(sent, 'failed to send avax');
+  }
+
+  /**
    * @notice for transfering treasury bank vault. Only use if changing contracts.
    * @param bank The bank id
    * @param vault the vault id
@@ -239,7 +246,7 @@ contract OrcaAdder is Initializable, OwnableUpgradeable {
   ) public onlyOwner {
     require(bank < getBankCount(), 'Bank does not exist');
     require(to != address(0), 'Cannot transfer to zero address');
-    IBank(banks.at(bank)).transferVault(vault, to);
+    IBank(banks[bank]).transferVault(vault, to);
   }
 
   /**
@@ -248,69 +255,73 @@ contract OrcaAdder is Initializable, OwnableUpgradeable {
   function allocate() public onlyEOA {
     // Withdraw collaterals from banks
     for (uint256 i = 0; i < getBankCount(); i++) {
-      IBank bank = IBank(banks.at(i));
-      uint256 vault = bank.tokenOfOwnerByIndex(address(this), 0);
-      uint256 collateral = bank.vaultCollateral(vault);
-      bank.withdrawCollateral(vault, collateral);
+      IBank bank = IBank(banks[i]);
+      if (bank.balanceOf(address(this)) > 0) {
+        uint256 vault = bank.tokenOfOwnerByIndex(address(this), 0);
+        uint256 collateral = bank.vaultCollateral(vault);
+        bank.withdrawCollateral(vault, collateral);
+      }
     }
 
     // Withdraw from yield yak
     for (uint256 i = 0; i < getYakCount(); i++) {
-      IYakStrategy yakStrat = IYakStrategy(yakStrats.at(i));
+      IYakStrategy yakStrat = IYakStrategy(yakStrats[i]);
       uint256 balance = yakStrat.balanceOf(address(this));
-      yakStrat.withdraw(balance);
+      if (balance > 0) {
+        yakStrat.withdraw(balance);
+      }
     }
 
     // Convert LPs
     for (uint256 i = 0; i < getLPTokens(); i++) {
-      DexLibrary.removeLiquidity(lpTokens.at(i));
+      IPair pair = IPair(address(lpTokens[i]));
+      if (pair.balanceOf(address(this)) > 0) {
+        DexLibrary.removeLiquidity(lpTokens[i]);
+      }
     }
 
     // Convert everything to avax
     for (uint256 i = 0; i < getTokens(); i++) {
-      address token = tokens.at(i);
-      IPair pair = IPair(swapLPs[tokens.at(i)]);
-      require(address(pair) != address(0), 'swap LP does not exist');
+      address token = tokens[i];
+      IPair pair = IPair(swapLPs[tokens[i]]);
+      if (address(pair) != address(0)) {
+        uint256 tokenBalance = IERC20(token).balanceOf(address(this));
+        if (tokenBalance > 0) {
+          DexLibrary.swap(tokenBalance, token, address(wavax), pair);
+        }
+      }
+    }
 
+    // Convert USDC to wavax if we have any
+    if (usdc.balanceOf(address(this)) > 0) {
+      // Convert wavax to usdc
       DexLibrary.swap(
-        IERC20(token).balanceOf(address(this)),
-        token,
+        usdc.balanceOf(address(this)),
+        address(usdc),
         address(wavax),
-        IPair(swapLPs[tokens.at(i)])
+        IPair(usdcLP)
       );
     }
+
+    // Convert avax to wavax if we have any
+    uint256 avaxBalance = address(this).balance;
+    wavax.deposit{value: avaxBalance}();
 
     // Convert correct amount of WAVAX to ORCA
     uint256 wavaxBalance = wavax.balanceOf(address(this));
     uint256 wavaxToPod = (wavaxBalance * podAmount) / 10000;
     uint256 wavaxToUSDC = (wavaxBalance * (10000 - podAmount)) / 10000;
 
-    DexLibrary.swap(
-      wavaxToPod,
-      address(wavax),
-      address(orca),
-      IPair(address(orca))
-    );
+    DexLibrary.swap(wavaxToPod, address(wavax), address(orca), IPair(orcaLP));
 
     // Convert wavax to usdc
-    DexLibrary.swap(
-      wavaxToUSDC,
-      address(wavax),
-      address(usdc),
-      IPair(address(wavax))
-    );
+    DexLibrary.swap(wavaxToUSDC, address(wavax), address(usdc), IPair(usdcLP));
 
     // Send off orca
     orca.safeTransfer(address(pod), orca.balanceOf(address(this)));
 
     // send off usdc
     uint256 usdcBalance = usdc.balanceOf(address(this));
-
-    // Seafund
-    usdc.safeTransfer(
-      seafund,
-      (usdcBalance * seafundAmount) / (10000 - podAmount)
-    );
 
     // Seafund
     usdc.safeTransfer(
@@ -329,4 +340,6 @@ contract OrcaAdder is Initializable, OwnableUpgradeable {
 
     // DONE!
   }
+
+  receive() external payable {}
 }

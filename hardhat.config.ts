@@ -7,6 +7,7 @@ import '@nomiclabs/hardhat-ethers';
 import '@nomiclabs/hardhat-waffle';
 import 'solidity-coverage';
 import '@openzeppelin/hardhat-upgrades';
+import '@nomiclabs/hardhat-etherscan';
 
 // When using the hardhat network, you may choose to fork Fuji or Avalanche Mainnet
 // This will allow you to debug contracts using the hardhat network while keeping the current network state
@@ -14,8 +15,8 @@ import '@openzeppelin/hardhat-upgrades';
 // For more information go to the hardhat guide
 // https://hardhat.org/hardhat-network/
 // https://hardhat.org/guides/mainnet-forking.html
-const FORK_FUJI = false;
-const FORK_MAINNET = true;
+const FORK_FUJI = true;
+const FORK_MAINNET = false;
 const forkingData = FORK_FUJI
   ? {
       url: 'https://api.avax-test.network/ext/bc/C/rpc',
@@ -25,8 +26,6 @@ const forkingData = FORK_FUJI
       url: 'https://api.avax.network/ext/bc/C/rpc',
     }
   : undefined;
-
-const contract_dir = process.env.CONTRACT_DIR;
 
 export default {
   solidity: {
