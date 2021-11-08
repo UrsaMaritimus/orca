@@ -117,19 +117,6 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     decimals: 18,
     collateral: true,
   },
-  YRTAAVEAVAX2: {
-    address: {
-      mainnet: '0x957Ca4a4aA7CDc866cf430bb140753F04e273bC0'.toLowerCase(),
-      fuji: '0xE1296Be9B7d9C69Ef65B054BD8cE79E326EFA0d7'.toLowerCase(),
-    },
-    icon: '/static/cryptos/ic_yak_avax_aave.png',
-    erc20: 'yrtAaveAvax2',
-    display: 'Yak AAVE AVAX',
-    url: 'YRTAAVEAVAX2',
-    symbol: 'YRT',
-    decimals: 18,
-    collateral: true,
-  },
   YRTJOEAVAX: {
     address: {
       mainnet: ''.toLowerCase(),

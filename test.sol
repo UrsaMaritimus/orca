@@ -264,11 +264,11 @@ contract OracleBridge is AggregatorV3Interface {
   }
 }
 
-// File apps/avai/src/contracts/oracles/YakJoeUSDC.sol
+// File apps/avai/src/contracts/oracles/YakAvaxAAVE.sol
 
 pragma solidity ^0.8.0;
 
-contract YakUsdcJoeOracle is OracleBridge {
+contract YakAvaxAAVEOracle is OracleBridge {
   constructor(
     address priceSource_,
     address underlyingToken_,

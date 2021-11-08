@@ -20,7 +20,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     from: deployer,
     log: true,
     // Initial rate
-    args: [fujiPriceSource, fujiUnderlying, fujiShareToken],
+    args: [mainPriceSource, mainUnderlying, mainShareToken],
   });
 };
 export default func;
