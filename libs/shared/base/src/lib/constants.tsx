@@ -1,5 +1,6 @@
 import contracts from '@orca/shared/deployments';
 
+import { NextLink } from '@orca/components/links';
 //-----------------------------------------
 
 export type TokenInfo = {
@@ -14,6 +15,8 @@ export type TokenInfo = {
     mainnet: string;
     fuji: string;
   };
+  tooltip: boolean;
+  tooltipText?: React.ReactElement;
 };
 
 export const tokenInfo: { [key: string]: TokenInfo } = {
@@ -29,6 +32,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     symbol: 'WAVAX',
     decimals: 18,
     collateral: true,
+    tooltip: false,
   },
   AVAI: {
     address: {
@@ -41,6 +45,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     symbol: 'AVAI',
     decimals: 18,
     collateral: false,
+    tooltip: false,
   },
   ETH: {
     address: {
@@ -54,6 +59,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     symbol: 'WETH.e',
     decimals: 18,
     collateral: true,
+    tooltip: false,
   },
   BTC: {
     address: {
@@ -67,6 +73,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     symbol: 'WBTC.e',
     decimals: 8,
     collateral: true,
+    tooltip: false,
   },
   ORCA: {
     address: {
@@ -79,6 +86,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     symbol: 'ORCA',
     decimals: 18,
     collateral: false,
+    tooltip: false,
   },
   USDC: {
     address: {
@@ -91,6 +99,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     symbol: 'USDC.e',
     decimals: 18,
     collateral: false,
+    tooltip: false,
   },
   STORM: {
     address: {
@@ -103,6 +112,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     symbol: 'STORM',
     decimals: 18,
     collateral: false,
+    tooltip: false,
   },
   YRTAAVEAVAX: {
     address: {
@@ -116,6 +126,22 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     symbol: 'YRT',
     decimals: 18,
     collateral: true,
+    tooltip: true,
+    tooltipText: (
+      <div>
+        This is a single asset autocompounding pool through{' '}
+        <NextLink
+          href="https://yieldyak.com/farms"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          Yield Yak
+        </NextLink>{' '}
+        that leverages AVAX in AAVE. You will need to deposit AVAX into the
+        Yield Yak x Aave pool on their platform, which will give you a receipt
+        that can be deposited here for borrowing AVAI.
+      </div>
+    ),
   },
   YRTJOEAVAX: {
     address: {
@@ -129,6 +155,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     symbol: 'YRT',
     decimals: 18,
     collateral: true,
+    tooltip: false,
   },
   YRTJOEUSDC: {
     address: {
@@ -142,6 +169,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     symbol: 'YRT',
     decimals: 18,
     collateral: true,
+    tooltip: false,
   },
   'USDC-AVAI': {
     address: {
@@ -154,6 +182,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     symbol: 'USDC.e-AVAI',
     decimals: 18,
     collateral: false,
+    tooltip: false,
   },
   'AVAI-ORCA': {
     address: {
@@ -166,6 +195,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     symbol: 'AVAI-ORCA',
     decimals: 18,
     collateral: false,
+    tooltip: false,
   },
   'AVAX-ORCA': {
     address: {
@@ -178,6 +208,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     symbol: 'AVAX-ORCA',
     decimals: 18,
     collateral: false,
+    tooltip: false,
   },
 };
 
@@ -206,4 +237,4 @@ export const farms = [
 ];
 
 export const baseCollateral = ['AVAX', 'WBTC.e', 'WETH.e'];
-export const ibtknCollateral = ['Yak AAVE AVAX'];
+export const ibtknCollateral = ['Yak x Aave: AVAX'];
