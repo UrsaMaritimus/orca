@@ -111,7 +111,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     },
     icon: '/static/cryptos/ic_yak_avax_aave.png',
     erc20: 'yrtAaveAvax',
-    display: 'Yak AAVE AVAX',
+    display: 'Yak x Aave: AVAX',
     url: 'YRTAAVEAVAX',
     symbol: 'YRT',
     decimals: 18,
