@@ -1,10 +1,10 @@
-subscription TotalSupplyFrontPage @api(name: orca) {
+query TotalSupplyFrontPage @api(name: orca) {
   stablecoins {
     totalSupply
   }
 }
 
-subscription BankInfoFrontPage @api(name: orca) {
+query BankInfoFrontPage @api(name: orca) {
   banks {
     id
     treasury
@@ -26,7 +26,7 @@ subscription BankInfoFrontPage @api(name: orca) {
   }
 }
 
-subscription VaultInfoFrontPage @api(name: orca) {
+query VaultInfoFrontPage @api(name: orca) {
   vaults(where: { collateral_gt: 0 }) {
     collateral
     debt
@@ -35,7 +35,7 @@ subscription VaultInfoFrontPage @api(name: orca) {
     }
   }
 }
-subscription ExchangeInfoFrontPage @api(name: orca) {
+query ExchangeInfoFrontPage @api(name: orca) {
   exchanges {
     treasury
     usdHeld

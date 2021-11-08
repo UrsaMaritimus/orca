@@ -3,32 +3,35 @@ import { BigNumber, utils } from 'ethers';
 import { tokenInfo } from '@orca/shared/base';
 
 import {
-  useGeneralYieldInfoSubscription,
-  useGetTokenDataSubscription,
-  useAvaxPriceSubscription,
-  useGetTokenPriceSubscription,
+  useGeneralYieldInfoQuery,
+  useGetTokenDataQuery,
+  useAvaxPriceQuery,
+  useGetTokenPriceQuery,
 } from '@orca/graphql';
 
 export const useFrontPageYieldInfo = (farm: string) => {
-  const { data: yieldData } = useGeneralYieldInfoSubscription({
+  const { data: yieldData } = useGeneralYieldInfoQuery({
     variables: {
       pair: farm.toLowerCase(),
     },
+    pollInterval: 5000,
   });
 
-  const { data: tokenData } = useGetTokenDataSubscription({
+  const { data: tokenData } = useGetTokenDataQuery({
     variables: {
       id: farm.toLowerCase(),
     },
+    pollInterval: 5000,
   });
 
-  const { data: orcaPrice } = useGetTokenPriceSubscription({
+  const { data: orcaPrice } = useGetTokenPriceQuery({
     variables: {
       id: tokenInfo['ORCA'].address.mainnet.toLowerCase(),
     },
+    pollInterval: 5000,
   });
 
-  const { data: avaxPrice } = useAvaxPriceSubscription();
+  const { data: avaxPrice } = useAvaxPriceQuery({ pollInterval: 5000 });
 
   if (yieldData && tokenData && orcaPrice && avaxPrice) {
     const poolAlloc = Number(yieldData.pools[0]?.allocPoint);

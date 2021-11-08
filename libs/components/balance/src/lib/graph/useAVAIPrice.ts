@@ -1,22 +1,22 @@
 import { BigNumber, utils } from 'ethers';
 import { tokenInfo } from '@orca/shared/base';
 import {
-  useOrcaStatsSubscription,
-  useGetTokenPriceSubscription,
-  useAvaxPriceSubscription,
-  useAvaiStatsSubscription,
+  useGetTokenPriceQuery,
+  useAvaxPriceQuery,
+  useAvaiStatsQuery,
 } from '@orca/graphql';
 
 export const useAvaiPrice = () => {
-  const { loading, data } = useAvaiStatsSubscription();
+  const { loading, data } = useAvaiStatsQuery({ pollInterval: 5000 });
 
-  const { data: avaiPrice } = useGetTokenPriceSubscription({
+  const { data: avaiPrice } = useGetTokenPriceQuery({
     variables: {
       id: tokenInfo['AVAI'].address.mainnet.toLowerCase(),
     },
+    pollInterval: 5000,
   });
 
-  const { data: avaxPrice } = useAvaxPriceSubscription();
+  const { data: avaxPrice } = useAvaxPriceQuery({ pollInterval: 5000 });
 
   if (!loading && avaiPrice && avaxPrice) {
     const circulatingSupply = Number(

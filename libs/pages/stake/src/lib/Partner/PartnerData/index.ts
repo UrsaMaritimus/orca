@@ -3,10 +3,10 @@ import { BigNumber, utils } from 'ethers';
 import { tokenInfo } from '@orca/shared/base';
 
 import {
-  usePartnerStakingInfoSubscription,
-  useUserStakingInfoSubscription,
-  useAvaxPriceSubscription,
-  useGetTokenPriceSubscription,
+  usePartnerStakingInfoQuery,
+  useUserStakingInfoQuery,
+  useAvaxPriceQuery,
+  useGetTokenPriceQuery,
 } from '@orca/graphql';
 
 export const useMonitorFarms = (
@@ -14,34 +14,40 @@ export const useMonitorFarms = (
   chainId: number,
   token: string
 ) => {
-  const { data: yieldData } = usePartnerStakingInfoSubscription({
+  const { data: yieldData } = usePartnerStakingInfoQuery({
     variables: {
       id: token.toLowerCase(),
     },
+    pollInterval: 5000,
   });
 
-  const { data: userData } = useUserStakingInfoSubscription({
+  const { data: userData } = useUserStakingInfoQuery({
     variables: {
       id: account ? account.toLowerCase() : '',
     },
+    pollInterval: 5000,
   });
 
-  const { data: partnerPrice } = useGetTokenPriceSubscription({
+  const { data: partnerPrice } = useGetTokenPriceQuery({
     variables: {
       id: tokenInfo['STORM'].address.mainnet,
     },
+    pollInterval: 5000,
   });
 
-  const { data: orcaPrice } = useGetTokenPriceSubscription({
+  const { data: orcaPrice } = useGetTokenPriceQuery({
     variables: {
       id:
         chainId === 43114 || !chainId
           ? tokenInfo['ORCA'].address.mainnet.toLowerCase()
           : tokenInfo['ORCA'].address.fuji.toLowerCase(),
     },
+    pollInterval: 5000,
   });
 
-  const { data: avaxPrice } = useAvaxPriceSubscription();
+  const { data: avaxPrice } = useAvaxPriceQuery({
+    pollInterval: 5000,
+  });
 
   if (yieldData && userData && partnerPrice && avaxPrice && orcaPrice) {
     const avaxPerSec = Number(

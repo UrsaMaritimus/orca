@@ -1,26 +1,29 @@
 import { BigNumber, utils } from 'ethers';
 import { tokenInfo } from '@orca/shared/base';
 import {
-  useOrcaStatsSubscription,
+  useOrcaStatsQuery,
   useOrcaPerSecQuery,
-  useGetTokenPriceSubscription,
-  useAvaxPriceSubscription,
-  useGeneralStakingInfoSubscription,
+  useGetTokenPriceQuery,
+  useAvaxPriceQuery,
+  useGeneralStakingInfoQuery,
 } from '@orca/graphql';
 
 import { useFrontPageYieldInfo } from './useFrontPageYieldFarm';
 import { useFrontPageInfo } from './useFrontPageAnalytics';
 
 export const useFrontPageStats = () => {
-  const { loading, data } = useOrcaStatsSubscription({
+  const { loading, data } = useOrcaStatsQuery({
     variables: {
       id: tokenInfo['ORCA'].address.mainnet.toLowerCase(),
     },
+    pollInterval: 5000,
   });
 
   const { loading: bankLoading, data: bankData } = useFrontPageInfo();
 
-  const { data: orcaPerSec, loading: orcaPerLoading } = useOrcaPerSecQuery();
+  const { data: orcaPerSec, loading: orcaPerLoading } = useOrcaPerSecQuery({
+    pollInterval: 5000,
+  });
 
   // Do this manually. Tedious tbh...
   const { loading: orcaLoading, data: orcaFarm } = useFrontPageYieldInfo(
@@ -34,15 +37,18 @@ export const useFrontPageStats = () => {
     tokenInfo['AVAX-ORCA'].address.mainnet.toLowerCase()
   );
 
-  const { data: yieldData } = useGeneralStakingInfoSubscription();
+  const { data: yieldData } = useGeneralStakingInfoQuery({
+    pollInterval: 5000,
+  });
 
-  const { data: orcaPrice } = useGetTokenPriceSubscription({
+  const { data: orcaPrice } = useGetTokenPriceQuery({
     variables: {
       id: tokenInfo['ORCA'].address.mainnet.toLowerCase(),
     },
+    pollInterval: 5000,
   });
 
-  const { data: avaxPrice } = useAvaxPriceSubscription();
+  const { data: avaxPrice } = useAvaxPriceQuery({ pollInterval: 5000 });
 
   if (
     !loading &&

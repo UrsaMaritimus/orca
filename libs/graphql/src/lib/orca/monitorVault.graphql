@@ -1,4 +1,4 @@
-subscription MonitorVaults($bankID: String!) @api(name: orca) {
+query MonitorVaults($bankID: String!) @api(name: orca) {
   vaults(where: { bank: $bankID, debt_gt: 0 }) {
     number
     collateral
@@ -7,13 +7,13 @@ subscription MonitorVaults($bankID: String!) @api(name: orca) {
   }
 }
 
-subscription BankMCP($id: ID!) @api(name: orca) {
+query BankMCP($id: ID!) @api(name: orca) {
   bank(id: $id) {
     minimumCollateralPercentage
   }
 }
 
-subscription NewMonitorVaults @api(name: orca) {
+query NewMonitorVaults @api(name: orca) {
   vaults(where: { debt_gt: 0 }) {
     number
     collateral

@@ -6,7 +6,7 @@ import useSwr from 'swr';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
 import { allBankPrices } from '@orca/shared/funcs';
-import { useNewUserVaultsSubscription } from '@orca/graphql';
+import { useNewUserVaultsQuery } from '@orca/graphql';
 import { tokenInfo } from '@orca/shared/base';
 import { VaultContracts } from '@orca/shared/contracts';
 import { filter } from 'lodash';
@@ -17,10 +17,11 @@ export const useGetVaults = (
   account: string
 ) => {
   const shouldFetch = !!library;
-  const { data: vaultData } = useNewUserVaultsSubscription({
+  const { data: vaultData } = useNewUserVaultsQuery({
     variables: {
       user: account ? account.toLowerCase() : '',
     },
+    pollInterval: 5000,
   });
 
   // Grab bank prices

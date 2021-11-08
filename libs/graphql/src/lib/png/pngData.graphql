@@ -1,4 +1,4 @@
-subscription GetTokenData($id: ID!) @api(name: png) {
+query GetTokenData($id: ID!) @api(name: png) {
   pairs(first: 5, where: { id: $id }) {
     id
     reserveUSD

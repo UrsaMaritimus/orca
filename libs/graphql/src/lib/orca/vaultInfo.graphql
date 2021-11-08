@@ -1,18 +1,4 @@
-query getUserVaults($id: ID!) @api(name: orca) {
-  user(id: $id) {
-    vaults {
-      id
-      number
-      debt
-      collateral
-      bank {
-        treasury
-      }
-    }
-  }
-}
-
-subscription UserVaults($user: String!, $bank: String!) @api(name: orca) {
+query UserVaults($user: String!, $bank: String!) @api(name: orca) {
   vaults(where: { user: $user, bank: $bank }) {
     id
     collateral
@@ -25,7 +11,7 @@ subscription UserVaults($user: String!, $bank: String!) @api(name: orca) {
   }
 }
 
-subscription NewUserVaults($user: String!) @api(name: orca) {
+query NewUserVaults($user: String!) @api(name: orca) {
   vaults(where: { user: $user }) {
     id
     collateral
@@ -42,7 +28,7 @@ subscription NewUserVaults($user: String!) @api(name: orca) {
   }
 }
 
-subscription VaultInfo($vaultID: ID!) @api(name: orca) {
+query VaultInfo($vaultID: ID!) @api(name: orca) {
   vault(id: $vaultID) {
     id
     collateral
@@ -61,7 +47,7 @@ subscription VaultInfo($vaultID: ID!) @api(name: orca) {
   }
 }
 
-subscription AllBankInfo @api(name: orca) {
+query AllBankInfo @api(name: orca) {
   banks {
     id
     debtCeiling
