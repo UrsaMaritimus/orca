@@ -4,7 +4,7 @@ query OrcaPerSec @api(name: orca) {
   }
 }
 
-subscription GeneralYieldInfo($pair: Bytes!) @api(name: orca) {
+query GeneralYieldInfo($pair: Bytes!) @api(name: orca) {
   pools(where: { pair: $pair }) {
     id
     pair
@@ -19,7 +19,7 @@ subscription GeneralYieldInfo($pair: Bytes!) @api(name: orca) {
   }
 }
 
-subscription UserStaked($id: ID!) @api(name: orca) {
+query UserStaked($id: ID!) @api(name: orca) {
   user(id: $id) {
     pools {
       staked

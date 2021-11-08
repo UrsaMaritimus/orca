@@ -1,4 +1,4 @@
-subscription OrcaStats($id: ID!) @api(name: orca) {
+query OrcaStats($id: ID!) @api(name: orca) {
   orca(id: $id) {
     id
     circulatingSupply

@@ -3,11 +3,11 @@ import { BigNumber, utils } from 'ethers';
 import { tokenInfo } from '@orca/shared/base';
 
 import {
-  useGeneralYieldInfoSubscription,
-  useGetTokenDataSubscription,
-  useUserStakedSubscription,
-  useAvaxPriceSubscription,
-  useGetTokenPriceSubscription,
+  useGeneralYieldInfoQuery,
+  useGetTokenDataQuery,
+  useUserStakedQuery,
+  useAvaxPriceQuery,
+  useGetTokenPriceQuery,
 } from '@orca/graphql';
 
 export const useMonitorFarms = (
@@ -15,37 +15,41 @@ export const useMonitorFarms = (
   account: string,
   chainId: number
 ) => {
-  const { data: yieldData } = useGeneralYieldInfoSubscription({
+  const { data: yieldData } = useGeneralYieldInfoQuery({
     variables: {
       pair: farm,
     },
+    pollInterval: 5000,
   });
 
-  const { data: userData } = useUserStakedSubscription({
+  const { data: userData } = useUserStakedQuery({
     variables: {
       id: account ? account.toLowerCase() : '',
     },
+    pollInterval: 5000,
   });
 
-  const { data: tokenData } = useGetTokenDataSubscription({
+  const { data: tokenData } = useGetTokenDataQuery({
     variables: {
       id:
         farm === '0x045c6cd1b7a6f1d6cf66e2d45a9ba8e2b58cc217'
           ? '0xe28984e1ee8d431346d32bec9ec800efb643eef4'
           : farm,
     },
+    pollInterval: 5000,
   });
 
-  const { data: orcaPrice } = useGetTokenPriceSubscription({
+  const { data: orcaPrice } = useGetTokenPriceQuery({
     variables: {
       id:
         chainId === 43114 || !chainId
           ? tokenInfo['ORCA'].address.mainnet.toLowerCase()
           : tokenInfo['ORCA'].address.fuji.toLowerCase(),
     },
+    pollInterval: 5000,
   });
 
-  const { data: avaxPrice } = useAvaxPriceSubscription();
+  const { data: avaxPrice } = useAvaxPriceQuery({ pollInterval: 5000 });
 
   if (yieldData && userData && tokenData && orcaPrice && avaxPrice) {
     const poolAlloc = Number(yieldData.pools[0].allocPoint);
@@ -106,13 +110,13 @@ export const useMonitorFarms = (
 
 // For avai farm for testing
 export const useMonitorFarmAvai = (farm: string, account: string) => {
-  const { data: yieldData } = useGeneralYieldInfoSubscription({
+  const { data: yieldData } = useGeneralYieldInfoQuery({
     variables: {
       pair: farm,
     },
   });
 
-  const { data: userData } = useUserStakedSubscription({
+  const { data: userData } = useUserStakedQuery({
     variables: {
       id: account ? account.toLowerCase() : '',
     },

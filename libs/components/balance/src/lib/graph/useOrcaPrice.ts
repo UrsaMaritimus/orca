@@ -1,9 +1,9 @@
 import { BigNumber, utils } from 'ethers';
 import { tokenInfo } from '@orca/shared/base';
 import {
-  useOrcaStatsSubscription,
-  useGetTokenPriceSubscription,
-  useAvaxPriceSubscription,
+  useOrcaStatsQuery,
+  useGetTokenPriceQuery,
+  useAvaxPriceQuery,
 } from '@orca/graphql';
 
 import { useWeb3React } from '@web3-react/core';
@@ -12,25 +12,27 @@ import { Web3Provider } from '@ethersproject/providers';
 export const useOrcaPrice = () => {
   //web3
   const { chainId, library } = useWeb3React<Web3Provider>();
-  const { data } = useOrcaStatsSubscription({
+  const { data } = useOrcaStatsQuery({
     variables: {
       id:
         chainId === 43114 || !chainId
           ? tokenInfo['ORCA'].address.mainnet.toLowerCase()
           : tokenInfo['ORCA'].address.fuji.toLowerCase(),
     },
+    pollInterval: 5000,
   });
 
-  const { data: orcaPrice } = useGetTokenPriceSubscription({
+  const { data: orcaPrice } = useGetTokenPriceQuery({
     variables: {
       id:
         chainId === 43114 || !chainId
           ? tokenInfo['ORCA'].address.mainnet.toLowerCase()
           : tokenInfo['ORCA'].address.fuji.toLowerCase(),
     },
+    pollInterval: 5000,
   });
 
-  const { data: avaxPrice } = useAvaxPriceSubscription();
+  const { data: avaxPrice } = useAvaxPriceQuery({ pollInterval: 5000 });
   if (library && data && orcaPrice && avaxPrice) {
     const circulatingSupply = Number(
       utils.formatEther(

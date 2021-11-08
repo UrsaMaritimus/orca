@@ -6,10 +6,9 @@ import useSwr from 'swr';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
 import {
-  useBankInfoFrontPageSubscription,
-  useExchangeInfoFrontPageSubscription,
-  useTotalSupplyFrontPageSubscription,
-  useVaultInfoFrontPageSubscription,
+  useBankInfoFrontPageQuery,
+  useExchangeInfoFrontPageQuery,
+  useTotalSupplyFrontPageQuery,
 } from '@orca/graphql';
 import { find, includes } from 'lodash';
 
@@ -17,11 +16,11 @@ import { allBankPricesNoWeb3 } from '@orca/shared/funcs';
 
 export const useFrontPageInfo = () => {
   const { data: supplyFrontPage, loading: supplyLoading } =
-    useTotalSupplyFrontPageSubscription({});
+    useTotalSupplyFrontPageQuery({ pollInterval: 5000 });
   const { data: exchangeInfoFrontPage, loading: exchangeLoading } =
-    useExchangeInfoFrontPageSubscription({});
+    useExchangeInfoFrontPageQuery({ pollInterval: 5000 });
   const { data: bankInfoFrontPage, loading: bankLoading } =
-    useBankInfoFrontPageSubscription({});
+    useBankInfoFrontPageQuery({ pollInterval: 5000 });
 
   // Grab bank prices
   const { data: prices, mutate: priceMutate } = useSwr(

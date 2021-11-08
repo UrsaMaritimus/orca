@@ -6,7 +6,7 @@ import useSwr from 'swr';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
 import { bankPrice } from '@orca/shared/funcs';
-import { useVaultInfoSubscription } from '@orca/graphql';
+import { useVaultInfoQuery } from '@orca/graphql';
 import { VaultContracts } from '@orca/shared/contracts';
 
 export const useGetVaultInfo = (
@@ -18,7 +18,7 @@ export const useGetVaultInfo = (
   decimals: number
 ) => {
   const shouldFetch = !!library;
-  const { data: vaultData, loading } = useVaultInfoSubscription({
+  const { data: vaultData, loading } = useVaultInfoQuery({
     variables: {
       vaultID:
         '0x' +
@@ -28,6 +28,7 @@ export const useGetVaultInfo = (
           ? VaultContracts.mainnet[vaultType]?.toLowerCase()
           : VaultContracts.fuji[vaultType]?.toLowerCase()),
     },
+    pollInterval: 5000,
   });
 
   // Grab bank prices

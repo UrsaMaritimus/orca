@@ -1812,139 +1812,132 @@ export enum _SubgraphErrorPolicy_ {
   Deny = 'deny'
 }
 
-export type AvaiStatsSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type AvaiStatsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AvaiStatsSubscription = { __typename?: 'Subscription', stablecoin?: Maybe<{ __typename?: 'Stablecoin', id: string, totalSupply: any }> };
+export type AvaiStatsQuery = { __typename?: 'Query', stablecoin?: Maybe<{ __typename?: 'Stablecoin', id: string, totalSupply: any }> };
 
-export type BankInfoSubscriptionVariables = Exact<{
+export type BankInfoQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type BankInfoSubscription = { __typename?: 'Subscription', bank?: Maybe<{ __typename?: 'Bank', debtCeiling: any, totalDebt: any }> };
+export type BankInfoQuery = { __typename?: 'Query', bank?: Maybe<{ __typename?: 'Bank', debtCeiling: any, totalDebt: any }> };
 
-export type TotalSupplyFrontPageSubscriptionVariables = Exact<{ [key: string]: never; }>;
-
-
-export type TotalSupplyFrontPageSubscription = { __typename?: 'Subscription', stablecoins: Array<{ __typename?: 'Stablecoin', totalSupply: any }> };
-
-export type BankInfoFrontPageSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type TotalSupplyFrontPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type BankInfoFrontPageSubscription = { __typename?: 'Subscription', banks: Array<{ __typename?: 'Bank', id: string, treasury: any, totalDebt: any, totalCollateral: any, tokenPeg: any, minimumCollateralPercentage: any, token: { __typename?: 'Token', symbol: string, decimals: any, price: { __typename?: 'TokenPrice', priceUSD: any } }, vaults: Array<{ __typename?: 'Vault', collateral: any, debt: any }> }> };
+export type TotalSupplyFrontPageQuery = { __typename?: 'Query', stablecoins: Array<{ __typename?: 'Stablecoin', totalSupply: any }> };
 
-export type VaultInfoFrontPageSubscriptionVariables = Exact<{ [key: string]: never; }>;
-
-
-export type VaultInfoFrontPageSubscription = { __typename?: 'Subscription', vaults: Array<{ __typename?: 'Vault', collateral: any, debt: any, bank: { __typename?: 'Bank', id: string } }> };
-
-export type ExchangeInfoFrontPageSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type BankInfoFrontPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ExchangeInfoFrontPageSubscription = { __typename?: 'Subscription', exchanges: Array<{ __typename?: 'Exchange', treasury: any, usdHeld: any }> };
+export type BankInfoFrontPageQuery = { __typename?: 'Query', banks: Array<{ __typename?: 'Bank', id: string, treasury: any, totalDebt: any, totalCollateral: any, tokenPeg: any, minimumCollateralPercentage: any, token: { __typename?: 'Token', symbol: string, decimals: any, price: { __typename?: 'TokenPrice', priceUSD: any } }, vaults: Array<{ __typename?: 'Vault', collateral: any, debt: any }> }> };
+
+export type VaultInfoFrontPageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type VaultInfoFrontPageQuery = { __typename?: 'Query', vaults: Array<{ __typename?: 'Vault', collateral: any, debt: any, bank: { __typename?: 'Bank', id: string } }> };
+
+export type ExchangeInfoFrontPageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ExchangeInfoFrontPageQuery = { __typename?: 'Query', exchanges: Array<{ __typename?: 'Exchange', treasury: any, usdHeld: any }> };
 
 export type OrcaPerSecQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type OrcaPerSecQuery = { __typename?: 'Query', podLeaders: Array<{ __typename?: 'PodLeader', orcaPerSec: any }> };
 
-export type GeneralYieldInfoSubscriptionVariables = Exact<{
+export type GeneralYieldInfoQueryVariables = Exact<{
   pair: Scalars['Bytes'];
 }>;
 
 
-export type GeneralYieldInfoSubscription = { __typename?: 'Subscription', pools: Array<{ __typename?: 'Pool', id: string, pair: any, allocPoint: any, totalStaked: any, depositFee: any, treasuryAmount: any, leader: { __typename?: 'PodLeader', orcaPerSec: any, totalAllocPoints: any } }> };
+export type GeneralYieldInfoQuery = { __typename?: 'Query', pools: Array<{ __typename?: 'Pool', id: string, pair: any, allocPoint: any, totalStaked: any, depositFee: any, treasuryAmount: any, leader: { __typename?: 'PodLeader', orcaPerSec: any, totalAllocPoints: any } }> };
 
-export type UserStakedSubscriptionVariables = Exact<{
+export type UserStakedQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type UserStakedSubscription = { __typename?: 'Subscription', user?: Maybe<{ __typename?: 'User', pools?: Maybe<Array<{ __typename?: 'PoolUser', staked: any, pool: { __typename?: 'Pool', pair: any } }>> }> };
+export type UserStakedQuery = { __typename?: 'Query', user?: Maybe<{ __typename?: 'User', pools?: Maybe<Array<{ __typename?: 'PoolUser', staked: any, pool: { __typename?: 'Pool', pair: any } }>> }> };
 
-export type MonitorVaultsSubscriptionVariables = Exact<{
+export type MonitorVaultsQueryVariables = Exact<{
   bankID: Scalars['String'];
 }>;
 
 
-export type MonitorVaultsSubscription = { __typename?: 'Subscription', vaults: Array<{ __typename?: 'Vault', number: number, collateral: any, debt: any, id: string }> };
+export type MonitorVaultsQuery = { __typename?: 'Query', vaults: Array<{ __typename?: 'Vault', number: number, collateral: any, debt: any, id: string }> };
 
-export type BankMcpSubscriptionVariables = Exact<{
+export type BankMcpQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type BankMcpSubscription = { __typename?: 'Subscription', bank?: Maybe<{ __typename?: 'Bank', minimumCollateralPercentage: any }> };
+export type BankMcpQuery = { __typename?: 'Query', bank?: Maybe<{ __typename?: 'Bank', minimumCollateralPercentage: any }> };
 
-export type NewMonitorVaultsSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type NewMonitorVaultsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type NewMonitorVaultsSubscription = { __typename?: 'Subscription', vaults: Array<{ __typename?: 'Vault', number: number, collateral: any, debt: any, id: string, bank: { __typename?: 'Bank', id: string, minimumCollateralPercentage: any } }> };
+export type NewMonitorVaultsQuery = { __typename?: 'Query', vaults: Array<{ __typename?: 'Vault', number: number, collateral: any, debt: any, id: string, bank: { __typename?: 'Bank', id: string, minimumCollateralPercentage: any } }> };
 
-export type OrcaStatsSubscriptionVariables = Exact<{
+export type OrcaStatsQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type OrcaStatsSubscription = { __typename?: 'Subscription', orca?: Maybe<{ __typename?: 'Orca', id: string, circulatingSupply: any, maxSupply: any }> };
+export type OrcaStatsQuery = { __typename?: 'Query', orca?: Maybe<{ __typename?: 'Orca', id: string, circulatingSupply: any, maxSupply: any }> };
 
-export type GeneralStakingInfoSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type GeneralStakingInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GeneralStakingInfoSubscription = { __typename?: 'Subscription', staking?: Maybe<{ __typename?: 'Staking', totalStaked: any, avaxPerSec: any, totalAllocPoints: any }> };
+export type GeneralStakingInfoQuery = { __typename?: 'Query', staking?: Maybe<{ __typename?: 'Staking', totalStaked: any, avaxPerSec: any, totalAllocPoints: any }> };
 
-export type PartnerStakingInfoSubscriptionVariables = Exact<{
+export type PartnerStakingInfoQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type PartnerStakingInfoSubscription = { __typename?: 'Subscription', staking?: Maybe<{ __typename?: 'Staking', totalStaked: any, avaxPerSec: any, totalAllocPoints: any }> };
+export type PartnerStakingInfoQuery = { __typename?: 'Query', staking?: Maybe<{ __typename?: 'Staking', totalStaked: any, avaxPerSec: any, totalAllocPoints: any }> };
 
-export type UserStakingInfoSubscriptionVariables = Exact<{
+export type UserStakingInfoQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type UserStakingInfoSubscription = { __typename?: 'Subscription', user?: Maybe<{ __typename?: 'User', staking?: Maybe<Array<{ __typename?: 'StakingUser', staked: any, staking: { __typename?: 'Staking', id: string } }>> }> };
+export type UserStakingInfoQuery = { __typename?: 'Query', user?: Maybe<{ __typename?: 'User', staking?: Maybe<Array<{ __typename?: 'StakingUser', staked: any, staking: { __typename?: 'Staking', id: string } }>> }> };
 
-export type GetUserVaultsQueryVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-
-export type GetUserVaultsQuery = { __typename?: 'Query', user?: Maybe<{ __typename?: 'User', vaults?: Maybe<Array<{ __typename?: 'Vault', id: string, number: number, debt: any, collateral: any, bank: { __typename?: 'Bank', treasury: any } }>> }> };
-
-export type UserVaultsSubscriptionVariables = Exact<{
+export type UserVaultsQueryVariables = Exact<{
   user: Scalars['String'];
   bank: Scalars['String'];
 }>;
 
 
-export type UserVaultsSubscription = { __typename?: 'Subscription', vaults: Array<{ __typename?: 'Vault', id: string, collateral: any, number: number, debt: any, bank: { __typename?: 'Bank', id: string, treasury: any } }> };
+export type UserVaultsQuery = { __typename?: 'Query', vaults: Array<{ __typename?: 'Vault', id: string, collateral: any, number: number, debt: any, bank: { __typename?: 'Bank', id: string, treasury: any } }> };
 
-export type NewUserVaultsSubscriptionVariables = Exact<{
+export type NewUserVaultsQueryVariables = Exact<{
   user: Scalars['String'];
 }>;
 
 
-export type NewUserVaultsSubscription = { __typename?: 'Subscription', vaults: Array<{ __typename?: 'Vault', id: string, collateral: any, number: number, debt: any, bank: { __typename?: 'Bank', id: string, treasury: any, token: { __typename?: 'Token', symbol: string, decimals: any } } }> };
+export type NewUserVaultsQuery = { __typename?: 'Query', vaults: Array<{ __typename?: 'Vault', id: string, collateral: any, number: number, debt: any, bank: { __typename?: 'Bank', id: string, treasury: any, token: { __typename?: 'Token', symbol: string, decimals: any } } }> };
 
-export type VaultInfoSubscriptionVariables = Exact<{
+export type VaultInfoQueryVariables = Exact<{
   vaultID: Scalars['ID'];
 }>;
 
 
-export type VaultInfoSubscription = { __typename?: 'Subscription', vault?: Maybe<{ __typename?: 'Vault', id: string, collateral: any, number: number, debt: any, bank: { __typename?: 'Bank', id: string, minimumCollateralPercentage: any, closingFee: any, openingFee: any, tokenPeg: any }, user: { __typename?: 'User', id: string } }> };
+export type VaultInfoQuery = { __typename?: 'Query', vault?: Maybe<{ __typename?: 'Vault', id: string, collateral: any, number: number, debt: any, bank: { __typename?: 'Bank', id: string, minimumCollateralPercentage: any, closingFee: any, openingFee: any, tokenPeg: any }, user: { __typename?: 'User', id: string } }> };
 
-export type AllBankInfoSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type AllBankInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllBankInfoSubscription = { __typename?: 'Subscription', banks: Array<{ __typename?: 'Bank', id: string, debtCeiling: any, totalDebt: any, minimumCollateralPercentage: any }> };
+export type AllBankInfoQuery = { __typename?: 'Query', banks: Array<{ __typename?: 'Bank', id: string, debtCeiling: any, totalDebt: any, minimumCollateralPercentage: any }> };
 
 
 export const AvaiStatsDocument = gql`
-    subscription AvaiStats @api(name: orca) {
+    query AvaiStats @api(name: orca) {
   stablecoin(id: "0x346A59146b9b4a77100D369a3d18E8007A9F46a6") {
     id
     totalSupply
@@ -1953,28 +1946,33 @@ export const AvaiStatsDocument = gql`
     `;
 
 /**
- * __useAvaiStatsSubscription__
+ * __useAvaiStatsQuery__
  *
- * To run a query within a React component, call `useAvaiStatsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useAvaiStatsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useAvaiStatsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAvaiStatsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useAvaiStatsSubscription({
+ * const { data, loading, error } = useAvaiStatsQuery({
  *   variables: {
  *   },
  * });
  */
-export function useAvaiStatsSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<AvaiStatsSubscription, AvaiStatsSubscriptionVariables>) {
+export function useAvaiStatsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<AvaiStatsQuery, AvaiStatsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<AvaiStatsSubscription, AvaiStatsSubscriptionVariables>(AvaiStatsDocument, options);
+        return ApolloReactHooks.useQuery<AvaiStatsQuery, AvaiStatsQueryVariables>(AvaiStatsDocument, options);
       }
-export type AvaiStatsSubscriptionHookResult = ReturnType<typeof useAvaiStatsSubscription>;
-export type AvaiStatsSubscriptionResult = Apollo.SubscriptionResult<AvaiStatsSubscription>;
+export function useAvaiStatsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<AvaiStatsQuery, AvaiStatsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<AvaiStatsQuery, AvaiStatsQueryVariables>(AvaiStatsDocument, options);
+        }
+export type AvaiStatsQueryHookResult = ReturnType<typeof useAvaiStatsQuery>;
+export type AvaiStatsLazyQueryHookResult = ReturnType<typeof useAvaiStatsLazyQuery>;
+export type AvaiStatsQueryResult = Apollo.QueryResult<AvaiStatsQuery, AvaiStatsQueryVariables>;
 export const BankInfoDocument = gql`
-    subscription BankInfo($id: ID!) @api(name: orca) {
+    query BankInfo($id: ID!) @api(name: orca) {
   bank(id: $id) {
     debtCeiling
     totalDebt
@@ -1983,29 +1981,34 @@ export const BankInfoDocument = gql`
     `;
 
 /**
- * __useBankInfoSubscription__
+ * __useBankInfoQuery__
  *
- * To run a query within a React component, call `useBankInfoSubscription` and pass it any options that fit your needs.
- * When your component renders, `useBankInfoSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useBankInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBankInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useBankInfoSubscription({
+ * const { data, loading, error } = useBankInfoQuery({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useBankInfoSubscription(baseOptions: ApolloReactHooks.SubscriptionHookOptions<BankInfoSubscription, BankInfoSubscriptionVariables>) {
+export function useBankInfoQuery(baseOptions: ApolloReactHooks.QueryHookOptions<BankInfoQuery, BankInfoQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<BankInfoSubscription, BankInfoSubscriptionVariables>(BankInfoDocument, options);
+        return ApolloReactHooks.useQuery<BankInfoQuery, BankInfoQueryVariables>(BankInfoDocument, options);
       }
-export type BankInfoSubscriptionHookResult = ReturnType<typeof useBankInfoSubscription>;
-export type BankInfoSubscriptionResult = Apollo.SubscriptionResult<BankInfoSubscription>;
+export function useBankInfoLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<BankInfoQuery, BankInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<BankInfoQuery, BankInfoQueryVariables>(BankInfoDocument, options);
+        }
+export type BankInfoQueryHookResult = ReturnType<typeof useBankInfoQuery>;
+export type BankInfoLazyQueryHookResult = ReturnType<typeof useBankInfoLazyQuery>;
+export type BankInfoQueryResult = Apollo.QueryResult<BankInfoQuery, BankInfoQueryVariables>;
 export const TotalSupplyFrontPageDocument = gql`
-    subscription TotalSupplyFrontPage @api(name: orca) {
+    query TotalSupplyFrontPage @api(name: orca) {
   stablecoins {
     totalSupply
   }
@@ -2013,28 +2016,33 @@ export const TotalSupplyFrontPageDocument = gql`
     `;
 
 /**
- * __useTotalSupplyFrontPageSubscription__
+ * __useTotalSupplyFrontPageQuery__
  *
- * To run a query within a React component, call `useTotalSupplyFrontPageSubscription` and pass it any options that fit your needs.
- * When your component renders, `useTotalSupplyFrontPageSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useTotalSupplyFrontPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTotalSupplyFrontPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useTotalSupplyFrontPageSubscription({
+ * const { data, loading, error } = useTotalSupplyFrontPageQuery({
  *   variables: {
  *   },
  * });
  */
-export function useTotalSupplyFrontPageSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<TotalSupplyFrontPageSubscription, TotalSupplyFrontPageSubscriptionVariables>) {
+export function useTotalSupplyFrontPageQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<TotalSupplyFrontPageQuery, TotalSupplyFrontPageQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<TotalSupplyFrontPageSubscription, TotalSupplyFrontPageSubscriptionVariables>(TotalSupplyFrontPageDocument, options);
+        return ApolloReactHooks.useQuery<TotalSupplyFrontPageQuery, TotalSupplyFrontPageQueryVariables>(TotalSupplyFrontPageDocument, options);
       }
-export type TotalSupplyFrontPageSubscriptionHookResult = ReturnType<typeof useTotalSupplyFrontPageSubscription>;
-export type TotalSupplyFrontPageSubscriptionResult = Apollo.SubscriptionResult<TotalSupplyFrontPageSubscription>;
+export function useTotalSupplyFrontPageLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<TotalSupplyFrontPageQuery, TotalSupplyFrontPageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<TotalSupplyFrontPageQuery, TotalSupplyFrontPageQueryVariables>(TotalSupplyFrontPageDocument, options);
+        }
+export type TotalSupplyFrontPageQueryHookResult = ReturnType<typeof useTotalSupplyFrontPageQuery>;
+export type TotalSupplyFrontPageLazyQueryHookResult = ReturnType<typeof useTotalSupplyFrontPageLazyQuery>;
+export type TotalSupplyFrontPageQueryResult = Apollo.QueryResult<TotalSupplyFrontPageQuery, TotalSupplyFrontPageQueryVariables>;
 export const BankInfoFrontPageDocument = gql`
-    subscription BankInfoFrontPage @api(name: orca) {
+    query BankInfoFrontPage @api(name: orca) {
   banks {
     id
     treasury
@@ -2058,28 +2066,33 @@ export const BankInfoFrontPageDocument = gql`
     `;
 
 /**
- * __useBankInfoFrontPageSubscription__
+ * __useBankInfoFrontPageQuery__
  *
- * To run a query within a React component, call `useBankInfoFrontPageSubscription` and pass it any options that fit your needs.
- * When your component renders, `useBankInfoFrontPageSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useBankInfoFrontPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBankInfoFrontPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useBankInfoFrontPageSubscription({
+ * const { data, loading, error } = useBankInfoFrontPageQuery({
  *   variables: {
  *   },
  * });
  */
-export function useBankInfoFrontPageSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<BankInfoFrontPageSubscription, BankInfoFrontPageSubscriptionVariables>) {
+export function useBankInfoFrontPageQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<BankInfoFrontPageQuery, BankInfoFrontPageQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<BankInfoFrontPageSubscription, BankInfoFrontPageSubscriptionVariables>(BankInfoFrontPageDocument, options);
+        return ApolloReactHooks.useQuery<BankInfoFrontPageQuery, BankInfoFrontPageQueryVariables>(BankInfoFrontPageDocument, options);
       }
-export type BankInfoFrontPageSubscriptionHookResult = ReturnType<typeof useBankInfoFrontPageSubscription>;
-export type BankInfoFrontPageSubscriptionResult = Apollo.SubscriptionResult<BankInfoFrontPageSubscription>;
+export function useBankInfoFrontPageLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<BankInfoFrontPageQuery, BankInfoFrontPageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<BankInfoFrontPageQuery, BankInfoFrontPageQueryVariables>(BankInfoFrontPageDocument, options);
+        }
+export type BankInfoFrontPageQueryHookResult = ReturnType<typeof useBankInfoFrontPageQuery>;
+export type BankInfoFrontPageLazyQueryHookResult = ReturnType<typeof useBankInfoFrontPageLazyQuery>;
+export type BankInfoFrontPageQueryResult = Apollo.QueryResult<BankInfoFrontPageQuery, BankInfoFrontPageQueryVariables>;
 export const VaultInfoFrontPageDocument = gql`
-    subscription VaultInfoFrontPage @api(name: orca) {
+    query VaultInfoFrontPage @api(name: orca) {
   vaults(where: {collateral_gt: 0}) {
     collateral
     debt
@@ -2091,28 +2104,33 @@ export const VaultInfoFrontPageDocument = gql`
     `;
 
 /**
- * __useVaultInfoFrontPageSubscription__
+ * __useVaultInfoFrontPageQuery__
  *
- * To run a query within a React component, call `useVaultInfoFrontPageSubscription` and pass it any options that fit your needs.
- * When your component renders, `useVaultInfoFrontPageSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useVaultInfoFrontPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useVaultInfoFrontPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useVaultInfoFrontPageSubscription({
+ * const { data, loading, error } = useVaultInfoFrontPageQuery({
  *   variables: {
  *   },
  * });
  */
-export function useVaultInfoFrontPageSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<VaultInfoFrontPageSubscription, VaultInfoFrontPageSubscriptionVariables>) {
+export function useVaultInfoFrontPageQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<VaultInfoFrontPageQuery, VaultInfoFrontPageQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<VaultInfoFrontPageSubscription, VaultInfoFrontPageSubscriptionVariables>(VaultInfoFrontPageDocument, options);
+        return ApolloReactHooks.useQuery<VaultInfoFrontPageQuery, VaultInfoFrontPageQueryVariables>(VaultInfoFrontPageDocument, options);
       }
-export type VaultInfoFrontPageSubscriptionHookResult = ReturnType<typeof useVaultInfoFrontPageSubscription>;
-export type VaultInfoFrontPageSubscriptionResult = Apollo.SubscriptionResult<VaultInfoFrontPageSubscription>;
+export function useVaultInfoFrontPageLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<VaultInfoFrontPageQuery, VaultInfoFrontPageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<VaultInfoFrontPageQuery, VaultInfoFrontPageQueryVariables>(VaultInfoFrontPageDocument, options);
+        }
+export type VaultInfoFrontPageQueryHookResult = ReturnType<typeof useVaultInfoFrontPageQuery>;
+export type VaultInfoFrontPageLazyQueryHookResult = ReturnType<typeof useVaultInfoFrontPageLazyQuery>;
+export type VaultInfoFrontPageQueryResult = Apollo.QueryResult<VaultInfoFrontPageQuery, VaultInfoFrontPageQueryVariables>;
 export const ExchangeInfoFrontPageDocument = gql`
-    subscription ExchangeInfoFrontPage @api(name: orca) {
+    query ExchangeInfoFrontPage @api(name: orca) {
   exchanges {
     treasury
     usdHeld
@@ -2121,26 +2139,31 @@ export const ExchangeInfoFrontPageDocument = gql`
     `;
 
 /**
- * __useExchangeInfoFrontPageSubscription__
+ * __useExchangeInfoFrontPageQuery__
  *
- * To run a query within a React component, call `useExchangeInfoFrontPageSubscription` and pass it any options that fit your needs.
- * When your component renders, `useExchangeInfoFrontPageSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useExchangeInfoFrontPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useExchangeInfoFrontPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useExchangeInfoFrontPageSubscription({
+ * const { data, loading, error } = useExchangeInfoFrontPageQuery({
  *   variables: {
  *   },
  * });
  */
-export function useExchangeInfoFrontPageSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<ExchangeInfoFrontPageSubscription, ExchangeInfoFrontPageSubscriptionVariables>) {
+export function useExchangeInfoFrontPageQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ExchangeInfoFrontPageQuery, ExchangeInfoFrontPageQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<ExchangeInfoFrontPageSubscription, ExchangeInfoFrontPageSubscriptionVariables>(ExchangeInfoFrontPageDocument, options);
+        return ApolloReactHooks.useQuery<ExchangeInfoFrontPageQuery, ExchangeInfoFrontPageQueryVariables>(ExchangeInfoFrontPageDocument, options);
       }
-export type ExchangeInfoFrontPageSubscriptionHookResult = ReturnType<typeof useExchangeInfoFrontPageSubscription>;
-export type ExchangeInfoFrontPageSubscriptionResult = Apollo.SubscriptionResult<ExchangeInfoFrontPageSubscription>;
+export function useExchangeInfoFrontPageLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ExchangeInfoFrontPageQuery, ExchangeInfoFrontPageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<ExchangeInfoFrontPageQuery, ExchangeInfoFrontPageQueryVariables>(ExchangeInfoFrontPageDocument, options);
+        }
+export type ExchangeInfoFrontPageQueryHookResult = ReturnType<typeof useExchangeInfoFrontPageQuery>;
+export type ExchangeInfoFrontPageLazyQueryHookResult = ReturnType<typeof useExchangeInfoFrontPageLazyQuery>;
+export type ExchangeInfoFrontPageQueryResult = Apollo.QueryResult<ExchangeInfoFrontPageQuery, ExchangeInfoFrontPageQueryVariables>;
 export const OrcaPerSecDocument = gql`
     query OrcaPerSec @api(name: orca) {
   podLeaders(first: 1) {
@@ -2176,7 +2199,7 @@ export type OrcaPerSecQueryHookResult = ReturnType<typeof useOrcaPerSecQuery>;
 export type OrcaPerSecLazyQueryHookResult = ReturnType<typeof useOrcaPerSecLazyQuery>;
 export type OrcaPerSecQueryResult = Apollo.QueryResult<OrcaPerSecQuery, OrcaPerSecQueryVariables>;
 export const GeneralYieldInfoDocument = gql`
-    subscription GeneralYieldInfo($pair: Bytes!) @api(name: orca) {
+    query GeneralYieldInfo($pair: Bytes!) @api(name: orca) {
   pools(where: {pair: $pair}) {
     id
     pair
@@ -2193,29 +2216,34 @@ export const GeneralYieldInfoDocument = gql`
     `;
 
 /**
- * __useGeneralYieldInfoSubscription__
+ * __useGeneralYieldInfoQuery__
  *
- * To run a query within a React component, call `useGeneralYieldInfoSubscription` and pass it any options that fit your needs.
- * When your component renders, `useGeneralYieldInfoSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGeneralYieldInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGeneralYieldInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGeneralYieldInfoSubscription({
+ * const { data, loading, error } = useGeneralYieldInfoQuery({
  *   variables: {
  *      pair: // value for 'pair'
  *   },
  * });
  */
-export function useGeneralYieldInfoSubscription(baseOptions: ApolloReactHooks.SubscriptionHookOptions<GeneralYieldInfoSubscription, GeneralYieldInfoSubscriptionVariables>) {
+export function useGeneralYieldInfoQuery(baseOptions: ApolloReactHooks.QueryHookOptions<GeneralYieldInfoQuery, GeneralYieldInfoQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<GeneralYieldInfoSubscription, GeneralYieldInfoSubscriptionVariables>(GeneralYieldInfoDocument, options);
+        return ApolloReactHooks.useQuery<GeneralYieldInfoQuery, GeneralYieldInfoQueryVariables>(GeneralYieldInfoDocument, options);
       }
-export type GeneralYieldInfoSubscriptionHookResult = ReturnType<typeof useGeneralYieldInfoSubscription>;
-export type GeneralYieldInfoSubscriptionResult = Apollo.SubscriptionResult<GeneralYieldInfoSubscription>;
+export function useGeneralYieldInfoLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GeneralYieldInfoQuery, GeneralYieldInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<GeneralYieldInfoQuery, GeneralYieldInfoQueryVariables>(GeneralYieldInfoDocument, options);
+        }
+export type GeneralYieldInfoQueryHookResult = ReturnType<typeof useGeneralYieldInfoQuery>;
+export type GeneralYieldInfoLazyQueryHookResult = ReturnType<typeof useGeneralYieldInfoLazyQuery>;
+export type GeneralYieldInfoQueryResult = Apollo.QueryResult<GeneralYieldInfoQuery, GeneralYieldInfoQueryVariables>;
 export const UserStakedDocument = gql`
-    subscription UserStaked($id: ID!) @api(name: orca) {
+    query UserStaked($id: ID!) @api(name: orca) {
   user(id: $id) {
     pools {
       staked
@@ -2228,29 +2256,34 @@ export const UserStakedDocument = gql`
     `;
 
 /**
- * __useUserStakedSubscription__
+ * __useUserStakedQuery__
  *
- * To run a query within a React component, call `useUserStakedSubscription` and pass it any options that fit your needs.
- * When your component renders, `useUserStakedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useUserStakedQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserStakedQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useUserStakedSubscription({
+ * const { data, loading, error } = useUserStakedQuery({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useUserStakedSubscription(baseOptions: ApolloReactHooks.SubscriptionHookOptions<UserStakedSubscription, UserStakedSubscriptionVariables>) {
+export function useUserStakedQuery(baseOptions: ApolloReactHooks.QueryHookOptions<UserStakedQuery, UserStakedQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<UserStakedSubscription, UserStakedSubscriptionVariables>(UserStakedDocument, options);
+        return ApolloReactHooks.useQuery<UserStakedQuery, UserStakedQueryVariables>(UserStakedDocument, options);
       }
-export type UserStakedSubscriptionHookResult = ReturnType<typeof useUserStakedSubscription>;
-export type UserStakedSubscriptionResult = Apollo.SubscriptionResult<UserStakedSubscription>;
+export function useUserStakedLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<UserStakedQuery, UserStakedQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<UserStakedQuery, UserStakedQueryVariables>(UserStakedDocument, options);
+        }
+export type UserStakedQueryHookResult = ReturnType<typeof useUserStakedQuery>;
+export type UserStakedLazyQueryHookResult = ReturnType<typeof useUserStakedLazyQuery>;
+export type UserStakedQueryResult = Apollo.QueryResult<UserStakedQuery, UserStakedQueryVariables>;
 export const MonitorVaultsDocument = gql`
-    subscription MonitorVaults($bankID: String!) @api(name: orca) {
+    query MonitorVaults($bankID: String!) @api(name: orca) {
   vaults(where: {bank: $bankID, debt_gt: 0}) {
     number
     collateral
@@ -2261,29 +2294,34 @@ export const MonitorVaultsDocument = gql`
     `;
 
 /**
- * __useMonitorVaultsSubscription__
+ * __useMonitorVaultsQuery__
  *
- * To run a query within a React component, call `useMonitorVaultsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useMonitorVaultsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useMonitorVaultsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMonitorVaultsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useMonitorVaultsSubscription({
+ * const { data, loading, error } = useMonitorVaultsQuery({
  *   variables: {
  *      bankID: // value for 'bankID'
  *   },
  * });
  */
-export function useMonitorVaultsSubscription(baseOptions: ApolloReactHooks.SubscriptionHookOptions<MonitorVaultsSubscription, MonitorVaultsSubscriptionVariables>) {
+export function useMonitorVaultsQuery(baseOptions: ApolloReactHooks.QueryHookOptions<MonitorVaultsQuery, MonitorVaultsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<MonitorVaultsSubscription, MonitorVaultsSubscriptionVariables>(MonitorVaultsDocument, options);
+        return ApolloReactHooks.useQuery<MonitorVaultsQuery, MonitorVaultsQueryVariables>(MonitorVaultsDocument, options);
       }
-export type MonitorVaultsSubscriptionHookResult = ReturnType<typeof useMonitorVaultsSubscription>;
-export type MonitorVaultsSubscriptionResult = Apollo.SubscriptionResult<MonitorVaultsSubscription>;
+export function useMonitorVaultsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<MonitorVaultsQuery, MonitorVaultsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<MonitorVaultsQuery, MonitorVaultsQueryVariables>(MonitorVaultsDocument, options);
+        }
+export type MonitorVaultsQueryHookResult = ReturnType<typeof useMonitorVaultsQuery>;
+export type MonitorVaultsLazyQueryHookResult = ReturnType<typeof useMonitorVaultsLazyQuery>;
+export type MonitorVaultsQueryResult = Apollo.QueryResult<MonitorVaultsQuery, MonitorVaultsQueryVariables>;
 export const BankMcpDocument = gql`
-    subscription BankMCP($id: ID!) @api(name: orca) {
+    query BankMCP($id: ID!) @api(name: orca) {
   bank(id: $id) {
     minimumCollateralPercentage
   }
@@ -2291,29 +2329,34 @@ export const BankMcpDocument = gql`
     `;
 
 /**
- * __useBankMcpSubscription__
+ * __useBankMcpQuery__
  *
- * To run a query within a React component, call `useBankMcpSubscription` and pass it any options that fit your needs.
- * When your component renders, `useBankMcpSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useBankMcpQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBankMcpQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useBankMcpSubscription({
+ * const { data, loading, error } = useBankMcpQuery({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useBankMcpSubscription(baseOptions: ApolloReactHooks.SubscriptionHookOptions<BankMcpSubscription, BankMcpSubscriptionVariables>) {
+export function useBankMcpQuery(baseOptions: ApolloReactHooks.QueryHookOptions<BankMcpQuery, BankMcpQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<BankMcpSubscription, BankMcpSubscriptionVariables>(BankMcpDocument, options);
+        return ApolloReactHooks.useQuery<BankMcpQuery, BankMcpQueryVariables>(BankMcpDocument, options);
       }
-export type BankMcpSubscriptionHookResult = ReturnType<typeof useBankMcpSubscription>;
-export type BankMcpSubscriptionResult = Apollo.SubscriptionResult<BankMcpSubscription>;
+export function useBankMcpLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<BankMcpQuery, BankMcpQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<BankMcpQuery, BankMcpQueryVariables>(BankMcpDocument, options);
+        }
+export type BankMcpQueryHookResult = ReturnType<typeof useBankMcpQuery>;
+export type BankMcpLazyQueryHookResult = ReturnType<typeof useBankMcpLazyQuery>;
+export type BankMcpQueryResult = Apollo.QueryResult<BankMcpQuery, BankMcpQueryVariables>;
 export const NewMonitorVaultsDocument = gql`
-    subscription NewMonitorVaults @api(name: orca) {
+    query NewMonitorVaults @api(name: orca) {
   vaults(where: {debt_gt: 0}) {
     number
     collateral
@@ -2328,28 +2371,33 @@ export const NewMonitorVaultsDocument = gql`
     `;
 
 /**
- * __useNewMonitorVaultsSubscription__
+ * __useNewMonitorVaultsQuery__
  *
- * To run a query within a React component, call `useNewMonitorVaultsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useNewMonitorVaultsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useNewMonitorVaultsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useNewMonitorVaultsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useNewMonitorVaultsSubscription({
+ * const { data, loading, error } = useNewMonitorVaultsQuery({
  *   variables: {
  *   },
  * });
  */
-export function useNewMonitorVaultsSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<NewMonitorVaultsSubscription, NewMonitorVaultsSubscriptionVariables>) {
+export function useNewMonitorVaultsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<NewMonitorVaultsQuery, NewMonitorVaultsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<NewMonitorVaultsSubscription, NewMonitorVaultsSubscriptionVariables>(NewMonitorVaultsDocument, options);
+        return ApolloReactHooks.useQuery<NewMonitorVaultsQuery, NewMonitorVaultsQueryVariables>(NewMonitorVaultsDocument, options);
       }
-export type NewMonitorVaultsSubscriptionHookResult = ReturnType<typeof useNewMonitorVaultsSubscription>;
-export type NewMonitorVaultsSubscriptionResult = Apollo.SubscriptionResult<NewMonitorVaultsSubscription>;
+export function useNewMonitorVaultsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<NewMonitorVaultsQuery, NewMonitorVaultsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<NewMonitorVaultsQuery, NewMonitorVaultsQueryVariables>(NewMonitorVaultsDocument, options);
+        }
+export type NewMonitorVaultsQueryHookResult = ReturnType<typeof useNewMonitorVaultsQuery>;
+export type NewMonitorVaultsLazyQueryHookResult = ReturnType<typeof useNewMonitorVaultsLazyQuery>;
+export type NewMonitorVaultsQueryResult = Apollo.QueryResult<NewMonitorVaultsQuery, NewMonitorVaultsQueryVariables>;
 export const OrcaStatsDocument = gql`
-    subscription OrcaStats($id: ID!) @api(name: orca) {
+    query OrcaStats($id: ID!) @api(name: orca) {
   orca(id: $id) {
     id
     circulatingSupply
@@ -2359,29 +2407,34 @@ export const OrcaStatsDocument = gql`
     `;
 
 /**
- * __useOrcaStatsSubscription__
+ * __useOrcaStatsQuery__
  *
- * To run a query within a React component, call `useOrcaStatsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useOrcaStatsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useOrcaStatsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOrcaStatsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useOrcaStatsSubscription({
+ * const { data, loading, error } = useOrcaStatsQuery({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useOrcaStatsSubscription(baseOptions: ApolloReactHooks.SubscriptionHookOptions<OrcaStatsSubscription, OrcaStatsSubscriptionVariables>) {
+export function useOrcaStatsQuery(baseOptions: ApolloReactHooks.QueryHookOptions<OrcaStatsQuery, OrcaStatsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<OrcaStatsSubscription, OrcaStatsSubscriptionVariables>(OrcaStatsDocument, options);
+        return ApolloReactHooks.useQuery<OrcaStatsQuery, OrcaStatsQueryVariables>(OrcaStatsDocument, options);
       }
-export type OrcaStatsSubscriptionHookResult = ReturnType<typeof useOrcaStatsSubscription>;
-export type OrcaStatsSubscriptionResult = Apollo.SubscriptionResult<OrcaStatsSubscription>;
+export function useOrcaStatsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<OrcaStatsQuery, OrcaStatsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<OrcaStatsQuery, OrcaStatsQueryVariables>(OrcaStatsDocument, options);
+        }
+export type OrcaStatsQueryHookResult = ReturnType<typeof useOrcaStatsQuery>;
+export type OrcaStatsLazyQueryHookResult = ReturnType<typeof useOrcaStatsLazyQuery>;
+export type OrcaStatsQueryResult = Apollo.QueryResult<OrcaStatsQuery, OrcaStatsQueryVariables>;
 export const GeneralStakingInfoDocument = gql`
-    subscription GeneralStakingInfo @api(name: orca) {
+    query GeneralStakingInfo @api(name: orca) {
   staking(id: "0xA3654801Ba6FB21d5A984F9a857441395dDeccFb") {
     totalStaked
     avaxPerSec
@@ -2391,28 +2444,33 @@ export const GeneralStakingInfoDocument = gql`
     `;
 
 /**
- * __useGeneralStakingInfoSubscription__
+ * __useGeneralStakingInfoQuery__
  *
- * To run a query within a React component, call `useGeneralStakingInfoSubscription` and pass it any options that fit your needs.
- * When your component renders, `useGeneralStakingInfoSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGeneralStakingInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGeneralStakingInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGeneralStakingInfoSubscription({
+ * const { data, loading, error } = useGeneralStakingInfoQuery({
  *   variables: {
  *   },
  * });
  */
-export function useGeneralStakingInfoSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<GeneralStakingInfoSubscription, GeneralStakingInfoSubscriptionVariables>) {
+export function useGeneralStakingInfoQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GeneralStakingInfoQuery, GeneralStakingInfoQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<GeneralStakingInfoSubscription, GeneralStakingInfoSubscriptionVariables>(GeneralStakingInfoDocument, options);
+        return ApolloReactHooks.useQuery<GeneralStakingInfoQuery, GeneralStakingInfoQueryVariables>(GeneralStakingInfoDocument, options);
       }
-export type GeneralStakingInfoSubscriptionHookResult = ReturnType<typeof useGeneralStakingInfoSubscription>;
-export type GeneralStakingInfoSubscriptionResult = Apollo.SubscriptionResult<GeneralStakingInfoSubscription>;
+export function useGeneralStakingInfoLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GeneralStakingInfoQuery, GeneralStakingInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<GeneralStakingInfoQuery, GeneralStakingInfoQueryVariables>(GeneralStakingInfoDocument, options);
+        }
+export type GeneralStakingInfoQueryHookResult = ReturnType<typeof useGeneralStakingInfoQuery>;
+export type GeneralStakingInfoLazyQueryHookResult = ReturnType<typeof useGeneralStakingInfoLazyQuery>;
+export type GeneralStakingInfoQueryResult = Apollo.QueryResult<GeneralStakingInfoQuery, GeneralStakingInfoQueryVariables>;
 export const PartnerStakingInfoDocument = gql`
-    subscription PartnerStakingInfo($id: ID!) @api(name: orca) {
+    query PartnerStakingInfo($id: ID!) @api(name: orca) {
   staking(id: $id) {
     totalStaked
     avaxPerSec
@@ -2422,29 +2480,34 @@ export const PartnerStakingInfoDocument = gql`
     `;
 
 /**
- * __usePartnerStakingInfoSubscription__
+ * __usePartnerStakingInfoQuery__
  *
- * To run a query within a React component, call `usePartnerStakingInfoSubscription` and pass it any options that fit your needs.
- * When your component renders, `usePartnerStakingInfoSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `usePartnerStakingInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePartnerStakingInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = usePartnerStakingInfoSubscription({
+ * const { data, loading, error } = usePartnerStakingInfoQuery({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function usePartnerStakingInfoSubscription(baseOptions: ApolloReactHooks.SubscriptionHookOptions<PartnerStakingInfoSubscription, PartnerStakingInfoSubscriptionVariables>) {
+export function usePartnerStakingInfoQuery(baseOptions: ApolloReactHooks.QueryHookOptions<PartnerStakingInfoQuery, PartnerStakingInfoQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<PartnerStakingInfoSubscription, PartnerStakingInfoSubscriptionVariables>(PartnerStakingInfoDocument, options);
+        return ApolloReactHooks.useQuery<PartnerStakingInfoQuery, PartnerStakingInfoQueryVariables>(PartnerStakingInfoDocument, options);
       }
-export type PartnerStakingInfoSubscriptionHookResult = ReturnType<typeof usePartnerStakingInfoSubscription>;
-export type PartnerStakingInfoSubscriptionResult = Apollo.SubscriptionResult<PartnerStakingInfoSubscription>;
+export function usePartnerStakingInfoLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<PartnerStakingInfoQuery, PartnerStakingInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<PartnerStakingInfoQuery, PartnerStakingInfoQueryVariables>(PartnerStakingInfoDocument, options);
+        }
+export type PartnerStakingInfoQueryHookResult = ReturnType<typeof usePartnerStakingInfoQuery>;
+export type PartnerStakingInfoLazyQueryHookResult = ReturnType<typeof usePartnerStakingInfoLazyQuery>;
+export type PartnerStakingInfoQueryResult = Apollo.QueryResult<PartnerStakingInfoQuery, PartnerStakingInfoQueryVariables>;
 export const UserStakingInfoDocument = gql`
-    subscription UserStakingInfo($id: ID!) @api(name: orca) {
+    query UserStakingInfo($id: ID!) @api(name: orca) {
   user(id: $id) {
     staking {
       staked
@@ -2457,72 +2520,34 @@ export const UserStakingInfoDocument = gql`
     `;
 
 /**
- * __useUserStakingInfoSubscription__
+ * __useUserStakingInfoQuery__
  *
- * To run a query within a React component, call `useUserStakingInfoSubscription` and pass it any options that fit your needs.
- * When your component renders, `useUserStakingInfoSubscription` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useUserStakingInfoSubscription({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useUserStakingInfoSubscription(baseOptions: ApolloReactHooks.SubscriptionHookOptions<UserStakingInfoSubscription, UserStakingInfoSubscriptionVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<UserStakingInfoSubscription, UserStakingInfoSubscriptionVariables>(UserStakingInfoDocument, options);
-      }
-export type UserStakingInfoSubscriptionHookResult = ReturnType<typeof useUserStakingInfoSubscription>;
-export type UserStakingInfoSubscriptionResult = Apollo.SubscriptionResult<UserStakingInfoSubscription>;
-export const GetUserVaultsDocument = gql`
-    query getUserVaults($id: ID!) @api(name: orca) {
-  user(id: $id) {
-    vaults {
-      id
-      number
-      debt
-      collateral
-      bank {
-        treasury
-      }
-    }
-  }
-}
-    `;
-
-/**
- * __useGetUserVaultsQuery__
- *
- * To run a query within a React component, call `useGetUserVaultsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUserVaultsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useUserStakingInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserStakingInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetUserVaultsQuery({
+ * const { data, loading, error } = useUserStakingInfoQuery({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useGetUserVaultsQuery(baseOptions: ApolloReactHooks.QueryHookOptions<GetUserVaultsQuery, GetUserVaultsQueryVariables>) {
+export function useUserStakingInfoQuery(baseOptions: ApolloReactHooks.QueryHookOptions<UserStakingInfoQuery, UserStakingInfoQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useQuery<GetUserVaultsQuery, GetUserVaultsQueryVariables>(GetUserVaultsDocument, options);
+        return ApolloReactHooks.useQuery<UserStakingInfoQuery, UserStakingInfoQueryVariables>(UserStakingInfoDocument, options);
       }
-export function useGetUserVaultsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetUserVaultsQuery, GetUserVaultsQueryVariables>) {
+export function useUserStakingInfoLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<UserStakingInfoQuery, UserStakingInfoQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return ApolloReactHooks.useLazyQuery<GetUserVaultsQuery, GetUserVaultsQueryVariables>(GetUserVaultsDocument, options);
+          return ApolloReactHooks.useLazyQuery<UserStakingInfoQuery, UserStakingInfoQueryVariables>(UserStakingInfoDocument, options);
         }
-export type GetUserVaultsQueryHookResult = ReturnType<typeof useGetUserVaultsQuery>;
-export type GetUserVaultsLazyQueryHookResult = ReturnType<typeof useGetUserVaultsLazyQuery>;
-export type GetUserVaultsQueryResult = Apollo.QueryResult<GetUserVaultsQuery, GetUserVaultsQueryVariables>;
+export type UserStakingInfoQueryHookResult = ReturnType<typeof useUserStakingInfoQuery>;
+export type UserStakingInfoLazyQueryHookResult = ReturnType<typeof useUserStakingInfoLazyQuery>;
+export type UserStakingInfoQueryResult = Apollo.QueryResult<UserStakingInfoQuery, UserStakingInfoQueryVariables>;
 export const UserVaultsDocument = gql`
-    subscription UserVaults($user: String!, $bank: String!) @api(name: orca) {
+    query UserVaults($user: String!, $bank: String!) @api(name: orca) {
   vaults(where: {user: $user, bank: $bank}) {
     id
     collateral
@@ -2537,30 +2562,35 @@ export const UserVaultsDocument = gql`
     `;
 
 /**
- * __useUserVaultsSubscription__
+ * __useUserVaultsQuery__
  *
- * To run a query within a React component, call `useUserVaultsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useUserVaultsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useUserVaultsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserVaultsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useUserVaultsSubscription({
+ * const { data, loading, error } = useUserVaultsQuery({
  *   variables: {
  *      user: // value for 'user'
  *      bank: // value for 'bank'
  *   },
  * });
  */
-export function useUserVaultsSubscription(baseOptions: ApolloReactHooks.SubscriptionHookOptions<UserVaultsSubscription, UserVaultsSubscriptionVariables>) {
+export function useUserVaultsQuery(baseOptions: ApolloReactHooks.QueryHookOptions<UserVaultsQuery, UserVaultsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<UserVaultsSubscription, UserVaultsSubscriptionVariables>(UserVaultsDocument, options);
+        return ApolloReactHooks.useQuery<UserVaultsQuery, UserVaultsQueryVariables>(UserVaultsDocument, options);
       }
-export type UserVaultsSubscriptionHookResult = ReturnType<typeof useUserVaultsSubscription>;
-export type UserVaultsSubscriptionResult = Apollo.SubscriptionResult<UserVaultsSubscription>;
+export function useUserVaultsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<UserVaultsQuery, UserVaultsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<UserVaultsQuery, UserVaultsQueryVariables>(UserVaultsDocument, options);
+        }
+export type UserVaultsQueryHookResult = ReturnType<typeof useUserVaultsQuery>;
+export type UserVaultsLazyQueryHookResult = ReturnType<typeof useUserVaultsLazyQuery>;
+export type UserVaultsQueryResult = Apollo.QueryResult<UserVaultsQuery, UserVaultsQueryVariables>;
 export const NewUserVaultsDocument = gql`
-    subscription NewUserVaults($user: String!) @api(name: orca) {
+    query NewUserVaults($user: String!) @api(name: orca) {
   vaults(where: {user: $user}) {
     id
     collateral
@@ -2579,29 +2609,34 @@ export const NewUserVaultsDocument = gql`
     `;
 
 /**
- * __useNewUserVaultsSubscription__
+ * __useNewUserVaultsQuery__
  *
- * To run a query within a React component, call `useNewUserVaultsSubscription` and pass it any options that fit your needs.
- * When your component renders, `useNewUserVaultsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useNewUserVaultsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useNewUserVaultsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useNewUserVaultsSubscription({
+ * const { data, loading, error } = useNewUserVaultsQuery({
  *   variables: {
  *      user: // value for 'user'
  *   },
  * });
  */
-export function useNewUserVaultsSubscription(baseOptions: ApolloReactHooks.SubscriptionHookOptions<NewUserVaultsSubscription, NewUserVaultsSubscriptionVariables>) {
+export function useNewUserVaultsQuery(baseOptions: ApolloReactHooks.QueryHookOptions<NewUserVaultsQuery, NewUserVaultsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<NewUserVaultsSubscription, NewUserVaultsSubscriptionVariables>(NewUserVaultsDocument, options);
+        return ApolloReactHooks.useQuery<NewUserVaultsQuery, NewUserVaultsQueryVariables>(NewUserVaultsDocument, options);
       }
-export type NewUserVaultsSubscriptionHookResult = ReturnType<typeof useNewUserVaultsSubscription>;
-export type NewUserVaultsSubscriptionResult = Apollo.SubscriptionResult<NewUserVaultsSubscription>;
+export function useNewUserVaultsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<NewUserVaultsQuery, NewUserVaultsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<NewUserVaultsQuery, NewUserVaultsQueryVariables>(NewUserVaultsDocument, options);
+        }
+export type NewUserVaultsQueryHookResult = ReturnType<typeof useNewUserVaultsQuery>;
+export type NewUserVaultsLazyQueryHookResult = ReturnType<typeof useNewUserVaultsLazyQuery>;
+export type NewUserVaultsQueryResult = Apollo.QueryResult<NewUserVaultsQuery, NewUserVaultsQueryVariables>;
 export const VaultInfoDocument = gql`
-    subscription VaultInfo($vaultID: ID!) @api(name: orca) {
+    query VaultInfo($vaultID: ID!) @api(name: orca) {
   vault(id: $vaultID) {
     id
     collateral
@@ -2622,29 +2657,34 @@ export const VaultInfoDocument = gql`
     `;
 
 /**
- * __useVaultInfoSubscription__
+ * __useVaultInfoQuery__
  *
- * To run a query within a React component, call `useVaultInfoSubscription` and pass it any options that fit your needs.
- * When your component renders, `useVaultInfoSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useVaultInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useVaultInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useVaultInfoSubscription({
+ * const { data, loading, error } = useVaultInfoQuery({
  *   variables: {
  *      vaultID: // value for 'vaultID'
  *   },
  * });
  */
-export function useVaultInfoSubscription(baseOptions: ApolloReactHooks.SubscriptionHookOptions<VaultInfoSubscription, VaultInfoSubscriptionVariables>) {
+export function useVaultInfoQuery(baseOptions: ApolloReactHooks.QueryHookOptions<VaultInfoQuery, VaultInfoQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<VaultInfoSubscription, VaultInfoSubscriptionVariables>(VaultInfoDocument, options);
+        return ApolloReactHooks.useQuery<VaultInfoQuery, VaultInfoQueryVariables>(VaultInfoDocument, options);
       }
-export type VaultInfoSubscriptionHookResult = ReturnType<typeof useVaultInfoSubscription>;
-export type VaultInfoSubscriptionResult = Apollo.SubscriptionResult<VaultInfoSubscription>;
+export function useVaultInfoLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<VaultInfoQuery, VaultInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<VaultInfoQuery, VaultInfoQueryVariables>(VaultInfoDocument, options);
+        }
+export type VaultInfoQueryHookResult = ReturnType<typeof useVaultInfoQuery>;
+export type VaultInfoLazyQueryHookResult = ReturnType<typeof useVaultInfoLazyQuery>;
+export type VaultInfoQueryResult = Apollo.QueryResult<VaultInfoQuery, VaultInfoQueryVariables>;
 export const AllBankInfoDocument = gql`
-    subscription AllBankInfo @api(name: orca) {
+    query AllBankInfo @api(name: orca) {
   banks {
     id
     debtCeiling
@@ -2655,23 +2695,28 @@ export const AllBankInfoDocument = gql`
     `;
 
 /**
- * __useAllBankInfoSubscription__
+ * __useAllBankInfoQuery__
  *
- * To run a query within a React component, call `useAllBankInfoSubscription` and pass it any options that fit your needs.
- * When your component renders, `useAllBankInfoSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useAllBankInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllBankInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useAllBankInfoSubscription({
+ * const { data, loading, error } = useAllBankInfoQuery({
  *   variables: {
  *   },
  * });
  */
-export function useAllBankInfoSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<AllBankInfoSubscription, AllBankInfoSubscriptionVariables>) {
+export function useAllBankInfoQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<AllBankInfoQuery, AllBankInfoQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useSubscription<AllBankInfoSubscription, AllBankInfoSubscriptionVariables>(AllBankInfoDocument, options);
+        return ApolloReactHooks.useQuery<AllBankInfoQuery, AllBankInfoQueryVariables>(AllBankInfoDocument, options);
       }
-export type AllBankInfoSubscriptionHookResult = ReturnType<typeof useAllBankInfoSubscription>;
-export type AllBankInfoSubscriptionResult = Apollo.SubscriptionResult<AllBankInfoSubscription>;
+export function useAllBankInfoLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<AllBankInfoQuery, AllBankInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<AllBankInfoQuery, AllBankInfoQueryVariables>(AllBankInfoDocument, options);
+        }
+export type AllBankInfoQueryHookResult = ReturnType<typeof useAllBankInfoQuery>;
+export type AllBankInfoLazyQueryHookResult = ReturnType<typeof useAllBankInfoLazyQuery>;
+export type AllBankInfoQueryResult = Apollo.QueryResult<AllBankInfoQuery, AllBankInfoQueryVariables>;

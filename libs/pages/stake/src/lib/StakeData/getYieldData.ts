@@ -3,31 +3,35 @@ import { BigNumber, utils } from 'ethers';
 import { tokenInfo } from '@orca/shared/base';
 
 import {
-  useGeneralStakingInfoSubscription,
-  useUserStakingInfoSubscription,
-  useAvaxPriceSubscription,
-  useGetTokenPriceSubscription,
+  useAvaxPriceQuery,
+  useGetTokenPriceQuery,
+  useGeneralStakingInfoQuery,
+  useUserStakingInfoQuery,
 } from '@orca/graphql';
 
 export const useMonitorFarms = (account: string, chainId: number) => {
-  const { data: yieldData } = useGeneralStakingInfoSubscription();
+  const { data: yieldData } = useGeneralStakingInfoQuery({
+    pollInterval: 5000,
+  });
 
-  const { data: userData } = useUserStakingInfoSubscription({
+  const { data: userData } = useUserStakingInfoQuery({
     variables: {
       id: account ? account.toLowerCase() : '',
     },
+    pollInterval: 5000,
   });
 
-  const { data: orcaPrice } = useGetTokenPriceSubscription({
+  const { data: orcaPrice } = useGetTokenPriceQuery({
     variables: {
       id:
         chainId === 43114 || !chainId
           ? tokenInfo['ORCA'].address.mainnet.toLowerCase()
           : tokenInfo['ORCA'].address.fuji.toLowerCase(),
     },
+    pollInterval: 5000,
   });
 
-  const { data: avaxPrice } = useAvaxPriceSubscription();
+  const { data: avaxPrice } = useAvaxPriceQuery({ pollInterval: 5000 });
 
   if (yieldData && userData && orcaPrice && avaxPrice) {
     const avaxPerSec = Number(

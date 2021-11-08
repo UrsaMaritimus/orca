@@ -6,14 +6,14 @@ import useSwr from 'swr';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
 import { allBankPrices } from '@orca/shared/funcs';
-import { useNewMonitorVaultsSubscription } from '@orca/graphql';
+import { useNewMonitorVaultsQuery } from '@orca/graphql';
 import { tokenInfo } from '@orca/shared/base';
 import { VaultContracts } from '@orca/shared/contracts';
 import { filter } from 'lodash';
 
 export const useMonitorVaults = (library: Web3Provider, chainId: number) => {
   const shouldFetch = !!library;
-  const { data: vaultData } = useNewMonitorVaultsSubscription();
+  const { data: vaultData } = useNewMonitorVaultsQuery({ pollInterval: 5000 });
 
   // Grab bank prices
   const { data: prices, mutate: priceMutate } = useSwr(
