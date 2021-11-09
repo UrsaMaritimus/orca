@@ -83,7 +83,7 @@ export const Borrows: FC<ActionProps> = ({
           </Stack>
         </Box>
         <Grid container my={2}>
-          <Grid item xs={12} sm={4} sx={{ mt: 0.5 }}>
+          <Grid item xs={12} sm={3} sx={{ mt: 0.5 }}>
             <Grid container>
               <Grid item xs={7} sm={12} display="flex" justifyContent="center">
                 <Typography variant="h6">Debt</Typography>
@@ -95,7 +95,13 @@ export const Borrows: FC<ActionProps> = ({
               </Grid>
               <Grid item xs={7} sm={false}></Grid>
               <Grid item xs={5} sm={12} display="flex" justifyContent="center">
-                <Typography variant="caption" sx={{ color: 'grey.500' }}>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: (theme) =>
+                      theme.palette.mode === 'light' ? 'grey.600' : 'grey.400',
+                  }}
+                >
                   {fNumber(
                     Number(
                       utils.formatEther(
@@ -112,7 +118,7 @@ export const Borrows: FC<ActionProps> = ({
             </Grid>
           </Grid>
 
-          <Grid item xs={12} sm={4} sx={{ mt: 0.5 }}>
+          <Grid item xs={12} sm={3} sx={{ mt: 0.5 }}>
             <Grid container alignItems="center">
               <Grid item xs={7} sm={12} display="flex" justifyContent="center">
                 <Typography variant="h6" textAlign="center">
@@ -142,7 +148,10 @@ export const Borrows: FC<ActionProps> = ({
               <Grid item xs={5} sm={12} display="flex" justifyContent="center">
                 <Typography
                   variant="caption"
-                  sx={{ color: 'grey.500' }}
+                  sx={{
+                    color: (theme) =>
+                      theme.palette.mode === 'light' ? 'grey.600' : 'grey.400',
+                  }}
                   textAlign="center"
                 >
                   {fNumber(
@@ -159,7 +168,7 @@ export const Borrows: FC<ActionProps> = ({
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={3}>
             <Grid container alignItems="center">
               <Grid item xs={7} sm={12} display="flex" justifyContent="center">
                 <Stack direction="row" alignItems="center">
@@ -189,8 +198,72 @@ export const Borrows: FC<ActionProps> = ({
               </Grid>
               <Grid item xs={7} sm={false}></Grid>
               <Grid item xs={5} sm={12} display="flex" justifyContent="center">
-                <Typography variant="caption" sx={{ color: 'grey.500' }}>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: (theme) =>
+                      theme.palette.mode === 'light' ? 'grey.600' : 'grey.400',
+                  }}
+                >
                   Max LTV: {fPercent(vaultInfo.maxLTV)}
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} sm={3} mt={0.5}>
+            <Grid container alignItems="center">
+              <Grid item xs={7} sm={12} display="flex" justifyContent="center">
+                <Stack direction="row" alignItems="center">
+                  <Typography variant="h6" textAlign="center">
+                    Liquidation Price
+                  </Typography>
+                </Stack>
+              </Grid>
+              <Grid item xs={5} sm={12} display="flex" justifyContent="center">
+                <Typography
+                  variant="inherit"
+                  color={colorScale(
+                    Number(utils.formatUnits(vaultInfo.LTV, 6)),
+                    vaultInfo.maxLTV - 30,
+                    vaultInfo.maxLTV
+                  )}
+                >
+                  $
+                  {fNumber(
+                    !vaultInfo.collateral.isZero()
+                      ? Number(
+                          utils.formatUnits(
+                            vaultInfo.debt
+                              .mul(vaultInfo.peg)
+                              .mul(vaultInfo.mcp)
+                              .div(
+                                vaultInfo.collateral
+                                  .mul(100)
+                                  .mul(10 ** (18 - tokenInfo[token].decimals))
+                              ),
+                            8
+                          )
+                        )
+                      : 0,
+                    2
+                  )}{' '}
+                  USD
+                </Typography>
+              </Grid>
+              <Grid item xs={7} sm={false}></Grid>
+              <Grid item xs={5} sm={12} display="flex" justifyContent="center">
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: (theme) =>
+                      theme.palette.mode === 'light' ? 'grey.600' : 'grey.400',
+                  }}
+                >
+                  Current Price:{' '}
+                  {fCurrency(
+                    Number(utils.formatUnits(vaultInfo.tokenPrice, 8))
+                  )}{' '}
+                  USD
                 </Typography>
               </Grid>
             </Grid>
