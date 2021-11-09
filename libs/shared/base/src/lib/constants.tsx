@@ -17,6 +17,8 @@ export type TokenInfo = {
   };
   tooltip: boolean;
   tooltipText?: React.ReactElement;
+  yaktoken: boolean;
+  yakBase?: string;
 };
 
 export const tokenInfo: { [key: string]: TokenInfo } = {
@@ -33,6 +35,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     decimals: 18,
     collateral: true,
     tooltip: false,
+    yaktoken: false,
   },
   AVAI: {
     address: {
@@ -46,6 +49,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     decimals: 18,
     collateral: false,
     tooltip: false,
+    yaktoken: false,
   },
   ETH: {
     address: {
@@ -60,6 +64,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     decimals: 18,
     collateral: true,
     tooltip: false,
+    yaktoken: false,
   },
   BTC: {
     address: {
@@ -74,6 +79,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     decimals: 8,
     collateral: true,
     tooltip: false,
+    yaktoken: false,
   },
   ORCA: {
     address: {
@@ -87,6 +93,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     decimals: 18,
     collateral: false,
     tooltip: false,
+    yaktoken: false,
   },
   USDC: {
     address: {
@@ -100,6 +107,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     decimals: 18,
     collateral: false,
     tooltip: false,
+    yaktoken: false,
   },
   STORM: {
     address: {
@@ -113,6 +121,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     decimals: 18,
     collateral: false,
     tooltip: false,
+    yaktoken: false,
   },
   YRTAAVEAVAX: {
     address: {
@@ -126,6 +135,8 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     symbol: 'YRT',
     decimals: 18,
     collateral: true,
+    yaktoken: true,
+    yakBase: 'AVAX',
     tooltip: true,
     tooltipText: (
       <div>
@@ -156,6 +167,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     decimals: 18,
     collateral: true,
     tooltip: false,
+    yaktoken: false,
   },
   YRTJOEUSDC: {
     address: {
@@ -170,6 +182,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     decimals: 18,
     collateral: true,
     tooltip: false,
+    yaktoken: false,
   },
   'USDC-AVAI': {
     address: {
@@ -183,6 +196,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     decimals: 18,
     collateral: false,
     tooltip: false,
+    yaktoken: false,
   },
   'AVAI-ORCA': {
     address: {
@@ -196,6 +210,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     decimals: 18,
     collateral: false,
     tooltip: false,
+    yaktoken: false,
   },
   'AVAX-ORCA': {
     address: {
@@ -209,6 +224,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     decimals: 18,
     collateral: false,
     tooltip: false,
+    yaktoken: false,
   },
 };
 

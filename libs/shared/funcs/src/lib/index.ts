@@ -11,3 +11,4 @@ export * from './yield';
 export * from './orca';
 export * from './stake';
 export * from './staking';
+export * from './ibtoken';

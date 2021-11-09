@@ -38,6 +38,7 @@ export type StepperProps = {
     mcp: BigNumber;
     closingFee: BigNumber;
     openingFee: BigNumber;
+    yakBalance: string;
   };
 };
 

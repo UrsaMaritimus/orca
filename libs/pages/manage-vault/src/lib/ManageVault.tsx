@@ -1,6 +1,9 @@
 /* eslint-disable-next-line */
 import { useState } from 'react';
 
+import useSwr from 'swr';
+import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
+
 import { Icon } from '@iconify/react';
 import backArrowIos from '@iconify/icons-eva/arrow-ios-back-outline';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline';
@@ -38,7 +41,7 @@ import { routes, tokenInfo } from '@orca/shared/base';
 import { Loader } from '@orca/components/loader';
 import { Connect } from '@orca/components/connect';
 import { handleTransaction } from '@orca/components/transaction';
-import { deleteVault } from '@orca/shared/funcs';
+import { deleteVault, yakTrueBalance } from '@orca/shared/funcs';
 
 import { Deposit } from './Deposit';
 import { Borrows } from './Borrows';
@@ -116,7 +119,8 @@ export function ManageVault() {
     vaultID as string,
     account,
     token ? tokenInfo[token].erc20 : '',
-    token ? tokenInfo[token].decimals : 18
+    token ? tokenInfo[token].decimals : 18,
+    token
   );
   if (loading) {
     return (

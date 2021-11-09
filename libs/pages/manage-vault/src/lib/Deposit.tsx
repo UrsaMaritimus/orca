@@ -1,5 +1,12 @@
 /* eslint-disable-next-line */
 import { FC, useState } from 'react';
+
+import useSwr from 'swr';
+
+// Ethers and web3 stuff
+import { useWeb3React } from '@web3-react/core';
+import { Web3Provider } from '@ethersproject/providers';
+
 import { Icon } from '@iconify/react';
 import infoOutline from '@iconify/icons-eva/info-outline';
 import plusCircleOutline from '@iconify/icons-eva/plus-circle-outline';
@@ -22,6 +29,8 @@ import { fCurrency, fPercent, fNumber, colorScale } from '@orca/util';
 
 import { ColorBar } from '@orca/components/colorbar';
 import { tokenInfo } from '@orca/shared/base';
+import { yakTrueBalance } from '@orca/shared/funcs';
+
 import { DepositStepper } from './DepositStepper';
 import { WithdrawStepper } from './WithdrawStepper';
 import { ActionProps } from './stepper.type';
@@ -110,6 +119,30 @@ export const Deposit: FC<ActionProps> = ({
                     {tokenInfo[token].display}
                   </Typography>
                 </Grid>
+                <Grid item xs={7} sm={false}></Grid>
+                {tokenInfo[token].yaktoken && (
+                  <Grid
+                    item
+                    xs={5}
+                    sm={12}
+                    display="flex"
+                    justifyContent="center"
+                  >
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        color: (theme) =>
+                          theme.palette.mode === 'light'
+                            ? 'grey.600'
+                            : 'grey.400',
+                      }}
+                    >
+                      {vaultInfo.yakBalance &&
+                        fNumber(Number(vaultInfo.yakBalance))}{' '}
+                      {tokenInfo[token].yakBase}
+                    </Typography>
+                  </Grid>
+                )}
                 <Grid item xs={7} sm={false}></Grid>
                 <Grid
                   item

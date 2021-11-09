@@ -5,9 +5,10 @@ import { Web3Provider } from '@ethersproject/providers';
 import useSwr from 'swr';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
-import { bankPrice } from '@orca/shared/funcs';
+import { bankPrice, yakTrueBalance } from '@orca/shared/funcs';
 import { useVaultInfoQuery } from '@orca/graphql';
 import { VaultContracts } from '@orca/shared/contracts';
+import { tokenInfo } from '@orca/shared/base';
 
 export const useGetVaultInfo = (
   library: Web3Provider,
@@ -15,7 +16,8 @@ export const useGetVaultInfo = (
   vaultID: string,
   account: string,
   vaultType: string,
-  decimals: number
+  decimals: number,
+  token: string
 ) => {
   const shouldFetch = !!library;
   const { data: vaultData, loading } = useVaultInfoQuery({
@@ -30,7 +32,23 @@ export const useGetVaultInfo = (
     },
     pollInterval: 5000,
   });
-
+  const shouldFetchYak = !!library && tokenInfo[token].yaktoken;
+  // Grab yak
+  const { data: yakBalance } = useSwr(
+    shouldFetchYak
+      ? [
+          `get${token}YakBalance`,
+          library,
+          chainId === 43114
+            ? tokenInfo[token].address.mainnet
+            : tokenInfo[token].address.fuji,
+          chainId,
+          vaultType,
+          Number(vaultID).toString(16),
+        ]
+      : null,
+    yakTrueBalance()
+  );
   // Grab bank prices
   const { data: price, mutate: priceMutate } = useSwr(
     shouldFetch ? [`get${vaultType}Price`, library, vaultType, chainId] : null,
@@ -98,6 +116,7 @@ export const useGetVaultInfo = (
         borrowingPowerUsedUSD,
         availableWithdraw,
         isOwner: vaultData.vault.user.id === account.toLowerCase(),
+        yakBalance,
       },
     };
   } else {
