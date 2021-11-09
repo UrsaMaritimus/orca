@@ -380,7 +380,7 @@ export const RepayStepper: FC<StepperProps> = ({
                               tokenInfo[token].decimals
                             )
                           ),
-                        40,
+                        vaultInfo.maxLTV - 30,
                         vaultInfo.maxLTV
                       )}
                     >

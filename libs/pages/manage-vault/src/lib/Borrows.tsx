@@ -125,7 +125,7 @@ export const Borrows: FC<ActionProps> = ({
                   textAlign="center"
                   color={colorScale(
                     Number(utils.formatUnits(vaultInfo.LTV, 6)),
-                    40,
+                    vaultInfo.maxLTV - 30,
                     vaultInfo.maxLTV
                   )}
                 >
@@ -180,7 +180,7 @@ export const Borrows: FC<ActionProps> = ({
                   variant="inherit"
                   color={colorScale(
                     Number(utils.formatUnits(vaultInfo.LTV, 6)),
-                    40,
+                    vaultInfo.maxLTV - 30,
                     vaultInfo.maxLTV
                   )}
                 >

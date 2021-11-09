@@ -268,7 +268,7 @@ contract OracleBridge is AggregatorV3Interface {
 
 pragma solidity ^0.8.0;
 
-contract YakAvaxAAVEOracle is OracleBridge {
+contract YakAvaxETHOracle is OracleBridge {
   constructor(
     address priceSource_,
     address underlyingToken_,

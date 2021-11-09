@@ -4,7 +4,6 @@ import * as Yup from 'yup';
 import {
   Box,
   Step,
-  Paper,
   Button,
   Stepper,
   StepLabel,
@@ -15,6 +14,11 @@ import {
   Grid,
   Backdrop,
   styled,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 
@@ -58,6 +62,7 @@ export const WithdrawStepper: FC<StepperProps> = ({
   const { library, chainId } = useWeb3React<Web3Provider>();
 
   const [activeStep, setActiveStep] = useState(0);
+  const [alertActive, setAlertActive] = useState<boolean>(false);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -118,7 +123,7 @@ export const WithdrawStepper: FC<StepperProps> = ({
       transaction: withdrawCollateral(
         library,
         vaultID,
-        values.withdrawAmount,
+        values.withdrawAmount ? values.withdrawAmount.toString() : '',
         tokenInfo[token].erc20,
         tokenInfo[token].decimals,
         chainId
@@ -133,7 +138,7 @@ export const WithdrawStepper: FC<StepperProps> = ({
     addTransaction({
       type: 'withdraw',
       amount: utils.parseUnits(
-        values.withdrawAmount.toString(),
+        values.withdrawAmount ? values.withdrawAmount.toString() : '',
         tokenInfo[token].decimals
       ),
       vault: token,
@@ -143,6 +148,12 @@ export const WithdrawStepper: FC<StepperProps> = ({
     resetForm();
     handleReset();
   };
+
+  const handleWithdrawHighLTV = async () => {
+    setAlertActive(false);
+    await handleWithdraw();
+  };
+
   return (
     <>
       <Backdrop
@@ -324,7 +335,7 @@ export const WithdrawStepper: FC<StepperProps> = ({
                         color="inherit"
                       />
                       <Typography variant="body2">
-                        {values.withdrawAmount}
+                        {values.withdrawAmount && values.withdrawAmount}
                       </Typography>
                       <Typography sx={{ ml: 0.5 }} variant="caption">
                         {tokenInfo[token].display}
@@ -389,7 +400,7 @@ export const WithdrawStepper: FC<StepperProps> = ({
                                 tokenInfo[token].decimals
                               )
                             ),
-                          40,
+                          vaultInfo.maxLTV - 30,
                           vaultInfo.maxLTV
                         )
                       }
@@ -402,7 +413,9 @@ export const WithdrawStepper: FC<StepperProps> = ({
                                 vaultInfo.collateral
                                   .sub(
                                     utils.parseUnits(
-                                      values.withdrawAmount.toString(),
+                                      values.withdrawAmount
+                                        ? values.withdrawAmount.toString()
+                                        : '',
                                       tokenInfo[token].decimals
                                     )
                                   )
@@ -423,18 +436,19 @@ export const WithdrawStepper: FC<StepperProps> = ({
                             : 'grey.400',
                       }}
                     >
-                      {fCurrency(
-                        (Number(
-                          utils.formatUnits(
-                            vaultInfo.collateral,
-                            tokenInfo[token].decimals
-                          )
-                        ) -
-                          values.withdrawAmount) *
-                          Number(utils.formatUnits(vaultInfo.tokenPrice, 8)) *
-                          (vaultInfo.maxLTV / 100) -
-                          Number(utils.formatEther(vaultInfo.debt))
-                      )}{' '}
+                      {values.withdrawAmount &&
+                        fCurrency(
+                          (Number(
+                            utils.formatUnits(
+                              vaultInfo.collateral,
+                              tokenInfo[token].decimals
+                            )
+                          ) -
+                            values.withdrawAmount) *
+                            Number(utils.formatUnits(vaultInfo.tokenPrice, 8)) *
+                            (vaultInfo.maxLTV / 100) -
+                            Number(utils.formatEther(vaultInfo.debt))
+                        )}{' '}
                       AVAI Available
                     </Typography>
                   </Stack>
@@ -457,12 +471,63 @@ export const WithdrawStepper: FC<StepperProps> = ({
                 <LoadingButton
                   endIcon={<Icon icon={arrowRight} width={25} height={25} />}
                   variant="contained"
-                  onClick={handleWithdraw}
+                  onClick={
+                    values.withdrawAmount &&
+                    (100 * Number(utils.formatEther(vaultInfo.debt))) /
+                      Number(
+                        utils.formatUnits(
+                          vaultInfo.collateral
+                            .sub(
+                              utils.parseUnits(
+                                values.withdrawAmount
+                                  ? values.withdrawAmount.toString()
+                                  : '',
+                                tokenInfo[token].decimals
+                              )
+                            )
+                            .mul(vaultInfo.tokenPrice)
+                            .div(vaultInfo.peg),
+                          tokenInfo[token].decimals
+                        )
+                      ) /
+                      vaultInfo.maxLTV >
+                      0.8
+                      ? () => setAlertActive(true)
+                      : handleWithdraw
+                  }
                   loading={activeStep === steps.length}
                   loadingPosition="end"
                 >
                   Submit
                 </LoadingButton>
+                <Dialog
+                  open={alertActive}
+                  onClose={() => {
+                    setAlertActive(false);
+                  }}
+                >
+                  <DialogTitle>Borrowing close to max LTV</DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      You will be borrowing at 80% or above of the max LTV (Loan
+                      to Value ratio) with this withdrawal. There are risks with
+                      sudden price movements of partial liquidation with this
+                      borrowing amount. Are you okay with this?
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button
+                      onClick={() => {
+                        setAlertActive(false);
+                      }}
+                    >
+                      No
+                    </Button>
+                    <Button onClick={handleWithdrawHighLTV} autoFocus>
+                      Yes
+                    </Button>
+                  </DialogActions>
+                </Dialog>
               </Grid>
             </Grid>
           </>

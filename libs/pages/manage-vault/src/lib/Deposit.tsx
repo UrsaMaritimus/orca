@@ -166,7 +166,7 @@ export const Deposit: FC<ActionProps> = ({
                     variant="inherit"
                     color={colorScale(
                       Number(utils.formatUnits(vaultInfo.LTV, 6)),
-                      40,
+                      vaultInfo.maxLTV - 30,
                       vaultInfo.maxLTV
                     )}
                   >
@@ -233,7 +233,7 @@ export const Deposit: FC<ActionProps> = ({
                     variant="inherit"
                     color={colorScale(
                       Number(utils.formatUnits(vaultInfo.LTV, 6)),
-                      40,
+                      vaultInfo.maxLTV - 30,
                       vaultInfo.maxLTV
                     )}
                   >

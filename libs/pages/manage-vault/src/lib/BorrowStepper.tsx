@@ -14,6 +14,11 @@ import {
   Grid,
   Backdrop,
   styled,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 
@@ -54,6 +59,8 @@ export const BorrowStepper: FC<StepperProps> = ({
   const { account, library, chainId } = useWeb3React<Web3Provider>();
 
   const [activeStep, setActiveStep] = useState(0);
+  const [alertActive, setAlertActive] = useState<boolean>(false);
+
   const addTransaction = useAddTransaction();
 
   const handleNext = () => {
@@ -133,6 +140,11 @@ export const BorrowStepper: FC<StepperProps> = ({
     });
     resetForm();
     handleReset();
+  };
+
+  const handleBorrowHighLTV = async () => {
+    setAlertActive(false);
+    await handleBorrow();
   };
 
   return (
@@ -367,7 +379,7 @@ export const BorrowStepper: FC<StepperProps> = ({
                               tokenInfo[token].decimals
                             )
                           ),
-                        40,
+                        vaultInfo.maxLTV - 30,
                         vaultInfo.maxLTV
                       )}
                     >
@@ -422,12 +434,56 @@ export const BorrowStepper: FC<StepperProps> = ({
                 <LoadingButton
                   endIcon={<Icon icon={arrowRight} width={25} height={25} />}
                   variant="contained"
-                  onClick={handleBorrow}
+                  onClick={
+                    (100 *
+                      (Number(utils.formatEther(vaultInfo.debt)) +
+                        values.borrowAmount)) /
+                      Number(
+                        utils.formatUnits(
+                          vaultInfo.collateral
+                            .mul(vaultInfo.tokenPrice)
+                            .div(vaultInfo.peg),
+                          tokenInfo[token].decimals
+                        )
+                      ) /
+                      vaultInfo.maxLTV >
+                    0.8
+                      ? () => setAlertActive(true)
+                      : handleBorrow
+                  }
                   loading={activeStep === steps.length}
                   loadingPosition="end"
                 >
                   Submit
                 </LoadingButton>
+                <Dialog
+                  open={alertActive}
+                  onClose={() => {
+                    setAlertActive(false);
+                  }}
+                >
+                  <DialogTitle>Borrowing close to max LTV</DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      You are borrowing at 80% or above of the max LTV (Loan to
+                      Value ratio). There are risks with sudden price movements
+                      of partial liquidation with this borrowing amount. Are you
+                      okay with this?
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button
+                      onClick={() => {
+                        setAlertActive(false);
+                      }}
+                    >
+                      No
+                    </Button>
+                    <Button onClick={handleBorrowHighLTV} autoFocus>
+                      Yes
+                    </Button>
+                  </DialogActions>
+                </Dialog>
               </Grid>
             </Grid>
           </>

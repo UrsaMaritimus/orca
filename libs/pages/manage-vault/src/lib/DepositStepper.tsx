@@ -488,7 +488,7 @@ export const DepositStepper: FC<StepperProps> = ({
                                 tokenInfo[token].decimals
                               )
                             ),
-                          40,
+                          vaultInfo.maxLTV - 30,
                           vaultInfo.maxLTV
                         )
                       }
@@ -528,7 +528,7 @@ export const DepositStepper: FC<StepperProps> = ({
                     >
                       {fCurrency(
                         (Number(utils.formatEther(vaultInfo.collateral)) +
-                          values.depositAmount) *
+                          Number(values.depositAmount)) *
                           Number(utils.formatUnits(vaultInfo.tokenPrice, 8)) *
                           (vaultInfo.maxLTV / 100) -
                           Number(utils.formatEther(vaultInfo.debt))
