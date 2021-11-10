@@ -316,4 +316,8 @@ export const farms = [
 ];
 
 export const baseCollateral = ['AVAX', 'WBTC.e', 'WETH.e'];
-export const ibtknCollateral = ['Yak x Aave: AVAX', 'Yak x Aave: WBTC.e'];
+export const ibtknCollateral = [
+  'Yak x Aave: AVAX',
+  'Yak x Aave: WBTC.e',
+  'Yak x Aave: WETH.e',
+];
