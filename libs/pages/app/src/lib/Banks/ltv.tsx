@@ -32,7 +32,7 @@ type LTVProps = {
 };
 
 export const LTVWidget: FC<LTVProps> = ({ ltv, maxLtv }) => {
-  const color = colorScale(ltv, 30, maxLtv);
+  const color = colorScale(ltv, maxLtv - 30, maxLtv);
 
   const [hover, setHover] = useState(null);
 
@@ -93,7 +93,7 @@ export const LTVWidget: FC<LTVProps> = ({ ltv, maxLtv }) => {
           <Icon icon={infoOutline} width={20} height={20} />
         </IconButton>
         <Typography variant="caption">Max LTV: </Typography>
-        <Typography variant="caption" color={colorScale(maxLtv)}>
+        <Typography variant="caption" color={colorScale(maxLtv, 0, maxLtv)}>
           {fPercent(maxLtv)}
         </Typography>
       </Stack>
