@@ -34,7 +34,7 @@ export const useGetVaultInfo = (
   });
   const shouldFetchYak = !!library && tokenInfo[token].yaktoken;
   // Grab yak
-  const { data: yakBalance } = useSwr(
+  const { data: yakBalance, mutate: yakMutate } = useSwr(
     shouldFetchYak
       ? [
           `get${token}YakBalance`,
@@ -55,6 +55,7 @@ export const useGetVaultInfo = (
     bankPrice()
   );
   useKeepSWRDataLiveAsBlocksArrive(priceMutate);
+  useKeepSWRDataLiveAsBlocksArrive(yakMutate);
 
   if (!loading && vaultData.vault && price) {
     const collateral = BigNumber.from(vaultData.vault.collateral);
