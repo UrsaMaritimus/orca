@@ -154,7 +154,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
       </div>
     ),
   },
-  /*
+
   YRTAAVEBTC: {
     address: {
       mainnet: '0x0f7F48d4b66bF5a53d4f21fA6Ffca45f70Cef770'.toLowerCase(),
@@ -185,7 +185,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
         that can be deposited here for borrowing AVAI.
       </div>
     ),
-  },*/
+  },
   YRTAAVEETH: {
     address: {
       mainnet: '0xb634a71a54d3382Ff6896eB22244B4a4e54C0a82'.toLowerCase(),
