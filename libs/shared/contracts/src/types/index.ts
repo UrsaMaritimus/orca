@@ -50,7 +50,6 @@ export type { TimelockController } from "./TimelockController";
 export type { OracleBridge } from "./OracleBridge";
 export type { YakAvaxBTCOracle } from "./YakAvaxBTCOracle";
 export type { YakAvaxETHOracle } from "./YakAvaxETHOracle";
-export type { YakAvaxWETHOracle } from "./YakAvaxWETHOracle";
 export type { YakAvaxAAVEOracle } from "./YakAvaxAAVEOracle";
 export type { YakAvaxJoeOracle } from "./YakAvaxJoeOracle";
 export type { YakUsdcJoeOracle } from "./YakUsdcJoeOracle";
@@ -126,7 +125,6 @@ export { TimelockController__factory } from "./factories/TimelockController__fac
 export { OracleBridge__factory } from "./factories/OracleBridge__factory";
 export { YakAvaxBTCOracle__factory } from "./factories/YakAvaxBTCOracle__factory";
 export { YakAvaxETHOracle__factory } from "./factories/YakAvaxETHOracle__factory";
-export { YakAvaxWETHOracle__factory } from "./factories/YakAvaxWETHOracle__factory";
 export { YakAvaxAAVEOracle__factory } from "./factories/YakAvaxAAVEOracle__factory";
 export { YakAvaxJoeOracle__factory } from "./factories/YakAvaxJoeOracle__factory";
 export { YakUsdcJoeOracle__factory } from "./factories/YakUsdcJoeOracle__factory";

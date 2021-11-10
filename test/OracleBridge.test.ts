@@ -7,6 +7,8 @@ import {
   OracleBridge,
   OracleBridge__factory,
   AggregatorV3Interface__factory,
+  YakAvaxBTCOracle__factory,
+  YakAvaxBTCOracle,
 } from '../libs/shared/contracts/src';
 
 const USDCPriceSource = '0xF096872672F44d6EBA71458D74fe67F9a77a23B9';
@@ -52,8 +54,16 @@ describe('Oracle Bridge Test', function () {
     ).to.be.lessThanOrEqual(answer.toNumber());
   });
 
-  it('gives the correct price for btc for joe', async () => {
-    const oracle = await oracleFac.deploy(BTCPriceSource, wbtc, joeStratWBTC);
+  it('gives the correct price for btc for aave', async () => {
+    const oracleFacBtc = (await ethers.getContractFactory(
+      'YakAvaxBTCOracle',
+      accounts[0]
+    )) as OracleBridge__factory;
+    const oracle = await oracleFacBtc.deploy(
+      BTCPriceSource,
+      wbtc,
+      '0x0f7F48d4b66bF5a53d4f21fA6Ffca45f70Cef770'
+    );
     await oracle.deployed();
     expect(oracle.address).to.be.properAddress;
     const [roundId, answer, startedAt, updatedAt, answeredInRound] =

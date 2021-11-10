@@ -58,6 +58,7 @@ contract OracleBridge is AggregatorV3Interface {
   function latestRoundData()
     external
     view
+    virtual
     override
     returns (
       uint80,

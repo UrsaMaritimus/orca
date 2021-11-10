@@ -213,10 +213,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.YakAvaxETHOracle__factory>;
     getContractFactory(
-      name: "YakAvaxWETHOracle",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.YakAvaxWETHOracle__factory>;
-    getContractFactory(
       name: "YakAvaxAAVEOracle",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.YakAvaxAAVEOracle__factory>;
