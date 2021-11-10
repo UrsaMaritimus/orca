@@ -154,6 +154,69 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
       </div>
     ),
   },
+  /*
+  YRTAAVEBTC: {
+    address: {
+      mainnet: '0x0f7F48d4b66bF5a53d4f21fA6Ffca45f70Cef770'.toLowerCase(),
+      fuji: '0xE1296Be9B7d9C69Ef65B054BD8cE79E326EFA0d7'.toLowerCase(),
+    },
+    icon: '/static/cryptos/ic_yak_btc_aave.png',
+    erc20: 'yrtAaveBtc',
+    display: 'Yak x Aave: WBTC.e',
+    url: 'YRTAAVEBTC',
+    symbol: 'YRT',
+    decimals: 18,
+    collateral: true,
+    yaktoken: true,
+    yakBase: 'WBTC.e',
+    tooltip: true,
+    tooltipText: (
+      <div>
+        This is a single asset autocompounding pool through{' '}
+        <NextLink
+          href="https://yieldyak.com/farms"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          Yield Yak
+        </NextLink>{' '}
+        that leverages WBTC.e in AAVE. You will need to deposit WBTC.e into the
+        Yield Yak x Aave pool on their platform, which will give you a receipt
+        that can be deposited here for borrowing AVAI.
+      </div>
+    ),
+  },*/
+  YRTAAVEETH: {
+    address: {
+      mainnet: '0xb634a71a54d3382Ff6896eB22244B4a4e54C0a82'.toLowerCase(),
+      fuji: '0xE1296Be9B7d9C69Ef65B054BD8cE79E326EFA0d7'.toLowerCase(),
+    },
+    icon: '/static/cryptos/ic_yak_eth_aave.png',
+    erc20: 'yrtAaveEth',
+    display: 'Yak x Aave: WETH.e',
+    url: 'YRTAAVEETH',
+    symbol: 'YRT',
+    decimals: 18,
+    collateral: true,
+    yaktoken: true,
+    yakBase: 'WETH.e',
+    tooltip: true,
+    tooltipText: (
+      <div>
+        This is a single asset autocompounding pool through{' '}
+        <NextLink
+          href="https://yieldyak.com/farms"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          Yield Yak
+        </NextLink>{' '}
+        that leverages WETH.e in AAVE. You will need to deposit WETH.e into the
+        Yield Yak x Aave pool on their platform, which will give you a receipt
+        that can be deposited here for borrowing AVAI.
+      </div>
+    ),
+  },
   YRTJOEAVAX: {
     address: {
       mainnet: ''.toLowerCase(),
@@ -253,4 +316,4 @@ export const farms = [
 ];
 
 export const baseCollateral = ['AVAX', 'WBTC.e', 'WETH.e'];
-export const ibtknCollateral = ['Yak x Aave: AVAX'];
+export const ibtknCollateral = ['Yak x Aave: AVAX', 'Yak x Aave: WBTC.e'];
