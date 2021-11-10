@@ -69,9 +69,15 @@ export const VaultReward: FC = () => {
                     sx={{ mt: 5, mb: 2, textAlign: 'center' }}
                   >
                     Earned{' '}
-                    {fNumber(
-                      Number(utils.formatUnits(reward.reward, collat.decimals))
-                    )}{' '}
+                    {collat.underlyingDecimals
+                      ? Number(
+                          utils.formatUnits(reward.reward, collat.decimals)
+                        ).toExponential()
+                      : fNumber(
+                          Number(
+                            utils.formatUnits(reward.reward, collat.decimals)
+                          )
+                        )}{' '}
                     {collat.display}!
                   </Typography>
                   <Box>

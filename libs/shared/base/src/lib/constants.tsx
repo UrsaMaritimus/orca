@@ -19,6 +19,7 @@ export type TokenInfo = {
   tooltipText?: React.ReactElement;
   yaktoken: boolean;
   yakBase?: string;
+  underlyingDecimals?: number;
 };
 
 export const tokenInfo: { [key: string]: TokenInfo } = {
@@ -169,6 +170,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     collateral: true,
     yaktoken: true,
     yakBase: 'WBTC.e',
+    underlyingDecimals: 8,
     tooltip: true,
     tooltipText: (
       <div>

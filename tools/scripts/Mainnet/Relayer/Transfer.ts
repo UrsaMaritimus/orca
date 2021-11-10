@@ -14,7 +14,7 @@ const AVAX_BANK = '0xC029713E92383426C9b387b124C0BF6271d08b80';
 const ETH_BANK = '0x4805D6563B36a02C5012c11d6e15552f50066d58';
 const GATEWAY = '0x4FFFa5602112fd0C7B327A503F67f229F6D0828A';
 
-const GetBankCollateral = async () => {
+const Transfer = async () => {
   const accounts = await ethers.getSigners();
   const credentials = {
     apiKey: process.env.RELAY_API,
@@ -43,7 +43,7 @@ const GetBankCollateral = async () => {
   );
 };
 
-GetBankCollateral()
+Transfer()
   .then(() => process.exit(0))
   .catch((error) => {
     console.error(error);

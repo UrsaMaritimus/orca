@@ -102,16 +102,25 @@ export const Borrows: FC<ActionProps> = ({
                       theme.palette.mode === 'light' ? 'grey.600' : 'grey.400',
                   }}
                 >
-                  {fNumber(
-                    Number(
-                      utils.formatEther(
-                        vaultInfo.debt
-                          .mul(vaultInfo.peg)
-                          .div(vaultInfo.tokenPrice)
-                      )
-                    ),
-                    2
-                  )}{' '}
+                  {}
+                  {tokenInfo[token].underlyingDecimals
+                    ? Number(
+                        utils.formatEther(
+                          vaultInfo.debt
+                            .mul(vaultInfo.peg)
+                            .div(vaultInfo.tokenPrice)
+                        )
+                      ).toExponential()
+                    : fNumber(
+                        Number(
+                          utils.formatEther(
+                            vaultInfo.debt
+                              .mul(vaultInfo.peg)
+                              .div(vaultInfo.tokenPrice)
+                          )
+                        ),
+                        2
+                      )}{' '}
                   {tokenInfo[token].display}
                 </Typography>
               </Grid>
@@ -154,15 +163,23 @@ export const Borrows: FC<ActionProps> = ({
                   }}
                   textAlign="center"
                 >
-                  {fNumber(
-                    Number(
-                      utils.formatEther(
-                        vaultInfo.borrowingPowerAvailableUSD
-                          .mul(vaultInfo.peg)
-                          .div(vaultInfo.tokenPrice)
-                      )
-                    )
-                  )}{' '}
+                  {tokenInfo[token].underlyingDecimals
+                    ? Number(
+                        utils.formatEther(
+                          vaultInfo.borrowingPowerAvailableUSD
+                            .mul(vaultInfo.peg)
+                            .div(vaultInfo.tokenPrice)
+                        )
+                      ).toExponential()
+                    : fNumber(
+                        Number(
+                          utils.formatEther(
+                            vaultInfo.borrowingPowerAvailableUSD
+                              .mul(vaultInfo.peg)
+                              .div(vaultInfo.tokenPrice)
+                          )
+                        )
+                      )}{' '}
                   {tokenInfo[token].display}
                 </Typography>
               </Grid>
@@ -231,19 +248,34 @@ export const Borrows: FC<ActionProps> = ({
                   $
                   {fNumber(
                     !vaultInfo.collateral.isZero()
-                      ? Number(
-                          utils.formatUnits(
-                            vaultInfo.debt
-                              .mul(vaultInfo.peg)
-                              .mul(vaultInfo.mcp)
-                              .div(
-                                vaultInfo.collateral
-                                  .mul(100)
-                                  .mul(10 ** (18 - tokenInfo[token].decimals))
-                              ),
-                            8
+                      ? tokenInfo[token].underlyingDecimals
+                        ? Number(
+                            utils.formatUnits(
+                              vaultInfo.debt
+                                .mul(vaultInfo.peg)
+                                .mul(vaultInfo.mcp)
+                                .div(
+                                  vaultInfo.collateral
+                                    .mul(100)
+                                    .mul(10 ** (18 - tokenInfo[token].decimals))
+                                ),
+                              8
+                            )
+                          ) /
+                          10 ** (18 - tokenInfo[token].underlyingDecimals)
+                        : Number(
+                            utils.formatUnits(
+                              vaultInfo.debt
+                                .mul(vaultInfo.peg)
+                                .mul(vaultInfo.mcp)
+                                .div(
+                                  vaultInfo.collateral
+                                    .mul(100)
+                                    .mul(10 ** (18 - tokenInfo[token].decimals))
+                                ),
+                              8
+                            )
                           )
-                        )
                       : 0,
                     2
                   )}{' '}
@@ -261,7 +293,10 @@ export const Borrows: FC<ActionProps> = ({
                 >
                   Current Price:{' '}
                   {fCurrency(
-                    Number(utils.formatUnits(vaultInfo.tokenPrice, 8))
+                    tokenInfo[token].underlyingDecimals
+                      ? Number(utils.formatUnits(vaultInfo.tokenPrice, 8)) /
+                          10 ** (18 - tokenInfo[token].underlyingDecimals)
+                      : Number(utils.formatUnits(vaultInfo.tokenPrice, 8))
                   )}{' '}
                   USD
                 </Typography>

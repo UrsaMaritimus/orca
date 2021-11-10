@@ -123,7 +123,11 @@ export const WithdrawStepper: FC<StepperProps> = ({
       transaction: withdrawCollateral(
         library,
         vaultID,
-        values.withdrawAmount ? values.withdrawAmount.toString() : '',
+        values.withdrawAmount
+          ? typeof values.withdrawAmount === 'number'
+            ? values.withdrawAmount.toFixed(tokenInfo[token].decimals)
+            : values.withdrawAmount
+          : '',
         tokenInfo[token].erc20,
         tokenInfo[token].decimals,
         chainId
@@ -138,7 +142,11 @@ export const WithdrawStepper: FC<StepperProps> = ({
     addTransaction({
       type: 'withdraw',
       amount: utils.parseUnits(
-        values.withdrawAmount ? values.withdrawAmount.toString() : '',
+        values.withdrawAmount
+          ? typeof values.withdrawAmount === 'number'
+            ? values.withdrawAmount.toFixed(tokenInfo[token].decimals)
+            : values.withdrawAmount
+          : '',
         tokenInfo[token].decimals
       ),
       vault: token,
@@ -204,14 +212,23 @@ export const WithdrawStepper: FC<StepperProps> = ({
                       color="inherit"
                     />
                     <Typography variant="h6" textAlign="center">
-                      {`${fNumber(
-                        Number(
-                          utils.formatUnits(
-                            vaultInfo.availableWithdraw,
-                            tokenInfo[token].decimals
-                          )
-                        )
-                      )} ${tokenInfo[token].display}`}
+                      {`${
+                        tokenInfo[token].underlyingDecimals
+                          ? Number(
+                              utils.formatUnits(
+                                vaultInfo.availableWithdraw,
+                                tokenInfo[token].decimals
+                              )
+                            ).toExponential()
+                          : fNumber(
+                              Number(
+                                utils.formatUnits(
+                                  vaultInfo.availableWithdraw,
+                                  tokenInfo[token].decimals
+                                )
+                              )
+                            )
+                      } ${tokenInfo[token].display}`}
                     </Typography>
                   </Stack>
                 </Grid>
@@ -391,7 +408,11 @@ export const WithdrawStepper: FC<StepperProps> = ({
                                 vaultInfo.collateral
                                   .sub(
                                     utils.parseUnits(
-                                      values.withdrawAmount.toString(),
+                                      typeof values.withdrawAmount === 'number'
+                                        ? values.withdrawAmount.toFixed(
+                                            tokenInfo[token].decimals
+                                          )
+                                        : values.withdrawAmount,
                                       tokenInfo[token].decimals
                                     )
                                   )
@@ -414,7 +435,12 @@ export const WithdrawStepper: FC<StepperProps> = ({
                                   .sub(
                                     utils.parseUnits(
                                       values.withdrawAmount
-                                        ? values.withdrawAmount.toString()
+                                        ? typeof values.withdrawAmount ===
+                                          'number'
+                                          ? values.withdrawAmount.toFixed(
+                                              tokenInfo[token].decimals
+                                            )
+                                          : values.withdrawAmount
                                         : '',
                                       tokenInfo[token].decimals
                                     )
@@ -480,7 +506,11 @@ export const WithdrawStepper: FC<StepperProps> = ({
                             .sub(
                               utils.parseUnits(
                                 values.withdrawAmount
-                                  ? values.withdrawAmount.toString()
+                                  ? typeof values.withdrawAmount === 'number'
+                                    ? values.withdrawAmount.toFixed(
+                                        tokenInfo[token].decimals
+                                      )
+                                    : values.withdrawAmount
                                   : '',
                                 tokenInfo[token].decimals
                               )

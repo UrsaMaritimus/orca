@@ -25,7 +25,13 @@ import {
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 
 import { utils } from 'ethers';
-import { fCurrency, fPercent, fNumber, colorScale } from '@orca/util';
+import {
+  fCurrency,
+  fPercent,
+  fNumber,
+  colorScale,
+  fShortenNumber,
+} from '@orca/util';
 
 import { ColorBar } from '@orca/components/colorbar';
 import { tokenInfo } from '@orca/shared/base';
@@ -108,14 +114,21 @@ export const Deposit: FC<ActionProps> = ({
                   justifyContent="center"
                 >
                   <Typography variant="inherit">
-                    {fNumber(
-                      Number(
-                        utils.formatUnits(
-                          vaultInfo.collateral,
-                          tokenInfo[token].decimals
-                        )
-                      )
-                    )}{' '}
+                    {tokenInfo[token].underlyingDecimals
+                      ? Number(
+                          utils.formatUnits(
+                            vaultInfo.collateral,
+                            tokenInfo[token].decimals
+                          )
+                        ).toExponential()
+                      : fNumber(
+                          Number(
+                            utils.formatUnits(
+                              vaultInfo.collateral,
+                              tokenInfo[token].decimals
+                            )
+                          )
+                        )}{' '}
                     {tokenInfo[token].display}
                   </Typography>
                 </Grid>
@@ -138,7 +151,12 @@ export const Deposit: FC<ActionProps> = ({
                       }}
                     >
                       {vaultInfo.yakBalance &&
-                        fNumber(Number(vaultInfo.yakBalance))}{' '}
+                        fNumber(
+                          tokenInfo[token].underlyingDecimals
+                            ? Number(vaultInfo.yakBalance) *
+                                10 ** (18 - tokenInfo[token].underlyingDecimals)
+                            : Number(vaultInfo.yakBalance)
+                        )}{' '}
                       {tokenInfo[token].yakBase}
                     </Typography>
                   </Grid>
@@ -328,19 +346,38 @@ export const Deposit: FC<ActionProps> = ({
                     $
                     {fNumber(
                       !vaultInfo.collateral.isZero()
-                        ? Number(
-                            utils.formatUnits(
-                              vaultInfo.debt
-                                .mul(vaultInfo.peg)
-                                .mul(vaultInfo.mcp)
-                                .div(
-                                  vaultInfo.collateral
-                                    .mul(100)
-                                    .mul(10 ** (18 - tokenInfo[token].decimals))
-                                ),
-                              8
+                        ? tokenInfo[token].underlyingDecimals
+                          ? Number(
+                              utils.formatUnits(
+                                vaultInfo.debt
+                                  .mul(vaultInfo.peg)
+                                  .mul(vaultInfo.mcp)
+                                  .div(
+                                    vaultInfo.collateral
+                                      .mul(100)
+                                      .mul(
+                                        10 ** (18 - tokenInfo[token].decimals)
+                                      )
+                                  ),
+                                8
+                              )
+                            ) /
+                            10 ** (18 - tokenInfo[token].underlyingDecimals)
+                          : Number(
+                              utils.formatUnits(
+                                vaultInfo.debt
+                                  .mul(vaultInfo.peg)
+                                  .mul(vaultInfo.mcp)
+                                  .div(
+                                    vaultInfo.collateral
+                                      .mul(100)
+                                      .mul(
+                                        10 ** (18 - tokenInfo[token].decimals)
+                                      )
+                                  ),
+                                8
+                              )
                             )
-                          )
                         : 0,
                       2
                     )}{' '}
@@ -366,7 +403,10 @@ export const Deposit: FC<ActionProps> = ({
                   >
                     Current Price:{' '}
                     {fCurrency(
-                      Number(utils.formatUnits(vaultInfo.tokenPrice, 8))
+                      tokenInfo[token].underlyingDecimals
+                        ? Number(utils.formatUnits(vaultInfo.tokenPrice, 8)) /
+                            10 ** (18 - tokenInfo[token].underlyingDecimals)
+                        : Number(utils.formatUnits(vaultInfo.tokenPrice, 8))
                     )}{' '}
                     USD
                   </Typography>

@@ -286,19 +286,30 @@ export const DepositStepper: FC<StepperProps> = ({
                       color="inherit"
                     />
                     <Typography variant="h6" textAlign="center">
-                      {`${fNumber(
-                        token === 'AVAX'
-                          ? AVAXBalance
-                          : TokenBalance
+                      {`${
+                        tokenInfo[token].underlyingDecimals
                           ? Number(
-                              utils.formatUnits(
-                                TokenBalance,
-                                tokenInfo[token].decimals
-                              )
+                              TokenBalance
+                                ? utils.formatUnits(
+                                    TokenBalance,
+                                    tokenInfo[token].decimals
+                                  )
+                                : 0
+                            ).toExponential()
+                          : fNumber(
+                              token === 'AVAX'
+                                ? AVAXBalance
+                                : TokenBalance
+                                ? Number(
+                                    utils.formatUnits(
+                                      TokenBalance,
+                                      tokenInfo[token].decimals
+                                    )
+                                  )
+                                : 0,
+                              4
                             )
-                          : 0,
-                        4
-                      )} ${tokenInfo[token].display}`}
+                      } ${tokenInfo[token].display}`}
                     </Typography>
                   </Stack>
                 </Grid>

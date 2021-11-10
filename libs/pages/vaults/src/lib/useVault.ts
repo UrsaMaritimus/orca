@@ -30,6 +30,7 @@ export const useGetVaults = (
     allBankPrices()
   );
   useKeepSWRDataLiveAsBlocksArrive(priceMutate);
+
   if (prices && vaultData) {
     return {
       loading: false,
@@ -56,6 +57,7 @@ export const useGetVaults = (
 
                 const price = prices.filter((temp) => temp.name === name)[0];
                 if (price) {
+                  console.log(name, price, collateral);
                   const ratio = debt.isZero()
                     ? utils.formatUnits(0, 0)
                     : debt
@@ -67,7 +69,14 @@ export const useGetVaults = (
                             .mul(10 ** (18 - Number(vault.bank.token.decimals)))
                         )
                         .toNumber() / 100;
-
+                  console.log(
+                    utils.formatUnits(
+                      BigNumber.from(collateral)
+                        .mul(price.price)
+                        .div(price.peg),
+                      Number(vault.bank.token.decimals)
+                    )
+                  );
                   return {
                     vaultID: BigNumber.from(vault.number).toNumber().toString(),
                     collateral: Number(

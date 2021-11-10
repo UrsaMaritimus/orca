@@ -113,15 +113,23 @@ export const LiquidateVault: FC<LiquidateProps> = ({
             {fNumber(Number(utils.formatEther(vaultInfo.debt.div(2))))} AVAI
           </Typography>
           <Typography variant="caption" sx={{ color: 'grey.500' }}>
-            {fNumber(
-              Number(
-                utils.formatEther(
-                  vaultInfo.debt
-                    .mul(vaultInfo.peg)
-                    .div(vaultInfo.tokenPrice.mul(2))
+            {tokenInfo[token].underlyingDecimals
+              ? Number(
+                  utils.formatEther(
+                    vaultInfo.debt
+                      .mul(vaultInfo.peg)
+                      .div(vaultInfo.tokenPrice.mul(2))
+                  )
                 )
-              )
-            )}{' '}
+              : fNumber(
+                  Number(
+                    utils.formatEther(
+                      vaultInfo.debt
+                        .mul(vaultInfo.peg)
+                        .div(vaultInfo.tokenPrice.mul(2))
+                    )
+                  )
+                )}{' '}
             {tokenInfo[token].display}
           </Typography>
         </Stack>
@@ -132,16 +140,25 @@ export const LiquidateVault: FC<LiquidateProps> = ({
             {`${tokenInfo[token].display} Reward from Liquidating`}
           </Typography>
           <Typography variant="inherit">
-            {fNumber(
-              Number(
-                utils.formatEther(
-                  vaultInfo.debt
-                    .mul(11)
-                    .mul(vaultInfo.peg)
-                    .div(vaultInfo.tokenPrice.mul(10).mul(2))
-                )
-              )
-            )}{' '}
+            {tokenInfo[token].underlyingDecimals
+              ? Number(
+                  utils.formatEther(
+                    vaultInfo.debt
+                      .mul(11)
+                      .mul(vaultInfo.peg)
+                      .div(vaultInfo.tokenPrice.mul(10).mul(2))
+                  )
+                ).toExponential()
+              : fNumber(
+                  Number(
+                    utils.formatEther(
+                      vaultInfo.debt
+                        .mul(11)
+                        .mul(vaultInfo.peg)
+                        .div(vaultInfo.tokenPrice.mul(10).mul(2))
+                    )
+                  )
+                )}{' '}
             {tokenInfo[token].display}
           </Typography>
           <Typography variant="caption" sx={{ color: 'grey.500' }}>
