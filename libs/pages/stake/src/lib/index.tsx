@@ -9,17 +9,14 @@ import {
   Container,
   Grid,
   Typography,
-  Box,
   Stack,
   Paper,
 } from '@mui/material';
 import { Page } from '@orca/components/page';
 import { OrcaStaking } from './Staking';
-import { useMonitorFarms } from './StakeData/getYieldData';
-import { tokenInfo } from '@orca/shared/base';
-import { fNumber } from '@orca/util';
 import { StormStaking } from './Partner/Storm';
-import exp from 'constants';
+import { useFrontPageStats } from './xORCA/useFrontPageStats';
+import { fPercent } from '@orca/util';
 
 // -------------------------------------------------------
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -31,7 +28,8 @@ const RootStyle = styled(Page)(({ theme }) => ({
 
 export const Staking: FC = () => {
   const { account, chainId } = useWeb3React<Web3Provider>();
-  const { loading, data } = useMonitorFarms(account, chainId);
+
+  const { loading, data } = useFrontPageStats();
 
   const [expanded, setExpanded] = useState<string | false>(false);
 
@@ -54,39 +52,6 @@ export const Staking: FC = () => {
             title={'Staking'}
             subheader={
               'Stake your ORCA and earn protocol revenue through xORCA! 40% of all revenue is reflected right back into xORCA by buying back ORCA, meaning when you withdraw xORCA, you get all original ORCA back along with your portion of the revenue. Buybacks of ORCA will occur every 48 hours currently.'
-            }
-            action={
-              <Paper
-                sx={{
-                  pt: 1,
-                  pb: 1.5,
-                  mb: 1,
-                  mt: 2,
-                  borderRadius: 2,
-                  bgcolor: 'background.neutral',
-                  boxShadow: 5,
-                  display: { xs: 'none', sm: 'block' },
-                }}
-              >
-                <Grid container>
-                  <Grid item sm={12} justifyContent="center" display="flex">
-                    <Typography variant="h6" sx={{ color: 'text.secondary' }}>
-                      Staking APR
-                    </Typography>
-                  </Grid>
-                  <Grid item sm={12} display="flex" justifyContent="center">
-                    <Stack direction="row" alignItems="center" spacing={1}>
-                      <Typography variant="h5">TBD</Typography>
-                      <Typography variant="h5">%</Typography>
-                    </Stack>
-                  </Grid>
-                  <Grid item sm={12} display="flex" justifyContent="center">
-                    <Typography variant="caption">
-                      Average over last 7 Days
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Paper>
             }
           />
         </Card>

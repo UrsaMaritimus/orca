@@ -51,10 +51,12 @@ export const xORCARatio = () => {
     const orcaBalance = await orca.balanceOf(leader.address);
     const xOrcaSupply = await leader.totalSupply();
     if (xOrcaSupply.isZero()) return 0;
-    return (
-      Number(utils.formatEther(orcaBalance)) /
-      Number(utils.formatEther(xOrcaSupply))
-    );
+    return {
+      ratio:
+        Number(utils.formatEther(orcaBalance)) /
+        Number(utils.formatEther(xOrcaSupply)),
+      totalSupply: Number(utils.formatEther(xOrcaSupply)),
+    };
   };
 };
 

@@ -1,16 +1,11 @@
-import { Icon } from '@iconify/react';
 import { FC } from 'react';
-import arrowIosDownwardFill from '@iconify/icons-eva/arrow-ios-downward-fill';
 
 import useSWR from 'swr';
 import contracts from '@orca/shared/deployments';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
 import {
-  Accordion,
-  AccordionSummary,
   Typography,
-  AccordionDetails,
   Card,
   Grid,
   Stack,
@@ -18,6 +13,7 @@ import {
   useMediaQuery,
   Divider,
   CardContent,
+  Chip,
 } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
 
@@ -25,13 +21,16 @@ import { alpha, useTheme } from '@mui/material/styles';
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 
-import { fCurrency, fNumber } from '@orca/util';
+import { fNumber, fPercent } from '@orca/util';
 import { getTokenBalance, xORCARatio } from '@orca/shared/funcs';
 import { utils } from 'ethers';
 
 import Deposit from './Deposit';
 import Withdraw from './Withdraw';
 import { tokenInfo } from '@orca/shared/base';
+import { useFrontPageStats } from './useFrontPageStats';
+import { useGetTokenPriceQuery } from '@orca/graphql';
+import { useOrcaPrice } from './useOrcaPrice';
 
 type FarmProps = {
   img: string;
@@ -54,22 +53,20 @@ type FarmProps = {
 export const Farm: FC<FarmProps> = ({
   img,
   name,
-  reward,
-  rewardImg,
-  tvl,
-  apr,
-  loading,
   color1,
   color2,
   farm,
   link,
-  pid,
 }) => {
+  // web3 init info
+  const { account, library, chainId } = useWeb3React<Web3Provider>();
+
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('md'));
 
-  // web3 init info
-  const { account, library, chainId } = useWeb3React<Web3Provider>();
+  const { loading, data } = useFrontPageStats();
+
+  const { data: orcaPrice } = useOrcaPrice();
   const shouldFetch = !!library;
   const { data: totalStaked, mutate: mutatexORCABalance } = useSWR(
     shouldFetch
@@ -118,7 +115,7 @@ export const Farm: FC<FarmProps> = ({
                     ? fNumber(
                         Number(
                           utils.formatEther(totalStaked ? totalStaked : 0)
-                        ) * (xOrcaRatio ? xOrcaRatio : 1),
+                        ) * (xOrcaRatio ? xOrcaRatio.ratio : 1),
                         4
                       )
                     : '-'}{' '}
@@ -181,13 +178,31 @@ export const Farm: FC<FarmProps> = ({
                   color="grey.700"
                 />
                 <Typography sx={{ color: 'grey.800' }} variant="subtitle2">
-                  {xOrcaRatio ? fNumber(xOrcaRatio, 2) : 1} ORCA
+                  {xOrcaRatio ? fNumber(xOrcaRatio.ratio, 2) : 1} ORCA
                 </Typography>
               </Stack>
               <Typography sx={{ color: 'grey.700' }} variant="caption">
                 Ratio
               </Typography>
             </Stack>
+          </Grid>
+          <Grid item xs={12} display="flex" justifyContent="center">
+            <Chip
+              color="primary"
+              label={`APR (estimate): ${
+                !loading && orcaPrice && xOrcaRatio
+                  ? fPercent(
+                      (data.totalRevenue /
+                        data.days /
+                        ((chainId === 43113 ? 0.2 : orcaPrice.orcaUSDPrice) *
+                          xOrcaRatio.totalSupply *
+                          xOrcaRatio.ratio)) *
+                        365 *
+                        100
+                    )
+                  : '-'
+              }`}
+            />
           </Grid>
         </Grid>
 
