@@ -192,7 +192,7 @@ export const Farm: FC<FarmProps> = ({
               label={`APR (estimate): ${
                 !loading && orcaPrice && xOrcaRatio
                   ? fPercent(
-                      (data.totalRevenue /
+                      ((data.totalRevenue * 0.4) /
                         data.days /
                         ((chainId === 43113 ? 0.2 : orcaPrice.orcaUSDPrice) *
                           xOrcaRatio.totalSupply *
