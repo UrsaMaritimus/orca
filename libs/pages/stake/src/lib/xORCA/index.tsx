@@ -26,11 +26,12 @@ import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 
 import { fCurrency, fNumber } from '@orca/util';
-import { getTokenBalance } from '@orca/shared/funcs';
+import { getTokenBalance, xORCARatio } from '@orca/shared/funcs';
 import { utils } from 'ethers';
 
 import Deposit from './Deposit';
 import Withdraw from './Withdraw';
+import { tokenInfo } from '@orca/shared/base';
 
 type FarmProps = {
   img: string;
@@ -86,7 +87,13 @@ export const Farm: FC<FarmProps> = ({
     getTokenBalance()
   );
 
+  const { data: xOrcaRatio, mutate: mutatexORCARatio } = useSWR(
+    shouldFetch ? [`xOrcaRatio`, library, chainId] : null,
+    xORCARatio()
+  );
+
   useKeepSWRDataLiveAsBlocksArrive(mutatexORCABalance);
+  useKeepSWRDataLiveAsBlocksArrive(mutatexORCARatio);
 
   return (
     <Card
@@ -107,7 +114,15 @@ export const Farm: FC<FarmProps> = ({
               />
               <Stack alignItems={'center'}>
                 <Typography sx={{ color: 'grey.800' }} variant="h6">
-                  0 {name}
+                  {shouldFetch
+                    ? fNumber(
+                        Number(
+                          utils.formatEther(totalStaked ? totalStaked : 0)
+                        ) * (xOrcaRatio ? xOrcaRatio : 1),
+                        4
+                      )
+                    : '-'}{' '}
+                  {name}
                 </Typography>
                 <Typography sx={{ color: 'grey.700' }} variant="caption">
                   Staked ORCA
@@ -125,7 +140,7 @@ export const Farm: FC<FarmProps> = ({
             <Stack alignItems="center" direction="row" spacing={1}>
               <Box
                 component="img"
-                src={img}
+                src={tokenInfo['XORCA'].icon}
                 sx={{ width: 44, height: 44 }}
                 color="grey.700"
               />
@@ -152,7 +167,7 @@ export const Farm: FC<FarmProps> = ({
               <Stack alignItems="center" direction="row" spacing={1}>
                 <Box
                   component="img"
-                  src={img}
+                  src={tokenInfo['XORCA'].icon}
                   sx={{ width: 25, height: 25 }}
                   color="grey.700"
                 />
@@ -166,7 +181,7 @@ export const Farm: FC<FarmProps> = ({
                   color="grey.700"
                 />
                 <Typography sx={{ color: 'grey.800' }} variant="subtitle2">
-                  1 ORCA
+                  {xOrcaRatio ? fNumber(xOrcaRatio, 2) : 1} ORCA
                 </Typography>
               </Stack>
               <Typography sx={{ color: 'grey.700' }} variant="caption">
@@ -188,7 +203,6 @@ export const Farm: FC<FarmProps> = ({
                 img={img}
                 farm={farm}
                 link={link}
-                pid={pid}
                 chainId={chainId}
               />
             </Grid>
@@ -203,13 +217,10 @@ export const Farm: FC<FarmProps> = ({
 
             <Grid item xs={12} md={5} display="flex" justifyContent="center">
               <Withdraw
-                account={account}
                 library={library}
                 name={name}
-                img={img}
-                farm={farm}
+                img={tokenInfo['XORCA'].icon}
                 link={link}
-                pid={pid}
                 chainId={chainId}
                 totalStaked={totalStaked}
               />

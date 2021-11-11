@@ -76,20 +76,8 @@ export const Staking: FC = () => {
                   </Grid>
                   <Grid item sm={12} display="flex" justifyContent="center">
                     <Stack direction="row" alignItems="center" spacing={1}>
-                      <Box
-                        component="img"
-                        src={tokenInfo['AVAX'].icon}
-                        sx={{
-                          width: 25,
-
-                          height: 25,
-                        }}
-                        color="inherit"
-                      />
                       <Typography variant="h5">TBD</Typography>
-                      <Typography variant="h5">
-                        {tokenInfo['AVAX'].display}
-                      </Typography>
+                      <Typography variant="h5">%</Typography>
                     </Stack>
                   </Grid>
                   <Grid item sm={12} display="flex" justifyContent="center">

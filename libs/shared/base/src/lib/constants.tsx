@@ -291,6 +291,20 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
     tooltip: false,
     yaktoken: false,
   },
+  XORCA: {
+    address: {
+      mainnet: '0x69fA005CEe59C3BBd657A38B67E32388910653B4'.toLowerCase(),
+      fuji: '0x69fA005CEe59C3BBd657A38B67E32388910653B4'.toLowerCase(),
+    },
+    icon: '/static/cryptos/ic_xOrca.svg',
+    erc20: 'xorca',
+    display: 'xORCA',
+    symbol: 'xORCA',
+    decimals: 18,
+    collateral: false,
+    tooltip: false,
+    yaktoken: false,
+  },
 };
 
 export const farms = [

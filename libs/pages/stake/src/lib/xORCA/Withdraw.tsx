@@ -38,11 +38,8 @@ const ReturnTextField = styled(TextField)(({ theme }) => ({
 type WithdrawProps = {
   img: string;
   name: string;
-  account: string;
   library: Web3Provider;
-  farm: string;
   link: string;
-  pid: string;
   chainId: number;
   totalStaked: BigNumber;
 };
@@ -53,10 +50,8 @@ export const Withdraw: FC<WithdrawProps> = ({
   img,
   name,
   library,
-  pid,
   chainId,
   totalStaked,
-  account,
 }) => {
   const [withdrawing, setWithdrawing] = useState<boolean>(false);
 

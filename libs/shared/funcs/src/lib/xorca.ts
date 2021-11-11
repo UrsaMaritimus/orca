@@ -36,6 +36,28 @@ export const tokenApprovedxORCA = () => {
   };
 };
 
+// swr function
+export const xORCARatio = () => {
+  return async (_: string, library: Web3Provider, chainId: number) => {
+    const orca = ERC20__factory.connect(
+      chainId === 43113
+        ? contracts.fuji.ORCA.address
+        : chainId === 43114
+        ? contracts.main.ORCA.address
+        : null,
+      library.getSigner()
+    );
+    const leader = getxORCA(library, chainId);
+    const orcaBalance = await orca.balanceOf(leader.address);
+    const xOrcaSupply = await leader.totalSupply();
+    if (xOrcaSupply.isZero()) return 0;
+    return (
+      Number(utils.formatEther(orcaBalance)) /
+      Number(utils.formatEther(xOrcaSupply))
+    );
+  };
+};
+
 export const approveTokenxORCA = (
   library: Web3Provider,
   chainId: number,

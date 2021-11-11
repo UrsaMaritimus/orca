@@ -52,7 +52,6 @@ type DepositProps = {
   library: Web3Provider;
   farm: string;
   link: string;
-  pid: string;
   chainId: number;
 };
 
@@ -65,7 +64,6 @@ export const Deposit: FC<DepositProps> = ({
   library,
   farm,
   link,
-  pid,
   chainId,
 }) => {
   const [approving, setApproving] = useState<boolean>(false);
