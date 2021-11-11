@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { Farm } from './Farm';
+import { Farm } from './xORCA';
 import { useMonitorFarms } from './StakeData/getYieldData';
 import { routes, tokenInfo } from '@orca/shared/base';
 

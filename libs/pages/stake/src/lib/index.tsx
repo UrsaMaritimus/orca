@@ -46,20 +46,22 @@ export const Staking: FC = () => {
         <Card
           sx={{
             mb: 3,
-            height: 115,
+            height: { md: 180, sm: 300 },
             position: 'relative',
           }}
         >
           <CardHeader
             title={'Staking'}
-            subheader={'Stake your ORCA and earn protocol revenue!'}
+            subheader={
+              'Stake your ORCA and earn protocol revenue through xORCA! 40% of all revenue is reflected right back into xORCA by buying back ORCA, meaning when you withdraw xORCA, you get all original ORCA back along with your portion of the revenue. Buybacks of ORCA will occur every 48 hours currently.'
+            }
             action={
               <Paper
                 sx={{
                   pt: 1,
                   pb: 1.5,
-                  px: 1.5,
                   mb: 1,
+                  mt: 2,
                   borderRadius: 2,
                   bgcolor: 'background.neutral',
                   boxShadow: 5,
@@ -69,7 +71,7 @@ export const Staking: FC = () => {
                 <Grid container>
                   <Grid item sm={12} justifyContent="center" display="flex">
                     <Typography variant="h6" sx={{ color: 'text.secondary' }}>
-                      Rewards
+                      Staking APR
                     </Typography>
                   </Grid>
                   <Grid item sm={12} display="flex" justifyContent="center">
@@ -84,14 +86,16 @@ export const Staking: FC = () => {
                         }}
                         color="inherit"
                       />
-                      <Typography variant="h5">
-                        {data ? fNumber(data.rewardPerDay, 0) : 0}
-                      </Typography>
+                      <Typography variant="h5">TBD</Typography>
                       <Typography variant="h5">
                         {tokenInfo['AVAX'].display}
                       </Typography>
-                      <Typography variant="h5">per Day</Typography>
                     </Stack>
+                  </Grid>
+                  <Grid item sm={12} display="flex" justifyContent="center">
+                    <Typography variant="caption">
+                      Average over last 7 Days
+                    </Typography>
                   </Grid>
                 </Grid>
               </Paper>

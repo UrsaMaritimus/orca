@@ -5705,7 +5705,7 @@ export default {
           ],
         },
         OrcaAdder: {
-          address: '0xF17673B6B753512B4C1142F05Ec473cd5BE47217',
+          address: '0x660B86a4F0069AA5f094740982Dd58905B36F378',
           abi: [
             {
               anonymous: false,
@@ -5852,19 +5852,6 @@ export default {
               inputs: [
                 {
                   internalType: 'address',
-                  name: 'token',
-                  type: 'address',
-                },
-              ],
-              name: 'addToken',
-              outputs: [],
-              stateMutability: 'nonpayable',
-              type: 'function',
-            },
-            {
-              inputs: [
-                {
-                  internalType: 'address',
                   name: 'yak',
                   type: 'address',
                 },
@@ -5884,12 +5871,59 @@ export default {
             {
               inputs: [
                 {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              name: 'banks',
+              outputs: [
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
                   internalType: 'address',
                   name: '_dev',
                   type: 'address',
                 },
               ],
               name: 'changeDev',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: '_treasuryAmount',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '_devAmount',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '_seafundAmount',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '_podAmount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'changeDistributionRatio',
               outputs: [],
               stateMutability: 'nonpayable',
               type: 'function',
@@ -5928,6 +5962,19 @@ export default {
                   internalType: 'address',
                   name: '',
                   type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'devAmount',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
                 },
               ],
               stateMutability: 'view',
@@ -6023,29 +6070,38 @@ export default {
                   type: 'address',
                 },
                 {
-                  internalType: 'uint256',
-                  name: '_treasuryAmount',
-                  type: 'uint256',
+                  internalType: 'address',
+                  name: '_orcaLP',
+                  type: 'address',
                 },
                 {
-                  internalType: 'uint256',
-                  name: '_devAmount',
-                  type: 'uint256',
-                },
-                {
-                  internalType: 'uint256',
-                  name: '_seafundAmount',
-                  type: 'uint256',
-                },
-                {
-                  internalType: 'uint256',
-                  name: '_podAmount',
-                  type: 'uint256',
+                  internalType: 'address',
+                  name: '_usdcLP',
+                  type: 'address',
                 },
               ],
               name: 'initialize',
               outputs: [],
               stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              name: 'lpTokens',
+              outputs: [
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
               type: 'function',
             },
             {
@@ -6076,6 +6132,19 @@ export default {
             },
             {
               inputs: [],
+              name: 'podAmount',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
               name: 'renounceOwnership',
               outputs: [],
               stateMutability: 'nonpayable',
@@ -6092,6 +6161,56 @@ export default {
                 },
               ],
               stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'seafundAmount',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              name: 'tokens',
+              outputs: [
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address payable',
+                  name: '_to',
+                  type: 'address',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '_amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'transferAvax',
+              outputs: [],
+              stateMutability: 'nonpayable',
               type: 'function',
             },
             {
@@ -6131,8 +6250,63 @@ export default {
               type: 'function',
             },
             {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: '_to',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: '_token',
+                  type: 'address',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '_amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'transferToken',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
               inputs: [],
               name: 'treasury',
+              outputs: [
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'treasuryAmount',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              name: 'yakStrats',
               outputs: [
                 {
                   internalType: 'address',
@@ -6167,7 +6341,7 @@ export default {
           ],
         },
         OrcaAdder_Implementation: {
-          address: '0xAEDb19468d282A7b8CfF28Dd391109eA6c830379',
+          address: '0xc8693e1E72c9BC195c563153d43664C0CF543dDD',
           abi: [
             {
               anonymous: false,
@@ -6236,19 +6410,6 @@ export default {
               inputs: [
                 {
                   internalType: 'address',
-                  name: 'token',
-                  type: 'address',
-                },
-              ],
-              name: 'addToken',
-              outputs: [],
-              stateMutability: 'nonpayable',
-              type: 'function',
-            },
-            {
-              inputs: [
-                {
-                  internalType: 'address',
                   name: 'yak',
                   type: 'address',
                 },
@@ -6268,12 +6429,59 @@ export default {
             {
               inputs: [
                 {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              name: 'banks',
+              outputs: [
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
                   internalType: 'address',
                   name: '_dev',
                   type: 'address',
                 },
               ],
               name: 'changeDev',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: '_treasuryAmount',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '_devAmount',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '_seafundAmount',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '_podAmount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'changeDistributionRatio',
               outputs: [],
               stateMutability: 'nonpayable',
               type: 'function',
@@ -6312,6 +6520,19 @@ export default {
                   internalType: 'address',
                   name: '',
                   type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'devAmount',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
                 },
               ],
               stateMutability: 'view',
@@ -6407,29 +6628,38 @@ export default {
                   type: 'address',
                 },
                 {
-                  internalType: 'uint256',
-                  name: '_treasuryAmount',
-                  type: 'uint256',
+                  internalType: 'address',
+                  name: '_orcaLP',
+                  type: 'address',
                 },
                 {
-                  internalType: 'uint256',
-                  name: '_devAmount',
-                  type: 'uint256',
-                },
-                {
-                  internalType: 'uint256',
-                  name: '_seafundAmount',
-                  type: 'uint256',
-                },
-                {
-                  internalType: 'uint256',
-                  name: '_podAmount',
-                  type: 'uint256',
+                  internalType: 'address',
+                  name: '_usdcLP',
+                  type: 'address',
                 },
               ],
               name: 'initialize',
               outputs: [],
               stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              name: 'lpTokens',
+              outputs: [
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
               type: 'function',
             },
             {
@@ -6460,6 +6690,19 @@ export default {
             },
             {
               inputs: [],
+              name: 'podAmount',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
               name: 'renounceOwnership',
               outputs: [],
               stateMutability: 'nonpayable',
@@ -6476,6 +6719,56 @@ export default {
                 },
               ],
               stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'seafundAmount',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              name: 'tokens',
+              outputs: [
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address payable',
+                  name: '_to',
+                  type: 'address',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '_amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'transferAvax',
+              outputs: [],
+              stateMutability: 'nonpayable',
               type: 'function',
             },
             {
@@ -6515,6 +6808,29 @@ export default {
               type: 'function',
             },
             {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: '_to',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: '_token',
+                  type: 'address',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '_amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'transferToken',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
               inputs: [],
               name: 'treasury',
               outputs: [
@@ -6527,10 +6843,46 @@ export default {
               stateMutability: 'view',
               type: 'function',
             },
+            {
+              inputs: [],
+              name: 'treasuryAmount',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              name: 'yakStrats',
+              outputs: [
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              stateMutability: 'payable',
+              type: 'receive',
+            },
           ],
         },
         OrcaAdder_Proxy: {
-          address: '0xF17673B6B753512B4C1142F05Ec473cd5BE47217',
+          address: '0x660B86a4F0069AA5f094740982Dd58905B36F378',
           abi: [
             {
               inputs: [
@@ -17112,6 +17464,400 @@ export default {
             },
           ],
         },
+        OrcaPod: {
+          address: '0x783d6AbA0D0754a4B3E1d1D92A80CB45d8fB40c8',
+          abi: [
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: '_orca',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'nonpayable',
+              type: 'constructor',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: 'address',
+                  name: 'owner',
+                  type: 'address',
+                },
+                {
+                  indexed: true,
+                  internalType: 'address',
+                  name: 'spender',
+                  type: 'address',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'value',
+                  type: 'uint256',
+                },
+              ],
+              name: 'Approval',
+              type: 'event',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: false,
+                  internalType: 'address',
+                  name: 'user',
+                  type: 'address',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'amountIn',
+                  type: 'uint256',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'amountOut',
+                  type: 'uint256',
+                },
+              ],
+              name: 'Enter',
+              type: 'event',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: false,
+                  internalType: 'address',
+                  name: 'user',
+                  type: 'address',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'amountIn',
+                  type: 'uint256',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'amountOut',
+                  type: 'uint256',
+                },
+              ],
+              name: 'Leave',
+              type: 'event',
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: 'address',
+                  name: 'from',
+                  type: 'address',
+                },
+                {
+                  indexed: true,
+                  internalType: 'address',
+                  name: 'to',
+                  type: 'address',
+                },
+                {
+                  indexed: false,
+                  internalType: 'uint256',
+                  name: 'value',
+                  type: 'uint256',
+                },
+              ],
+              name: 'Transfer',
+              type: 'event',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'owner',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: 'spender',
+                  type: 'address',
+                },
+              ],
+              name: 'allowance',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'spender',
+                  type: 'address',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'approve',
+              outputs: [
+                {
+                  internalType: 'bool',
+                  name: '',
+                  type: 'bool',
+                },
+              ],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'account',
+                  type: 'address',
+                },
+              ],
+              name: 'balanceOf',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'decimals',
+              outputs: [
+                {
+                  internalType: 'uint8',
+                  name: '',
+                  type: 'uint8',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'spender',
+                  type: 'address',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'subtractedValue',
+                  type: 'uint256',
+                },
+              ],
+              name: 'decreaseAllowance',
+              outputs: [
+                {
+                  internalType: 'bool',
+                  name: '',
+                  type: 'bool',
+                },
+              ],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: '_amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'enter',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'spender',
+                  type: 'address',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'addedValue',
+                  type: 'uint256',
+                },
+              ],
+              name: 'increaseAllowance',
+              outputs: [
+                {
+                  internalType: 'bool',
+                  name: '',
+                  type: 'bool',
+                },
+              ],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: '_share',
+                  type: 'uint256',
+                },
+              ],
+              name: 'leave',
+              outputs: [],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'name',
+              outputs: [
+                {
+                  internalType: 'string',
+                  name: '',
+                  type: 'string',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'orca',
+              outputs: [
+                {
+                  internalType: 'contract IERC20',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint256',
+                  name: '_amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'ratio',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'symbol',
+              outputs: [
+                {
+                  internalType: 'string',
+                  name: '',
+                  type: 'string',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'totalSupply',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'recipient',
+                  type: 'address',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'transfer',
+              outputs: [
+                {
+                  internalType: 'bool',
+                  name: '',
+                  type: 'bool',
+                },
+              ],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'sender',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: 'recipient',
+                  type: 'address',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'amount',
+                  type: 'uint256',
+                },
+              ],
+              name: 'transferFrom',
+              outputs: [
+                {
+                  internalType: 'bool',
+                  name: '',
+                  type: 'bool',
+                },
+              ],
+              stateMutability: 'nonpayable',
+              type: 'function',
+            },
+          ],
+        },
         OrcaStaking: {
           address: '0xA3654801Ba6FB21d5A984F9a857441395dDeccFb',
           abi: [
@@ -21539,6 +22285,534 @@ export default {
             },
           ],
         },
+        YakAvaxAAVEOracle: {
+          address: '0x3F19724c4047455d3EAD448298131a67a7FB9Aa0',
+          abi: [
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'priceSource_',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: 'underlyingToken_',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: 'shareToken_',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'nonpayable',
+              type: 'constructor',
+            },
+            {
+              inputs: [],
+              name: 'decimals',
+              outputs: [
+                {
+                  internalType: 'uint8',
+                  name: '',
+                  type: 'uint8',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'description',
+              outputs: [
+                {
+                  internalType: 'string',
+                  name: '',
+                  type: 'string',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint80',
+                  name: '_roundId',
+                  type: 'uint80',
+                },
+              ],
+              name: 'getRoundData',
+              outputs: [
+                {
+                  internalType: 'uint80',
+                  name: 'roundId',
+                  type: 'uint80',
+                },
+                {
+                  internalType: 'int256',
+                  name: 'answer',
+                  type: 'int256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'startedAt',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'updatedAt',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint80',
+                  name: 'answeredInRound',
+                  type: 'uint80',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'latestRoundData',
+              outputs: [
+                {
+                  internalType: 'uint80',
+                  name: '',
+                  type: 'uint80',
+                },
+                {
+                  internalType: 'int256',
+                  name: '',
+                  type: 'int256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint80',
+                  name: '',
+                  type: 'uint80',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'priceSource',
+              outputs: [
+                {
+                  internalType: 'contract AggregatorV3Interface',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'shareToken',
+              outputs: [
+                {
+                  internalType: 'contract IYakStrategy',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'underlyingToken',
+              outputs: [
+                {
+                  internalType: 'contract IERC20Metadata',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'version',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+          ],
+        },
+        YakAvaxBTCOracle: {
+          address: '0xd9bC0D487F5dB048BDCa66FF476a30e4BCA8229b',
+          abi: [
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'priceSource_',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: 'underlyingToken_',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: 'shareToken_',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'nonpayable',
+              type: 'constructor',
+            },
+            {
+              inputs: [],
+              name: 'decimals',
+              outputs: [
+                {
+                  internalType: 'uint8',
+                  name: '',
+                  type: 'uint8',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'description',
+              outputs: [
+                {
+                  internalType: 'string',
+                  name: '',
+                  type: 'string',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint80',
+                  name: '_roundId',
+                  type: 'uint80',
+                },
+              ],
+              name: 'getRoundData',
+              outputs: [
+                {
+                  internalType: 'uint80',
+                  name: 'roundId',
+                  type: 'uint80',
+                },
+                {
+                  internalType: 'int256',
+                  name: 'answer',
+                  type: 'int256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'startedAt',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'updatedAt',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint80',
+                  name: 'answeredInRound',
+                  type: 'uint80',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'latestRoundData',
+              outputs: [
+                {
+                  internalType: 'uint80',
+                  name: '',
+                  type: 'uint80',
+                },
+                {
+                  internalType: 'int256',
+                  name: '',
+                  type: 'int256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint80',
+                  name: '',
+                  type: 'uint80',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'priceSource',
+              outputs: [
+                {
+                  internalType: 'contract AggregatorV3Interface',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'shareToken',
+              outputs: [
+                {
+                  internalType: 'contract IYakStrategy',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'underlyingToken',
+              outputs: [
+                {
+                  internalType: 'contract IERC20Metadata',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'version',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+          ],
+        },
+        YakAvaxETHOracle: {
+          address: '0xFB08610343E6cD7d2278e5FeaAfb1C465Bd2c400',
+          abi: [
+            {
+              inputs: [
+                {
+                  internalType: 'address',
+                  name: 'priceSource_',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: 'underlyingToken_',
+                  type: 'address',
+                },
+                {
+                  internalType: 'address',
+                  name: 'shareToken_',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'nonpayable',
+              type: 'constructor',
+            },
+            {
+              inputs: [],
+              name: 'decimals',
+              outputs: [
+                {
+                  internalType: 'uint8',
+                  name: '',
+                  type: 'uint8',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'description',
+              outputs: [
+                {
+                  internalType: 'string',
+                  name: '',
+                  type: 'string',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [
+                {
+                  internalType: 'uint80',
+                  name: '_roundId',
+                  type: 'uint80',
+                },
+              ],
+              name: 'getRoundData',
+              outputs: [
+                {
+                  internalType: 'uint80',
+                  name: 'roundId',
+                  type: 'uint80',
+                },
+                {
+                  internalType: 'int256',
+                  name: 'answer',
+                  type: 'int256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'startedAt',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: 'updatedAt',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint80',
+                  name: 'answeredInRound',
+                  type: 'uint80',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'latestRoundData',
+              outputs: [
+                {
+                  internalType: 'uint80',
+                  name: '',
+                  type: 'uint80',
+                },
+                {
+                  internalType: 'int256',
+                  name: '',
+                  type: 'int256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+                {
+                  internalType: 'uint80',
+                  name: '',
+                  type: 'uint80',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'priceSource',
+              outputs: [
+                {
+                  internalType: 'contract AggregatorV3Interface',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'shareToken',
+              outputs: [
+                {
+                  internalType: 'contract IYakStrategy',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'underlyingToken',
+              outputs: [
+                {
+                  internalType: 'contract IERC20Metadata',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+            {
+              inputs: [],
+              name: 'version',
+              outputs: [
+                {
+                  internalType: 'uint256',
+                  name: '',
+                  type: 'uint256',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+          ],
+        },
         YakAvaxJoeOracle: {
           address: '0x26B0fd51bf7Ed5BcC8B58aEcCDdaF026954E5094',
           abi: [
@@ -21716,7 +22990,7 @@ export default {
           ],
         },
         YakUsdcJoeOracle: {
-          address: '0xA5235A84d8877398296350ADEC08b5C3098c8372',
+          address: '0xE3eC89694AB487D08529Aa797B239E1d05920cd8',
           abi: [
             {
               inputs: [
