@@ -29,7 +29,6 @@ import Deposit from './Deposit';
 import Withdraw from './Withdraw';
 import { tokenInfo } from '@orca/shared/base';
 import { useFrontPageStats } from './useFrontPageStats';
-import { useGetTokenPriceQuery } from '@orca/graphql';
 import { useOrcaPrice } from './useOrcaPrice';
 
 type FarmProps = {

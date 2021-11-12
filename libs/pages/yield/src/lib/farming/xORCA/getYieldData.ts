@@ -2,6 +2,13 @@ import { BigNumber, utils } from 'ethers';
 
 import { tokenInfo } from '@orca/shared/base';
 
+import { useWeb3React } from '@web3-react/core';
+import { Web3Provider } from '@ethersproject/providers';
+
+import useSWR from 'swr';
+import contracts from '@orca/shared/deployments';
+import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
+
 import {
   useGeneralYieldInfoQuery,
   useGetTokenDataQuery,
@@ -9,12 +16,14 @@ import {
   useAvaxPriceQuery,
   useGetTokenPriceQuery,
 } from '@orca/graphql';
+import { xORCARatio } from '@orca/shared/funcs';
 
 export const useMonitorFarms = (
   farm: string,
   account: string,
   chainId: number
 ) => {
+  const { library } = useWeb3React<Web3Provider>();
   const { data: yieldData } = useGeneralYieldInfoQuery({
     variables: {
       pair: farm,
@@ -25,16 +34,6 @@ export const useMonitorFarms = (
   const { data: userData } = useUserStakedQuery({
     variables: {
       id: account ? account.toLowerCase() : '',
-    },
-    pollInterval: 5000,
-  });
-
-  const { data: tokenData } = useGetTokenDataQuery({
-    variables: {
-      id:
-        farm === '0x045c6cd1b7a6f1d6cf66e2d45a9ba8e2b58cc217'
-          ? '0xe28984e1ee8d431346d32bec9ec800efb643eef4'
-          : farm,
     },
     pollInterval: 5000,
   });
@@ -51,13 +50,20 @@ export const useMonitorFarms = (
 
   const { data: avaxPrice } = useAvaxPriceQuery({ pollInterval: 5000 });
 
+  const shouldFetch = !!library;
+  const { data: xOrcaRatio, mutate: mutatexORCARatio } = useSWR(
+    shouldFetch ? [`xOrcaRatioFarm`, library, chainId] : null,
+    xORCARatio()
+  );
+
+  useKeepSWRDataLiveAsBlocksArrive(mutatexORCARatio);
   if (
     yieldData &&
     yieldData.pools[0] &&
     userData &&
-    tokenData &&
     orcaPrice &&
-    avaxPrice
+    avaxPrice &&
+    xOrcaRatio
   ) {
     const poolAlloc = Number(yieldData.pools[0].allocPoint);
     const totalAllocPoints = Number(
@@ -72,13 +78,12 @@ export const useMonitorFarms = (
 
     const rewardPerDay = (poolAlloc / totalAllocPoints) * orcaPerSec * 86400;
 
-    const TVL =
-      (totalStaked / tokenData.pairs[0]?.totalSupply) *
-      tokenData.pairs[0]?.reserveUSD;
-
     const avaxUSDPrice = Number(avaxPrice.bundle?.ethPrice);
-    const orcaUSDPrice = Number(orcaPrice.token?.derivedETH) * avaxUSDPrice;
-
+    const orcaUSDPrice =
+      chainId === 43114 || !chainId
+        ? Number(orcaPrice.token?.derivedETH) * avaxUSDPrice
+        : 0.2;
+    const TVL = totalStaked * xOrcaRatio.ratio * orcaUSDPrice;
     const apr =
       chainId === 43114 || !chainId
         ? ((rewardPerDay * 36500) / TVL) * orcaUSDPrice
@@ -90,9 +95,9 @@ export const useMonitorFarms = (
       : null;
 
     const userStakedUSD = userStaked
-      ? (Number(utils.formatEther(BigNumber.from(userStaked))) /
-          tokenData.pairs[0]?.totalSupply) *
-        tokenData.pairs[0]?.reserveUSD
+      ? Number(utils.formatEther(BigNumber.from(userStaked))) *
+        xOrcaRatio.ratio *
+        orcaUSDPrice
       : null;
 
     return {

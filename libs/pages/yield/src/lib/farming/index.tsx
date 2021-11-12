@@ -19,6 +19,7 @@ import { AvaxOrcaFarm } from './AVAX-ORCA';
 import { SingularFarm } from './partner/singular';
 import { AvawareFarm } from './partner/avaware';
 import { LydiaFarm } from './partner/lydia';
+import { XOrcaFarm } from './xORCA';
 
 const RootStyle = styled(Page)(({ theme }) => ({
   paddingTop: theme.spacing(3),
@@ -84,7 +85,7 @@ export const Farming: FC = () => {
           handleChange={handleChange}
           chainId={chainId}
         />
-        {(chainId === 43114 || !chainId) && (
+        {chainId === 43114 && (
           <AvaxOrcaFarm
             account={account}
             expanded={expanded}
@@ -92,6 +93,12 @@ export const Farming: FC = () => {
             chainId={chainId}
           />
         )}
+        <XOrcaFarm
+          account={account}
+          expanded={expanded}
+          handleChange={handleChange}
+          chainId={chainId}
+        />
 
         <Card
           sx={{

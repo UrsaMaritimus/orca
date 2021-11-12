@@ -68,6 +68,7 @@ export const Deposit: FC<DepositProps> = ({
   pid,
   chainId,
 }) => {
+  console.log(farm);
   const [approving, setApproving] = useState<boolean>(false);
   const [depositing, setDepositing] = useState<boolean>(false);
 
@@ -157,7 +158,7 @@ export const Deposit: FC<DepositProps> = ({
     });
     setApproving(false);
   };
-
+  console.log(farmBalance);
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>

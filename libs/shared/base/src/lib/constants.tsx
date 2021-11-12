@@ -293,7 +293,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
   },
   XORCA: {
     address: {
-      mainnet: '0x69fA005CEe59C3BBd657A38B67E32388910653B4'.toLowerCase(),
+      mainnet: '0x783d6AbA0D0754a4B3E1d1D92A80CB45d8fB40c8'.toLowerCase(),
       fuji: '0x69fA005CEe59C3BBd657A38B67E32388910653B4'.toLowerCase(),
     },
     icon: '/static/cryptos/ic_xOrca.svg',
