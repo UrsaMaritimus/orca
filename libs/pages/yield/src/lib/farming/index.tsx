@@ -65,7 +65,7 @@ export const Farming: FC = () => {
                   color="grey.600"
                   sx={{ mx: 2 }}
                 >
-                  Note: There is a Deposit fee in these farms of 0.75%
+                  Note: There is a Deposit fee of 0.75%, except for xORCA.
                 </Typography>
               </Box>
             }
@@ -85,7 +85,7 @@ export const Farming: FC = () => {
           handleChange={handleChange}
           chainId={chainId}
         />
-        {chainId === 43114 && (
+        {(chainId === 43114 || !chainId) && (
           <AvaxOrcaFarm
             account={account}
             expanded={expanded}
