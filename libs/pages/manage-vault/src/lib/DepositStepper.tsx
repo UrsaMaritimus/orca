@@ -336,7 +336,7 @@ export const DepositStepper: FC<StepperProps> = ({
                         />
                       </InputAdornment>
                     ),
-                    endAdornment: (
+                    endAdornment: token !== 'AVAX' && (
                       <InputAdornment position="start">
                         <Button
                           onClick={() =>

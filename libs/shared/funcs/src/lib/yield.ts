@@ -4,7 +4,7 @@ import { ERC20__factory, PodLeader__factory } from '@orca/shared/contracts';
 import contracts from '@orca/shared/deployments';
 import { utils } from 'ethers';
 
-const all_pids = [0, 1, 2];
+const all_pids = [0, 1, 2, 3];
 
 export const getPodLeader = (
   library: Web3Provider,

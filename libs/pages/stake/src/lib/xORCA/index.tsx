@@ -177,7 +177,7 @@ export const Farm: FC<FarmProps> = ({
                   color="grey.700"
                 />
                 <Typography sx={{ color: 'grey.800' }} variant="subtitle2">
-                  {xOrcaRatio ? fNumber(xOrcaRatio.ratio, 2) : 1} ORCA
+                  {xOrcaRatio ? fNumber(xOrcaRatio.ratio, 4) : 1} ORCA
                 </Typography>
               </Stack>
               <Typography sx={{ color: 'grey.700' }} variant="caption">

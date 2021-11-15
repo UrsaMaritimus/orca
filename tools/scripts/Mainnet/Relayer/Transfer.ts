@@ -23,7 +23,7 @@ const Transfer = async () => {
 
   const provider = new DefenderRelayProvider(credentials);
   const signer = new DefenderRelaySigner(credentials, provider);
-
+  /*
   const avaiOrcaLP = ERC20__factory.connect(
     '0x1A9Bd67c82C0e8E47C3ad2FA772FCb9B7A831A37',
     signer
@@ -50,15 +50,24 @@ const Transfer = async () => {
     '0x59A24B6E1bDDc15b3aD844B0DfcD86421363F62c',
     ethers.utils.parseEther('1')
   );
-
+    */
   const usdc = ERC20__factory.connect(
     '0xa7d7079b0fead91f3e65f86e8915cb59c1a4c664',
     signer
   );
   await usdc.transfer(
     '0x59A24B6E1bDDc15b3aD844B0DfcD86421363F62c',
-    ethers.utils.parseUnits('100', 6)
+    ethers.utils.parseUnits('13883', 6)
   );
+  /*
+  const orca = ERC20__factory.connect(
+    '0x8B1d98A91F853218ddbb066F20b8c63E782e2430',
+    signer
+  );
+  await orca.transfer(
+    '0x59A24B6E1bDDc15b3aD844B0DfcD86421363F62c',
+    ethers.utils.parseEther('33054')
+  );*/
 };
 
 Transfer()
