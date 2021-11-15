@@ -84,7 +84,7 @@ describe('Orca adder tests', function () {
     expect(await orca.balanceOf(OrcaPod.address)).to.equal(orcaBalance);
     expect(await OrcaPod.balanceOf(accounts[0].address)).to.equal(orcaBalance);
     // Make OrcaAdder
-    OrcaAdder = (await upgrades.deployProxy(OrcaAdderFac, [
+    OrcaAdder = (await OrcaAdderFac.deploy(
       OrcaPod.address,
       orcaAddress,
       wavaxAddress,
@@ -93,8 +93,8 @@ describe('Orca adder tests', function () {
       treasury,
       dev,
       orcaLPAddress,
-      usdcLPAddress,
-    ])) as OrcaAdder;
+      usdcLPAddress
+    )) as OrcaAdder;
     await OrcaAdder.deployed();
     expect(OrcaAdder.address).to.be.properAddress;
   });
@@ -144,6 +144,29 @@ describe('Orca adder tests', function () {
 
       expect(await wVault.balanceOf(OrcaAdder.address)).to.equal(0);
       expect(await wVault.ownerOf(vaultNum)).to.equal(accounts[0].address);
+    });
+
+    it('allows removal of vaults', async () => {
+      await OrcaAdder.addBank(wVault.address);
+      expect(await OrcaAdder.getBankCount()).to.equal(1);
+
+      await OrcaAdder.addBank(accounts[1].address);
+      expect(await OrcaAdder.getBankCount()).to.equal(2);
+
+      await OrcaAdder.addBank(accounts[0].address);
+      expect(await OrcaAdder.getBankCount()).to.equal(3);
+
+      await OrcaAdder.removeBank(1);
+
+      expect(await OrcaAdder.getBankCount()).to.equal(2);
+      expect(await OrcaAdder.banks(1)).to.equal(accounts[0].address);
+
+      await OrcaAdder.addBank(accounts[1].address);
+      expect(await OrcaAdder.getBankCount()).to.equal(3);
+
+      await OrcaAdder.removeBank(2);
+      expect(await OrcaAdder.getBankCount()).to.equal(2);
+      expect(await OrcaAdder.banks(1)).to.equal(accounts[0].address);
     });
 
     it('allows trading of wavax to orca and usdc', async () => {
@@ -202,6 +225,27 @@ describe('Orca adder tests', function () {
 
       expect(afterAdderBalance).to.equal(0);
       expect(afterUserBalance).to.equal(initAdderBalance);
+    });
+
+    it('allows removal of yrt strat', async () => {
+      await OrcaAdder.addYakStrat(avaxAaveYak);
+      expect(await OrcaAdder.getYakCount()).to.equal(1);
+      await OrcaAdder.addYakStrat(accounts[0].address);
+      expect(await OrcaAdder.getYakCount()).to.equal(2);
+      await OrcaAdder.addYakStrat(accounts[1].address);
+      expect(await OrcaAdder.getYakCount()).to.equal(3);
+
+      await OrcaAdder.removeYakStrat(1);
+
+      expect(await OrcaAdder.getYakCount()).to.equal(2);
+      expect(await OrcaAdder.yakStrats(1)).to.equal(accounts[1].address);
+
+      await OrcaAdder.addYakStrat(accounts[0].address);
+      expect(await OrcaAdder.getYakCount()).to.equal(3);
+
+      await OrcaAdder.removeYakStrat(2);
+      expect(await OrcaAdder.getYakCount()).to.equal(2);
+      expect(await OrcaAdder.yakStrats(1)).to.equal(accounts[1].address);
     });
 
     it('allows adding of YRT token and proper allocation', async () => {
@@ -265,6 +309,27 @@ describe('Orca adder tests', function () {
 
       expect(afterAdderBalance).to.equal(0);
       expect(afterUserBalance).to.equal(initAdderBalance);
+    });
+
+    it('allows removal of Lp token', async () => {
+      await OrcaAdder.addLPToken(orcaLPAddress);
+      expect(await OrcaAdder.getLPTokens()).to.equal(1);
+      await OrcaAdder.addLPToken(accounts[0].address);
+      expect(await OrcaAdder.getLPTokens()).to.equal(2);
+      await OrcaAdder.addLPToken(accounts[1].address);
+      expect(await OrcaAdder.getLPTokens()).to.equal(3);
+
+      await OrcaAdder.removeLPToken(1);
+
+      expect(await OrcaAdder.getLPTokens()).to.equal(2);
+      expect(await OrcaAdder.lpTokens(1)).to.equal(accounts[1].address);
+
+      await OrcaAdder.addLPToken(accounts[0].address);
+      expect(await OrcaAdder.getLPTokens()).to.equal(3);
+
+      await OrcaAdder.removeLPToken(2);
+      expect(await OrcaAdder.getLPTokens()).to.equal(2);
+      expect(await OrcaAdder.lpTokens(1)).to.equal(accounts[1].address);
     });
 
     it('allows adding of LP token and proper allocation', async () => {
@@ -404,6 +469,26 @@ describe('Orca adder tests', function () {
       expect(await usdc.balanceOf(OrcaAdder.address)).to.equal(0);
       expect(await yakAvax.balanceOf(OrcaAdder.address)).to.equal(0);
       expect(await ethers.provider.getBalance(OrcaAdder.address)).to.equal(0);
+    });
+
+    it('replaces swap tokens', async () => {
+      await OrcaAdder.addSwapLP(orcaAddress, orcaLPAddress);
+      expect(await OrcaAdder.getTokens()).to.equal(1);
+
+      await OrcaAdder.addSwapLP(accounts[0].address, orcaLPAddress);
+      expect(await OrcaAdder.getTokens()).to.equal(2);
+
+      await OrcaAdder.addSwapLP(accounts[1].address, orcaLPAddress);
+      expect(await OrcaAdder.getTokens()).to.equal(3);
+      expect(await OrcaAdder.swapLPs(accounts[0].address)).to.equal(
+        orcaLPAddress
+      );
+
+      await OrcaAdder.replaceSwapLP(accounts[0].address, accounts[1].address);
+      expect(await OrcaAdder.getTokens()).to.equal(3);
+      expect(await OrcaAdder.swapLPs(accounts[0].address)).to.equal(
+        accounts[1].address
+      );
     });
 
     it('allocate all if bank zero', async () => {
@@ -567,19 +652,16 @@ describe('Orca adder tests', function () {
   });
 
   context('deployed version', async () => {
-    it('allocates', async () => {
-      const testUSDC = ERC20__factory.connect(
-        '0xC1517ac40949643188efF133E2d4d6954eb23378',
+    let currentOrcaAdder: OrcaAdder;
+    beforeEach(async () => {
+      currentOrcaAdder = OrcaAdder__factory.connect(
+        '0xd22B0D27B6D7E96191890d21E7Dc924B934A4E35',
         accounts[0]
       );
-      const deployedOrcaAdder = OrcaAdder__factory.connect(
-        '0x660B86a4F0069AA5f094740982Dd58905B36F378',
-        accounts[0]
-      );
-      deployedOrcaAdder.allocate();
-      console.log(
-        await testUSDC.balanceOf('0xC3D6CfB63fd93A4Ea277EB66922D12E8EE7CEdC6')
-      );
+    });
+
+    it('allocates properly', async () => {
+      currentOrcaAdder.allocate();
     });
   });
 });

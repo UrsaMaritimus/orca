@@ -11,26 +11,17 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   await deploy('OrcaAdder', {
     from: deployer,
     log: true,
-    proxy: {
-      owner: owner,
-      proxyContract: 'OptimizedTransparentProxy',
-      execute: {
-        init: {
-          methodName: 'initialize',
-          args: [
-            '0x69fA005CEe59C3BBd657A38B67E32388910653B4', // pod
-            '0xb3308fd93936e5efb9a1f2c6a513def68175cb5d', // orca
-            '0xd00ae08403B9bbb9124bB305C09058E32C39A48c', // wavax
-            '0xC1517ac40949643188efF133E2d4d6954eb23378', // usdc
-            '0xC3D6CfB63fd93A4Ea277EB66922D12E8EE7CEdC6', //seafund
-            '0xC3D6CfB63fd93A4Ea277EB66922D12E8EE7CEdC6', // treasury
-            '0xC3D6CfB63fd93A4Ea277EB66922D12E8EE7CEdC6', // dev
-            '0x12C97f42bc55Ee0aC369A3ED683179114a9Edd75', // orcaLP
-            '0x5F7563799C05302fB973A187A398935b2ad33B18', // usdc LP
-          ],
-        },
-      },
-    },
+    args: [
+      '0x783d6aba0d0754a4b3e1d1d92a80cb45d8fb40c8', // pod
+      '0x8b1d98a91f853218ddbb066f20b8c63e782e2430', // orca
+      '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7', // wavax
+      '0xa7d7079b0fead91f3e65f86e8915cb59c1a4c664', // usdc
+      '0xcb660A14A6612E0627A4516c3DCdB3838b1190e9', //seafund
+      '0x10131d4f3193a59A46d3ab57D765f2604e77B4E3', // treasury
+      '0x274280b26debd319c52f611b59926f8f00373907', // dev
+      '0x73e6CB72a79dEa7ed75EF5eD6f8cFf86C9128eF5', // orcaLP
+      '0xbd918Ed441767fe7924e99F6a0E0B568ac1970D9', // usdc LP
+    ],
   });
 };
 export default func;

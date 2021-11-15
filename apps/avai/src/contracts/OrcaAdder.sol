@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import '@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol';
-import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
+import '@openzeppelin/contracts/access/Ownable.sol';
 
 import '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
 import '@openzeppelin/contracts/utils/structs/EnumerableSet.sol';
@@ -13,7 +12,7 @@ import './interfaces/IPair.sol';
 import './interfaces/IWAVAX.sol';
 import './lib/DexLibrary.sol';
 
-contract OrcaAdder is Initializable, OwnableUpgradeable {
+contract OrcaAdder is Ownable {
   using SafeERC20 for IERC20;
 
   IERC20 public pod;
@@ -37,12 +36,12 @@ contract OrcaAdder is Initializable, OwnableUpgradeable {
   address[] public yakStrats;
   address[] public lpTokens;
   address[] public tokens;
-  mapping(address => address) swapLPs;
+  mapping(address => address) public swapLPs;
 
   /**
    * @notice Initializes the Adder. We are doing proxy here as we might add seperate fees that need to be converted later. Easier than changing treasuries over.
    */
-  function initialize(
+  constructor(
     address _pod,
     address _orca,
     address _wavax,
@@ -52,10 +51,7 @@ contract OrcaAdder is Initializable, OwnableUpgradeable {
     address _dev,
     address _orcaLP,
     address _usdcLP
-  ) public initializer {
-    __Context_init_unchained();
-    __Ownable_init_unchained();
-
+  ) {
     require(_pod != address(0), 'Pod cannot be zero address');
     require(_orca != address(0), 'ORCA cannot be zero address');
     require(_wavax != address(0), 'WAVAX cannot be zero address');
@@ -128,12 +124,36 @@ contract OrcaAdder is Initializable, OwnableUpgradeable {
   }
 
   /**
+   * @notice removes a bank after being added
+   * @param bankIndex The index of the bank
+   */
+  function removeBank(uint256 bankIndex) public onlyOwner {
+    require(bankIndex < getBankCount(), 'Index does not exist');
+    for (uint256 i = bankIndex; i < getBankCount() - 1; i++) {
+      banks[i] = banks[i + 1];
+    }
+    banks.pop();
+  }
+
+  /**
    * @notice Adds a yield yak token, to allow withdrawing
    * @param yak The address of the yak
    */
   function addYakStrat(address yak) public onlyOwner {
     require(yak != address(0), 'Cannot add a yakStrat with zero address');
     yakStrats.push(yak);
+  }
+
+  /**
+   * @notice removes a bank after being added
+   * @param yakIndex The index of the yak token
+   */
+  function removeYakStrat(uint256 yakIndex) public onlyOwner {
+    require(yakIndex < getYakCount(), 'Index does not exist');
+    for (uint256 i = yakIndex; i < getYakCount() - 1; i++) {
+      yakStrats[i] = yakStrats[i + 1];
+    }
+    yakStrats.pop();
   }
 
   /**
@@ -146,6 +166,18 @@ contract OrcaAdder is Initializable, OwnableUpgradeable {
   }
 
   /**
+   * @notice removes a bank after being added
+   * @param lpIndex The index of the LP token
+   */
+  function removeLPToken(uint256 lpIndex) public onlyOwner {
+    require(lpIndex < getLPTokens(), 'Index does not exist');
+    for (uint256 i = lpIndex; i < getLPTokens() - 1; i++) {
+      lpTokens[i] = lpTokens[i + 1];
+    }
+    lpTokens.pop();
+  }
+
+  /**
    * @notice Adds a LP token, to allow transfering
    * @param lp The address of the LP token
    */
@@ -153,6 +185,16 @@ contract OrcaAdder is Initializable, OwnableUpgradeable {
     require(token != address(0), 'Cannot add a token with zero address');
     require(lp != address(0), 'Cannot add a LP token with zero address');
     tokens.push(token);
+    swapLPs[token] = lp;
+  }
+
+  /**
+   * @notice removes a bank after being added
+   * @param token The i
+   */
+  function replaceSwapLP(address token, address lp) public onlyOwner {
+    require(swapLPs[token] != address(0), 'Swap does not exist');
+    require(lp != address(0), 'Cannot add a LP token with zero address');
     swapLPs[token] = lp;
   }
 
@@ -267,8 +309,8 @@ contract OrcaAdder is Initializable, OwnableUpgradeable {
     for (uint256 i = 0; i < getYakCount(); i++) {
       IYakStrategy yakStrat = IYakStrategy(yakStrats[i]);
       uint256 balance = yakStrat.balanceOf(address(this));
-      if (balance > 0) {
-        yakStrat.withdraw(balance);
+      if (balance > 10000) {
+        try yakStrat.withdraw(balance) {} catch {}
       }
     }
 
@@ -286,7 +328,7 @@ contract OrcaAdder is Initializable, OwnableUpgradeable {
       IPair pair = IPair(swapLPs[tokens[i]]);
       if (address(pair) != address(0)) {
         uint256 tokenBalance = IERC20(token).balanceOf(address(this));
-        if (tokenBalance > 0) {
+        if (tokenBalance > 10000) {
           DexLibrary.swap(tokenBalance, token, address(wavax), pair);
         }
       }

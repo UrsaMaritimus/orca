@@ -26,7 +26,7 @@ const Transfer = async () => {
   const signer = new DefenderRelaySigner(credentials, provider);
   const bank = Bank__factory.connect(WBTC_BANK, signer);
 
-  await bank.transferVault(1, '0x08eaea50d8f5d423f6904246c7b5f05f9bdb3957');
+  await bank.transferVault(1, '0xd22B0D27B6D7E96191890d21E7Dc924B934A4E35');
 };
 
 Transfer()

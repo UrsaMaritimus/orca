@@ -29,8 +29,17 @@ const Transfer = async () => {
     signer
   );
   await avaiOrcaLP.transfer(
-    '0x9F8A5B35f5508071cf2304A670EAB0803F3737aa',
-    await avaiOrcaLP.balanceOf(await signer.getAddress())
+    '0x59A24B6E1bDDc15b3aD844B0DfcD86421363F62c',
+    ethers.utils.parseEther('20')
+  );
+
+  const avaiUSDCLP = ERC20__factory.connect(
+    '0xeD7a2B4054757Cfdb632Af15Ad528624F0fFf3B0',
+    signer
+  );
+  await avaiUSDCLP.transfer(
+    '0x59A24B6E1bDDc15b3aD844B0DfcD86421363F62c',
+    ethers.utils.parseEther('0.000052382213431435')
   );
 
   const avaxOrcaLP = ERC20__factory.connect(
@@ -38,8 +47,17 @@ const Transfer = async () => {
     signer
   );
   await avaxOrcaLP.transfer(
-    '0x9F8A5B35f5508071cf2304A670EAB0803F3737aa',
-    await avaxOrcaLP.balanceOf(await signer.getAddress())
+    '0x59A24B6E1bDDc15b3aD844B0DfcD86421363F62c',
+    ethers.utils.parseEther('1')
+  );
+
+  const usdc = ERC20__factory.connect(
+    '0xa7d7079b0fead91f3e65f86e8915cb59c1a4c664',
+    signer
+  );
+  await usdc.transfer(
+    '0x59A24B6E1bDDc15b3aD844B0DfcD86421363F62c',
+    ethers.utils.parseUnits('100', 6)
   );
 };
 
