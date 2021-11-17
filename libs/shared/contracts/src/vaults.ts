@@ -13,6 +13,7 @@ export const VaultContracts = {
     yrtAaveAvax: '0x8aee038726715d78C49dFb2f12e76DE70C2F48eC'.toLowerCase(), //3
     yrtAaveBtc: '0x18419976Ba05dd9cE44544B8d91590704aFA4a29'.toLowerCase(), // 4
     yrtAaveEth: '0x8b61488Ca2D727826c7Afe4eDbF810159F17D398'.toLowerCase(), // 5
+    //yrtJoe: ''.toLowerCase(), // 6
   },
 };
 
@@ -23,4 +24,5 @@ export const VaultTypes = [
   { name: 'yrtAaveAvax', symbol: 'YRT' },
   { name: 'yrtAaveBtc', symbol: 'YRT' },
   { name: 'yrtAaveEth', symbol: 'YRT' },
+  { name: 'yrtJoe', symbol: 'YRT' },
 ];

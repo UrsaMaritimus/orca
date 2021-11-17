@@ -155,6 +155,37 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
       </div>
     ),
   },
+  YRTJOE: {
+    address: {
+      mainnet: '0x3a91a592a06390ca7884c4d9dd4cba2b4b7f36d1'.toLowerCase(),
+      fuji: '0xE1296Be9B7d9C69Ef65B054BD8cE79E326EFA0d7'.toLowerCase(),
+    },
+    icon: '/static/cryptos/ic_yak_joe.png',
+    erc20: 'yrtJoe',
+    display: 'Yak x JOE',
+    url: 'YRTJOE',
+    symbol: 'YRT',
+    decimals: 18,
+    collateral: true,
+    yaktoken: true,
+    yakBase: 'JOE',
+    tooltip: true,
+    tooltipText: (
+      <div>
+        This is a single asset autocompounding pool through{' '}
+        <NextLink
+          href="https://yieldyak.com/farms"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          Yield Yak
+        </NextLink>{' '}
+        that farms JOE through xJOE and Trader Joe's xJOE farm. You will need to
+        deposit AVAX into the Yield Yak x Joe pool on their platform, which will
+        give you a receipt that can be deposited here for borrowing AVAI.
+      </div>
+    ),
+  },
 
   YRTAAVEBTC: {
     address: {
@@ -329,6 +360,13 @@ export const farms = [
     reward: 'ORCA',
     rewardImg: tokenInfo['ORCA'].icon,
   },
+  {
+    name: 'xORCA',
+    img: tokenInfo['XORCA'].icon,
+    address: tokenInfo['XORCA'].address.mainnet,
+    reward: 'ORCA',
+    rewardImg: tokenInfo['ORCA'].icon,
+  },
 ];
 
 export const baseCollateral = ['AVAX', 'WBTC.e', 'WETH.e'];
@@ -336,4 +374,5 @@ export const ibtknCollateral = [
   'Yak x Aave: AVAX',
   'Yak x Aave: WBTC.e',
   'Yak x Aave: WETH.e',
+  'Yak x JOE',
 ];

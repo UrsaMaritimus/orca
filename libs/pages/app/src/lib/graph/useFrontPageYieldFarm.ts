@@ -8,6 +8,10 @@ import {
   useAvaxPriceQuery,
   useGetTokenPriceQuery,
 } from '@orca/graphql';
+import { xORCARatioNoWeb3 } from '@orca/shared/funcs';
+
+import useSWR from 'swr';
+import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
 export const useFrontPageYieldInfo = (farm: string) => {
   const { data: yieldData } = useGeneralYieldInfoQuery({
@@ -33,7 +37,13 @@ export const useFrontPageYieldInfo = (farm: string) => {
 
   const { data: avaxPrice } = useAvaxPriceQuery({ pollInterval: 5000 });
 
-  if (yieldData && tokenData && orcaPrice && avaxPrice) {
+  const { data: xOrcaRatio, mutate: mutatexORCARatio } = useSWR(
+    [`xOrcaRatioNoWeb3`],
+    xORCARatioNoWeb3()
+  );
+  useKeepSWRDataLiveAsBlocksArrive(mutatexORCARatio);
+
+  if (yieldData && tokenData && orcaPrice && avaxPrice && xOrcaRatio) {
     const poolAlloc = Number(yieldData.pools[0]?.allocPoint);
     const totalAllocPoints = Number(
       yieldData.pools[0]?.leader.totalAllocPoints
@@ -49,12 +59,16 @@ export const useFrontPageYieldInfo = (farm: string) => {
 
     const rewardPerDay = (poolAlloc / totalAllocPoints) * orcaPerSec * 86400;
 
-    const TVL =
-      (totalStaked / tokenData.pairs[0].totalSupply) *
-      tokenData.pairs[0].reserveUSD;
-
     const avaxUSDPrice = Number(avaxPrice.bundle?.ethPrice);
     const orcaUSDPrice = Number(orcaPrice.token?.derivedETH) * avaxUSDPrice;
+
+    const TVL =
+      farm.toLowerCase() === tokenInfo['XORCA'].address.mainnet.toLowerCase() ||
+      farm.toLowerCase() === tokenInfo['XORCA'].address.fuji.toLowerCase()
+        ? totalStaked * orcaUSDPrice * xOrcaRatio.ratio
+        : (totalStaked / tokenData.pairs[0].totalSupply) *
+          tokenData.pairs[0].reserveUSD;
+
     const apr = ((rewardPerDay * 36500) / TVL) * orcaUSDPrice;
 
     return {
@@ -65,14 +79,19 @@ export const useFrontPageYieldInfo = (farm: string) => {
         tvl: TVL,
         apr: apr,
         treasury:
-          Number(
-            utils.formatEther(
-              BigNumber.from(yieldData.pools[0]?.treasuryAmount || 0)
-            )
-          ) *
-          (farm === tokenInfo['AVAI'].address.fuji.toLowerCase()
-            ? 1
-            : tokenData.pairs[0].reserveUSD / tokenData.pairs[0].totalSupply),
+          farm.toLowerCase() ===
+            tokenInfo['XORCA'].address.mainnet.toLowerCase() ||
+          farm.toLowerCase() === tokenInfo['XORCA'].address.fuji.toLowerCase()
+            ? 0
+            : Number(
+                utils.formatEther(
+                  BigNumber.from(yieldData.pools[0]?.treasuryAmount || 0)
+                )
+              ) *
+              (farm === tokenInfo['AVAI'].address.fuji.toLowerCase()
+                ? 1
+                : tokenData.pairs[0].reserveUSD /
+                  tokenData.pairs[0].totalSupply),
       },
     };
   } else {

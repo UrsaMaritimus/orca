@@ -22,10 +22,10 @@ import { routes } from '@orca/shared/base';
 const banners = [
   {
     id: 0,
-    title: 'Lydia Partnership',
-    description: 'Orca teams up with Lydia',
-    image: '/static/images/Lydia Partnership.png',
-    link: routes.MEDIUM.LYDIA,
+    title: 'xORCA Launch',
+    description: 'Next generateration staking available now!',
+    image: '/static/images/xOrcaLaunch.png',
+    link: routes.MEDIUM.XORCA,
   },
   {
     id: 1,
@@ -36,10 +36,10 @@ const banners = [
   },
   {
     id: 2,
-    title: 'AVAWARE Partnership',
-    description: 'Orca teams up with AVAWARE',
-    image: '/static/images/Avaware Partnership.png',
-    link: routes.MEDIUM.AVAWARE,
+    title: 'Yield Yak Partnership',
+    description: 'Orca teams up with Yield Yak to launch ibTKNs',
+    image: '/static/images/Yak Partnership.png',
+    link: routes.MEDIUM.YAK,
   },
 ];
 

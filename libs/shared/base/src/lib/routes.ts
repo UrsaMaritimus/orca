@@ -28,6 +28,9 @@ export const routes = {
       'https://medium.com/@OrcaDAO/lydia-orcadao-partnership-announcement-cdeab9cf4668',
     AVAWARE:
       'https://medium.com/@OrcaDAO/avaware-orcadao-partnership-b2d8620744cd',
+    YAK: 'https://medium.com/@OrcaDAO/yield-yak-orcadao-partnership-introducing-ibtokens-b09540d50360',
+    XORCA:
+      'https://medium.com/@OrcaDAO/introducing-the-next-gen-of-staking-on-orcadao-xorca-c936455bff33',
   },
   LANDING: {
     MEDIUM: 'https://medium.com/@OrcaDAO',

@@ -1,11 +1,11 @@
-import { Web3Provider } from '@ethersproject/providers';
+import { JsonRpcProvider } from '@ethersproject/providers';
 import { ERC20__factory, OrcaPod__factory } from '@orca/shared/contracts';
 
 import contracts from '@orca/shared/deployments';
-import { utils } from 'ethers';
+import { utils, ethers } from 'ethers';
 
 export const getxORCA = (
-  library: Web3Provider,
+  library: JsonRpcProvider,
   chainId: number,
   signer = false
 ) => {
@@ -23,7 +23,7 @@ export const getxORCA = (
 export const tokenApprovedxORCA = () => {
   return async (
     _: string,
-    library: Web3Provider,
+    library: JsonRpcProvider,
     account: string,
     chainId: number,
     address: string,
@@ -38,7 +38,7 @@ export const tokenApprovedxORCA = () => {
 
 // swr function
 export const xORCARatio = () => {
-  return async (_: string, library: Web3Provider, chainId: number) => {
+  return async (_: string, library: JsonRpcProvider, chainId: number) => {
     const orca = ERC20__factory.connect(
       chainId === 43113
         ? contracts.fuji.ORCA.address
@@ -60,8 +60,37 @@ export const xORCARatio = () => {
   };
 };
 
+// swr function
+export const xORCARatioNoWeb3 = () => {
+  return async (_: string) => {
+    const fuji = process.env.NEXT_PUBLIC_GRAPH_HTTP.includes('orcadao')
+      ? true
+      : false;
+
+    const provider = new ethers.providers.JsonRpcProvider(
+      fuji
+        ? 'https://api.avax-test.network/ext/bc/C/rpc'
+        : 'https://api.avax.network/ext/bc/C/rpc'
+    );
+    const orca = ERC20__factory.connect(
+      fuji ? contracts.fuji.ORCA.address : contracts.main.ORCA.address,
+      provider
+    );
+    const leader = getxORCA(provider, fuji ? 43113 : 43114);
+    const orcaBalance = await orca.balanceOf(leader.address);
+    const xOrcaSupply = await leader.totalSupply();
+    if (xOrcaSupply.isZero()) return 0;
+    return {
+      ratio:
+        Number(utils.formatEther(orcaBalance)) /
+        Number(utils.formatEther(xOrcaSupply)),
+      totalSupply: Number(utils.formatEther(xOrcaSupply)),
+    };
+  };
+};
+
 export const approveTokenxORCA = (
-  library: Web3Provider,
+  library: JsonRpcProvider,
   chainId: number,
   address: string,
   amount: number | string
@@ -76,7 +105,7 @@ export const approveTokenxORCA = (
 };
 
 export const depositxORCA = (
-  library: Web3Provider,
+  library: JsonRpcProvider,
   chainId: number,
   amount: number | string
 ) => {
@@ -87,7 +116,7 @@ export const depositxORCA = (
 };
 
 export const withdrawxORCA = (
-  library: Web3Provider,
+  library: JsonRpcProvider,
   chainId: number,
   amount: number | string
 ) => {
