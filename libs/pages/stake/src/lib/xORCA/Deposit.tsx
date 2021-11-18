@@ -108,7 +108,6 @@ export const Deposit: FC<DepositProps> = ({
     onSubmit: async (values, { resetForm, setSubmitting }) => {
       try {
         setDepositing(true);
-        console.log(values.depositAmount);
         await handleTransaction({
           transaction: depositxORCA(
             library,
