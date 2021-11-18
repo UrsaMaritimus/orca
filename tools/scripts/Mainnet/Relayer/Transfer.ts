@@ -57,7 +57,7 @@ const Transfer = async () => {
   );
   await usdc.transfer(
     '0x59A24B6E1bDDc15b3aD844B0DfcD86421363F62c',
-    ethers.utils.parseUnits('13883', 6)
+    ethers.utils.parseUnits('20', 6)
   );
   /*
   const orca = ERC20__factory.connect(
