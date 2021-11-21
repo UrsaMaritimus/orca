@@ -64,6 +64,7 @@ export type { StormSingleStaking } from "./StormSingleStaking";
 export type { PodLeader } from "./PodLeader";
 export type { SingleStaking } from "./SingleStaking";
 export type { SnapshotBridge } from "./SnapshotBridge";
+export type { SnapshotBridgeV2 } from "./SnapshotBridgeV2";
 export type { AVAI } from "./AVAI";
 export type { TeamPayment } from "./TeamPayment";
 export type { FakeBTC } from "./FakeBTC";
@@ -140,6 +141,7 @@ export { StormSingleStaking__factory } from "./factories/StormSingleStaking__fac
 export { PodLeader__factory } from "./factories/PodLeader__factory";
 export { SingleStaking__factory } from "./factories/SingleStaking__factory";
 export { SnapshotBridge__factory } from "./factories/SnapshotBridge__factory";
+export { SnapshotBridgeV2__factory } from "./factories/SnapshotBridgeV2__factory";
 export { AVAI__factory } from "./factories/AVAI__factory";
 export { TeamPayment__factory } from "./factories/TeamPayment__factory";
 export { FakeBTC__factory } from "./factories/FakeBTC__factory";

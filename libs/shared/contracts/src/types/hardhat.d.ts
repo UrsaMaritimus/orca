@@ -269,6 +269,14 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SnapshotBridge__factory>;
     getContractFactory(
+      name: "SnapshotBridge",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SnapshotBridge__factory>;
+    getContractFactory(
+      name: "SnapshotBridgeV2",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SnapshotBridgeV2__factory>;
+    getContractFactory(
       name: "AVAI",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.AVAI__factory>;
