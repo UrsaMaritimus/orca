@@ -48,6 +48,9 @@ const ICONS = {
   usdc: getUSDIcon('ic_usdc'),
   home: getIcon('ic_home'),
   orca: getUSDIcon('ic_orca'),
+  voting: getIcon('ic_voting'),
+  urgent: getIcon('ic_urgent'),
+  proposal: getIcon('ic_proposal'),
 };
 
 const navConfig = [
@@ -84,6 +87,21 @@ const navConfig = [
     items: [
       { title: 'Farming', icon: ICONS.farm, href: routes.APP.YIELD.FARM },
       { title: 'Stake', icon: ICONS.orca, href: routes.APP.YIELD.STAKE },
+    ],
+  },
+  {
+    subheader: 'Governance',
+    items: [
+      {
+        title: 'Proposals',
+        icon: ICONS.proposal,
+        href: routes.APP.GOVERNANCE.VOTE,
+      },
+      {
+        title: 'Current',
+        icon: ICONS.voting,
+        href: 'https://vote.avai.finance/#/proposal/0x15abce61c06393781621b37461c4763b0c222dd3bb5b6ba97fcff9caba582fc4',
+      },
     ],
   },
 ];

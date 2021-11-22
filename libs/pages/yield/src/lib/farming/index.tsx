@@ -20,6 +20,7 @@ import { SingularFarm } from './partner/singular';
 import { AvawareFarm } from './partner/avaware';
 import { LydiaFarm } from './partner/lydia';
 import { XOrcaFarm } from './xORCA';
+import { NextLink } from '@orca/components/links';
 
 const RootStyle = styled(Page)(({ theme }) => ({
   paddingTop: theme.spacing(3),
@@ -42,7 +43,7 @@ export const Farming: FC = () => {
         <Card
           sx={{
             mb: 3,
-            height: 100,
+            height: 150,
             position: 'relative',
           }}
         >
@@ -66,6 +67,15 @@ export const Farming: FC = () => {
                   sx={{ mx: 2 }}
                 >
                   Note: There is a Deposit fee of 0.75%, except for xORCA.
+                  Second Note: There is a vote currently ongoing that may alter
+                  these APRs starting Dec. 1st:{' '}
+                  <NextLink
+                    href="https://vote.avai.finance/#/proposal/0x15abce61c06393781621b37461c4763b0c222dd3bb5b6ba97fcff9caba582fc4"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    See here.
+                  </NextLink>
                 </Typography>
               </Box>
             }
