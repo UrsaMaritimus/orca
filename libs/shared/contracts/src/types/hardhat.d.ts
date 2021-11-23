@@ -217,6 +217,18 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.YakAvaxAAVEOracle__factory>;
     getContractFactory(
+      name: "YakAvaxBenQiOracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.YakAvaxBenQiOracle__factory>;
+    getContractFactory(
+      name: "YakLinkBenqiOracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.YakLinkBenqiOracle__factory>;
+    getContractFactory(
+      name: "YakLinkBenQiOracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.YakLinkBenQiOracle__factory>;
+    getContractFactory(
       name: "YakJoeOracle",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.YakJoeOracle__factory>;
@@ -264,10 +276,6 @@ declare module "hardhat/types/runtime" {
       name: "SingleStaking",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SingleStaking__factory>;
-    getContractFactory(
-      name: "SnapshotBridge",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.SnapshotBridge__factory>;
     getContractFactory(
       name: "SnapshotBridge",
       signerOrOptions?: ethers.Signer | FactoryOptions

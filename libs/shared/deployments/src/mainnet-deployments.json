@@ -20636,6 +20636,128 @@
             }
           ]
         },
+        "SnapshotBridgeV2": {
+          "address": "0xb0B81dd9F1ab31A415b989d0F375ab92585d96f6",
+          "abi": [
+            {
+              "inputs": [
+                {
+                  "internalType": "address payable",
+                  "name": "_staking",
+                  "type": "address"
+                },
+                {
+                  "internalType": "address payable",
+                  "name": "_podleader",
+                  "type": "address"
+                },
+                {
+                  "internalType": "address",
+                  "name": "_orca",
+                  "type": "address"
+                },
+                {
+                  "internalType": "address",
+                  "name": "_xorca",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "nonpayable",
+              "type": "constructor"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "pid",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "address",
+                  "name": "user",
+                  "type": "address"
+                }
+              ],
+              "name": "podLeaderVote",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "pid",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "address",
+                  "name": "user",
+                  "type": "address"
+                }
+              ],
+              "name": "stakingPoolVote",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "user",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "pid",
+                  "type": "uint256"
+                }
+              ],
+              "name": "xOrcaStakedVote",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "user",
+                  "type": "address"
+                }
+              ],
+              "name": "xOrcaVote",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            }
+          ]
+        },
         "StormSingleStaking": {
           "address": "0xDcc614ee35e03e742C08779F40481dB81Cf8C0a8",
           "abi": [
@@ -23897,6 +24019,182 @@
             }
           ]
         },
+        "YakAvaxBenQiOracle": {
+          "address": "0xF66DFA2A4e518fDdE254AFDEBFCd7480909f4866",
+          "abi": [
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "priceSource_",
+                  "type": "address"
+                },
+                {
+                  "internalType": "address",
+                  "name": "underlyingToken_",
+                  "type": "address"
+                },
+                {
+                  "internalType": "address",
+                  "name": "shareToken_",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "nonpayable",
+              "type": "constructor"
+            },
+            {
+              "inputs": [],
+              "name": "decimals",
+              "outputs": [
+                {
+                  "internalType": "uint8",
+                  "name": "",
+                  "type": "uint8"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "description",
+              "outputs": [
+                {
+                  "internalType": "string",
+                  "name": "",
+                  "type": "string"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint80",
+                  "name": "_roundId",
+                  "type": "uint80"
+                }
+              ],
+              "name": "getRoundData",
+              "outputs": [
+                {
+                  "internalType": "uint80",
+                  "name": "roundId",
+                  "type": "uint80"
+                },
+                {
+                  "internalType": "int256",
+                  "name": "answer",
+                  "type": "int256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "startedAt",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "updatedAt",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint80",
+                  "name": "answeredInRound",
+                  "type": "uint80"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "latestRoundData",
+              "outputs": [
+                {
+                  "internalType": "uint80",
+                  "name": "",
+                  "type": "uint80"
+                },
+                {
+                  "internalType": "int256",
+                  "name": "",
+                  "type": "int256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint80",
+                  "name": "",
+                  "type": "uint80"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "priceSource",
+              "outputs": [
+                {
+                  "internalType": "contract AggregatorV3Interface",
+                  "name": "",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "shareToken",
+              "outputs": [
+                {
+                  "internalType": "contract IYakStrategy",
+                  "name": "",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "underlyingToken",
+              "outputs": [
+                {
+                  "internalType": "contract IERC20Metadata",
+                  "name": "",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "version",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            }
+          ]
+        },
         "YakAvaxETHOracle": {
           "address": "0xFB08610343E6cD7d2278e5FeaAfb1C465Bd2c400",
           "abi": [
@@ -24425,8 +24723,8 @@
             }
           ]
         },
-        "YakUsdcJoeOracle": {
-          "address": "0xE3eC89694AB487D08529Aa797B239E1d05920cd8",
+        "YakLinkBenqiOracle": {
+          "address": "0x0C07Ea13462B264Af8bCc4FD48B9f82930832f72",
           "abi": [
             {
               "inputs": [
@@ -24601,29 +24899,24 @@
             }
           ]
         },
-        "SnapshotBridgeV2": {
-          "address": "0xb0B81dd9F1ab31A415b989d0F375ab92585d96f6",
+        "YakUsdcJoeOracle": {
+          "address": "0xE3eC89694AB487D08529Aa797B239E1d05920cd8",
           "abi": [
             {
               "inputs": [
                 {
-                  "internalType": "address payable",
-                  "name": "_staking",
-                  "type": "address"
-                },
-                {
-                  "internalType": "address payable",
-                  "name": "_podleader",
+                  "internalType": "address",
+                  "name": "priceSource_",
                   "type": "address"
                 },
                 {
                   "internalType": "address",
-                  "name": "_orca",
+                  "name": "underlyingToken_",
                   "type": "address"
                 },
                 {
                   "internalType": "address",
-                  "name": "_xorca",
+                  "name": "shareToken_",
                   "type": "address"
                 }
               ],
@@ -24631,24 +24924,26 @@
               "type": "constructor"
             },
             {
-              "inputs": [
-                {
-                  "internalType": "uint256",
-                  "name": "pid",
-                  "type": "uint256"
-                },
-                {
-                  "internalType": "address",
-                  "name": "user",
-                  "type": "address"
-                }
-              ],
-              "name": "podLeaderVote",
+              "inputs": [],
+              "name": "decimals",
               "outputs": [
                 {
-                  "internalType": "uint256",
+                  "internalType": "uint8",
                   "name": "",
-                  "type": "uint256"
+                  "type": "uint8"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "description",
+              "outputs": [
+                {
+                  "internalType": "string",
+                  "name": "",
+                  "type": "string"
                 }
               ],
               "stateMutability": "view",
@@ -24657,60 +24952,117 @@
             {
               "inputs": [
                 {
+                  "internalType": "uint80",
+                  "name": "_roundId",
+                  "type": "uint80"
+                }
+              ],
+              "name": "getRoundData",
+              "outputs": [
+                {
+                  "internalType": "uint80",
+                  "name": "roundId",
+                  "type": "uint80"
+                },
+                {
+                  "internalType": "int256",
+                  "name": "answer",
+                  "type": "int256"
+                },
+                {
                   "internalType": "uint256",
-                  "name": "pid",
+                  "name": "startedAt",
                   "type": "uint256"
                 },
                 {
-                  "internalType": "address",
-                  "name": "user",
-                  "type": "address"
-                }
-              ],
-              "name": "stakingPoolVote",
-              "outputs": [
-                {
                   "internalType": "uint256",
-                  "name": "",
+                  "name": "updatedAt",
                   "type": "uint256"
+                },
+                {
+                  "internalType": "uint80",
+                  "name": "answeredInRound",
+                  "type": "uint80"
                 }
               ],
               "stateMutability": "view",
               "type": "function"
             },
             {
-              "inputs": [
+              "inputs": [],
+              "name": "latestRoundData",
+              "outputs": [
                 {
-                  "internalType": "address",
-                  "name": "user",
-                  "type": "address"
+                  "internalType": "uint80",
+                  "name": "",
+                  "type": "uint80"
                 },
                 {
-                  "internalType": "uint256",
-                  "name": "pid",
-                  "type": "uint256"
-                }
-              ],
-              "name": "xOrcaStakedVote",
-              "outputs": [
+                  "internalType": "int256",
+                  "name": "",
+                  "type": "int256"
+                },
                 {
                   "internalType": "uint256",
                   "name": "",
                   "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint80",
+                  "name": "",
+                  "type": "uint80"
                 }
               ],
               "stateMutability": "view",
               "type": "function"
             },
             {
-              "inputs": [
+              "inputs": [],
+              "name": "priceSource",
+              "outputs": [
                 {
-                  "internalType": "address",
-                  "name": "user",
+                  "internalType": "contract AggregatorV3Interface",
+                  "name": "",
                   "type": "address"
                 }
               ],
-              "name": "xOrcaVote",
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "shareToken",
+              "outputs": [
+                {
+                  "internalType": "contract IYakStrategy",
+                  "name": "",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "underlyingToken",
+              "outputs": [
+                {
+                  "internalType": "contract IERC20Metadata",
+                  "name": "",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "version",
               "outputs": [
                 {
                   "internalType": "uint256",
