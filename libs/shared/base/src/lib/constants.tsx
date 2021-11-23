@@ -250,35 +250,68 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
       </div>
     ),
   },
-  YRTJOEAVAX: {
+
+  YRTQIAVAX: {
     address: {
       mainnet: ''.toLowerCase(),
-      fuji: ''.toLowerCase(),
+      fuji: '0xE1296Be9B7d9C69Ef65B054BD8cE79E326EFA0d7'.toLowerCase(),
     },
-    icon: '/static/cryptos/ic_yak_avax_joe.png',
-    erc20: 'yrtJoeAvax',
-    display: 'Yak Joe AVAX',
-    url: 'YRTJOEAVAX',
+    icon: '/static/cryptos/ic_yak_avax_benqi.png',
+    erc20: 'yrtQiAvax',
+    display: 'Yak x BenQi: AVAX',
+    url: 'YRTQIAVAX',
     symbol: 'YRT',
     decimals: 18,
     collateral: true,
-    tooltip: false,
-    yaktoken: false,
+    yaktoken: true,
+    yakBase: 'AVAX',
+    tooltip: true,
+    tooltipText: (
+      <div>
+        This is a single asset autocompounding pool through{' '}
+        <NextLink
+          href="https://yieldyak.com/farms"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          Yield Yak
+        </NextLink>{' '}
+        that leverages AVAX in BenQi. You will need to deposit AVAX into the
+        Yield Yak x BenQi pool on their platform, which will give you a receipt
+        that can be deposited here for borrowing AVAI.
+      </div>
+    ),
   },
-  YRTJOEUSDC: {
+  YRTQILINK: {
     address: {
       mainnet: ''.toLowerCase(),
-      fuji: ''.toLowerCase(),
+      fuji: '0xE1296Be9B7d9C69Ef65B054BD8cE79E326EFA0d7'.toLowerCase(),
     },
-    icon: '/static/cryptos/ic_yak_usdc_joe.png',
-    erc20: 'yrtJoeUsdc',
-    display: 'Yak Joe USDC.e',
-    url: 'YRTJOEUSDC',
+    icon: '/static/cryptos/ic_yak_link_benqi.png',
+    erc20: 'yrtQiLink',
+    display: 'Yak x BenQi: LINK.e',
+    url: 'YRTQILINK',
     symbol: 'YRT',
     decimals: 18,
     collateral: true,
-    tooltip: false,
-    yaktoken: false,
+    yaktoken: true,
+    yakBase: 'LINK.e',
+    tooltip: true,
+    tooltipText: (
+      <div>
+        This is a single asset autocompounding pool through{' '}
+        <NextLink
+          href="https://yieldyak.com/farms"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          Yield Yak
+        </NextLink>{' '}
+        that leverages LINK.e in BenQi. You will need to deposit LINK.e into the
+        Yield Yak x BenQi pool on their platform, which will give you a receipt
+        that can be deposited here for borrowing AVAI.
+      </div>
+    ),
   },
   'USDC-AVAI': {
     address: {
@@ -375,4 +408,6 @@ export const ibtknCollateral = [
   'Yak x Aave: WBTC.e',
   'Yak x Aave: WETH.e',
   'Yak x JOE',
+  'Yak x BenQi: LINK.e',
+  'Yak x BenQi: AVAX',
 ];
