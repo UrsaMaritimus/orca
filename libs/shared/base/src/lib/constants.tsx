@@ -253,7 +253,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
 
   YRTQIAVAX: {
     address: {
-      mainnet: ''.toLowerCase(),
+      mainnet: '0x8B414448de8B609e96bd63Dcf2A8aDbd5ddf7fdd'.toLowerCase(),
       fuji: '0xE1296Be9B7d9C69Ef65B054BD8cE79E326EFA0d7'.toLowerCase(),
     },
     icon: '/static/cryptos/ic_yak_avax_benqi.png',
@@ -284,7 +284,7 @@ export const tokenInfo: { [key: string]: TokenInfo } = {
   },
   YRTQILINK: {
     address: {
-      mainnet: ''.toLowerCase(),
+      mainnet: '0x4084F32A91F4D8636Ca08386EFE70c6E302F1d84'.toLowerCase(),
       fuji: '0xE1296Be9B7d9C69Ef65B054BD8cE79E326EFA0d7'.toLowerCase(),
     },
     icon: '/static/cryptos/ic_yak_link_benqi.png',

@@ -14,8 +14,8 @@ export const VaultContracts = {
     yrtAaveBtc: '0x18419976Ba05dd9cE44544B8d91590704aFA4a29'.toLowerCase(), // 4
     yrtAaveEth: '0x8b61488Ca2D727826c7Afe4eDbF810159F17D398'.toLowerCase(), // 5
     yrtJoe: '0xa1A34E32c24911daA45e338dB9D785c1b323F280'.toLowerCase(), // 6
-    yrtQiAvax: ''.toLowerCase(), // 6
-    yrtQiLink: ''.toLowerCase(), // 6
+    yrtQiAvax: '0x2b583646EC93245562Fd08A3b5f44Aa55417766B'.toLowerCase(), // 7
+    yrtQiLink: '0x22a86D96b26308ba1971F8080AAD965884061076'.toLowerCase(), // 8
   },
 };
 
