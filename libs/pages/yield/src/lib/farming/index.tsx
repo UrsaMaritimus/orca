@@ -126,7 +126,6 @@ export const Farming: FC = () => {
 
         <SingularFarm />
         <AvawareFarm />
-        <LydiaFarm />
       </Container>
     </RootStyle>
   );
