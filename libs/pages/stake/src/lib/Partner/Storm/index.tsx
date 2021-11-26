@@ -49,6 +49,7 @@ export const StormStaking: FC<AvaiProps> = ({
       link={
         'https://app.pangolin.exchange/#/add/0x8B1d98A91F853218ddbb066F20b8c63E782e2430/0x346A59146b9b4a77100D369a3d18E8007A9F46a6'
       }
+      finished={true}
     />
   );
 };
