@@ -19,7 +19,7 @@ import {
   Backdrop,
 } from '@mui/material';
 
-import { NextLink, Page, Connect, Loader } from '@orca/all-components';
+import { NextLink, Page, Connect, Loader } from '@orca/components';
 import {
   routes,
   tokenInfo,

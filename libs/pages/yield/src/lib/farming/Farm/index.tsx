@@ -21,7 +21,7 @@ import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 
 import { fCurrency, fNumber } from '@orca/util';
-import { LoadingDots } from '@orca/components/loader';
+import { LoadingDots } from '@orca/components';
 
 import Deposit from './Deposit';
 import Withdraw from './Withdraw';

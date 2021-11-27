@@ -16,7 +16,7 @@ import {
   ToggleButtonGroup,
 } from '@mui/material';
 
-import { Page, Connect, Loader } from '@orca/all-components';
+import { Page, Connect, Loader } from '@orca/components';
 
 import { usdBalance, avaiBalance, exchangeInfo } from '@orca/shared/funcs';
 

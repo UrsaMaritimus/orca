@@ -17,39 +17,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@orca/all-components": ["libs/all-components/src/index.ts"],
-      "@orca/components/links": ["libs/components/links/src/index.ts"],
-      "@orca/components/loader": ["libs/components/loader/src/index.ts"],
-      "@orca/components/logo": ["libs/components/logo/src/index.ts"],
-      "@orca/components/material-extend/avatar": [
-        "libs/components/material-extend/avatar/src/index.ts"
-      ],
-      "@orca/components/material-extend/breadcrumbs": [
-        "libs/components/material-extend/breadcrumbs/src/index.ts"
-      ],
-      "@orca/components/material-extend/buttons": [
-        "libs/components/material-extend/buttons/src/index.ts"
-      ],
-      "@orca/components/material-extend/hidden": [
-        "libs/components/material-extend/hidden/src/index.ts"
-      ],
-      "@orca/components/page": ["libs/components/page/src/index.ts"],
-      "@orca/components/popover-menu": [
-        "libs/components/popover-menu/src/index.ts"
-      ],
-      "@orca/components/scroll-bar": [
-        "libs/components/scroll-bar/src/index.ts"
-      ],
-      "@orca/components/settings": ["libs/components/settings/src/index.ts"],
-      "@orca/components/svg-icon-style": [
-        "libs/components/svg-icon-style/src/index.ts"
-      ],
-      "@orca/components/table": ["libs/components/table/src/index.ts"],
-      "@orca/components/theme": ["libs/components/theme/src/index.ts"],
-      "@orca/components/toast": ["libs/components/toast/src/index.ts"],
-      "@orca/components/transaction": [
-        "libs/components/transaction/src/index.ts"
-      ],
+      "@orca/components": ["libs/components/src/index.ts"],
       "@orca/graphql": ["libs/graphql/src/index.ts"],
       "@orca/hooks": ["libs/hooks/src/index.ts"],
       "@orca/layout/app": ["libs/layout/app/src/index.ts"],

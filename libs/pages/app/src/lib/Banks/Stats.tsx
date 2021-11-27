@@ -13,8 +13,7 @@ import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 
 import { fCurrency, fNumber } from '@orca/util';
-import { Loader } from '@orca/components/loader';
-import { AddToken } from '@orca/all-components';
+import { AddToken, Loader } from '@orca/components';
 import { tokenInfo } from '@orca/shared/base';
 import { useFrontPageStats } from '../graph/useFrontPageStats';
 

@@ -8,7 +8,7 @@ import infoOutline from '@iconify/icons-eva/info-outline';
 import chroma from 'chroma-js';
 // utils
 import { colorScale, fPercent } from '@orca/util';
-import { BaseOptionChart, ColorBar } from '@orca/all-components';
+import { BaseOptionChart, ColorBar } from '@orca/components';
 import {
   Typography,
   Stack,

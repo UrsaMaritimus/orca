@@ -4,9 +4,7 @@ import { styled } from '@mui/material/styles';
 
 import { Box, Button, Typography, Container } from '@mui/material';
 
-import { Page } from '@orca/components/page';
-import { Logo } from '@orca/components/logo';
-import { NextLink } from '@orca/components/links';
+import { Page, Logo, NextLink } from '@orca/components';
 import { routes } from '@orca/shared/base';
 
 // ----------------------------------------------------------------------

@@ -30,13 +30,11 @@ import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 import { BigNumber, utils } from 'ethers';
 import { useFormik, Form, FormikProvider } from 'formik';
-import { Loader } from '@orca/components/loader';
+
+import { Loader, handleTransaction, useAddTransaction } from '@orca/components';
 import { fPercent, fNumber, colorScale } from '@orca/util';
+
 import { borrowToken } from '@orca/shared/funcs';
-import {
-  handleTransaction,
-  useAddTransaction,
-} from '@orca/components/transaction';
 import { tokenInfo } from '@orca/shared/base';
 import { StepperProps } from './stepper.type';
 

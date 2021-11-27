@@ -2,15 +2,12 @@ import { styled } from '@mui/material/styles';
 
 import { Grid, Container } from '@mui/material';
 
-import { Page } from '@orca/components/page';
+import { Page } from '@orca/components';
 
 import Welcome from './Welcome';
 import MediumArticles from './Medium';
 import BanksAnalytics from './Banks';
 import { YieldFarmInfo } from './Farms';
-
-import { ethers } from 'ethers';
-import { Bank__factory } from '@orca/shared/contracts';
 
 // ----------------------------------------------------------------------
 const RootStyle = styled(Page)({});

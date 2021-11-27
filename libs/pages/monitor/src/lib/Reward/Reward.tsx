@@ -8,7 +8,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import { Card, CardHeader, Box, Typography, Stack } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 
-import { handleTransaction } from '@orca/components/transaction';
+import { handleTransaction } from '@orca/components';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 import { monitorAllRewards, getReward } from '@orca/shared/funcs';
 import { tokenInfo } from '@orca/shared/base';

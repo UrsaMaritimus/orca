@@ -14,18 +14,8 @@ import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 import { routes, tokenInfo } from '@orca/shared/base';
 import { fCurrency, fNumber } from '@orca/util';
 import { BigNumber, utils } from 'ethers';
-import {
-  avaiApproved,
-  approveAvai,
-  liquidateVault,
-  avaiBalance,
-} from '@orca/shared/funcs';
-import {
-  handleTransaction,
-  useAddTransaction,
-} from '@orca/components/transaction';
-import { Loader } from '@orca/components/loader';
-
+import { liquidateVault, avaiBalance } from '@orca/shared/funcs';
+import { handleTransaction, useAddTransaction, Loader } from '@orca/components';
 // ----------------------------------------------------------------------
 
 export type LiquidateProps = {

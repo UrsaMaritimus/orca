@@ -9,7 +9,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { utils } from 'ethers';
 import { fNumber } from '@orca/util';
 
-import { handleTransaction } from '@orca/components/transaction';
+import { handleTransaction } from '@orca/components';
 import { depositFarm, getRewardBalance } from '@orca/shared/funcs';
 
 type ClaimProps = {

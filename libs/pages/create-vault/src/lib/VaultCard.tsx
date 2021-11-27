@@ -18,7 +18,7 @@ import {
 import { fPercent, fCurrency } from '@orca/util';
 import { routes, TokenInfo } from '@orca/shared/base';
 import { makeVault, getVault } from '@orca/shared/funcs';
-import { handleTransaction } from '@orca/components/transaction';
+import { handleTransaction } from '@orca/components';
 
 type VaultCardProps = {
   handleNewTransaction: (state: boolean) => void;

@@ -22,8 +22,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import { utils } from 'ethers';
 import { useFormik, Form, FormikProvider } from 'formik';
 
-import { handleTransaction } from '@orca/components/transaction';
-import { NextLink } from '@orca/components/links';
+import { handleTransaction, NextLink } from '@orca/components';
 import {
   approveTokenFarmPartner,
   getTokenBalancePartner,

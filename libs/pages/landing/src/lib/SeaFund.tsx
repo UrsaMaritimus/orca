@@ -19,7 +19,7 @@ import {
   CarouselControlsPaging2,
   MotionInView,
   varFadeInUp,
-} from '@orca/all-components';
+} from '@orca/components';
 
 const RootStyle = styled('div')(({ theme }) => ({
   padding: theme.spacing(15, 0),

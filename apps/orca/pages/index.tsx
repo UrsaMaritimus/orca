@@ -1,11 +1,9 @@
 import React, { FC } from 'react';
-import { GetServerSideProps } from 'next';
 import { styled } from '@mui/material/styles';
 
-import { Page } from '@orca/components/page';
+import { Page } from '@orca/components';
 import { AppPage } from '@orca/pages/app';
 import { AppLayout } from '@orca/layout/app';
-import { routes } from '@orca/shared/base';
 
 const RootStyle = styled(Page)((theme) => ({
   root: {},

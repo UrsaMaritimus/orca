@@ -1,7 +1,7 @@
 import { useState, FC } from 'react';
 import { styled } from '@mui/material/styles';
 
-import { MHidden } from '@orca/components/material-extend/hidden';
+import { MHidden } from '@orca/components';
 
 import NavBar from './NavBar';
 import TopBar from './TopBar';

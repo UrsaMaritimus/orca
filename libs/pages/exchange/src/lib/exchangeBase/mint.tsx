@@ -25,8 +25,12 @@ import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { BigNumber, utils } from 'ethers';
 
-import { NextLink } from '@orca/components/links';
-import { Loader } from '@orca/components/loader';
+import {
+  NextLink,
+  Loader,
+  handleTransaction,
+  useAddTransaction,
+} from '@orca/components';
 import {
   usdApprovedExchange,
   approveUsdExchange,
@@ -34,10 +38,6 @@ import {
 } from '@orca/shared/funcs';
 import { fCurrency, fNumber, fPercent } from '@orca/util';
 import { tokenInfo, routes } from '@orca/shared/base';
-import {
-  handleTransaction,
-  useAddTransaction,
-} from '@orca/components/transaction';
 
 // ------------------------------------------------------
 

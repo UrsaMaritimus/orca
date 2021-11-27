@@ -21,10 +21,6 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { Icon } from '@iconify/react';
 import arrowRight from '@iconify/icons-eva/arrow-right-outline';
 import backSpace from '@iconify/icons-eva/backspace-outline';
-import {
-  handleTransaction,
-  useAddTransaction,
-} from '@orca/components/transaction';
 
 // Ethers and web3 stuff
 import { useWeb3React } from '@web3-react/core';
@@ -34,9 +30,10 @@ import { useFormik, Form, FormikProvider } from 'formik';
 
 import useSWR from 'swr';
 
-import { Loader } from '@orca/components/loader';
+import { Loader, handleTransaction, useAddTransaction } from '@orca/components';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 import { colorScale, fCurrency, fNumber, fPercent } from '@orca/util';
+
 import {
   depositCollateral,
   getTokenBalance,

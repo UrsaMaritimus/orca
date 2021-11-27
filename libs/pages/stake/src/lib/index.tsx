@@ -3,20 +3,10 @@ import { styled } from '@mui/material/styles';
 
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
-import {
-  Card,
-  CardHeader,
-  Container,
-  Grid,
-  Typography,
-  Stack,
-  Paper,
-} from '@mui/material';
-import { Page } from '@orca/components/page';
+import { Card, CardHeader, Container } from '@mui/material';
+import { Page } from '@orca/components';
 import { OrcaStaking } from './Staking';
 import { StormStaking } from './Partner/Storm';
-import { useFrontPageStats } from './xORCA/useFrontPageStats';
-import { fPercent } from '@orca/util';
 
 // -------------------------------------------------------
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -28,8 +18,6 @@ const RootStyle = styled(Page)(({ theme }) => ({
 
 export const Staking: FC = () => {
   const { account, chainId } = useWeb3React<Web3Provider>();
-
-  const { loading, data } = useFrontPageStats();
 
   const [expanded, setExpanded] = useState<string | false>(false);
 

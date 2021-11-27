@@ -24,11 +24,7 @@ import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { BigNumber, utils } from 'ethers';
 
-import {
-  handleTransaction,
-  useAddTransaction,
-} from '@orca/components/transaction';
-import { Loader } from '@orca/components/loader';
+import { handleTransaction, useAddTransaction, Loader } from '@orca/components';
 import {
   avaiApprovedExchange,
   approveAvaiExchange,

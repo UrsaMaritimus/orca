@@ -7,7 +7,7 @@ import { styled } from '@mui/material/styles';
 
 import { Card, CardHeader, Typography, Container } from '@mui/material';
 
-import { Page, Connect, Loader } from '@orca/all-components';
+import { Page, Connect, Loader } from '@orca/components';
 
 import Table from './table';
 import { useMonitorVaults } from './useMonitor';

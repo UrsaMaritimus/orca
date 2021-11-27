@@ -12,9 +12,7 @@ import { alpha } from '@mui/material/styles';
 import { Stack, Box, Divider, MenuItem, Typography } from '@mui/material';
 
 import { routes } from '@orca/shared/base';
-import { MIconButton } from '@orca/components/material-extend/buttons';
-import { PopoverMenu } from '@orca/components/popover-menu';
-import { NextLink } from '@orca/components/links';
+import { MIconButton, NextLink, PopoverMenu } from '@orca/components';
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [

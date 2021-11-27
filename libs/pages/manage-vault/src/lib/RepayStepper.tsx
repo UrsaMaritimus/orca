@@ -24,19 +24,17 @@ import useSWR from 'swr';
 import { AVAI__factory } from '@orca/shared/contracts';
 import contractAddresses from '@orca/shared/deployments';
 
+import { useFormik, Form, FormikProvider } from 'formik';
+import { utils } from 'ethers';
+
 // Ethers and web3 stuff
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
-import { Loader } from '@orca/components/loader';
-import { useFormik, Form, FormikProvider } from 'formik';
+import { Loader, handleTransaction, useAddTransaction } from '@orca/components';
+
 import { payBackToken, avaiBalance } from '@orca/shared/funcs';
 import { fPercent, fNumber, colorScale } from '@orca/util';
-import { utils } from 'ethers';
 import { tokenInfo } from '@orca/shared/base';
-import {
-  handleTransaction,
-  useAddTransaction,
-} from '@orca/components/transaction';
 import { StepperProps } from './stepper.type';
 
 const InputTextField = styled(TextField)(({ theme }) => ({

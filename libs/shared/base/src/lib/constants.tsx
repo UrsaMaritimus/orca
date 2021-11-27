@@ -1,6 +1,6 @@
 import contracts from '@orca/shared/deployments';
 
-import { NextLink } from '@orca/components/links';
+import { NextLink } from '@orca/components';
 //-----------------------------------------
 
 export type TokenInfo = {

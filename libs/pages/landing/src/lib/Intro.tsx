@@ -15,7 +15,7 @@ import {
   useMediaQuery,
 } from '@mui/material';
 
-import { varFadeInDown, varFadeInUp, MotionInView } from '@orca/all-components';
+import { varFadeInDown, varFadeInUp, MotionInView } from '@orca/components';
 
 // ----------------------------------------------------------------------
 

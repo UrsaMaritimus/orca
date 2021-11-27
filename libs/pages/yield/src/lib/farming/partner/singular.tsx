@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-import { NextLink } from '@orca/components/links';
+import { NextLink } from '@orca/components';
 
 export const SingularFarm: FC = () => {
   const theme = useTheme();

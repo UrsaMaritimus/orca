@@ -15,11 +15,8 @@ import {
   Box,
 } from '@mui/material';
 
-import { NextLink } from '@orca/components/links';
-import { MHidden } from '@orca/components/material-extend/hidden';
+import { NextLink, MHidden, Logo, ScrollBar } from '@orca/components';
 import { routes } from '@orca/shared/base';
-import { Logo } from '@orca/components/logo';
-import { ScrollBar } from '@orca/components/scroll-bar';
 import { useCollapseDrawer } from '@orca/hooks';
 
 import NavSection from './NavSection';

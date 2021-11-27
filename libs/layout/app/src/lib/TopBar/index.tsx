@@ -19,7 +19,7 @@ import {
   AvaiBalance,
   OrcaBalance,
   LargeLogo,
-} from '@orca/all-components';
+} from '@orca/components';
 
 import { ImportantLinks } from './ImportantLinks';
 // ----------------------------------------------------------------------

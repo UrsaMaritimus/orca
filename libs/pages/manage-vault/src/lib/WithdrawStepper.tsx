@@ -35,12 +35,9 @@ import { utils } from 'ethers';
 import { fCurrency, fPercent, fNumber, colorScale } from '@orca/util';
 import { withdrawCollateral } from '@orca/shared/funcs';
 
-import { Loader } from '@orca/components/loader';
+import { Loader, handleTransaction, useAddTransaction } from '@orca/components';
 import { tokenInfo } from '@orca/shared/base';
-import {
-  handleTransaction,
-  useAddTransaction,
-} from '@orca/components/transaction';
+
 import { StepperProps } from './stepper.type';
 
 const InputTextField = styled(TextField)(({ theme }) => ({

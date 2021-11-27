@@ -4,7 +4,7 @@ import { Link as ScrollLink } from 'react-scroll';
 
 import { Link, Typography, Container } from '@mui/material';
 
-import { Logo } from '@orca/components/logo';
+import { Logo } from '@orca/components';
 
 // ----------------------------------------------------------------------
 

@@ -19,7 +19,7 @@ import { utils, BigNumber } from 'ethers';
 import { Web3Provider } from '@ethersproject/providers';
 import { useFormik, Form, FormikProvider } from 'formik';
 
-import { handleTransaction } from '@orca/components/transaction';
+import { handleTransaction } from '@orca/components';
 import { getTokenBalance, withdrawxORCA } from '@orca/shared/funcs';
 import { fCurrency, fNumber } from '@orca/util';
 

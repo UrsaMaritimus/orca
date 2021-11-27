@@ -4,7 +4,7 @@ import { utils } from 'ethers';
 import { Grid, Card, Box, Stack, Typography } from '@mui/material';
 
 import { fCurrency, fNumber } from '@orca/util';
-import { Loader } from '@orca/components/loader';
+import { Loader } from '@orca/components';
 
 import { useFrontPageInfo } from '../graph/useFrontPageAnalytics';
 

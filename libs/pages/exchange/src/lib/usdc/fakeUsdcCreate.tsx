@@ -10,7 +10,7 @@ import { Card, CardHeader, Container, Typography, Grid } from '@mui/material';
 import { mintFakeUSDC } from '@orca/shared/funcs';
 import { BigNumber, utils } from 'ethers';
 import { fNumber } from '@orca/util';
-import { handleTransaction } from '@orca/components/transaction';
+import { handleTransaction } from '@orca/components';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 //-----------------------------------------------------------------

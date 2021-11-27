@@ -8,7 +8,7 @@ import { toast } from 'react-hot-toast';
 
 import { BigNumber, utils } from 'ethers';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { handleTransaction } from '@orca/components/transaction';
+import { handleTransaction } from '@orca/components';
 import { getTotalRewardBalance, depositFarm } from '@orca/shared/funcs';
 import { tokenInfo } from '@orca/shared/base';
 import {

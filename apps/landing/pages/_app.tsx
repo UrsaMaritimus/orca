@@ -24,9 +24,11 @@ import Router from 'next/router';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 
-import { ThemeProvider as CustomThemeProvider } from '@orca/components/theme';
-import { CustomToaster } from '@orca/components/toast';
-import { Settings } from '@orca/components/settings';
+import {
+  ThemeProvider as CustomThemeProvider,
+  CustomToaster,
+  Settings,
+} from '@orca/components';
 import { CollapseDrawerProvider } from '@orca/hooks';
 
 // emotion

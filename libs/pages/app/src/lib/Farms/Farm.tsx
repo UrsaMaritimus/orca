@@ -2,10 +2,10 @@ import { FC } from 'react';
 
 import { Grid, Box, Typography, Divider, Paper } from '@mui/material';
 
-import { LoadingDots } from '@orca/components/loader';
+import { LoadingDots } from '@orca/components';
 
 import { useFrontPageYieldInfo } from '../graph/useFrontPageYieldFarm';
-import { fCurrency, fNumber, fPercent } from '@orca/util';
+import { fCurrency, fNumber } from '@orca/util';
 
 export type YieldFarmProps = {
   name: string;

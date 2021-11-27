@@ -10,7 +10,7 @@ import {
   MotionContainer,
   Logo,
   NextLink,
-} from '@orca/all-components';
+} from '@orca/components';
 import { routes } from '@orca/shared/base';
 
 const RootStyle = styled(Page)(({ theme }) => ({

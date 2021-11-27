@@ -19,7 +19,7 @@ import {
   ListItemIcon,
 } from '@mui/material';
 
-import { NextLink } from '@orca/components/links';
+import { NextLink } from '@orca/components';
 
 import MenuLinks from './config';
 

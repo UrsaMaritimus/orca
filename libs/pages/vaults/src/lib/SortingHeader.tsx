@@ -13,7 +13,7 @@ import {
   Grid,
 } from '@mui/material';
 
-import { ColorBar } from '@orca/all-components';
+import { ColorBar } from '@orca/components';
 // ----------------------------------------------------------------------
 
 type SortingSelectionHeadProps = {

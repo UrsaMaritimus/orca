@@ -25,10 +25,12 @@ import {
 } from '@mui/material';
 
 import { routes, useOffSetTop } from '@orca/shared/base';
-import { MIconButton } from '@orca/components/material-extend/buttons';
-import { LargeLogo } from '@orca/components/logo';
-import { PopoverMenu } from '@orca/components/popover-menu';
-import { NextLink } from '@orca/components/links';
+import {
+  MIconButton,
+  LargeLogo,
+  PopoverMenu,
+  NextLink,
+} from '@orca/components';
 
 // ----------------------------------------------------------------------
 //Constants

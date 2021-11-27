@@ -41,7 +41,7 @@ import {
   Loader,
   Connect,
   handleTransaction,
-} from '@orca/all-components';
+} from '@orca/components';
 import { routes, tokenInfo } from '@orca/shared/base';
 import { deleteVault } from '@orca/shared/funcs';
 

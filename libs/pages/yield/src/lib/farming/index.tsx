@@ -11,7 +11,7 @@ import {
   Typography,
   Grid,
 } from '@mui/material';
-import { Page } from '@orca/components/page';
+import { Page, NextLink } from '@orca/components';
 
 import { AvaiOrcaFarm } from './AVAI-ORCA';
 import { AvaiUsdcFarm } from './AVAI-USDC';
@@ -20,7 +20,6 @@ import { SingularFarm } from './partner/singular';
 import { AvawareFarm } from './partner/avaware';
 import { LydiaFarm } from './partner/lydia';
 import { XOrcaFarm } from './xORCA';
-import { NextLink } from '@orca/components/links';
 
 const RootStyle = styled(Page)(({ theme }) => ({
   paddingTop: theme.spacing(3),

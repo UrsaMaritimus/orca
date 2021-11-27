@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { NextLink } from '@orca/components/links';
+import { NextLink } from '@orca/components';
 
 import { Icon } from '@iconify/react';
 import editOutline from '@iconify/icons-eva/edit-outline';

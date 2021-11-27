@@ -31,7 +31,7 @@ import {
   BalanceInfoAVAI,
   BalanceInfoOrca,
   AccountInfo,
-} from '@orca/all-components';
+} from '@orca/components';
 import { CollapseDrawerProvider } from '@orca/hooks';
 
 // emotion

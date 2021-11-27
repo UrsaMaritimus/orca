@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Grid, Card, useTheme, CardHeader, Box } from '@mui/material';
 
-import { Loader } from '@orca/components/loader';
+import { Loader } from '@orca/components';
 
 import { useFrontPageInfo } from '../graph/useFrontPageAnalytics';
 import BankInfo from './BankInfo';

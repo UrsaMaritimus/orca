@@ -9,7 +9,7 @@ import { motion } from 'framer-motion';
 import { styled } from '@mui/material/styles';
 
 import { Box, Typography, Container, Button, Link } from '@mui/material';
-import { varFadeIn, varWrapEnter, varFadeInRight } from '@orca/all-components';
+import { varFadeIn, varWrapEnter, varFadeInRight } from '@orca/components';
 
 import { routes } from '@orca/shared/base';
 

@@ -7,7 +7,7 @@ import { Card, CardHeader } from '@mui/material';
 // utils
 import { fCurrency, fNumber } from '@orca/util';
 //
-import { BaseOptionChart, ChartStyles } from '@orca/all-components';
+import { BaseOptionChart, ChartStyles } from '@orca/components';
 import { BigNumber, utils } from 'ethers';
 
 import dynamic from 'next/dynamic';

@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import { styled } from '@mui/material/styles';
 
-import { Page } from '@orca/components/page';
+import { Page } from '@orca/components';
 import { Monitor } from '@orca/pages/monitor';
 import { AppLayout } from '@orca/layout/app';
 
