@@ -97,11 +97,6 @@ const navConfig = [
         icon: ICONS.proposal,
         href: routes.APP.GOVERNANCE.VOTE,
       },
-      {
-        title: 'Current Vote',
-        icon: ICONS.voting,
-        href: 'https://vote.avai.finance/#/proposal/0x15abce61c06393781621b37461c4763b0c222dd3bb5b6ba97fcff9caba582fc4',
-      },
     ],
   },
 ];
