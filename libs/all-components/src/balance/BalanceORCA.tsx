@@ -1,0 +1,97 @@
+import { useEffect, FC } from 'react';
+
+import type { Web3Provider } from '@ethersproject/providers';
+import { useWeb3React } from '@web3-react/core';
+import useSWR from 'swr';
+import { Typography, Box, Grid, Button } from '@mui/material';
+import { parseBalance } from '@orca/util';
+import { useSetRecoilState } from 'recoil';
+import { styled } from '@mui/material/styles';
+
+import contractAddresses from '@orca/shared/deployments';
+import { ORCA__factory } from '@orca/shared/contracts';
+import { orcaBalance } from '@orca/shared/funcs';
+import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
+import { seeORCA } from './atom';
+
+const BalanceStyle = styled(Button)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  padding: theme.spacing(1, 1.5),
+  margin: theme.spacing(1),
+  borderRadius: theme.shape.borderRadiusSm,
+  backgroundColor: theme.palette.grey[500_80],
+  maxWidth: '175px',
+}));
+
+const OrcaBalance: FC = () => {
+  const setSeeORCA = useSetRecoilState(seeORCA);
+  const { account, library, chainId } = useWeb3React<Web3Provider>();
+  const shouldFetch = typeof account === 'string' && !!library;
+  const { data: balance, mutate: orcaMutate } = useSWR(
+    shouldFetch ? ['orcaBalance', library, chainId, account] : null,
+    orcaBalance()
+  );
+  useKeepSWRDataLiveAsBlocksArrive(orcaMutate);
+
+  useEffect(() => {
+    const orca = ORCA__factory.connect(
+      chainId === 43113
+        ? contractAddresses.fuji.ORCA.address
+        : chainId === 43114
+        ? contractAddresses.main.ORCA.address
+        : null,
+      library
+    );
+
+    const balanceChange = orca.filters.Transfer();
+    orca.on(balanceChange, (from, to, balance) => {
+      if (from === account || to === account) {
+        orcaMutate(undefined, true);
+      }
+    });
+
+    return () => {
+      orca.removeAllListeners(balanceChange);
+    };
+  }, [library, account, orcaMutate, chainId]);
+
+  const changeSeeORCA = () => {
+    setSeeORCA((seeORCA) => {
+      return seeORCA ? false : true;
+    });
+  };
+
+  return (
+    <BalanceStyle onClick={changeSeeORCA}>
+      <Grid container alignItems="center">
+        <Grid item xs={3} display="flex" justifyContent="center">
+          <Box
+            component="img"
+            src={'/static/cryptos/ic_orca.svg'}
+            sx={{
+              width: 30,
+              height: 30,
+              mr: 1,
+            }}
+            color="inherit"
+          />
+        </Grid>
+        <Grid item xs={9} display="flex" justifyContent="center">
+          <Typography
+            variant="button"
+            sx={{
+              color: (theme) =>
+                theme.palette.mode === 'light' ? 'grey.800' : 'grey.200',
+            }}
+            textAlign="center"
+          >
+            {balance ? parseBalance(balance) : '0'} ORCA
+          </Typography>
+        </Grid>
+      </Grid>
+    </BalanceStyle>
+  );
+};
+
+export default OrcaBalance;

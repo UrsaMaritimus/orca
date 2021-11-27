@@ -14,7 +14,8 @@
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "parallel": 1
       }
     }
   },
@@ -26,158 +27,21 @@
       }
     ]
   },
-  "projects": {
-    "avai": {
-      "tags": []
+  "cli": {
+    "defaultCollection": "@nrwl/next"
+  },
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "babel": true
+      }
     },
-    "components-account": {
-      "tags": []
-    },
-    "components-add-token": {
-      "tags": []
-    },
-    "components-animate": {
-      "tags": []
-    },
-    "components-balance": {
-      "tags": []
-    },
-    "components-carousel": {
-      "tags": []
-    },
-    "components-chart": {
-      "tags": []
-    },
-    "components-colorbar": {
-      "tags": []
-    },
-    "components-connect": {
-      "tags": []
-    },
-    "components-links": {
-      "tags": []
-    },
-    "components-loader": {
-      "tags": []
-    },
-    "components-logo": {
-      "tags": []
-    },
-    "components-material-extend-avatar": {
-      "tags": []
-    },
-    "components-material-extend-breadcrumbs": {
-      "tags": []
-    },
-    "components-material-extend-buttons": {
-      "tags": []
-    },
-    "components-material-extend-hidden": {
-      "tags": []
-    },
-    "components-page": {
-      "tags": []
-    },
-    "components-popover-menu": {
-      "tags": []
-    },
-    "components-scroll-bar": {
-      "tags": []
-    },
-    "components-settings": {
-      "tags": []
-    },
-    "components-svg-icon-style": {
-      "tags": []
-    },
-    "components-table": {
-      "tags": []
-    },
-    "components-theme": {
-      "tags": []
-    },
-    "components-toast": {
-      "tags": []
-    },
-    "components-transaction": {
-      "tags": []
-    },
-    "graphql": {
-      "tags": []
-    },
-    "hooks": {
-      "tags": []
-    },
-    "landing": {
-      "tags": []
-    },
-    "landing-e2e": {
-      "tags": [],
-      "implicitDependencies": ["landing"]
-    },
-    "layout-app": {
-      "tags": []
-    },
-    "layout-landing": {
-      "tags": []
-    },
-    "orca": {
-      "tags": []
-    },
-    "orca-e2e": {
-      "tags": [],
-      "implicitDependencies": ["orca"]
-    },
-    "pages-app": {
-      "tags": []
-    },
-    "pages-create-vault": {
-      "tags": []
-    },
-    "pages-error": {
-      "tags": []
-    },
-    "pages-exchange": {
-      "tags": []
-    },
-    "pages-landing": {
-      "tags": []
-    },
-    "pages-manage-vault": {
-      "tags": []
-    },
-    "pages-monitor": {
-      "tags": []
-    },
-    "pages-stake": {
-      "tags": []
-    },
-    "pages-vaults": {
-      "tags": []
-    },
-    "pages-yield": {
-      "tags": []
-    },
-    "shared-base": {
-      "tags": []
-    },
-    "shared-contracts": {
-      "tags": []
-    },
-    "shared-deployments": {
-      "tags": []
-    },
-    "shared-funcs": {
-      "tags": []
-    },
-    "shared-styles": {
-      "tags": []
-    },
-    "test-contract": {
-      "tags": []
-    },
-    "util": {
-      "tags": []
+    "@nrwl/next": {
+      "application": {
+        "style": "@emotion/styled",
+        "linter": "eslint"
+      }
     }
-  }
+  },
+  "defaultProject": "orca"
 }
