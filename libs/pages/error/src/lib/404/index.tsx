@@ -4,10 +4,13 @@ import { styled } from '@mui/material/styles';
 
 import { Box, Button, Typography, Container } from '@mui/material';
 
-import { Page } from '@orca/components/page';
-import { varBounceIn, MotionContainer } from '@orca/components/animate';
-import { Logo } from '@orca/components/logo';
-import { NextLink } from '@orca/components/links';
+import {
+  Page,
+  varBounceIn,
+  MotionContainer,
+  Logo,
+  NextLink,
+} from '@orca/all-components';
 import { routes } from '@orca/shared/base';
 
 const RootStyle = styled(Page)(({ theme }) => ({

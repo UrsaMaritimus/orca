@@ -5,11 +5,7 @@ import { styled } from '@mui/material/styles';
 import { Box, Typography, Container, Button, Link } from '@mui/material';
 import { motion } from 'framer-motion';
 
-import {
-  varFadeInDown,
-  varFadeInUp,
-  MotionInView,
-} from '@orca/components/animate';
+import { varFadeInDown, varFadeInUp, MotionInView } from '@orca/all-components';
 import { routes } from '@orca/shared/base';
 // ----------------------------------------------------------------------
 

@@ -8,12 +8,12 @@ import { alpha, useTheme, styled } from '@mui/material/styles';
 import { CardContent, Box, Card, Typography, Link } from '@mui/material';
 
 //
-import { varFadeInRight, MotionContainer } from '@orca/components/animate';
+import { varFadeInRight, MotionContainer } from '@orca/all-components';
 import {
   CarouselControlsPaging1,
   CarouselControlsArrowsBasic1,
   CarouselControlsArrowsBasic2,
-} from '@orca/components/carousel';
+} from '@orca/all-components';
 
 import { routes } from '@orca/shared/base';
 

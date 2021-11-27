@@ -17,8 +17,9 @@ import Slider from 'react-slick';
 import {
   CarouselControlsArrowsBasic2,
   CarouselControlsPaging2,
-} from '@orca/components/carousel';
-import { MotionInView, varFadeInUp } from '@orca/components/animate';
+  MotionInView,
+  varFadeInUp,
+} from '@orca/all-components';
 
 const RootStyle = styled('div')(({ theme }) => ({
   padding: theme.spacing(15, 0),

@@ -5,7 +5,7 @@ import Stack from '@mui/material/Stack';
 
 import { styled } from '@mui/material/styles';
 
-import { Account } from '@orca/components/account';
+import { Account } from '@orca/all-components';
 import { AvaiBalance } from '@orca/components/balance';
 import { ImportantLinks } from '../TopBar/ImportantLinks';
 import { Grid } from '@mui/material';

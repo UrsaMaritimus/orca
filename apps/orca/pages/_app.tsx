@@ -33,7 +33,7 @@ import { CollapseDrawerProvider } from '@orca/hooks';
 
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import createEmotionCache from '../emotion';
-import { AccountInfo } from '@orca/components/account';
+import { AccountInfo } from '@orca/all-components';
 import { BalanceInfoAVAI, BalanceInfoOrca } from '@orca/components/balance';
 
 //apollo
