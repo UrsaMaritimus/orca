@@ -35,13 +35,15 @@ import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 
 // Custom stuff
-import { NextLink } from '@orca/components/links';
-import { Page } from '@orca/components/page';
+import {
+  NextLink,
+  Page,
+  Loader,
+  Connect,
+  handleTransaction,
+} from '@orca/all-components';
 import { routes, tokenInfo } from '@orca/shared/base';
-import { Loader } from '@orca/components/loader';
-import { Connect } from '@orca/components/connect';
-import { handleTransaction } from '@orca/components/transaction';
-import { deleteVault, yakTrueBalance } from '@orca/shared/funcs';
+import { deleteVault } from '@orca/shared/funcs';
 
 import { Deposit } from './Deposit';
 import { Borrows } from './Borrows';

@@ -17,3 +17,4 @@ export { default as MainTable } from './table';
 export * from './theme';
 export * from './toast';
 export * from './transaction';
+export * from './scroll-bar';

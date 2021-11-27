@@ -16,10 +16,7 @@ import {
   Grid,
 } from '@mui/material';
 
-import { Page } from '@orca/components/page';
-import { Connect } from '@orca/components/connect';
-import { Loader } from '@orca/components/loader';
-import { NextLink } from '@orca/components/links';
+import { Page, Connect, Loader, NextLink } from '@orca/all-components';
 
 import { useGetVaults } from './useVault';
 import { VaultCard } from './VaultCard';

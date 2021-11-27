@@ -16,7 +16,7 @@ import {
   Grid,
 } from '@mui/material';
 
-import { ColorBar } from '@orca/components/colorbar';
+import { ColorBar } from '@orca/all-components';
 // ----------------------------------------------------------------------
 
 type SortingSelectionHeadProps = {

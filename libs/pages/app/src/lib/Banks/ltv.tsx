@@ -5,11 +5,10 @@ import dynamic from 'next/dynamic';
 import { Icon } from '@iconify/react';
 import infoOutline from '@iconify/icons-eva/info-outline';
 // material
-import { useTheme } from '@mui/material/styles';
 import chroma from 'chroma-js';
 // utils
 import { colorScale, fPercent } from '@orca/util';
-import { BaseOptionChart } from '@orca/components/chart';
+import { BaseOptionChart, ColorBar } from '@orca/all-components';
 import {
   Typography,
   Stack,
@@ -18,8 +17,6 @@ import {
   Grid,
   IconButton,
 } from '@mui/material';
-
-import { ColorBar } from '@orca/components/colorbar';
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), {
   ssr: false,

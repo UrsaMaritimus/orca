@@ -1,23 +1,13 @@
 /* eslint-disable-next-line */
-import { useState, FC } from 'react';
+import { FC } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 
 import { styled } from '@mui/material/styles';
 
-import {
-  Card,
-  CardHeader,
-  Box,
-  Typography,
-  Stack,
-  Tab,
-  Container,
-} from '@mui/material';
+import { Card, CardHeader, Typography, Container } from '@mui/material';
 
-import { Page } from '@orca/components/page';
-import { Connect } from '@orca/components/connect';
-import { Loader } from '@orca/components/loader';
+import { Page, Connect, Loader } from '@orca/all-components';
 
 import Table from './table';
 import { useMonitorVaults } from './useMonitor';

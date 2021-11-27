@@ -19,13 +19,13 @@ import {
   Backdrop,
 } from '@mui/material';
 
-import { NextLink } from '@orca/components/links';
-import { Page } from '@orca/components/page';
-import { Connect } from '@orca/components/connect';
-import { routes, tokenInfo } from '@orca/shared/base';
-import { Loader } from '@orca/components/loader';
-import { baseCollateral, ibtknCollateral } from '@orca/shared/base';
-
+import { NextLink, Page, Connect, Loader } from '@orca/all-components';
+import {
+  routes,
+  tokenInfo,
+  baseCollateral,
+  ibtknCollateral,
+} from '@orca/shared/base';
 import { VaultCard } from './VaultCard';
 import { SortingSelectingHead } from './SortingHeader';
 import { useGetVaults } from './getBankInfo';

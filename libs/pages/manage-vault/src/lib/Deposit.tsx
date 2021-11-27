@@ -33,7 +33,7 @@ import {
   fShortenNumber,
 } from '@orca/util';
 
-import { ColorBar } from '@orca/components/colorbar';
+import { ColorBar } from '@orca/all-components';
 import { tokenInfo } from '@orca/shared/base';
 import { yakTrueBalance } from '@orca/shared/funcs';
 

@@ -19,7 +19,7 @@ import {
 import {
   CarouselControlsPaging1,
   CarouselControlsArrowsBasic2,
-} from '@orca/components/carousel';
+} from '@orca/all-components';
 
 import { TokenInfo, tokenInfo } from '@orca/shared/base';
 import { BigNumber, utils } from 'ethers';

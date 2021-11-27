@@ -12,10 +12,14 @@ import { useWeb3React } from '@web3-react/core';
 
 import { useCollapseDrawer } from '@orca/hooks';
 
-import { MHidden } from '@orca/components/material-extend/hidden';
-import { Account } from '@orca/all-components';
-import { Balance, AvaiBalance, OrcaBalance } from '@orca/components/balance';
-import { LargeLogo } from '@orca/components/logo';
+import {
+  Account,
+  MHidden,
+  Balance,
+  AvaiBalance,
+  OrcaBalance,
+  LargeLogo,
+} from '@orca/all-components';
 
 import { ImportantLinks } from './ImportantLinks';
 // ----------------------------------------------------------------------

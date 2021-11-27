@@ -16,15 +16,13 @@ import {
   ToggleButtonGroup,
 } from '@mui/material';
 
-import { Page } from '@orca/components/page';
-import { Connect } from '@orca/components/connect';
+import { Page, Connect, Loader } from '@orca/all-components';
 
 import { usdBalance, avaiBalance, exchangeInfo } from '@orca/shared/funcs';
 
 import { Mint } from './mint';
 import { Redeem } from './redeem';
 import { FakeUSDCFaucet } from '../usdc/fakeUsdcCreate';
-import { Loader } from '@orca/components/loader';
 
 //-----------------------------------------------------------------
 

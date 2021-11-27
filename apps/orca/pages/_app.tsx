@@ -24,17 +24,20 @@ import Router from 'next/router';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 
-import { ThemeProvider as CustomThemeProvider } from '@orca/components/theme';
-import { CustomToaster } from '@orca/components/toast';
-import { Settings } from '@orca/components/settings';
+import {
+  ThemeProvider as CustomThemeProvider,
+  CustomToaster,
+  Settings,
+  BalanceInfoAVAI,
+  BalanceInfoOrca,
+  AccountInfo,
+} from '@orca/all-components';
 import { CollapseDrawerProvider } from '@orca/hooks';
 
 // emotion
 
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import createEmotionCache from '../emotion';
-import { AccountInfo } from '@orca/all-components';
-import { BalanceInfoAVAI, BalanceInfoOrca } from '@orca/components/balance';
 
 //apollo
 import { ApolloProvider } from '@apollo/client';

@@ -21,10 +21,10 @@ import { utils } from 'ethers';
 import { fCurrency, fPercent, fNumber, colorScale } from '@orca/util';
 
 import { tokenInfo } from '@orca/shared/base';
+import { ColorBar } from '@orca/all-components';
 import BorrowStepper from './BorrowStepper';
 import RepayStepper from './RepayStepper';
 import { ActionProps } from './stepper.type';
-import { ColorBar } from '@orca/components/colorbar';
 //-----------------------------------------
 
 export const Borrows: FC<ActionProps> = ({

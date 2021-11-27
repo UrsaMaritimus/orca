@@ -7,16 +7,13 @@ import { visuallyHidden } from '@mui/utils';
 import {
   Box,
   Popover,
-  TableRow,
-  TableCell,
-  TableHead,
   TableSortLabel,
   Typography,
   IconButton,
   Grid,
 } from '@mui/material';
 
-import { ColorBar } from '@orca/components/colorbar';
+import { ColorBar } from '@orca/all-components';
 // ----------------------------------------------------------------------
 
 type SortingSelectionHeadProps = {
