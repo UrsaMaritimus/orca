@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { routes, tokenInfo } from '@orca/shared/base';
+import { ProtocolTokenInfo } from '@orca/shared';
 import { Farm } from '../Farm';
 import { useMonitorFarms } from '../PartnerData';
 type AvaiProps = {
@@ -21,7 +21,7 @@ export const StormStaking: FC<AvaiProps> = ({
   const { loading, data } = useMonitorFarms(
     account,
     chainId,
-    tokenInfo['STORM'].address.mainnet
+    ProtocolTokenInfo['STORM'].address.mainnet
   );
 
   return (
@@ -29,9 +29,9 @@ export const StormStaking: FC<AvaiProps> = ({
       handleChange={handleChange}
       expanded={expanded}
       reward="STORM"
-      rewardImg={tokenInfo['STORM'].icon}
+      rewardImg={ProtocolTokenInfo['STORM'].icon}
       rewardPerDay={data?.rewardPerDay}
-      img={tokenInfo['ORCA'].icon}
+      img={ProtocolTokenInfo['ORCA'].icon}
       name="ORCA"
       tvl={data?.tvl}
       apr={data?.apr}
@@ -43,8 +43,8 @@ export const StormStaking: FC<AvaiProps> = ({
       color1={'#054dcc'}
       farm={
         chainId === 43114
-          ? tokenInfo['ORCA'].address.mainnet.toLowerCase()
-          : tokenInfo['STORM'].address.fuji.toLowerCase()
+          ? ProtocolTokenInfo['ORCA'].address.mainnet.toLowerCase()
+          : ProtocolTokenInfo['STORM'].address.fuji.toLowerCase()
       }
       link={
         'https://app.pangolin.exchange/#/add/0x8B1d98A91F853218ddbb066F20b8c63E782e2430/0x346A59146b9b4a77100D369a3d18E8007A9F46a6'

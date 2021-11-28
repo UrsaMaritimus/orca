@@ -1,4 +1,4 @@
-import { routes } from '@orca/shared/base';
+import { routes } from '@orca/shared';
 import { Box } from '@mui/material';
 import { SvgIconStyle } from '@orca/components';
 

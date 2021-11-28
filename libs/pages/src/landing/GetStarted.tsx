@@ -6,7 +6,7 @@ import { Box, Typography, Container, Button, Link } from '@mui/material';
 import { motion } from 'framer-motion';
 
 import { varFadeInDown, varFadeInUp, MotionInView } from '@orca/components';
-import { routes } from '@orca/shared/base';
+import { routes } from '@orca/shared';
 // ----------------------------------------------------------------------
 
 const ContentStyle = styled('div')(({ theme }) => ({

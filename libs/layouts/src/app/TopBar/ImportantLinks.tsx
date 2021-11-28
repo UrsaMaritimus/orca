@@ -11,7 +11,7 @@ import bxlMedium from '@iconify/icons-bx/bxl-medium';
 import { alpha } from '@mui/material/styles';
 import { Stack, Box, Divider, MenuItem, Typography } from '@mui/material';
 
-import { routes } from '@orca/shared/base';
+import { routes } from '@orca/shared';
 import { MIconButton, NextLink, PopoverMenu } from '@orca/components';
 // ----------------------------------------------------------------------
 

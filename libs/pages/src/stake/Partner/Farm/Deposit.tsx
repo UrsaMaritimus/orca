@@ -28,10 +28,10 @@ import {
   getTokenBalancePartner,
   tokenApprovedFarmPartner,
   depositFarmPartner,
-} from '@orca/shared/funcs';
+} from '@orca/web3';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 import { fNumber } from '@orca/util';
-import { tokenInfo } from '@orca/shared/base';
+import { BankTokenInfo, ProtocolTokenInfo } from '@orca/shared';
 
 const ReturnTextField = styled(TextField)(({ theme }) => ({
   '& .MuiInputBase-input': {
@@ -80,8 +80,8 @@ export const Deposit: FC<DepositProps> = ({
           library,
           account,
           chainId === 43114
-            ? tokenInfo['ORCA'].address.mainnet
-            : tokenInfo['ORCA'].address.fuji,
+            ? ProtocolTokenInfo['ORCA'].address.mainnet
+            : ProtocolTokenInfo['ORCA'].address.fuji,
         ]
       : null,
     getTokenBalancePartner()

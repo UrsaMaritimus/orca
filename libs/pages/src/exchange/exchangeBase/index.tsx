@@ -18,7 +18,7 @@ import {
 
 import { Page, Connect, Loader } from '@orca/components';
 
-import { usdBalance, avaiBalance, exchangeInfo } from '@orca/shared/funcs';
+import { usdBalance, avaiBalance, exchangeInfo } from '@orca/web3';
 
 import { Mint } from './mint';
 import { Redeem } from './redeem';

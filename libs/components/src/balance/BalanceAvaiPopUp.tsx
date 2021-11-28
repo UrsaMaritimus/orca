@@ -19,9 +19,10 @@ import { Icon } from '@iconify/react';
 import closeIcon from '@iconify/icons-eva/close-outline';
 import externalLinkOutline from '@iconify/icons-eva/external-link-outline';
 
+import { routes } from '@orca/shared';
 import { fCurrency, fNumber } from '@orca/util';
-import { NextLink } from '@orca/components';
-import { routes } from '@orca/shared/base';
+
+import { NextLink } from '../links';
 import { seeAVAI } from './atom';
 import { useAvaiPrice } from './graph/useAVAIPrice';
 

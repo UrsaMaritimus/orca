@@ -20,7 +20,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import { useFormik, Form, FormikProvider } from 'formik';
 
 import { handleTransaction } from '@orca/components';
-import { getTokenBalance, withdrawxORCA } from '@orca/shared/funcs';
+import { getTokenBalance, withdrawxORCA } from '@orca/web3';
 import { fCurrency, fNumber } from '@orca/util';
 
 const ReturnTextField = styled(TextField)(({ theme }) => ({

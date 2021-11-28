@@ -1,9 +1,8 @@
 import { utils, BigNumber } from 'ethers';
 
 import { useAllBankInfoQuery } from '@orca/graphql';
-import { VaultContracts } from '@orca/shared/contracts';
 import { includes, find } from 'lodash';
-import { TokenInfo } from '@orca/shared/base';
+import { TokenInfo, VaultContracts } from '@orca/shared';
 
 export const useGetVaults = (chainID: number, collateral: TokenInfo[]) => {
   const { data: vaultData } = useAllBankInfoQuery({ pollInterval: 5000 });

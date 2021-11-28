@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 import { Box, Button, Typography, Container } from '@mui/material';
 
 import { Page, Logo, NextLink } from '@orca/components';
-import { routes } from '@orca/shared/base';
+import { routes } from '@orca/shared';
 
 // ----------------------------------------------------------------------
 const RootStyle = styled(Page)(({ theme }) => ({

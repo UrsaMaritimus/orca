@@ -14,7 +14,7 @@ import {
   Tooltip,
 } from '@mui/material';
 import { fPercent, fCurrency, colorScale } from '@orca/util';
-import { routes, tokenInfo } from '@orca/shared/base';
+import { routes, BankTokenInfo } from '@orca/shared';
 
 type VaultCardProps = {
   row: {
@@ -35,8 +35,8 @@ export const VaultCard: FC<VaultCardProps> = ({ row }) => {
         href={`${routes.APP.VAULTS.USER}/${row.type}/${row.vaultID}`}
         underline="none"
       >
-        {tokenInfo[row.type].tooltip ? (
-          <Tooltip title={tokenInfo[row.type].tooltipText}>
+        {BankTokenInfo[row.type].tooltip ? (
+          <Tooltip title={BankTokenInfo[row.type].tooltipText}>
             <Card
               sx={{
                 p: 2,

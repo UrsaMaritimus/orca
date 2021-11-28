@@ -25,13 +25,9 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import { BigNumber, utils } from 'ethers';
 
 import { handleTransaction, useAddTransaction, Loader } from '@orca/components';
-import {
-  avaiApprovedExchange,
-  approveAvaiExchange,
-  redeemFromExchange,
-} from '@orca/shared/funcs';
+import { redeemFromExchange } from '@orca/web3';
 import { fCurrency, fNumber, fPercent } from '@orca/util';
-import { tokenInfo } from '@orca/shared/base';
+import { tokenInfo } from '@orca/shared';
 
 // ------------------------------------------------------
 

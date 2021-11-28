@@ -19,9 +19,9 @@ import closeIcon from '@iconify/icons-eva/close-outline';
 import externalLinkOutline from '@iconify/icons-eva/external-link-outline';
 
 import { fCurrency, fNumber } from '@orca/util';
-import { NextLink } from '@orca/components';
+import { NextLink } from '../links';
 
-import { routes } from '@orca/shared/base';
+import { routes } from '@orca/shared';
 import { seeORCA } from './atom';
 import { useOrcaPrice } from './graph/useOrcaPrice';
 

@@ -5,10 +5,9 @@ import { Web3Provider } from '@ethersproject/providers';
 import useSwr from 'swr';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
-import { bankPrice, yakTrueBalance } from '@orca/shared/funcs';
+import { bankPrice, yakTrueBalance } from '@orca/web3';
 import { useVaultInfoQuery } from '@orca/graphql';
-import { VaultContracts } from '@orca/shared/contracts';
-import { tokenInfo } from '@orca/shared/base';
+import { VaultContracts, BankTokenInfo } from '@orca/shared';
 
 export const useGetVaultInfo = (
   library: Web3Provider,
@@ -32,7 +31,7 @@ export const useGetVaultInfo = (
     },
     pollInterval: 5000,
   });
-  const shouldFetchYak = !!library && tokenInfo[token].yaktoken;
+  const shouldFetchYak = !!library && BankTokenInfo[token].yaktoken;
   // Grab yak
   const { data: yakBalance, mutate: yakMutate } = useSwr(
     shouldFetchYak
@@ -40,8 +39,8 @@ export const useGetVaultInfo = (
           `get${token}YakBalance`,
           library,
           chainId === 43114
-            ? tokenInfo[token].address.mainnet
-            : tokenInfo[token].address.fuji,
+            ? BankTokenInfo[token].address.mainnet
+            : BankTokenInfo[token].address.fuji,
           chainId,
           vaultType,
           Number(vaultID).toString(16),

@@ -34,8 +34,8 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import { Loader, handleTransaction, useAddTransaction } from '@orca/components';
 import { fPercent, fNumber, colorScale } from '@orca/util';
 
-import { borrowToken } from '@orca/shared/funcs';
-import { tokenInfo } from '@orca/shared/base';
+import { borrowToken } from '@orca/web3';
+import { tokenInfo } from '@orca/shared';
 import { StepperProps } from './stepper.type';
 
 const InputTextField = styled(TextField)(({ theme }) => ({

@@ -15,7 +15,7 @@ import {
   CarouselControlsArrowsBasic2,
 } from '@orca/components';
 
-import { routes } from '@orca/shared/base';
+import { routes } from '@orca/shared';
 
 // ----------------------------------------------------------------------
 

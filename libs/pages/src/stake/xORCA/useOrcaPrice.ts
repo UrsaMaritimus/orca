@@ -1,5 +1,5 @@
 import { BigNumber, utils } from 'ethers';
-import { tokenInfo } from '@orca/shared/base';
+import { ProtocolTokenInfo } from '@orca/shared';
 import {
   useOrcaStatsQuery,
   useGetTokenPriceQuery,
@@ -16,8 +16,8 @@ export const useOrcaPrice = () => {
     variables: {
       id:
         chainId === 43114 || !chainId
-          ? tokenInfo['ORCA'].address.mainnet.toLowerCase()
-          : tokenInfo['ORCA'].address.fuji.toLowerCase(),
+          ? ProtocolTokenInfo['ORCA'].address.mainnet.toLowerCase()
+          : ProtocolTokenInfo['ORCA'].address.fuji.toLowerCase(),
     },
     pollInterval: 5000,
   });
@@ -26,8 +26,8 @@ export const useOrcaPrice = () => {
     variables: {
       id:
         chainId === 43114 || !chainId
-          ? tokenInfo['ORCA'].address.mainnet.toLowerCase()
-          : tokenInfo['ORCA'].address.fuji.toLowerCase(),
+          ? ProtocolTokenInfo['ORCA'].address.mainnet.toLowerCase()
+          : ProtocolTokenInfo['ORCA'].address.fuji.toLowerCase(),
     },
     pollInterval: 5000,
   });

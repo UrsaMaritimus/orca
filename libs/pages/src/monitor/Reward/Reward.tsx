@@ -10,8 +10,8 @@ import LoadingButton from '@mui/lab/LoadingButton';
 
 import { handleTransaction } from '@orca/components';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
-import { monitorAllRewards, getReward } from '@orca/shared/funcs';
-import { tokenInfo } from '@orca/shared/base';
+import { monitorAllRewards, getReward } from '@orca/web3';
+import { BankTokenInfo } from '@orca/shared';
 import { fNumber } from '@orca/util';
 
 import { find } from 'lodash';
@@ -47,7 +47,7 @@ export const VaultReward: FC = () => {
       <div>
         {rewards.map((reward) => {
           if (reward.isReward) {
-            const collat = find(tokenInfo, { erc20: reward.name });
+            const collat = find(BankTokenInfo, { erc20: reward.name });
             return (
               <Card sx={{ my: 3 }}>
                 <CardHeader

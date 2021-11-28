@@ -20,9 +20,8 @@ import dropletOutline from '@iconify/icons-eva/droplet-outline';
 import { ScrollBar, NextLink } from '@orca/components';
 //
 import SortingSelectingHead from './SortingSelectingHead';
-import { BigNumber, utils } from 'ethers';
 import { fPercent, fCurrency, colorScale } from '@orca/util';
-import { routes, tokenInfo, TokenInfo } from '@orca/shared/base';
+import { routes, BankInfo } from '@orca/shared';
 
 // ----------------------------------------------------------------------
 
@@ -61,7 +60,7 @@ type Row = {
   cp: number;
   mcp: number;
   ratio: number;
-  collatInfo: TokenInfo;
+  collatInfo: BankInfo;
 };
 
 type RowProps = {

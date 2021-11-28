@@ -22,12 +22,10 @@
       "@orca/hooks": ["libs/hooks/src/index.ts"],
       "@orca/layouts": ["libs/layouts/src/index.ts"],
       "@orca/pages": ["libs/pages/src/index.ts"],
-      "@orca/shared/base": ["libs/shared/base/src/index.ts"],
-      "@orca/shared/contracts": ["libs/shared/contracts/src/index.ts"],
-      "@orca/shared/deployments": ["libs/shared/deployments/src/index.ts"],
-      "@orca/shared/funcs": ["libs/shared/funcs/src/index.ts"],
-      "@orca/shared/styles": ["libs/shared/styles/src/index.ts"],
-      "@orca/util": ["libs/util/src/index.ts"]
+      "@orca/shared": ["libs/shared/src/index.ts"],
+      "@orca/theme": ["libs/theme/src/index.ts"],
+      "@orca/util": ["libs/util/src/index.ts"],
+      "@orca/web3": ["libs/web3/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"],

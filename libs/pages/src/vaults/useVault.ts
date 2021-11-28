@@ -5,10 +5,9 @@ import { Web3Provider } from '@ethersproject/providers';
 import useSwr from 'swr';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
-import { allBankPrices } from '@orca/shared/funcs';
+import { allBankPrices } from '@orca/web3';
 import { useNewUserVaultsQuery } from '@orca/graphql';
-import { tokenInfo } from '@orca/shared/base';
-import { VaultContracts } from '@orca/shared/contracts';
+import { VaultContracts, BankTokenInfo } from '@orca/shared';
 import { filter } from 'lodash';
 
 export const useGetVaults = (
@@ -88,10 +87,10 @@ export const useGetVaults = (
                     ),
                     debt: Number(utils.formatEther(debt)),
                     ratio: Number(ratio.toString()),
-                    symbol: filter(tokenInfo, { erc20: name })[0].display,
-                    icon: filter(tokenInfo, { erc20: name })[0].icon,
-                    type: Object.keys(tokenInfo).find(
-                      (key) => tokenInfo[key].erc20 === name
+                    symbol: filter(BankTokenInfo, { erc20: name })[0].display,
+                    icon: filter(BankTokenInfo, { erc20: name })[0].icon,
+                    type: Object.keys(BankTokenInfo).find(
+                      (key) => BankTokenInfo[key].erc20 === name
                     ),
                   };
                 }

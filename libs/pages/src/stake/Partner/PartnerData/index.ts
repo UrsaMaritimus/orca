@@ -1,6 +1,6 @@
 import { BigNumber, utils } from 'ethers';
 
-import { tokenInfo } from '@orca/shared/base';
+import { ProtocolTokenInfo } from '@orca/shared';
 
 import {
   usePartnerStakingInfoQuery,
@@ -30,7 +30,7 @@ export const useMonitorFarms = (
 
   const { data: partnerPrice } = useGetTokenPriceQuery({
     variables: {
-      id: tokenInfo['STORM'].address.mainnet,
+      id: ProtocolTokenInfo['STORM'].address.mainnet,
     },
     pollInterval: 5000,
   });
@@ -39,8 +39,8 @@ export const useMonitorFarms = (
     variables: {
       id:
         chainId === 43114 || !chainId
-          ? tokenInfo['ORCA'].address.mainnet.toLowerCase()
-          : tokenInfo['ORCA'].address.fuji.toLowerCase(),
+          ? ProtocolTokenInfo['ORCA'].address.mainnet.toLowerCase()
+          : ProtocolTokenInfo['ORCA'].address.fuji.toLowerCase(),
     },
     pollInterval: 5000,
   });

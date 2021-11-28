@@ -1,22 +1,20 @@
 import { BigNumber, utils } from 'ethers';
 
-import { tokenInfo } from '@orca/shared/base';
+import { ProtocolTokenInfo } from '@orca/shared';
 
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 
 import useSWR from 'swr';
-import contracts from '@orca/shared/deployments';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
 import {
   useGeneralYieldInfoQuery,
-  useGetTokenDataQuery,
   useUserStakedQuery,
   useAvaxPriceQuery,
   useGetTokenPriceQuery,
 } from '@orca/graphql';
-import { xORCARatio } from '@orca/shared/funcs';
+import { xORCARatio } from '@orca/web3';
 
 export const useMonitorFarms = (
   farm: string,
@@ -42,8 +40,8 @@ export const useMonitorFarms = (
     variables: {
       id:
         chainId === 43114 || !chainId
-          ? tokenInfo['ORCA'].address.mainnet.toLowerCase()
-          : tokenInfo['ORCA'].address.fuji.toLowerCase(),
+          ? ProtocolTokenInfo['ORCA'].address.mainnet.toLowerCase()
+          : ProtocolTokenInfo['ORCA'].address.fuji.toLowerCase(),
     },
     pollInterval: 5000,
   });

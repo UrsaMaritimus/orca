@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { Farm } from '../Farm';
 import { useMonitorFarms } from './getYieldData';
-import { routes, tokenInfo } from '@orca/shared/base';
+import { routes, FarmTokenInfo, ProtocolTokenInfo } from '@orca/shared';
 
 type AvaxProps = {
   account: string;
@@ -21,8 +21,8 @@ export const XOrcaFarm: FC<AvaxProps> = ({
 }) => {
   const { loading, data } = useMonitorFarms(
     chainId === 43114
-      ? tokenInfo['XORCA'].address.mainnet.toLowerCase()
-      : tokenInfo['XORCA'].address.fuji.toLowerCase(),
+      ? FarmTokenInfo['XORCA'].address.mainnet.toLowerCase()
+      : FarmTokenInfo['XORCA'].address.fuji.toLowerCase(),
     account,
     chainId
   );
@@ -32,9 +32,9 @@ export const XOrcaFarm: FC<AvaxProps> = ({
       handleChange={handleChange}
       expanded={expanded}
       reward="ORCA"
-      rewardImg={tokenInfo['ORCA'].icon}
+      rewardImg={ProtocolTokenInfo['ORCA'].icon}
       rewardPerDay={data?.rewardPerDay}
-      img={tokenInfo['XORCA'].icon}
+      img={FarmTokenInfo['XORCA'].icon}
       name="xORCA"
       tvl={data?.tvl}
       apr={data?.apr}
@@ -46,8 +46,8 @@ export const XOrcaFarm: FC<AvaxProps> = ({
       color1={'#a74517'}
       farm={
         chainId === 43114
-          ? tokenInfo['XORCA'].address.mainnet.toLowerCase()
-          : tokenInfo['XORCA'].address.fuji.toLowerCase()
+          ? FarmTokenInfo['XORCA'].address.mainnet.toLowerCase()
+          : FarmTokenInfo['XORCA'].address.fuji.toLowerCase()
       }
       link={routes.APP.YIELD.STAKE}
     />

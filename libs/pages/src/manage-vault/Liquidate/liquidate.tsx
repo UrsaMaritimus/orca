@@ -11,10 +11,10 @@ import useSWR from 'swr';
 
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
-import { routes, tokenInfo } from '@orca/shared/base';
+import { routes, BankTokenInfo } from '@orca/shared';
 import { fCurrency, fNumber } from '@orca/util';
 import { BigNumber, utils } from 'ethers';
-import { liquidateVault, avaiBalance } from '@orca/shared/funcs';
+import { liquidateVault, avaiBalance } from '@orca/web3';
 import { handleTransaction, useAddTransaction, Loader } from '@orca/components';
 // ----------------------------------------------------------------------
 
@@ -67,7 +67,7 @@ export const LiquidateVault: FC<LiquidateProps> = ({
       transaction: liquidateVault(
         library,
         chainId,
-        tokenInfo[token].erc20,
+        BankTokenInfo[token].erc20,
         vaultID
       ),
       messages: {
@@ -103,7 +103,7 @@ export const LiquidateVault: FC<LiquidateProps> = ({
             {fNumber(Number(utils.formatEther(vaultInfo.debt.div(2))))} AVAI
           </Typography>
           <Typography variant="caption" sx={{ color: 'grey.500' }}>
-            {tokenInfo[token].underlyingDecimals
+            {BankTokenInfo[token].underlyingDecimals
               ? Number(
                   utils.formatEther(
                     vaultInfo.debt
@@ -120,17 +120,17 @@ export const LiquidateVault: FC<LiquidateProps> = ({
                     )
                   )
                 )}{' '}
-            {tokenInfo[token].display}
+            {BankTokenInfo[token].display}
           </Typography>
         </Stack>
       </Grid>
       <Grid item xs={12} sm={6}>
         <Stack alignItems="center">
           <Typography variant="h6" textAlign="center">
-            {`${tokenInfo[token].display} Reward from Liquidating`}
+            {`${BankTokenInfo[token].display} Reward from Liquidating`}
           </Typography>
           <Typography variant="inherit">
-            {tokenInfo[token].underlyingDecimals
+            {BankTokenInfo[token].underlyingDecimals
               ? Number(
                   utils.formatEther(
                     vaultInfo.debt
@@ -149,7 +149,7 @@ export const LiquidateVault: FC<LiquidateProps> = ({
                     )
                   )
                 )}{' '}
-            {tokenInfo[token].display}
+            {BankTokenInfo[token].display}
           </Typography>
           <Typography variant="caption" sx={{ color: 'grey.500' }}>
             {fCurrency(

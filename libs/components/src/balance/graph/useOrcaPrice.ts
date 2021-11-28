@@ -1,5 +1,5 @@
 import { BigNumber, utils } from 'ethers';
-import { tokenInfo } from '@orca/shared/base';
+import { tokenInfo } from '@orca/shared';
 import {
   useOrcaStatsQuery,
   useGetTokenPriceQuery,

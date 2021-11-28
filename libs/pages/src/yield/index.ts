@@ -1,1 +1,1 @@
-export * from './lib/farming';
+export * from './farming';

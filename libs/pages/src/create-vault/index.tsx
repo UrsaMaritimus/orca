@@ -25,7 +25,7 @@ import {
   tokenInfo,
   baseCollateral,
   ibtknCollateral,
-} from '@orca/shared/base';
+} from '@orca/shared';
 import { VaultCard } from './VaultCard';
 import { SortingSelectingHead } from './SortingHeader';
 import { useGetVaults } from './getBankInfo';

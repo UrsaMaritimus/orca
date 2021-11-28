@@ -33,10 +33,10 @@ import { useFormik, Form, FormikProvider } from 'formik';
 
 import { utils } from 'ethers';
 import { fCurrency, fPercent, fNumber, colorScale } from '@orca/util';
-import { withdrawCollateral } from '@orca/shared/funcs';
+import { withdrawCollateral } from '@orca/web3';
 
 import { Loader, handleTransaction, useAddTransaction } from '@orca/components';
-import { tokenInfo } from '@orca/shared/base';
+import { BankTokenInfo } from '@orca/shared';
 
 import { StepperProps } from './stepper.type';
 
@@ -82,7 +82,7 @@ export const WithdrawStepper: FC<StepperProps> = ({
         Number(
           utils.formatUnits(
             vaultInfo.availableWithdraw,
-            tokenInfo[token].decimals
+            BankTokenInfo[token].decimals
           )
         )
       ),
@@ -122,11 +122,11 @@ export const WithdrawStepper: FC<StepperProps> = ({
         vaultID,
         values.withdrawAmount
           ? typeof values.withdrawAmount === 'number'
-            ? values.withdrawAmount.toFixed(tokenInfo[token].decimals)
+            ? values.withdrawAmount.toFixed(BankTokenInfo[token].decimals)
             : values.withdrawAmount
           : '',
-        tokenInfo[token].erc20,
-        tokenInfo[token].decimals,
+        BankTokenInfo[token].erc20,
+        BankTokenInfo[token].decimals,
         chainId
       ),
       messages: {
@@ -141,10 +141,10 @@ export const WithdrawStepper: FC<StepperProps> = ({
       amount: utils.parseUnits(
         values.withdrawAmount
           ? typeof values.withdrawAmount === 'number'
-            ? values.withdrawAmount.toFixed(tokenInfo[token].decimals)
+            ? values.withdrawAmount.toFixed(BankTokenInfo[token].decimals)
             : values.withdrawAmount
           : '',
-        tokenInfo[token].decimals
+        BankTokenInfo[token].decimals
       ),
       vault: token,
       success: success.success,
@@ -200,7 +200,7 @@ export const WithdrawStepper: FC<StepperProps> = ({
                   <Stack direction="row" alignItems="center" spacing={1}>
                     <Box
                       component="img"
-                      src={tokenInfo[token].icon}
+                      src={BankTokenInfo[token].icon}
                       sx={{
                         width: 15,
 
@@ -210,22 +210,22 @@ export const WithdrawStepper: FC<StepperProps> = ({
                     />
                     <Typography variant="h6" textAlign="center">
                       {`${
-                        tokenInfo[token].underlyingDecimals
+                        BankTokenInfo[token].underlyingDecimals
                           ? Number(
                               utils.formatUnits(
                                 vaultInfo.availableWithdraw,
-                                tokenInfo[token].decimals
+                                BankTokenInfo[token].decimals
                               )
                             ).toExponential()
                           : fNumber(
                               Number(
                                 utils.formatUnits(
                                   vaultInfo.availableWithdraw,
-                                  tokenInfo[token].decimals
+                                  BankTokenInfo[token].decimals
                                 )
                               )
                             )
-                      } ${tokenInfo[token].display}`}
+                      } ${BankTokenInfo[token].display}`}
                     </Typography>
                   </Stack>
                 </Grid>
@@ -242,7 +242,7 @@ export const WithdrawStepper: FC<StepperProps> = ({
                       <InputAdornment position="start">
                         <Box
                           component="img"
-                          src={tokenInfo[token].icon}
+                          src={BankTokenInfo[token].icon}
                           sx={{
                             width: 25,
 
@@ -260,7 +260,7 @@ export const WithdrawStepper: FC<StepperProps> = ({
                               'withdrawAmount',
                               utils.formatUnits(
                                 vaultInfo.availableWithdraw,
-                                tokenInfo[token].decimals
+                                BankTokenInfo[token].decimals
                               )
                             )
                           }
@@ -340,7 +340,7 @@ export const WithdrawStepper: FC<StepperProps> = ({
                     <Stack direction="row" spacing={0.5} alignItems={'center'}>
                       <Box
                         component="img"
-                        src={tokenInfo[token].icon}
+                        src={BankTokenInfo[token].icon}
                         sx={{
                           width: 15,
 
@@ -352,7 +352,7 @@ export const WithdrawStepper: FC<StepperProps> = ({
                         {values.withdrawAmount && values.withdrawAmount}
                       </Typography>
                       <Typography sx={{ ml: 0.5 }} variant="caption">
-                        {tokenInfo[token].display}
+                        {BankTokenInfo[token].display}
                       </Typography>
                     </Stack>
                     <Typography
@@ -407,15 +407,15 @@ export const WithdrawStepper: FC<StepperProps> = ({
                                     utils.parseUnits(
                                       typeof values.withdrawAmount === 'number'
                                         ? values.withdrawAmount.toFixed(
-                                            tokenInfo[token].decimals
+                                            BankTokenInfo[token].decimals
                                           )
                                         : values.withdrawAmount,
-                                      tokenInfo[token].decimals
+                                      BankTokenInfo[token].decimals
                                     )
                                   )
                                   .mul(vaultInfo.tokenPrice)
                                   .div(vaultInfo.peg),
-                                tokenInfo[token].decimals
+                                BankTokenInfo[token].decimals
                               )
                             ),
                           vaultInfo.maxLTV - 30,
@@ -435,16 +435,16 @@ export const WithdrawStepper: FC<StepperProps> = ({
                                         ? typeof values.withdrawAmount ===
                                           'number'
                                           ? values.withdrawAmount.toFixed(
-                                              tokenInfo[token].decimals
+                                              BankTokenInfo[token].decimals
                                             )
                                           : values.withdrawAmount
                                         : '',
-                                      tokenInfo[token].decimals
+                                      BankTokenInfo[token].decimals
                                     )
                                   )
                                   .mul(vaultInfo.tokenPrice)
                                   .div(vaultInfo.peg),
-                                tokenInfo[token].decimals
+                                BankTokenInfo[token].decimals
                               )
                             )
                         )}
@@ -464,7 +464,7 @@ export const WithdrawStepper: FC<StepperProps> = ({
                           (Number(
                             utils.formatUnits(
                               vaultInfo.collateral,
-                              tokenInfo[token].decimals
+                              BankTokenInfo[token].decimals
                             )
                           ) -
                             values.withdrawAmount) *
@@ -505,16 +505,16 @@ export const WithdrawStepper: FC<StepperProps> = ({
                                 values.withdrawAmount
                                   ? typeof values.withdrawAmount === 'number'
                                     ? values.withdrawAmount.toFixed(
-                                        tokenInfo[token].decimals
+                                        BankTokenInfo[token].decimals
                                       )
                                     : values.withdrawAmount
                                   : '',
-                                tokenInfo[token].decimals
+                                BankTokenInfo[token].decimals
                               )
                             )
                             .mul(vaultInfo.tokenPrice)
                             .div(vaultInfo.peg),
-                          tokenInfo[token].decimals
+                          BankTokenInfo[token].decimals
                         )
                       ) /
                       vaultInfo.maxLTV >

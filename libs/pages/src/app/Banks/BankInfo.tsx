@@ -21,7 +21,7 @@ import {
   CarouselControlsArrowsBasic2,
 } from '@orca/components';
 
-import { TokenInfo, tokenInfo } from '@orca/shared/base';
+import { TokenInfo } from '@orca/shared';
 import { BigNumber, utils } from 'ethers';
 import { fCurrency } from '@orca/util';
 

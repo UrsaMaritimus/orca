@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { Farm } from '../Farm';
 import { useMonitorFarms } from '../../YieldData/getYieldData';
-import { routes, tokenInfo } from '@orca/shared/base';
+import { FarmTokenInfo, ProtocolTokenInfo } from '@orca/shared';
 
 type AvaxProps = {
   account: string;
@@ -20,7 +20,7 @@ export const AvaxOrcaFarm: FC<AvaxProps> = ({
   chainId,
 }) => {
   const { loading, data } = useMonitorFarms(
-    tokenInfo['AVAX-ORCA'].address.mainnet.toLowerCase(),
+    FarmTokenInfo['AVAX-ORCA'].address.mainnet.toLowerCase(),
     account,
     chainId
   );
@@ -30,9 +30,9 @@ export const AvaxOrcaFarm: FC<AvaxProps> = ({
       handleChange={handleChange}
       expanded={expanded}
       reward="ORCA"
-      rewardImg={tokenInfo['ORCA'].icon}
+      rewardImg={ProtocolTokenInfo['ORCA'].icon}
       rewardPerDay={data?.rewardPerDay}
-      img={tokenInfo['AVAX-ORCA'].icon}
+      img={FarmTokenInfo['AVAX-ORCA'].icon}
       name="AVAX-ORCA"
       tvl={data?.tvl}
       apr={data?.apr}
@@ -42,7 +42,7 @@ export const AvaxOrcaFarm: FC<AvaxProps> = ({
       pid={data?.id}
       color2={'#FF7F7F'}
       color1={'#E84142'}
-      farm={tokenInfo['AVAX-ORCA'].address.mainnet.toLowerCase()}
+      farm={FarmTokenInfo['AVAX-ORCA'].address.mainnet.toLowerCase()}
       link={
         'https://app.pangolin.exchange/#/add/AVAX/0x8B1d98A91F853218ddbb066F20b8c63E782e2430'
       }

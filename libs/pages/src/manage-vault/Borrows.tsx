@@ -20,7 +20,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { utils } from 'ethers';
 import { fCurrency, fPercent, fNumber, colorScale } from '@orca/util';
 
-import { tokenInfo } from '@orca/shared/base';
+import { tokenInfo } from '@orca/shared';
 import { ColorBar } from '@orca/components';
 import BorrowStepper from './BorrowStepper';
 import RepayStepper from './RepayStepper';

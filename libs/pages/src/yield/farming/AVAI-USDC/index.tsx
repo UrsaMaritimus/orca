@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { Farm } from '../Farm';
-import { tokenInfo } from '@orca/shared/base';
+import { FarmTokenInfo, ProtocolTokenInfo } from '@orca/shared';
 import { useMonitorFarms } from '../../YieldData/getYieldData';
 
 type AvaiProps = {
@@ -21,8 +21,8 @@ export const AvaiUsdcFarm: FC<AvaiProps> = ({
 }) => {
   const { loading, data } = useMonitorFarms(
     chainId === 43114 || !chainId
-      ? tokenInfo['USDC-AVAI'].address.mainnet.toLowerCase()
-      : tokenInfo['USDC-AVAI'].address.fuji.toLowerCase(),
+      ? FarmTokenInfo['USDC-AVAI'].address.mainnet.toLowerCase()
+      : FarmTokenInfo['USDC-AVAI'].address.fuji.toLowerCase(),
     account,
     chainId
   );
@@ -31,9 +31,9 @@ export const AvaiUsdcFarm: FC<AvaiProps> = ({
       handleChange={handleChange}
       expanded={expanded}
       reward="ORCA"
-      rewardImg={tokenInfo['ORCA'].icon}
+      rewardImg={ProtocolTokenInfo['ORCA'].icon}
       rewardPerDay={data?.rewardPerDay}
-      img={tokenInfo['USDC-AVAI'].icon}
+      img={FarmTokenInfo['USDC-AVAI'].icon}
       name="USDC-AVAI"
       tvl={data?.tvl}
       apr={data?.apr}
@@ -43,7 +43,7 @@ export const AvaiUsdcFarm: FC<AvaiProps> = ({
       pid={data?.id}
       color1={'#2876c9'}
       color2={'#689fd9'}
-      farm={tokenInfo['USDC-AVAI'].address.mainnet}
+      farm={FarmTokenInfo['USDC-AVAI'].address.mainnet}
       link={
         'https://app.pangolin.exchange/#/add/0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664/0x346A59146b9b4a77100D369a3d18E8007A9F46a6'
       }

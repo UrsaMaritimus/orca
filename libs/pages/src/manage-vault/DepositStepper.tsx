@@ -39,9 +39,9 @@ import {
   getTokenBalance,
   tokenApproved,
   approveToken,
-} from '@orca/shared/funcs';
+} from '@orca/web3';
 
-import { tokenInfo } from '@orca/shared/base';
+import { tokenInfo } from '@orca/shared';
 import { StepperProps } from './stepper.type';
 
 const InputTextField = styled(TextField)(({ theme }) => ({

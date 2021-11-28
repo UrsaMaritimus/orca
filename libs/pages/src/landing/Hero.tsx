@@ -11,7 +11,7 @@ import { styled } from '@mui/material/styles';
 import { Box, Typography, Container, Button, Link } from '@mui/material';
 import { varFadeIn, varWrapEnter, varFadeInRight } from '@orca/components';
 
-import { routes } from '@orca/shared/base';
+import { routes } from '@orca/shared';
 
 // ----------------------------------------------------------------------
 

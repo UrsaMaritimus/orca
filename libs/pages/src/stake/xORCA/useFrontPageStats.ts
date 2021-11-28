@@ -1,5 +1,5 @@
 import { utils } from 'ethers';
-import { tokenInfo } from '@orca/shared/base';
+import { FarmTokenInfo } from '@orca/shared';
 
 import { useFrontPageYieldInfo } from './useFrontPageYieldFarm';
 import { useFrontPageInfo } from './useFrontPageAnalytics';
@@ -9,14 +9,14 @@ export const useFrontPageStats = () => {
 
   // Do this manually. Tedious tbh...
   const { loading: orcaLoading, data: orcaFarm } = useFrontPageYieldInfo(
-    tokenInfo['AVAI-ORCA'].address.mainnet.toLowerCase()
+    FarmTokenInfo['AVAI-ORCA'].address.mainnet.toLowerCase()
   );
   const { loading: usdcLoading, data: usdcFarm } = useFrontPageYieldInfo(
-    tokenInfo['USDC-AVAI'].address.mainnet.toLowerCase()
+    FarmTokenInfo['USDC-AVAI'].address.mainnet.toLowerCase()
   );
 
   const { loading: avaxLoading, data: avaxFarm } = useFrontPageYieldInfo(
-    tokenInfo['AVAX-ORCA'].address.mainnet.toLowerCase()
+    FarmTokenInfo['AVAX-ORCA'].address.mainnet.toLowerCase()
   );
 
   const initialTime = 1633046400;

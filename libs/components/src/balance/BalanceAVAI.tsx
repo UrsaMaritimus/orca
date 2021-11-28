@@ -3,14 +3,13 @@ import { useEffect, FC } from 'react';
 import type { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
 import useSWR from 'swr';
-import { Typography, Box, Grid, Button } from '@mui/material';
+import { Typography, Box, Grid } from '@mui/material';
 import { parseBalance } from '@orca/util';
 import { useSetRecoilState } from 'recoil';
 import { styled } from '@mui/material/styles';
 
-import contractAddresses from '@orca/shared/deployments';
-import { AVAI__factory } from '@orca/shared/contracts';
-import { avaiBalance } from '@orca/shared/funcs';
+import { AVAI__factory, DeployedContracts } from '@orca/shared';
+import { avaiBalance } from '@orca/web3';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
 import { seeAVAI } from './atom';
@@ -38,9 +37,9 @@ const AvaiBalance: FC = () => {
   useEffect(() => {
     const avai = AVAI__factory.connect(
       chainId === 43113
-        ? contractAddresses.fuji.AVAI.address
+        ? DeployedContracts.fuji.AVAI.address
         : chainId === 43114
-        ? contractAddresses.main.AVAI.address
+        ? DeployedContracts.main.AVAI.address
         : null,
       library
     );

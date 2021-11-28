@@ -1,6 +1,6 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 
-import { NextLink } from '@orca/components';
+import { NextLink } from '../links';
 
 import { Icon } from '@iconify/react';
 import editOutline from '@iconify/icons-eva/edit-outline';
@@ -8,7 +8,7 @@ import editOutline from '@iconify/icons-eva/edit-outline';
 
 import { TableRow, TableCell, Button } from '@mui/material';
 
-import { routes } from '@orca/shared/base';
+import { routes } from '@orca/shared';
 import { fPercent, fNumber, colorScale } from '@orca/util';
 
 // ----------------------------------------------------------------------
@@ -26,8 +26,6 @@ type TableProps = {
 };
 
 const RowTable: FC<TableProps> = ({ row, collateralType }) => {
-  const [open, setOpen] = useState(false);
-
   return (
     <TableRow>
       <TableCell component="th" align="center" scope="row">

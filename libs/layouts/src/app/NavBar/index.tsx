@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 
 import { NextLink, MHidden, Logo, ScrollBar } from '@orca/components';
-import { routes } from '@orca/shared/base';
+import { routes } from '@orca/shared';
 import { useCollapseDrawer } from '@orca/hooks';
 
 import NavSection from './NavSection';

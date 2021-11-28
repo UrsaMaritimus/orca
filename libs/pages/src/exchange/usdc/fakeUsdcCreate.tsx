@@ -7,7 +7,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import { styled } from '@mui/material/styles';
 import { Card, CardHeader, Container, Typography, Grid } from '@mui/material';
 
-import { mintFakeUSDC } from '@orca/shared/funcs';
+import { mintFakeUSDC } from '@orca/web3';
 import { BigNumber, utils } from 'ethers';
 import { fNumber } from '@orca/util';
 import { handleTransaction } from '@orca/components';

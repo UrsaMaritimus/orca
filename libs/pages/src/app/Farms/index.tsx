@@ -6,7 +6,7 @@ import Slider from 'react-slick';
 import { Box, Grid, CardHeader, useTheme, useMediaQuery } from '@mui/material';
 import { CarouselControlsArrowsBasic2 } from '@orca/components';
 
-import { farms } from '@orca/shared/base';
+import { farms } from '@orca/shared';
 import { YieldFarm } from './Farm';
 import { YourFarmInfo } from './YourFarmToken';
 

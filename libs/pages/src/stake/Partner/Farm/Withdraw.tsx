@@ -19,7 +19,7 @@ import { useFormik, Form, FormikProvider } from 'formik';
 
 import { handleTransaction } from '@orca/components';
 
-import { withdrawFarmPartner } from '@orca/shared/funcs';
+import { withdrawFarmPartner } from '@orca/web3';
 import { fCurrency, fNumber } from '@orca/util';
 
 const ReturnTextField = styled(TextField)(({ theme }) => ({

@@ -1,6 +1,6 @@
 import { BigNumber, utils } from 'ethers';
 
-import { tokenInfo } from '@orca/shared/base';
+import { tokenInfo } from '@orca/shared';
 
 import {
   useGeneralYieldInfoQuery,
@@ -8,7 +8,7 @@ import {
   useAvaxPriceQuery,
   useGetTokenPriceQuery,
 } from '@orca/graphql';
-import { xORCARatioNoWeb3 } from '@orca/shared/funcs';
+import { xORCARatioNoWeb3 } from '@orca/web3';
 
 import useSWR from 'swr';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';

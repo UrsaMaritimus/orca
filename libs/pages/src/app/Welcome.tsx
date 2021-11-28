@@ -8,7 +8,7 @@ import { Typography, Box, Card, CardContent, Button } from '@mui/material';
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 import { NextLink } from '@orca/components';
-import { routes } from '@orca/shared/base';
+import { routes } from '@orca/shared';
 
 // ----------------------------------------------------------------------
 

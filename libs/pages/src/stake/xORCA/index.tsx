@@ -1,7 +1,6 @@
 import { FC } from 'react';
 
 import useSWR from 'swr';
-import contracts from '@orca/shared/deployments';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
 import {
@@ -22,12 +21,12 @@ import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 
 import { fNumber, fPercent } from '@orca/util';
-import { getTokenBalance, xORCARatio } from '@orca/shared/funcs';
+import { getTokenBalance, xORCARatio } from '@orca/web3';
 import { utils } from 'ethers';
 
 import Deposit from './Deposit';
 import Withdraw from './Withdraw';
-import { tokenInfo } from '@orca/shared/base';
+import { FarmTokenInfo, DeployedContracts } from '@orca/shared';
 import { useFrontPageStats } from './useFrontPageStats';
 import { useOrcaPrice } from './useOrcaPrice';
 
@@ -74,9 +73,9 @@ export const Farm: FC<FarmProps> = ({
           library,
           account,
           chainId === 43113
-            ? contracts.fuji.OrcaPod.address
+            ? DeployedContracts.fuji.OrcaPod.address
             : chainId === 43114
-            ? contracts.main.OrcaPod.address
+            ? DeployedContracts.main.OrcaPod.address
             : null,
         ]
       : null,
@@ -136,7 +135,7 @@ export const Farm: FC<FarmProps> = ({
             <Stack alignItems="center" direction="row" spacing={1}>
               <Box
                 component="img"
-                src={tokenInfo['XORCA'].icon}
+                src={FarmTokenInfo['XORCA'].icon}
                 sx={{ width: 44, height: 44 }}
                 color="grey.700"
               />
@@ -163,7 +162,7 @@ export const Farm: FC<FarmProps> = ({
               <Stack alignItems="center" direction="row" spacing={1}>
                 <Box
                   component="img"
-                  src={tokenInfo['XORCA'].icon}
+                  src={FarmTokenInfo['XORCA'].icon}
                   sx={{ width: 25, height: 25 }}
                   color="grey.700"
                 />
@@ -233,7 +232,7 @@ export const Farm: FC<FarmProps> = ({
               <Withdraw
                 library={library}
                 name={name}
-                img={tokenInfo['XORCA'].icon}
+                img={FarmTokenInfo['XORCA'].icon}
                 link={link}
                 chainId={chainId}
                 totalStaked={totalStaked}

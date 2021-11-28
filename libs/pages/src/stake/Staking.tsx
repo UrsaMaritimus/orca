@@ -4,9 +4,9 @@ import { Farm as FarmxOrca } from './xORCA';
 import { Farm } from './Farm';
 
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { Box, Tab, Tabs, Container, Card } from '@mui/material';
+import { Box, Tab, Container, Card } from '@mui/material';
 import { useMonitorFarms } from './StakeData/getYieldData';
-import { routes, tokenInfo } from '@orca/shared/base';
+import { routes, BankTokenInfo, ProtocolTokenInfo } from '@orca/shared';
 
 type AvaiProps = {
   account: string;
@@ -99,9 +99,9 @@ export const OrcaStaking: FC<AvaiProps> = ({ account, chainId }) => {
         <TabPanel key={panel.value} value={String(index + 1)}>
           {panel.component({
             reward: 'AVAX',
-            rewardImg: tokenInfo['AVAX'].icon,
+            rewardImg: BankTokenInfo['AVAX'].icon,
             rewardPerDay: data?.rewardPerDay,
-            img: tokenInfo['ORCA'].icon,
+            img: ProtocolTokenInfo['ORCA'].icon,
             name: 'ORCA',
             tvl: data?.tvl,
             apr: data?.apr,
@@ -113,8 +113,8 @@ export const OrcaStaking: FC<AvaiProps> = ({ account, chainId }) => {
             color1: '#158364',
             farm:
               chainId === 43114
-                ? tokenInfo['ORCA'].address.mainnet.toLowerCase()
-                : tokenInfo['ORCA'].address.fuji.toLowerCase(),
+                ? ProtocolTokenInfo['ORCA'].address.mainnet.toLowerCase()
+                : ProtocolTokenInfo['ORCA'].address.fuji.toLowerCase(),
 
             link: routes.APP.CRYPTOS.ORCA,
           })}

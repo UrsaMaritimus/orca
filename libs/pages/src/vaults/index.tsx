@@ -20,7 +20,7 @@ import { Page, Connect, Loader, NextLink } from '@orca/components';
 
 import { useGetVaults } from './useVault';
 import { VaultCard } from './VaultCard';
-import { routes, baseCollateral, ibtknCollateral } from '@orca/shared/base';
+import { routes, baseCollateral, ibtknCollateral } from '@orca/shared';
 import SortingSelectingHead from './SortingHeader';
 import { ItemChooser } from './ItemChooser';
 

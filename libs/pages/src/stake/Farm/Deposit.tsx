@@ -28,7 +28,7 @@ import {
   getTokenBalance,
   tokenApprovedStaking,
   depositStaking,
-} from '@orca/shared/funcs';
+} from '@orca/web3';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 import { fNumber } from '@orca/util';
 

@@ -11,7 +11,7 @@ import {
   Logo,
   NextLink,
 } from '@orca/components';
-import { routes } from '@orca/shared/base';
+import { routes } from '@orca/shared';
 
 const RootStyle = styled(Page)(({ theme }) => ({
   display: 'flex',

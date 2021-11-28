@@ -17,7 +17,7 @@ import {
 import { utils } from 'ethers';
 import { fNumber } from '@orca/util';
 
-import { tokenInfo } from '@orca/shared/base';
+import { BankTokenInfo } from '@orca/shared';
 import { LiquidateVault, LiquidateProps } from './liquidate';
 
 //-----------------------------------------
@@ -56,7 +56,7 @@ export const Liquidate: FC<LiquidateProps> = ({
             <Stack alignItems="center" direction="row" spacing={1}>
               <Box
                 component="img"
-                src={tokenInfo[token].icon}
+                src={BankTokenInfo[token].icon}
                 sx={{
                   width: 30,
 
@@ -65,7 +65,7 @@ export const Liquidate: FC<LiquidateProps> = ({
                 color="inherit"
               />
               <Typography variant="h4" sx={{ color: 'grey.500' }}>
-                {tokenInfo[token].display}
+                {BankTokenInfo[token].display}
               </Typography>
             </Stack>
           </Stack>
@@ -86,7 +86,7 @@ export const Liquidate: FC<LiquidateProps> = ({
                 Liquidation Price: $
                 {fNumber(
                   !vaultInfo.collateral.isZero()
-                    ? tokenInfo[token].underlyingDecimals
+                    ? BankTokenInfo[token].underlyingDecimals
                       ? Number(
                           utils.formatUnits(
                             vaultInfo.debt
@@ -95,12 +95,14 @@ export const Liquidate: FC<LiquidateProps> = ({
                               .div(
                                 vaultInfo.collateral
                                   .mul(100)
-                                  .mul(10 ** (18 - tokenInfo[token].decimals))
+                                  .mul(
+                                    10 ** (18 - BankTokenInfo[token].decimals)
+                                  )
                               ),
                             8
                           )
                         ) /
-                        10 ** (18 - tokenInfo[token].underlyingDecimals)
+                        10 ** (18 - BankTokenInfo[token].underlyingDecimals)
                       : Number(
                           utils.formatUnits(
                             vaultInfo.debt
@@ -109,7 +111,9 @@ export const Liquidate: FC<LiquidateProps> = ({
                               .div(
                                 vaultInfo.collateral
                                   .mul(100)
-                                  .mul(10 ** (18 - tokenInfo[token].decimals))
+                                  .mul(
+                                    10 ** (18 - BankTokenInfo[token].decimals)
+                                  )
                               ),
                             8
                           )
@@ -164,7 +168,7 @@ export const Liquidate: FC<LiquidateProps> = ({
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
               The liquidation price for this vault is reached when{' '}
-              {tokenInfo[token].display} reaches this USD value.
+              {BankTokenInfo[token].display} reaches this USD value.
             </Typography>
           </Box>
         </Popover>

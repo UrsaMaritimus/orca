@@ -1,6 +1,6 @@
 import { Web3Provider } from '@ethersproject/providers';
 import useSWR from 'swr';
-import { bankPrice } from '@orca/shared/funcs';
+import { bankPrice } from '@orca/web3';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
 export const useGetPrices = (library: Web3Provider, chainId: number) => {

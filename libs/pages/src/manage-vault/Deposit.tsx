@@ -34,8 +34,8 @@ import {
 } from '@orca/util';
 
 import { ColorBar } from '@orca/components';
-import { tokenInfo } from '@orca/shared/base';
-import { yakTrueBalance } from '@orca/shared/funcs';
+import { tokenInfo } from '@orca/shared';
+import { yakTrueBalance } from '@orca/web3';
 
 import { DepositStepper } from './DepositStepper';
 import { WithdrawStepper } from './WithdrawStepper';

@@ -21,7 +21,7 @@ import {
   ComponentsOverrides,
   ShadowExtension,
   CustomGlobalStyles,
-} from '@orca/shared/styles';
+} from '@orca/theme';
 
 const ThemeProvider: FC = ({ children }) => {
   const [mounted, setMounted] = useState(false);

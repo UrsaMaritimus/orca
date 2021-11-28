@@ -1,6 +1,6 @@
 import { BigNumber, utils } from 'ethers';
 
-import { tokenInfo } from '@orca/shared/base';
+import { ProtocolTokenInfo } from '@orca/shared';
 
 import {
   useGeneralYieldInfoQuery,
@@ -26,7 +26,7 @@ export const useFrontPageYieldInfo = (farm: string) => {
 
   const { data: orcaPrice } = useGetTokenPriceQuery({
     variables: {
-      id: tokenInfo['ORCA'].address.mainnet.toLowerCase(),
+      id: ProtocolTokenInfo['ORCA'].address.mainnet.toLowerCase(),
     },
     pollInterval: 5000,
   });
@@ -70,7 +70,7 @@ export const useFrontPageYieldInfo = (farm: string) => {
               BigNumber.from(yieldData.pools[0]?.treasuryAmount || 0)
             )
           ) *
-          (farm === tokenInfo['AVAI'].address.fuji.toLowerCase()
+          (farm === ProtocolTokenInfo['AVAI'].address.fuji.toLowerCase()
             ? 1
             : tokenData.pairs[0].reserveUSD / tokenData.pairs[0].totalSupply),
       },

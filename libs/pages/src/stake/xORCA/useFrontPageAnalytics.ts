@@ -1,6 +1,5 @@
 import { BigNumber, utils } from 'ethers';
-import { tokenInfo } from '@orca/shared/base';
-import { VaultContracts } from '@orca/shared/contracts';
+import { VaultContracts, BankTokenInfo } from '@orca/shared';
 
 import useSwr from 'swr';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
@@ -12,7 +11,7 @@ import {
 } from '@orca/graphql';
 import { find, includes } from 'lodash';
 
-import { allBankPricesNoWeb3 } from '@orca/shared/funcs';
+import { allBankPricesNoWeb3 } from '@orca/web3';
 
 export const useFrontPageInfo = () => {
   const { data: supplyFrontPage, loading: supplyLoading } =
@@ -97,7 +96,7 @@ export const useFrontPageInfo = () => {
           10000 /
           Number(utils.formatUnits(bank.minimumCollateralPercentage, 0));
 
-        const vault = find(tokenInfo, { erc20: collat[0] });
+        const vault = find(BankTokenInfo, { erc20: collat[0] });
         return {
           name,
           debt,

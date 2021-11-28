@@ -10,7 +10,7 @@ import checkmarkCircle2Fill from '@iconify/icons-eva/checkmark-circle-2-fill';
 import { alpha } from '@mui/material/styles';
 
 import { Box } from '@mui/material';
-import { makeStyles } from '@orca/shared/styles';
+import { makeStyles } from '@orca/theme';
 
 export enum NOTIFICATIONS_TYPES {
   SUCCESS = 'success',

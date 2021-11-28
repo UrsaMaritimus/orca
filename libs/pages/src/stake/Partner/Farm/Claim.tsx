@@ -10,10 +10,7 @@ import { utils } from 'ethers';
 import { fNumber } from '@orca/util';
 
 import { handleTransaction } from '@orca/components';
-import {
-  depositFarmPartner,
-  getRewardBalancePartner,
-} from '@orca/shared/funcs';
+import { depositFarmPartner, getRewardBalancePartner } from '@orca/web3';
 
 type ClaimProps = {
   img: string;

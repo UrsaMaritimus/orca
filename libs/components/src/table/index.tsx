@@ -18,8 +18,9 @@ import {
 } from '@mui/material';
 
 // components
-import { ColorBar, ScrollBar } from '@orca/components';
-import { tokenInfo } from '@orca/shared/base';
+import { ColorBar } from '../colorbar';
+import { ScrollBar } from '../scroll-bar';
+import { tokenInfo } from '@orca/shared';
 import RowTable, { Row } from './TableRow';
 
 // ----------------------------------------------------------------------

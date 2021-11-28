@@ -35,9 +35,10 @@ import {
   usdApprovedExchange,
   approveUsdExchange,
   mintFromExchange,
-} from '@orca/shared/funcs';
+} from '@orca/web3';
+
 import { fCurrency, fNumber, fPercent } from '@orca/util';
-import { tokenInfo, routes } from '@orca/shared/base';
+import { tokenInfo, routes } from '@orca/shared';
 
 // ------------------------------------------------------
 

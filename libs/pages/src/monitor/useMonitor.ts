@@ -5,10 +5,9 @@ import { Web3Provider } from '@ethersproject/providers';
 import useSwr from 'swr';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
-import { allBankPrices } from '@orca/shared/funcs';
+import { allBankPrices } from '@orca/web3';
 import { useNewMonitorVaultsQuery } from '@orca/graphql';
-import { tokenInfo } from '@orca/shared/base';
-import { VaultContracts } from '@orca/shared/contracts';
+import { BankTokenInfo, VaultContracts } from '@orca/shared';
 import { filter } from 'lodash';
 
 export const useMonitorVaults = (library: Web3Provider, chainId: number) => {
@@ -49,7 +48,8 @@ export const useMonitorVaults = (library: Web3Provider, chainId: number) => {
                 const debt = BigNumber.from(vault.debt);
                 const cp = collateral
                   .mul(
-                    10 ** (18 - filter(tokenInfo, { erc20: name })[0].decimals)
+                    10 **
+                      (18 - filter(BankTokenInfo, { erc20: name })[0].decimals)
                   )
                   .mul(1000)
                   .mul(price.price)
@@ -64,14 +64,14 @@ export const useMonitorVaults = (library: Web3Provider, chainId: number) => {
                     collateral: Number(
                       utils.formatUnits(
                         collateral.mul(price.price).div(price.peg),
-                        filter(tokenInfo, { erc20: name })[0].decimals
+                        filter(BankTokenInfo, { erc20: name })[0].decimals
                       )
                     ),
                     debt: Number(utils.formatEther(debt)),
                     cp: cp.toNumber() / 10,
                     mcp: mcp.toNumber(),
                     ratio: mcp.toNumber() / (cp.toNumber() / 10),
-                    collatInfo: filter(tokenInfo, { erc20: name })[0],
+                    collatInfo: filter(BankTokenInfo, { erc20: name })[0],
                   };
               }
             })

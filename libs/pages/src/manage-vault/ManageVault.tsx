@@ -42,8 +42,8 @@ import {
   Connect,
   handleTransaction,
 } from '@orca/components';
-import { routes, tokenInfo } from '@orca/shared/base';
-import { deleteVault } from '@orca/shared/funcs';
+import { routes, tokenInfo } from '@orca/shared';
+import { deleteVault } from '@orca/web3';
 
 import { Deposit } from './Deposit';
 import { Borrows } from './Borrows';

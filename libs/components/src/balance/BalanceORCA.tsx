@@ -8,9 +8,8 @@ import { parseBalance } from '@orca/util';
 import { useSetRecoilState } from 'recoil';
 import { styled } from '@mui/material/styles';
 
-import contractAddresses from '@orca/shared/deployments';
-import { ORCA__factory } from '@orca/shared/contracts';
-import { orcaBalance } from '@orca/shared/funcs';
+import { ORCA__factory, DeployedContracts } from '@orca/shared';
+import { orcaBalance } from '@orca/web3';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 import { seeORCA } from './atom';
 
@@ -37,9 +36,9 @@ const OrcaBalance: FC = () => {
   useEffect(() => {
     const orca = ORCA__factory.connect(
       chainId === 43113
-        ? contractAddresses.fuji.ORCA.address
+        ? DeployedContracts.fuji.ORCA.address
         : chainId === 43114
-        ? contractAddresses.main.ORCA.address
+        ? DeployedContracts.main.ORCA.address
         : null,
       library
     );

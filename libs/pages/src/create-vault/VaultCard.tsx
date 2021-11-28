@@ -16,8 +16,8 @@ import {
 } from '@mui/material';
 
 import { fPercent, fCurrency } from '@orca/util';
-import { routes, TokenInfo } from '@orca/shared/base';
-import { makeVault, getVault } from '@orca/shared/funcs';
+import { routes, BankInfo } from '@orca/shared';
+import { makeVault, getVault } from '@orca/web3';
 import { handleTransaction } from '@orca/components';
 
 type VaultCardProps = {
@@ -29,7 +29,7 @@ type VaultCardProps = {
     maxLTV: number;
     key: string;
     remainingAVAI: number;
-    collatInfo: TokenInfo;
+    collatInfo: BankInfo;
   };
 };
 

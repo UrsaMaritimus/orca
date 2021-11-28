@@ -24,7 +24,8 @@ import {
   Stack,
 } from '@mui/material';
 
-import { routes, useOffSetTop } from '@orca/shared/base';
+import { routes } from '@orca/shared';
+import { useOffSetTop } from '@orca/hooks';
 import {
   MIconButton,
   LargeLogo,

@@ -21,8 +21,6 @@ import { Icon } from '@iconify/react';
 import arrowRight from '@iconify/icons-eva/arrow-right-outline';
 import backSpace from '@iconify/icons-eva/backspace-outline';
 import useSWR from 'swr';
-import { AVAI__factory } from '@orca/shared/contracts';
-import contractAddresses from '@orca/shared/deployments';
 
 import { useFormik, Form, FormikProvider } from 'formik';
 import { utils } from 'ethers';
@@ -30,11 +28,11 @@ import { utils } from 'ethers';
 // Ethers and web3 stuff
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
-import { Loader, handleTransaction, useAddTransaction } from '@orca/components';
 
-import { payBackToken, avaiBalance } from '@orca/shared/funcs';
+import { Loader, handleTransaction, useAddTransaction } from '@orca/components';
+import { AVAI__factory, DeployedContracts, tokenInfo } from '@orca/shared';
+import { payBackToken, avaiBalance } from '@orca/web3';
 import { fPercent, fNumber, colorScale } from '@orca/util';
-import { tokenInfo } from '@orca/shared/base';
 import { StepperProps } from './stepper.type';
 
 const InputTextField = styled(TextField)(({ theme }) => ({
@@ -64,9 +62,9 @@ export const RepayStepper: FC<StepperProps> = ({
   useEffect(() => {
     const avai = AVAI__factory.connect(
       chainId === 43113
-        ? contractAddresses.fuji.AVAI.address
+        ? DeployedContracts.fuji.AVAI.address
         : chainId === 43114
-        ? contractAddresses.main.AVAI.address
+        ? DeployedContracts.main.AVAI.address
         : null,
       library
     );

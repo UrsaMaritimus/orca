@@ -14,7 +14,7 @@ import { Web3Provider } from '@ethersproject/providers';
 
 import { fCurrency, fNumber } from '@orca/util';
 import { AddToken, Loader } from '@orca/components';
-import { tokenInfo } from '@orca/shared/base';
+import { tokenInfo } from '@orca/shared';
 import { useFrontPageStats } from '../graph/useFrontPageStats';
 
 export const Stats: FC = () => {
