@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
 
-import { Page } from '@orca/components';
 import { Vaults } from '@orca/pages/vaults';
-import { AppLayout } from '@orca/layout/app';
+import { AppLayout } from '@orca/layouts';
 
 const App: FC = () => {
   return (

@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 
 import { Page } from '@orca/components';
 import { USDCSwap } from '@orca/pages/exchange';
-import { AppLayout } from '@orca/layout/app';
+import { AppLayout } from '@orca/layouts';
 
 const RootStyle = styled(Page)((theme) => ({
   root: {},

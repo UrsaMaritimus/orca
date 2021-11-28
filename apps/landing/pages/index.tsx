@@ -3,7 +3,7 @@ import React from 'react';
 import { styled } from '@mui/material/styles';
 
 import { Page } from '@orca/components';
-import { HomeLayout } from '@orca/layout/landing';
+import { HomeLayout } from '@orca/layouts';
 import { Hero, Footer, Intro, SignUp, SeaFund } from '@orca/pages/landing';
 
 const RootStyle = styled(Page)({

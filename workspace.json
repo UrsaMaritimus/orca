@@ -204,51 +204,28 @@
       "tags": [],
       "implicitDependencies": ["landing"]
     },
-    "layout-app": {
-      "root": "libs/layout/app",
-      "sourceRoot": "libs/layout/app/src",
+    "layouts": {
+      "root": "libs/layouts",
+      "sourceRoot": "libs/layouts/src",
       "projectType": "library",
+      "tags": [],
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": ["libs/layout/app/**/*.{ts,tsx,js,jsx}"]
-          },
-          "outputs": ["{options.outputFile}"]
+            "lintFilePatterns": ["libs/layouts/**/*.{ts,tsx,js,jsx}"]
+          }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/layout/app"],
+          "outputs": ["coverage/libs/layouts"],
           "options": {
-            "jestConfig": "libs/layout/app/jest.config.js",
+            "jestConfig": "libs/layouts/jest.config.js",
             "passWithNoTests": true
           }
         }
-      },
-      "tags": []
-    },
-    "layout-landing": {
-      "root": "libs/layout/landing",
-      "sourceRoot": "libs/layout/landing/src",
-      "projectType": "library",
-      "targets": {
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/layout/landing/**/*.{ts,tsx,js,jsx}"]
-          },
-          "outputs": ["{options.outputFile}"]
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/layout/landing"],
-          "options": {
-            "jestConfig": "libs/layout/landing/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      },
-      "tags": []
+      }
     },
     "orca": {
       "root": "apps/orca",
