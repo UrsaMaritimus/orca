@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 
 import { Page } from '@orca/components';
 import { HomeLayout } from '@orca/layouts';
-import { Hero, Footer, Intro, SignUp, SeaFund } from '@orca/pages/landing';
+import { Hero, Footer, Intro, SignUp, SeaFund } from '@orca/pages';
 
 const RootStyle = styled(Page)({
   height: '100%',

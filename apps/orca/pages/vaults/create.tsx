@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { CreateVault } from '@orca/pages/create-vault';
+import { CreateVault } from '@orca/pages';
 import { AppLayout } from '@orca/layouts';
 
 const App: FC = () => {

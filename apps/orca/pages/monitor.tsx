@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { styled } from '@mui/material/styles';
 
 import { Page } from '@orca/components';
-import { Monitor } from '@orca/pages/monitor';
+import { Monitor } from '@orca/pages';
 import { AppLayout } from '@orca/layouts';
 
 const RootStyle = styled(Page)((theme) => ({

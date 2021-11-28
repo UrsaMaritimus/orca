@@ -309,235 +309,28 @@
       "tags": [],
       "implicitDependencies": ["orca"]
     },
-    "pages-app": {
-      "root": "libs/pages/app",
-      "sourceRoot": "libs/pages/app/src",
+    "pages": {
+      "root": "libs/pages",
+      "sourceRoot": "libs/pages/src",
       "projectType": "library",
+      "tags": [],
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": ["libs/pages/app/**/*.{ts,tsx,js,jsx}"]
-          },
-          "outputs": ["{options.outputFile}"]
+            "lintFilePatterns": ["libs/pages/**/*.{ts,tsx,js,jsx}"]
+          }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/pages/app"],
+          "outputs": ["coverage/libs/pages"],
           "options": {
-            "jestConfig": "libs/pages/app/jest.config.js",
+            "jestConfig": "libs/pages/jest.config.js",
             "passWithNoTests": true
           }
         }
-      },
-      "tags": []
-    },
-    "pages-create-vault": {
-      "root": "libs/pages/create-vault",
-      "sourceRoot": "libs/pages/create-vault/src",
-      "projectType": "library",
-      "targets": {
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/pages/create-vault/**/*.{ts,tsx,js,jsx}"]
-          },
-          "outputs": ["{options.outputFile}"]
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/pages/create-vault"],
-          "options": {
-            "jestConfig": "libs/pages/create-vault/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      },
-      "tags": []
-    },
-    "pages-error": {
-      "root": "libs/pages/error",
-      "sourceRoot": "libs/pages/error/src",
-      "projectType": "library",
-      "targets": {
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/pages/error/**/*.{ts,tsx,js,jsx}"]
-          },
-          "outputs": ["{options.outputFile}"]
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/pages/error"],
-          "options": {
-            "jestConfig": "libs/pages/error/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      },
-      "tags": []
-    },
-    "pages-exchange": {
-      "root": "libs/pages/exchange",
-      "sourceRoot": "libs/pages/exchange/src",
-      "projectType": "library",
-      "targets": {
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/pages/exchange/**/*.{ts,tsx,js,jsx}"]
-          },
-          "outputs": ["{options.outputFile}"]
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/pages/exchange"],
-          "options": {
-            "jestConfig": "libs/pages/exchange/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      },
-      "tags": []
-    },
-    "pages-landing": {
-      "root": "libs/pages/landing",
-      "sourceRoot": "libs/pages/landing/src",
-      "projectType": "library",
-      "targets": {
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/pages/landing/**/*.{ts,tsx,js,jsx}"]
-          },
-          "outputs": ["{options.outputFile}"]
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/pages/landing"],
-          "options": {
-            "jestConfig": "libs/pages/landing/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      },
-      "tags": []
-    },
-    "pages-manage-vault": {
-      "root": "libs/pages/manage-vault",
-      "sourceRoot": "libs/pages/manage-vault/src",
-      "projectType": "library",
-      "targets": {
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/pages/manage-vault/**/*.{ts,tsx,js,jsx}"]
-          },
-          "outputs": ["{options.outputFile}"]
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/pages/manage-vault"],
-          "options": {
-            "jestConfig": "libs/pages/manage-vault/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      },
-      "tags": []
-    },
-    "pages-monitor": {
-      "root": "libs/pages/monitor",
-      "sourceRoot": "libs/pages/monitor/src",
-      "projectType": "library",
-      "targets": {
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/pages/monitor/**/*.{ts,tsx,js,jsx}"]
-          },
-          "outputs": ["{options.outputFile}"]
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/pages/monitor"],
-          "options": {
-            "jestConfig": "libs/pages/monitor/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      },
-      "tags": []
-    },
-    "pages-stake": {
-      "root": "libs/pages/stake",
-      "sourceRoot": "libs/pages/stake/src",
-      "projectType": "library",
-      "targets": {
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/pages/stake/**/*.{ts,tsx,js,jsx}"]
-          },
-          "outputs": ["{options.outputFile}"]
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/pages/stake"],
-          "options": {
-            "jestConfig": "libs/pages/stake/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      },
-      "tags": []
-    },
-    "pages-vaults": {
-      "root": "libs/pages/vaults",
-      "sourceRoot": "libs/pages/vaults/src",
-      "projectType": "library",
-      "targets": {
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/pages/vaults/**/*.{ts,tsx,js,jsx}"]
-          },
-          "outputs": ["{options.outputFile}"]
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/pages/vaults"],
-          "options": {
-            "jestConfig": "libs/pages/vaults/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      },
-      "tags": []
-    },
-    "pages-yield": {
-      "root": "libs/pages/yield",
-      "sourceRoot": "libs/pages/yield/src",
-      "projectType": "library",
-      "targets": {
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/pages/yield/**/*.{ts,tsx,js,jsx}"]
-          },
-          "outputs": ["{options.outputFile}"]
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/pages/yield"],
-          "options": {
-            "jestConfig": "libs/pages/yield/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      },
-      "tags": []
+      }
     },
     "shared-base": {
       "root": "libs/shared/base",

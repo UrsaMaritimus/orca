@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
 import { AppLayout } from '@orca/layouts';
-import { ManageVault } from '@orca/pages/manage-vault';
+import { ManageVault } from '@orca/pages';
 
 const App: FC = () => {
   return (

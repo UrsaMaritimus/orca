@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { styled } from '@mui/material/styles';
 
 import { Page } from '@orca/components';
-import { USDCSwap } from '@orca/pages/exchange';
+import { USDCSwap } from '@orca/pages';
 import { AppLayout } from '@orca/layouts';
 
 const RootStyle = styled(Page)((theme) => ({
