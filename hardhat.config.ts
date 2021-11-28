@@ -84,12 +84,12 @@ export default {
   paths: {
     sources: `./apps/avai/src/contracts`,
     tests: `./test`,
-    cache: './libs/shared/contracts/src/cache',
-    artifacts: './libs/shared/contracts/src/artifacts',
-    deployments: './libs/shared/deployments/src/deployments',
+    cache: './libs/shared/src/contracts/cache',
+    artifacts: './libs/shared/src/contracts/artifacts',
+    deployments: './libs/shared/src/deployed/deployments',
   },
   typechain: {
-    outDir: './libs/shared/contracts/src/types',
+    outDir: './libs/shared/src/contracts/types',
     target: 'ethers-v5',
   },
 } as HardhatUserConfig;
