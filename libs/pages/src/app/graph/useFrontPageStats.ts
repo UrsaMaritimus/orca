@@ -43,7 +43,7 @@ export const useFrontPageStats = () => {
 
   const { data: orcaPrice } = useGetTokenPriceQuery({
     variables: {
-      id: FarmTokenInfo['ORCA'].address.mainnet.toLowerCase(),
+      id: ProtocolTokenInfo['ORCA'].address.mainnet.toLowerCase(),
     },
     pollInterval: 5000,
   });

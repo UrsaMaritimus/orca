@@ -7,7 +7,8 @@ import { styled } from '@mui/material/styles';
 
 import { Box, Typography, Stack, Container } from '@mui/material';
 
-import { Page, Loader } from '@orca/components';
+import { Page } from '../page';
+import { Loader } from '../loader';
 
 //--------------------------------------------------------------------------
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -23,7 +24,7 @@ type ConnectProps = {
 
 //---------------------------------------------------------------------------
 export const Connect: FC<ConnectProps> = ({ children, title }) => {
-  const { account, library, chainId } = useWeb3React<Web3Provider>();
+  const { chainId } = useWeb3React<Web3Provider>();
   if (!chainId) {
     return <Loader />;
   }

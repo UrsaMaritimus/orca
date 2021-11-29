@@ -8,7 +8,7 @@ import roundKeyboardArrowRight from '@iconify/icons-ic/round-keyboard-arrow-righ
 import { alpha, useTheme, styled } from '@mui/material/styles';
 import { Typography, Box } from '@mui/material';
 //
-import { MIconButton } from '@orca/components';
+import { MIconButton } from '../../material-extend/buttons';
 
 // ----------------------------------------------------------------------
 
