@@ -28,7 +28,6 @@ import {
   ThemeProvider as CustomThemeProvider,
   CustomToaster,
   Settings,
-  BalanceInfoAVAI,
   BalanceInfoOrca,
   AccountInfo,
 } from '@orca/components';

@@ -84,9 +84,9 @@ export default {
   paths: {
     sources: `./apps/avai/src/contracts`,
     tests: `./test`,
-    cache: './libs/shared/src/contracts/cache',
-    artifacts: './libs/shared/src/contracts/artifacts',
-    deployments: './libs/shared/src/deployed/deployments',
+    cache: './cache',
+    artifacts: './artifacts',
+    deployments: './deployments',
   },
   typechain: {
     outDir: './libs/shared/src/contracts/types',
