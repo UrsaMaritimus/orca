@@ -5,17 +5,22 @@ import { Icon } from '@iconify/react';
 
 import flashFill from '@iconify/icons-eva/flash-fill';
 
-import { motion } from 'framer-motion';
+import { m, LazyMotion } from 'framer-motion';
 import { styled } from '@mui/material/styles';
 
 import { Box, Typography, Container, Button, Link } from '@mui/material';
-import { varFadeIn, varWrapEnter, varFadeInRight } from '@orca/components';
+import {
+  varFadeIn,
+  varWrapEnter,
+  varFadeInRight,
+  loadFeatures,
+} from '@orca/components';
 
 import { routes } from '@orca/shared';
 
 // ----------------------------------------------------------------------
 
-const RootStyle = styled(motion.div)(({ theme }) => ({
+const RootStyle = styled(m.div)(({ theme }) => ({
   position: 'relative',
   backgroundColor: '#F2F3F5',
   [theme.breakpoints.up('md')]: {
@@ -43,7 +48,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
   },
 }));
 
-const HeroOverlayStyle = styled(motion.img)({
+const HeroOverlayStyle = styled(m.img)({
   zIndex: 10,
   width: '100%',
   height: '100%',
@@ -63,67 +68,69 @@ const StyledImage = styled(Image)({
 const Hero: FC = () => {
   return (
     <>
-      <RootStyle initial="initial" animate="animate" variants={varWrapEnter}>
-        <HeroOverlayStyle
-          src="/static/images/overlay.png"
-          variants={varFadeIn}
-          alt="overlay"
-        />
+      <LazyMotion features={loadFeatures}>
+        <RootStyle initial="initial" animate="animate" variants={varWrapEnter}>
+          <HeroOverlayStyle
+            src="/static/images/overlay.png"
+            variants={varFadeIn}
+            alt="overlay"
+          />
 
-        <StyledImage src="/static/images/hero.svg" layout="fill" />
-        <Container maxWidth="lg">
-          <ContentStyle>
-            <motion.div variants={varFadeInRight}>
+          <StyledImage src="/static/images/hero.svg" layout="fill" />
+          <Container maxWidth="lg">
+            <ContentStyle>
+              <m.div variants={varFadeInRight}>
+                <Box
+                  component="h1"
+                  sx={{ typography: 'h1', color: 'common.white' }}
+                >
+                  Finance Your Inner Whale
+                </Box>
+              </m.div>
+
+              <m.div variants={varFadeInRight}>
+                <Box component="p" sx={{ color: 'common.white', py: 5 }}>
+                  <Typography component="span" variant="h5" color="secondary">
+                    OrcaDAO
+                  </Typography>{' '}
+                  is a protocol featuring the Avalanche-native stablecoin
+                  <Typography component="span" variant="h5" color="primary">
+                    &nbsp;AVAI
+                  </Typography>{' '}
+                  and governance token{' '}
+                  <Typography component="span" variant="h5" color="primary">
+                    ORCA
+                  </Typography>{' '}
+                  that allow for lending using crypto collateral at 0% interest,
+                  built on and for the Avalanche Network.
+                </Box>
+              </m.div>
+
+              <m.div variants={varFadeInRight}>
+                <Button
+                  size="large"
+                  variant="contained"
+                  target={'_blank'}
+                  component={Link}
+                  href={routes.LANDING.SITE}
+                  startIcon={<Icon icon={flashFill} width={20} height={20} />}
+                >
+                  Go to app!
+                </Button>
+              </m.div>
+
               <Box
-                component="h1"
-                sx={{ typography: 'h1', color: 'common.white' }}
-              >
-                Finance Your Inner Whale
-              </Box>
-            </motion.div>
-
-            <motion.div variants={varFadeInRight}>
-              <Box component="p" sx={{ color: 'common.white', py: 5 }}>
-                <Typography component="span" variant="h5" color="secondary">
-                  OrcaDAO
-                </Typography>{' '}
-                is a protocol featuring the Avalanche-native stablecoin
-                <Typography component="span" variant="h5" color="primary">
-                  &nbsp;AVAI
-                </Typography>{' '}
-                and governance token{' '}
-                <Typography component="span" variant="h5" color="primary">
-                  ORCA
-                </Typography>{' '}
-                that allow for lending using crypto collateral at 0% interest,
-                built on and for the Avalanche Network.
-              </Box>
-            </motion.div>
-
-            <motion.div variants={varFadeInRight}>
-              <Button
-                size="large"
-                variant="contained"
-                target={'_blank'}
-                component={Link}
-                href={routes.LANDING.SITE}
-                startIcon={<Icon icon={flashFill} width={20} height={20} />}
-              >
-                Go to app!
-              </Button>
-            </motion.div>
-
-            <Box
-              sx={{
-                mt: 5,
-                display: 'flex',
-                justifyContent: { xs: 'center', md: 'left' },
-                '& > *:not(:last-of-type)': { mr: 1.5 },
-              }}
-            ></Box>
-          </ContentStyle>
-        </Container>
-      </RootStyle>
+                sx={{
+                  mt: 5,
+                  display: 'flex',
+                  justifyContent: { xs: 'center', md: 'left' },
+                  '& > *:not(:last-of-type)': { mr: 1.5 },
+                }}
+              ></Box>
+            </ContentStyle>
+          </Container>
+        </RootStyle>
+      </LazyMotion>
       <Box sx={{ height: { md: '100vh' } }} />
     </>
   );

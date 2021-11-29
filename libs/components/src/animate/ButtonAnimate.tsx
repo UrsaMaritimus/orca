@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { motion } from 'framer-motion';
+import { m, LazyMotion } from 'framer-motion';
 
 import { Box, BoxProps } from '@mui/material';
 
@@ -12,6 +12,9 @@ type Props = {
   mediumClick?: boolean;
 } & BoxProps;
 
+export const loadFeatures = () =>
+  import('./animationLoad').then((res) => res.default);
+
 const ButtonAnimate: FC<Props> = ({
   children,
   sx,
@@ -19,16 +22,18 @@ const ButtonAnimate: FC<Props> = ({
   ...other
 }) => {
   return (
-    <Box
-      component={motion.div}
-      whileTap="tap"
-      whileHover="hover"
-      variants={mediumClick ? varMediumClick : varSmallClick}
-      sx={{ display: 'inline-flex', ...sx }}
-      {...other}
-    >
-      {children}
-    </Box>
+    <LazyMotion features={loadFeatures}>
+      <Box
+        component={m.div}
+        whileTap="tap"
+        whileHover="hover"
+        variants={mediumClick ? varMediumClick : varSmallClick}
+        sx={{ display: 'inline-flex', ...sx }}
+        {...other}
+      >
+        {children}
+      </Box>
+    </LazyMotion>
   );
 };
 

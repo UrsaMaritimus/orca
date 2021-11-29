@@ -1,7 +1,9 @@
 import { FC, useEffect } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import { m, useAnimation, LazyMotion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Box, BoxProps } from '@mui/material';
+
+import { loadFeatures } from '../animate';
 
 // ----------------------------------------------------------------------
 
@@ -35,17 +37,19 @@ const MotionInView: FC<Props> = ({
   }, [controls, inView, variants]);
 
   return (
-    <Box
-      ref={ref}
-      component={motion.div}
-      initial={Object.keys(variants)[0]}
-      animate={controls}
-      variants={variants}
-      transition={transition}
-      {...other}
-    >
-      {children}
-    </Box>
+    <LazyMotion features={loadFeatures}>
+      <Box
+        ref={ref}
+        component={m.div}
+        initial={Object.keys(variants)[0]}
+        animate={controls}
+        variants={variants}
+        transition={transition}
+        {...other}
+      >
+        {children}
+      </Box>
+    </LazyMotion>
   );
 };
 

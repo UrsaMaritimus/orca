@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { styled } from '@mui/material/styles';
 
 import { Box, Typography, Container, Button, Link } from '@mui/material';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 
 import { varFadeInDown, varFadeInUp, MotionInView } from '@orca/components';
 import { routes } from '@orca/shared';
@@ -31,7 +31,7 @@ const SignUp: FC = () => {
     <Container maxWidth="lg" sx={{ pt: 15 }}>
       <ContentStyle>
         <MotionInView variants={varFadeInUp} sx={{ mb: { xs: 3, md: 0 } }}>
-          <motion.div
+          <m.div
             animate={{ y: [-20, 0, -20] }}
             transition={{ duration: 4, repeat: Infinity }}
           >
@@ -53,7 +53,7 @@ const SignUp: FC = () => {
                 },
               }}
             />
-          </motion.div>
+          </m.div>
         </MotionInView>
 
         <Box

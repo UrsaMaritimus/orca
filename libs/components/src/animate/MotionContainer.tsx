@@ -1,11 +1,13 @@
 import { FC } from 'react';
 
-import { motion } from 'framer-motion';
+import { m, LazyMotion } from 'framer-motion';
 import { Box, BoxProps } from '@mui/material';
 
 import { varWrapEnter } from './variants';
 
 // ----------------------------------------------------------------------
+export const loadFeatures = () =>
+  import('./animationLoad').then((res) => res.default);
 
 type Props = {
   open: boolean;
@@ -14,15 +16,17 @@ type Props = {
 
 const MotionContainer: FC<Props> = ({ open, children, ...other }) => {
   return (
-    <Box
-      component={motion.div}
-      initial={false}
-      animate={open ? 'animate' : 'exit'}
-      variants={varWrapEnter}
-      {...other}
-    >
-      {children}
-    </Box>
+    <LazyMotion features={loadFeatures}>
+      <Box
+        component={m.div}
+        initial={false}
+        animate={open ? 'animate' : 'exit'}
+        variants={varWrapEnter}
+        {...other}
+      >
+        {children}
+      </Box>
+    </LazyMotion>
   );
 };
 

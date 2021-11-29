@@ -1,14 +1,18 @@
 import Slider from 'react-slick';
 import Image from 'next/image';
 
-import { motion } from 'framer-motion';
+import { m, LazyMotion } from 'framer-motion';
 import { useState, useRef, FC } from 'react';
 // material
 import { alpha, useTheme, styled } from '@mui/material/styles';
 import { CardContent, Box, Card, Typography, Link } from '@mui/material';
 
 //
-import { varFadeInRight, MotionContainer } from '@orca/components';
+import {
+  varFadeInRight,
+  MotionContainer,
+  loadFeatures,
+} from '@orca/components';
 import {
   CarouselControlsPaging1,
   CarouselControlsArrowsBasic1,
@@ -90,30 +94,32 @@ const CarouselItem: FC<CarouselItemProps> = ({ item, isActive }) => {
             color: 'common.white',
           }}
         >
-          <MotionContainer open={isActive}>
-            <motion.div variants={varFadeInRight}>
-              <Typography
-                variant="overline"
-                sx={{
-                  mb: 1,
-                  opacity: 0.48,
-                  display: 'block',
-                }}
-              >
-                Medium Articles
-              </Typography>
-            </motion.div>
-            <motion.div variants={varFadeInRight}>
-              <Typography variant="h5" gutterBottom noWrap>
-                {title}
-              </Typography>
-            </motion.div>
-            <motion.div variants={varFadeInRight}>
-              <Typography variant="body2" noWrap>
-                {description}
-              </Typography>
-            </motion.div>
-          </MotionContainer>
+          <LazyMotion features={loadFeatures}>
+            <MotionContainer open={isActive}>
+              <m.div variants={varFadeInRight}>
+                <Typography
+                  variant="overline"
+                  sx={{
+                    mb: 1,
+                    opacity: 0.48,
+                    display: 'block',
+                  }}
+                >
+                  Medium Articles
+                </Typography>
+              </m.div>
+              <m.div variants={varFadeInRight}>
+                <Typography variant="h5" gutterBottom noWrap>
+                  {title}
+                </Typography>
+              </m.div>
+              <m.div variants={varFadeInRight}>
+                <Typography variant="body2" noWrap>
+                  {description}
+                </Typography>
+              </m.div>
+            </MotionContainer>
+          </LazyMotion>
         </CardContent>
       </Box>
     </Link>

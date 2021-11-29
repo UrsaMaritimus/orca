@@ -1,11 +1,13 @@
 import React, { FC } from 'react';
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence, LazyMotion } from 'framer-motion';
 import { Dialog, DialogProps } from '@mui/material';
 
 import { varFadeInUp } from './variants';
 
 // ----------------------------------------------------------------------
+export const loadFeatures = () =>
+  import('./animationLoad').then((res) => res.default);
 
 type Props = {
   animate?: { [key: string]: any };
@@ -20,28 +22,30 @@ const DialogAnimate: FC<Props> = ({
   ...other
 }) => {
   return (
-    <AnimatePresence>
-      {open && (
-        <Dialog
-          fullWidth
-          maxWidth="xs"
-          open={open}
-          onClose={onClose}
-          // Little cheat to get typescript to be happy
-          PaperComponent={motion.div as React.ComponentType<unknown>}
-          PaperProps={{
-            sx: {
-              borderRadius: 2,
-              bgcolor: 'background.paper',
-            },
-            ...(animate || varFadeInUp),
-          }}
-          {...other}
-        >
-          {children}
-        </Dialog>
-      )}
-    </AnimatePresence>
+    <LazyMotion features={loadFeatures}>
+      <AnimatePresence>
+        {open && (
+          <Dialog
+            fullWidth
+            maxWidth="xs"
+            open={open}
+            onClose={onClose}
+            // Little cheat to get typescript to be happy
+            PaperComponent={m.div as React.ComponentType<unknown>}
+            PaperProps={{
+              sx: {
+                borderRadius: 2,
+                bgcolor: 'background.paper',
+              },
+              ...(animate || varFadeInUp),
+            }}
+            {...other}
+          >
+            {children}
+          </Dialog>
+        )}
+      </AnimatePresence>
+    </LazyMotion>
   );
 };
 

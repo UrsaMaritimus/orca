@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { styled } from '@mui/material/styles';
 
 import { Box, Button, Typography, Container } from '@mui/material';
@@ -45,18 +45,18 @@ const Page404View: FC = () => {
       <Container>
         <MotionContainer initial="initial" open>
           <Box sx={{ maxWidth: 480, margin: 'auto', textAlign: 'center' }}>
-            <motion.div variants={varBounceIn}>
+            <m.div variants={varBounceIn}>
               <Typography variant="h3" gutterBottom>
                 Sorry, page not found!
               </Typography>
-            </motion.div>
+            </m.div>
             <Typography sx={{ color: 'text.secondary' }}>
               Sorry, we couldn’t find the page you’re looking for. Perhaps
               you’ve mistyped the URL? Be sure to check your spelling.
             </Typography>
 
             <Box
-              component={motion.img}
+              component={m.img}
               variants={varBounceIn}
               alt="404"
               src="/static/illustrations/illustration_404.svg"

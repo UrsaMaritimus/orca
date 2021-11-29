@@ -1,6 +1,8 @@
 import { FC } from 'react';
 
-import { motion } from 'framer-motion';
+import { m, LazyMotion } from 'framer-motion';
+
+import { loadFeatures } from '../animate';
 
 const loadingContainer = {
   width: '2rem',
@@ -47,27 +49,29 @@ const loadingCircleTransition = {
 
 export const LoadingDots: FC = () => {
   return (
-    <motion.div
-      style={loadingContainer}
-      variants={loadingContainerVariants}
-      initial="start"
-      animate="end"
-    >
-      <motion.span
-        style={loadingCircle}
-        variants={loadingCircleVariants}
-        transition={loadingCircleTransition}
-      />
-      <motion.span
-        style={loadingCircle}
-        variants={loadingCircleVariants}
-        transition={loadingCircleTransition}
-      />
-      <motion.span
-        style={loadingCircle}
-        variants={loadingCircleVariants}
-        transition={loadingCircleTransition}
-      />
-    </motion.div>
+    <LazyMotion features={loadFeatures}>
+      <m.div
+        style={loadingContainer}
+        variants={loadingContainerVariants}
+        initial="start"
+        animate="end"
+      >
+        <m.span
+          style={loadingCircle}
+          variants={loadingCircleVariants}
+          transition={loadingCircleTransition}
+        />
+        <m.span
+          style={loadingCircle}
+          variants={loadingCircleVariants}
+          transition={loadingCircleTransition}
+        />
+        <m.span
+          style={loadingCircle}
+          variants={loadingCircleVariants}
+          transition={loadingCircleTransition}
+        />
+      </m.div>
+    </LazyMotion>
   );
 };
