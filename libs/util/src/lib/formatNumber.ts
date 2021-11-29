@@ -1,13 +1,16 @@
-import numbro from 'numbro';
-
-// ----------------------------------------------------------------------
-
 export const fCurrency = (value: number | string) => {
-  return numbro(value).format(Number.isInteger(value) ? '$0,0' : '$0,0.00');
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }).format(Number(value));
 };
 
-export const fPercent = (number: number) => {
-  return numbro(number / 100).format('0.00%');
+export const fPercent = (number: number | string) => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'percent',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(Number(number) / 100);
 };
 
 export const fNumber = (
@@ -15,17 +18,17 @@ export const fNumber = (
   mantissa = 4,
   thousandSeparated = false
 ) => {
-  return numbro(number).format({ mantissa, thousandSeparated });
+  return new Intl.NumberFormat('en-US', {
+    maximumFractionDigits: mantissa,
+    useGrouping: thousandSeparated,
+  }).format(Number(number));
 };
 
 export const fShortenNumber = (number: number | string, mantissa = 2) => {
-  return numbro(number).format({
-    average: true,
-    mantissa,
-    thousandSeparated: true,
-  });
-};
-
-export const fData = (number: number | string) => {
-  return numbro(number).format('0.0 b');
+  return new Intl.NumberFormat('en-US', {
+    maximumFractionDigits: mantissa,
+    useGrouping: true,
+    // @ts-expect-error not added to proper libraries yet
+    notation: 'compact',
+  }).format(Number(number));
 };

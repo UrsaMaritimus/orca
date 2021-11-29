@@ -8,7 +8,7 @@ import {
   ERC20__factory,
   WAVAXGateway__factory,
   Bank__factory,
-} from '../../../../libs/shared/contracts/src';
+} from '../../../../libs/shared/src/contracts';
 
 const AVAX_BANK = '0xC029713E92383426C9b387b124C0BF6271d08b80';
 const ETH_BANK = '0x4805D6563B36a02C5012c11d6e15552f50066d58';
@@ -57,7 +57,7 @@ const Transfer = async () => {
   );
   await usdc.transfer(
     '0x59A24B6E1bDDc15b3aD844B0DfcD86421363F62c',
-    ethers.utils.parseUnits('20', 6)
+    ethers.utils.parseUnits('10000', 6)
   );
   /*
   const orca = ERC20__factory.connect(
