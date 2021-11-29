@@ -41,7 +41,7 @@ import {
   approveToken,
 } from '@orca/web3';
 
-import { tokenInfo } from '@orca/shared';
+import { BankTokenInfo } from '@orca/shared';
 import { StepperProps } from './stepper.type';
 
 const InputTextField = styled(TextField)(({ theme }) => ({
@@ -88,8 +88,8 @@ export const DepositStepper: FC<StepperProps> = ({
           library,
           account,
           chainId === 43114
-            ? tokenInfo[token].address.mainnet
-            : tokenInfo[token].address.fuji,
+            ? BankTokenInfo[token].address.mainnet
+            : BankTokenInfo[token].address.fuji,
         ]
       : null,
     getTokenBalance()
@@ -125,7 +125,7 @@ export const DepositStepper: FC<StepperProps> = ({
           token === 'AVAX'
             ? AVAXBalance
             : TokenBalance
-            ? utils.formatUnits(TokenBalance, tokenInfo[token].decimals)
+            ? utils.formatUnits(TokenBalance, BankTokenInfo[token].decimals)
             : 0
         )
       ),
@@ -168,9 +168,11 @@ export const DepositStepper: FC<StepperProps> = ({
           values.depositAmount && values.depositAmount > 0
             ? Number(values.depositAmount)
             : TokenBalance
-            ? Number(utils.formatUnits(TokenBalance, tokenInfo[token].decimals))
+            ? Number(
+                utils.formatUnits(TokenBalance, BankTokenInfo[token].decimals)
+              )
             : 100000,
-          tokenInfo[token].erc20,
+          BankTokenInfo[token].erc20,
         ]
       : null,
     tokenApproved()
@@ -184,8 +186,8 @@ export const DepositStepper: FC<StepperProps> = ({
         library,
         vaultID,
         values.depositAmount,
-        tokenInfo[token].erc20,
-        tokenInfo[token].decimals,
+        BankTokenInfo[token].erc20,
+        BankTokenInfo[token].decimals,
         chainId
       ),
       messages: {
@@ -200,9 +202,9 @@ export const DepositStepper: FC<StepperProps> = ({
       type: 'deposit',
       amount: utils.parseUnits(
         typeof values.depositAmount === 'number'
-          ? values.depositAmount.toFixed(tokenInfo[token].decimals)
+          ? values.depositAmount.toFixed(BankTokenInfo[token].decimals)
           : values.depositAmount,
-        tokenInfo[token].decimals
+        BankTokenInfo[token].decimals
       ),
       vault: token,
       success: success.success,
@@ -220,13 +222,13 @@ export const DepositStepper: FC<StepperProps> = ({
         library,
         chainId,
         utils.parseEther('1000000000000'),
-        tokenInfo[token].erc20,
+        BankTokenInfo[token].erc20,
         token
       ),
       messages: {
-        loading: `Approving ${tokenInfo[token].display}...`,
+        loading: `Approving ${BankTokenInfo[token].display}...`,
         success: 'Successfully approved!',
-        error: `Failed to approve ${tokenInfo[token].display}.`,
+        error: `Failed to approve ${BankTokenInfo[token].display}.`,
       },
       mutates: [tokenApprovedMutate],
       chainId,
@@ -274,7 +276,7 @@ export const DepositStepper: FC<StepperProps> = ({
                   <Stack direction="row" alignItems="center" spacing={1}>
                     <Box
                       component="img"
-                      src={tokenInfo[token].icon}
+                      src={BankTokenInfo[token].icon}
                       sx={{
                         width: 15,
 
@@ -284,12 +286,12 @@ export const DepositStepper: FC<StepperProps> = ({
                     />
                     <Typography variant="h6" textAlign="center">
                       {`${
-                        tokenInfo[token].underlyingDecimals
+                        BankTokenInfo[token].underlyingDecimals
                           ? Number(
                               TokenBalance
                                 ? utils.formatUnits(
                                     TokenBalance,
-                                    tokenInfo[token].decimals
+                                    BankTokenInfo[token].decimals
                                   )
                                 : 0
                             ).toExponential()
@@ -300,13 +302,13 @@ export const DepositStepper: FC<StepperProps> = ({
                                 ? Number(
                                     utils.formatUnits(
                                       TokenBalance,
-                                      tokenInfo[token].decimals
+                                      BankTokenInfo[token].decimals
                                     )
                                   )
                                 : 0,
                               4
                             )
-                      } ${tokenInfo[token].display}`}
+                      } ${BankTokenInfo[token].display}`}
                     </Typography>
                   </Stack>
                 </Grid>
@@ -323,7 +325,7 @@ export const DepositStepper: FC<StepperProps> = ({
                       <InputAdornment position="start">
                         <Box
                           component="img"
-                          src={tokenInfo[token].icon}
+                          src={BankTokenInfo[token].icon}
                           sx={{
                             width: 25,
 
@@ -341,7 +343,7 @@ export const DepositStepper: FC<StepperProps> = ({
                               'depositAmount',
                               utils.formatUnits(
                                 TokenBalance,
-                                tokenInfo[token].decimals
+                                BankTokenInfo[token].decimals
                               )
                             )
                           }
@@ -417,7 +419,7 @@ export const DepositStepper: FC<StepperProps> = ({
                     <Stack direction="row" spacing={1} alignItems={'center'}>
                       <Box
                         component="img"
-                        src={tokenInfo[token].icon}
+                        src={BankTokenInfo[token].icon}
                         sx={{
                           width: 15,
 
@@ -429,7 +431,7 @@ export const DepositStepper: FC<StepperProps> = ({
                         {values.depositAmount && values.depositAmount}
                       </Typography>
                       <Typography sx={{ ml: 0.5 }} variant="caption">
-                        {tokenInfo[token].display}
+                        {BankTokenInfo[token].display}
                       </Typography>
                     </Stack>
                     <Typography
@@ -485,15 +487,15 @@ export const DepositStepper: FC<StepperProps> = ({
                                     utils.parseUnits(
                                       typeof values.depositAmount === 'number'
                                         ? values.depositAmount.toFixed(
-                                            tokenInfo[token].decimals
+                                            BankTokenInfo[token].decimals
                                           )
                                         : values.depositAmount,
-                                      tokenInfo[token].decimals
+                                      BankTokenInfo[token].decimals
                                     )
                                   )
                                   .mul(vaultInfo.tokenPrice)
                                   .div(vaultInfo.peg),
-                                tokenInfo[token].decimals
+                                BankTokenInfo[token].decimals
                               )
                             ),
                           vaultInfo.maxLTV - 30,
@@ -511,15 +513,15 @@ export const DepositStepper: FC<StepperProps> = ({
                                     utils.parseUnits(
                                       typeof values.depositAmount === 'number'
                                         ? values.depositAmount.toFixed(
-                                            tokenInfo[token].decimals
+                                            BankTokenInfo[token].decimals
                                           )
                                         : values.depositAmount,
-                                      tokenInfo[token].decimals
+                                      BankTokenInfo[token].decimals
                                     )
                                   )
                                   .mul(vaultInfo.tokenPrice)
                                   .div(vaultInfo.peg),
-                                tokenInfo[token].decimals
+                                BankTokenInfo[token].decimals
                               )
                             )
                         )}

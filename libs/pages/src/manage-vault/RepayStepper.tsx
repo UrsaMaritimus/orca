@@ -30,7 +30,12 @@ import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 
 import { Loader, handleTransaction, useAddTransaction } from '@orca/components';
-import { AVAI__factory, DeployedContracts, tokenInfo } from '@orca/shared';
+import {
+  AVAI__factory,
+  DeployedContracts,
+  BankTokenInfo,
+  ProtocolTokenInfo,
+} from '@orca/shared';
 import { payBackToken, avaiBalance } from '@orca/web3';
 import { fPercent, fNumber, colorScale } from '@orca/util';
 import { StepperProps } from './stepper.type';
@@ -135,7 +140,7 @@ export const RepayStepper: FC<StepperProps> = ({
         library,
         vaultID,
         values.repayAmount,
-        tokenInfo[token].erc20,
+        BankTokenInfo[token].erc20,
         chainId
       ),
       messages: {
@@ -212,7 +217,7 @@ export const RepayStepper: FC<StepperProps> = ({
                       <InputAdornment position="start">
                         <Box
                           component="img"
-                          src={tokenInfo['AVAI'].icon}
+                          src={ProtocolTokenInfo['AVAI'].icon}
                           sx={{
                             width: 25,
 
@@ -307,7 +312,7 @@ export const RepayStepper: FC<StepperProps> = ({
                     <Stack direction="row" spacing={1} alignItems={'center'}>
                       <Box
                         component="img"
-                        src={tokenInfo['AVAI'].icon}
+                        src={ProtocolTokenInfo['AVAI'].icon}
                         sx={{
                           width: 15,
 
@@ -336,7 +341,7 @@ export const RepayStepper: FC<StepperProps> = ({
                         values.repayAmount /
                           Number(utils.formatUnits(vaultInfo.tokenPrice, 8))
                       )}{' '}
-                      {tokenInfo[token].display}
+                      {BankTokenInfo[token].display}
                     </Typography>
                   </Stack>
                 </Grid>
@@ -373,7 +378,7 @@ export const RepayStepper: FC<StepperProps> = ({
                               vaultInfo.collateral
                                 .mul(vaultInfo.tokenPrice)
                                 .div(vaultInfo.peg),
-                              tokenInfo[token].decimals
+                              BankTokenInfo[token].decimals
                             )
                           ),
                         vaultInfo.maxLTV - 30,
@@ -389,7 +394,7 @@ export const RepayStepper: FC<StepperProps> = ({
                               vaultInfo.collateral
                                 .mul(vaultInfo.tokenPrice)
                                 .div(vaultInfo.peg),
-                              tokenInfo[token].decimals
+                              BankTokenInfo[token].decimals
                             )
                           )
                       )}

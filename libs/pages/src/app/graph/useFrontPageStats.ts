@@ -1,5 +1,5 @@
 import { BigNumber, utils } from 'ethers';
-import { tokenInfo } from '@orca/shared';
+import { ProtocolTokenInfo, FarmTokenInfo } from '@orca/shared';
 import {
   useOrcaStatsQuery,
   useOrcaPerSecQuery,
@@ -14,7 +14,7 @@ import { useFrontPageInfo } from './useFrontPageAnalytics';
 export const useFrontPageStats = () => {
   const { loading, data } = useOrcaStatsQuery({
     variables: {
-      id: tokenInfo['ORCA'].address.mainnet.toLowerCase(),
+      id: ProtocolTokenInfo['ORCA'].address.mainnet.toLowerCase(),
     },
     pollInterval: 5000,
   });
@@ -27,14 +27,14 @@ export const useFrontPageStats = () => {
 
   // Do this manually. Tedious tbh...
   const { loading: orcaLoading, data: orcaFarm } = useFrontPageYieldInfo(
-    tokenInfo['AVAI-ORCA'].address.mainnet.toLowerCase()
+    FarmTokenInfo['AVAI-ORCA'].address.mainnet.toLowerCase()
   );
   const { loading: usdcLoading, data: usdcFarm } = useFrontPageYieldInfo(
-    tokenInfo['USDC-AVAI'].address.mainnet.toLowerCase()
+    FarmTokenInfo['USDC-AVAI'].address.mainnet.toLowerCase()
   );
 
   const { loading: avaxLoading, data: avaxFarm } = useFrontPageYieldInfo(
-    tokenInfo['AVAX-ORCA'].address.mainnet.toLowerCase()
+    FarmTokenInfo['AVAX-ORCA'].address.mainnet.toLowerCase()
   );
 
   const { data: yieldData } = useGeneralStakingInfoQuery({
@@ -43,7 +43,7 @@ export const useFrontPageStats = () => {
 
   const { data: orcaPrice } = useGetTokenPriceQuery({
     variables: {
-      id: tokenInfo['ORCA'].address.mainnet.toLowerCase(),
+      id: FarmTokenInfo['ORCA'].address.mainnet.toLowerCase(),
     },
     pollInterval: 5000,
   });

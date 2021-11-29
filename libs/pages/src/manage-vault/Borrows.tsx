@@ -20,7 +20,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { utils } from 'ethers';
 import { fCurrency, fPercent, fNumber, colorScale } from '@orca/util';
 
-import { tokenInfo } from '@orca/shared';
+import { BankTokenInfo, ProtocolTokenInfo } from '@orca/shared';
 import { ColorBar } from '@orca/components';
 import BorrowStepper from './BorrowStepper';
 import RepayStepper from './RepayStepper';
@@ -68,7 +68,7 @@ export const Borrows: FC<ActionProps> = ({
             <Stack alignItems="center" direction="row" spacing={1}>
               <Box
                 component="img"
-                src={tokenInfo['AVAI'].icon}
+                src={ProtocolTokenInfo['AVAI'].icon}
                 sx={{
                   width: 30,
 
@@ -103,7 +103,7 @@ export const Borrows: FC<ActionProps> = ({
                   }}
                 >
                   {}
-                  {tokenInfo[token].underlyingDecimals
+                  {BankTokenInfo[token].underlyingDecimals
                     ? Number(
                         utils.formatEther(
                           vaultInfo.debt
@@ -121,7 +121,7 @@ export const Borrows: FC<ActionProps> = ({
                         ),
                         2
                       )}{' '}
-                  {tokenInfo[token].display}
+                  {BankTokenInfo[token].display}
                 </Typography>
               </Grid>
             </Grid>
@@ -163,7 +163,7 @@ export const Borrows: FC<ActionProps> = ({
                   }}
                   textAlign="center"
                 >
-                  {tokenInfo[token].underlyingDecimals
+                  {BankTokenInfo[token].underlyingDecimals
                     ? Number(
                         utils.formatEther(
                           vaultInfo.borrowingPowerAvailableUSD
@@ -180,7 +180,7 @@ export const Borrows: FC<ActionProps> = ({
                           )
                         )
                       )}{' '}
-                  {tokenInfo[token].display}
+                  {BankTokenInfo[token].display}
                 </Typography>
               </Grid>
             </Grid>
@@ -248,7 +248,7 @@ export const Borrows: FC<ActionProps> = ({
                   $
                   {fNumber(
                     !vaultInfo.collateral.isZero()
-                      ? tokenInfo[token].underlyingDecimals
+                      ? BankTokenInfo[token].underlyingDecimals
                         ? Number(
                             utils.formatUnits(
                               vaultInfo.debt
@@ -257,12 +257,14 @@ export const Borrows: FC<ActionProps> = ({
                                 .div(
                                   vaultInfo.collateral
                                     .mul(100)
-                                    .mul(10 ** (18 - tokenInfo[token].decimals))
+                                    .mul(
+                                      10 ** (18 - BankTokenInfo[token].decimals)
+                                    )
                                 ),
                               8
                             )
                           ) /
-                          10 ** (18 - tokenInfo[token].underlyingDecimals)
+                          10 ** (18 - BankTokenInfo[token].underlyingDecimals)
                         : Number(
                             utils.formatUnits(
                               vaultInfo.debt
@@ -271,7 +273,9 @@ export const Borrows: FC<ActionProps> = ({
                                 .div(
                                   vaultInfo.collateral
                                     .mul(100)
-                                    .mul(10 ** (18 - tokenInfo[token].decimals))
+                                    .mul(
+                                      10 ** (18 - BankTokenInfo[token].decimals)
+                                    )
                                 ),
                               8
                             )
@@ -293,9 +297,9 @@ export const Borrows: FC<ActionProps> = ({
                 >
                   Current Price:{' '}
                   {fCurrency(
-                    tokenInfo[token].underlyingDecimals
+                    BankTokenInfo[token].underlyingDecimals
                       ? Number(utils.formatUnits(vaultInfo.tokenPrice, 8)) /
-                          10 ** (18 - tokenInfo[token].underlyingDecimals)
+                          10 ** (18 - BankTokenInfo[token].underlyingDecimals)
                       : Number(utils.formatUnits(vaultInfo.tokenPrice, 8))
                   )}{' '}
                   USD
@@ -420,9 +424,10 @@ export const Borrows: FC<ActionProps> = ({
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>
             The loan to value ratio signifies how much of your{' '}
-            {tokenInfo[token].display} collateral can be used to borrow against.
-            For example, given $100 USD worth of {tokenInfo[token].display}, you
-            can borrow {fCurrency(vaultInfo.maxLTV)} USD worth.
+            {BankTokenInfo[token].display} collateral can be used to borrow
+            against. For example, given $100 USD worth of{' '}
+            {BankTokenInfo[token].display}, you can borrow{' '}
+            {fCurrency(vaultInfo.maxLTV)} USD worth.
           </Typography>
           <ColorBar />
           <Grid container>

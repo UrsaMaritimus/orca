@@ -1,5 +1,5 @@
 import { BigNumber, utils } from 'ethers';
-import { tokenInfo } from '@orca/shared';
+import { ProtocolTokenInfo } from '@orca/shared';
 import {
   useGetTokenPriceQuery,
   useAvaxPriceQuery,
@@ -11,7 +11,7 @@ export const useAvaiPrice = () => {
 
   const { data: avaiPrice } = useGetTokenPriceQuery({
     variables: {
-      id: tokenInfo['AVAI'].address.mainnet.toLowerCase(),
+      id: ProtocolTokenInfo['AVAI'].address.mainnet.toLowerCase(),
     },
     pollInterval: 5000,
   });

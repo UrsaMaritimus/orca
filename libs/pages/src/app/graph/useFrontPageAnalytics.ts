@@ -1,5 +1,5 @@
 import { BigNumber, utils } from 'ethers';
-import { tokenInfo, VaultContracts } from '@orca/shared';
+import { BankTokenInfo, VaultContracts } from '@orca/shared';
 
 import useSwr from 'swr';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
@@ -96,7 +96,7 @@ export const useFrontPageInfo = () => {
           10000 /
           Number(utils.formatUnits(bank.minimumCollateralPercentage, 0));
 
-        const vault = find(tokenInfo, { erc20: collat[0] });
+        const vault = find(BankTokenInfo, { erc20: collat[0] });
         return {
           name,
           debt,

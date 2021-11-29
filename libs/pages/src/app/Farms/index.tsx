@@ -6,7 +6,7 @@ import Slider from 'react-slick';
 import { Box, Grid, CardHeader, useTheme, useMediaQuery } from '@mui/material';
 import { CarouselControlsArrowsBasic2 } from '@orca/components';
 
-import { farms } from '@orca/shared';
+import { FarmTokenInfo } from '@orca/shared';
 import { YieldFarm } from './Farm';
 import { YourFarmInfo } from './YourFarmToken';
 
@@ -43,12 +43,12 @@ export const YieldFarmInfo: FC = () => {
             subheader="Earn ORCA and participate in the DAO"
           />
           <Slider ref={carouselRef} {...settings}>
-            {farms.map((app) => (
+            {Object.keys(FarmTokenInfo).map((app) => (
               <YieldFarm
-                key={app.name}
-                name={app.name}
-                img={app.img}
-                address={app.address}
+                key={FarmTokenInfo[app].display}
+                name={FarmTokenInfo[app].display}
+                img={FarmTokenInfo[app].icon}
+                address={FarmTokenInfo[app].address.mainnet}
               />
             ))}
           </Slider>

@@ -1,6 +1,4 @@
 import Slider from 'react-slick';
-import { filter } from 'lodash';
-
 import { useState, useRef, FC } from 'react';
 // material
 import { useTheme } from '@mui/material/styles';
@@ -21,7 +19,7 @@ import {
   CarouselControlsArrowsBasic2,
 } from '@orca/components';
 
-import { TokenInfo } from '@orca/shared';
+import { BankInfo as BankInfoType } from '@orca/shared';
 import { BigNumber, utils } from 'ethers';
 import { fCurrency } from '@orca/util';
 
@@ -36,7 +34,7 @@ type BankInfoItem = {
   name: string;
   id: string;
   message?: string;
-  tokenInfo: TokenInfo;
+  tokenInfo: BankInfoType;
 };
 
 type CarouselItemProps = {

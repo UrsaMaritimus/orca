@@ -25,17 +25,10 @@ import {
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 
 import { utils } from 'ethers';
-import {
-  fCurrency,
-  fPercent,
-  fNumber,
-  colorScale,
-  fShortenNumber,
-} from '@orca/util';
+import { fCurrency, fPercent, fNumber, colorScale } from '@orca/util';
 
 import { ColorBar } from '@orca/components';
-import { tokenInfo } from '@orca/shared';
-import { yakTrueBalance } from '@orca/web3';
+import { BankTokenInfo, ProtocolTokenInfo } from '@orca/shared';
 
 import { DepositStepper } from './DepositStepper';
 import { WithdrawStepper } from './WithdrawStepper';
@@ -80,7 +73,7 @@ export const Deposit: FC<ActionProps> = ({
               <Stack alignItems="center" direction="row" spacing={1}>
                 <Box
                   component="img"
-                  src={tokenInfo[token].icon}
+                  src={BankTokenInfo[token].icon}
                   sx={{
                     width: 30,
 
@@ -89,7 +82,7 @@ export const Deposit: FC<ActionProps> = ({
                   color="inherit"
                 />
                 <Typography variant="h4" sx={{ color: 'grey.500' }}>
-                  {tokenInfo[token].display}
+                  {BankTokenInfo[token].display}
                 </Typography>
               </Stack>
             </Stack>
@@ -114,26 +107,26 @@ export const Deposit: FC<ActionProps> = ({
                   justifyContent="center"
                 >
                   <Typography variant="inherit">
-                    {tokenInfo[token].underlyingDecimals
+                    {BankTokenInfo[token].underlyingDecimals
                       ? Number(
                           utils.formatUnits(
                             vaultInfo.collateral,
-                            tokenInfo[token].decimals
+                            BankTokenInfo[token].decimals
                           )
                         ).toExponential()
                       : fNumber(
                           Number(
                             utils.formatUnits(
                               vaultInfo.collateral,
-                              tokenInfo[token].decimals
+                              BankTokenInfo[token].decimals
                             )
                           )
                         )}{' '}
-                    {tokenInfo[token].display}
+                    {BankTokenInfo[token].display}
                   </Typography>
                 </Grid>
                 <Grid item xs={7} sm={false}></Grid>
-                {tokenInfo[token].yaktoken && (
+                {BankTokenInfo[token].yaktoken && (
                   <Grid
                     item
                     xs={5}
@@ -152,12 +145,13 @@ export const Deposit: FC<ActionProps> = ({
                     >
                       {vaultInfo.yakBalance &&
                         fNumber(
-                          tokenInfo[token].underlyingDecimals
+                          BankTokenInfo[token].underlyingDecimals
                             ? Number(vaultInfo.yakBalance) *
-                                10 ** (18 - tokenInfo[token].underlyingDecimals)
+                                10 **
+                                  (18 - BankTokenInfo[token].underlyingDecimals)
                             : Number(vaultInfo.yakBalance)
                         )}{' '}
-                      {tokenInfo[token].yakBase}
+                      {BankTokenInfo[token].yakBase}
                     </Typography>
                   </Grid>
                 )}
@@ -184,7 +178,7 @@ export const Deposit: FC<ActionProps> = ({
                           vaultInfo.collateral
                             .mul(vaultInfo.tokenPrice)
                             .div(vaultInfo.peg),
-                          tokenInfo[token].decimals
+                          BankTokenInfo[token].decimals
                         )
                       )
                     )}{' '}
@@ -346,7 +340,7 @@ export const Deposit: FC<ActionProps> = ({
                     $
                     {fNumber(
                       !vaultInfo.collateral.isZero()
-                        ? tokenInfo[token].underlyingDecimals
+                        ? BankTokenInfo[token].underlyingDecimals
                           ? Number(
                               utils.formatUnits(
                                 vaultInfo.debt
@@ -356,13 +350,14 @@ export const Deposit: FC<ActionProps> = ({
                                     vaultInfo.collateral
                                       .mul(100)
                                       .mul(
-                                        10 ** (18 - tokenInfo[token].decimals)
+                                        10 **
+                                          (18 - BankTokenInfo[token].decimals)
                                       )
                                   ),
                                 8
                               )
                             ) /
-                            10 ** (18 - tokenInfo[token].underlyingDecimals)
+                            10 ** (18 - BankTokenInfo[token].underlyingDecimals)
                           : Number(
                               utils.formatUnits(
                                 vaultInfo.debt
@@ -372,7 +367,8 @@ export const Deposit: FC<ActionProps> = ({
                                     vaultInfo.collateral
                                       .mul(100)
                                       .mul(
-                                        10 ** (18 - tokenInfo[token].decimals)
+                                        10 **
+                                          (18 - BankTokenInfo[token].decimals)
                                       )
                                   ),
                                 8
@@ -403,9 +399,9 @@ export const Deposit: FC<ActionProps> = ({
                   >
                     Current Price:{' '}
                     {fCurrency(
-                      tokenInfo[token].underlyingDecimals
+                      BankTokenInfo[token].underlyingDecimals
                         ? Number(utils.formatUnits(vaultInfo.tokenPrice, 8)) /
-                            10 ** (18 - tokenInfo[token].underlyingDecimals)
+                            10 ** (18 - BankTokenInfo[token].underlyingDecimals)
                         : Number(utils.formatUnits(vaultInfo.tokenPrice, 8))
                     )}{' '}
                     USD
@@ -533,9 +529,10 @@ export const Deposit: FC<ActionProps> = ({
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>
             The loan to value ratio signifies how much of your{' '}
-            {tokenInfo[token].display} collateral can be used to borrow against.
-            For example, given $100 USD worth of {tokenInfo[token].display}, you
-            can borrow {fCurrency(vaultInfo.maxLTV)} USD worth.
+            {BankTokenInfo[token].display} collateral can be used to borrow
+            against. For example, given $100 USD worth of{' '}
+            {BankTokenInfo[token].display}, you can borrow{' '}
+            {fCurrency(vaultInfo.maxLTV)} USD worth.
           </Typography>
           <ColorBar />
           <Grid container>

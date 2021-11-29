@@ -35,7 +35,7 @@ import { Loader, handleTransaction, useAddTransaction } from '@orca/components';
 import { fPercent, fNumber, colorScale } from '@orca/util';
 
 import { borrowToken } from '@orca/web3';
-import { tokenInfo } from '@orca/shared';
+import { BankTokenInfo, ProtocolTokenInfo } from '@orca/shared';
 import { StepperProps } from './stepper.type';
 
 const InputTextField = styled(TextField)(({ theme }) => ({
@@ -54,7 +54,7 @@ export const BorrowStepper: FC<StepperProps> = ({
   const steps = ['How much to borrow', 'Borrow'];
 
   // web3 init info
-  const { account, library, chainId } = useWeb3React<Web3Provider>();
+  const { library, chainId } = useWeb3React<Web3Provider>();
 
   const [activeStep, setActiveStep] = useState(0);
   const [alertActive, setAlertActive] = useState<boolean>(false);
@@ -119,7 +119,7 @@ export const BorrowStepper: FC<StepperProps> = ({
         library,
         vaultID,
         values.borrowAmount,
-        tokenInfo[token].erc20,
+        BankTokenInfo[token].erc20,
         chainId
       ),
       messages: {
@@ -185,7 +185,7 @@ export const BorrowStepper: FC<StepperProps> = ({
                   <Stack direction="row" alignItems="center" spacing={1}>
                     <Box
                       component="img"
-                      src={tokenInfo['AVAI'].icon}
+                      src={ProtocolTokenInfo['AVAI'].icon}
                       sx={{
                         width: 15,
 
@@ -219,7 +219,7 @@ export const BorrowStepper: FC<StepperProps> = ({
                       <InputAdornment position="start">
                         <Box
                           component="img"
-                          src={tokenInfo['AVAI'].icon}
+                          src={ProtocolTokenInfo['AVAI'].icon}
                           sx={{
                             width: 25,
 
@@ -309,7 +309,7 @@ export const BorrowStepper: FC<StepperProps> = ({
                     <Stack direction="row" spacing={1} alignItems={'flex-end'}>
                       <Box
                         component="img"
-                        src={tokenInfo['AVAI'].icon}
+                        src={ProtocolTokenInfo['AVAI'].icon}
                         sx={{
                           width: 15,
 
@@ -337,7 +337,7 @@ export const BorrowStepper: FC<StepperProps> = ({
                         values.borrowAmount /
                           Number(utils.formatUnits(vaultInfo.tokenPrice, 8))
                       )}{' '}
-                      {tokenInfo[token].display}
+                      {BankTokenInfo[token].display}
                     </Typography>
                   </Stack>
                 </Grid>
@@ -374,7 +374,7 @@ export const BorrowStepper: FC<StepperProps> = ({
                               vaultInfo.collateral
                                 .mul(vaultInfo.tokenPrice)
                                 .div(vaultInfo.peg),
-                              tokenInfo[token].decimals
+                              BankTokenInfo[token].decimals
                             )
                           ),
                         vaultInfo.maxLTV - 30,
@@ -390,7 +390,7 @@ export const BorrowStepper: FC<StepperProps> = ({
                               vaultInfo.collateral
                                 .mul(vaultInfo.tokenPrice)
                                 .div(vaultInfo.peg),
-                              tokenInfo[token].decimals
+                              BankTokenInfo[token].decimals
                             )
                           )
                       )}
@@ -441,7 +441,7 @@ export const BorrowStepper: FC<StepperProps> = ({
                           vaultInfo.collateral
                             .mul(vaultInfo.tokenPrice)
                             .div(vaultInfo.peg),
-                          tokenInfo[token].decimals
+                          BankTokenInfo[token].decimals
                         )
                       ) /
                       vaultInfo.maxLTV >

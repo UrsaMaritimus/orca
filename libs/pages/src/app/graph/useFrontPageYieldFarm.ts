@@ -1,6 +1,6 @@
 import { BigNumber, utils } from 'ethers';
 
-import { tokenInfo } from '@orca/shared';
+import { ProtocolTokenInfo, FarmTokenInfo } from '@orca/shared';
 
 import {
   useGeneralYieldInfoQuery,
@@ -30,7 +30,7 @@ export const useFrontPageYieldInfo = (farm: string) => {
 
   const { data: orcaPrice } = useGetTokenPriceQuery({
     variables: {
-      id: tokenInfo['ORCA'].address.mainnet.toLowerCase(),
+      id: ProtocolTokenInfo['ORCA'].address.mainnet.toLowerCase(),
     },
     pollInterval: 5000,
   });
@@ -63,8 +63,9 @@ export const useFrontPageYieldInfo = (farm: string) => {
     const orcaUSDPrice = Number(orcaPrice.token?.derivedETH) * avaxUSDPrice;
 
     const TVL =
-      farm.toLowerCase() === tokenInfo['XORCA'].address.mainnet.toLowerCase() ||
-      farm.toLowerCase() === tokenInfo['XORCA'].address.fuji.toLowerCase()
+      farm.toLowerCase() ===
+        FarmTokenInfo['XORCA'].address.mainnet.toLowerCase() ||
+      farm.toLowerCase() === FarmTokenInfo['XORCA'].address.fuji.toLowerCase()
         ? totalStaked * orcaUSDPrice * xOrcaRatio.ratio
         : (totalStaked / tokenData.pairs[0].totalSupply) *
           tokenData.pairs[0].reserveUSD;
@@ -80,15 +81,16 @@ export const useFrontPageYieldInfo = (farm: string) => {
         apr: apr,
         treasury:
           farm.toLowerCase() ===
-            tokenInfo['XORCA'].address.mainnet.toLowerCase() ||
-          farm.toLowerCase() === tokenInfo['XORCA'].address.fuji.toLowerCase()
+            FarmTokenInfo['XORCA'].address.mainnet.toLowerCase() ||
+          farm.toLowerCase() ===
+            FarmTokenInfo['XORCA'].address.fuji.toLowerCase()
             ? 0
             : Number(
                 utils.formatEther(
                   BigNumber.from(yieldData.pools[0]?.treasuryAmount || 0)
                 )
               ) *
-              (farm === tokenInfo['AVAI'].address.fuji.toLowerCase()
+              (farm === ProtocolTokenInfo['AVAI'].address.fuji.toLowerCase()
                 ? 1
                 : tokenData.pairs[0].reserveUSD /
                   tokenData.pairs[0].totalSupply),

@@ -10,7 +10,7 @@ import { BigNumber, utils } from 'ethers';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { handleTransaction } from '@orca/components';
 import { getTotalRewardBalance, depositFarm } from '@orca/web3';
-import { tokenInfo } from '@orca/shared';
+import { ProtocolTokenInfo } from '@orca/shared';
 import {
   injected,
   AVALANCHE_MAINNET_PARAMS,
@@ -106,7 +106,7 @@ export const YourFarmInfo: FC = () => {
         <Grid item xs={12} display="flex" justifyContent="center">
           <Box
             component="img"
-            src={tokenInfo['ORCA'].icon}
+            src={ProtocolTokenInfo['ORCA'].icon}
             sx={{ width: 60, height: 60 }}
             color="inherit"
           />

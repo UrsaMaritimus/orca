@@ -38,7 +38,7 @@ import {
 } from '@orca/web3';
 
 import { fCurrency, fNumber, fPercent } from '@orca/util';
-import { tokenInfo, routes } from '@orca/shared';
+import { ProtocolTokenInfo, routes } from '@orca/shared';
 
 // ------------------------------------------------------
 
@@ -220,7 +220,7 @@ export const Mint: FC<MintProps> = ({
             avatar={
               <Box
                 component="img"
-                src={tokenInfo[token].icon}
+                src={ProtocolTokenInfo[token].icon}
                 sx={{ width: 40, height: 40 }}
                 color="inherit"
               />
@@ -284,7 +284,7 @@ export const Mint: FC<MintProps> = ({
                           <InputAdornment position="start">
                             <Box
                               component="img"
-                              src={tokenInfo[token].icon}
+                              src={ProtocolTokenInfo[token].icon}
                               sx={{
                                 width: 25,
 
@@ -359,7 +359,7 @@ export const Mint: FC<MintProps> = ({
                           <InputAdornment position="start">
                             <Box
                               component="img"
-                              src={tokenInfo.AVAI.icon}
+                              src={ProtocolTokenInfo.AVAI.icon}
                               sx={{
                                 width: 25,
 

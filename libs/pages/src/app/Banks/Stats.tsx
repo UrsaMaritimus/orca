@@ -14,7 +14,7 @@ import { Web3Provider } from '@ethersproject/providers';
 
 import { fCurrency, fNumber } from '@orca/util';
 import { AddToken, Loader } from '@orca/components';
-import { tokenInfo } from '@orca/shared';
+import { ProtocolTokenInfo } from '@orca/shared';
 import { useFrontPageStats } from '../graph/useFrontPageStats';
 
 export const Stats: FC = () => {
@@ -36,7 +36,7 @@ export const Stats: FC = () => {
         avatar={
           <Box
             component="img"
-            src={tokenInfo['ORCA'].icon}
+            src={ProtocolTokenInfo['ORCA'].icon}
             sx={{ width: 40, height: 40 }}
             color="inherit"
           />
@@ -135,28 +135,28 @@ export const Stats: FC = () => {
               <AddToken
                 tokenAddress={
                   chainId === 43113
-                    ? tokenInfo['ORCA'].address.fuji
+                    ? ProtocolTokenInfo['ORCA'].address.fuji
                     : chainId === 43114
-                    ? tokenInfo['ORCA'].address.mainnet
+                    ? ProtocolTokenInfo['ORCA'].address.mainnet
                     : null
                 }
                 tokenSymbol="ORCA"
                 tokenDecimals={18}
-                tokenImage={tokenInfo['ORCA'].icon}
+                tokenImage={ProtocolTokenInfo['ORCA'].icon}
               />
             </Grid>
             <Grid item xs={6} display="flex" justifyContent="center">
               <AddToken
                 tokenAddress={
                   chainId === 43113
-                    ? tokenInfo['AVAI'].address.fuji
+                    ? ProtocolTokenInfo['AVAI'].address.fuji
                     : chainId === 43114
-                    ? tokenInfo['AVAI'].address.mainnet
+                    ? ProtocolTokenInfo['AVAI'].address.mainnet
                     : null
                 }
                 tokenSymbol="AVAI"
                 tokenDecimals={18}
-                tokenImage={tokenInfo['AVAI'].icon}
+                tokenImage={ProtocolTokenInfo['AVAI'].icon}
               />
             </Grid>
           </Grid>

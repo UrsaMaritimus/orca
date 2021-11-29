@@ -42,7 +42,7 @@ import {
   Connect,
   handleTransaction,
 } from '@orca/components';
-import { routes, tokenInfo } from '@orca/shared';
+import { routes, BankTokenInfo } from '@orca/shared';
 import { deleteVault } from '@orca/web3';
 
 import { Deposit } from './Deposit';
@@ -100,7 +100,7 @@ export function ManageVault() {
       transaction: deleteVault(
         library,
         Number(vaultID),
-        tokenInfo[token].erc20,
+        BankTokenInfo[token].erc20,
         chainId
       ),
       messages: {
@@ -120,8 +120,8 @@ export function ManageVault() {
     chainId,
     vaultID as string,
     account,
-    token ? tokenInfo[token].erc20 : '',
-    token ? tokenInfo[token].decimals : 18,
+    token ? BankTokenInfo[token].erc20 : '',
+    token ? BankTokenInfo[token].decimals : 18,
     token
   );
   if (loading) {
@@ -140,7 +140,7 @@ export function ManageVault() {
           <Container maxWidth="md">
             <Card>
               <CardHeader
-                title={`${tokenInfo[token].display} Vault #${vaultID}`}
+                title={`${BankTokenInfo[token].display} Vault #${vaultID}`}
                 subheader={'Vault information '}
                 avatar={
                   <IconButton

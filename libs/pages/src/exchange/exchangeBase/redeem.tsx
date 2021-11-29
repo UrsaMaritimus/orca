@@ -27,7 +27,7 @@ import { BigNumber, utils } from 'ethers';
 import { handleTransaction, useAddTransaction, Loader } from '@orca/components';
 import { redeemFromExchange } from '@orca/web3';
 import { fCurrency, fNumber, fPercent } from '@orca/util';
-import { tokenInfo } from '@orca/shared';
+import { ProtocolTokenInfo } from '@orca/shared';
 
 // ------------------------------------------------------
 
@@ -174,7 +174,7 @@ export const Redeem: FC<MintProps> = ({
             avatar={
               <Box
                 component="img"
-                src={tokenInfo['AVAI'].icon}
+                src={ProtocolTokenInfo['AVAI'].icon}
                 sx={{ width: 40, height: 40 }}
                 color="inherit"
               />
@@ -223,7 +223,7 @@ export const Redeem: FC<MintProps> = ({
                           <InputAdornment position="start">
                             <Box
                               component="img"
-                              src={tokenInfo['AVAI'].icon}
+                              src={ProtocolTokenInfo['AVAI'].icon}
                               sx={{
                                 width: 25,
 
@@ -298,7 +298,7 @@ export const Redeem: FC<MintProps> = ({
                           <InputAdornment position="start">
                             <Box
                               component="img"
-                              src={tokenInfo[token].icon}
+                              src={ProtocolTokenInfo[token].icon}
                               sx={{
                                 width: 25,
 

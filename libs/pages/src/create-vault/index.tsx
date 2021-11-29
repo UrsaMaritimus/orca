@@ -22,7 +22,7 @@ import {
 import { NextLink, Page, Connect, Loader } from '@orca/components';
 import {
   routes,
-  tokenInfo,
+  BankTokenInfo,
   baseCollateral,
   ibtknCollateral,
 } from '@orca/shared';
@@ -105,7 +105,7 @@ export const CreateVault: FC = () => {
     setHandlingTransaction(state);
   };
 
-  const collateral = filter(tokenInfo, { collateral: true });
+  const collateral = filter(BankTokenInfo, { collateral: true });
   const { loading, rows } = useGetVaults(chainId, collateral);
   if (!loading) {
     return (
