@@ -4,7 +4,7 @@ import React, { FC } from 'react';
 import { Breadcrumbs, BreadcrumbsProps, Typography, Box } from '@mui/material';
 import { SvgIconProps } from '@mui/material/SvgIcon';
 
-import { NextLink } from '@orca/components';
+import NextLink from '../../links/NextLink';
 
 // ----------------------------------------------------------------------
 

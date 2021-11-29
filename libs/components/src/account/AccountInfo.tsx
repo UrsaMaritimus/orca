@@ -30,11 +30,9 @@ import copyIcon from '@iconify/icons-eva/copy-outline';
 import checkmarkCircle from '@iconify/icons-eva/checkmark-circle-outline';
 
 import { fNumber, formatEtherscanLink, shortenHex } from '@orca/util';
-import {
-  NextLink,
-  useRemoveTransactions,
-  transactionState,
-} from '@orca/components';
+
+import NextLink from '../links/NextLink';
+import { useRemoveTransactions, transactionState } from '../transaction';
 
 import { seeAccount } from './atom';
 

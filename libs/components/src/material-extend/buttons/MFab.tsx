@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 import { Fab, FabProps } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-import { ButtonAnimate } from '@orca/components';
+import ButtonAnimate from '../../animate/ButtonAnimate';
 
 // ----------------------------------------------------------------------
 

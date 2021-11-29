@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 
-import { ButtonAnimate } from '@orca/components';
+import ButtonAnimate from '../../animate/ButtonAnimate';
 
 import { alpha, useTheme } from '@mui/material/styles';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';

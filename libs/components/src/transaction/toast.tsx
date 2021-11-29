@@ -1,6 +1,6 @@
 import { ContractTransaction } from 'ethers';
 import toast from 'react-hot-toast';
-import { NextLink } from '@orca/components';
+import NextLink from '../links/NextLink';
 import { formatEtherscanLink } from '@orca/util';
 
 type HandleTransactionType = {

@@ -7,9 +7,6 @@ import {
 } from '@mui/material/styles';
 
 import { CssBaseline } from '@mui/material';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-
 import { useTheme } from 'next-themes';
 
 import {
@@ -52,9 +49,7 @@ const ThemeProvider: FC = ({ children }) => {
     <MuiThemeProvider theme={responsiveFontSizes(customTheme)}>
       <CustomGlobalStyles />
       <CssBaseline />
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        {children}
-      </LocalizationProvider>
+      {children}
     </MuiThemeProvider>
   );
 };

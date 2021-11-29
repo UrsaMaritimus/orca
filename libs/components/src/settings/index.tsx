@@ -12,7 +12,8 @@ import Backdrop from '@mui/material/Backdrop';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 
-import { MIconButton, ScrollBar } from '@orca/components';
+import MIconButton from '../material-extend/buttons/MIconButton';
+import ScrollBar from '../scroll-bar/ScrollBar';
 import ThemeMode from './ThemeMode';
 
 // ----------------------------------------------------------------------
