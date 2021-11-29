@@ -1,5 +1,5 @@
 import { BigNumber } from 'ethers';
-import { remove } from 'lodash';
+import remove from 'lodash/remove';
 import { atom, useSetRecoilState } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
 

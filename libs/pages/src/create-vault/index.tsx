@@ -6,7 +6,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import { Icon } from '@iconify/react';
 import backArrowIos from '@iconify/icons-eva/arrow-ios-back-outline';
 
-import { filter } from 'lodash';
+import filter from 'lodash/filter';
 
 import {
   Container,

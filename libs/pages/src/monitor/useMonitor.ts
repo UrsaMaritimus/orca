@@ -8,7 +8,7 @@ import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 import { allBankPrices } from '@orca/web3';
 import { useNewMonitorVaultsQuery } from '@orca/graphql';
 import { BankTokenInfo, VaultContracts } from '@orca/shared';
-import { filter } from 'lodash';
+import filter from 'lodash/filter';
 
 export const useMonitorVaults = (library: Web3Provider, chainId: number) => {
   const shouldFetch = !!library;

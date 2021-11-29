@@ -14,7 +14,7 @@ import { monitorAllRewards, getReward } from '@orca/web3';
 import { BankTokenInfo } from '@orca/shared';
 import { fNumber } from '@orca/util';
 
-import { find } from 'lodash';
+import find from 'lodash/find';
 
 export const VaultReward: FC = () => {
   const { account, library, chainId } = useWeb3React<Web3Provider>();

@@ -1,7 +1,8 @@
 import { utils, BigNumber } from 'ethers';
 
 import { useAllBankInfoQuery } from '@orca/graphql';
-import { includes, find } from 'lodash';
+import find from 'lodash/find';
+import includes from 'lodash/includes';
 import { TokenInfo, VaultContracts } from '@orca/shared';
 
 export const useGetVaults = (chainID: number, collateral: TokenInfo[]) => {

@@ -9,8 +9,8 @@ import {
   useExchangeInfoFrontPageQuery,
   useTotalSupplyFrontPageQuery,
 } from '@orca/graphql';
-import { find, includes } from 'lodash';
-
+import find from 'lodash/find';
+import includes from 'lodash/includes';
 import { allBankPricesNoWeb3 } from '@orca/web3';
 
 export const useFrontPageInfo = () => {

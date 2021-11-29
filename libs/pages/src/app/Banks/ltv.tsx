@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { merge } from 'lodash';
+import merge from 'lodash/merge';
 import dynamic from 'next/dynamic';
 
 import { Icon } from '@iconify/react';

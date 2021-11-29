@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { merge } from 'lodash';
+import merge from 'lodash/merge';
 // material
 import { useTheme, styled } from '@mui/material/styles';
 import { Card, CardHeader } from '@mui/material';

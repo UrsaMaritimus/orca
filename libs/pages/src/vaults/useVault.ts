@@ -8,7 +8,7 @@ import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 import { allBankPrices } from '@orca/web3';
 import { useNewUserVaultsQuery } from '@orca/graphql';
 import { VaultContracts, BankTokenInfo } from '@orca/shared';
-import { filter } from 'lodash';
+import filter from 'lodash/filter';
 
 export const useGetVaults = (
   library: Web3Provider,
