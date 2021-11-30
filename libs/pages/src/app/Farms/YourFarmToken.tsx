@@ -1,4 +1,6 @@
 import { useLayoutEffect, useRef, FC, useState } from 'react';
+import Image from 'next/image';
+
 import MetaMaskOnboarding from '@metamask/onboarding';
 import { useWeb3React, UnsupportedChainIdError } from '@web3-react/core';
 import { UserRejectedRequestError } from '@web3-react/injected-connector';
@@ -104,10 +106,10 @@ export const YourFarmInfo: FC = () => {
     >
       <Grid container sx={{ p: 3, pb: 2.5 }}>
         <Grid item xs={12} display="flex" justifyContent="center">
-          <Box
-            component="img"
+          <Image
             src={ProtocolTokenInfo['ORCA'].icon}
-            sx={{ width: 60, height: 60 }}
+            width={60}
+            height={60}
             color="inherit"
           />
         </Grid>

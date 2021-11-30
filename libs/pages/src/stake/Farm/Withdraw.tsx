@@ -1,4 +1,5 @@
 import { FC, useState } from 'react';
+import Image from 'next/image';
 import * as Yup from 'yup';
 // material
 import {
@@ -118,16 +119,7 @@ export const Withdraw: FC<WithdrawProps> = ({
           </Grid>
           <Grid item xs={9} display="flex" justifyContent="flex-end">
             <Stack direction="row" alignItems="center" spacing={1}>
-              <Box
-                component="img"
-                src={img}
-                sx={{
-                  width: 15,
-
-                  height: 15,
-                }}
-                color="inherit"
-              />
+              <Image src={img} width={15} height={15} color="inherit" />
               <Typography variant="subtitle1" textAlign="center">
                 {shouldFetch ? fNumber(totalStaked ? totalStaked : 0, 4) : '-'}{' '}
                 {name}
@@ -154,16 +146,7 @@ export const Withdraw: FC<WithdrawProps> = ({
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <Box
-                    component="img"
-                    src={img}
-                    sx={{
-                      width: 25,
-
-                      height: 25,
-                    }}
-                    color="inherit"
-                  />
+                  <Image src={img} width={25} height={25} color="inherit" />
                 </InputAdornment>
               ),
               endAdornment: (

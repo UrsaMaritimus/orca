@@ -1,5 +1,5 @@
 import { FC } from 'react';
-
+import Image from 'next/image';
 import { NextLink } from '@orca/components';
 
 import { Icon } from '@iconify/react';
@@ -50,12 +50,12 @@ export const VaultCard: FC<VaultCardProps> = ({ row }) => {
                     Asset
                   </Typography>
                 </Grid>
-                <Grid item xs={7} md={4} display="flex" justifyContent="center">
+                <Grid item xs={7} md={4} display="flex" justifyContent="left">
                   <Stack direction="row" alignItems="center" spacing={1}>
-                    <Box
-                      component="img"
+                    <Image
                       src={row.icon}
-                      sx={{ width: 35, height: 35 }}
+                      width={35}
+                      height={35}
                       color="inherit"
                     />
                     <Typography variant="subtitle1">{row.symbol}</Typography>
@@ -135,12 +135,12 @@ export const VaultCard: FC<VaultCardProps> = ({ row }) => {
                   Asset
                 </Typography>
               </Grid>
-              <Grid item xs={7} md={4} display="flex" justifyContent="center">
+              <Grid item xs={7} md={4} display="flex" justifyContent="left">
                 <Stack direction="row" alignItems="center" spacing={1}>
-                  <Box
-                    component="img"
+                  <Image
                     src={row.icon}
-                    sx={{ width: 35, height: 35 }}
+                    width={35}
+                    height={35}
                     color="inherit"
                   />
                   <Typography variant="subtitle1">{row.symbol}</Typography>

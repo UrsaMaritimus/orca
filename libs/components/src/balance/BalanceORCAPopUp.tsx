@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import Image from 'next/image';
 
 import {
   Grid,
@@ -75,10 +76,10 @@ export const BalanceInfoOrca: FC = () => {
           <CardContent>
             <Grid container sx={{ p: 2 }} spacing={1}>
               <Grid item xs={12} display="flex" justifyContent="center">
-                <Box
-                  component="img"
+                <Image
                   src="/static/cryptos/ic_orca.svg"
-                  sx={{ width: 60, height: 60 }}
+                  width={60}
+                  height={60}
                   color="inherit"
                 />
               </Grid>

@@ -1,4 +1,5 @@
 import { useState, FC } from 'react';
+import Image from 'next/image';
 // material
 import {
   Box,
@@ -126,10 +127,10 @@ const SortingSelecting: FC<RowProps> = ({ rows }) => {
                             alignItems="center"
                             spacing={1}
                           >
-                            <Box
-                              component="img"
+                            <Image
                               src={row.collatInfo.icon}
-                              sx={{ width: 30, height: 30 }}
+                              width={30}
+                              height={30}
                               color="inherit"
                             />
                             <Typography variant="subtitle1">

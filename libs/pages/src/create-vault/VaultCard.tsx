@@ -1,5 +1,7 @@
 import { FC } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
+
 import { Icon } from '@iconify/react';
 import editOutline from '@iconify/icons-eva/edit-outline';
 
@@ -89,12 +91,12 @@ export const VaultCard: FC<VaultCardProps> = ({
                   Asset
                 </Typography>
               </Grid>
-              <Grid item xs={7} md={5} display="flex" justifyContent="center">
+              <Grid item xs={7} md={5} display="flex" justifyContent="left">
                 <Stack direction="row" alignItems="center" spacing={1}>
-                  <Box
-                    component="img"
+                  <Image
                     src={row.collatInfo.icon}
-                    sx={{ width: 35, height: 35 }}
+                    width={40}
+                    height={40}
                     color="inherit"
                   />
                   <Typography variant="subtitle1">
@@ -157,14 +159,14 @@ export const VaultCard: FC<VaultCardProps> = ({
                 Asset
               </Typography>
             </Grid>
-            <Grid item xs={7} md={5} display="flex" justifyContent="center">
+            <Grid item xs={7} md={5} display="flex" justifyContent="left">
               {row.collatInfo.tooltip ? (
                 <Tooltip title={row.collatInfo.tooltipText}>
                   <Stack direction="row" alignItems="center" spacing={1}>
-                    <Box
-                      component="img"
+                    <Image
                       src={row.collatInfo.icon}
-                      sx={{ width: 35, height: 35 }}
+                      width={35}
+                      height={35}
                       color="inherit"
                     />
                     <Typography variant="subtitle1">
@@ -174,10 +176,10 @@ export const VaultCard: FC<VaultCardProps> = ({
                 </Tooltip>
               ) : (
                 <Stack direction="row" alignItems="center" spacing={1}>
-                  <Box
-                    component="img"
+                  <Image
                     src={row.collatInfo.icon}
-                    sx={{ width: 35, height: 35 }}
+                    width={35}
+                    height={35}
                     color="inherit"
                   />
                   <Typography variant="subtitle1">

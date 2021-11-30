@@ -178,14 +178,17 @@ const NavBar: FC<Props> = ({ isOpenNav, onCloseNav }) => {
       {!isCollapse && (
         <Box sx={{ px: 2.5, pb: 3 }}>
           <DocStyle>
-            <Box
-              component="img"
+            <Image
               alt="doc"
               src="/static/icons/ic_doc.svg"
-              sx={{ width: 36, height: 36, mb: 2 }}
+              width={36}
+              height={36}
             />
 
-            <Typography variant="body2" sx={{ mb: 2, color: 'grey.600' }}>
+            <Typography
+              variant="body2"
+              sx={{ mt: 2, mb: 2, color: 'grey.600' }}
+            >
               Need help?
               <br /> Please check our docs
             </Typography>

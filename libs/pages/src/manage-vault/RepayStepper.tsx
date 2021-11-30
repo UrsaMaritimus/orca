@@ -1,4 +1,5 @@
 import { useState, FC, useEffect } from 'react';
+import Image from 'next/image';
 import * as Yup from 'yup';
 // material
 import {
@@ -215,14 +216,10 @@ export const RepayStepper: FC<StepperProps> = ({
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <Box
-                          component="img"
+                        <Image
                           src={ProtocolTokenInfo['AVAI'].icon}
-                          sx={{
-                            width: 25,
-
-                            height: 25,
-                          }}
+                          width={25}
+                          height={25}
                           color="inherit"
                         />
                       </InputAdornment>
@@ -310,14 +307,10 @@ export const RepayStepper: FC<StepperProps> = ({
                 >
                   <Stack alignItems={'flex-end'}>
                     <Stack direction="row" spacing={1} alignItems={'center'}>
-                      <Box
-                        component="img"
+                      <Image
                         src={ProtocolTokenInfo['AVAI'].icon}
-                        sx={{
-                          width: 15,
-
-                          height: 15,
-                        }}
+                        width={25}
+                        height={25}
                         color="inherit"
                       />
                       <Typography variant="body2">

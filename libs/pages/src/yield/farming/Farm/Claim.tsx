@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
-
-import { Grid, Box, Stack, Typography } from '@mui/material';
+import Image from 'next/image';
+import { Grid, Stack, Typography } from '@mui/material';
 import { Web3Provider } from '@ethersproject/providers';
 
 import useSWR from 'swr';
@@ -60,16 +60,7 @@ export const Claim: FC<ClaimProps> = ({
   return (
     <Grid container>
       <Grid item xs={12} display="flex" justifyContent="center" my={1}>
-        <Box
-          component="img"
-          src={img}
-          sx={{
-            width: 50,
-
-            height: 50,
-          }}
-          color="inherit"
-        />
+        <Image src={img} width={50} height={50} color="inherit" />
       </Grid>
       <Grid item xs={12} justifyContent="center" display="flex" mb={1}>
         <Stack alignItems="center">

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-
+import Image from 'next/image';
 import {
   Grid,
   Card,
@@ -34,10 +34,10 @@ export const Stats: FC = () => {
       <CardHeader
         title="ORCA"
         avatar={
-          <Box
-            component="img"
+          <Image
             src={ProtocolTokenInfo['ORCA'].icon}
-            sx={{ width: 40, height: 40 }}
+            width={40}
+            height={40}
             color="inherit"
           />
         }

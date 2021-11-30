@@ -1,6 +1,6 @@
 /* eslint-disable-next-line */
 import { FC, useState } from 'react';
-
+import Image from 'next/image';
 import useSwr from 'swr';
 
 // Ethers and web3 stuff
@@ -71,14 +71,10 @@ export const Deposit: FC<ActionProps> = ({
             <Stack alignItems="center" direction="row" spacing={1}>
               <Typography variant="h4">Deposits in</Typography>
               <Stack alignItems="center" direction="row" spacing={1}>
-                <Box
-                  component="img"
+                <Image
                   src={BankTokenInfo[token].icon}
-                  sx={{
-                    width: 30,
-
-                    height: 30,
-                  }}
+                  width={30}
+                  height={30}
                   color="inherit"
                 />
                 <Typography variant="h4" sx={{ color: 'grey.500' }}>

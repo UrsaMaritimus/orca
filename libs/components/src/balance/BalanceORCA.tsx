@@ -1,9 +1,9 @@
 import { useEffect, FC } from 'react';
-
+import Image from 'next/image';
 import type { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
 import useSWR from 'swr';
-import { Typography, Box, Grid, Button } from '@mui/material';
+import { Typography, Stack, Button } from '@mui/material';
 import { parseBalance } from '@orca/util';
 import { useSetRecoilState } from 'recoil';
 import { styled } from '@mui/material/styles';
@@ -63,32 +63,24 @@ const OrcaBalance: FC = () => {
 
   return (
     <BalanceStyle onClick={changeSeeORCA}>
-      <Grid container alignItems="center">
-        <Grid item xs={3} display="flex" justifyContent="center">
-          <Box
-            component="img"
-            src={'/static/cryptos/ic_orca.svg'}
-            sx={{
-              width: 30,
-              height: 30,
-              mr: 1,
-            }}
-            color="inherit"
-          />
-        </Grid>
-        <Grid item xs={9} display="flex" justifyContent="center">
-          <Typography
-            variant="button"
-            sx={{
-              color: (theme) =>
-                theme.palette.mode === 'light' ? 'grey.800' : 'grey.200',
-            }}
-            textAlign="center"
-          >
-            {balance ? parseBalance(balance) : '0'} ORCA
-          </Typography>
-        </Grid>
-      </Grid>
+      <Stack direction="row" spacing={1} alignItems="center">
+        <Image
+          src={'/static/cryptos/ic_orca.svg'}
+          width={30}
+          height={30}
+          color="inherit"
+        />
+        <Typography
+          variant="button"
+          sx={{
+            color: (theme) =>
+              theme.palette.mode === 'light' ? 'grey.800' : 'grey.200',
+          }}
+          textAlign="center"
+        >
+          {balance ? parseBalance(balance) : '0'} ORCA
+        </Typography>
+      </Stack>
     </BalanceStyle>
   );
 };

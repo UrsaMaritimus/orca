@@ -1,5 +1,5 @@
 import { FC } from 'react';
-
+import Image from 'next/image';
 import useSWR from 'swr';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
@@ -101,12 +101,7 @@ export const Farm: FC<FarmProps> = ({
         <Grid container alignItems="center" spacing={1}>
           <Grid item xs={6} display="flex" justifyContent={'center'}>
             <Stack alignItems="center" direction="row" spacing={1}>
-              <Box
-                component="img"
-                src={img}
-                sx={{ width: 44, height: 44 }}
-                color="grey.700"
-              />
+              <Image src={img} width={44} height={44} color="grey.700" />
               <Stack alignItems={'center'}>
                 <Typography sx={{ color: 'grey.800' }} variant="h6">
                   {shouldFetch
@@ -133,10 +128,10 @@ export const Farm: FC<FarmProps> = ({
             justifyContent="center"
           >
             <Stack alignItems="center" direction="row" spacing={1}>
-              <Box
-                component="img"
+              <Image
                 src={FarmTokenInfo['XORCA'].icon}
-                sx={{ width: 44, height: 44 }}
+                width={44}
+                height={44}
                 color="grey.700"
               />
               <Stack alignItems="center">
@@ -160,21 +155,16 @@ export const Farm: FC<FarmProps> = ({
           <Grid item xs={12} display="flex" justifyContent="center">
             <Stack alignItems="center">
               <Stack alignItems="center" direction="row" spacing={1}>
-                <Box
-                  component="img"
+                <Image
                   src={FarmTokenInfo['XORCA'].icon}
-                  sx={{ width: 25, height: 25 }}
+                  width={25}
+                  height={25}
                   color="grey.700"
                 />
                 <Typography sx={{ color: 'grey.800' }} variant="subtitle2">
                   1 xORCA =
                 </Typography>
-                <Box
-                  component="img"
-                  src={img}
-                  sx={{ width: 25, height: 25 }}
-                  color="grey.700"
-                />
+                <Image src={img} width={25} height={25} color="grey.700" />
                 <Typography sx={{ color: 'grey.800' }} variant="subtitle2">
                   {xOrcaRatio ? fNumber(xOrcaRatio.ratio, 4) : 1} ORCA
                 </Typography>

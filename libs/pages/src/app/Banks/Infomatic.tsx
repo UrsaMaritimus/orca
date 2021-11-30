@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { utils } from 'ethers';
-
+import Image from 'next/image';
 import { Grid, Card, Box, Stack, Typography } from '@mui/material';
 
 import { fCurrency, fNumber } from '@orca/util';
@@ -26,10 +26,10 @@ export const Infomatic: FC = () => {
           >
             <Grid container sx={{ my: 2, mt: 3 }} alignItems="center">
               <Grid item xs={12} sm={4} display="flex" justifyContent="center">
-                <Box
-                  component="img"
+                <Image
                   src="/static/icons/ic_bank.svg"
-                  sx={{ width: 60, height: 60 }}
+                  width={60}
+                  height={60}
                   color="inherit"
                 />
               </Grid>
@@ -71,10 +71,10 @@ export const Infomatic: FC = () => {
           >
             <Grid container sx={{ my: 2, mt: 3 }} alignItems="center">
               <Grid item xs={12} sm={4} display="flex" justifyContent="center">
-                <Box
-                  component="img"
+                <Image
                   src="/static/icons/ic_debt.svg"
-                  sx={{ width: 60, height: 60 }}
+                  width={60}
+                  height={60}
                   color="inherit"
                 />
               </Grid>
@@ -118,10 +118,10 @@ export const Infomatic: FC = () => {
           >
             <Grid container sx={{ my: 2, mt: 3 }} alignItems="center">
               <Grid item xs={12} sm={4} display="flex" justifyContent="center">
-                <Box
-                  component="img"
+                <Image
                   src="/static/cryptos/ic_avai.svg"
-                  sx={{ width: 60, height: 60 }}
+                  width={60}
+                  height={60}
                   color="inherit"
                 />
               </Grid>

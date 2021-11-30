@@ -1,4 +1,5 @@
 import { useState, FC } from 'react';
+import Image from 'next/image';
 import * as Yup from 'yup';
 // material
 import {
@@ -183,14 +184,10 @@ export const BorrowStepper: FC<StepperProps> = ({
                   justifyContent="center"
                 >
                   <Stack direction="row" alignItems="center" spacing={1}>
-                    <Box
-                      component="img"
+                    <Image
                       src={ProtocolTokenInfo['AVAI'].icon}
-                      sx={{
-                        width: 15,
-
-                        height: 15,
-                      }}
+                      width={25}
+                      height={25}
                       color="inherit"
                     />
                     <Typography variant="h6" textAlign="center">
@@ -217,14 +214,10 @@ export const BorrowStepper: FC<StepperProps> = ({
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <Box
-                          component="img"
+                        <Image
                           src={ProtocolTokenInfo['AVAI'].icon}
-                          sx={{
-                            width: 25,
-
-                            height: 25,
-                          }}
+                          width={25}
+                          height={25}
                           color="inherit"
                         />
                       </InputAdornment>
@@ -307,14 +300,10 @@ export const BorrowStepper: FC<StepperProps> = ({
                 >
                   <Stack alignItems={'flex-end'}>
                     <Stack direction="row" spacing={1} alignItems={'flex-end'}>
-                      <Box
-                        component="img"
+                      <Image
                         src={ProtocolTokenInfo['AVAI'].icon}
-                        sx={{
-                          width: 15,
-
-                          height: 15,
-                        }}
+                        width={15}
+                        height={15}
                         color="inherit"
                       />
                       <Typography variant="body2">

@@ -1,5 +1,7 @@
 /* eslint-disable-next-line */
 import { FC, useState } from 'react';
+import Image from 'next/image';
+
 import { Icon } from '@iconify/react';
 import infoOutline from '@iconify/icons-eva/info-outline';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
@@ -66,14 +68,10 @@ export const Borrows: FC<ActionProps> = ({
           <Stack alignItems="center" direction="row" spacing={1}>
             <Typography variant="h4">Borrows in</Typography>
             <Stack alignItems="center" direction="row" spacing={1}>
-              <Box
-                component="img"
+              <Image
                 src={ProtocolTokenInfo['AVAI'].icon}
-                sx={{
-                  width: 30,
-
-                  height: 30,
-                }}
+                width={30}
+                height={30}
                 color="inherit"
               />
               <Typography variant="h4" sx={{ color: 'grey.500' }}>

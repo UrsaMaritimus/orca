@@ -1,4 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, FC, useState } from 'react';
+import Image from 'next/image';
+
 import MetaMaskOnboarding from '@metamask/onboarding';
 import { useWeb3React, UnsupportedChainIdError } from '@web3-react/core';
 import { UserRejectedRequestError } from '@web3-react/injected-connector';
@@ -92,8 +94,7 @@ const Account: FC = () => {
       >
         <Stack direction="row" alignItems={'center'} spacing={1}>
           <Typography variant="button">Failed to Connect</Typography>
-          <Box
-            component="img"
+          <Image
             src="/static/icons/ic_metamask.svg"
             color="inherit"
             width={30}
@@ -114,8 +115,7 @@ const Account: FC = () => {
       >
         <Stack direction="row" alignItems={'center'} spacing={1}>
           <Typography variant="button">Connecting...</Typography>
-          <Box
-            component="img"
+          <Image
             src="/static/icons/ic_metamask.svg"
             color="inherit"
             width={30}
@@ -138,8 +138,7 @@ const Account: FC = () => {
             {MetaMaskOnboarding.isMetaMaskInstalled() ? (
               <Stack direction="row" alignItems={'center'} spacing={1}>
                 <Typography variant="button">Connect</Typography>
-                <Box
-                  component="img"
+                <Image
                   src="/static/icons/ic_metamask.svg"
                   color="inherit"
                   width={30}

@@ -1,4 +1,5 @@
 import { Icon } from '@iconify/react';
+import Image from 'next/image';
 import { FC } from 'react';
 import arrowIosDownwardFill from '@iconify/icons-eva/arrow-ios-downward-fill';
 
@@ -110,12 +111,7 @@ export const Farm: FC<FarmProps> = ({
               justifyContent={matches ? 'center' : 'flex-start'}
             >
               <Stack alignItems="center" direction="row" spacing={1}>
-                <Box
-                  component="img"
-                  src={img}
-                  sx={{ width: 44, height: 44 }}
-                  color="grey.700"
-                />
+                <Image src={img} width={44} height={44} color="grey.700" />
                 <Stack alignItems={matches ? 'center' : 'flex-start'}>
                   <Typography sx={{ color: 'grey.800' }} variant="h6">
                     {name}
@@ -135,10 +131,10 @@ export const Farm: FC<FarmProps> = ({
               justifyContent="center"
             >
               <Stack alignItems="center" direction="row" spacing={1}>
-                <Box
-                  component="img"
+                <Image
                   src={rewardImg}
-                  sx={{ width: 44, height: 44 }}
+                  width={44}
+                  height={44}
                   color="grey.700"
                 />
                 <Stack alignItems="center">

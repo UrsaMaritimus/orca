@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import Image from 'next/image';
 import { Icon } from '@iconify/react';
 import externalLinkOutline from '@iconify/icons-eva/external-link-outline';
 
@@ -36,10 +37,10 @@ export const SingularFarm: FC = () => {
           justifyContent={matches ? 'center' : 'flex-start'}
         >
           <Stack alignItems="center" direction="row" spacing={1}>
-            <Box
-              component="img"
+            <Image
               src={'/static/farm/ic_usdc_avai.svg'}
-              sx={{ width: 44, height: 44 }}
+              width={44}
+              height={44}
               color="grey.700"
             />
             <Stack alignItems={matches ? 'center' : 'flex-start'}>
@@ -61,10 +62,10 @@ export const SingularFarm: FC = () => {
           justifyContent="center"
         >
           <Stack alignItems="center" direction="row" spacing={1}>
-            <Box
-              component="img"
+            <Image
               src={'/static/cryptos/ic_sing.svg'}
-              sx={{ width: 44, height: 44 }}
+              width={44}
+              height={44}
               color="grey.700"
             />
             <Stack alignItems="center">
@@ -80,10 +81,10 @@ export const SingularFarm: FC = () => {
         <Grid item xs={6} md={2} display="flex" justifyContent="center">
           <Stack alignItems="center">
             <Stack direction="row" alignItems="center" spacing={1}>
-              <Box
-                component="img"
+              <Image
                 src={'/static/cryptos/ic_sing.svg'}
-                sx={{ width: 25, height: 25 }}
+                width={25}
+                height={25}
                 color="grey.700"
               />
               <Typography sx={{ color: 'grey.800' }} variant="h6">

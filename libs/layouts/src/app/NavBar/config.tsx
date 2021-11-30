@@ -1,5 +1,6 @@
+import Image from 'next/image';
+
 import { routes } from '@orca/shared';
-import { Box } from '@mui/material';
 import { SvgIconStyle } from '@orca/components';
 
 // ----------------------------------------------------------------------
@@ -12,10 +13,10 @@ const getIcon = (name: string) => (
 );
 
 const getUSDIcon = (src: string) => (
-  <Box
-    component="img"
+  <Image
     src={`/static/icons/navbar/${src}.svg`}
-    sx={{ width: 22, height: 22 }}
+    width={22}
+    height={22}
     color="inherit"
   />
 );

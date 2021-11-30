@@ -1,21 +1,16 @@
-import { Icon } from '@iconify/react';
 import { FC } from 'react';
-import arrowIosDownwardFill from '@iconify/icons-eva/arrow-ios-downward-fill';
+import Image from 'next/image';
 
 import {
-  Accordion,
-  AccordionSummary,
   Typography,
-  AccordionDetails,
   Card,
   Grid,
   Stack,
-  Box,
   useMediaQuery,
   Divider,
   CardContent,
 } from '@mui/material';
-import { alpha, useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 
 // Ethers and web3 stuff
 import { useWeb3React } from '@web3-react/core';
@@ -85,12 +80,7 @@ export const Farm: FC<FarmProps> = ({
             justifyContent={matches ? 'center' : 'flex-start'}
           >
             <Stack alignItems="center" direction="row" spacing={1}>
-              <Box
-                component="img"
-                src={img}
-                sx={{ width: 44, height: 44 }}
-                color="grey.700"
-              />
+              <Image src={img} width={44} height={44} color="grey.700" />
               <Stack alignItems={matches ? 'center' : 'flex-start'}>
                 <Typography sx={{ color: 'grey.800' }} variant="h6">
                   {name}
@@ -110,12 +100,7 @@ export const Farm: FC<FarmProps> = ({
             justifyContent="center"
           >
             <Stack alignItems="center" direction="row" spacing={1}>
-              <Box
-                component="img"
-                src={rewardImg}
-                sx={{ width: 44, height: 44 }}
-                color="grey.700"
-              />
+              <Image src={rewardImg} width={44} height={44} color="grey.700" />
               <Stack alignItems="center">
                 <Typography sx={{ color: 'grey.800' }} variant="h6">
                   {reward}

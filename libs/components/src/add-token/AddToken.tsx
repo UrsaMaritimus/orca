@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import Image from 'next/image';
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 
@@ -48,8 +49,7 @@ export const AddToken: FC<AddTokenProps> = ({
     >
       <Stack direction="row" spacing={1} alignItems={'center'}>
         <Typography variant="button">Add {tokenSymbol} </Typography>
-        <Box
-          component="img"
+        <Image
           src="/static/icons/ic_metamask.svg"
           color="inherit"
           width={30}

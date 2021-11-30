@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import useSWR from 'swr';
+import Image from 'next/image';
 import { Web3Provider } from '@ethersproject/providers';
 
 import { Icon } from '@iconify/react';
@@ -172,10 +172,10 @@ export const Redeem: FC<MintProps> = ({
           <CardHeader
             title={'AVAI Exchange'}
             avatar={
-              <Box
-                component="img"
+              <Image
                 src={ProtocolTokenInfo['AVAI'].icon}
-                sx={{ width: 40, height: 40 }}
+                width={40}
+                height={40}
                 color="inherit"
               />
             }
@@ -221,14 +221,10 @@ export const Redeem: FC<MintProps> = ({
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
-                            <Box
-                              component="img"
+                            <Image
                               src={ProtocolTokenInfo['AVAI'].icon}
-                              sx={{
-                                width: 25,
-
-                                height: 25,
-                              }}
+                              width={25}
+                              height={25}
                               color="inherit"
                             />
                           </InputAdornment>
@@ -296,14 +292,10 @@ export const Redeem: FC<MintProps> = ({
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
-                            <Box
-                              component="img"
+                            <Image
                               src={ProtocolTokenInfo[token].icon}
-                              sx={{
-                                width: 25,
-
-                                height: 25,
-                              }}
+                              width={25}
+                              height={25}
                               color="inherit"
                             />
                           </InputAdornment>

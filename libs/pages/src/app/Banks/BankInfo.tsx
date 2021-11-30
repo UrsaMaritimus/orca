@@ -1,5 +1,6 @@
 import Slider from 'react-slick';
 import { useState, useRef, FC } from 'react';
+import Image from 'next/image';
 // material
 import { useTheme } from '@mui/material/styles';
 import {
@@ -58,12 +59,7 @@ const CarouselItem: FC<CarouselItemProps> = ({ item, isActive }) => {
       <CardHeader
         title={tokenInfo.display}
         avatar={
-          <Box
-            component="img"
-            src={tokenInfo.icon}
-            sx={{ width: 40, height: 40 }}
-            color="inherit"
-          />
+          <Image src={tokenInfo.icon} width={40} height={40} color="inherit" />
         }
       />
       <CardContent>

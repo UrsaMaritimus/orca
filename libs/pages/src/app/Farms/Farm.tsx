@@ -1,5 +1,5 @@
 import { FC } from 'react';
-
+import Image from 'next/image';
 import { Grid, Box, Typography, Divider, Paper } from '@mui/material';
 
 import { LoadingDots } from '@orca/components';
@@ -28,12 +28,7 @@ export const YieldFarm: FC<YieldFarmProps> = ({ name, img, address }) => {
     >
       <Grid container sx={{ p: 3, pb: 2.5 }}>
         <Grid item xs={12} display="flex" justifyContent="center">
-          <Box
-            component="img"
-            src={img}
-            sx={{ width: 60, height: 60 }}
-            color="inherit"
-          />
+          <Image src={img} width={60} height={60} color="inherit" />
         </Grid>
         <Grid item xs={12} display="flex" justifyContent="center" mt={1}>
           <Typography variant="h5">{name}</Typography>

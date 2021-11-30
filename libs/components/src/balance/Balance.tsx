@@ -1,7 +1,8 @@
 import type { Web3Provider } from '@ethersproject/providers';
+import Image from 'next/image';
 import { useWeb3React } from '@web3-react/core';
 import { useAVAXBalance } from '@orca/hooks';
-import { Typography, Stack, Box } from '@mui/material';
+import { Typography, Stack } from '@mui/material';
 
 import { styled } from '@mui/material/styles';
 
@@ -20,19 +21,15 @@ const AvaxBalance = () => {
   const { account } = useWeb3React<Web3Provider>();
   const { data } = useAVAXBalance(account as string);
 
-  const { theme, systemTheme } = useTheme();
+  const { theme } = useTheme();
 
   return (
     <BalanceStyle>
       <Stack direction="row" spacing={1} alignItems="center">
-        <Box
-          component="img"
+        <Image
           src={'/static/cryptos/ic_avax.svg'}
-          sx={{
-            width: 30,
-
-            height: 30,
-          }}
+          width={30}
+          height={30}
           color="inherit"
         />
         <Typography

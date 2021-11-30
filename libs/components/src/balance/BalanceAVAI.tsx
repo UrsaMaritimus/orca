@@ -1,13 +1,15 @@
 import { useEffect, FC } from 'react';
+import Image from 'next/image';
+import { useSetRecoilState } from 'recoil';
+import useSWR from 'swr';
 
 import type { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
-import useSWR from 'swr';
-import { Typography, Box, Grid } from '@mui/material';
-import { parseBalance } from '@orca/util';
-import { useSetRecoilState } from 'recoil';
+
+import { Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
+import { parseBalance } from '@orca/util';
 import { AVAI__factory, DeployedContracts } from '@orca/shared';
 import { avaiBalance } from '@orca/web3';
 import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
@@ -64,32 +66,24 @@ const AvaiBalance: FC = () => {
 
   return (
     <BalanceStyle onClick={changeSeeAVAI}>
-      <Grid container alignItems="center">
-        <Grid item xs={3} display="flex" justifyContent="center">
-          <Box
-            component="img"
-            src={'/static/cryptos/ic_avai.svg'}
-            sx={{
-              width: 30,
-              height: 30,
-              mr: 1,
-            }}
-            color="inherit"
-          />
-        </Grid>
-        <Grid item xs={9} display="flex" justifyContent="center">
-          <Typography
-            variant="button"
-            sx={{
-              color: (theme) =>
-                theme.palette.mode === 'light' ? 'grey.800' : 'grey.200',
-            }}
-            textAlign="center"
-          >
-            {balance ? parseBalance(balance) : '0'} AVAI
-          </Typography>
-        </Grid>
-      </Grid>
+      <Stack direction="row" alignItems="center" spacing={1}>
+        <Image
+          src={'/static/cryptos/ic_avai.svg'}
+          width={30}
+          height={30}
+          color="inherit"
+        />
+        <Typography
+          variant="button"
+          sx={{
+            color: (theme) =>
+              theme.palette.mode === 'light' ? 'grey.800' : 'grey.200',
+          }}
+          textAlign="center"
+        >
+          {balance ? parseBalance(balance) : '0'} AVAI
+        </Typography>
+      </Stack>
     </BalanceStyle>
   );
 };

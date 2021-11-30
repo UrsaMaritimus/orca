@@ -1,4 +1,5 @@
 import { useState, FC } from 'react';
+import Image from 'next/image';
 import * as Yup from 'yup';
 // material
 import {
@@ -39,6 +40,7 @@ import { Loader, handleTransaction, useAddTransaction } from '@orca/components';
 import { BankTokenInfo } from '@orca/shared';
 
 import { StepperProps } from './stepper.type';
+import { ImageAspectRatioOutlined } from '@mui/icons-material';
 
 const InputTextField = styled(TextField)(({ theme }) => ({
   '& .MuiFilledInput-root': {
@@ -198,14 +200,10 @@ export const WithdrawStepper: FC<StepperProps> = ({
                   justifyContent="center"
                 >
                   <Stack direction="row" alignItems="center" spacing={1}>
-                    <Box
-                      component="img"
+                    <Image
                       src={BankTokenInfo[token].icon}
-                      sx={{
-                        width: 15,
-
-                        height: 15,
-                      }}
+                      width={25}
+                      height={25}
                       color="inherit"
                     />
                     <Typography variant="h6" textAlign="center">
@@ -240,14 +238,10 @@ export const WithdrawStepper: FC<StepperProps> = ({
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <Box
-                          component="img"
+                        <Image
                           src={BankTokenInfo[token].icon}
-                          sx={{
-                            width: 25,
-
-                            height: 25,
-                          }}
+                          width={25}
+                          height={25}
                           color="inherit"
                         />
                       </InputAdornment>
@@ -338,14 +332,10 @@ export const WithdrawStepper: FC<StepperProps> = ({
                 >
                   <Stack alignItems={'flex-end'}>
                     <Stack direction="row" spacing={0.5} alignItems={'center'}>
-                      <Box
-                        component="img"
+                      <Image
                         src={BankTokenInfo[token].icon}
-                        sx={{
-                          width: 15,
-
-                          height: 15,
-                        }}
+                        width={15}
+                        height={15}
                         color="inherit"
                       />
                       <Typography variant="body2">

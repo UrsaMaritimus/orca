@@ -1,4 +1,5 @@
 import { FC, useState } from 'react';
+import Image from 'next/image';
 import useSwr from 'swr';
 
 import { utils } from 'ethers';
@@ -54,10 +55,10 @@ export const VaultReward: FC = () => {
                   title={`${collat.display} Vault Rewards`}
                   subheader={'Rewards gathered from liquidating vault'}
                   avatar={
-                    <Box
-                      component="img"
+                    <Image
                       src={collat.icon}
-                      sx={{ width: 40, height: 40 }}
+                      width={40}
+                      height={40}
                       color="inherit"
                     />
                   }
