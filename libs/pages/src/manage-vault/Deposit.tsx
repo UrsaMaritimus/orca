@@ -122,6 +122,7 @@ export const Deposit: FC<ActionProps> = ({
                   </Typography>
                 </Grid>
                 <Grid item xs={7} sm={false}></Grid>
+
                 {BankTokenInfo[token].yaktoken && (
                   <Grid
                     item
@@ -130,6 +131,8 @@ export const Deposit: FC<ActionProps> = ({
                     display="flex"
                     justifyContent="center"
                   >
+                    {console.log(BankTokenInfo[token])}
+                    {console.log(vaultInfo)}
                     <Typography
                       variant="caption"
                       sx={{

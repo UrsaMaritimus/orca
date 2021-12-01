@@ -32,6 +32,7 @@ export const useGetVaultInfo = (
     pollInterval: 5000,
   });
   const shouldFetchYak = !!library && BankTokenInfo[token].yaktoken;
+
   // Grab yak
   const { data: yakBalance, mutate: yakMutate } = useSwr(
     shouldFetchYak
@@ -43,7 +44,7 @@ export const useGetVaultInfo = (
             : BankTokenInfo[token].address.fuji,
           chainId,
           vaultType,
-          Number(vaultID).toString(16),
+          Number(vaultID),
         ]
       : null,
     yakTrueBalance()
