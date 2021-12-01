@@ -7,6 +7,7 @@ import menu2Fill from '@iconify/icons-eva/menu-2-fill';
 import githubOutline from '@iconify/icons-eva/github-outline';
 import bookOpenOutline from '@iconify/icons-eva/book-open-outline';
 import bxlDiscordAlt from '@iconify/icons-bx/bxl-discord-alt';
+import bxlTelegram from '@iconify/icons-bx/bxl-telegram';
 import { styled, alpha } from '@mui/material/styles';
 
 import {
@@ -36,6 +37,7 @@ import {
 // ----------------------------------------------------------------------
 //Constants
 const LINKS = [
+  { title: 'Telegram', icon: bxlTelegram, href: routes.LANDING.TELEGRAM },
   { title: 'Discord', icon: bxlDiscordAlt, href: routes.LANDING.DISCORD },
   { title: 'GitHub', icon: githubOutline, href: routes.LANDING.GITHUB },
   { title: 'Twitter', icon: twitterOutline, href: routes.LANDING.TWITTER },

@@ -47,6 +47,7 @@ export const AvaiUsdcFarm: FC<AvaiProps> = ({
       link={
         'https://app.pangolin.exchange/#/add/0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664/0x346A59146b9b4a77100D369a3d18E8007A9F46a6'
       }
+      finished={false}
     />
   );
 };

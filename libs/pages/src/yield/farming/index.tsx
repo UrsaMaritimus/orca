@@ -66,8 +66,8 @@ export const Farming: FC = () => {
                   sx={{ mx: 2 }}
                 >
                   Note: There is a Deposit fee of 0.75%, except for xORCA.
-                  Second Note: ORCA/AVAI rewards will be shut down on Dec 1st.
-                  Deposit fees for AVAX/ORCA disabled until Dec 7th.
+                  Deposit fees for AVAX/ORCA disabled until Dec 7th. ORCA/AVAI
+                  is now closed, please remove liquidity from the farm.
                 </Typography>
               </Box>
             }

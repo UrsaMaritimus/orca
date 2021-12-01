@@ -7,6 +7,7 @@ import githubOutline from '@iconify/icons-eva/github-outline';
 import bookOpenOutline from '@iconify/icons-eva/book-open-outline';
 import bxlDiscordAlt from '@iconify/icons-bx/bxl-discord-alt';
 import bxlMedium from '@iconify/icons-bx/bxl-medium';
+import bxlTelegram from '@iconify/icons-bx/bxl-telegram';
 // material
 import { alpha } from '@mui/material/styles';
 import { Stack, Box, Divider, MenuItem, Typography } from '@mui/material';
@@ -25,6 +26,11 @@ const MENU_OPTIONS = [
     label: 'Discord',
     icon: bxlDiscordAlt,
     linkTo: routes.LANDING.DISCORD,
+  },
+  {
+    label: 'Telegram',
+    icon: bxlTelegram,
+    linkTo: routes.LANDING.TELEGRAM,
   },
   {
     label: 'Twitter',

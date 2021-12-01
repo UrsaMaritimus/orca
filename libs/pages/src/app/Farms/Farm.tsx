@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import Image from 'next/image';
-import { Grid, Box, Typography, Divider, Paper } from '@mui/material';
+import { Grid, Typography, Divider, Paper } from '@mui/material';
 
 import { LoadingDots } from '@orca/components';
 

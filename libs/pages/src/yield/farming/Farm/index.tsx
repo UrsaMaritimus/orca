@@ -48,6 +48,7 @@ type FarmProps = {
   farm: string;
   link: string;
   pid: string;
+  finished: boolean;
 };
 
 export const Farm: FC<FarmProps> = ({
@@ -67,6 +68,7 @@ export const Farm: FC<FarmProps> = ({
   farm,
   link,
   pid,
+  finished,
 }) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('md'));
@@ -181,8 +183,10 @@ export const Farm: FC<FarmProps> = ({
               {' '}
               <Stack alignItems="center">
                 <Typography sx={{ color: 'grey.800' }} variant="h6">
-                  {loading ? <LoadingDots /> : fNumber(apr, 0, true)}
-                  {loading ? '' : '%'}
+                  {finished && 'Finished'}
+                  {!finished &&
+                    (loading ? <LoadingDots /> : fNumber(apr, 0, true))}
+                  {!finished && (loading ? '' : '%')}
                 </Typography>
                 <Typography sx={{ color: 'grey.700' }} variant="caption">
                   APR
@@ -208,6 +212,7 @@ export const Farm: FC<FarmProps> = ({
                   link={link}
                   pid={pid}
                   chainId={chainId}
+                  finished={finished}
                 />
               </Grid>
               <Grid item xs={12} md={1} display="flex" justifyContent="center">

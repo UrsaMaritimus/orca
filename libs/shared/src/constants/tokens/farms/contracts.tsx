@@ -14,6 +14,7 @@ export const FarmTokenInfo: { [key: string]: FarmInfo } = {
     decimals: 18,
     reward: 'ORCA',
     rewardImg: ProtocolTokenInfo['ORCA'].icon,
+    active: true,
   },
   'AVAI-ORCA': {
     address: {
@@ -27,6 +28,7 @@ export const FarmTokenInfo: { [key: string]: FarmInfo } = {
     decimals: 18,
     reward: 'ORCA',
     rewardImg: ProtocolTokenInfo['ORCA'].icon,
+    active: false,
   },
   'AVAX-ORCA': {
     address: {
@@ -40,6 +42,7 @@ export const FarmTokenInfo: { [key: string]: FarmInfo } = {
     decimals: 18,
     reward: 'ORCA',
     rewardImg: ProtocolTokenInfo['ORCA'].icon,
+    active: true,
   },
   XORCA: {
     address: {
@@ -53,5 +56,6 @@ export const FarmTokenInfo: { [key: string]: FarmInfo } = {
     decimals: 18,
     reward: 'ORCA',
     rewardImg: ProtocolTokenInfo['ORCA'].icon,
+    active: true,
   },
 };

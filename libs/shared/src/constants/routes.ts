@@ -43,6 +43,7 @@ export const routes = {
     GITHUB: 'https://github.com/UrsaMaritimus/orca',
     DOCS: 'https://docs.avai.finance/',
     DISCORD: 'https://discord.gg/KZHbxZvCsU',
+    TELEGRAM: 'https://t.me/OrcaDAO_Official',
     SITE:
       process.env.NODE_ENV === 'development'
         ? 'http://localhost:4200/vaults'

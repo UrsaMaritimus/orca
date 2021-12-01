@@ -54,6 +54,7 @@ type DepositProps = {
   link: string;
   pid: string;
   chainId: number;
+  finished: boolean;
 };
 
 // ----------------------------------------------------------------------
@@ -67,6 +68,7 @@ export const Deposit: FC<DepositProps> = ({
   link,
   pid,
   chainId,
+  finished,
 }) => {
   const [approving, setApproving] = useState<boolean>(false);
   const [depositing, setDepositing] = useState<boolean>(false);
@@ -252,6 +254,7 @@ export const Deposit: FC<DepositProps> = ({
               variant="contained"
               size="large"
               disabled={
+                finished ||
                 !shouldFetch ||
                 !tokenIsApproved ||
                 (farmBalance && farmBalance.isZero())

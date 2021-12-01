@@ -43,14 +43,17 @@ export const YieldFarmInfo: FC = () => {
             subheader="Earn ORCA and participate in the DAO"
           />
           <Slider ref={carouselRef} {...settings}>
-            {Object.keys(FarmTokenInfo).map((app) => (
-              <YieldFarm
-                key={FarmTokenInfo[app].display}
-                name={FarmTokenInfo[app].display}
-                img={FarmTokenInfo[app].icon}
-                address={FarmTokenInfo[app].address.mainnet}
-              />
-            ))}
+            {Object.keys(FarmTokenInfo).map((app) => {
+              if (FarmTokenInfo[app].active)
+                return (
+                  <YieldFarm
+                    key={FarmTokenInfo[app].display}
+                    name={FarmTokenInfo[app].display}
+                    img={FarmTokenInfo[app].icon}
+                    address={FarmTokenInfo[app].address.mainnet}
+                  />
+                );
+            })}
           </Slider>
           <CarouselControlsArrowsBasic2
             onNext={handleNext}

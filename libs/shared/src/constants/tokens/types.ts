@@ -23,4 +23,5 @@ export type BankInfo = TokenInfo & {
 export type FarmInfo = TokenInfo & {
   reward: string;
   rewardImg: string;
+  active: boolean;
 };

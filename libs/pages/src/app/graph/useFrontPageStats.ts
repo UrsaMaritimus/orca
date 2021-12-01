@@ -25,10 +25,6 @@ export const useFrontPageStats = () => {
     pollInterval: 5000,
   });
 
-  // Do this manually. Tedious tbh...
-  const { loading: orcaLoading, data: orcaFarm } = useFrontPageYieldInfo(
-    FarmTokenInfo['AVAI-ORCA'].address.mainnet.toLowerCase()
-  );
   const { loading: usdcLoading, data: usdcFarm } = useFrontPageYieldInfo(
     FarmTokenInfo['USDC-AVAI'].address.mainnet.toLowerCase()
   );
@@ -55,7 +51,6 @@ export const useFrontPageStats = () => {
     !bankLoading &&
     !orcaPerLoading &&
     !usdcLoading &&
-    !orcaLoading &&
     !avaxLoading &&
     orcaPrice &&
     avaxPrice &&
@@ -79,7 +74,6 @@ export const useFrontPageStats = () => {
       orcaUSDPrice;
 
     const TVL =
-      orcaFarm.tvl +
       usdcFarm.tvl +
       avaxFarm.tvl +
       bankTVL +
@@ -94,7 +88,6 @@ export const useFrontPageStats = () => {
         totalRevenue:
           Number(utils.formatUnits(bankData.exchangeTreasury, 6)) +
           Number(utils.formatEther(bankData.bankTreasury)) +
-          orcaFarm.treasury +
           usdcFarm.treasury +
           avaxFarm.treasury,
         orcaPerDay: orcaPerSecond * 60 * 60 * 24,
