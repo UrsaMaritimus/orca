@@ -50,6 +50,7 @@ export const XOrcaFarm: FC<AvaxProps> = ({
           : FarmTokenInfo['XORCA'].address.fuji.toLowerCase()
       }
       link={routes.APP.YIELD.STAKE}
+      finished={false}
     />
   );
 };
