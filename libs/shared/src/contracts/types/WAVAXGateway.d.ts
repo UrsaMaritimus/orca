@@ -14,83 +14,83 @@ import {
   Overrides,
   PayableOverrides,
   CallOverrides,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface WAVAXGatewayInterface extends ethers.utils.Interface {
   functions: {
-    'authorizeVault(address)': FunctionFragment;
-    'depositAVAX(address,uint256)': FunctionFragment;
-    'destroyVault(address,uint256)': FunctionFragment;
-    'getPaid(address)': FunctionFragment;
-    'owner()': FunctionFragment;
-    'renounceOwnership()': FunctionFragment;
-    'transferOwnership(address)': FunctionFragment;
-    'withdrawAVAX(address,uint256,uint256)': FunctionFragment;
+    "authorizeVault(address)": FunctionFragment;
+    "depositAVAX(address,uint256)": FunctionFragment;
+    "destroyVault(address,uint256)": FunctionFragment;
+    "getPaid(address)": FunctionFragment;
+    "owner()": FunctionFragment;
+    "renounceOwnership()": FunctionFragment;
+    "transferOwnership(address)": FunctionFragment;
+    "withdrawAVAX(address,uint256,uint256)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: 'authorizeVault',
+    functionFragment: "authorizeVault",
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'depositAVAX',
+    functionFragment: "depositAVAX",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'destroyVault',
+    functionFragment: "destroyVault",
     values: [string, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'getPaid', values: [string]): string;
-  encodeFunctionData(functionFragment: 'owner', values?: undefined): string;
+  encodeFunctionData(functionFragment: "getPaid", values: [string]): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'renounceOwnership',
+    functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'transferOwnership',
+    functionFragment: "transferOwnership",
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'withdrawAVAX',
+    functionFragment: "withdrawAVAX",
     values: [string, BigNumberish, BigNumberish]
   ): string;
 
   decodeFunctionResult(
-    functionFragment: 'authorizeVault',
+    functionFragment: "authorizeVault",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'depositAVAX',
+    functionFragment: "depositAVAX",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'destroyVault',
+    functionFragment: "destroyVault",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'getPaid', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getPaid", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'renounceOwnership',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'transferOwnership',
+    functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'withdrawAVAX',
+    functionFragment: "transferOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "withdrawAVAX",
     data: BytesLike
   ): Result;
 
   events: {
-    'OwnershipTransferred(address,address)': EventFragment;
+    "OwnershipTransferred(address,address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: 'OwnershipTransferred'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
 }
 
 export class WAVAXGateway extends BaseContract {

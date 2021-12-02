@@ -1,12 +1,11 @@
 import { expect } from 'chai';
 
-import { ethers, waffle, upgrades } from 'hardhat';
+import { ethers } from 'hardhat';
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 import {
   SnapshotBridge,
-  SingleStaking__factory,
   SnapshotBridge__factory,
-} from '../libs/shared/contracts/src';
+} from '../libs/shared/src/contracts/types';
 
 describe('Testing snapshot bridge', async () => {
   let accounts: SignerWithAddress[];

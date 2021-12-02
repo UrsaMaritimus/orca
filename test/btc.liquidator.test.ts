@@ -15,8 +15,7 @@ import {
   PriceSource,
   FakeBTC,
   FakeBTC__factory,
-} from '../libs/shared/contracts/src';
-
+} from '../libs/shared/src/contracts/types';
 describe('BTC Liquidator Test', function () {
   let accounts: SignerWithAddress[];
   let Vault: Bank__factory;

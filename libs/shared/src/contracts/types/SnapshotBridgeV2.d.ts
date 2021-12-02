@@ -12,47 +12,47 @@ import {
   BaseContract,
   ContractTransaction,
   CallOverrides,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface SnapshotBridgeV2Interface extends ethers.utils.Interface {
   functions: {
-    'podLeaderVote(uint256,address)': FunctionFragment;
-    'stakingPoolVote(uint256,address)': FunctionFragment;
-    'xOrcaStakedVote(address,uint256)': FunctionFragment;
-    'xOrcaVote(address)': FunctionFragment;
+    "podLeaderVote(uint256,address)": FunctionFragment;
+    "stakingPoolVote(uint256,address)": FunctionFragment;
+    "xOrcaStakedVote(address,uint256)": FunctionFragment;
+    "xOrcaVote(address)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: 'podLeaderVote',
+    functionFragment: "podLeaderVote",
     values: [BigNumberish, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'stakingPoolVote',
+    functionFragment: "stakingPoolVote",
     values: [BigNumberish, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'xOrcaStakedVote',
+    functionFragment: "xOrcaStakedVote",
     values: [string, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'xOrcaVote', values: [string]): string;
+  encodeFunctionData(functionFragment: "xOrcaVote", values: [string]): string;
 
   decodeFunctionResult(
-    functionFragment: 'podLeaderVote',
+    functionFragment: "podLeaderVote",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'stakingPoolVote',
+    functionFragment: "stakingPoolVote",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'xOrcaStakedVote',
+    functionFragment: "xOrcaStakedVote",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'xOrcaVote', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "xOrcaVote", data: BytesLike): Result;
 
   events: {};
 }

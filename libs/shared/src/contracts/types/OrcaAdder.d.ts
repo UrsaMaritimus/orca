@@ -13,245 +13,245 @@ import {
   ContractTransaction,
   Overrides,
   CallOverrides,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface OrcaAdderInterface extends ethers.utils.Interface {
   functions: {
-    'addBank(address)': FunctionFragment;
-    'addLPToken(address)': FunctionFragment;
-    'addSwapLP(address,address)': FunctionFragment;
-    'addYakStrat(address)': FunctionFragment;
-    'allocate()': FunctionFragment;
-    'banks(uint256)': FunctionFragment;
-    'changeDev(address)': FunctionFragment;
-    'changeDistributionRatio(uint256,uint256,uint256,uint256)': FunctionFragment;
-    'changeSeafund(address)': FunctionFragment;
-    'changeTreasury(address)': FunctionFragment;
-    'dev()': FunctionFragment;
-    'devAmount()': FunctionFragment;
-    'getBankCount()': FunctionFragment;
-    'getLPTokens()': FunctionFragment;
-    'getTokens()': FunctionFragment;
-    'getYakCount()': FunctionFragment;
-    'lpTokens(uint256)': FunctionFragment;
-    'owner()': FunctionFragment;
-    'pod()': FunctionFragment;
-    'podAmount()': FunctionFragment;
-    'removeBank(uint256)': FunctionFragment;
-    'removeLPToken(uint256)': FunctionFragment;
-    'removeYakStrat(uint256)': FunctionFragment;
-    'renounceOwnership()': FunctionFragment;
-    'replaceSwapLP(address,address)': FunctionFragment;
-    'seafund()': FunctionFragment;
-    'seafundAmount()': FunctionFragment;
-    'swapLPs(address)': FunctionFragment;
-    'tokens(uint256)': FunctionFragment;
-    'transferAvax(address,uint256)': FunctionFragment;
-    'transferBankVault(uint256,uint256,address)': FunctionFragment;
-    'transferOwnership(address)': FunctionFragment;
-    'transferToken(address,address,uint256)': FunctionFragment;
-    'treasury()': FunctionFragment;
-    'treasuryAmount()': FunctionFragment;
-    'yakStrats(uint256)': FunctionFragment;
+    "addBank(address)": FunctionFragment;
+    "addLPToken(address)": FunctionFragment;
+    "addSwapLP(address,address)": FunctionFragment;
+    "addYakStrat(address)": FunctionFragment;
+    "allocate()": FunctionFragment;
+    "banks(uint256)": FunctionFragment;
+    "changeDev(address)": FunctionFragment;
+    "changeDistributionRatio(uint256,uint256,uint256,uint256)": FunctionFragment;
+    "changeSeafund(address)": FunctionFragment;
+    "changeTreasury(address)": FunctionFragment;
+    "dev()": FunctionFragment;
+    "devAmount()": FunctionFragment;
+    "getBankCount()": FunctionFragment;
+    "getLPTokens()": FunctionFragment;
+    "getTokens()": FunctionFragment;
+    "getYakCount()": FunctionFragment;
+    "lpTokens(uint256)": FunctionFragment;
+    "owner()": FunctionFragment;
+    "pod()": FunctionFragment;
+    "podAmount()": FunctionFragment;
+    "removeBank(uint256)": FunctionFragment;
+    "removeLPToken(uint256)": FunctionFragment;
+    "removeYakStrat(uint256)": FunctionFragment;
+    "renounceOwnership()": FunctionFragment;
+    "replaceSwapLP(address,address)": FunctionFragment;
+    "seafund()": FunctionFragment;
+    "seafundAmount()": FunctionFragment;
+    "swapLPs(address)": FunctionFragment;
+    "tokens(uint256)": FunctionFragment;
+    "transferAvax(address,uint256)": FunctionFragment;
+    "transferBankVault(uint256,uint256,address)": FunctionFragment;
+    "transferOwnership(address)": FunctionFragment;
+    "transferToken(address,address,uint256)": FunctionFragment;
+    "treasury()": FunctionFragment;
+    "treasuryAmount()": FunctionFragment;
+    "yakStrats(uint256)": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: 'addBank', values: [string]): string;
-  encodeFunctionData(functionFragment: 'addLPToken', values: [string]): string;
+  encodeFunctionData(functionFragment: "addBank", values: [string]): string;
+  encodeFunctionData(functionFragment: "addLPToken", values: [string]): string;
   encodeFunctionData(
-    functionFragment: 'addSwapLP',
+    functionFragment: "addSwapLP",
     values: [string, string]
   ): string;
-  encodeFunctionData(functionFragment: 'addYakStrat', values: [string]): string;
-  encodeFunctionData(functionFragment: 'allocate', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'banks', values: [BigNumberish]): string;
-  encodeFunctionData(functionFragment: 'changeDev', values: [string]): string;
+  encodeFunctionData(functionFragment: "addYakStrat", values: [string]): string;
+  encodeFunctionData(functionFragment: "allocate", values?: undefined): string;
+  encodeFunctionData(functionFragment: "banks", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "changeDev", values: [string]): string;
   encodeFunctionData(
-    functionFragment: 'changeDistributionRatio',
+    functionFragment: "changeDistributionRatio",
     values: [BigNumberish, BigNumberish, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'changeSeafund',
+    functionFragment: "changeSeafund",
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'changeTreasury',
+    functionFragment: "changeTreasury",
     values: [string]
   ): string;
-  encodeFunctionData(functionFragment: 'dev', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'devAmount', values?: undefined): string;
+  encodeFunctionData(functionFragment: "dev", values?: undefined): string;
+  encodeFunctionData(functionFragment: "devAmount", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'getBankCount',
+    functionFragment: "getBankCount",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'getLPTokens',
+    functionFragment: "getLPTokens",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: 'getTokens', values?: undefined): string;
+  encodeFunctionData(functionFragment: "getTokens", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'getYakCount',
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'lpTokens',
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(functionFragment: 'owner', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'pod', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'podAmount', values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: 'removeBank',
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'removeLPToken',
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'removeYakStrat',
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'renounceOwnership',
+    functionFragment: "getYakCount",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'replaceSwapLP',
+    functionFragment: "lpTokens",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(functionFragment: "pod", values?: undefined): string;
+  encodeFunctionData(functionFragment: "podAmount", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "removeBank",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "removeLPToken",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "removeYakStrat",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "renounceOwnership",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "replaceSwapLP",
     values: [string, string]
   ): string;
-  encodeFunctionData(functionFragment: 'seafund', values?: undefined): string;
+  encodeFunctionData(functionFragment: "seafund", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'seafundAmount',
+    functionFragment: "seafundAmount",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: 'swapLPs', values: [string]): string;
+  encodeFunctionData(functionFragment: "swapLPs", values: [string]): string;
   encodeFunctionData(
-    functionFragment: 'tokens',
+    functionFragment: "tokens",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'transferAvax',
+    functionFragment: "transferAvax",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'transferBankVault',
+    functionFragment: "transferBankVault",
     values: [BigNumberish, BigNumberish, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'transferOwnership',
+    functionFragment: "transferOwnership",
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'transferToken',
+    functionFragment: "transferToken",
     values: [string, string, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'treasury', values?: undefined): string;
+  encodeFunctionData(functionFragment: "treasury", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'treasuryAmount',
+    functionFragment: "treasuryAmount",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'yakStrats',
+    functionFragment: "yakStrats",
     values: [BigNumberish]
   ): string;
 
-  decodeFunctionResult(functionFragment: 'addBank', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'addLPToken', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'addSwapLP', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "addBank", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "addLPToken", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "addSwapLP", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'addYakStrat',
+    functionFragment: "addYakStrat",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'allocate', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'banks', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'changeDev', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "allocate", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "banks", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "changeDev", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'changeDistributionRatio',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'changeSeafund',
+    functionFragment: "changeDistributionRatio",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'changeTreasury',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'dev', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'devAmount', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'getBankCount',
+    functionFragment: "changeSeafund",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'getLPTokens',
+    functionFragment: "changeTreasury",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'getTokens', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "dev", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "devAmount", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'getYakCount',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'lpTokens', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'pod', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'podAmount', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'removeBank', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'removeLPToken',
+    functionFragment: "getBankCount",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'removeYakStrat',
+    functionFragment: "getLPTokens",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "getTokens", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getYakCount",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "lpTokens", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "pod", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "podAmount", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "removeBank", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "removeLPToken",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'renounceOwnership',
+    functionFragment: "removeYakStrat",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'replaceSwapLP',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'seafund', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'seafundAmount',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'swapLPs', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'tokens', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'transferAvax',
+    functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'transferBankVault',
+    functionFragment: "replaceSwapLP",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "seafund", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "seafundAmount",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "swapLPs", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "tokens", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "transferAvax",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'transferOwnership',
+    functionFragment: "transferBankVault",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'transferToken',
+    functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'treasury', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'treasuryAmount',
+    functionFragment: "transferToken",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'yakStrats', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "treasury", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "treasuryAmount",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "yakStrats", data: BytesLike): Result;
 
   events: {
-    'OwnershipTransferred(address,address)': EventFragment;
+    "OwnershipTransferred(address,address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: 'OwnershipTransferred'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
 }
 
 export class OrcaAdder extends BaseContract {

@@ -5,11 +5,9 @@ import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 import {
   AVAI__factory,
   AVAI,
-  AVAIv2,
-  AVAIv2__factory,
   Bank,
   Bank__factory,
-} from '../libs/shared/contracts/src';
+} from '../libs/shared/src/contracts/types';
 
 describe('Stablecoin', async function () {
   let accounts: SignerWithAddress[];

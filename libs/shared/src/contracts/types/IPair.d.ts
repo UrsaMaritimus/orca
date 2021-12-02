@@ -13,81 +13,81 @@ import {
   ContractTransaction,
   Overrides,
   CallOverrides,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface IPairInterface extends ethers.utils.Interface {
   functions: {
-    'DOMAIN_SEPARATOR()': FunctionFragment;
-    'MINIMUM_LIQUIDITY()': FunctionFragment;
-    'PERMIT_TYPEHASH()': FunctionFragment;
-    'allowance(address,address)': FunctionFragment;
-    'approve(address,uint256)': FunctionFragment;
-    'balanceOf(address)': FunctionFragment;
-    'burn(address)': FunctionFragment;
-    'decimals()': FunctionFragment;
-    'factory()': FunctionFragment;
-    'getReserves()': FunctionFragment;
-    'initialize(address,address)': FunctionFragment;
-    'kLast()': FunctionFragment;
-    'mint(address)': FunctionFragment;
-    'name()': FunctionFragment;
-    'nonces(address)': FunctionFragment;
-    'permit(address,address,uint256,uint256,uint8,bytes32,bytes32)': FunctionFragment;
-    'price0CumulativeLast()': FunctionFragment;
-    'price1CumulativeLast()': FunctionFragment;
-    'skim(address)': FunctionFragment;
-    'swap(uint256,uint256,address,bytes)': FunctionFragment;
-    'symbol()': FunctionFragment;
-    'sync()': FunctionFragment;
-    'token0()': FunctionFragment;
-    'token1()': FunctionFragment;
-    'totalSupply()': FunctionFragment;
-    'transfer(address,uint256)': FunctionFragment;
-    'transferFrom(address,address,uint256)': FunctionFragment;
+    "DOMAIN_SEPARATOR()": FunctionFragment;
+    "MINIMUM_LIQUIDITY()": FunctionFragment;
+    "PERMIT_TYPEHASH()": FunctionFragment;
+    "allowance(address,address)": FunctionFragment;
+    "approve(address,uint256)": FunctionFragment;
+    "balanceOf(address)": FunctionFragment;
+    "burn(address)": FunctionFragment;
+    "decimals()": FunctionFragment;
+    "factory()": FunctionFragment;
+    "getReserves()": FunctionFragment;
+    "initialize(address,address)": FunctionFragment;
+    "kLast()": FunctionFragment;
+    "mint(address)": FunctionFragment;
+    "name()": FunctionFragment;
+    "nonces(address)": FunctionFragment;
+    "permit(address,address,uint256,uint256,uint8,bytes32,bytes32)": FunctionFragment;
+    "price0CumulativeLast()": FunctionFragment;
+    "price1CumulativeLast()": FunctionFragment;
+    "skim(address)": FunctionFragment;
+    "swap(uint256,uint256,address,bytes)": FunctionFragment;
+    "symbol()": FunctionFragment;
+    "sync()": FunctionFragment;
+    "token0()": FunctionFragment;
+    "token1()": FunctionFragment;
+    "totalSupply()": FunctionFragment;
+    "transfer(address,uint256)": FunctionFragment;
+    "transferFrom(address,address,uint256)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: 'DOMAIN_SEPARATOR',
+    functionFragment: "DOMAIN_SEPARATOR",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'MINIMUM_LIQUIDITY',
+    functionFragment: "MINIMUM_LIQUIDITY",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'PERMIT_TYPEHASH',
+    functionFragment: "PERMIT_TYPEHASH",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'allowance',
+    functionFragment: "allowance",
     values: [string, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'approve',
+    functionFragment: "approve",
     values: [string, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'balanceOf', values: [string]): string;
-  encodeFunctionData(functionFragment: 'burn', values: [string]): string;
-  encodeFunctionData(functionFragment: 'decimals', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'factory', values?: undefined): string;
+  encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
+  encodeFunctionData(functionFragment: "burn", values: [string]): string;
+  encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
+  encodeFunctionData(functionFragment: "factory", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'getReserves',
+    functionFragment: "getReserves",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'initialize',
+    functionFragment: "initialize",
     values: [string, string]
   ): string;
-  encodeFunctionData(functionFragment: 'kLast', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'mint', values: [string]): string;
-  encodeFunctionData(functionFragment: 'name', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'nonces', values: [string]): string;
+  encodeFunctionData(functionFragment: "kLast", values?: undefined): string;
+  encodeFunctionData(functionFragment: "mint", values: [string]): string;
+  encodeFunctionData(functionFragment: "name", values?: undefined): string;
+  encodeFunctionData(functionFragment: "nonces", values: [string]): string;
   encodeFunctionData(
-    functionFragment: 'permit',
+    functionFragment: "permit",
     values: [
       string,
       string,
@@ -99,102 +99,102 @@ interface IPairInterface extends ethers.utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: 'price0CumulativeLast',
+    functionFragment: "price0CumulativeLast",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'price1CumulativeLast',
+    functionFragment: "price1CumulativeLast",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: 'skim', values: [string]): string;
+  encodeFunctionData(functionFragment: "skim", values: [string]): string;
   encodeFunctionData(
-    functionFragment: 'swap',
+    functionFragment: "swap",
     values: [BigNumberish, BigNumberish, string, BytesLike]
   ): string;
-  encodeFunctionData(functionFragment: 'symbol', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'sync', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'token0', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'token1', values?: undefined): string;
+  encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
+  encodeFunctionData(functionFragment: "sync", values?: undefined): string;
+  encodeFunctionData(functionFragment: "token0", values?: undefined): string;
+  encodeFunctionData(functionFragment: "token1", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'totalSupply',
+    functionFragment: "totalSupply",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'transfer',
+    functionFragment: "transfer",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'transferFrom',
+    functionFragment: "transferFrom",
     values: [string, string, BigNumberish]
   ): string;
 
   decodeFunctionResult(
-    functionFragment: 'DOMAIN_SEPARATOR',
+    functionFragment: "DOMAIN_SEPARATOR",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'MINIMUM_LIQUIDITY',
+    functionFragment: "MINIMUM_LIQUIDITY",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'PERMIT_TYPEHASH',
+    functionFragment: "PERMIT_TYPEHASH",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'allowance', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'approve', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'balanceOf', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'burn', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'decimals', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'factory', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "factory", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'getReserves',
+    functionFragment: "getReserves",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'initialize', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'kLast', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'mint', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'name', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'nonces', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'permit', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "kLast", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "nonces", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "permit", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'price0CumulativeLast',
+    functionFragment: "price0CumulativeLast",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'price1CumulativeLast',
+    functionFragment: "price1CumulativeLast",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'skim', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'swap', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'symbol', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'sync', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'token0', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'token1', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "skim", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "swap", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "sync", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "token0", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "token1", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'totalSupply',
+    functionFragment: "totalSupply",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'transfer', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'transferFrom',
+    functionFragment: "transferFrom",
     data: BytesLike
   ): Result;
 
   events: {
-    'Approval(address,address,uint256)': EventFragment;
-    'Burn(address,uint256,uint256,address)': EventFragment;
-    'Mint(address,uint256,uint256)': EventFragment;
-    'Swap(address,uint256,uint256,uint256,uint256,address)': EventFragment;
-    'Sync(uint112,uint112)': EventFragment;
-    'Transfer(address,address,uint256)': EventFragment;
+    "Approval(address,address,uint256)": EventFragment;
+    "Burn(address,uint256,uint256,address)": EventFragment;
+    "Mint(address,uint256,uint256)": EventFragment;
+    "Swap(address,uint256,uint256,uint256,uint256,address)": EventFragment;
+    "Sync(uint112,uint112)": EventFragment;
+    "Transfer(address,address,uint256)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: 'Approval'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'Burn'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'Mint'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'Swap'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'Sync'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'Transfer'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Burn"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Mint"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Swap"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Sync"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
 export class IPair extends BaseContract {
@@ -270,7 +270,9 @@ export class IPair extends BaseContract {
 
     factory(overrides?: CallOverrides): Promise<[string]>;
 
-    getReserves(overrides?: CallOverrides): Promise<
+    getReserves(
+      overrides?: CallOverrides
+    ): Promise<
       [BigNumber, BigNumber, number] & {
         reserve0: BigNumber;
         reserve1: BigNumber;
@@ -378,7 +380,9 @@ export class IPair extends BaseContract {
 
   factory(overrides?: CallOverrides): Promise<string>;
 
-  getReserves(overrides?: CallOverrides): Promise<
+  getReserves(
+    overrides?: CallOverrides
+  ): Promise<
     [BigNumber, BigNumber, number] & {
       reserve0: BigNumber;
       reserve1: BigNumber;
@@ -488,7 +492,9 @@ export class IPair extends BaseContract {
 
     factory(overrides?: CallOverrides): Promise<string>;
 
-    getReserves(overrides?: CallOverrides): Promise<
+    getReserves(
+      overrides?: CallOverrides
+    ): Promise<
       [BigNumber, BigNumber, number] & {
         reserve0: BigNumber;
         reserve1: BigNumber;

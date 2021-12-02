@@ -17,7 +17,7 @@ import {
   PriceSource,
   WAVAX__factory,
   WAVAX,
-} from '../libs/shared/contracts/src';
+} from '../libs/shared/src/contracts/types';
 
 describe('Liquidator Test', function () {
   let accounts: SignerWithAddress[];

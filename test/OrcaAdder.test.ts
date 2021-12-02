@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { ethers, upgrades } from 'hardhat';
+import { ethers} from 'hardhat';
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 import {
   ORCA,
@@ -17,7 +17,7 @@ import {
   ERC20__factory,
   IYakStrategy__factory,
   IYakStrategy,
-} from '../libs/shared/contracts/src';
+} from '../libs/shared/src/contracts/types';
 
 const orcaAddress = '0x8b1d98a91f853218ddbb066f20b8c63e782e2430';
 const wavaxAddress = '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7';

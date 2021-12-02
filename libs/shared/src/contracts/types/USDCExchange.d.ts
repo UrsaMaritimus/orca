@@ -13,140 +13,140 @@ import {
   ContractTransaction,
   Overrides,
   CallOverrides,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface USDCExchangeInterface extends ethers.utils.Interface {
   functions: {
-    'avai()': FunctionFragment;
-    'avaiRate()': FunctionFragment;
-    'changeTreasury(address)': FunctionFragment;
-    'hourlyLimit()': FunctionFragment;
-    'initialize(address,address)': FunctionFragment;
-    'mint(uint256)': FunctionFragment;
-    'owner()': FunctionFragment;
-    'redeem(uint256)': FunctionFragment;
-    'renounceOwnership()': FunctionFragment;
-    'setAVAIRate(uint256)': FunctionFragment;
-    'setHourlyLimit(uint256)': FunctionFragment;
-    'setUSDCRate(uint256)': FunctionFragment;
-    'transferOwnership(address)': FunctionFragment;
-    'treasury()': FunctionFragment;
-    'usdReserves()': FunctionFragment;
-    'usdc()': FunctionFragment;
-    'usdcRate()': FunctionFragment;
+    "avai()": FunctionFragment;
+    "avaiRate()": FunctionFragment;
+    "changeTreasury(address)": FunctionFragment;
+    "hourlyLimit()": FunctionFragment;
+    "initialize(address,address)": FunctionFragment;
+    "mint(uint256)": FunctionFragment;
+    "owner()": FunctionFragment;
+    "redeem(uint256)": FunctionFragment;
+    "renounceOwnership()": FunctionFragment;
+    "setAVAIRate(uint256)": FunctionFragment;
+    "setHourlyLimit(uint256)": FunctionFragment;
+    "setUSDCRate(uint256)": FunctionFragment;
+    "transferOwnership(address)": FunctionFragment;
+    "treasury()": FunctionFragment;
+    "usdReserves()": FunctionFragment;
+    "usdc()": FunctionFragment;
+    "usdcRate()": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: 'avai', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'avaiRate', values?: undefined): string;
+  encodeFunctionData(functionFragment: "avai", values?: undefined): string;
+  encodeFunctionData(functionFragment: "avaiRate", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'changeTreasury',
+    functionFragment: "changeTreasury",
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'hourlyLimit',
+    functionFragment: "hourlyLimit",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'initialize',
+    functionFragment: "initialize",
     values: [string, string]
   ): string;
-  encodeFunctionData(functionFragment: 'mint', values: [BigNumberish]): string;
-  encodeFunctionData(functionFragment: 'owner', values?: undefined): string;
+  encodeFunctionData(functionFragment: "mint", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'redeem',
+    functionFragment: "redeem",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'renounceOwnership',
+    functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'setAVAIRate',
+    functionFragment: "setAVAIRate",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setHourlyLimit',
+    functionFragment: "setHourlyLimit",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setUSDCRate',
+    functionFragment: "setUSDCRate",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'transferOwnership',
+    functionFragment: "transferOwnership",
     values: [string]
   ): string;
-  encodeFunctionData(functionFragment: 'treasury', values?: undefined): string;
+  encodeFunctionData(functionFragment: "treasury", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'usdReserves',
+    functionFragment: "usdReserves",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: 'usdc', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'usdcRate', values?: undefined): string;
+  encodeFunctionData(functionFragment: "usdc", values?: undefined): string;
+  encodeFunctionData(functionFragment: "usdcRate", values?: undefined): string;
 
-  decodeFunctionResult(functionFragment: 'avai', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'avaiRate', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "avai", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "avaiRate", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'changeTreasury',
+    functionFragment: "changeTreasury",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'hourlyLimit',
+    functionFragment: "hourlyLimit",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'initialize', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'mint', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'redeem', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "redeem", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'renounceOwnership',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'setAVAIRate',
+    functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setHourlyLimit',
+    functionFragment: "setAVAIRate",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setUSDCRate',
+    functionFragment: "setHourlyLimit",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'transferOwnership',
+    functionFragment: "setUSDCRate",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'treasury', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'usdReserves',
+    functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'usdc', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'usdcRate', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "treasury", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "usdReserves",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "usdc", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "usdcRate", data: BytesLike): Result;
 
   events: {
-    'ChangeAVAIRate(uint256)': EventFragment;
-    'ChangeHourlyLimit(uint256)': EventFragment;
-    'ChangeTreasury(address)': EventFragment;
-    'ChangeUSDCRate(uint256)': EventFragment;
-    'Mint(address,uint256,uint256)': EventFragment;
-    'OwnershipTransferred(address,address)': EventFragment;
-    'Redeem(address,uint256,uint256)': EventFragment;
+    "ChangeAVAIRate(uint256)": EventFragment;
+    "ChangeHourlyLimit(uint256)": EventFragment;
+    "ChangeTreasury(address)": EventFragment;
+    "ChangeUSDCRate(uint256)": EventFragment;
+    "Mint(address,uint256,uint256)": EventFragment;
+    "OwnershipTransferred(address,address)": EventFragment;
+    "Redeem(address,uint256,uint256)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: 'ChangeAVAIRate'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'ChangeHourlyLimit'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'ChangeTreasury'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'ChangeUSDCRate'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'Mint'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'OwnershipTransferred'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'Redeem'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ChangeAVAIRate"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ChangeHourlyLimit"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ChangeTreasury"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ChangeUSDCRate"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Mint"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Redeem"): EventFragment;
 }
 
 export class USDCExchange extends BaseContract {

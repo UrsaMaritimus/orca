@@ -12,50 +12,50 @@ import {
   BaseContract,
   ContractTransaction,
   CallOverrides,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface AggregatorV3InterfaceInterface extends ethers.utils.Interface {
   functions: {
-    'decimals()': FunctionFragment;
-    'description()': FunctionFragment;
-    'getRoundData(uint80)': FunctionFragment;
-    'latestRoundData()': FunctionFragment;
-    'version()': FunctionFragment;
+    "decimals()": FunctionFragment;
+    "description()": FunctionFragment;
+    "getRoundData(uint80)": FunctionFragment;
+    "latestRoundData()": FunctionFragment;
+    "version()": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: 'decimals', values?: undefined): string;
+  encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'description',
+    functionFragment: "description",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'getRoundData',
+    functionFragment: "getRoundData",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'latestRoundData',
+    functionFragment: "latestRoundData",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: 'version', values?: undefined): string;
+  encodeFunctionData(functionFragment: "version", values?: undefined): string;
 
-  decodeFunctionResult(functionFragment: 'decimals', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'description',
+    functionFragment: "description",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'getRoundData',
+    functionFragment: "getRoundData",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'latestRoundData',
+    functionFragment: "latestRoundData",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'version', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "version", data: BytesLike): Result;
 
   events: {};
 }
@@ -121,7 +121,9 @@ export class AggregatorV3Interface extends BaseContract {
       }
     >;
 
-    latestRoundData(overrides?: CallOverrides): Promise<
+    latestRoundData(
+      overrides?: CallOverrides
+    ): Promise<
       [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
         roundId: BigNumber;
         answer: BigNumber;
@@ -151,7 +153,9 @@ export class AggregatorV3Interface extends BaseContract {
     }
   >;
 
-  latestRoundData(overrides?: CallOverrides): Promise<
+  latestRoundData(
+    overrides?: CallOverrides
+  ): Promise<
     [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
       roundId: BigNumber;
       answer: BigNumber;
@@ -181,7 +185,9 @@ export class AggregatorV3Interface extends BaseContract {
       }
     >;
 
-    latestRoundData(overrides?: CallOverrides): Promise<
+    latestRoundData(
+      overrides?: CallOverrides
+    ): Promise<
       [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
         roundId: BigNumber;
         answer: BigNumber;

@@ -7,8 +7,7 @@ import {
   ORCA__factory,
   PodLeader__factory,
   PodLeader,
-} from '../libs/shared/contracts/src';
-import { time, timeStamp } from 'console';
+} from '../libs/shared/src/contracts/types';
 
 describe('Pod Leader test', function () {
   let accounts: SignerWithAddress[];

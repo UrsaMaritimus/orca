@@ -13,598 +13,598 @@ import {
   ContractTransaction,
   Overrides,
   CallOverrides,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface Bankv2Interface extends ethers.utils.Interface {
   functions: {
-    'DEFAULT_ADMIN_ROLE()': FunctionFragment;
-    'TREASURY_ROLE()': FunctionFragment;
-    'approve(address,uint256)': FunctionFragment;
-    'balanceOf(address)': FunctionFragment;
-    'borrowToken(uint256,uint256)': FunctionFragment;
-    'checkCost(uint256)': FunctionFragment;
-    'checkExtract(uint256)': FunctionFragment;
-    'checkLiquidation(uint256)': FunctionFragment;
-    'closingFee()': FunctionFragment;
-    'createVault()': FunctionFragment;
-    'debtCeiling()': FunctionFragment;
-    'debtRatio()': FunctionFragment;
-    'depositCollateral(uint256,uint256)': FunctionFragment;
-    'destroyVault(uint256)': FunctionFragment;
-    'gainRatio()': FunctionFragment;
-    'gateway()': FunctionFragment;
-    'getApproved(uint256)': FunctionFragment;
-    'getPaid(address)': FunctionFragment;
-    'getPricePeg()': FunctionFragment;
-    'getPriceSource()': FunctionFragment;
-    'getRoleAdmin(bytes32)': FunctionFragment;
-    'grantRole(bytes32,address)': FunctionFragment;
-    'hasRole(bytes32,address)': FunctionFragment;
-    'initialize(uint256,address,string,string,address)': FunctionFragment;
-    'isApprovedForAll(address,address)': FunctionFragment;
-    'liquidateVault(uint256)': FunctionFragment;
-    'minimumCollateralPercentage()': FunctionFragment;
-    'minimumDebt()': FunctionFragment;
-    'mintingPaused()': FunctionFragment;
-    'name()': FunctionFragment;
-    'openingFee()': FunctionFragment;
-    'ownerOf(uint256)': FunctionFragment;
-    'payBackToken(uint256,uint256)': FunctionFragment;
-    'priceSource()': FunctionFragment;
-    'renounceRole(bytes32,address)': FunctionFragment;
-    'revokeRole(bytes32,address)': FunctionFragment;
-    'safeTransferFrom(address,address,uint256)': FunctionFragment;
-    'setApprovalForAll(address,bool)': FunctionFragment;
-    'setClosingFee(uint256)': FunctionFragment;
-    'setDebtCeiling(uint256)': FunctionFragment;
-    'setDebtRatio(uint256)': FunctionFragment;
-    'setGainRatio(uint256)': FunctionFragment;
-    'setGateway(address)': FunctionFragment;
-    'setMinimumCollateralPercentage(uint256)': FunctionFragment;
-    'setMinimumDebt(uint256)': FunctionFragment;
-    'setMintingPaused(bool)': FunctionFragment;
-    'setOpeningFee(uint256)': FunctionFragment;
-    'setPriceSource(address)': FunctionFragment;
-    'setStabilityPool(address)': FunctionFragment;
-    'setTokenPeg(uint256)': FunctionFragment;
-    'setTreasury(uint256)': FunctionFragment;
-    'stabilityPool()': FunctionFragment;
-    'supportsInterface(bytes4)': FunctionFragment;
-    'symbol()': FunctionFragment;
-    'token()': FunctionFragment;
-    'tokenByIndex(uint256)': FunctionFragment;
-    'tokenDebt(address)': FunctionFragment;
-    'tokenOfOwnerByIndex(address,uint256)': FunctionFragment;
-    'tokenPeg()': FunctionFragment;
-    'tokenURI(uint256)': FunctionFragment;
-    'totalDebt()': FunctionFragment;
-    'totalSupply()': FunctionFragment;
-    'transferFrom(address,address,uint256)': FunctionFragment;
-    'transferVault(uint256,address)': FunctionFragment;
-    'treasury()': FunctionFragment;
-    'vaultCollateral(uint256)': FunctionFragment;
-    'vaultCounts()': FunctionFragment;
-    'vaultDebt(uint256)': FunctionFragment;
-    'vaultExists(uint256)': FunctionFragment;
-    'withdrawCollateral(uint256,uint256)': FunctionFragment;
+    "DEFAULT_ADMIN_ROLE()": FunctionFragment;
+    "TREASURY_ROLE()": FunctionFragment;
+    "approve(address,uint256)": FunctionFragment;
+    "balanceOf(address)": FunctionFragment;
+    "borrowToken(uint256,uint256)": FunctionFragment;
+    "checkCost(uint256)": FunctionFragment;
+    "checkExtract(uint256)": FunctionFragment;
+    "checkLiquidation(uint256)": FunctionFragment;
+    "closingFee()": FunctionFragment;
+    "createVault()": FunctionFragment;
+    "debtCeiling()": FunctionFragment;
+    "debtRatio()": FunctionFragment;
+    "depositCollateral(uint256,uint256)": FunctionFragment;
+    "destroyVault(uint256)": FunctionFragment;
+    "gainRatio()": FunctionFragment;
+    "gateway()": FunctionFragment;
+    "getApproved(uint256)": FunctionFragment;
+    "getPaid(address)": FunctionFragment;
+    "getPricePeg()": FunctionFragment;
+    "getPriceSource()": FunctionFragment;
+    "getRoleAdmin(bytes32)": FunctionFragment;
+    "grantRole(bytes32,address)": FunctionFragment;
+    "hasRole(bytes32,address)": FunctionFragment;
+    "initialize(uint256,address,string,string,address)": FunctionFragment;
+    "isApprovedForAll(address,address)": FunctionFragment;
+    "liquidateVault(uint256)": FunctionFragment;
+    "minimumCollateralPercentage()": FunctionFragment;
+    "minimumDebt()": FunctionFragment;
+    "mintingPaused()": FunctionFragment;
+    "name()": FunctionFragment;
+    "openingFee()": FunctionFragment;
+    "ownerOf(uint256)": FunctionFragment;
+    "payBackToken(uint256,uint256)": FunctionFragment;
+    "priceSource()": FunctionFragment;
+    "renounceRole(bytes32,address)": FunctionFragment;
+    "revokeRole(bytes32,address)": FunctionFragment;
+    "safeTransferFrom(address,address,uint256)": FunctionFragment;
+    "setApprovalForAll(address,bool)": FunctionFragment;
+    "setClosingFee(uint256)": FunctionFragment;
+    "setDebtCeiling(uint256)": FunctionFragment;
+    "setDebtRatio(uint256)": FunctionFragment;
+    "setGainRatio(uint256)": FunctionFragment;
+    "setGateway(address)": FunctionFragment;
+    "setMinimumCollateralPercentage(uint256)": FunctionFragment;
+    "setMinimumDebt(uint256)": FunctionFragment;
+    "setMintingPaused(bool)": FunctionFragment;
+    "setOpeningFee(uint256)": FunctionFragment;
+    "setPriceSource(address)": FunctionFragment;
+    "setStabilityPool(address)": FunctionFragment;
+    "setTokenPeg(uint256)": FunctionFragment;
+    "setTreasury(uint256)": FunctionFragment;
+    "stabilityPool()": FunctionFragment;
+    "supportsInterface(bytes4)": FunctionFragment;
+    "symbol()": FunctionFragment;
+    "token()": FunctionFragment;
+    "tokenByIndex(uint256)": FunctionFragment;
+    "tokenDebt(address)": FunctionFragment;
+    "tokenOfOwnerByIndex(address,uint256)": FunctionFragment;
+    "tokenPeg()": FunctionFragment;
+    "tokenURI(uint256)": FunctionFragment;
+    "totalDebt()": FunctionFragment;
+    "totalSupply()": FunctionFragment;
+    "transferFrom(address,address,uint256)": FunctionFragment;
+    "transferVault(uint256,address)": FunctionFragment;
+    "treasury()": FunctionFragment;
+    "vaultCollateral(uint256)": FunctionFragment;
+    "vaultCounts()": FunctionFragment;
+    "vaultDebt(uint256)": FunctionFragment;
+    "vaultExists(uint256)": FunctionFragment;
+    "withdrawCollateral(uint256,uint256)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: 'DEFAULT_ADMIN_ROLE',
+    functionFragment: "DEFAULT_ADMIN_ROLE",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'TREASURY_ROLE',
+    functionFragment: "TREASURY_ROLE",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'approve',
+    functionFragment: "approve",
     values: [string, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'balanceOf', values: [string]): string;
+  encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
   encodeFunctionData(
-    functionFragment: 'borrowToken',
+    functionFragment: "borrowToken",
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'checkCost',
+    functionFragment: "checkCost",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'checkExtract',
+    functionFragment: "checkExtract",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'checkLiquidation',
+    functionFragment: "checkLiquidation",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'closingFee',
+    functionFragment: "closingFee",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'createVault',
+    functionFragment: "createVault",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'debtCeiling',
+    functionFragment: "debtCeiling",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: 'debtRatio', values?: undefined): string;
+  encodeFunctionData(functionFragment: "debtRatio", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'depositCollateral',
+    functionFragment: "depositCollateral",
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'destroyVault',
+    functionFragment: "destroyVault",
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'gainRatio', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'gateway', values?: undefined): string;
+  encodeFunctionData(functionFragment: "gainRatio", values?: undefined): string;
+  encodeFunctionData(functionFragment: "gateway", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'getApproved',
+    functionFragment: "getApproved",
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'getPaid', values: [string]): string;
+  encodeFunctionData(functionFragment: "getPaid", values: [string]): string;
   encodeFunctionData(
-    functionFragment: 'getPricePeg',
+    functionFragment: "getPricePeg",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'getPriceSource',
+    functionFragment: "getPriceSource",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'getRoleAdmin',
+    functionFragment: "getRoleAdmin",
     values: [BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: 'grantRole',
+    functionFragment: "grantRole",
     values: [BytesLike, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'hasRole',
+    functionFragment: "hasRole",
     values: [BytesLike, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'initialize',
+    functionFragment: "initialize",
     values: [BigNumberish, string, string, string, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'isApprovedForAll',
+    functionFragment: "isApprovedForAll",
     values: [string, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'liquidateVault',
+    functionFragment: "liquidateVault",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'minimumCollateralPercentage',
+    functionFragment: "minimumCollateralPercentage",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'minimumDebt',
+    functionFragment: "minimumDebt",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'mintingPaused',
+    functionFragment: "mintingPaused",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: 'name', values?: undefined): string;
+  encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'openingFee',
+    functionFragment: "openingFee",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'ownerOf',
+    functionFragment: "ownerOf",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'payBackToken',
+    functionFragment: "payBackToken",
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'priceSource',
+    functionFragment: "priceSource",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'renounceRole',
+    functionFragment: "renounceRole",
     values: [BytesLike, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'revokeRole',
+    functionFragment: "revokeRole",
     values: [BytesLike, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'safeTransferFrom',
+    functionFragment: "safeTransferFrom",
     values: [string, string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setApprovalForAll',
+    functionFragment: "setApprovalForAll",
     values: [string, boolean]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setClosingFee',
+    functionFragment: "setClosingFee",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setDebtCeiling',
+    functionFragment: "setDebtCeiling",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setDebtRatio',
+    functionFragment: "setDebtRatio",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setGainRatio',
+    functionFragment: "setGainRatio",
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'setGateway', values: [string]): string;
+  encodeFunctionData(functionFragment: "setGateway", values: [string]): string;
   encodeFunctionData(
-    functionFragment: 'setMinimumCollateralPercentage',
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'setMinimumDebt',
+    functionFragment: "setMinimumCollateralPercentage",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setMintingPaused',
+    functionFragment: "setMinimumDebt",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setMintingPaused",
     values: [boolean]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setOpeningFee',
+    functionFragment: "setOpeningFee",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setPriceSource',
+    functionFragment: "setPriceSource",
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setStabilityPool',
+    functionFragment: "setStabilityPool",
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setTokenPeg',
+    functionFragment: "setTokenPeg",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setTreasury',
+    functionFragment: "setTreasury",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'stabilityPool',
+    functionFragment: "stabilityPool",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'supportsInterface',
+    functionFragment: "supportsInterface",
     values: [BytesLike]
   ): string;
-  encodeFunctionData(functionFragment: 'symbol', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'token', values?: undefined): string;
+  encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
+  encodeFunctionData(functionFragment: "token", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'tokenByIndex',
+    functionFragment: "tokenByIndex",
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'tokenDebt', values: [string]): string;
+  encodeFunctionData(functionFragment: "tokenDebt", values: [string]): string;
   encodeFunctionData(
-    functionFragment: 'tokenOfOwnerByIndex',
+    functionFragment: "tokenOfOwnerByIndex",
     values: [string, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'tokenPeg', values?: undefined): string;
+  encodeFunctionData(functionFragment: "tokenPeg", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'tokenURI',
+    functionFragment: "tokenURI",
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'totalDebt', values?: undefined): string;
+  encodeFunctionData(functionFragment: "totalDebt", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'totalSupply',
+    functionFragment: "totalSupply",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'transferFrom',
+    functionFragment: "transferFrom",
     values: [string, string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'transferVault',
+    functionFragment: "transferVault",
     values: [BigNumberish, string]
   ): string;
-  encodeFunctionData(functionFragment: 'treasury', values?: undefined): string;
+  encodeFunctionData(functionFragment: "treasury", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'vaultCollateral',
+    functionFragment: "vaultCollateral",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'vaultCounts',
+    functionFragment: "vaultCounts",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'vaultDebt',
+    functionFragment: "vaultDebt",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'vaultExists',
+    functionFragment: "vaultExists",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'withdrawCollateral',
+    functionFragment: "withdrawCollateral",
     values: [BigNumberish, BigNumberish]
   ): string;
 
   decodeFunctionResult(
-    functionFragment: 'DEFAULT_ADMIN_ROLE',
+    functionFragment: "DEFAULT_ADMIN_ROLE",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'TREASURY_ROLE',
+    functionFragment: "TREASURY_ROLE",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'approve', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'balanceOf', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'borrowToken',
+    functionFragment: "borrowToken",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'checkCost', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "checkCost", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'checkExtract',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'checkLiquidation',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'closingFee', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'createVault',
+    functionFragment: "checkExtract",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'debtCeiling',
+    functionFragment: "checkLiquidation",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'debtRatio', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "closingFee", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'depositCollateral',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'destroyVault',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'gainRatio', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'gateway', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'getApproved',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'getPaid', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'getPricePeg',
+    functionFragment: "createVault",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'getPriceSource',
+    functionFragment: "debtCeiling",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "debtRatio", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "depositCollateral",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'getRoleAdmin',
+    functionFragment: "destroyVault",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'grantRole', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'hasRole', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'initialize', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "gainRatio", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "gateway", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'isApprovedForAll',
+    functionFragment: "getApproved",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getPaid", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'liquidateVault',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'minimumCollateralPercentage',
+    functionFragment: "getPricePeg",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'minimumDebt',
+    functionFragment: "getPriceSource",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'mintingPaused',
+    functionFragment: "getRoleAdmin",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'name', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'openingFee', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'ownerOf', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'payBackToken',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'priceSource',
+    functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'renounceRole',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'revokeRole', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'safeTransferFrom',
+    functionFragment: "liquidateVault",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setApprovalForAll',
+    functionFragment: "minimumCollateralPercentage",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setClosingFee',
+    functionFragment: "minimumDebt",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setDebtCeiling',
+    functionFragment: "mintingPaused",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "openingFee", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "payBackToken",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setDebtRatio',
+    functionFragment: "priceSource",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setGainRatio',
+    functionFragment: "renounceRole",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'setGateway', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'setMinimumCollateralPercentage',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'setMinimumDebt',
+    functionFragment: "safeTransferFrom",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setMintingPaused',
+    functionFragment: "setApprovalForAll",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setOpeningFee',
+    functionFragment: "setClosingFee",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setPriceSource',
+    functionFragment: "setDebtCeiling",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setStabilityPool',
+    functionFragment: "setDebtRatio",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setTokenPeg',
+    functionFragment: "setGainRatio",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "setGateway", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setMinimumCollateralPercentage",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setTreasury',
+    functionFragment: "setMinimumDebt",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'stabilityPool',
+    functionFragment: "setMintingPaused",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'supportsInterface',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'symbol', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'token', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'tokenByIndex',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'tokenDebt', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'tokenOfOwnerByIndex',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'tokenPeg', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'tokenURI', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'totalDebt', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'totalSupply',
+    functionFragment: "setOpeningFee",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'transferFrom',
+    functionFragment: "setPriceSource",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'transferVault',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'treasury', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'vaultCollateral',
+    functionFragment: "setStabilityPool",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'vaultCounts',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'vaultDebt', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'vaultExists',
+    functionFragment: "setTokenPeg",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'withdrawCollateral',
+    functionFragment: "setTreasury",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "stabilityPool",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "supportsInterface",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "token", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "tokenByIndex",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "tokenDebt", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "tokenOfOwnerByIndex",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "tokenPeg", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "tokenURI", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "totalDebt", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "totalSupply",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "transferFrom",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "transferVault",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "treasury", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "vaultCollateral",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "vaultCounts",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "vaultDebt", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "vaultExists",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "withdrawCollateral",
     data: BytesLike
   ): Result;
 
   events: {
-    'Approval(address,address,uint256)': EventFragment;
-    'ApprovalForAll(address,address,bool)': EventFragment;
-    'BankPaused(bool)': EventFragment;
-    'BorrowToken(uint256,uint256)': EventFragment;
-    'ChangeDebtRatio(uint256)': EventFragment;
-    'ChangeGainRatio(uint256)': EventFragment;
-    'CreateVault(uint256,address)': EventFragment;
-    'DepositCollateral(uint256,uint256)': EventFragment;
-    'DestroyVault(uint256)': EventFragment;
-    'GetPaid(uint256,address)': EventFragment;
-    'LiquidateVault(uint256,address,address,uint256,uint256,uint256)': EventFragment;
-    'NewClosingFee(uint256)': EventFragment;
-    'NewDebtCeiling(uint256)': EventFragment;
-    'NewGateway(address)': EventFragment;
-    'NewMinimumCollateralPercentage(uint256)': EventFragment;
-    'NewMinimumDebt(uint256)': EventFragment;
-    'NewOpeningFee(uint256)': EventFragment;
-    'NewPeg(uint256)': EventFragment;
-    'NewPriceSource(address)': EventFragment;
-    'NewStabilityPools(address)': EventFragment;
-    'NewTreasury(uint256)': EventFragment;
-    'PayBackToken(uint256,uint256,uint256)': EventFragment;
-    'RoleAdminChanged(bytes32,bytes32,bytes32)': EventFragment;
-    'RoleGranted(bytes32,address,address)': EventFragment;
-    'RoleRevoked(bytes32,address,address)': EventFragment;
-    'Transfer(address,address,uint256)': EventFragment;
-    'TransferVault(uint256,address,address)': EventFragment;
-    'WithdrawCollateral(uint256,uint256)': EventFragment;
+    "Approval(address,address,uint256)": EventFragment;
+    "ApprovalForAll(address,address,bool)": EventFragment;
+    "BankPaused(bool)": EventFragment;
+    "BorrowToken(uint256,uint256)": EventFragment;
+    "ChangeDebtRatio(uint256)": EventFragment;
+    "ChangeGainRatio(uint256)": EventFragment;
+    "CreateVault(uint256,address)": EventFragment;
+    "DepositCollateral(uint256,uint256)": EventFragment;
+    "DestroyVault(uint256)": EventFragment;
+    "GetPaid(uint256,address)": EventFragment;
+    "LiquidateVault(uint256,address,address,uint256,uint256,uint256)": EventFragment;
+    "NewClosingFee(uint256)": EventFragment;
+    "NewDebtCeiling(uint256)": EventFragment;
+    "NewGateway(address)": EventFragment;
+    "NewMinimumCollateralPercentage(uint256)": EventFragment;
+    "NewMinimumDebt(uint256)": EventFragment;
+    "NewOpeningFee(uint256)": EventFragment;
+    "NewPeg(uint256)": EventFragment;
+    "NewPriceSource(address)": EventFragment;
+    "NewStabilityPools(address)": EventFragment;
+    "NewTreasury(uint256)": EventFragment;
+    "PayBackToken(uint256,uint256,uint256)": EventFragment;
+    "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
+    "RoleGranted(bytes32,address,address)": EventFragment;
+    "RoleRevoked(bytes32,address,address)": EventFragment;
+    "Transfer(address,address,uint256)": EventFragment;
+    "TransferVault(uint256,address,address)": EventFragment;
+    "WithdrawCollateral(uint256,uint256)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: 'Approval'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'ApprovalForAll'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'BankPaused'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'BorrowToken'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'ChangeDebtRatio'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'ChangeGainRatio'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'CreateVault'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'DepositCollateral'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'DestroyVault'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'GetPaid'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'LiquidateVault'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'NewClosingFee'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'NewDebtCeiling'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'NewGateway'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "BankPaused"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "BorrowToken"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ChangeDebtRatio"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ChangeGainRatio"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "CreateVault"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "DepositCollateral"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "DestroyVault"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "GetPaid"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "LiquidateVault"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewClosingFee"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewDebtCeiling"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewGateway"): EventFragment;
   getEvent(
-    nameOrSignatureOrTopic: 'NewMinimumCollateralPercentage'
+    nameOrSignatureOrTopic: "NewMinimumCollateralPercentage"
   ): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'NewMinimumDebt'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'NewOpeningFee'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'NewPeg'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'NewPriceSource'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'NewStabilityPools'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'NewTreasury'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'PayBackToken'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'RoleAdminChanged'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'RoleGranted'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'RoleRevoked'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'Transfer'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'TransferVault'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'WithdrawCollateral'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewMinimumDebt"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewOpeningFee"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewPeg"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewPriceSource"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewStabilityPools"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewTreasury"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "PayBackToken"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "TransferVault"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "WithdrawCollateral"): EventFragment;
 }
 
 export class Bankv2 extends BaseContract {
@@ -794,14 +794,14 @@ export class Bankv2 extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    'safeTransferFrom(address,address,uint256)'(
+    "safeTransferFrom(address,address,uint256)"(
       from: string,
       to: string,
       tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    'safeTransferFrom(address,address,uint256,bytes)'(
+    "safeTransferFrom(address,address,uint256,bytes)"(
       from: string,
       to: string,
       tokenId: BigNumberish,
@@ -1092,14 +1092,14 @@ export class Bankv2 extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  'safeTransferFrom(address,address,uint256)'(
+  "safeTransferFrom(address,address,uint256)"(
     from: string,
     to: string,
     tokenId: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  'safeTransferFrom(address,address,uint256,bytes)'(
+  "safeTransferFrom(address,address,uint256,bytes)"(
     from: string,
     to: string,
     tokenId: BigNumberish,
@@ -1379,14 +1379,14 @@ export class Bankv2 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    'safeTransferFrom(address,address,uint256)'(
+    "safeTransferFrom(address,address,uint256)"(
       from: string,
       to: string,
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    'safeTransferFrom(address,address,uint256,bytes)'(
+    "safeTransferFrom(address,address,uint256,bytes)"(
       from: string,
       to: string,
       tokenId: BigNumberish,
@@ -1868,14 +1868,14 @@ export class Bankv2 extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    'safeTransferFrom(address,address,uint256)'(
+    "safeTransferFrom(address,address,uint256)"(
       from: string,
       to: string,
       tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    'safeTransferFrom(address,address,uint256,bytes)'(
+    "safeTransferFrom(address,address,uint256,bytes)"(
       from: string,
       to: string,
       tokenId: BigNumberish,
@@ -2180,14 +2180,14 @@ export class Bankv2 extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    'safeTransferFrom(address,address,uint256)'(
+    "safeTransferFrom(address,address,uint256)"(
       from: string,
       to: string,
       tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    'safeTransferFrom(address,address,uint256,bytes)'(
+    "safeTransferFrom(address,address,uint256,bytes)"(
       from: string,
       to: string,
       tokenId: BigNumberish,

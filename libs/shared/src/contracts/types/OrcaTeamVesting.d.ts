@@ -13,109 +13,109 @@ import {
   ContractTransaction,
   Overrides,
   CallOverrides,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface OrcaTeamVestingInterface extends ethers.utils.Interface {
   functions: {
-    'duration()': FunctionFragment;
-    'owner()': FunctionFragment;
-    'payee(uint256)': FunctionFragment;
-    'receiveToken(uint256)': FunctionFragment;
-    'release(address)': FunctionFragment;
-    'released(address)': FunctionFragment;
-    'renounceOwnership()': FunctionFragment;
-    'revoke()': FunctionFragment;
-    'shares(address)': FunctionFragment;
-    'start()': FunctionFragment;
-    'totalReleased()': FunctionFragment;
-    'totalShares()': FunctionFragment;
-    'transferOwnership(address)': FunctionFragment;
-    'vestedAmount(address,uint256)': FunctionFragment;
+    "duration()": FunctionFragment;
+    "owner()": FunctionFragment;
+    "payee(uint256)": FunctionFragment;
+    "receiveToken(uint256)": FunctionFragment;
+    "release(address)": FunctionFragment;
+    "released(address)": FunctionFragment;
+    "renounceOwnership()": FunctionFragment;
+    "revoke()": FunctionFragment;
+    "shares(address)": FunctionFragment;
+    "start()": FunctionFragment;
+    "totalReleased()": FunctionFragment;
+    "totalShares()": FunctionFragment;
+    "transferOwnership(address)": FunctionFragment;
+    "vestedAmount(address,uint256)": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: 'duration', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'owner', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'payee', values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "duration", values?: undefined): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(functionFragment: "payee", values: [BigNumberish]): string;
   encodeFunctionData(
-    functionFragment: 'receiveToken',
+    functionFragment: "receiveToken",
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'release', values: [string]): string;
-  encodeFunctionData(functionFragment: 'released', values: [string]): string;
+  encodeFunctionData(functionFragment: "release", values: [string]): string;
+  encodeFunctionData(functionFragment: "released", values: [string]): string;
   encodeFunctionData(
-    functionFragment: 'renounceOwnership',
+    functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: 'revoke', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'shares', values: [string]): string;
-  encodeFunctionData(functionFragment: 'start', values?: undefined): string;
+  encodeFunctionData(functionFragment: "revoke", values?: undefined): string;
+  encodeFunctionData(functionFragment: "shares", values: [string]): string;
+  encodeFunctionData(functionFragment: "start", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'totalReleased',
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'totalShares',
+    functionFragment: "totalReleased",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'transferOwnership',
+    functionFragment: "totalShares",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "transferOwnership",
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'vestedAmount',
+    functionFragment: "vestedAmount",
     values: [string, BigNumberish]
   ): string;
 
-  decodeFunctionResult(functionFragment: 'duration', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'payee', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "duration", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "payee", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'receiveToken',
+    functionFragment: "receiveToken",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'release', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'released', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "release", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "released", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'renounceOwnership',
+    functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'revoke', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'shares', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'start', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "revoke", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "shares", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "start", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'totalReleased',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'totalShares',
+    functionFragment: "totalReleased",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'transferOwnership',
+    functionFragment: "totalShares",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'vestedAmount',
+    functionFragment: "transferOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "vestedAmount",
     data: BytesLike
   ): Result;
 
   events: {
-    'OwnershipTransferred(address,address)': EventFragment;
-    'PayeeAdded(address,uint256)': EventFragment;
-    'PaymentReceived(address,uint256)': EventFragment;
-    'PaymentReleased(address,uint256)': EventFragment;
-    'Revoked()': EventFragment;
+    "OwnershipTransferred(address,address)": EventFragment;
+    "PayeeAdded(address,uint256)": EventFragment;
+    "PaymentReceived(address,uint256)": EventFragment;
+    "PaymentReleased(address,uint256)": EventFragment;
+    "Revoked()": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: 'OwnershipTransferred'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'PayeeAdded'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'PaymentReceived'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'PaymentReleased'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'Revoked'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "PayeeAdded"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "PaymentReceived"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "PaymentReleased"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Revoked"): EventFragment;
 }
 
 export class OrcaTeamVesting extends BaseContract {

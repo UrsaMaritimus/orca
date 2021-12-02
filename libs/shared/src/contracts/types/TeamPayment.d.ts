@@ -13,86 +13,86 @@ import {
   ContractTransaction,
   Overrides,
   CallOverrides,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface TeamPaymentInterface extends ethers.utils.Interface {
   functions: {
-    'addPayee(address,uint256)': FunctionFragment;
-    'owner()': FunctionFragment;
-    'payee(uint256)': FunctionFragment;
-    'release(address)': FunctionFragment;
-    'released(address)': FunctionFragment;
-    'renounceOwnership()': FunctionFragment;
-    'shares(address)': FunctionFragment;
-    'totalReleased()': FunctionFragment;
-    'totalShares()': FunctionFragment;
-    'transferOwnership(address)': FunctionFragment;
+    "addPayee(address,uint256)": FunctionFragment;
+    "owner()": FunctionFragment;
+    "payee(uint256)": FunctionFragment;
+    "release(address)": FunctionFragment;
+    "released(address)": FunctionFragment;
+    "renounceOwnership()": FunctionFragment;
+    "shares(address)": FunctionFragment;
+    "totalReleased()": FunctionFragment;
+    "totalShares()": FunctionFragment;
+    "transferOwnership(address)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: 'addPayee',
+    functionFragment: "addPayee",
     values: [string, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'owner', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'payee', values: [BigNumberish]): string;
-  encodeFunctionData(functionFragment: 'release', values: [string]): string;
-  encodeFunctionData(functionFragment: 'released', values: [string]): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(functionFragment: "payee", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "release", values: [string]): string;
+  encodeFunctionData(functionFragment: "released", values: [string]): string;
   encodeFunctionData(
-    functionFragment: 'renounceOwnership',
+    functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: 'shares', values: [string]): string;
+  encodeFunctionData(functionFragment: "shares", values: [string]): string;
   encodeFunctionData(
-    functionFragment: 'totalReleased',
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'totalShares',
+    functionFragment: "totalReleased",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'transferOwnership',
+    functionFragment: "totalShares",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "transferOwnership",
     values: [string]
   ): string;
 
-  decodeFunctionResult(functionFragment: 'addPayee', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'payee', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'release', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'released', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "addPayee", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "payee", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "release", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "released", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'renounceOwnership',
+    functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'shares', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "shares", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'totalReleased',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'totalShares',
+    functionFragment: "totalReleased",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'transferOwnership',
+    functionFragment: "totalShares",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
 
   events: {
-    'OwnershipTransferred(address,address)': EventFragment;
-    'PayeeAdded(address,uint256)': EventFragment;
-    'PaymentReceived(address,uint256)': EventFragment;
-    'PaymentReleased(address,uint256)': EventFragment;
+    "OwnershipTransferred(address,address)": EventFragment;
+    "PayeeAdded(address,uint256)": EventFragment;
+    "PaymentReceived(address,uint256)": EventFragment;
+    "PaymentReleased(address,uint256)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: 'OwnershipTransferred'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'PayeeAdded'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'PaymentReceived'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'PaymentReleased'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "PayeeAdded"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "PaymentReceived"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "PaymentReleased"): EventFragment;
 }
 
 export class TeamPayment extends BaseContract {

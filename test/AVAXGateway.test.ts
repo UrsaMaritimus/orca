@@ -17,7 +17,7 @@ import {
   Bankv2__factory,
   AVAIv2,
   AVAIv2__factory,
-} from '../libs/shared/contracts/src';
+} from '../libs/shared/src/contracts/types';
 
 describe('Avax Vault Test with Gateway', function () {
   let accounts: SignerWithAddress[];

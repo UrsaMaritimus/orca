@@ -2,102 +2,102 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from 'ethers';
-import { Provider } from '@ethersproject/providers';
-import type { IWAVAX, IWAVAXInterface } from '../IWAVAX';
+import { Contract, Signer, utils } from "ethers";
+import { Provider } from "@ethersproject/providers";
+import type { IWAVAX, IWAVAXInterface } from "../IWAVAX";
 
 const _abi = [
   {
     inputs: [
       {
-        internalType: 'address',
-        name: 'guy',
-        type: 'address',
+        internalType: "address",
+        name: "guy",
+        type: "address",
       },
       {
-        internalType: 'uint256',
-        name: 'wad',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "wad",
+        type: "uint256",
       },
     ],
-    name: 'approve',
+    name: "approve",
     outputs: [
       {
-        internalType: 'bool',
-        name: '',
-        type: 'bool',
+        internalType: "bool",
+        name: "",
+        type: "bool",
       },
     ],
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
     inputs: [
       {
-        internalType: 'address',
-        name: 'account',
-        type: 'address',
+        internalType: "address",
+        name: "account",
+        type: "address",
       },
     ],
-    name: 'balanceOf',
+    name: "balanceOf",
     outputs: [
       {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
-    stateMutability: 'view',
-    type: 'function',
+    stateMutability: "view",
+    type: "function",
   },
   {
     inputs: [],
-    name: 'deposit',
+    name: "deposit",
     outputs: [],
-    stateMutability: 'payable',
-    type: 'function',
+    stateMutability: "payable",
+    type: "function",
   },
   {
     inputs: [
       {
-        internalType: 'address',
-        name: 'src',
-        type: 'address',
+        internalType: "address",
+        name: "src",
+        type: "address",
       },
       {
-        internalType: 'address',
-        name: 'dst',
-        type: 'address',
+        internalType: "address",
+        name: "dst",
+        type: "address",
       },
       {
-        internalType: 'uint256',
-        name: 'wad',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "wad",
+        type: "uint256",
       },
     ],
-    name: 'transferFrom',
+    name: "transferFrom",
     outputs: [
       {
-        internalType: 'bool',
-        name: '',
-        type: 'bool',
+        internalType: "bool",
+        name: "",
+        type: "bool",
       },
     ],
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
     inputs: [
       {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
-    name: 'withdraw',
+    name: "withdraw",
     outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: "nonpayable",
+    type: "function",
   },
 ];
 

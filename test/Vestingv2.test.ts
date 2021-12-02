@@ -9,7 +9,7 @@ import {
   VestingWallet__factory,
   TeamPayment,
   TeamPayment__factory,
-} from '../libs/shared/contracts/src';
+} from '../libs/shared/src/contracts/types';
 
 describe('Orca Vesting v2 test', function () {
   let accounts: SignerWithAddress[];

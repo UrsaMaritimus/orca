@@ -3,13 +3,9 @@ import { expect } from 'chai';
 import { ethers } from 'hardhat';
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 import {
-  ERC20__factory,
-  OracleBridge,
   OracleBridge__factory,
   AggregatorV3Interface__factory,
-  YakAvaxBTCOracle__factory,
-  YakAvaxBTCOracle,
-} from '../libs/shared/contracts/src';
+} from '../libs/shared/src/contracts/types';
 
 const USDCPriceSource = '0xF096872672F44d6EBA71458D74fe67F9a77a23B9';
 const usdc = '0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664';
@@ -20,7 +16,6 @@ const wavax = '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7';
 const ETHPriceSource = '0x976B3D034E162d8bD72D6b9C989d545b839003b0';
 const eth = '0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB';
 
-const joeStratWBTC = '0x4fD1CF1E437dbFad5dFfE1DD5e16bF96A24C382c';
 const joeStratUSDC = '0xeeD4385af3C876E51CA3AB76AD2cFCa1422AC747';
 const joeStratAVAX = '0xf6cCf601bd024612aAF85440153c2df0524E4607';
 const joeStratETH = '0xe28Ad9Fa07fDA82abab2E0C86c64A19D452b160E';

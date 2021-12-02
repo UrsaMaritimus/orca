@@ -12,74 +12,74 @@ import {
   BaseContract,
   ContractTransaction,
   CallOverrides,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface YakLinkBenqiOracleInterface extends ethers.utils.Interface {
   functions: {
-    'decimals()': FunctionFragment;
-    'description()': FunctionFragment;
-    'getRoundData(uint80)': FunctionFragment;
-    'latestRoundData()': FunctionFragment;
-    'priceSource()': FunctionFragment;
-    'shareToken()': FunctionFragment;
-    'underlyingToken()': FunctionFragment;
-    'version()': FunctionFragment;
+    "decimals()": FunctionFragment;
+    "description()": FunctionFragment;
+    "getRoundData(uint80)": FunctionFragment;
+    "latestRoundData()": FunctionFragment;
+    "priceSource()": FunctionFragment;
+    "shareToken()": FunctionFragment;
+    "underlyingToken()": FunctionFragment;
+    "version()": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: 'decimals', values?: undefined): string;
+  encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'description',
+    functionFragment: "description",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'getRoundData',
+    functionFragment: "getRoundData",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'latestRoundData',
+    functionFragment: "latestRoundData",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'priceSource',
+    functionFragment: "priceSource",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'shareToken',
+    functionFragment: "shareToken",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'underlyingToken',
+    functionFragment: "underlyingToken",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: 'version', values?: undefined): string;
+  encodeFunctionData(functionFragment: "version", values?: undefined): string;
 
-  decodeFunctionResult(functionFragment: 'decimals', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'description',
+    functionFragment: "description",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'getRoundData',
+    functionFragment: "getRoundData",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'latestRoundData',
+    functionFragment: "latestRoundData",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'priceSource',
+    functionFragment: "priceSource",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'shareToken', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "shareToken", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'underlyingToken',
+    functionFragment: "underlyingToken",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'version', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "version", data: BytesLike): Result;
 
   events: {};
 }

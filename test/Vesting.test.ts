@@ -7,7 +7,7 @@ import {
   ORCA__factory,
   OrcaTeamVesting__factory,
   OrcaTeamVesting,
-} from '../libs/shared/contracts/src';
+} from '../libs/shared/src/contracts/types';
 
 describe('Orca Vesting test', function () {
   let accounts: SignerWithAddress[];

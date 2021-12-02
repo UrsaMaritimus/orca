@@ -13,306 +13,306 @@ import {
   ContractTransaction,
   Overrides,
   CallOverrides,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface IBankInterface extends ethers.utils.Interface {
   functions: {
-    'approve(address,uint256)': FunctionFragment;
-    'balanceOf(address)': FunctionFragment;
-    'changeTreasury(address)': FunctionFragment;
-    'depositCollateral(uint256,uint256)': FunctionFragment;
-    'destroyVault(uint256)': FunctionFragment;
-    'getApproved(uint256)': FunctionFragment;
-    'getPaid(address)': FunctionFragment;
-    'initialize(uint256,address,string,string,address,address)': FunctionFragment;
-    'isApprovedForAll(address,address)': FunctionFragment;
-    'ownerOf(uint256)': FunctionFragment;
-    'safeTransferFrom(address,address,uint256)': FunctionFragment;
-    'setApprovalForAll(address,bool)': FunctionFragment;
-    'setClosingFee(uint256)': FunctionFragment;
-    'setDebtCeiling(uint256)': FunctionFragment;
-    'setDebtRatio(uint256)': FunctionFragment;
-    'setGainRatio(uint256)': FunctionFragment;
-    'setGateway(address)': FunctionFragment;
-    'setMinimumCollateralPercentage(uint256)': FunctionFragment;
-    'setMinimumDebt(uint256)': FunctionFragment;
-    'setMintingPaused(bool)': FunctionFragment;
-    'setOpeningFee(uint256)': FunctionFragment;
-    'setPriceSource(address)': FunctionFragment;
-    'setStabilityPool(address)': FunctionFragment;
-    'setTokenPeg(uint256)': FunctionFragment;
-    'setTreasury(uint256)': FunctionFragment;
-    'supportsInterface(bytes4)': FunctionFragment;
-    'tokenByIndex(uint256)': FunctionFragment;
-    'tokenOfOwnerByIndex(address,uint256)': FunctionFragment;
-    'totalSupply()': FunctionFragment;
-    'transferFrom(address,address,uint256)': FunctionFragment;
-    'transferVault(uint256,address)': FunctionFragment;
-    'vaultCollateral(uint256)': FunctionFragment;
-    'vaultExists(uint256)': FunctionFragment;
-    'withdrawCollateral(uint256,uint256)': FunctionFragment;
+    "approve(address,uint256)": FunctionFragment;
+    "balanceOf(address)": FunctionFragment;
+    "changeTreasury(address)": FunctionFragment;
+    "depositCollateral(uint256,uint256)": FunctionFragment;
+    "destroyVault(uint256)": FunctionFragment;
+    "getApproved(uint256)": FunctionFragment;
+    "getPaid(address)": FunctionFragment;
+    "initialize(uint256,address,string,string,address,address)": FunctionFragment;
+    "isApprovedForAll(address,address)": FunctionFragment;
+    "ownerOf(uint256)": FunctionFragment;
+    "safeTransferFrom(address,address,uint256)": FunctionFragment;
+    "setApprovalForAll(address,bool)": FunctionFragment;
+    "setClosingFee(uint256)": FunctionFragment;
+    "setDebtCeiling(uint256)": FunctionFragment;
+    "setDebtRatio(uint256)": FunctionFragment;
+    "setGainRatio(uint256)": FunctionFragment;
+    "setGateway(address)": FunctionFragment;
+    "setMinimumCollateralPercentage(uint256)": FunctionFragment;
+    "setMinimumDebt(uint256)": FunctionFragment;
+    "setMintingPaused(bool)": FunctionFragment;
+    "setOpeningFee(uint256)": FunctionFragment;
+    "setPriceSource(address)": FunctionFragment;
+    "setStabilityPool(address)": FunctionFragment;
+    "setTokenPeg(uint256)": FunctionFragment;
+    "setTreasury(uint256)": FunctionFragment;
+    "supportsInterface(bytes4)": FunctionFragment;
+    "tokenByIndex(uint256)": FunctionFragment;
+    "tokenOfOwnerByIndex(address,uint256)": FunctionFragment;
+    "totalSupply()": FunctionFragment;
+    "transferFrom(address,address,uint256)": FunctionFragment;
+    "transferVault(uint256,address)": FunctionFragment;
+    "vaultCollateral(uint256)": FunctionFragment;
+    "vaultExists(uint256)": FunctionFragment;
+    "withdrawCollateral(uint256,uint256)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: 'approve',
+    functionFragment: "approve",
     values: [string, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'balanceOf', values: [string]): string;
+  encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
   encodeFunctionData(
-    functionFragment: 'changeTreasury',
+    functionFragment: "changeTreasury",
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'depositCollateral',
+    functionFragment: "depositCollateral",
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'destroyVault',
+    functionFragment: "destroyVault",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'getApproved',
+    functionFragment: "getApproved",
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'getPaid', values: [string]): string;
+  encodeFunctionData(functionFragment: "getPaid", values: [string]): string;
   encodeFunctionData(
-    functionFragment: 'initialize',
+    functionFragment: "initialize",
     values: [BigNumberish, string, string, string, string, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'isApprovedForAll',
+    functionFragment: "isApprovedForAll",
     values: [string, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'ownerOf',
+    functionFragment: "ownerOf",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'safeTransferFrom',
+    functionFragment: "safeTransferFrom",
     values: [string, string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setApprovalForAll',
+    functionFragment: "setApprovalForAll",
     values: [string, boolean]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setClosingFee',
+    functionFragment: "setClosingFee",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setDebtCeiling',
+    functionFragment: "setDebtCeiling",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setDebtRatio',
+    functionFragment: "setDebtRatio",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setGainRatio',
+    functionFragment: "setGainRatio",
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'setGateway', values: [string]): string;
+  encodeFunctionData(functionFragment: "setGateway", values: [string]): string;
   encodeFunctionData(
-    functionFragment: 'setMinimumCollateralPercentage',
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: 'setMinimumDebt',
+    functionFragment: "setMinimumCollateralPercentage",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setMintingPaused',
+    functionFragment: "setMinimumDebt",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setMintingPaused",
     values: [boolean]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setOpeningFee',
+    functionFragment: "setOpeningFee",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setPriceSource',
+    functionFragment: "setPriceSource",
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setStabilityPool',
+    functionFragment: "setStabilityPool",
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setTokenPeg',
+    functionFragment: "setTokenPeg",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setTreasury',
+    functionFragment: "setTreasury",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'supportsInterface',
+    functionFragment: "supportsInterface",
     values: [BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: 'tokenByIndex',
+    functionFragment: "tokenByIndex",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'tokenOfOwnerByIndex',
+    functionFragment: "tokenOfOwnerByIndex",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'totalSupply',
+    functionFragment: "totalSupply",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'transferFrom',
+    functionFragment: "transferFrom",
     values: [string, string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'transferVault',
+    functionFragment: "transferVault",
     values: [BigNumberish, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'vaultCollateral',
+    functionFragment: "vaultCollateral",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'vaultExists',
+    functionFragment: "vaultExists",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'withdrawCollateral',
+    functionFragment: "withdrawCollateral",
     values: [BigNumberish, BigNumberish]
   ): string;
 
-  decodeFunctionResult(functionFragment: 'approve', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'balanceOf', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'changeTreasury',
+    functionFragment: "changeTreasury",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'depositCollateral',
+    functionFragment: "depositCollateral",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'destroyVault',
+    functionFragment: "destroyVault",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'getApproved',
+    functionFragment: "getApproved",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'getPaid', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'initialize', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getPaid", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'isApprovedForAll',
+    functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'ownerOf', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'safeTransferFrom',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'setApprovalForAll',
+    functionFragment: "safeTransferFrom",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setClosingFee',
+    functionFragment: "setApprovalForAll",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setDebtCeiling',
+    functionFragment: "setClosingFee",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setDebtRatio',
+    functionFragment: "setDebtCeiling",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setGainRatio',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'setGateway', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'setMinimumCollateralPercentage',
+    functionFragment: "setDebtRatio",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setMinimumDebt',
+    functionFragment: "setGainRatio",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "setGateway", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setMinimumCollateralPercentage",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setMintingPaused',
+    functionFragment: "setMinimumDebt",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setOpeningFee',
+    functionFragment: "setMintingPaused",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setPriceSource',
+    functionFragment: "setOpeningFee",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setStabilityPool',
+    functionFragment: "setPriceSource",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setTokenPeg',
+    functionFragment: "setStabilityPool",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setTreasury',
+    functionFragment: "setTokenPeg",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'supportsInterface',
+    functionFragment: "setTreasury",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'tokenByIndex',
+    functionFragment: "supportsInterface",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'tokenOfOwnerByIndex',
+    functionFragment: "tokenByIndex",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'totalSupply',
+    functionFragment: "tokenOfOwnerByIndex",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'transferFrom',
+    functionFragment: "totalSupply",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'transferVault',
+    functionFragment: "transferFrom",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'vaultCollateral',
+    functionFragment: "transferVault",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'vaultExists',
+    functionFragment: "vaultCollateral",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'withdrawCollateral',
+    functionFragment: "vaultExists",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "withdrawCollateral",
     data: BytesLike
   ): Result;
 
   events: {
-    'Approval(address,address,uint256)': EventFragment;
-    'ApprovalForAll(address,address,bool)': EventFragment;
-    'Transfer(address,address,uint256)': EventFragment;
+    "Approval(address,address,uint256)": EventFragment;
+    "ApprovalForAll(address,address,bool)": EventFragment;
+    "Transfer(address,address,uint256)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: 'Approval'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'ApprovalForAll'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'Transfer'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
 export class IBank extends BaseContract {
@@ -417,14 +417,14 @@ export class IBank extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string] & { owner: string }>;
 
-    'safeTransferFrom(address,address,uint256)'(
+    "safeTransferFrom(address,address,uint256)"(
       from: string,
       to: string,
       tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    'safeTransferFrom(address,address,uint256,bytes)'(
+    "safeTransferFrom(address,address,uint256,bytes)"(
       from: string,
       to: string,
       tokenId: BigNumberish,
@@ -603,14 +603,14 @@ export class IBank extends BaseContract {
 
   ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
-  'safeTransferFrom(address,address,uint256)'(
+  "safeTransferFrom(address,address,uint256)"(
     from: string,
     to: string,
     tokenId: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  'safeTransferFrom(address,address,uint256,bytes)'(
+  "safeTransferFrom(address,address,uint256,bytes)"(
     from: string,
     to: string,
     tokenId: BigNumberish,
@@ -783,14 +783,14 @@ export class IBank extends BaseContract {
 
     ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
-    'safeTransferFrom(address,address,uint256)'(
+    "safeTransferFrom(address,address,uint256)"(
       from: string,
       to: string,
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    'safeTransferFrom(address,address,uint256,bytes)'(
+    "safeTransferFrom(address,address,uint256,bytes)"(
       from: string,
       to: string,
       tokenId: BigNumberish,
@@ -999,14 +999,14 @@ export class IBank extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    'safeTransferFrom(address,address,uint256)'(
+    "safeTransferFrom(address,address,uint256)"(
       from: string,
       to: string,
       tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    'safeTransferFrom(address,address,uint256,bytes)'(
+    "safeTransferFrom(address,address,uint256,bytes)"(
       from: string,
       to: string,
       tokenId: BigNumberish,
@@ -1192,14 +1192,14 @@ export class IBank extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    'safeTransferFrom(address,address,uint256)'(
+    "safeTransferFrom(address,address,uint256)"(
       from: string,
       to: string,
       tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    'safeTransferFrom(address,address,uint256,bytes)'(
+    "safeTransferFrom(address,address,uint256,bytes)"(
       from: string,
       to: string,
       tokenId: BigNumberish,

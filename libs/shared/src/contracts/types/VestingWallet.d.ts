@@ -13,100 +13,100 @@ import {
   ContractTransaction,
   Overrides,
   CallOverrides,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface VestingWalletInterface extends ethers.utils.Interface {
   functions: {
-    'beneficiary()': FunctionFragment;
-    'duration()': FunctionFragment;
-    'owner()': FunctionFragment;
-    'receiveToken(uint256)': FunctionFragment;
-    'release()': FunctionFragment;
-    'renounceOwnership()': FunctionFragment;
-    'revoke()': FunctionFragment;
-    'start()': FunctionFragment;
-    'totalReleased()': FunctionFragment;
-    'transferOwnership(address)': FunctionFragment;
-    'vestedAmount(uint256)': FunctionFragment;
+    "beneficiary()": FunctionFragment;
+    "duration()": FunctionFragment;
+    "owner()": FunctionFragment;
+    "receiveToken(uint256)": FunctionFragment;
+    "release()": FunctionFragment;
+    "renounceOwnership()": FunctionFragment;
+    "revoke()": FunctionFragment;
+    "start()": FunctionFragment;
+    "totalReleased()": FunctionFragment;
+    "transferOwnership(address)": FunctionFragment;
+    "vestedAmount(uint256)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: 'beneficiary',
+    functionFragment: "beneficiary",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: 'duration', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'owner', values?: undefined): string;
+  encodeFunctionData(functionFragment: "duration", values?: undefined): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'receiveToken',
+    functionFragment: "receiveToken",
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'release', values?: undefined): string;
+  encodeFunctionData(functionFragment: "release", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'renounceOwnership',
+    functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: 'revoke', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'start', values?: undefined): string;
+  encodeFunctionData(functionFragment: "revoke", values?: undefined): string;
+  encodeFunctionData(functionFragment: "start", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'totalReleased',
+    functionFragment: "totalReleased",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'transferOwnership',
+    functionFragment: "transferOwnership",
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'vestedAmount',
+    functionFragment: "vestedAmount",
     values: [BigNumberish]
   ): string;
 
   decodeFunctionResult(
-    functionFragment: 'beneficiary',
+    functionFragment: "beneficiary",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'duration', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "duration", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'receiveToken',
+    functionFragment: "receiveToken",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'release', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "release", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'renounceOwnership',
+    functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'revoke', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'start', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "revoke", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "start", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'totalReleased',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'transferOwnership',
+    functionFragment: "totalReleased",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'vestedAmount',
+    functionFragment: "transferOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "vestedAmount",
     data: BytesLike
   ): Result;
 
   events: {
-    'BenefeciaryAdded(address)': EventFragment;
-    'OwnershipTransferred(address,address)': EventFragment;
-    'PaymentReceived(address,uint256)': EventFragment;
-    'Revoked()': EventFragment;
-    'TokensReleased(uint256,address)': EventFragment;
+    "BenefeciaryAdded(address)": EventFragment;
+    "OwnershipTransferred(address,address)": EventFragment;
+    "PaymentReceived(address,uint256)": EventFragment;
+    "Revoked()": EventFragment;
+    "TokensReleased(uint256,address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: 'BenefeciaryAdded'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'OwnershipTransferred'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'PaymentReceived'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'Revoked'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'TokensReleased'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "BenefeciaryAdded"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "PaymentReceived"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Revoked"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "TokensReleased"): EventFragment;
 }
 
 export class VestingWallet extends BaseContract {

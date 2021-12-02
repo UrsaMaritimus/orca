@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Grid, Card, useTheme, CardHeader, Box } from '@mui/material';
+import { Grid, Card, CardHeader, Box } from '@mui/material';
 
 import { Loader } from '@orca/components';
 
@@ -9,7 +9,6 @@ import { Infomatic } from './Infomatic';
 import { Stats } from './Stats';
 
 export const BanksAnalytics: FC = () => {
-  const theme = useTheme();
   const { loading, data } = useFrontPageInfo();
 
   return (

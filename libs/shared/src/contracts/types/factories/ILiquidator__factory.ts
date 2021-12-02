@@ -2,9 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from 'ethers';
-import { Provider } from '@ethersproject/providers';
-import type { ILiquidator, ILiquidatorInterface } from '../ILiquidator';
+import { Contract, Signer, utils } from "ethers";
+import { Provider } from "@ethersproject/providers";
+import type { ILiquidator, ILiquidatorInterface } from "../ILiquidator";
 
 const _abi = [
   {
@@ -12,19 +12,19 @@ const _abi = [
     inputs: [
       {
         indexed: false,
-        internalType: 'uint256',
-        name: 'vaultID',
-        type: 'uint256',
+        internalType: "uint256",
+        name: "vaultID",
+        type: "uint256",
       },
       {
         indexed: false,
-        internalType: 'address',
-        name: 'vault',
-        type: 'address',
+        internalType: "address",
+        name: "vault",
+        type: "address",
       },
     ],
-    name: 'CreateVaultType',
-    type: 'event',
+    name: "CreateVaultType",
+    type: "event",
   },
 ];
 

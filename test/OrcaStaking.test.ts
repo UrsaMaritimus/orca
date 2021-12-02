@@ -7,7 +7,7 @@ import {
   ORCA__factory,
   OrcaStaking,
   OrcaStaking__factory,
-} from '../libs/shared/contracts/src';
+} from '../libs/shared/src/contracts/types';
 
 describe('Orca Staking test', function () {
   let accounts: SignerWithAddress[];

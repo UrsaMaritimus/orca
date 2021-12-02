@@ -7,7 +7,7 @@ import {
   ORCA__factory,
   SingleStaking,
   SingleStaking__factory,
-} from '../libs/shared/contracts/src';
+} from '../libs/shared/src/contracts/types';
 
 describe('Single staking test', function () {
   let accounts: SignerWithAddress[];

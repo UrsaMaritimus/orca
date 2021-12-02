@@ -11,20 +11,20 @@ import {
   PopulatedTransaction,
   BaseContract,
   ContractTransaction,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface ILiquidatorInterface extends ethers.utils.Interface {
   functions: {};
 
   events: {
-    'CreateVaultType(uint256,address)': EventFragment;
+    "CreateVaultType(uint256,address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: 'CreateVaultType'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "CreateVaultType"): EventFragment;
 }
 
 export class ILiquidator extends BaseContract {

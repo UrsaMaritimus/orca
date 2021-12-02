@@ -12,33 +12,33 @@ import {
   BaseContract,
   ContractTransaction,
   CallOverrides,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface SnapshotBridgeInterface extends ethers.utils.Interface {
   functions: {
-    'podLeaderVote(uint256,address)': FunctionFragment;
-    'stakingPoolVote(uint256,address)': FunctionFragment;
+    "podLeaderVote(uint256,address)": FunctionFragment;
+    "stakingPoolVote(uint256,address)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: 'podLeaderVote',
+    functionFragment: "podLeaderVote",
     values: [BigNumberish, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'stakingPoolVote',
+    functionFragment: "stakingPoolVote",
     values: [BigNumberish, string]
   ): string;
 
   decodeFunctionResult(
-    functionFragment: 'podLeaderVote',
+    functionFragment: "podLeaderVote",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'stakingPoolVote',
+    functionFragment: "stakingPoolVote",
     data: BytesLike
   ): Result;
 

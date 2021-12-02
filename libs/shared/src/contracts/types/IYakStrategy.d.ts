@@ -14,139 +14,139 @@ import {
   Overrides,
   PayableOverrides,
   CallOverrides,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface IYakStrategyInterface extends ethers.utils.Interface {
   functions: {
-    'allowance(address,address)': FunctionFragment;
-    'approve(address,uint256)': FunctionFragment;
-    'balanceOf(address)': FunctionFragment;
-    'checkReward()': FunctionFragment;
-    'decimals()': FunctionFragment;
-    'deposit(uint256)': FunctionFragment;
-    'estimateDeployedBalance()': FunctionFragment;
-    'estimateReinvestReward()': FunctionFragment;
-    'getDepositTokensForShares(uint256)': FunctionFragment;
-    'getSharesForDepositTokens(uint256)': FunctionFragment;
-    'name()': FunctionFragment;
-    'symbol()': FunctionFragment;
-    'totalDeposits()': FunctionFragment;
-    'totalSupply()': FunctionFragment;
-    'transfer(address,uint256)': FunctionFragment;
-    'transferFrom(address,address,uint256)': FunctionFragment;
-    'withdraw(uint256)': FunctionFragment;
+    "allowance(address,address)": FunctionFragment;
+    "approve(address,uint256)": FunctionFragment;
+    "balanceOf(address)": FunctionFragment;
+    "checkReward()": FunctionFragment;
+    "decimals()": FunctionFragment;
+    "deposit(uint256)": FunctionFragment;
+    "estimateDeployedBalance()": FunctionFragment;
+    "estimateReinvestReward()": FunctionFragment;
+    "getDepositTokensForShares(uint256)": FunctionFragment;
+    "getSharesForDepositTokens(uint256)": FunctionFragment;
+    "name()": FunctionFragment;
+    "symbol()": FunctionFragment;
+    "totalDeposits()": FunctionFragment;
+    "totalSupply()": FunctionFragment;
+    "transfer(address,uint256)": FunctionFragment;
+    "transferFrom(address,address,uint256)": FunctionFragment;
+    "withdraw(uint256)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: 'allowance',
+    functionFragment: "allowance",
     values: [string, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'approve',
+    functionFragment: "approve",
     values: [string, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'balanceOf', values: [string]): string;
+  encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
   encodeFunctionData(
-    functionFragment: 'checkReward',
+    functionFragment: "checkReward",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: 'decimals', values?: undefined): string;
+  encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'deposit',
+    functionFragment: "deposit",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'estimateDeployedBalance',
+    functionFragment: "estimateDeployedBalance",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'estimateReinvestReward',
+    functionFragment: "estimateReinvestReward",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'getDepositTokensForShares',
+    functionFragment: "getDepositTokensForShares",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'getSharesForDepositTokens',
+    functionFragment: "getSharesForDepositTokens",
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'name', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'symbol', values?: undefined): string;
+  encodeFunctionData(functionFragment: "name", values?: undefined): string;
+  encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'totalDeposits',
+    functionFragment: "totalDeposits",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'totalSupply',
+    functionFragment: "totalSupply",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'transfer',
+    functionFragment: "transfer",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'transferFrom',
+    functionFragment: "transferFrom",
     values: [string, string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'withdraw',
+    functionFragment: "withdraw",
     values: [BigNumberish]
   ): string;
 
-  decodeFunctionResult(functionFragment: 'allowance', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'approve', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'balanceOf', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'checkReward',
+    functionFragment: "checkReward",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'decimals', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'deposit', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "deposit", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'estimateDeployedBalance',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'estimateReinvestReward',
+    functionFragment: "estimateDeployedBalance",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'getDepositTokensForShares',
+    functionFragment: "estimateReinvestReward",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'getSharesForDepositTokens',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'name', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'symbol', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'totalDeposits',
+    functionFragment: "getDepositTokensForShares",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'totalSupply',
+    functionFragment: "getSharesForDepositTokens",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'transfer', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'transferFrom',
+    functionFragment: "totalDeposits",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'withdraw', data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "totalSupply",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "transferFrom",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
 
   events: {
-    'Approval(address,address,uint256)': EventFragment;
-    'Transfer(address,address,uint256)': EventFragment;
+    "Approval(address,address,uint256)": EventFragment;
+    "Transfer(address,address,uint256)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: 'Approval'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'Transfer'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
 export class IYakStrategy extends BaseContract {
@@ -211,12 +211,12 @@ export class IYakStrategy extends BaseContract {
 
     decimals(overrides?: CallOverrides): Promise<[number]>;
 
-    'deposit(uint256)'(
+    "deposit(uint256)"(
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    'deposit()'(
+    "deposit()"(
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -279,12 +279,12 @@ export class IYakStrategy extends BaseContract {
 
   decimals(overrides?: CallOverrides): Promise<number>;
 
-  'deposit(uint256)'(
+  "deposit(uint256)"(
     amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  'deposit()'(
+  "deposit()"(
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -347,12 +347,12 @@ export class IYakStrategy extends BaseContract {
 
     decimals(overrides?: CallOverrides): Promise<number>;
 
-    'deposit(uint256)'(
+    "deposit(uint256)"(
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    'deposit()'(overrides?: CallOverrides): Promise<void>;
+    "deposit()"(overrides?: CallOverrides): Promise<void>;
 
     estimateDeployedBalance(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -431,12 +431,12 @@ export class IYakStrategy extends BaseContract {
 
     decimals(overrides?: CallOverrides): Promise<BigNumber>;
 
-    'deposit(uint256)'(
+    "deposit(uint256)"(
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    'deposit()'(
+    "deposit()"(
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -503,12 +503,12 @@ export class IYakStrategy extends BaseContract {
 
     decimals(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    'deposit(uint256)'(
+    "deposit(uint256)"(
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    'deposit()'(
+    "deposit()"(
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

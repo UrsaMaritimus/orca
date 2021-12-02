@@ -13,156 +13,156 @@ import {
   ContractTransaction,
   Overrides,
   CallOverrides,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface AVAIInterface extends ethers.utils.Interface {
   functions: {
-    'BURNER_ROLE()': FunctionFragment;
-    'DEFAULT_ADMIN_ROLE()': FunctionFragment;
-    'DOMAIN_SEPARATOR()': FunctionFragment;
-    'MINTER_ROLE()': FunctionFragment;
-    'PAUSER_ROLE()': FunctionFragment;
-    'addBank(uint256,address,string,string,address)': FunctionFragment;
-    'allowance(address,address)': FunctionFragment;
-    'approve(address,uint256)': FunctionFragment;
-    'balanceOf(address)': FunctionFragment;
-    'bankCount()': FunctionFragment;
-    'banks(uint256)': FunctionFragment;
-    'burn(address,uint256)': FunctionFragment;
-    'decimals()': FunctionFragment;
-    'decreaseAllowance(address,uint256)': FunctionFragment;
-    'getRoleAdmin(bytes32)': FunctionFragment;
-    'getRoleMember(bytes32,uint256)': FunctionFragment;
-    'getRoleMemberCount(bytes32)': FunctionFragment;
-    'grantRole(bytes32,address)': FunctionFragment;
-    'hasRole(bytes32,address)': FunctionFragment;
-    'implementation()': FunctionFragment;
-    'increaseAllowance(address,uint256)': FunctionFragment;
-    'initialize(string,address)': FunctionFragment;
-    'mint(address,uint256)': FunctionFragment;
-    'name()': FunctionFragment;
-    'nonces(address)': FunctionFragment;
-    'owner()': FunctionFragment;
-    'pause()': FunctionFragment;
-    'paused()': FunctionFragment;
-    'permit(address,address,uint256,uint256,uint8,bytes32,bytes32)': FunctionFragment;
-    'renounceOwnership()': FunctionFragment;
-    'renounceRole(bytes32,address)': FunctionFragment;
-    'revokeRole(bytes32,address)': FunctionFragment;
-    'setClosingFee(uint256,uint256)': FunctionFragment;
-    'setDebtCeiling(uint256,uint256)': FunctionFragment;
-    'setDebtRatio(uint256,uint256)': FunctionFragment;
-    'setGainRatio(uint256,uint256)': FunctionFragment;
-    'setGateway(uint256,address)': FunctionFragment;
-    'setMinimumCollateralPercentage(uint256,uint256)': FunctionFragment;
-    'setMinimumDebt(uint256,uint256)': FunctionFragment;
-    'setMintingPaused(uint256,bool)': FunctionFragment;
-    'setOpeningFee(uint256,uint256)': FunctionFragment;
-    'setPriceSource(uint256,address)': FunctionFragment;
-    'setStabilityPool(uint256,address)': FunctionFragment;
-    'setTokenPeg(uint256,uint256)': FunctionFragment;
-    'setTreasury(uint256,uint256)': FunctionFragment;
-    'supportsInterface(bytes4)': FunctionFragment;
-    'symbol()': FunctionFragment;
-    'totalSupply()': FunctionFragment;
-    'transfer(address,uint256)': FunctionFragment;
-    'transferFrom(address,address,uint256)': FunctionFragment;
-    'transferOwnership(address)': FunctionFragment;
-    'unpause()': FunctionFragment;
-    'upgradeToNewBank(address)': FunctionFragment;
+    "BURNER_ROLE()": FunctionFragment;
+    "DEFAULT_ADMIN_ROLE()": FunctionFragment;
+    "DOMAIN_SEPARATOR()": FunctionFragment;
+    "MINTER_ROLE()": FunctionFragment;
+    "PAUSER_ROLE()": FunctionFragment;
+    "addBank(uint256,address,string,string,address)": FunctionFragment;
+    "allowance(address,address)": FunctionFragment;
+    "approve(address,uint256)": FunctionFragment;
+    "balanceOf(address)": FunctionFragment;
+    "bankCount()": FunctionFragment;
+    "banks(uint256)": FunctionFragment;
+    "burn(address,uint256)": FunctionFragment;
+    "decimals()": FunctionFragment;
+    "decreaseAllowance(address,uint256)": FunctionFragment;
+    "getRoleAdmin(bytes32)": FunctionFragment;
+    "getRoleMember(bytes32,uint256)": FunctionFragment;
+    "getRoleMemberCount(bytes32)": FunctionFragment;
+    "grantRole(bytes32,address)": FunctionFragment;
+    "hasRole(bytes32,address)": FunctionFragment;
+    "implementation()": FunctionFragment;
+    "increaseAllowance(address,uint256)": FunctionFragment;
+    "initialize(string,address)": FunctionFragment;
+    "mint(address,uint256)": FunctionFragment;
+    "name()": FunctionFragment;
+    "nonces(address)": FunctionFragment;
+    "owner()": FunctionFragment;
+    "pause()": FunctionFragment;
+    "paused()": FunctionFragment;
+    "permit(address,address,uint256,uint256,uint8,bytes32,bytes32)": FunctionFragment;
+    "renounceOwnership()": FunctionFragment;
+    "renounceRole(bytes32,address)": FunctionFragment;
+    "revokeRole(bytes32,address)": FunctionFragment;
+    "setClosingFee(uint256,uint256)": FunctionFragment;
+    "setDebtCeiling(uint256,uint256)": FunctionFragment;
+    "setDebtRatio(uint256,uint256)": FunctionFragment;
+    "setGainRatio(uint256,uint256)": FunctionFragment;
+    "setGateway(uint256,address)": FunctionFragment;
+    "setMinimumCollateralPercentage(uint256,uint256)": FunctionFragment;
+    "setMinimumDebt(uint256,uint256)": FunctionFragment;
+    "setMintingPaused(uint256,bool)": FunctionFragment;
+    "setOpeningFee(uint256,uint256)": FunctionFragment;
+    "setPriceSource(uint256,address)": FunctionFragment;
+    "setStabilityPool(uint256,address)": FunctionFragment;
+    "setTokenPeg(uint256,uint256)": FunctionFragment;
+    "setTreasury(uint256,uint256)": FunctionFragment;
+    "supportsInterface(bytes4)": FunctionFragment;
+    "symbol()": FunctionFragment;
+    "totalSupply()": FunctionFragment;
+    "transfer(address,uint256)": FunctionFragment;
+    "transferFrom(address,address,uint256)": FunctionFragment;
+    "transferOwnership(address)": FunctionFragment;
+    "unpause()": FunctionFragment;
+    "upgradeToNewBank(address)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: 'BURNER_ROLE',
+    functionFragment: "BURNER_ROLE",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'DEFAULT_ADMIN_ROLE',
+    functionFragment: "DEFAULT_ADMIN_ROLE",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'DOMAIN_SEPARATOR',
+    functionFragment: "DOMAIN_SEPARATOR",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'MINTER_ROLE',
+    functionFragment: "MINTER_ROLE",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'PAUSER_ROLE',
+    functionFragment: "PAUSER_ROLE",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'addBank',
+    functionFragment: "addBank",
     values: [BigNumberish, string, string, string, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'allowance',
+    functionFragment: "allowance",
     values: [string, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'approve',
+    functionFragment: "approve",
     values: [string, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'balanceOf', values: [string]): string;
-  encodeFunctionData(functionFragment: 'bankCount', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'banks', values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
+  encodeFunctionData(functionFragment: "bankCount", values?: undefined): string;
+  encodeFunctionData(functionFragment: "banks", values: [BigNumberish]): string;
   encodeFunctionData(
-    functionFragment: 'burn',
+    functionFragment: "burn",
     values: [string, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'decimals', values?: undefined): string;
+  encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'decreaseAllowance',
+    functionFragment: "decreaseAllowance",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'getRoleAdmin',
+    functionFragment: "getRoleAdmin",
     values: [BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: 'getRoleMember',
+    functionFragment: "getRoleMember",
     values: [BytesLike, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'getRoleMemberCount',
+    functionFragment: "getRoleMemberCount",
     values: [BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: 'grantRole',
+    functionFragment: "grantRole",
     values: [BytesLike, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'hasRole',
+    functionFragment: "hasRole",
     values: [BytesLike, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'implementation',
+    functionFragment: "implementation",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'increaseAllowance',
+    functionFragment: "increaseAllowance",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'initialize',
+    functionFragment: "initialize",
     values: [string, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'mint',
+    functionFragment: "mint",
     values: [string, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'name', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'nonces', values: [string]): string;
-  encodeFunctionData(functionFragment: 'owner', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'pause', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'paused', values?: undefined): string;
+  encodeFunctionData(functionFragment: "name", values?: undefined): string;
+  encodeFunctionData(functionFragment: "nonces", values: [string]): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(functionFragment: "pause", values?: undefined): string;
+  encodeFunctionData(functionFragment: "paused", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'permit',
+    functionFragment: "permit",
     values: [
       string,
       string,
@@ -174,263 +174,263 @@ interface AVAIInterface extends ethers.utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: 'renounceOwnership',
+    functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'renounceRole',
+    functionFragment: "renounceRole",
     values: [BytesLike, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'revokeRole',
+    functionFragment: "revokeRole",
     values: [BytesLike, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setClosingFee',
+    functionFragment: "setClosingFee",
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setDebtCeiling',
+    functionFragment: "setDebtCeiling",
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setDebtRatio',
+    functionFragment: "setDebtRatio",
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setGainRatio',
+    functionFragment: "setGainRatio",
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setGateway',
+    functionFragment: "setGateway",
     values: [BigNumberish, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setMinimumCollateralPercentage',
+    functionFragment: "setMinimumCollateralPercentage",
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setMinimumDebt',
+    functionFragment: "setMinimumDebt",
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setMintingPaused',
+    functionFragment: "setMintingPaused",
     values: [BigNumberish, boolean]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setOpeningFee',
+    functionFragment: "setOpeningFee",
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setPriceSource',
+    functionFragment: "setPriceSource",
     values: [BigNumberish, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setStabilityPool',
+    functionFragment: "setStabilityPool",
     values: [BigNumberish, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setTokenPeg',
+    functionFragment: "setTokenPeg",
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setTreasury',
+    functionFragment: "setTreasury",
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'supportsInterface',
+    functionFragment: "supportsInterface",
     values: [BytesLike]
   ): string;
-  encodeFunctionData(functionFragment: 'symbol', values?: undefined): string;
+  encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'totalSupply',
+    functionFragment: "totalSupply",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'transfer',
+    functionFragment: "transfer",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'transferFrom',
+    functionFragment: "transferFrom",
     values: [string, string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'transferOwnership',
+    functionFragment: "transferOwnership",
     values: [string]
   ): string;
-  encodeFunctionData(functionFragment: 'unpause', values?: undefined): string;
+  encodeFunctionData(functionFragment: "unpause", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'upgradeToNewBank',
+    functionFragment: "upgradeToNewBank",
     values: [string]
   ): string;
 
   decodeFunctionResult(
-    functionFragment: 'BURNER_ROLE',
+    functionFragment: "BURNER_ROLE",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'DEFAULT_ADMIN_ROLE',
+    functionFragment: "DEFAULT_ADMIN_ROLE",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'DOMAIN_SEPARATOR',
+    functionFragment: "DOMAIN_SEPARATOR",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'MINTER_ROLE',
+    functionFragment: "MINTER_ROLE",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'PAUSER_ROLE',
+    functionFragment: "PAUSER_ROLE",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'addBank', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'allowance', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'approve', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'balanceOf', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'bankCount', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'banks', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'burn', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'decimals', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "addBank", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "bankCount", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "banks", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'decreaseAllowance',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'getRoleAdmin',
+    functionFragment: "decreaseAllowance",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'getRoleMember',
+    functionFragment: "getRoleAdmin",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'getRoleMemberCount',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'grantRole', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'hasRole', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'implementation',
+    functionFragment: "getRoleMember",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'increaseAllowance',
+    functionFragment: "getRoleMemberCount",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'initialize', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'mint', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'name', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'nonces', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'pause', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'paused', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'permit', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'renounceOwnership',
+    functionFragment: "implementation",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'renounceRole',
+    functionFragment: "increaseAllowance",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'revokeRole', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "nonces", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "pause", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "permit", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'setClosingFee',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'setDebtCeiling',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'setDebtRatio',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'setGainRatio',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'setGateway', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'setMinimumCollateralPercentage',
+    functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setMinimumDebt',
+    functionFragment: "renounceRole",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setClosingFee",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setMintingPaused',
+    functionFragment: "setDebtCeiling",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setOpeningFee',
+    functionFragment: "setDebtRatio",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setPriceSource',
+    functionFragment: "setGainRatio",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "setGateway", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setMinimumCollateralPercentage",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setStabilityPool',
+    functionFragment: "setMinimumDebt",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setTokenPeg',
+    functionFragment: "setMintingPaused",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'setTreasury',
+    functionFragment: "setOpeningFee",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'supportsInterface',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'symbol', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'totalSupply',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'transfer', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'transferFrom',
+    functionFragment: "setPriceSource",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'transferOwnership',
+    functionFragment: "setStabilityPool",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'unpause', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'upgradeToNewBank',
+    functionFragment: "setTokenPeg",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setTreasury",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "supportsInterface",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "totalSupply",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "transferFrom",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "transferOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "unpause", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "upgradeToNewBank",
     data: BytesLike
   ): Result;
 
   events: {
-    'Approval(address,address,uint256)': EventFragment;
-    'CreateVaultType(address,uint256,address,string,address)': EventFragment;
-    'OwnershipTransferred(address,address)': EventFragment;
-    'Paused(address)': EventFragment;
-    'RoleAdminChanged(bytes32,bytes32,bytes32)': EventFragment;
-    'RoleGranted(bytes32,address,address)': EventFragment;
-    'RoleRevoked(bytes32,address,address)': EventFragment;
-    'Transfer(address,address,uint256)': EventFragment;
-    'Unpaused(address)': EventFragment;
-    'Upgraded(address)': EventFragment;
+    "Approval(address,address,uint256)": EventFragment;
+    "CreateVaultType(address,uint256,address,string,address)": EventFragment;
+    "OwnershipTransferred(address,address)": EventFragment;
+    "Paused(address)": EventFragment;
+    "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
+    "RoleGranted(bytes32,address,address)": EventFragment;
+    "RoleRevoked(bytes32,address,address)": EventFragment;
+    "Transfer(address,address,uint256)": EventFragment;
+    "Unpaused(address)": EventFragment;
+    "Upgraded(address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: 'Approval'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'CreateVaultType'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'OwnershipTransferred'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'Paused'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'RoleAdminChanged'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'RoleGranted'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'RoleRevoked'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'Transfer'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'Unpaused'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'Upgraded'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "CreateVaultType"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Paused"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Upgraded"): EventFragment;
 }
 
 export class AVAI extends BaseContract {

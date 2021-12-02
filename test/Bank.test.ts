@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { ethers, waffle, upgrades } from 'hardhat';
+import { ethers, upgrades } from 'hardhat';
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 import {
   AVAI__factory,
@@ -13,7 +13,7 @@ import {
   AVAIv2__factory,
   AggregatorV3Interface__factory,
   ERC20Upgradeable__factory,
-} from '../libs/shared/contracts/src';
+} from '../libs/shared/src/contracts/types';
 
 describe('Bank', function () {
   let accounts: SignerWithAddress[];
@@ -271,6 +271,16 @@ describe('Bank', function () {
     });
   });
 
+  it('can set new MCP', async () => {
+    const newMCP = 135;
+    await expect(avai.setMinimumCollateralPercentage(0, newMCP)).to.emit(
+      wVault,
+      'NewMinimumCollateralPercentage'
+    );
+
+    expect(await wVault.minimumCollateralPercentage()).to.equal(135);
+  });
+
   context('Upgrade checking for compatability', async () => {
     let avaiV2: AVAIv2;
     let wVaultV2: Bankv2;
@@ -304,6 +314,16 @@ describe('Bank', function () {
 
       avaiV2.setMintingPaused(0, true);
       expect(await wVaultV2.mintingPaused()).to.be.true;
+    });
+
+    it('can set new MCP', async () => {
+      const newMCP = 135;
+      await expect(avai.setMinimumCollateralPercentage(0, newMCP)).to.emit(
+        wVault,
+        'NewMinimumCollateralPercentage'
+      );
+
+      expect(await wVault.minimumCollateralPercentage()).to.equal(135);
     });
 
     it('gets proper price peg and tokenPeg is equal to this', async () => {

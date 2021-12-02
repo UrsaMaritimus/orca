@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: agpl-3.0
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
 import '@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol';
@@ -231,6 +231,7 @@ contract Bankv2 is
       'Minimum collateral percentage must be within range 110-400'
     );
     minimumCollateralPercentage = mcp_;
+    emit NewMinimumCollateralPercentage(mcp_);
   }
 
   /**

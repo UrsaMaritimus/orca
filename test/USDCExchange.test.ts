@@ -11,9 +11,7 @@ import {
   USDCExchange__factory,
   Bank,
   Bank__factory,
-  USDCExchangev2,
-  USDCExchangev2__factory,
-} from '../libs/shared/contracts/src';
+} from '../libs/shared/src/contracts/types';
 
 describe('USDC Swap Test', function () {
   let accounts: SignerWithAddress[];
