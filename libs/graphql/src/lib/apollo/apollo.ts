@@ -1,6 +1,4 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
-import { NextPageContext } from 'next';
-
 import { useMemo } from 'react';
 import merge from 'ts-deepmerge';
 
@@ -8,12 +6,10 @@ import { terminatingLink } from './links';
 import cache from './cache';
 
 // We make our graphql backend
-export default function createApolloClient(
-  ctx: NextPageContext
-): ApolloClient<NormalizedCacheObject> {
+export const createApolloClient = (): ApolloClient<NormalizedCacheObject> => {
   const ssrMode = typeof window === 'undefined';
   // get cookies for token, can't use localstorage due to ssr
-  const link = terminatingLink(ssrMode, ctx);
+  const link = terminatingLink(ssrMode);
 
   return new ApolloClient<NormalizedCacheObject>({
     ssrMode,
@@ -21,17 +17,16 @@ export default function createApolloClient(
     cache,
     assumeImmutableResults: true,
   });
-}
+};
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 
 // Initializes the apollo client
 export const initializeApollo = (
-  initialState = null,
-  ctx: NextPageContext = null
+  initialState = null
 ): ApolloClient<NormalizedCacheObject> => {
   // eslint-disable-next-line no-underscore-dangle
-  const _apolloClient = apolloClient ?? createApolloClient(ctx);
+  const _apolloClient = apolloClient ?? createApolloClient();
 
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
   // gets hydrated here

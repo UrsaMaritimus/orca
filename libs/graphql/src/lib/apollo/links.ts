@@ -8,11 +8,10 @@ import {
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { onError } from '@apollo/client/link/error';
 import { getMainDefinition } from '@apollo/client/utilities';
-import { NextPageContext } from 'next';
 import { MultiAPILink } from '@habx/apollo-multi-endpoint-link';
 
 // For when just using http protocols
-export const httpLink = (ctx?: NextPageContext): MultiAPILink => {
+export const httpLink = (): MultiAPILink => {
   return new MultiAPILink({
     endpoints: {
       orca: process.env.NEXT_PUBLIC_GRAPH_HTTP,
@@ -56,12 +55,9 @@ export const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 
 // Chooses whether to use websockets or http
-export const terminatingLink = (
-  ssrMode: boolean,
-  ctx?: NextPageContext
-): ApolloLink =>
+export const terminatingLink = (ssrMode: boolean): ApolloLink =>
   ssrMode
-    ? from([errorLink, httpLink(ctx)])
+    ? from([errorLink, httpLink()])
     : from([
         errorLink,
         split(
@@ -73,6 +69,6 @@ export const terminatingLink = (
             );
           },
           wsLink(),
-          httpLink(ctx)
+          httpLink()
         ),
       ]);
