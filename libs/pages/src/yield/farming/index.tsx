@@ -20,6 +20,7 @@ import { SingularFarm } from './partner/singular';
 import { AvawareFarm } from './partner/avaware';
 import { LydiaFarm } from './partner/lydia';
 import { XOrcaFarm } from './xORCA';
+import { AxialSwapFarm } from './partner/axial';
 
 const RootStyle = styled(Page)(({ theme }) => ({
   paddingTop: theme.spacing(3),
@@ -115,7 +116,7 @@ export const Farming: FC = () => {
             subheader={'Utilize AVAI and ORCA'}
           />
         </Card>
-
+        <AxialSwapFarm />
         <SingularFarm />
         <AvawareFarm />
       </Container>
