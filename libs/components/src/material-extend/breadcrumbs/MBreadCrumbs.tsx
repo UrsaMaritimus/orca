@@ -4,7 +4,7 @@ import React, { FC } from 'react';
 import { Breadcrumbs, BreadcrumbsProps, Typography, Box } from '@mui/material';
 import { SvgIconProps } from '@mui/material/SvgIcon';
 
-import NextLink from '../../links/NextLink';
+import { Link } from '../../links';
 
 // ----------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ function LinkItem({
 }) {
   const { href, name, icon } = link;
   return (
-    <NextLink
+    <Link
       href={href}
       key={name}
       variant="body2"
@@ -55,7 +55,7 @@ function LinkItem({
         </Box>
       )}
       {name}
-    </NextLink>
+    </Link>
   );
 }
 

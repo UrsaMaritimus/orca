@@ -7,7 +7,7 @@ import { Typography, Box, Card, CardContent, Button } from '@mui/material';
 // Ethers and web3 stuff
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
-import { NextLink } from '@orca/components';
+import { Link } from '@orca/components';
 import { routes } from '@orca/shared';
 
 // ----------------------------------------------------------------------
@@ -56,7 +56,7 @@ const Welcome: FC = () => {
         <Button
           variant="contained"
           href={routes.APP.VAULTS.USER}
-          component={NextLink}
+          component={Link}
         >
           Start now!
         </Button>

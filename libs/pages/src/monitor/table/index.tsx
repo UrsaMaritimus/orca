@@ -18,7 +18,7 @@ import {
 import { Icon } from '@iconify/react';
 import dropletOutline from '@iconify/icons-eva/droplet-outline';
 // components
-import { ScrollBar, NextLink } from '@orca/components';
+import { ScrollBar, Link } from '@orca/components';
 //
 import SortingSelectingHead from './SortingSelectingHead';
 import { fPercent, fCurrency, colorScale } from '@orca/util';
@@ -159,7 +159,7 @@ const SortingSelecting: FC<RowProps> = ({ rows }) => {
                             variant="contained"
                             size="medium"
                             color="primary"
-                            LinkComponent={NextLink}
+                            LinkComponent={Link}
                             href={`${routes.APP.VAULTS.USER}/${
                               row.collatInfo.url
                                 ? row.collatInfo.url

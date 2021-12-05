@@ -1,6 +1,6 @@
 import { ContractTransaction } from 'ethers';
 import toast from 'react-hot-toast';
-import NextLink from '../links/NextLink';
+import { Link } from '../links';
 import { formatEtherscanLink } from '@orca/util';
 
 type HandleTransactionType = {
@@ -28,7 +28,7 @@ export const handleTransaction = async ({
       result.wait(1),
       {
         loading: (
-          <NextLink
+          <Link
             href={formatEtherscanLink('Transaction', [chainId, result.hash])}
             target="_blank"
             underline="none"
@@ -43,11 +43,11 @@ export const handleTransaction = async ({
             }}
           >
             {messages.loading}
-          </NextLink>
+          </Link>
         ),
         success: (
           <b>
-            <NextLink
+            <Link
               href={formatEtherscanLink('Transaction', [chainId, result.hash])}
               target="_blank"
               underline="none"
@@ -62,7 +62,7 @@ export const handleTransaction = async ({
               }}
             >
               {messages.success}
-            </NextLink>
+            </Link>
           </b>
         ),
         error: <b>{messages.error}</b>,

@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 
 import { Box, Button, Typography, Container } from '@mui/material';
 
-import { Page, Logo, NextLink } from '@orca/components';
+import { Page, Logo, Link } from '@orca/components';
 import { routes } from '@orca/shared';
 
 // ----------------------------------------------------------------------
@@ -34,9 +34,9 @@ const Page500View: FC = () => {
       title={`500 Internal Server Error | ${process.env.NEXT_PUBLIC_TITLE}`}
     >
       <HeaderStyle>
-        <NextLink href={routes.APP.ROOT}>
+        <Link href={routes.APP.ROOT}>
           <Logo />
-        </NextLink>
+        </Link>
       </HeaderStyle>
 
       <Container>
@@ -59,7 +59,7 @@ const Page500View: FC = () => {
             href={routes.APP.ROOT}
             size="large"
             variant="contained"
-            component={NextLink}
+            component={Link}
           >
             Go to Home
           </Button>

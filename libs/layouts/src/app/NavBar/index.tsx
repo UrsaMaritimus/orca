@@ -15,7 +15,7 @@ import {
   Box,
 } from '@mui/material';
 
-import { NextLink, MHidden, Logo, ScrollBar } from '@orca/components';
+import { Link as NextLink, MHidden, Logo, ScrollBar } from '@orca/components';
 import { routes } from '@orca/shared';
 import { useCollapseDrawer } from '@orca/hooks';
 

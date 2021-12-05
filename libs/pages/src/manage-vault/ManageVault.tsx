@@ -36,7 +36,7 @@ import { Web3Provider } from '@ethersproject/providers';
 
 // Custom stuff
 import {
-  NextLink,
+  Link,
   Page,
   Loader,
   Connect,
@@ -145,7 +145,7 @@ export function ManageVault() {
                 avatar={
                   <IconButton
                     color="secondary"
-                    LinkComponent={NextLink}
+                    LinkComponent={Link}
                     href={routes.APP.VAULTS.USER}
                   >
                     <Icon icon={backArrowIos} width={30} height={30} />

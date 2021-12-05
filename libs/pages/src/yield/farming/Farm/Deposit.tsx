@@ -23,7 +23,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import { utils } from 'ethers';
 import { useFormik, Form, FormikProvider } from 'formik';
 
-import { handleTransaction, NextLink } from '@orca/components';
+import { handleTransaction, Link } from '@orca/components';
 import {
   approveTokenFarm,
   getTokenBalance,
@@ -180,7 +180,7 @@ export const Deposit: FC<DepositProps> = ({
             </Stack>
           </Grid>
           <Grid item xs={12} display="flex" justifyContent="flex-end">
-            <NextLink
+            <Link
               href={link}
               underline="hover"
               rel="noreferrer"
@@ -192,7 +192,7 @@ export const Deposit: FC<DepositProps> = ({
             >
               Get LP
               <Icon icon={externalLinkOutline} width={20} height={20} />
-            </NextLink>
+            </Link>
           </Grid>
         </Grid>
         <Box sx={{ mt: 1, mb: 2 }}>

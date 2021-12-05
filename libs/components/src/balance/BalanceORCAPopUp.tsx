@@ -20,7 +20,7 @@ import closeIcon from '@iconify/icons-eva/close-outline';
 import externalLinkOutline from '@iconify/icons-eva/external-link-outline';
 
 import { fCurrency, fNumber } from '@orca/util';
-import { NextLink } from '../links';
+import { Link } from '../links';
 
 import { routes } from '@orca/shared';
 import { seeORCA } from './atom';
@@ -52,7 +52,7 @@ export const BalanceInfoOrca: FC = () => {
         <Card>
           <CardHeader
             title={
-              <NextLink
+              <Link
                 href={routes.APP.CRYPTOS.ORCA}
                 underline="hover"
                 variant="subtitle2"
@@ -65,7 +65,7 @@ export const BalanceInfoOrca: FC = () => {
               >
                 Get ORCA
                 <Icon icon={externalLinkOutline} width={20} height={20} />
-              </NextLink>
+              </Link>
             }
             action={
               <IconButton onClick={handleClick}>

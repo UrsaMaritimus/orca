@@ -14,8 +14,6 @@ export * from './page';
 export { default as Settings } from './settings';
 export * from './svg-icon-style';
 export { default as MainTable } from './table';
-export * from './theme';
-export * from './toast';
 export * from './transaction';
 export * from './scroll-bar';
 export * from './popover-menu';

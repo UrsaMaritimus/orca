@@ -19,7 +19,7 @@ import {
   ListItemIcon,
 } from '@mui/material';
 
-import { NextLink } from '@orca/components';
+import { Link } from '@orca/components';
 
 import MenuLinks from './config';
 
@@ -148,7 +148,7 @@ const NavItem: FC<NavItemProps> = ({ item, active, isShow }) => {
                 return (
                   <ListItemStyle
                     key={title}
-                    component={NextLink}
+                    component={Link}
                     href={href}
                     sx={{
                       ...(isActiveSub && activeSubStyle),
@@ -187,7 +187,7 @@ const NavItem: FC<NavItemProps> = ({ item, active, isShow }) => {
 
   return (
     <ListItemStyle
-      component={NextLink}
+      component={Link}
       href={href}
       sx={{
         ...(isActiveRoot && activeRootStyle),

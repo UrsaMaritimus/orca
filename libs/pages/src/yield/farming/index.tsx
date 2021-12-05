@@ -11,7 +11,7 @@ import {
   Typography,
   Grid,
 } from '@mui/material';
-import { Page, NextLink } from '@orca/components';
+import { Page, Link } from '@orca/components';
 
 import { AvaiOrcaFarm } from './AVAI-ORCA';
 import { AvaiUsdcFarm } from './AVAI-USDC';

@@ -11,3 +11,4 @@ export * from './lib/CollapseDrawerContext/useCollapseDrawer';
 export * from './lib/useCountdown';
 export * from './lib/useIsMountedRef';
 export * from './lib/useOffSetTop';
+export * from './lib/useScrollTop';

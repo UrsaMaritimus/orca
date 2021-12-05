@@ -1,1 +1,1 @@
-export { default as NextLink } from './NextLink';
+export { default as Link } from './NextLink';

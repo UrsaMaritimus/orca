@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { NextLink } from '../links';
+import { Link } from '../links';
 
 import { Icon } from '@iconify/react';
 import editOutline from '@iconify/icons-eva/edit-outline';
@@ -41,7 +41,7 @@ const RowTable: FC<TableProps> = ({ row, collateralType }) => {
           variant="contained"
           size="medium"
           color="primary"
-          LinkComponent={NextLink}
+          LinkComponent={Link}
           href={`${routes.APP.VAULTS.USER}/${collateralType}/${row.vaultID}`}
           startIcon={<Icon icon={editOutline} />}
         >

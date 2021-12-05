@@ -16,7 +16,7 @@ import {
   Grid,
 } from '@mui/material';
 
-import { Page, Connect, Loader, NextLink } from '@orca/components';
+import { Page, Connect, Loader, Link } from '@orca/components';
 
 import { useGetVaults } from './useVault';
 import { VaultCard } from './VaultCard';
@@ -112,7 +112,7 @@ export function Vaults(props) {
               action={
                 <Button
                   href={routes.APP.VAULTS.CREATE}
-                  LinkComponent={NextLink}
+                  LinkComponent={Link}
                   sx={{ mt: 2, mb: 2, textAlign: 'center' }}
                   variant="contained"
                   size="large"
@@ -204,7 +204,7 @@ export function Vaults(props) {
 
                 <Button
                   href={routes.APP.VAULTS.CREATE}
-                  LinkComponent={NextLink}
+                  LinkComponent={Link}
                   sx={{ mt: 2, mb: 2, textAlign: 'center' }}
                   variant="contained"
                   size="large"

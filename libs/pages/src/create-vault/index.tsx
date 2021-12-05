@@ -19,7 +19,7 @@ import {
   Backdrop,
 } from '@mui/material';
 
-import { NextLink, Page, Connect, Loader } from '@orca/components';
+import { Link, Page, Connect, Loader } from '@orca/components';
 import {
   routes,
   BankTokenInfo,
@@ -119,7 +119,7 @@ export const CreateVault: FC = () => {
                 avatar={
                   <IconButton
                     color="secondary"
-                    LinkComponent={NextLink}
+                    LinkComponent={Link}
                     href={routes.APP.VAULTS.USER}
                   >
                     <Icon icon={backArrowIos} width={30} height={30} />

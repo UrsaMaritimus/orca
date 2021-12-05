@@ -31,7 +31,7 @@ import checkmarkCircle from '@iconify/icons-eva/checkmark-circle-outline';
 
 import { fNumber, formatEtherscanLink, shortenHex } from '@orca/util';
 
-import NextLink from '../links/NextLink';
+import { Link } from '../links';
 import { useRemoveTransactions, transactionState } from '../transaction';
 
 import { seeAccount } from './atom';
@@ -97,7 +97,7 @@ export const AccountInfo: FC = () => {
                 </Stack>
               </Grid>
               <Grid item xs={6} display="flex" justifyContent="center">
-                <NextLink
+                <Link
                   href={formatEtherscanLink('Account', [
                     chainId as number,
                     account,
@@ -120,11 +120,11 @@ export const AccountInfo: FC = () => {
                       View on C-Chain Explorer
                     </Typography>
                   </Stack>
-                </NextLink>
+                </Link>
               </Grid>
               <Grid item xs={6} display="flex" justifyContent="center">
                 <CopyToClipboard text={account} onCopy={handleCopy}>
-                  <NextLink
+                  <Link
                     underline="none"
                     href=""
                     variant="subtitle2"
@@ -148,7 +148,7 @@ export const AccountInfo: FC = () => {
                         <Typography variant="caption">Copied</Typography>
                       </Stack>
                     )}
-                  </NextLink>
+                  </Link>
                 </CopyToClipboard>
               </Grid>
               <Grid item my={2} xs={12}>
@@ -208,7 +208,7 @@ export const AccountInfo: FC = () => {
                 {transactions.length > 0 &&
                   [...transactions].reverse().map((transaction) => {
                     return (
-                      <NextLink
+                      <Link
                         href={formatEtherscanLink('Transaction', [
                           chainId,
                           transaction.hash,
@@ -275,7 +275,7 @@ export const AccountInfo: FC = () => {
                             </Box>
                           </Grid>
                         </Grid>
-                      </NextLink>
+                      </Link>
                     );
                   })}
               </Grid>

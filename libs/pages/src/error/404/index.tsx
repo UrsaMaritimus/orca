@@ -9,7 +9,7 @@ import {
   varBounceIn,
   MotionContainer,
   Logo,
-  NextLink,
+  Link,
 } from '@orca/components';
 import { routes } from '@orca/shared';
 
@@ -37,9 +37,9 @@ const Page404View: FC = () => {
   return (
     <RootStyle title={`404 Page Not Found | ${process.env.NEXT_PUBLIC_TITLE}`}>
       <HeaderStyle>
-        <NextLink href={routes.APP.ROOT}>
+        <Link href={routes.APP.ROOT}>
           <Logo />
-        </NextLink>
+        </Link>
       </HeaderStyle>
 
       <Container>
@@ -67,7 +67,7 @@ const Page404View: FC = () => {
               href={routes.APP.ROOT}
               size="large"
               variant="contained"
-              component={NextLink}
+              component={Link}
             >
               Go to Home
             </Button>

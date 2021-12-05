@@ -10,7 +10,7 @@ import React from 'react';
 
 import Head from 'next/head';
 
-import { ThemeProvider as NextThemeProvider } from 'next-themes';
+import { ThemeProviderWrapper as ThemeProvider } from '@orca/theme';
 
 import 'simplebar-react/dist/simplebar.min.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -24,12 +24,7 @@ import Router from 'next/router';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 
-import {
-  ThemeProvider as CustomThemeProvider,
-  CustomToaster,
-  Settings,
-} from '@orca/components';
-import { CollapseDrawerProvider } from '@orca/hooks';
+import { Settings } from '@orca/components';
 
 // emotion
 import { CacheProvider, EmotionCache } from '@emotion/react';
@@ -56,22 +51,17 @@ export default function NextWeb3App(props: MyAppProps) {
   return (
     <CacheProvider value={emotionCache}>
       <Web3ReactProvider getLibrary={getLibrary}>
-        <NextThemeProvider defaultTheme="system" enableSystem>
-          <CustomThemeProvider>
-            <CollapseDrawerProvider>
-              <Head>
-                <meta
-                  name="viewport"
-                  content="minimum-scale=1, initial-scale=1, width=device-width"
-                />
-              </Head>
-              <Settings />
+        <ThemeProvider>
+          <Head>
+            <meta
+              name="viewport"
+              content="minimum-scale=1, initial-scale=1, width=device-width"
+            />
+          </Head>
+          <Settings />
 
-              <Component {...pageProps} />
-              <CustomToaster />
-            </CollapseDrawerProvider>
-          </CustomThemeProvider>
-        </NextThemeProvider>
+          <Component {...pageProps} />
+        </ThemeProvider>
       </Web3ReactProvider>
     </CacheProvider>
   );

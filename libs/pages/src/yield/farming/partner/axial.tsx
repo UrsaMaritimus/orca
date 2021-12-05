@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-import { NextLink } from '@orca/components';
+import { Link } from '@orca/components';
 
 export const AxialSwapFarm: FC = () => {
   const theme = useTheme();
@@ -99,7 +99,7 @@ export const AxialSwapFarm: FC = () => {
 
         <Grid item xs={6} md={4} display="flex" justifyContent="center">
           <Stack alignItems="center">
-            <NextLink
+            <Link
               href={'https://app.axial.exchange/#/pools/aa3d/deposit'}
               underline="hover"
               rel="noreferrer"
@@ -111,7 +111,7 @@ export const AxialSwapFarm: FC = () => {
             >
               <Typography variant="h5">Go to Axial Swap</Typography>
               <Icon icon={externalLinkOutline} width={40} height={40} />
-            </NextLink>
+            </Link>
           </Stack>
         </Grid>
       </Grid>

@@ -13,7 +13,7 @@ import { alpha } from '@mui/material/styles';
 import { Stack, Box, Divider, MenuItem, Typography } from '@mui/material';
 
 import { routes } from '@orca/shared';
-import { MIconButton, NextLink, PopoverMenu } from '@orca/components';
+import { MIconButton, Link, PopoverMenu } from '@orca/components';
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
@@ -106,7 +106,7 @@ export const ImportantLinks: FC = () => {
           <MenuItem
             key={option.label}
             href={option.linkTo}
-            component={NextLink}
+            component={Link}
             onClick={handleClose}
             target="_blank"
             sx={{ typography: 'body2', py: 1, px: 2.5 }}

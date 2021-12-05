@@ -31,7 +31,7 @@ import {
   MIconButton,
   LargeLogo,
   PopoverMenu,
-  NextLink,
+  Link as NextLink,
 } from '@orca/components';
 
 // ----------------------------------------------------------------------

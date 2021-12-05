@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import Image from 'next/image';
-import { NextLink } from '@orca/components';
+import { Link } from '@orca/components';
 
 import { Icon } from '@iconify/react';
 import editOutline from '@iconify/icons-eva/edit-outline';
@@ -31,7 +31,7 @@ type VaultCardProps = {
 export const VaultCard: FC<VaultCardProps> = ({ row }) => {
   if (row) {
     return (
-      <NextLink
+      <Link
         href={`${routes.APP.VAULTS.USER}/${row.type}/${row.vaultID}`}
         underline="none"
       >
@@ -111,7 +111,7 @@ export const VaultCard: FC<VaultCardProps> = ({ row }) => {
                     variant="contained"
                     size="medium"
                     color="primary"
-                    LinkComponent={NextLink}
+                    LinkComponent={Link}
                     href={`${routes.APP.VAULTS.USER}/${row.type}/${row.vaultID}`}
                     startIcon={<Icon icon={editOutline} />}
                   >
@@ -196,7 +196,7 @@ export const VaultCard: FC<VaultCardProps> = ({ row }) => {
                   variant="contained"
                   size="medium"
                   color="primary"
-                  LinkComponent={NextLink}
+                  LinkComponent={Link}
                   href={`${routes.APP.VAULTS.USER}/${row.type}/${row.vaultID}`}
                   startIcon={<Icon icon={editOutline} />}
                 >
@@ -206,7 +206,7 @@ export const VaultCard: FC<VaultCardProps> = ({ row }) => {
             </Grid>
           </Card>
         )}
-      </NextLink>
+      </Link>
     );
   }
   return <></>;

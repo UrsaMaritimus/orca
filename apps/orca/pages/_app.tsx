@@ -1,40 +1,46 @@
+import type { ReactElement, ReactNode } from 'react';
+import type { NextPage } from 'next';
+import type { AppProps } from 'next/app';
+
 import type {
   ExternalProvider,
   JsonRpcFetchFunc,
 } from '@ethersproject/providers';
 import { Web3Provider } from '@ethersproject/providers';
 import { Web3ReactProvider } from '@web3-react/core';
-import type { AppProps } from 'next/app';
 
-import React from 'react';
 import { RecoilRoot } from 'recoil';
 import Head from 'next/head';
 
-import { ThemeProvider as NextThemeProvider } from 'next-themes';
-
+// css
 import 'simplebar-react/dist/simplebar.min.css';
 import 'react-toastify/dist/ReactToastify.css';
-
-// slick-carousel
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
+// notistack
+import { SnackbarProvider } from 'notistack';
+
 // NProgress
 import Router from 'next/router';
-import NProgress from 'nprogress';
+import nProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 
+// Custom
 import {
-  ThemeProvider as CustomThemeProvider,
-  CustomToaster,
   Settings,
   BalanceInfoOrca,
   AccountInfo,
+  BalanceInfoAVAI,
 } from '@orca/components';
-import { CollapseDrawerProvider } from '@orca/hooks';
+import { useScrollTop } from '@orca/hooks';
+import { ThemeProviderWrapper as ThemeProvider } from '@orca/theme';
+
+// Localization stuff
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
 // emotion
-
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import createEmotionCache from '../emotion';
 
@@ -42,17 +48,17 @@ import createEmotionCache from '../emotion';
 import { ApolloProvider } from '@apollo/client';
 import { useApollo } from '@orca/graphql';
 
-//Binding events for nprogress
-Router.events.on('routeChangeStart', () => NProgress.start());
-Router.events.on('routeChangeComplete', () => NProgress.done());
-Router.events.on('routeChangeError', () => NProgress.done());
-
 function getLibrary(provider: ExternalProvider | JsonRpcFetchFunc) {
   return new Web3Provider(provider);
 }
 
+type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
+  Component: NextPageWithLayout;
 }
 
 const clientSideEmotionCache = createEmotionCache();
@@ -60,35 +66,45 @@ const clientSideEmotionCache = createEmotionCache();
 export default function NextWeb3App(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
+  useScrollTop();
+  Router.events.on('routeChangeStart', nProgress.start);
+  Router.events.on('routeChangeError', nProgress.done);
+  Router.events.on('routeChangeComplete', nProgress.done);
+
   // For graphql
   const apolloClient = useApollo(pageProps.initialApolloState);
 
   return (
-    <RecoilRoot>
-      <ApolloProvider client={apolloClient}>
-        <CacheProvider value={emotionCache}>
+    <CacheProvider value={emotionCache}>
+      <Head>
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width"
+        />
+      </Head>
+      <RecoilRoot>
+        <ApolloProvider client={apolloClient}>
           <Web3ReactProvider getLibrary={getLibrary}>
-            <NextThemeProvider defaultTheme="system" enableSystem>
-              <CustomThemeProvider>
-                <CollapseDrawerProvider>
-                  <Head>
-                    <meta
-                      name="viewport"
-                      content="minimum-scale=1, initial-scale=1, width=device-width"
-                    />
-                  </Head>
+            <ThemeProvider>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <SnackbarProvider
+                  maxSnack={6}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                  }}
+                >
                   <Settings />
                   <AccountInfo />
-                  {/*<BalanceInfoAVAI />*/}
+                  <BalanceInfoAVAI />
                   <BalanceInfoOrca />
                   <Component {...pageProps} />
-                  <CustomToaster />
-                </CollapseDrawerProvider>
-              </CustomThemeProvider>
-            </NextThemeProvider>
+                </SnackbarProvider>
+              </LocalizationProvider>
+            </ThemeProvider>
           </Web3ReactProvider>
-        </CacheProvider>
-      </ApolloProvider>
-    </RecoilRoot>
+        </ApolloProvider>
+      </RecoilRoot>
+    </CacheProvider>
   );
 }

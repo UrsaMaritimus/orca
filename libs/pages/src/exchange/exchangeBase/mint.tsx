@@ -28,7 +28,7 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import { BigNumber, utils } from 'ethers';
 
 import {
-  NextLink,
+  Link,
   Loader,
   handleTransaction,
   useAddTransaction,
@@ -228,7 +228,7 @@ export const Mint: FC<MintProps> = ({
               />
             }
             action={
-              <NextLink
+              <Link
                 href={routes.APP.CRYPTOS.USDC}
                 underline="hover"
                 variant="subtitle2"
@@ -240,7 +240,7 @@ export const Mint: FC<MintProps> = ({
               >
                 Get USDC
                 <Icon icon={externalLinkOutline} width={20} height={20} />
-              </NextLink>
+              </Link>
             }
           />
 

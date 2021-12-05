@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-import { NextLink } from '@orca/components';
+import { Link } from '@orca/components';
 
 export const LydiaFarm: FC = () => {
   const theme = useTheme();
@@ -99,7 +99,7 @@ export const LydiaFarm: FC = () => {
 
         <Grid item xs={6} md={4} display="flex" justifyContent="center">
           <Stack alignItems="center">
-            <NextLink
+            <Link
               href={'https://www.lydia.finance/pools'}
               underline="hover"
               rel="noreferrer"
@@ -111,7 +111,7 @@ export const LydiaFarm: FC = () => {
             >
               <Typography variant="h5">Go to Farm</Typography>
               <Icon icon={externalLinkOutline} width={40} height={40} />
-            </NextLink>
+            </Link>
           </Stack>
         </Grid>
       </Grid>

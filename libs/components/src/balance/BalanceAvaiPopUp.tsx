@@ -23,7 +23,7 @@ import externalLinkOutline from '@iconify/icons-eva/external-link-outline';
 import { routes } from '@orca/shared';
 import { fCurrency, fNumber } from '@orca/util';
 
-import { NextLink } from '../links';
+import { Link } from '../links';
 import { seeAVAI } from './atom';
 import { useAvaiPrice } from './graph/useAVAIPrice';
 
@@ -53,7 +53,7 @@ export const BalanceInfoAVAI: FC = () => {
         <Card>
           <CardHeader
             title={
-              <NextLink
+              <Link
                 href={routes.APP.VAULTS.USER}
                 underline="hover"
                 variant="subtitle2"
@@ -64,7 +64,7 @@ export const BalanceInfoAVAI: FC = () => {
               >
                 Get AVAI
                 <Icon icon={externalLinkOutline} width={20} height={20} />
-              </NextLink>
+              </Link>
             }
             action={
               <IconButton onClick={handleClick}>
