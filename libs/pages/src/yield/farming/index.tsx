@@ -21,6 +21,9 @@ import { AvawareFarm } from './partner/avaware';
 import { LydiaFarm } from './partner/lydia';
 import { XOrcaFarm } from './xORCA';
 import { AxialSwapFarm } from './partner/axial';
+import { PangoOrcaFarm } from './partner/png-orca';
+import { PangoAvaiFarm } from './partner/png-avai';
+import { GondolaFarm } from './partner/gondola';
 
 const RootStyle = styled(Page)(({ theme }) => ({
   paddingTop: theme.spacing(3),
@@ -116,9 +119,12 @@ export const Farming: FC = () => {
             subheader={'Utilize AVAI and ORCA'}
           />
         </Card>
+        <PangoOrcaFarm />
+        <PangoAvaiFarm />
         <AxialSwapFarm />
-        <SingularFarm />
+        <GondolaFarm />
         <AvawareFarm />
+        <SingularFarm />
       </Container>
     </RootStyle>
   );

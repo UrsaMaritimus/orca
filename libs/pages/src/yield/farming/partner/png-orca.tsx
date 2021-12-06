@@ -15,7 +15,7 @@ import { useTheme } from '@mui/material/styles';
 
 import { NextLink } from '@orca/components';
 
-export const SingularFarm: FC = () => {
+export const PangoOrcaFarm: FC = () => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -25,7 +25,7 @@ export const SingularFarm: FC = () => {
         py: 2,
         px: 1,
         mb: 2,
-        background: `linear-gradient(135deg, #5c5c5c 0%, #999999 10%, ${theme.palette.primary.lighter} 100%)`,
+        background: `linear-gradient(135deg, #ee502d 0%, #f28067 10%, ${theme.palette.primary.lighter} 100%)`,
       }}
     >
       <Grid container alignItems="center" spacing={1}>
@@ -38,14 +38,14 @@ export const SingularFarm: FC = () => {
         >
           <Stack alignItems="center" direction="row" spacing={1}>
             <Image
-              src={'/static/farm/ic_usdc_avai.svg'}
+              src={'/static/farm/ic_avax_orca.svg'}
               width={44}
               height={44}
               color="grey.700"
             />
             <Stack alignItems={matches ? 'center' : 'flex-start'}>
               <Typography sx={{ color: 'grey.800' }} variant="h6">
-                USDC-AVAI
+                ORCA-AVAX
               </Typography>
               <Typography sx={{ color: 'grey.700' }} variant="caption">
                 Asset
@@ -63,14 +63,14 @@ export const SingularFarm: FC = () => {
         >
           <Stack alignItems="center" direction="row" spacing={1}>
             <Image
-              src={'/static/cryptos/ic_sing.svg'}
+              src={'/static/cryptos/ic_pangolin.png'}
               width={44}
               height={44}
               color="grey.700"
             />
             <Stack alignItems="center">
               <Typography sx={{ color: 'grey.800' }} variant="h6">
-                SING
+                PNG
               </Typography>
               <Typography sx={{ color: 'grey.700' }} variant="caption">
                 Reward
@@ -82,13 +82,13 @@ export const SingularFarm: FC = () => {
           <Stack alignItems="center">
             <Stack direction="row" alignItems="center" spacing={1}>
               <Image
-                src={'/static/cryptos/ic_sing.svg'}
+                src={'/static/cryptos/ic_pangolin.png'}
                 width={25}
                 height={25}
                 color="grey.700"
               />
               <Typography sx={{ color: 'grey.800' }} variant="h6">
-                Singular
+                Pangolin
               </Typography>
             </Stack>
             <Typography sx={{ color: 'grey.700' }} variant="caption">
@@ -100,7 +100,9 @@ export const SingularFarm: FC = () => {
         <Grid item xs={6} md={4} display="flex" justifyContent="center">
           <Stack alignItems="center">
             <NextLink
-              href={'https://singular.farm/farm/17'}
+              href={
+                'https://app.pangolin.exchange/#/png/0x8B1d98A91F853218ddbb066F20b8c63E782e2430/AVAX/2'
+              }
               underline="hover"
               rel="noreferrer"
               variant="subtitle2"
@@ -109,7 +111,7 @@ export const SingularFarm: FC = () => {
               display="flex"
               target="_blank"
             >
-              <Typography variant="h5">Go to Singular</Typography>
+              <Typography variant="h5">Go to Pangolin</Typography>
               <Icon icon={externalLinkOutline} width={40} height={40} />
             </NextLink>
           </Stack>
