@@ -237,4 +237,67 @@ export const BankTokenInfo: { [key: string]: BankInfo } = {
       </div>
     ),
   },
+  YRTQIBTC: {
+    address: {
+      mainnet: '0x330cC45c8f60FEF7F9D271a7512542B3d201A48D'.toLowerCase(),
+      fuji: '0xE1296Be9B7d9C69Ef65B054BD8cE79E326EFA0d7'.toLowerCase(),
+    },
+    icon: '/static/cryptos/yy_btc.png',
+    erc20: 'yrtQiBtc',
+    display: 'Yak x BenQi: WBTC.e',
+    url: 'YRTQIBTC',
+    symbol: 'YRT',
+    decimals: 18,
+    collateral: true,
+    yaktoken: true,
+    yakBase: 'WBTC.e',
+    tooltip: true,
+    underlyingDecimals: 8,
+    tooltipText: (
+      <div>
+        This is a single asset autocompounding pool through{' '}
+        <Link
+          href="https://yieldyak.com/farms"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          Yield Yak
+        </Link>{' '}
+        that leverages WBTC.e in BenQi. You will need to deposit WBTC.e into the
+        Yield Yak x BenQi pool on their platform, which will give you a receipt
+        that can be deposited here for borrowing AVAI.
+      </div>
+    ),
+  },
+  YRTQIETH: {
+    address: {
+      mainnet: '0x7D2d076000611E44740d636843384412399e31b9'.toLowerCase(),
+      fuji: '0xE1296Be9B7d9C69Ef65B054BD8cE79E326EFA0d7'.toLowerCase(),
+    },
+    icon: '/static/cryptos/yy_eth.png',
+    erc20: 'yrtQiEth',
+    display: 'Yak x BenQi: WETH.e',
+    url: 'YRTQIETH',
+    symbol: 'YRT',
+    decimals: 18,
+    collateral: true,
+    yaktoken: true,
+    yakBase: 'WETH.e',
+    tooltip: true,
+    tooltipText: (
+      <div>
+        This is a single asset autocompounding pool through{' '}
+        <Link
+          href="https://yieldyak.com/farms"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          Yield Yak
+        </Link>{' '}
+        that leverages WETH.e in BenQi. You will need to deposit WETH.e into the
+        Yield Yak x BenQi pool on their platform, which will give you a receipt
+        that can be deposited here for borrowing AVAI.
+      </div>
+    ),
+  },
 };

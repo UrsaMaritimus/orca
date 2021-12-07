@@ -6,4 +6,6 @@ export const ibtknCollateral = [
   'Yak x JOE',
   'Yak x BenQi: LINK.e',
   'Yak x BenQi: AVAX',
+  'Yak x BenQi: WBTC.e',
+  'Yak x BenQi: WETH.e',
 ];
