@@ -24,6 +24,7 @@ import { AxialSwapFarm } from './partner/axial';
 import { PangoOrcaFarm } from './partner/png-orca';
 import { PangoAvaiFarm } from './partner/png-avai';
 import { GondolaFarm } from './partner/gondola';
+import { ElkAvaiFarm } from './partner/elk';
 
 const RootStyle = styled(Page)(({ theme }) => ({
   paddingTop: theme.spacing(3),
@@ -122,6 +123,7 @@ export const Farming: FC = () => {
         <PangoOrcaFarm />
         <PangoAvaiFarm />
         <AxialSwapFarm />
+        <ElkAvaiFarm />
         <GondolaFarm />
         <AvawareFarm />
         <SingularFarm />
