@@ -1,7 +1,7 @@
 import { useState, FC } from 'react';
 import { styled } from '@mui/material/styles';
 
-import { MHidden } from '@orca/components';
+import { MHidden, ThemeSettings } from '@orca/components';
 
 import NavBar from './NavBar';
 import TopBar from './TopBar';
@@ -41,6 +41,7 @@ const DashboardLayout: FC = ({ children }) => {
       <TopBar onOpenNav={() => setOpenNav(true)} />
       <NavBar onCloseNav={() => setOpenNav(false)} isOpenNav={openNav} />
       <MainStyle>{children}</MainStyle>
+      <ThemeSettings />
       <MHidden width="smUp">
         <MobileAccountInfo />
       </MHidden>

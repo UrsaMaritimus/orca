@@ -6,7 +6,7 @@ import useSWR from 'swr';
 import type { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React } from '@web3-react/core';
 
-import { Typography, Stack } from '@mui/material';
+import { Typography, Stack, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 import { parseBalance } from '@orca/util';
@@ -16,14 +16,14 @@ import { useKeepSWRDataLiveAsBlocksArrive } from '@orca/hooks';
 
 import { seeAVAI } from './atom';
 
-const BalanceStyle = styled('div')(({ theme }) => ({
+const BalanceStyle = styled(Button)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(1, 1.5),
   margin: theme.spacing(1),
 
   backgroundColor: theme.palette.grey[500_80],
-  maxWidth: '150px',
+  maxWidth: '175px',
 }));
 
 const AvaiBalance: FC = () => {

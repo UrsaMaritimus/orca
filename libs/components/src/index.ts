@@ -16,3 +16,4 @@ export { default as MainTable } from './table';
 export * from './transaction';
 export * from './scroll-bar';
 export * from './popover-menu';
+export * from './settings';
