@@ -109,7 +109,7 @@ export const SingularFarm: FC = () => {
               display="flex"
               target="_blank"
             >
-              <Typography variant="h5">Go to Farm</Typography>
+              <Typography variant="h5">Go to Singular</Typography>
               <Icon icon={externalLinkOutline} width={40} height={40} />
             </Link>
           </Stack>
