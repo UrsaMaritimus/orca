@@ -42,7 +42,6 @@ const ReturnTextField = styled(TextField)(({ theme }) => ({
   },
   '& .MuiFilledInput-root': {
     background: 'rgb(232, 241, 250)',
-    borderRadius: theme.shape.borderRadiusSm,
   },
 }));
 

@@ -25,7 +25,7 @@ export const SingularFarm: FC = () => {
         py: 2,
         px: 1,
         mb: 2,
-        background: `linear-gradient(135deg, #5c5c5c 0%, #999999 10%, ${theme.palette.primary.lighter} 100%)`,
+        background: `linear-gradient(135deg, #5c5c5c 0%, #999999 10%, ${theme.palette.primary.light} 100%)`,
       }}
     >
       <Grid container alignItems="center" spacing={1}>

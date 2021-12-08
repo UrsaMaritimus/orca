@@ -14,7 +14,6 @@ const ContentStyle = styled('div')(({ theme }) => ({
   margin: 'auto',
   overflow: 'hidden',
   paddingBottom: theme.spacing(10),
-  borderRadius: theme.shape.borderRadiusMd,
   backgroundImage: `linear-gradient(135deg,
     ${theme.palette.primary.main} 0%,
     ${theme.palette.primary.dark} 100%)`,
@@ -81,7 +80,6 @@ const SignUp: FC = () => {
               href={routes.LANDING.SITE}
               target={'_blank'}
               sx={{
-                boxShadow: (theme) => theme.shadowExtension.z8,
                 color: (theme) =>
                   theme.palette.getContrastText(theme.palette.common.white),
                 bgcolor: 'common.white',

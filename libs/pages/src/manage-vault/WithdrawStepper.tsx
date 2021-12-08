@@ -43,9 +43,7 @@ import { StepperProps } from './stepper.type';
 import { ImageAspectRatioOutlined } from '@mui/icons-material';
 
 const InputTextField = styled(TextField)(({ theme }) => ({
-  '& .MuiFilledInput-root': {
-    borderRadius: theme.shape.borderRadiusSm,
-  },
+  '& .MuiFilledInput-root': {},
 }));
 // ----------------------------------------------------------------------
 

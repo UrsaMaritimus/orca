@@ -42,7 +42,7 @@ const ArrowStyle = styled(MIconButton)(({ theme }) => ({
   justifyContent: 'center',
   color: theme.palette.common.white,
   background: theme.palette.grey[900],
-  borderRadius: theme.shape.borderRadiusSm,
+
   transition: theme.transitions.create('opacity'),
   '&:hover': {
     opacity: 1,

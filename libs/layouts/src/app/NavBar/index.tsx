@@ -38,11 +38,10 @@ const RootStyle = styled('div')(({ theme }) => ({
 
 const DocStyle = styled('div')(({ theme }) => ({
   padding: theme.spacing(2.5),
-  borderRadius: theme.shape.borderRadiusMd,
   backgroundColor:
     theme.palette.mode === 'light'
       ? alpha(theme.palette.primary.main, 0.08)
-      : theme.palette.primary.lighter,
+      : theme.palette.primary.light,
 }));
 
 // ----------------------------------------------------------------------
@@ -248,7 +247,6 @@ const NavBar: FC<Props> = ({ isOpenNav, onCloseNav }) => {
                 borderRight: 0,
                 backdropFilter: 'blur(6px)',
                 WebkitBackdropFilter: 'blur(6px)', // Fix on Mobile
-                boxShadow: (theme) => theme.shadowExtension.z20,
                 bgcolor: (theme) =>
                   alpha(theme.palette.background.default, 0.88),
               }),

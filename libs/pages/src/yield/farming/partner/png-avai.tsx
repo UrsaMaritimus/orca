@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-import { NextLink } from '@orca/components';
+import { Link } from '@orca/components';
 
 export const PangoAvaiFarm: FC = () => {
   const theme = useTheme();
@@ -25,7 +25,7 @@ export const PangoAvaiFarm: FC = () => {
         py: 2,
         px: 1,
         mb: 2,
-        background: `linear-gradient(135deg, #ee502d 0%, #f28067 10%, ${theme.palette.primary.lighter} 100%)`,
+        background: `linear-gradient(135deg, #ee502d 0%, #f28067 10%, ${theme.palette.primary.light} 100%)`,
       }}
     >
       <Grid container alignItems="center" spacing={1}>
@@ -99,7 +99,7 @@ export const PangoAvaiFarm: FC = () => {
 
         <Grid item xs={6} md={4} display="flex" justifyContent="center">
           <Stack alignItems="center">
-            <NextLink
+            <Link
               href={
                 'https://app.pangolin.exchange/#/png/0x346A59146b9b4a77100D369a3d18E8007A9F46a6/AVAX/2'
               }
@@ -113,7 +113,7 @@ export const PangoAvaiFarm: FC = () => {
             >
               <Typography variant="h5">Go to Pangolin</Typography>
               <Icon icon={externalLinkOutline} width={40} height={40} />
-            </NextLink>
+            </Link>
           </Stack>
         </Grid>
       </Grid>

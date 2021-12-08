@@ -37,15 +37,11 @@ const ReturnTextField = styled(TextField)(({ theme }) => ({
     fontSize: 18,
     fontWeight: 'bold',
   },
-  '& .MuiFilledInput-root': {
-    borderRadius: theme.shape.borderRadiusSm,
-  },
+  '& .MuiFilledInput-root': {},
 }));
 
 const InputTextField = styled(TextField)(({ theme }) => ({
-  '& .MuiFilledInput-root': {
-    borderRadius: theme.shape.borderRadiusSm,
-  },
+  '& .MuiFilledInput-root': {},
 }));
 
 //----------------------------------------------------------

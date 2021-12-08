@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, FC, useState } from 'react';
+import { useEffect, FC, useState } from 'react';
 import Image from 'next/image';
 
 import MetaMaskOnboarding from '@metamask/onboarding';
@@ -7,7 +7,7 @@ import { UserRejectedRequestError } from '@web3-react/injected-connector';
 import { useSetRecoilState } from 'recoil';
 import { toast } from 'react-hot-toast';
 
-import { Box, Button, Stack, Typography } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 import { Jazzicon } from '@ukstv/jazzicon-react';
 import { styled } from '@mui/material/styles';
 
@@ -26,11 +26,6 @@ const Account: FC = () => {
     useWeb3React();
 
   const triedToEagerConnect = useEagerConnect();
-  // initialize metamask onboarding
-  const onboarding = useRef<MetaMaskOnboarding>();
-  useLayoutEffect(() => {
-    onboarding.current = new MetaMaskOnboarding();
-  }, []);
 
   // manage connecting state for injected connector
   const [connecting, setConnecting] = useState(false);
@@ -80,7 +75,6 @@ const Account: FC = () => {
   useEffect(() => {
     if (active || error) {
       setConnecting(false);
-      onboarding.current?.stopOnboarding();
     }
   }, [active, error]);
 
@@ -154,7 +148,7 @@ const Account: FC = () => {
             variant="contained"
             color="primary"
             sx={{ mr: 1.5 }}
-            onClick={() => onboarding.current?.startOnboarding()}
+            disabled={true}
           >
             Install Metamask
           </Button>

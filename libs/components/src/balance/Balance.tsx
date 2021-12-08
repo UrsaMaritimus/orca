@@ -13,7 +13,7 @@ const BalanceStyle = styled('div')(({ theme }) => ({
   alignItems: 'center',
   padding: theme.spacing(1, 2.5),
   margin: theme.spacing(1),
-  borderRadius: theme.shape.borderRadiusSm,
+
   backgroundColor: theme.palette.grey[500_80],
 }));
 

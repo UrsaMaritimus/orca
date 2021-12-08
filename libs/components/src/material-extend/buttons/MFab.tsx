@@ -44,7 +44,6 @@ const MFab = forwardRef<HTMLButtonElement, Props>(
         <Fab
           ref={ref}
           sx={{
-            boxShadow: theme.shadowExtension[color],
             color: theme.palette[color].contrastText,
             bgcolor: theme.palette[color].main,
             '&:hover': {

@@ -1,7 +1,6 @@
-import { useLayoutEffect, useRef, FC, useState } from 'react';
+import { FC, useState } from 'react';
 import Image from 'next/image';
 
-import MetaMaskOnboarding from '@metamask/onboarding';
 import { useWeb3React, UnsupportedChainIdError } from '@web3-react/core';
 import { UserRejectedRequestError } from '@web3-react/injected-connector';
 import useSWR from 'swr';
@@ -23,12 +22,6 @@ import {
 export const YourFarmInfo: FC = () => {
   const [depositing, setDepositing] = useState<boolean>(false);
   const { activate, chainId, account, setError, library } = useWeb3React();
-
-  // initialize metamask onboarding
-  const onboarding = useRef<MetaMaskOnboarding>();
-  useLayoutEffect(() => {
-    onboarding.current = new MetaMaskOnboarding();
-  }, []);
 
   const onClickConnect = () => {
     activate(injected, undefined, true).catch((error) => {

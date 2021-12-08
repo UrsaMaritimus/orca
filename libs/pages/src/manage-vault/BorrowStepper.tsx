@@ -40,9 +40,7 @@ import { BankTokenInfo, ProtocolTokenInfo } from '@orca/shared';
 import { StepperProps } from './stepper.type';
 
 const InputTextField = styled(TextField)(({ theme }) => ({
-  '& .MuiFilledInput-root': {
-    borderRadius: theme.shape.borderRadiusSm,
-  },
+  '& .MuiFilledInput-root': {},
 }));
 // ----------------------------------------------------------------------
 

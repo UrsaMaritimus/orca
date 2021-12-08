@@ -25,7 +25,7 @@ export const AvawareFarm: FC = () => {
         py: 2,
         px: 1,
         mb: 2,
-        background: `linear-gradient(135deg, #b01647 0%, #a969a9 10%, ${theme.palette.primary.lighter} 100%)`,
+        background: `linear-gradient(135deg, #b01647 0%, #a969a9 10%, ${theme.palette.primary.light} 100%)`,
       }}
     >
       <Grid container alignItems="center" spacing={1}>

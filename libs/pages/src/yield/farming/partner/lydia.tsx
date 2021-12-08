@@ -25,7 +25,7 @@ export const LydiaFarm: FC = () => {
         py: 2,
         px: 1,
         mb: 2,
-        background: `linear-gradient(135deg, #281c7c 0%, #6c22ca 10%, ${theme.palette.primary.lighter} 100%)`,
+        background: `linear-gradient(135deg, #281c7c 0%, #6c22ca 10%, ${theme.palette.primary.light} 100%)`,
       }}
     >
       <Grid container alignItems="center" spacing={1}>

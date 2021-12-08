@@ -94,7 +94,7 @@ export const Farm: FC<FarmProps> = ({
     <Card
       sx={{
         my: 2,
-        background: `linear-gradient(135deg, ${color1} 0%, ${color2} 10%, ${theme.palette.primary.lighter} 100%)`,
+        background: `linear-gradient(135deg, ${color1} 0%, ${color2} 10%, ${theme.palette.primary.light} 100%)`,
       }}
     >
       <CardContent>

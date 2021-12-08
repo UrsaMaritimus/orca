@@ -80,12 +80,12 @@ export const Farm: FC<FarmProps> = ({
     <Card
       sx={{
         my: 2,
-        background: `linear-gradient(135deg, ${color1} 0%, ${color2} 10%, ${theme.palette.primary.lighter} 100%)`,
+        background: `linear-gradient(135deg, ${color1} 0%, ${color2} 10%, ${theme.palette.primary.light} 100%)`,
       }}
     >
       <Accordion
         sx={{
-          background: `linear-gradient(135deg, ${color1} 0%, ${color2} 10%, ${theme.palette.primary.lighter} 100%)`,
+          background: `linear-gradient(135deg, ${color1} 0%, ${color2} 10%, ${theme.palette.primary.light} 100%)`,
         }}
         expanded={expanded === name}
         onChange={handleChange(name)}
@@ -197,7 +197,7 @@ export const Farm: FC<FarmProps> = ({
         </AccordionSummary>
         <AccordionDetails
           sx={{
-            background: (theme) => alpha(theme.palette.primary.lighter, 0.35),
+            background: (theme) => alpha(theme.palette.primary.light, 0.35),
           }}
         >
           <Typography sx={{ color: 'grey.700' }} color="inherit">

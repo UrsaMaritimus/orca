@@ -28,7 +28,6 @@ import 'nprogress/nprogress.css';
 
 // Custom
 import {
-  Settings,
   BalanceInfoOrca,
   AccountInfo,
   BalanceInfoAVAI,
@@ -94,7 +93,6 @@ export default function NextWeb3App(props: MyAppProps) {
                     horizontal: 'right',
                   }}
                 >
-                  <Settings />
                   <AccountInfo />
                   <BalanceInfoAVAI />
                   <BalanceInfoOrca />

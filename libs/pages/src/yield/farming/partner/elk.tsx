@@ -3,17 +3,10 @@ import Image from 'next/image';
 import { Icon } from '@iconify/react';
 import externalLinkOutline from '@iconify/icons-eva/external-link-outline';
 
-import {
-  Typography,
-  Card,
-  Grid,
-  Stack,
-  Box,
-  useMediaQuery,
-} from '@mui/material';
+import { Typography, Card, Grid, Stack, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-import { NextLink } from '@orca/components';
+import { Link } from '@orca/components';
 
 export const ElkAvaiFarm: FC = () => {
   const theme = useTheme();
@@ -25,7 +18,7 @@ export const ElkAvaiFarm: FC = () => {
         py: 2,
         px: 1,
         mb: 2,
-        background: `linear-gradient(135deg, #214e2a 0%, #009f55 10%, ${theme.palette.primary.lighter} 100%)`,
+        background: `linear-gradient(135deg, #214e2a 0%, #009f55 10%, ${theme.palette.primary.light} 100%)`,
       }}
     >
       <Grid container alignItems="center" spacing={1}>
@@ -99,7 +92,7 @@ export const ElkAvaiFarm: FC = () => {
 
         <Grid item xs={6} md={4} display="flex" justifyContent="center">
           <Stack alignItems="center">
-            <NextLink
+            <Link
               href={
                 'https://app.elk.finance/#/elk/0x346A59146b9b4a77100D369a3d18E8007A9F46a6/0xE1C110E1B1b4A1deD0cAf3E42BfBdbB7b5d7cE1C'
               }
@@ -113,7 +106,7 @@ export const ElkAvaiFarm: FC = () => {
             >
               <Typography variant="h5">Go to ElkDex</Typography>
               <Icon icon={externalLinkOutline} width={40} height={40} />
-            </NextLink>
+            </Link>
           </Stack>
         </Grid>
       </Grid>

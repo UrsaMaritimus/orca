@@ -11,9 +11,7 @@ export const ChartStyles: FC = () => {
       styles={{
         '.apexcharts-tooltip,.apexcharts-xaxistooltip': {
           border: '0 !important',
-          boxShadow: `${theme.shadowExtension.z24} !important`,
           color: `${theme.palette.text.primary} !important`,
-          borderRadius: `${theme.shape.borderRadiusSm}px !important`,
           backgroundColor: `${theme.palette.background.default} !important`,
         },
         '.apexcharts-tooltip-title': {

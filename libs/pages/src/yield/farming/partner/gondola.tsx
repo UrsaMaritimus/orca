@@ -3,17 +3,10 @@ import Image from 'next/image';
 import { Icon } from '@iconify/react';
 import externalLinkOutline from '@iconify/icons-eva/external-link-outline';
 
-import {
-  Typography,
-  Card,
-  Grid,
-  Stack,
-  Box,
-  useMediaQuery,
-} from '@mui/material';
+import { Typography, Card, Grid, Stack, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-import { NextLink } from '@orca/components';
+import { Link } from '@orca/components';
 
 export const GondolaFarm: FC = () => {
   const theme = useTheme();
@@ -25,7 +18,7 @@ export const GondolaFarm: FC = () => {
         py: 2,
         px: 1,
         mb: 2,
-        background: `linear-gradient(135deg, #57aac0 0%, #0beff4 10%, ${theme.palette.primary.lighter} 100%)`,
+        background: `linear-gradient(135deg, #57aac0 0%, #0beff4 10%, ${theme.palette.primary.light} 100%)`,
       }}
     >
       <Grid container alignItems="center" spacing={1}>
@@ -99,7 +92,7 @@ export const GondolaFarm: FC = () => {
 
         <Grid item xs={6} md={4} display="flex" justifyContent="center">
           <Stack alignItems="center">
-            <NextLink
+            <Link
               href={'https://app.gondola.finance/pools'}
               underline="hover"
               rel="noreferrer"
@@ -111,7 +104,7 @@ export const GondolaFarm: FC = () => {
             >
               <Typography variant="h5">Go to Gondola</Typography>
               <Icon icon={externalLinkOutline} width={40} height={40} />
-            </NextLink>
+            </Link>
           </Stack>
         </Grid>
       </Grid>

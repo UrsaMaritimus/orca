@@ -83,7 +83,6 @@ const ToolbarShadowStyle = styled('div')(({ theme }) => ({
   borderRadius: '50%',
   position: 'absolute',
   width: `calc(100% - 48px)`,
-  boxShadow: theme.shadowExtension.z8,
 }));
 
 // ----------------------------------------------------------------------

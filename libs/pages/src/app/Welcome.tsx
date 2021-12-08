@@ -15,7 +15,7 @@ import { routes } from '@orca/shared';
 const RootStyle = styled(Card)(({ theme }) => ({
   boxShadow: 'none',
   textAlign: 'center',
-  backgroundColor: theme.palette.primary.lighter,
+  backgroundColor: theme.palette.primary.light,
   [theme.breakpoints.up('md')]: {
     height: '100%',
     display: 'flex',

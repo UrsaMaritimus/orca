@@ -14,7 +14,7 @@ const BannerStyle = styled('div')(({ theme }) => ({
   top: '89%',
   position: 'fixed',
   width: '100%',
-  borderRadius: theme.shape.borderRadiusSm,
+
   backgroundColor: theme.palette.grey[500_12],
 }));
 

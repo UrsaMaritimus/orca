@@ -55,7 +55,7 @@ export const ProtocolRevenue: FC<RevenueProps> = ({
   const CHART_DATA = [sum * 0.4, sum * 0.05, sum * 0.15, sum * 0.4];
   const chartOptions = merge(BaseOptionChart(), {
     colors: [
-      theme.palette.primary.lighter,
+      theme.palette.primary.light,
       theme.palette.primary.light,
       theme.palette.primary.main,
       theme.palette.primary.dark,

@@ -42,9 +42,7 @@ import { fPercent, fNumber, colorScale } from '@orca/util';
 import { StepperProps } from './stepper.type';
 
 const InputTextField = styled(TextField)(({ theme }) => ({
-  '& .MuiFilledInput-root': {
-    borderRadius: theme.shape.borderRadiusSm,
-  },
+  '& .MuiFilledInput-root': {},
 }));
 // ----------------------------------------------------------------------
 

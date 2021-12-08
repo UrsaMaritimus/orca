@@ -21,7 +21,7 @@ const BalanceStyle = styled('div')(({ theme }) => ({
   alignItems: 'center',
   padding: theme.spacing(1, 1.5),
   margin: theme.spacing(1),
-  borderRadius: theme.shape.borderRadiusSm,
+
   backgroundColor: theme.palette.grey[500_80],
   maxWidth: '150px',
 }));

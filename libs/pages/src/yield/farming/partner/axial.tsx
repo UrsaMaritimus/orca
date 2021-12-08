@@ -25,7 +25,7 @@ export const AxialSwapFarm: FC = () => {
         py: 2,
         px: 1,
         mb: 2,
-        background: `linear-gradient(135deg, #0f0e3b 0%, #201f55 10%, ${theme.palette.primary.lighter} 100%)`,
+        background: `linear-gradient(135deg, #0f0e3b 0%, #201f55 10%, ${theme.palette.primary.light} 100%)`,
       }}
     >
       <Grid container alignItems="center" spacing={1}>

@@ -41,7 +41,6 @@ const PopoverMenu: FC<PopoverProps> = ({
           mt: 1.5,
           ml: 0.5,
           overflow: 'inherit',
-          boxShadow: (theme) => theme.shadowExtension.z20,
           border: (theme) => `solid 1px ${theme.palette.grey[500_8]}`,
           width: 200,
           ...sx,
