@@ -55,6 +55,7 @@ export type { YakAvaxBenQiOracle } from "./YakAvaxBenQiOracle";
 export type { YakBenqiBTCOracle } from "./YakBenqiBTCOracle";
 export type { YakBenqiETHOracle } from "./YakBenqiETHOracle";
 export type { YakLinkBenqiOracle } from "./YakLinkBenqiOracle";
+export type { YakQiBenqiOracle } from "./YakQiBenqiOracle";
 export type { YakJoeOracle } from "./YakJoeOracle";
 export type { YakAvaxJoeOracle } from "./YakAvaxJoeOracle";
 export type { YakUsdcJoeOracle } from "./YakUsdcJoeOracle";
@@ -136,6 +137,7 @@ export { YakAvaxBenQiOracle__factory } from "./factories/YakAvaxBenQiOracle__fac
 export { YakBenqiBTCOracle__factory } from "./factories/YakBenqiBTCOracle__factory";
 export { YakBenqiETHOracle__factory } from "./factories/YakBenqiETHOracle__factory";
 export { YakLinkBenqiOracle__factory } from "./factories/YakLinkBenqiOracle__factory";
+export { YakQiBenqiOracle__factory } from "./factories/YakQiBenqiOracle__factory";
 export { YakJoeOracle__factory } from "./factories/YakJoeOracle__factory";
 export { YakAvaxJoeOracle__factory } from "./factories/YakAvaxJoeOracle__factory";
 export { YakUsdcJoeOracle__factory } from "./factories/YakUsdcJoeOracle__factory";
