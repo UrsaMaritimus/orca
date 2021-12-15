@@ -96,6 +96,7 @@
     "recoil": "^0.4.1",
     "recoil-persist": "^3.0.0",
     "regenerator-runtime": "0.13.7",
+    "sass": "^1.45.0",
     "simplebar-react": "^2.3.5",
     "slick-carousel": "^1.8.1",
     "swr": "^0.5.6",

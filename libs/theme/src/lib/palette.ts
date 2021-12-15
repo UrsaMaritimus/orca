@@ -68,6 +68,7 @@ const GREY = {
   500_48: alpha('#919EAB', 0.48),
   500_56: alpha('#919EAB', 0.56),
   500_80: alpha('#919EAB', 0.8),
+  900_80: alpha('#212B36', 0.8),
 };
 
 const GRADIENTS = {
@@ -155,7 +156,7 @@ export const Palette: Palettes = {
     background: {
       paper: GREY[800],
       default: GREY[900],
-      neutral: GREY[500_16],
+      neutral: GREY[900_80],
     },
     action: {
       active: GREY[500],
