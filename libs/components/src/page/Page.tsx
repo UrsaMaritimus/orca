@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles';
 
 import Head from 'next/head';
 import Image from 'next/image';
+import styles from './Snow.module.scss';
 
 // ---------------------------------------------------------------------
 
@@ -28,6 +29,15 @@ type Props = {
 };
 const Page = forwardRef<HTMLDivElement, Props>(
   ({ children, title = '', ...other }, ref) => {
+    const renderSnow = () => {
+      const numberOfSnowflakes = 200;
+      const rows = [];
+      for (let i = 0; i < numberOfSnowflakes; i++) {
+        rows.push(<div className={styles.snow}></div>);
+      }
+      return <div className={styles.snowflakes}>{rows}</div>;
+    };
+
     return (
       <div ref={ref} {...other}>
         <Head>
@@ -55,6 +65,7 @@ const Page = forwardRef<HTMLDivElement, Props>(
           <title>{title}</title>
         </Head>
         <StyledImage src="/static/images/hero.svg" layout="fill" />
+        {renderSnow()}
         {children}
       </div>
     );
