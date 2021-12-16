@@ -11,9 +11,10 @@ const Logo: FC<Props> = ({ sx, ...other }) => {
     <Box sx={sx}>
       <Image
         alt="logo"
-        src="/static/brand/ic_logo_solo_santa.svg"
+        src="/static/brand/logo_solo_santa.png"
         height={40}
         width={40}
+        quality={100}
         {...other}
       />
     </Box>
