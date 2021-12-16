@@ -38,7 +38,7 @@ import {
   ProtocolTokenInfo,
 } from '@orca/shared';
 import { payBackToken, avaiBalance } from '@orca/web3';
-import { fPercent, fNumber, colorScale } from '@orca/util';
+import { fPercent, fNumber, colorScale, fCurrency } from '@orca/util';
 import { StepperProps } from './stepper.type';
 
 const InputTextField = styled(TextField)(({ theme }) => ({
@@ -408,6 +408,127 @@ export const RepayStepper: FC<StepperProps> = ({
                         2
                       )}{' '}
                       AVAI Borrowed
+                    </Typography>
+                  </Stack>
+                </Grid>
+                <Grid
+                  item
+                  xs={4}
+                  sm={5}
+                  mt={2}
+                  display="flex"
+                  justifyContent="flex-end"
+                >
+                  <Typography variant="subtitle1" textAlign="center">
+                    New Liquidation Price
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={8}
+                  sm={7}
+                  mt={2}
+                  display="flex"
+                  justifyContent="flex-end"
+                >
+                  <Stack alignItems={'flex-end'}>
+                    <Typography
+                      variant="body2"
+                      textAlign="center"
+                      color={colorScale(
+                        (100 *
+                          (Number(utils.formatEther(vaultInfo.debt)) -
+                            values.repayAmount)) /
+                          Number(
+                            utils.formatUnits(
+                              vaultInfo.collateral
+                                .mul(vaultInfo.tokenPrice)
+                                .div(vaultInfo.peg),
+                              BankTokenInfo[token].decimals
+                            )
+                          ),
+                        vaultInfo.maxLTV - 30,
+                        vaultInfo.maxLTV
+                      )}
+                    >
+                      {fCurrency(
+                        !vaultInfo.collateral.isZero()
+                          ? BankTokenInfo[token].underlyingDecimals
+                            ? Number(
+                                utils.formatUnits(
+                                  vaultInfo.debt
+                                    .sub(
+                                      utils.parseEther(
+                                        values.repayAmount
+                                          ? typeof values.repayAmount ===
+                                            'number'
+                                            ? values.repayAmount.toFixed(18)
+                                            : values.repayAmount
+                                          : '0'
+                                      )
+                                    )
+                                    .mul(vaultInfo.peg)
+                                    .mul(vaultInfo.mcp)
+                                    .div(
+                                      vaultInfo.collateral
+                                        .mul(100)
+                                        .mul(
+                                          10 **
+                                            (18 - BankTokenInfo[token].decimals)
+                                        )
+                                    ),
+                                  8
+                                )
+                              ) /
+                              10 **
+                                (18 - BankTokenInfo[token].underlyingDecimals)
+                            : Number(
+                                utils.formatUnits(
+                                  vaultInfo.debt
+                                    .sub(
+                                      utils.parseEther(
+                                        values.repayAmount
+                                          ? typeof values.repayAmount ===
+                                            'number'
+                                            ? values.repayAmount.toFixed(18)
+                                            : values.repayAmount
+                                          : '0'
+                                      )
+                                    )
+                                    .mul(vaultInfo.peg)
+                                    .mul(vaultInfo.mcp)
+                                    .div(
+                                      vaultInfo.collateral
+                                        .mul(100)
+                                        .mul(
+                                          10 **
+                                            (18 - BankTokenInfo[token].decimals)
+                                        )
+                                    ),
+                                  8
+                                )
+                              )
+                          : 0
+                      )}
+                    </Typography>
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        color: (theme) =>
+                          theme.palette.mode === 'light'
+                            ? 'grey.600'
+                            : 'grey.400',
+                      }}
+                    >
+                      Current Price:{' '}
+                      {fCurrency(
+                        BankTokenInfo[token].underlyingDecimals
+                          ? Number(utils.formatUnits(vaultInfo.tokenPrice, 8)) /
+                              10 **
+                                (18 - BankTokenInfo[token].underlyingDecimals)
+                          : Number(utils.formatUnits(vaultInfo.tokenPrice, 8))
+                      )}{' '}
+                      USD
                     </Typography>
                   </Stack>
                 </Grid>
