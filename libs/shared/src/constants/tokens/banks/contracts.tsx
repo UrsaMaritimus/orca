@@ -105,7 +105,7 @@ export const BankTokenInfo: { [key: string]: BankInfo } = {
           Yield Yak
         </Link>{' '}
         that farms JOE through xJOE and Trader Joe's xJOE farm. You will need to
-        deposit AVAX into the Yield Yak x Joe pool on their platform, which will
+        deposit JOE into the Yield Yak x Joe pool on their platform, which will
         give you a receipt that can be deposited here for borrowing AVAI.
       </div>
     ),
@@ -297,6 +297,37 @@ export const BankTokenInfo: { [key: string]: BankInfo } = {
         that leverages WETH.e in BenQi. You will need to deposit WETH.e into the
         Yield Yak x BenQi pool on their platform, which will give you a receipt
         that can be deposited here for borrowing AVAI.
+      </div>
+    ),
+  },
+  YRTQI: {
+    address: {
+      mainnet: '0xbF5bFFbf7D94D3B29aBE6eb20089b8a9E3D229f7'.toLowerCase(),
+      fuji: '0xE1296Be9B7d9C69Ef65B054BD8cE79E326EFA0d7'.toLowerCase(),
+    },
+    icon: '/static/cryptos/ic_yak_benqi.png',
+    erc20: 'yrtQi',
+    display: 'Yak: QI',
+    url: 'YRTQI',
+    symbol: 'YRT',
+    decimals: 18,
+    collateral: true,
+    yaktoken: true,
+    yakBase: 'QI',
+    tooltip: true,
+    tooltipText: (
+      <div>
+        This is a single asset autocompounding pool through{' '}
+        <Link
+          href="https://yieldyak.com/farms"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          Yield Yak
+        </Link>{' '}
+        that deposits QI into BenQi. You will need to deposit QI into the Yield
+        Yak: QI pool on their platform, which will give you a receipt that can
+        be deposited here for borrowing AVAI.
       </div>
     ),
   },
