@@ -5,6 +5,8 @@ import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 import {
   OracleBridge__factory,
   AggregatorV3Interface__factory,
+  OracleLPBridge,
+  OracleLPBridge__factory,
 } from '../libs/shared/src/contracts/types';
 
 const USDCPriceSource = '0xF096872672F44d6EBA71458D74fe67F9a77a23B9';
@@ -22,6 +24,7 @@ const joeStratETH = '0xe28Ad9Fa07fDA82abab2E0C86c64A19D452b160E';
 describe('Oracle Bridge Test', function () {
   let accounts: SignerWithAddress[];
   let oracleFac: OracleBridge__factory;
+  let oracleLPFac: OracleLPBridge__factory;
 
   before(async () => {
     accounts = await ethers.getSigners();
@@ -29,6 +32,11 @@ describe('Oracle Bridge Test', function () {
       'OracleBridge',
       accounts[0]
     )) as OracleBridge__factory;
+
+    oracleLPFac = (await ethers.getContractFactory(
+      'OracleLPBridge',
+      accounts[0]
+    )) as OracleLPBridge__factory;
   });
 
   it('gives the correct price for usdc for joe', async () => {
@@ -107,5 +115,34 @@ describe('Oracle Bridge Test', function () {
     expect(
       (await actual.latestRoundData())[1].toNumber()
     ).to.be.lessThanOrEqual(answer.toNumber());
+  });
+  it('gives price for avax/usdc LP', async () => {
+    const oracle = await oracleLPFac.deploy(
+      AVAXPriceSource,
+      '0xF096872672F44d6EBA71458D74fe67F9a77a23B9',
+      '0xa389f9430876455c36478deea9769b7ca4e3ddb1',
+      '0xA1801f4FFD40b192A13A54614E66d3625d5C422e'
+    );
+
+    await oracle.deployed();
+    expect(oracle.address).to.be.properAddress;
+    const [roundId, answer, startedAt, updatedAt, answeredInRound] =
+      await oracle.latestRoundData();
+    console.log(ethers.utils.formatUnits(answer, 8));
+  });
+
+  it('gives price for avax/weth LP', async () => {
+    const oracle = await oracleLPFac.deploy(
+      AVAXPriceSource,
+      '0x976B3D034E162d8bD72D6b9C989d545b839003b0',
+      '0xfe15c2695f1f920da45c30aae47d11de51007af9',
+      '0x45AF056a757D6649c24D74c2E4fE449682F6A2dB'
+    );
+
+    await oracle.deployed();
+    expect(oracle.address).to.be.properAddress;
+    const [roundId, answer, startedAt, updatedAt, answeredInRound] =
+      await oracle.latestRoundData();
+    console.log(ethers.utils.formatUnits(answer, 8));
   });
 });
