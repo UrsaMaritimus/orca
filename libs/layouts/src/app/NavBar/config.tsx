@@ -98,6 +98,11 @@ const navConfig = [
         icon: ICONS.proposal,
         href: routes.APP.GOVERNANCE.VOTE,
       },
+      {
+        title: 'Current Vote',
+        icon: ICONS.voting,
+        href: routes.APP.GOVERNANCE.CURRENT,
+      },
     ],
   },
 ];
