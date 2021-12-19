@@ -45,7 +45,7 @@ export const SingularFarm: FC = () => {
             />
             <Stack alignItems={matches ? 'center' : 'flex-start'}>
               <Typography sx={{ color: 'grey.800' }} variant="h6">
-                USDC-AVAI
+                USDC.e-AVAI
               </Typography>
               <Typography sx={{ color: 'grey.700' }} variant="caption">
                 Asset

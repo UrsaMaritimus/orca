@@ -12,8 +12,8 @@ const RootStyle = styled(Page)((theme) => ({
 const App: FC = () => {
   return (
     <RootStyle
-      title={`USDC Exchange | ${process.env.NEXT_PUBLIC_TITLE}`}
-      id={'USDC'}
+      title={`USDC.e Exchange | ${process.env.NEXT_PUBLIC_TITLE}`}
+      id={'USDC.e'}
     >
       <AppLayout>
         <USDCSwap />

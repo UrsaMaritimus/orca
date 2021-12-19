@@ -51,7 +51,7 @@ const InputTextField = styled(TextField)(({ theme }) => ({
 //----------------------------------------------------------
 
 type MintProps = {
-  token: 'USDC';
+  token: 'USDC.e';
   library: Web3Provider;
   chainId: number;
   account: string;
@@ -143,9 +143,9 @@ export const Redeem: FC<MintProps> = ({
         utils.parseEther(values.swapAmount ? values.swapAmount.toString() : '0')
       ),
       messages: {
-        loading: 'Redeeming USDC...',
+        loading: 'Redeeming .e...',
         success: 'Successfully redeemed!',
-        error: 'Failed to redeem usdc.',
+        error: 'Failed to redeem USDC.e.',
       },
       mutates,
       chainId,

@@ -20,6 +20,7 @@ const handler = async () => {
   const userHasXOrca = users.filter(
     (val) => val.xorcaMinted - val.xorcaBurned > 0
   );
+  console.log(users.length);
 
   const winner = userHasXOrca[Math.floor(Math.random() * userHasXOrca.length)];
   console.log(winner);

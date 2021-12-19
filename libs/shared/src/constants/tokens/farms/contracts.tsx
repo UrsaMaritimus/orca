@@ -8,7 +8,7 @@ export const FarmTokenInfo: { [key: string]: FarmInfo } = {
       fuji: '0x045c6cd1b7a6f1d6cf66e2d45a9ba8e2b58cc217'.toLowerCase(),
     },
     icon: '/static/farm/ic_usdc_avai.svg',
-    erc20: 'USDC-AVAI',
+    erc20: 'USDC.e-AVAI',
     display: 'USDC.e-AVAI',
     symbol: 'USDC.e-AVAI',
     decimals: 18,

@@ -15,7 +15,7 @@ type Transaction = {
     | 'redeem'
     | 'liquidate';
   amount: BigNumber;
-  vault?: 'AVAX' | 'USDC' | 'ETH' | 'BTC';
+  vault?: 'AVAX' | 'USDC.e' | 'ETH' | 'BTC';
   success: boolean;
   hash: string;
 };

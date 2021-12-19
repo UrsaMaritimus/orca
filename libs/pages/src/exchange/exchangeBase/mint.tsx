@@ -64,7 +64,7 @@ const InputTextField = styled(TextField)(({ theme }) => ({
 //----------------------------------------------------------
 
 type MintProps = {
-  token: 'USDC';
+  token: 'USDC.e';
   library: Web3Provider;
   chainId: number;
   account: string;
@@ -168,9 +168,9 @@ export const Mint: FC<MintProps> = ({
         token
       ),
       messages: {
-        loading: 'Approving USDC...',
+        loading: 'Approving USDC.e...',
         success: 'Successfully approved!',
-        error: 'Failed to approve USDC.',
+        error: 'Failed to approve USDC.e.',
       },
       mutates: [usdcApprovedMutate],
       chainId,
@@ -218,7 +218,7 @@ export const Mint: FC<MintProps> = ({
             <Loader />
           </Backdrop>
           <CardHeader
-            title={'USDC Exchange'}
+            title={'USDC.e Exchange'}
             avatar={
               <Image
                 src={ProtocolTokenInfo[token].icon}
@@ -238,7 +238,7 @@ export const Mint: FC<MintProps> = ({
                 rel="noreferrer"
                 target="_blank"
               >
-                Get USDC
+                Get USDC.e
                 <Icon icon={externalLinkOutline} width={20} height={20} />
               </NextLink>
             }

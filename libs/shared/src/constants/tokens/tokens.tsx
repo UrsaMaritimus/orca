@@ -24,7 +24,7 @@ export const ProtocolTokenInfo: { [key: string]: TokenInfo } = {
     symbol: 'ORCA',
     decimals: 18,
   },
-  USDC: {
+  'USDC.e': {
     address: {
       mainnet: '0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664'.toLowerCase(),
       fuji: DeployedContracts.fuji.FakeUSDC.address.toLowerCase(),
