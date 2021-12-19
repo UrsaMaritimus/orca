@@ -536,6 +536,117 @@ export const DepositStepper: FC<StepperProps> = ({
                     </Typography>
                   </Stack>
                 </Grid>
+                <Grid
+                  item
+                  xs={4}
+                  sm={5}
+                  mt={2}
+                  display="flex"
+                  justifyContent="flex-end"
+                >
+                  <Typography variant="subtitle1" textAlign="center">
+                    New Liquidation Price
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={8}
+                  sm={7}
+                  mt={2}
+                  display="flex"
+                  justifyContent="flex-end"
+                >
+                  <Stack alignItems={'flex-end'}>
+                    <Typography
+                      variant="body2"
+                      textAlign="center"
+                      color={
+                        values.depositAmount &&
+                        colorScale(
+                          (100 * Number(utils.formatEther(vaultInfo.debt))) /
+                            Number(
+                              utils.formatUnits(
+                                vaultInfo.collateral
+                                  .add(
+                                    utils.parseUnits(
+                                      typeof values.depositAmount === 'number'
+                                        ? values.depositAmount.toFixed(
+                                            BankTokenInfo[token].decimals
+                                          )
+                                        : values.depositAmount,
+                                      BankTokenInfo[token].decimals
+                                    )
+                                  )
+                                  .mul(vaultInfo.tokenPrice)
+                                  .div(vaultInfo.peg),
+                                BankTokenInfo[token].decimals
+                              )
+                            ),
+                          vaultInfo.maxLTV - 30,
+                          vaultInfo.maxLTV
+                        )
+                      }
+                    >
+                      {fCurrency(
+                        !vaultInfo.collateral.isZero()
+                          ? Number(
+                              utils.formatUnits(
+                                vaultInfo.debt
+                                  .mul(vaultInfo.peg)
+                                  .mul(vaultInfo.mcp)
+                                  .div(
+                                    vaultInfo.collateral
+                                      .add(
+                                        utils.parseUnits(
+                                          values.depositAmount
+                                            ? typeof values.depositAmount ===
+                                              'number'
+                                              ? values.depositAmount.toFixed(
+                                                  BankTokenInfo[token].decimals
+                                                )
+                                              : values.depositAmount
+                                            : '0',
+                                          BankTokenInfo[token].decimals
+                                        )
+                                      )
+                                      .mul(100)
+                                      .mul(
+                                        10 **
+                                          (18 - BankTokenInfo[token].decimals)
+                                      )
+                                  ),
+                                8
+                              )
+                            ) /
+                              10 **
+                                (18 -
+                                  (BankTokenInfo[token].underlyingDecimals
+                                    ? BankTokenInfo[token].underlyingDecimals
+                                    : 18))
+                          : 0
+                      )}
+                    </Typography>
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        color: (theme) =>
+                          theme.palette.mode === 'light'
+                            ? 'grey.600'
+                            : 'grey.400',
+                      }}
+                    >
+                      Current Price:{' '}
+                      {fCurrency(
+                        BankTokenInfo[token].underlyingDecimals
+                          ? Number(utils.formatUnits(vaultInfo.tokenPrice, 8)) /
+                              10 **
+                                (18 - BankTokenInfo[token].underlyingDecimals)
+                          : Number(utils.formatUnits(vaultInfo.tokenPrice, 8))
+                      )}{' '}
+                      USD
+                    </Typography>
+                  </Stack>
+                </Grid>
               </Grid>
             </Box>
             <Grid container>

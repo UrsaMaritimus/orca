@@ -362,21 +362,24 @@ export const RepayStepper: FC<StepperProps> = ({
                     <Typography
                       variant="body2"
                       textAlign="center"
-                      color={colorScale(
-                        (100 *
-                          (Number(utils.formatEther(vaultInfo.debt)) -
-                            values.repayAmount)) /
-                          Number(
-                            utils.formatUnits(
-                              vaultInfo.collateral
-                                .mul(vaultInfo.tokenPrice)
-                                .div(vaultInfo.peg),
-                              BankTokenInfo[token].decimals
-                            )
-                          ),
-                        vaultInfo.maxLTV - 30,
-                        vaultInfo.maxLTV
-                      )}
+                      color={
+                        values.repayAmount &&
+                        colorScale(
+                          (100 *
+                            (Number(utils.formatEther(vaultInfo.debt)) -
+                              values.repayAmount)) /
+                            Number(
+                              utils.formatUnits(
+                                vaultInfo.collateral
+                                  .mul(vaultInfo.tokenPrice)
+                                  .div(vaultInfo.peg),
+                                BankTokenInfo[token].decimals
+                              )
+                            ),
+                          vaultInfo.maxLTV - 30,
+                          vaultInfo.maxLTV
+                        )
+                      }
                     >
                       {fPercent(
                         (100 *
@@ -435,79 +438,59 @@ export const RepayStepper: FC<StepperProps> = ({
                     <Typography
                       variant="body2"
                       textAlign="center"
-                      color={colorScale(
-                        (100 *
-                          (Number(utils.formatEther(vaultInfo.debt)) -
-                            values.repayAmount)) /
-                          Number(
-                            utils.formatUnits(
-                              vaultInfo.collateral
-                                .mul(vaultInfo.tokenPrice)
-                                .div(vaultInfo.peg),
-                              BankTokenInfo[token].decimals
-                            )
-                          ),
-                        vaultInfo.maxLTV - 30,
-                        vaultInfo.maxLTV
-                      )}
+                      color={
+                        values.repayAmount &&
+                        colorScale(
+                          (100 *
+                            (Number(utils.formatEther(vaultInfo.debt)) -
+                              values.repayAmount)) /
+                            Number(
+                              utils.formatUnits(
+                                vaultInfo.collateral
+                                  .mul(vaultInfo.tokenPrice)
+                                  .div(vaultInfo.peg),
+                                BankTokenInfo[token].decimals
+                              )
+                            ),
+                          vaultInfo.maxLTV - 30,
+                          vaultInfo.maxLTV
+                        )
+                      }
                     >
                       {fCurrency(
                         !vaultInfo.collateral.isZero()
-                          ? BankTokenInfo[token].underlyingDecimals
-                            ? Number(
-                                utils.formatUnits(
-                                  vaultInfo.debt
-                                    .sub(
-                                      utils.parseEther(
-                                        values.repayAmount
-                                          ? typeof values.repayAmount ===
-                                            'number'
-                                            ? values.repayAmount.toFixed(18)
-                                            : values.repayAmount
-                                          : '0'
-                                      )
+                          ? Number(
+                              utils.formatUnits(
+                                vaultInfo.debt
+                                  .sub(
+                                    utils.parseUnits(
+                                      values.repayAmount
+                                        ? typeof values.repayAmount === 'number'
+                                          ? values.repayAmount.toFixed(18)
+                                          : values.repayAmount
+                                        : '0',
+                                      18
                                     )
-                                    .mul(vaultInfo.peg)
-                                    .mul(vaultInfo.mcp)
-                                    .div(
-                                      vaultInfo.collateral
-                                        .mul(100)
-                                        .mul(
-                                          10 **
-                                            (18 - BankTokenInfo[token].decimals)
-                                        )
-                                    ),
-                                  8
-                                )
-                              ) /
-                              10 **
-                                (18 - BankTokenInfo[token].underlyingDecimals)
-                            : Number(
-                                utils.formatUnits(
-                                  vaultInfo.debt
-                                    .sub(
-                                      utils.parseEther(
-                                        values.repayAmount
-                                          ? typeof values.repayAmount ===
-                                            'number'
-                                            ? values.repayAmount.toFixed(18)
-                                            : values.repayAmount
-                                          : '0'
+                                  )
+                                  .mul(vaultInfo.peg)
+                                  .mul(vaultInfo.mcp)
+                                  .div(
+                                    vaultInfo.collateral
+
+                                      .mul(100)
+                                      .mul(
+                                        10 **
+                                          (18 - BankTokenInfo[token].decimals)
                                       )
-                                    )
-                                    .mul(vaultInfo.peg)
-                                    .mul(vaultInfo.mcp)
-                                    .div(
-                                      vaultInfo.collateral
-                                        .mul(100)
-                                        .mul(
-                                          10 **
-                                            (18 - BankTokenInfo[token].decimals)
-                                        )
-                                    ),
-                                  8
-                                )
+                                  ),
+                                8
                               )
+                            ) /
+                              10 **
+                                (18 -
+                                  (BankTokenInfo[token].underlyingDecimals
+                                    ? BankTokenInfo[token].underlyingDecimals
+                                    : 18))
                           : 0
                       )}
                     </Typography>
