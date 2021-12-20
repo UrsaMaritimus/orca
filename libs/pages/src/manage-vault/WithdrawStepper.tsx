@@ -518,7 +518,21 @@ export const WithdrawStepper: FC<StepperProps> = ({
                       }
                     >
                       {fCurrency(
-                        !vaultInfo.collateral.isZero()
+                        !vaultInfo.collateral.isZero() &&
+                          !vaultInfo.collateral
+                            .sub(
+                              utils.parseUnits(
+                                values.withdrawAmount
+                                  ? typeof values.withdrawAmount === 'number'
+                                    ? values.withdrawAmount.toFixed(
+                                        BankTokenInfo[token].decimals
+                                      )
+                                    : values.withdrawAmount
+                                  : '0',
+                                BankTokenInfo[token].decimals
+                              )
+                            )
+                            .isZero()
                           ? Number(
                               utils.formatUnits(
                                 vaultInfo.debt
