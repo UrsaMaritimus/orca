@@ -2,7 +2,7 @@ import { GraphQLClient, gql } from 'graphql-request';
 
 const GET_SECRET_SANTA_WINNER = gql`
   query podUsers {
-    podUsers {
+    podUsers(first: 1000) {
       id
       xorcaBurned
       xorcaMinted
@@ -21,7 +21,7 @@ const handler = async () => {
     (val) => val.xorcaMinted - val.xorcaBurned > 0
   );
   console.log(users.length);
-
+  console.log(userHasXOrca.length);
   const winner = userHasXOrca[Math.floor(Math.random() * userHasXOrca.length)];
   console.log(winner);
 };

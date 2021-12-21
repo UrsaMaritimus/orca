@@ -21,7 +21,7 @@ export const routes = {
     GOVERNANCE: {
       VOTE: 'https://vote.avai.finance/#/',
       CURRENT:
-        'https://vote.avai.finance/#/proposal/0x52ca6a790cd85234e4b4da97ce8b3391973bb8f410fd09cdbdb4d9707acd7a86',
+        'https://vote.avai.finance/#/proposal/0x42f8065fc15afb965da75e3a5744cd638adc27c5c23c31f6d582f4a967b9f173',
     },
   },
   MEDIUM: {
