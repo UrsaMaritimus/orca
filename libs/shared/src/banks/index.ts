@@ -19,6 +19,9 @@ export const VaultContracts = {
     yrtQiBtc: '0x64D56b4B6C844015EC07e52A1267D5d5d4F4E5BD'.toLowerCase(), // 9
     yrtQiEth: '0xc59b6794e5DeE450d264669f34e7849A90083774'.toLowerCase(), // 10
     yrtQi: '0xC09caDDA753c54292BeB1D10429bD175556b8b5E'.toLowerCase(), // 11
+    yrtQiDai: ''.toLowerCase(),
+    yrtQiUsdc: ''.toLowerCase(),
+    yrtQiUsdt: ''.toLowerCase(),
   },
 };
 
@@ -35,4 +38,7 @@ export const VaultTypes = [
   { name: 'yrtQiBtc', symbol: 'YRT' },
   { name: 'yrtQiEth', symbol: 'YRT' },
   { name: 'yrtQi', symbol: 'YRT' },
+  { name: 'yrtQiDai', symbol: 'YRT' },
+  { name: 'yrtQiUsdc', symbol: 'YRT' },
+  { name: 'yrtQiUsdt', symbol: 'YRT' },
 ];

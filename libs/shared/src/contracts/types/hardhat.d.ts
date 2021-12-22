@@ -209,6 +209,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.OracleLPBridge__factory>;
     getContractFactory(
+      name: "YakOracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.YakOracle__factory>;
+    getContractFactory(
       name: "YakAvaxBTCOracle",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.YakAvaxBTCOracle__factory>;
@@ -241,6 +245,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.YakQiBenqiOracle__factory>;
     getContractFactory(
+      name: "YakDaiBenQiOracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.YakDaiBenQiOracle__factory>;
+    getContractFactory(
       name: "YakJoeOracle",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.YakJoeOracle__factory>;
@@ -252,6 +260,70 @@ declare module "hardhat/types/runtime" {
       name: "YakUsdcJoeOracle",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.YakUsdcJoeOracle__factory>;
+    getContractFactory(
+      name: "YakUsdcBenQiOracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.YakUsdcBenQiOracle__factory>;
+    getContractFactory(
+      name: "YakUsdtBenQiOracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.YakUsdtBenQiOracle__factory>;
+    getContractFactory(
+      name: "YakAvaxBTCOracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.YakAvaxBTCOracle__factory>;
+    getContractFactory(
+      name: "YakAvaxETHOracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.YakAvaxETHOracle__factory>;
+    getContractFactory(
+      name: "YakAvaxAAVEOracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.YakAvaxAAVEOracle__factory>;
+    getContractFactory(
+      name: "YakAvaxBenQiOracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.YakAvaxBenQiOracle__factory>;
+    getContractFactory(
+      name: "YakBenqiBTCOracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.YakBenqiBTCOracle__factory>;
+    getContractFactory(
+      name: "YakBenqiETHOracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.YakBenqiETHOracle__factory>;
+    getContractFactory(
+      name: "YakLinkBenqiOracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.YakLinkBenqiOracle__factory>;
+    getContractFactory(
+      name: "YakQiBenqiOracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.YakQiBenqiOracle__factory>;
+    getContractFactory(
+      name: "YakDaiBenQiOracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.YakDaiBenQiOracle__factory>;
+    getContractFactory(
+      name: "YakJoeOracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.YakJoeOracle__factory>;
+    getContractFactory(
+      name: "YakAvaxJoeOracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.YakAvaxJoeOracle__factory>;
+    getContractFactory(
+      name: "YakUsdcJoeOracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.YakUsdcJoeOracle__factory>;
+    getContractFactory(
+      name: "YakUsdcBenQiOracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.YakUsdcBenQiOracle__factory>;
+    getContractFactory(
+      name: "YakUsdtBenQiOracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.YakUsdtBenQiOracle__factory>;
     getContractFactory(
       name: "ORCA",
       signerOrOptions?: ethers.Signer | FactoryOptions

@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import '../OracleBridge.sol';
+import '../../OracleBridge.sol';
 
-contract YakBenqiETHOracle is OracleBridge {
+contract YakDaiBenQiOracle is OracleBridge {
   constructor(
     address priceSource_,
     address underlyingToken_,

@@ -331,4 +331,99 @@ export const BankTokenInfo: { [key: string]: BankInfo } = {
       </div>
     ),
   },
+  YRTQIDAI: {
+    address: {
+      mainnet: '0x9669Fe1ea0d8883661289461b90a10B71Ae400Ee'.toLowerCase(),
+      fuji: '0xE1296Be9B7d9C69Ef65B054BD8cE79E326EFA0d7'.toLowerCase(),
+    },
+    icon: '/static/cryptos/ic_yak_dai.png',
+    erc20: 'yrtQiDai',
+    display: 'Yak x BenQi: DAI.e',
+    url: 'YRTQIDAI',
+    symbol: 'YRT',
+    decimals: 18,
+    collateral: true,
+    yaktoken: true,
+    yakBase: 'DAI.e',
+    tooltip: true,
+    tooltipText: (
+      <div>
+        This is a single asset autocompounding pool through{' '}
+        <Link
+          href="https://yieldyak.com/farms"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          Yield Yak
+        </Link>{' '}
+        that leverages DAI.e in BenQi. You will need to deposit DAI.e into the
+        Yield Yak x BenQi pool on their platform, which will give you a receipt
+        that can be deposited here for borrowing AVAI.
+      </div>
+    ),
+  },
+  YRTQIUSDC: {
+    address: {
+      mainnet: '0x0eaC97A78a93B75549D49145dF41DbE9CD520874'.toLowerCase(),
+      fuji: '0xE1296Be9B7d9C69Ef65B054BD8cE79E326EFA0d7'.toLowerCase(),
+    },
+    icon: '/static/cryptos/ic_yak_usdc.png',
+    erc20: 'yrtQiUsdc',
+    display: 'Yak x BenQi: USDC.e',
+    url: 'YRTQIUSDC',
+    symbol: 'YRT',
+    decimals: 18,
+    collateral: true,
+    yaktoken: true,
+    yakBase: 'USDC.e',
+    underlyingDecimals: 6,
+    tooltip: true,
+    tooltipText: (
+      <div>
+        This is a single asset autocompounding pool through{' '}
+        <Link
+          href="https://yieldyak.com/farms"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          Yield Yak
+        </Link>{' '}
+        that leverages USDC.e in BenQi. You will need to deposit USDC.e into the
+        Yield Yak x BenQi pool on their platform, which will give you a receipt
+        that can be deposited here for borrowing AVAI.
+      </div>
+    ),
+  },
+  YRTQIUSDT: {
+    address: {
+      mainnet: '0x07B0E11D80Ccf75CB390c9Be6c27f329c119095A'.toLowerCase(),
+      fuji: '0xE1296Be9B7d9C69Ef65B054BD8cE79E326EFA0d7'.toLowerCase(),
+    },
+    icon: '/static/cryptos/ic_yak_usdt.png',
+    erc20: 'yrtQiUsdt',
+    display: 'Yak x BenQi: USDT.e',
+    url: 'YRTQIUSDT',
+    symbol: 'YRT',
+    decimals: 18,
+    collateral: true,
+    yaktoken: true,
+    yakBase: 'USDT.e',
+    underlyingDecimals: 6,
+    tooltip: true,
+    tooltipText: (
+      <div>
+        This is a single asset autocompounding pool through{' '}
+        <Link
+          href="https://yieldyak.com/farms"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          Yield Yak
+        </Link>{' '}
+        that leverages USDT.e in BenQi. You will need to deposit USDT.e into the
+        Yield Yak x BenQi pool on their platform, which will give you a receipt
+        that can be deposited here for borrowing AVAI.
+      </div>
+    ),
+  },
 };

@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 import '../OracleBridge.sol';
 
-contract YakBenqiBTCOracle is OracleBridge {
+contract YakOracle is OracleBridge {
   constructor(
     address priceSource_,
     address underlyingToken_,
@@ -35,9 +35,8 @@ contract YakBenqiBTCOracle is OracleBridge {
 
     require(answer >= 0, 'Chainlink pricefeed returned bad value.');
     // Return price of 1 YRT
-    uint256 newPrice = ((shareToken.getDepositTokensForShares(
-      10**underlyingToken.decimals() * 10**10
-    ) * uint256(answer)) / 10**underlyingToken.decimals());
+    uint256 newPrice = ((shareToken.getDepositTokensForShares(10**18) *
+      uint256(answer)) / 10**underlyingToken.decimals());
 
     return (roundId, int256(newPrice), startedAt, updatedAt, answeredInRound);
   }
