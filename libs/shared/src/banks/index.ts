@@ -19,9 +19,9 @@ export const VaultContracts = {
     yrtQiBtc: '0x64D56b4B6C844015EC07e52A1267D5d5d4F4E5BD'.toLowerCase(), // 9
     yrtQiEth: '0xc59b6794e5DeE450d264669f34e7849A90083774'.toLowerCase(), // 10
     yrtQi: '0xC09caDDA753c54292BeB1D10429bD175556b8b5E'.toLowerCase(), // 11
-    yrtQiDai: ''.toLowerCase(),
-    yrtQiUsdc: ''.toLowerCase(),
-    yrtQiUsdt: ''.toLowerCase(),
+    yrtQiDai: '0xEa03cDCdD912522400d21Ee89A5bC46Bffe11AC3'.toLowerCase(), //12
+    yrtQiUsdt: '0xAf8d16500A58b868C34be9106d674b820d67C979'.toLowerCase(), //13
+    yrtQiUsdc: '0xd694F97dd5874fA4e712FDFB781231D93642D29b'.toLowerCase(), //14
   },
 };
 
