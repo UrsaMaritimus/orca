@@ -45,26 +45,6 @@ export const Staking: FC = () => {
         </Card>
 
         <OrcaStaking account={account} chainId={chainId} />
-
-        <Card
-          sx={{
-            my: 3,
-            height: 115,
-            position: 'relative',
-          }}
-        >
-          <CardHeader
-            title={'Partner Staking'}
-            subheader={'Stake your ORCA and earn partner tokens!'}
-          />
-        </Card>
-
-        <StormStaking
-          account={account}
-          chainId={chainId}
-          handleChange={handleChange}
-          expanded={expanded}
-        />
       </Container>
     </RootStyle>
   );

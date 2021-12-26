@@ -47,7 +47,7 @@ export const Farming: FC = () => {
         <Card
           sx={{
             mb: 3,
-            height: 150,
+            height: 100,
             position: 'relative',
           }}
         >
@@ -71,21 +71,11 @@ export const Farming: FC = () => {
                   sx={{ mx: 2 }}
                 >
                   Note: There is a Deposit fee of 0.75%, except for xORCA.
-                  ORCA/AVAI is now closed, please remove liquidity from the
-                  farm.
                 </Typography>
               </Box>
             }
           />
         </Card>
-        {(chainId === 43114 || !chainId) && (
-          <AvaiOrcaFarm
-            account={account}
-            expanded={expanded}
-            handleChange={handleChange}
-            chainId={chainId}
-          />
-        )}
         <AvaiUsdcFarm
           account={account}
           expanded={expanded}
