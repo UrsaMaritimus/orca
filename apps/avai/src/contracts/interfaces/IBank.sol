@@ -7,17 +7,27 @@ import '@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol';
 interface IBank is IERC721, IERC721Enumerable {
   function vaultCollateral(uint256 vaultID) external view returns (uint256);
 
+  function vaultDebt(uint256 vaultID) external view returns (uint256);
+
   function transferVault(uint256 vaultID, address to) external;
 
   function vaultExists(uint256 vaultID) external view returns (bool);
 
   function depositCollateral(uint256 vaultID, uint256 amount) external;
 
+  function borrowToken(uint256 vaultID, uint256 amount) external;
+
+  function payBackToken(uint256 vaultID, uint256 amount) external;
+
   function withdrawCollateral(uint256 vaultID, uint256 amount) external;
 
   function destroyVault(uint256 vaultID) external;
 
   function getPaid(address user) external;
+
+  function getPriceSource() external view returns (uint256);
+
+  function getPricePeg() external view returns (uint256);
 
   function changeTreasury(address to) external;
 
