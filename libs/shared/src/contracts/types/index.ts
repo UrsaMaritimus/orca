@@ -66,6 +66,7 @@ export type { YakAvaxJoeOracle } from "./YakAvaxJoeOracle";
 export type { YakUsdcJoeOracle } from "./YakUsdcJoeOracle";
 export type { YakUsdcBenQiOracle } from "./YakUsdcBenQiOracle";
 export type { YakUsdtBenQiOracle } from "./YakUsdtBenQiOracle";
+export type { YakOracleLPBridge } from "./YakOracleLPBridge";
 export type { ORCA } from "./ORCA";
 export type { OrcaAdder } from "./OrcaAdder";
 export type { OrcaPod } from "./OrcaPod";
@@ -155,6 +156,7 @@ export { YakAvaxJoeOracle__factory } from "./factories/YakAvaxJoeOracle__factory
 export { YakUsdcJoeOracle__factory } from "./factories/YakUsdcJoeOracle__factory";
 export { YakUsdcBenQiOracle__factory } from "./factories/YakUsdcBenQiOracle__factory";
 export { YakUsdtBenQiOracle__factory } from "./factories/YakUsdtBenQiOracle__factory";
+export { YakOracleLPBridge__factory } from "./factories/YakOracleLPBridge__factory";
 export { ORCA__factory } from "./factories/ORCA__factory";
 export { OrcaAdder__factory } from "./factories/OrcaAdder__factory";
 export { OrcaPod__factory } from "./factories/OrcaPod__factory";

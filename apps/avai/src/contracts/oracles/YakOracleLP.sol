@@ -4,10 +4,10 @@ pragma solidity ^0.8.0;
 import '@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol';
 import '@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol';
 
-import './interfaces/IYakStrategy.sol';
-import './interfaces/IPair.sol';
+import '../interfaces/IYakStrategy.sol';
+import '../interfaces/IPair.sol';
 
-contract OracleLPBridge is AggregatorV3Interface {
+contract YakOracleLPBridge is AggregatorV3Interface {
   // Chainlink price source
   AggregatorV3Interface public immutable priceSource1;
   AggregatorV3Interface public immutable priceSource2;
@@ -75,12 +75,15 @@ contract OracleLPBridge is AggregatorV3Interface {
     return uint128(r < r1 ? r : r1);
   }
 
-  function decimals() external view override returns (uint8) {
-    return priceSource1.decimals();
+  function decimals() external pure override returns (uint8) {
+    return 8;
   }
 
   function description() external view override returns (string memory) {
-    return priceSource1.description();
+    return
+      string(
+        abi.encodePacked(priceSource1.description(), priceSource2.description())
+      );
   }
 
   function version() external view override returns (uint256) {
@@ -110,7 +113,7 @@ contract OracleLPBridge is AggregatorV3Interface {
     // get reserves
     (uint256 reserve0, uint256 reserve1, ) = underlyingToken.getReserves();
 
-    // Normalzie everything to 18 decimals (useful for usdc, btc)
+    // Normalize everything to 18 decimals (useful for usdc, btc)
     uint256 normalizedReserve0 = reserve0 *
       (10**(18 - IERC20Metadata(underlyingToken.token0()).decimals()));
     uint256 normalizedReserve1 = reserve1 *
