@@ -143,9 +143,9 @@ export const Redeem: FC<MintProps> = ({
         utils.parseEther(values.swapAmount ? values.swapAmount.toString() : '0')
       ),
       messages: {
-        loading: 'Redeeming .e...',
+        loading: 'Redeeming ' + ProtocolTokenInfo['USDC.e'].display + '...',
         success: 'Successfully redeemed!',
-        error: 'Failed to redeem USDC.e.',
+        error: 'Failed to redeem ' + ProtocolTokenInfo['USDC.e'].display + '.',
       },
       mutates,
       chainId,
