@@ -12,4 +12,6 @@ export const ibtknCollateral = [
   'Yak x BenQi: USDT.e',
   'Yak x BenQi: USDC.e',
   'Yak x BenQi: DAI.e',
+  'Yak x Joe: AVAX-JOE',
+  'Yak x Pangolin: AVAX-QI',
 ];
