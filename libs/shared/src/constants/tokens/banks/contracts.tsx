@@ -426,4 +426,69 @@ export const BankTokenInfo: { [key: string]: BankInfo } = {
       </div>
     ),
   },
+
+  YRTAVAXJOEJLP: {
+    address: {
+      mainnet: '0x450C5582DB7827ccd79440F3ec0DCc09FAd23CB3'.toLowerCase(),
+      fuji: '0xE1296Be9B7d9C69Ef65B054BD8cE79E326EFA0d7'.toLowerCase(),
+    },
+    icon: '/static/cryptos/ic_yak_avax_joe_lp.png',
+    erc20: 'yrtAvaxJoeJLP',
+    display: 'Yak x Joe: AVAX-JOE',
+    url: 'YRTAVAXJOEJLP',
+    symbol: 'YRT',
+    decimals: 18,
+    collateral: true,
+    yaktoken: true,
+    yakBase: 'AVAX-JOE',
+    tooltip: true,
+    tooltipText: (
+      <div>
+        This is a single asset autocompounding pool through{' '}
+        <Link
+          href="https://yieldyak.com/farms"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          Yield Yak
+        </Link>{' '}
+        that leverages AVAX-JOE LP pair in Trader Joe. You will need to deposit
+        AVAX-JOE into the Yield Yak x Joe pool on their platform, which will
+        give you a receipt that can be deposited here for borrowing AVAI.
+      </div>
+    ),
+  },
+
+  YRTAVAXQIJLP: {
+    address: {
+      mainnet: '0x0835269bb6943779765937ebEF17e5dC37d68775'.toLowerCase(),
+      fuji: '0xE1296Be9B7d9C69Ef65B054BD8cE79E326EFA0d7'.toLowerCase(),
+    },
+    icon: '/static/cryptos/ic_yak_avax_qi_lp.png',
+    erc20: 'yrtAvaxQiPGL',
+    display: 'Yak x Pangolin: AVAX-QI',
+    url: 'YRTAVAXQIJLP',
+    symbol: 'YRT',
+    decimals: 18,
+    collateral: true,
+    yaktoken: true,
+    yakBase: 'AVAX-QI',
+    underlyingDecimals: 6,
+    tooltip: true,
+    tooltipText: (
+      <div>
+        This is a single asset autocompounding pool through{' '}
+        <Link
+          href="https://yieldyak.com/farms"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          Yield Yak
+        </Link>{' '}
+        that leverages AVAX-QI LP pair in Pangolin. You will need to deposit
+        AVAX-QI into the Yield Yak x Pangolin pool on their platform, which will
+        give you a receipt that can be deposited here for borrowing AVAI.
+      </div>
+    ),
+  },
 };

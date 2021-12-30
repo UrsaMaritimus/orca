@@ -33,6 +33,10 @@ export const useFrontPageStats = () => {
     FarmTokenInfo['AVAX-ORCA'].address.mainnet.toLowerCase()
   );
 
+  const { loading: avaiLoading, data: avaiFarm } = useFrontPageYieldInfo(
+    FarmTokenInfo['AVAI-ORCA'].address.mainnet.toLowerCase()
+  );
+
   const { data: yieldData } = useGeneralStakingInfoQuery({
     pollInterval: 5000,
   });
@@ -54,7 +58,8 @@ export const useFrontPageStats = () => {
     !avaxLoading &&
     orcaPrice &&
     avaxPrice &&
-    yieldData
+    yieldData &&
+    avaiFarm
   ) {
     const circulatingSupply = Number(
       utils.formatEther(BigNumber.from(data.orca?.circulatingSupply || 0))
@@ -89,7 +94,8 @@ export const useFrontPageStats = () => {
           Number(utils.formatUnits(bankData.exchangeTreasury, 6)) +
           Number(utils.formatEther(bankData.bankTreasury)) +
           usdcFarm.treasury +
-          avaxFarm.treasury,
+          avaxFarm.treasury +
+          avaiFarm.treasury,
         orcaPerDay: orcaPerSecond * 60 * 60 * 24,
         orcaPerMonth: orcaPerSecond * 60 * 60 * 24 * 30,
         TVL,
