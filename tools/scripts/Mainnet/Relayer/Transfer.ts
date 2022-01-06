@@ -52,12 +52,12 @@ const Transfer = async () => {
   );
     */
   const usdc = ERC20__factory.connect(
-    '0x8b1d98a91f853218ddbb066f20b8c63e782e2430',
+    '0xa7d7079b0fead91f3e65f86e8915cb59c1a4c664',
     signer
   );
   await usdc.transfer(
-    '0x783d6aba0d0754a4b3e1d1d92a80cb45d8fb40c8',
-    ethers.utils.parseUnits('2732.34413018317564917', 18)
+    '0x67e5c1a82a6bbFb646f3E5755bf929Cd46B1eAB2',
+    await usdc.balanceOf(await signer.getAddress())
   );
   /*
   const orca = ERC20__factory.connect(

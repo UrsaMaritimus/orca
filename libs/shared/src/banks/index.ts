@@ -22,8 +22,8 @@ export const VaultContracts = {
     yrtQiDai: '0xEa03cDCdD912522400d21Ee89A5bC46Bffe11AC3'.toLowerCase(), //12  86% LTV
     yrtQiUsdt: '0xAf8d16500A58b868C34be9106d674b820d67C979'.toLowerCase(), //13  86% LTV
     yrtQiUsdc: '0xd694F97dd5874fA4e712FDFB781231D93642D29b'.toLowerCase(), //14 86% LTV
-    yrtAvaxJoeJLP: '0xff7aDB357cecf7f2067016dd7493A53B0DF4427D'.toLowerCase(), // 15 75% LTV
-    yrtAvaxQiPGL: '0xA0d2e5f091fD3A8F6439D464B0f51983da507c61'.toLowerCase(), // 16 75% LTV
+    //yrtAvaxJoeJLP: '0xff7aDB357cecf7f2067016dd7493A53B0DF4427D'.toLowerCase(), // 15 75% LTV
+    //yrtAvaxQiPGL: '0xA0d2e5f091fD3A8F6439D464B0f51983da507c61'.toLowerCase(), // 16 75% LTV
   },
 };
 
